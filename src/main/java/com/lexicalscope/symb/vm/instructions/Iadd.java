@@ -7,6 +7,7 @@ import org.objectweb.asm.tree.InsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.instructions.ops.IAddOp;
 
 public class Iadd implements Instruction {
    private final InsnNode abstractInsnNode;
@@ -17,9 +18,6 @@ public class Iadd implements Instruction {
 
    @Override
    public State eval(final Vm vm, final State state) {
-      final int op0 = (int) state.peekOperand();
-      final State result = state.popOperand();
-      final int op1 = (int) result.peekOperand();
-      return result.advance(instructionFor(abstractInsnNode.getNext())).popOperand().loadConst(op0 + op1);
+      return state.advance(instructionFor(abstractInsnNode.getNext()), new IAddOp());
    }
 }

@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.symb.vm.instructions.InvokeStatic;
+import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
 
 public class State {
    private final Stack stack;
@@ -68,5 +69,13 @@ public class State {
    @Override
    public String toString() {
       return String.format("stack:<%s>, heap:<%s>", stack, heap);
+   }
+
+   public State advance(final Instruction instruction, final OperandsOp op) {
+      return advance(instruction).stackOp(op);
+   }
+
+   private State stackOp(final OperandsOp op) {
+      return new State(stack.stackOp(op), heap);
    }
 }

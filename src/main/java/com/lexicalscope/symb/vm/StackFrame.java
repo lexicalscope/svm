@@ -9,6 +9,7 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.google.common.base.Joiner;
+import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
 
 
 
@@ -23,6 +24,15 @@ public class StackFrame {
       this.operands = operands;
    }
 
+
+   public StackFrame op(final OperandsOp op) {
+      final Deque<Object> operandsCopy = copyOperands();
+
+      op.eval(new MutableOperands(operandsCopy));
+
+      return new StackFrame(instruction, locals, operandsCopy);
+   }
+
    public StackFrame advance(final Instruction nextInstruction) {
       return new StackFrame(nextInstruction, locals, operands);
    }
@@ -32,19 +42,19 @@ public class StackFrame {
    }
 
    public StackFrame load(final int offset) {
-      final Deque<Object> operandsCopy = operandsCopy();
+      final Deque<Object> operandsCopy = copyOperands();
       operandsCopy.push(locals.get(offset));
       return new StackFrame(instruction, locals, operandsCopy);
    }
 
    public StackFrame loadConst(final int i) {
-      final Deque<Object> operandsCopy = operandsCopy();
+      final Deque<Object> operandsCopy = copyOperands();
       operandsCopy.push(i);
       return new StackFrame(instruction, locals, operandsCopy);
    }
 
    public StackFrame pushOperands(final Object[] args) {
-      final Deque<Object> operandsCopy = operandsCopy();
+      final Deque<Object> operandsCopy = copyOperands();
       for (final Object arg : args) {
          operandsCopy.push(arg);
       }
@@ -56,7 +66,7 @@ public class StackFrame {
    }
 
    public StackFrame popOperands(final int count) {
-      final Deque<Object> operandsCopy = operandsCopy();
+      final Deque<Object> operandsCopy = copyOperands();
       for (int i = 0; i < count; i++) {
          operandsCopy.pop();
       }
@@ -77,12 +87,13 @@ public class StackFrame {
    }
 
    public StackFrame popOperand() {
-      final Deque<Object> operandsCopy = operandsCopy();
+      final Deque<Object> operandsCopy = copyOperands();
       operandsCopy.pop();
       return new StackFrame(instruction, locals, operandsCopy);
    }
 
-   private Deque<Object> operandsCopy() { return new ArrayDeque<>(operands); }
+   private Deque<Object> copyOperands() { return new ArrayDeque<>(operands); }
+   private List<Object> copyLocals() { return new ArrayList<>(locals); }
 
    public static StackFrame initial(final Instruction instruction) {
       return new StackFrame(instruction, new ArrayList<>(), new ArrayDeque<>());

@@ -6,6 +6,8 @@ import static java.util.Objects.hash;
 import java.util.ArrayDeque;
 import java.util.Deque;
 
+import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
+
 public class Stack {
    private final Deque<StackFrame> stack;
 
@@ -84,6 +86,12 @@ public class Stack {
 
    private StackFrame head() {
       return stack.peek();
+   }
+
+   public Stack stackOp(final OperandsOp op) {
+      final Deque<StackFrame> nextStack = copyStack();
+      nextStack.push(nextStack.pop().op(op));
+      return new Stack(nextStack);
    }
 
    @Override
