@@ -9,4 +9,9 @@ public class IAddOp implements OperandsOp {
       final int b = (int) operands.pop();
       operands.push(a + b);
    }
+
+   @Override
+   public String toString() {
+      return "IADD";
+   }
 }

@@ -66,16 +66,12 @@ public class State {
       return stack;
    }
 
+   public State op(final Instruction nextInstruction, final OperandsOp op) {
+      return new State(stack.stackOp(nextInstruction, op), heap);
+   }
+
    @Override
    public String toString() {
       return String.format("stack:<%s>, heap:<%s>", stack, heap);
-   }
-
-   public State advance(final Instruction instruction, final OperandsOp op) {
-      return advance(instruction).stackOp(op);
-   }
-
-   private State stackOp(final OperandsOp op) {
-      return new State(stack.stackOp(op), heap);
    }
 }

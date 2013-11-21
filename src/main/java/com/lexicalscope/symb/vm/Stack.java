@@ -88,9 +88,9 @@ public class Stack {
       return stack.peek();
    }
 
-   public Stack stackOp(final OperandsOp op) {
+   public Stack stackOp(final Instruction nextInstruction, final OperandsOp op) {
       final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().op(op));
+      nextStack.push(nextStack.pop().op(nextInstruction, op));
       return new Stack(nextStack);
    }
 

@@ -24,13 +24,12 @@ public class StackFrame {
       this.operands = operands;
    }
 
-
-   public StackFrame op(final OperandsOp op) {
+   public StackFrame op(final Instruction nextInstruction, final OperandsOp op) {
       final Deque<Object> operandsCopy = copyOperands();
 
       op.eval(new MutableOperands(operandsCopy));
 
-      return new StackFrame(instruction, locals, operandsCopy);
+      return new StackFrame(nextInstruction, locals, operandsCopy);
    }
 
    public StackFrame advance(final Instruction nextInstruction) {

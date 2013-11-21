@@ -8,6 +8,7 @@ import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.instructions.ops.IAddOp;
 
 public class Instructions {
 
@@ -23,7 +24,7 @@ public class Instructions {
          case Opcodes.RETURN: return new Return(abstractInsnNode);
          case Opcodes.IRETURN: return new Ireturn((InsnNode) abstractInsnNode);
          case Opcodes.ILOAD:  return new Iload((VarInsnNode) abstractInsnNode);
-         case Opcodes.IADD:   return new Iadd((InsnNode) abstractInsnNode);
+         case Opcodes.IADD:   return new LinearInstruction(abstractInsnNode, new OperandsTransformer(new IAddOp()));
          default:
             return new UnsupportedInstruction(abstractInsnNode);
          }
