@@ -10,6 +10,7 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 
 
@@ -27,9 +28,19 @@ public class StackFrame {
    public StackFrame op(final Instruction nextInstruction, final OperandsOp op) {
       final Deque<Object> operandsCopy = copyOperands();
 
-      op.eval(new MutableOperands(operandsCopy));
+      op.eval(new MutableOperands(locals, operandsCopy));
 
       return new StackFrame(nextInstruction, locals, operandsCopy);
+   }
+
+
+   public StackFrame op(final Instruction nextInstruction, final StackFrameOp op) {
+      final Deque<Object> operandsCopy = copyOperands();
+      final List<Object> localsCopy = copyLocals();
+
+      op.eval(new MutableStackFrame(localsCopy, operandsCopy));
+
+      return new StackFrame(nextInstruction, localsCopy, operandsCopy);
    }
 
    public StackFrame advance(final Instruction nextInstruction) {
@@ -38,12 +49,6 @@ public class StackFrame {
 
    public Instruction instruction() {
       return instruction;
-   }
-
-   public StackFrame load(final int offset) {
-      final Deque<Object> operandsCopy = copyOperands();
-      operandsCopy.push(locals.get(offset));
-      return new StackFrame(instruction, locals, operandsCopy);
    }
 
    public StackFrame loadConst(final int i) {

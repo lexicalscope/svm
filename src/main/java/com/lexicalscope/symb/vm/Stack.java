@@ -7,6 +7,7 @@ import java.util.ArrayDeque;
 import java.util.Deque;
 
 import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class Stack {
    private final Deque<StackFrame> stack;
@@ -54,12 +55,6 @@ public class Stack {
       return new Stack(nextStack);
    }
 
-   public Stack load(final int offset) {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().load(offset));
-      return new Stack(nextStack);
-   }
-
    public Stack loadConst(final int i) {
       final Deque<StackFrame> nextStack = copyStack();
       nextStack.push(nextStack.pop().loadConst(i));
@@ -88,7 +83,13 @@ public class Stack {
       return stack.peek();
    }
 
-   public Stack stackOp(final Instruction nextInstruction, final OperandsOp op) {
+   public Stack op(final Instruction nextInstruction, final OperandsOp op) {
+      final Deque<StackFrame> nextStack = copyStack();
+      nextStack.push(nextStack.pop().op(nextInstruction, op));
+      return new Stack(nextStack);
+   }
+
+   public Stack op(final Instruction nextInstruction, final StackFrameOp op) {
       final Deque<StackFrame> nextStack = copyStack();
       nextStack.push(nextStack.pop().op(nextInstruction, op));
       return new Stack(nextStack);

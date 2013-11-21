@@ -1,7 +1,8 @@
-package com.lexicalscope.symb.vm.instructions;
+package com.lexicalscope.symb.vm.instructions.transformers;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.instructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
 
 public class OperandsTransformer implements StateTransformer {

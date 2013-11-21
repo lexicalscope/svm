@@ -4,6 +4,7 @@ import org.hamcrest.Matcher;
 
 import com.lexicalscope.symb.vm.instructions.InvokeStatic;
 import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class State {
    private final Stack stack;
@@ -32,10 +33,6 @@ public class State {
 
    public State advance(final Instruction instruction) {
       return new State(stack.advance(instruction), heap);
-   }
-
-   public State load(final int i) {
-      return new State(stack.load(i), heap);
    }
 
    public State loadConst(final int i) {
@@ -67,7 +64,11 @@ public class State {
    }
 
    public State op(final Instruction nextInstruction, final OperandsOp op) {
-      return new State(stack.stackOp(nextInstruction, op), heap);
+      return new State(stack.op(nextInstruction, op), heap);
+   }
+
+   public State op(final Instruction nextInstruction, final StackFrameOp op) {
+      return new State(stack.op(nextInstruction, op), heap);
    }
 
    @Override
