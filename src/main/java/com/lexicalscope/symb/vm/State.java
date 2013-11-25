@@ -1,7 +1,5 @@
 package com.lexicalscope.symb.vm;
 
-import org.hamcrest.Matcher;
-
 import com.lexicalscope.symb.vm.instructions.InvokeStatic;
 import com.lexicalscope.symb.vm.instructions.ops.OperandsOp;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
@@ -53,10 +51,6 @@ public class State {
 
    public static State initial(final String klass, final String method, final String desc) {
       return new State(new Stack(new InvokeStatic(klass, method, desc)), new Heap());
-   }
-
-   public static Matcher<? super State> normalTerminiation() {
-      return null;
    }
 
    public Stack stack() {
