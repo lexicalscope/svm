@@ -24,10 +24,6 @@ public class State {
       return new State(stack.push(returnTo, entry, argCount), heap);
    }
 
-   public Object peekOperand() {
-      return stack.peekOperand();
-   }
-
    public static State initial(final String klass) {
       return initial(klass, "main", "([Ljava/lang/String;)V");
    }
@@ -47,5 +43,9 @@ public class State {
    @Override
    public String toString() {
       return String.format("stack:<%s>, heap:<%s>", stack, heap);
+   }
+
+   public void advance(final Vm vm) {
+      instruction().eval(vm, this);
    }
 }

@@ -16,7 +16,7 @@ public class Vm {
       {
          while(true) {
             System.out.println(state);
-            state.instruction().eval(this, state);
+            state.advance(this);
          }
       } catch (final TerminationException termination) {
          return termination.getFinalState();

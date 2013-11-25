@@ -40,10 +40,6 @@ public class Stack {
       return this;
    }
 
-   public Object peekOperand() {
-      return stack.peek().peekOperand();
-   }
-
    public Instruction instruction() {
       return head().instruction();
    }
