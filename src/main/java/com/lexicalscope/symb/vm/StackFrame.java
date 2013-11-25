@@ -24,9 +24,8 @@ public class StackFrame {
       this.operands = operands;
    }
 
-   public StackFrame op(final StackFrameOp op) {
-      op.eval(this);
-      return this;
+   public <T> T op(final StackFrameOp<T> op) {
+      return op.eval(this);
    }
 
    public StackFrame advance(final Instruction nextInstruction) {
@@ -49,8 +48,8 @@ public class StackFrame {
       }
       return this;
    }
-   
-   public Object local(int var) {
+
+   public Object local(final int var) {
 		return locals.get(var);
 	}
 
@@ -61,7 +60,7 @@ public class StackFrame {
 
    public Object[] popOperands(final int argCount) {
       final Deque<Object> operandsCopy = operands;
-      
+
       final Object[] result = new Object[argCount];
       for (int i = argCount - 1; i >= 0; i--) {
     	  result[i] = operandsCopy.pop();
@@ -85,8 +84,8 @@ public class StackFrame {
    public Object popOperand() {
       return operands.pop();
    }
-   
-   public StackFrame pushOperand(Object operand) {
+
+   public StackFrame pushOperand(final Object operand) {
 	  operands.push(operand);
 	  return this;
    }

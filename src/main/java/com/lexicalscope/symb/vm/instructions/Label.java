@@ -14,7 +14,7 @@ public class Label implements Instruction {
    }
 
    @Override
-   public State eval(final Vm vm, final State state) {
-      return new NextInstruction().next(vm, state, abstractInsnNode);
+   public void eval(final Vm vm, final State state) {
+      new NextInstruction().next(vm, state, abstractInsnNode);
    }
 }

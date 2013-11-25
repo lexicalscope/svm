@@ -11,13 +11,12 @@ public class Vm {
       return execute(State.initial(name));
    }
 
-   public State execute(State state) {
+   public State execute(final State state) {
       try
       {
          while(true) {
             System.out.println(state);
-            final Instruction instruction = state.instruction();
-            state = instruction.eval(this, state);
+            state.instruction().eval(this, state);
          }
       } catch (final TerminationException termination) {
          return termination.getFinalState();

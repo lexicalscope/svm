@@ -6,5 +6,5 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 
 public interface Transistion {
-   State next(Vm vm, State state, AbstractInsnNode abstractInsnNode);
+   void next(Vm vm, State state, AbstractInsnNode abstractInsnNode);
 }

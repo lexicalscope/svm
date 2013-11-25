@@ -12,7 +12,7 @@ public class Return implements Instruction {
    }
 
    @Override
-   public State eval(final Vm vm, final State state) {
-      return state.discardTop(returnCount);
+   public void eval(final Vm vm, final State state) {
+      state.discardTop(returnCount);
    }
 }

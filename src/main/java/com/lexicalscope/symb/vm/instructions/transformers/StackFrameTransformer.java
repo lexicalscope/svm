@@ -7,20 +7,21 @@ import com.lexicalscope.symb.vm.instructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class StackFrameTransformer implements StateTransformer {
-   private final StackFrameOp op;
+   private final StackFrameOp<Void> op;
 
-   public StackFrameTransformer(final StackFrameOp op) {
+   public StackFrameTransformer(final StackFrameOp<Void> op) {
       this.op = op;
    }
 
    @Override
-   public State transform(final State state, final Instruction nextInstruction) {
-      return state.op(new StackFrameOp() {
-		@Override
-		public void eval(StackFrame stackFrame) {
-			stackFrame.advance(nextInstruction);
-			op.eval(stackFrame);
-		}
-	});
+   public void transform(final State state, final Instruction nextInstruction) {
+      state.op(new StackFrameOp<Void>() {
+         @Override
+         public Void eval(final StackFrame stackFrame) {
+            stackFrame.advance(nextInstruction);
+            op.eval(stackFrame);
+            return null;
+         }
+      });
    }
 }

@@ -6,7 +6,7 @@ import com.lexicalscope.symb.vm.Vm;
 
 public final class Terminate implements Instruction {
    @Override
-   public State eval(final Vm vm, final State state) {
+   public void eval(final Vm vm, final State state) {
       throw new TerminationException(state);
    }
 

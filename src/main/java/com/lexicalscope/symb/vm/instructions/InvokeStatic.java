@@ -24,13 +24,13 @@ public class InvokeStatic implements Instruction {
    }
 
    @Override
-   public State eval(final Vm vm, final State state) {
+   public void eval(final Vm vm, final State state) {
       final SClass targetClass = vm.loadClass(methodInsnNode.owner);
       final SMethod targetMethod = targetClass.staticMethod(methodInsnNode.name, methodInsnNode.desc);
 
       final int argSize = argSize();
 
-      return state.push(instructionFor(methodInsnNode.getNext()), targetMethod.entry(), argSize);
+      state.push(instructionFor(methodInsnNode.getNext()), targetMethod.entry(), argSize);
    }
 
    private int argSize() {

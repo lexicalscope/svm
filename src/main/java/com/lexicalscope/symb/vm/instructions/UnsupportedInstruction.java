@@ -14,7 +14,7 @@ public class UnsupportedInstruction implements Instruction {
    }
 
    @Override
-   public State eval(final Vm vm, final State state) {
+   public void eval(final Vm vm, final State state) {
       throw new UnsupportedInstructionException(abstractInsnNode);
    }
 }

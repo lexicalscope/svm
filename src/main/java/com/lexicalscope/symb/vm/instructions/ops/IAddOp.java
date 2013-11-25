@@ -2,12 +2,12 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class IAddOp implements StackFrameOp {
+public class IAddOp implements StackFrameOp<Void> {
    @Override
-   public void eval(final StackFrame operands) {
-      final int a = (int) operands.popOperand();
-      final int b = (int) operands.popOperand();
-      operands.pushOperand(a + b);
+   public Void eval(final StackFrame operands) {
+      operands.pushOperand((int) operands.popOperand() + (int) operands.popOperand());
+
+      return null;
    }
 
    @Override

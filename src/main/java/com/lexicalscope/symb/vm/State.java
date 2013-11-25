@@ -28,10 +28,6 @@ public class State {
       return stack.peekOperand();
    }
 
-   public State popOperand() {
-      return new State(stack.popOperand(), heap);
-   }
-
    public static State initial(final String klass) {
       return initial(klass, "main", "([Ljava/lang/String;)V");
    }
@@ -44,9 +40,8 @@ public class State {
       return stack;
    }
 
-   public State op(final StackFrameOp op) {
-	   stack.op(op);
-	   return this;
+   public <T> T op(final StackFrameOp<T> op) {
+	   return stack.op(op);
    }
 
    @Override

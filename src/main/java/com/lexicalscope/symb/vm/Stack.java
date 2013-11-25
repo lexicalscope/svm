@@ -44,11 +44,6 @@ public class Stack {
       return stack.peek().peekOperand();
    }
 
-   public Stack popOperand() {
-      stack.peek().popOperand();
-      return this;
-   }
-
    public Instruction instruction() {
       return head().instruction();
    }
@@ -57,9 +52,8 @@ public class Stack {
       return stack.peek();
    }
 
-   public Stack op(final StackFrameOp op) {
-      stack.peek().op(op);
-      return this;
+   public <T> T op(final StackFrameOp<T> op) {
+      return stack.peek().op(op);
    }
 
    @Override

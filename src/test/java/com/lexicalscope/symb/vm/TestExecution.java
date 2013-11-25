@@ -7,6 +7,7 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.instructions.Terminate;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
+import com.lexicalscope.symb.vm.matchers.StateMatchers;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public class TestExecution {
@@ -18,17 +19,20 @@ public class TestExecution {
 
    @Test public void executeStaticAddMethod()  {
       final State initial = State.initial("com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I");
-      initial.op(new StackFrameOp() {
+      initial.op(new StackFrameOp<Void>() {
 		@Override
-		public void eval(StackFrame stackFrame) {
+		public Void eval(final StackFrame stackFrame) {
 			stackFrame.loadConst(1);
 			stackFrame.loadConst(2);
-			
+			return null;
 		}
 	  });
       final State result = new Vm().execute(initial);
 
       assertThat(result.peekOperand(), equalTo((Object) 3));
+      assertThat(result, StateMatchers.operandEqual(3));
+
+
       result.op(new PopOperand());
       assertNormalTerminiation(result);
    }

@@ -18,8 +18,8 @@ public class LinearInstruction implements Instruction {
    }
 
    @Override
-   public State eval(final Vm vm, final State state) {
-      return transformer.transform(state, instructionFor(abstractInsnNode.getNext()));
+   public void eval(final Vm vm, final State state) {
+      transformer.transform(state, instructionFor(abstractInsnNode.getNext()));
    }
 
    @Override

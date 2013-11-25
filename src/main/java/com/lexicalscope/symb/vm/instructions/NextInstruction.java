@@ -10,13 +10,14 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class NextInstruction implements Transistion {
-   @Override public State next(final Vm vm, final State state, final AbstractInsnNode abstractInsnNode) {
-      return state.op(new StackFrameOp() {
-		@Override
-		public void eval(StackFrame stackFrame) {
-			stackFrame.advance(instructionFor(abstractInsnNode.getNext()));
-			
-		}
-	});
+   @Override
+   public void next(final Vm vm, final State state, final AbstractInsnNode abstractInsnNode) {
+      state.op(new StackFrameOp<Void>() {
+         @Override
+         public Void eval(final StackFrame stackFrame) {
+            stackFrame.advance(instructionFor(abstractInsnNode.getNext()));
+            return null;
+         }
+      });
    }
 }
