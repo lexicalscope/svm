@@ -12,7 +12,7 @@ import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 public class Stack {
    private final Deque<StackFrame> stack;
 
-   public Stack(final Deque<StackFrame> stack) {
+   private Stack(final Deque<StackFrame> stack) {
       this.stack = stack;
    }
 
@@ -21,44 +21,34 @@ public class Stack {
    }
 
    public Stack discardTop() {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.pop();
-      return new Stack(nextStack);
+      stack.pop();
+      return this;
    }
 
    public Stack discardTop(final int returnCount) {
-      final Deque<StackFrame> nextStack = copyStack();
-      final StackFrame top = nextStack.pop();
-      return new Stack(nextStack).pushOperands(top.peekOperands(returnCount));
+      pushOperands(stack.pop().peekOperands(returnCount));
+      return this;
    }
 
    public Stack push(final Instruction returnTo, final Instruction entry, final int argCount) {
-      final Deque<StackFrame> nextStack = copyStack();
-
-      final StackFrame topFrame = nextStack.pop();
-      final Object[] args = topFrame.peekOperands(argCount);
-      nextStack.push(topFrame.advance(returnTo).popOperands(argCount));
-
-      nextStack.push(StackFrame.initial(entry).setLocals(args));
-      return new Stack(nextStack);
+      final Object[] args = stack.peek().advance(returnTo).popOperands(argCount);
+      stack.push(StackFrame.initial(entry).setLocals(args));
+      return this;
    }
 
    private Stack pushOperands(final Object[] operands) {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().pushOperands(operands));
-      return new Stack(nextStack);
+      stack.peek().pushOperands(operands);
+      return this;
    }
 
    public Stack advance(final Instruction instruction) {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().advance(instruction));
-      return new Stack(nextStack);
+      stack.peek().advance(instruction);
+      return this;
    }
 
    public Stack loadConst(final int i) {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().loadConst(i));
-      return new Stack(nextStack);
+      stack.peek().loadConst(i);
+      return this;
    }
 
    public Object peekOperand() {
@@ -66,17 +56,12 @@ public class Stack {
    }
 
    public Stack popOperand() {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().popOperand());
-      return new Stack(nextStack);
+      stack.peek().popOperand();
+      return this;
    }
 
    public Instruction instruction() {
       return head().instruction();
-   }
-
-   private ArrayDeque<StackFrame> copyStack() {
-      return new ArrayDeque<StackFrame>(stack);
    }
 
    private StackFrame head() {
@@ -84,15 +69,13 @@ public class Stack {
    }
 
    public Stack op(final Instruction nextInstruction, final OperandsOp op) {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().op(nextInstruction, op));
-      return new Stack(nextStack);
+      stack.peek().op(nextInstruction, op);
+      return this;
    }
 
    public Stack op(final Instruction nextInstruction, final StackFrameOp op) {
-      final Deque<StackFrame> nextStack = copyStack();
-      nextStack.push(nextStack.pop().op(nextInstruction, op));
-      return new Stack(nextStack);
+      stack.peek().op(nextInstruction, op);
+      return this;
    }
 
    @Override
