@@ -1,8 +1,8 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.MutableOperands;
+import com.lexicalscope.symb.vm.StackFrame;
 
-public class Iload implements OperandsOp {
+public class Iload implements StackFrameOp {
    private final int var;
 
    public Iload(final int var) {
@@ -15,7 +15,7 @@ public class Iload implements OperandsOp {
    }
 
    @Override
-   public void eval(final MutableOperands operands) {
-      operands.push(operands.local(var));
+   public void eval(final StackFrame operands) {
+      operands.pushOperand(operands.local(var));
    }
 }

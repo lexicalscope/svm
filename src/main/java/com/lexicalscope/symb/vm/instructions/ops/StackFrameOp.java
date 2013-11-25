@@ -1,8 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.MutableStackFrame;
-
+import com.lexicalscope.symb.vm.StackFrame;
 
 public interface StackFrameOp {
-   void eval(MutableStackFrame stackFrame);
+   void eval(StackFrame stackFrame);
 }

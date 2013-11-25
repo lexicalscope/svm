@@ -2,7 +2,6 @@ package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.VarInsnNode;
@@ -10,7 +9,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.instructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.instructions.ops.Iload;
-import com.lexicalscope.symb.vm.instructions.transformers.OperandsTransformer;
+import com.lexicalscope.symb.vm.instructions.transformers.StackFrameTransformer;
 
 public class Instructions {
 
@@ -23,7 +22,7 @@ public class Instructions {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
-               case Opcodes.ILOAD:  return new LinearInstruction(varInsnNode, new OperandsTransformer(new Iload(varInsnNode.var)));
+               case Opcodes.ILOAD:  return new LinearInstruction(varInsnNode, new StackFrameTransformer(new Iload(varInsnNode.var)));
             }
          case AbstractInsnNode.INSN:
             switch (abstractInsnNode.getOpcode()) {
@@ -32,7 +31,7 @@ public class Instructions {
             }
       default:
          switch (abstractInsnNode.getOpcode()) {
-         case Opcodes.IADD:   return new LinearInstruction(abstractInsnNode, new OperandsTransformer(new IAddOp()));
+         case Opcodes.IADD:   return new LinearInstruction(abstractInsnNode, new StackFrameTransformer(new IAddOp()));
          default:
             return new UnsupportedInstruction(abstractInsnNode);
          }

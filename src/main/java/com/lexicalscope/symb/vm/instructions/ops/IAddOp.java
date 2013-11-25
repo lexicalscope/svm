@@ -1,13 +1,13 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.MutableOperands;
+import com.lexicalscope.symb.vm.StackFrame;
 
-public class IAddOp implements OperandsOp {
+public class IAddOp implements StackFrameOp {
    @Override
-   public void eval(final MutableOperands operands) {
-      final int a = (int) operands.pop();
-      final int b = (int) operands.pop();
-      operands.push(a + b);
+   public void eval(final StackFrame operands) {
+      final int a = (int) operands.popOperand();
+      final int b = (int) operands.popOperand();
+      operands.pushOperand(a + b);
    }
 
    @Override

@@ -6,25 +6,31 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.instructions.Terminate;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
+import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public class TestExecution {
    @Test public void executeEmptyMainMethod()  {
-      final State initial = State.initial("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V").loadConst(1).loadConst(1);
+      final State initial = State.initial("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
 
       assertNormalTerminiation(new Vm().execute(initial));
    }
 
    @Test public void executeStaticAddMethod()  {
-      final State initial = State.initial("com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I").loadConst(1).loadConst(2);
+      final State initial = State.initial("com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I");
+      initial.op(new StackFrameOp() {
+		@Override
+		public void eval(StackFrame stackFrame) {
+			stackFrame.loadConst(1);
+			stackFrame.loadConst(2);
+			
+		}
+	  });
       final State result = new Vm().execute(initial);
 
-      assertThat(result.peekOperand(), equalTo((Object) 3)) ;
-      assertNormalTerminiation(result.popOperand());
-   }
-
-   void foo()
-   {
-      StaticAddMethod.add(1, 2);
+      assertThat(result.peekOperand(), equalTo((Object) 3));
+      result.op(new PopOperand());
+      assertNormalTerminiation(result);
    }
 
    private void assertNormalTerminiation(final State result) {
