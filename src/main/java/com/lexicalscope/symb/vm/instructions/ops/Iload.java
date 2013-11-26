@@ -11,7 +11,7 @@ public class Iload implements StackFrameOp<Void> {
 
    @Override
    public Void eval(final StackFrame operands) {
-      operands.pushOperand(operands.local(var));
+      operands.push(operands.local(var));
       return null;
    }
 

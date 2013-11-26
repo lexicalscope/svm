@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Test;
 
@@ -11,16 +10,17 @@ import com.lexicalscope.symb.vm.matchers.StateMatchers;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public class TestExecution {
+   private final Vm vm = new Vm();
    @Test
    public void executeEmptyMainMethod() {
-      final State initial = State.initial("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
+      final State initial = vm.initial("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
 
-      assertNormalTerminiation(new Vm().execute(initial));
+      assertNormalTerminiation(vm.execute(initial));
    }
 
    @Test
    public void executeStaticAddMethod() {
-      final State initial = State.initial("com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I");
+      final State initial = vm.initial("com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I");
       initial.op(new StackFrameOp<Void>() {
          @Override
          public Void eval(final StackFrame stackFrame) {
@@ -29,7 +29,7 @@ public class TestExecution {
             return null;
          }
       });
-      final State result = new Vm().execute(initial);
+      final State result = vm.execute(initial);
 
       assertThat(result, StateMatchers.operandEqual(3));
 
@@ -38,6 +38,13 @@ public class TestExecution {
    }
 
    private void assertNormalTerminiation(final State result) {
-      assertThat(result.stack(), equalTo(new Stack(new Terminate())));
+      // check stack has one frame
+      result.op(new StackFrameOp<Void>() {
+         @Override
+         public Void eval(final StackFrame stackFrame) {
+            assert stackFrame.instruction().equals(new Terminate());
+            return null;
+         }
+      });
    }
 }

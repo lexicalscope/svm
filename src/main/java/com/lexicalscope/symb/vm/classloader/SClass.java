@@ -2,7 +2,6 @@ package com.lexicalscope.symb.vm.classloader;
 
 import java.util.List;
 
-import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
@@ -11,16 +10,6 @@ public class SClass {
 
    public SClass(final ClassNode classNode) {
       this.classNode = classNode;
-   }
-
-   public SMethod mainMethod() {
-       for (final MethodNode method : methods()) {
-          if(method.name.equals("main") && Type.getArgumentTypes(method.desc).length == 1)
-          {
-             return new SMethod(method);
-          }
-      }
-      throw new SMethodNotFoundException("main");
    }
 
    @SuppressWarnings("unchecked")

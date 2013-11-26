@@ -5,7 +5,7 @@ import com.lexicalscope.symb.vm.StackFrame;
 public class IAddOp implements StackFrameOp<Void> {
    @Override
    public Void eval(final StackFrame operands) {
-      operands.pushOperand((int) operands.popOperand() + (int) operands.popOperand());
+      operands.push((int) operands.pop() + (int) operands.pop());
 
       return null;
    }

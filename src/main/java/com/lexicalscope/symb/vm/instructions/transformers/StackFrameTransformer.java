@@ -24,4 +24,9 @@ public class StackFrameTransformer implements StateTransformer {
          }
       });
    }
+
+   @Override
+   public String toString() {
+      return op.toString();
+   }
 }

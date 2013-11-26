@@ -1,13 +1,13 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.instructions.InvokeStatic;
+import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class State {
    private final Stack stack;
    private final Heap heap;
 
-   private State(final Stack stack, final Heap heap) {
+   public State(final Stack stack, final Heap heap) {
       this.stack = stack;
       this.heap = heap;
    }
@@ -20,16 +20,9 @@ public class State {
       return new State(stack.discardTop(i), heap);
    }
 
-   public State push(final Instruction returnTo, final Instruction entry, final int argCount) {
-      return new State(stack.push(returnTo, entry, argCount), heap);
-   }
-
-   public static State initial(final String klass) {
-      return initial(klass, "main", "([Ljava/lang/String;)V");
-   }
-
-   public static State initial(final String klass, final String method, final String desc) {
-      return new State(new Stack(new InvokeStatic(klass, method, desc)), new Heap());
+   public State push(final Instruction returnTo, final SMethod method, final int argCount) {
+      stack.push(returnTo, method, argCount);
+      return this;
    }
 
    public Stack stack() {

@@ -1,27 +1,17 @@
 package com.lexicalscope.symb.vm;
 
-import static com.google.common.collect.Lists.newArrayList;
-
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
-import java.util.Iterator;
-import java.util.List;
-
-import com.google.common.base.Joiner;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
+public final class StackFrame {
+   private final Object[] stack;
+   private Instruction instruction; // PC
+   private int opTop; // pointer to top of operand stack
+   private final int vars = 0; // pointer to local variables
 
-
-public class StackFrame {
-   private Instruction instruction;
-   private List<Object> locals;
-   private final Deque<Object> operands;
-
-   public StackFrame(final Instruction instruction, final List<Object> locals, final Deque<Object> operands) {
+   public StackFrame(final Instruction instruction, final int maxLocals, final int maxStack) {
       this.instruction = instruction;
-      this.locals = locals;
-      this.operands = operands;
+      this.stack = new Object[maxLocals + maxStack];
+      this.opTop = maxLocals - 1;
    }
 
    public <T> T op(final StackFrameOp<T> op) {
@@ -33,65 +23,61 @@ public class StackFrame {
       return this;
    }
 
+   public StackFrame push(final Object val) {
+      opTop++;
+      stack[opTop] = val;
+      return this;
+   }
+
+   public Object pop() {
+      try
+      {
+         return stack[opTop];
+      }
+      finally
+      {
+         opTop--;
+      }
+   }
+
    public Instruction instruction() {
       return instruction;
    }
 
    public StackFrame loadConst(final int i) {
-      operands.push(i);
+      push(i);
       return this;
    }
 
-   public StackFrame pushOperands(final Object[] args) {
-      for (final Object arg : args) {
-         operands.push(arg);
-      }
+   public StackFrame pushAll(final Object[] args) {
+      System.arraycopy(args, 0, stack, opTop+1, args.length);
+      opTop += args.length;
       return this;
    }
 
    public Object local(final int var) {
-		return locals.get(var);
+		return stack[vars + var];
 	}
 
    public StackFrame setLocals(final Object[] args) {
-      locals = newArrayList(args);
+      System.arraycopy(args, 0, stack, vars, args.length);
       return this;
    }
 
-   public Object[] popOperands(final int argCount) {
-      final Deque<Object> operandsCopy = operands;
-
-      final Object[] result = new Object[argCount];
-      for (int i = argCount - 1; i >= 0; i--) {
-    	  result[i] = operandsCopy.pop();
-      }
+   public Object[] pop(final int argCount) {
+      final Object[] result = peek(argCount);
+      opTop -= argCount;
       return result;
    }
 
-   public Object[] peekOperands(final int argCount) {
-      final Iterator<Object> it = operands.iterator();
+   public Object[] peek(final int argCount) {
       final Object[] result = new Object[argCount];
-      for (int i = argCount - 1; i >= 0; i--) {
-         result[i] = it.next();
-      }
+      System.arraycopy(stack, opTop + 1 - argCount, result, 0, argCount);
       return result;
    }
 
    public Object peekOperand() {
-      return operands.peek();
-   }
-
-   public Object popOperand() {
-      return operands.pop();
-   }
-
-   public StackFrame pushOperand(final Object operand) {
-	  operands.push(operand);
-	  return this;
-   }
-
-   public static StackFrame initial(final Instruction instruction) {
-      return new StackFrame(instruction, new ArrayList<>(), new ArrayDeque<>());
+      return stack[opTop];
    }
 
    @Override
@@ -109,10 +95,16 @@ public class StackFrame {
       return instruction.hashCode();
    }
 
-   private static Joiner commaJoiner = Joiner.on(", ");
-
    @Override
    public String toString() {
-      return String.format("%s [%s][%s]", instruction, commaJoiner.join(locals), commaJoiner.join(operands));
+      String separator = "";
+      final StringBuilder stackString = new StringBuilder();
+      for (int i = vars; i <= opTop; i++) {
+         stackString.append(separator);
+         stackString.append(stack[i]);
+         separator = ", ";
+      }
+
+      return String.format("%s [%s]", instruction, stackString);
    }
 }
