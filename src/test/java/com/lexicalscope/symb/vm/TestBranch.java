@@ -4,7 +4,6 @@ import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
@@ -38,8 +37,7 @@ public class TestBranch {
 	}
 
 	@Test
-	@Ignore
-	public void symbExecuteStaticAbsMethod() {
+	public void symbExecuteBothBranches() {
 		final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
 		final Symbol symbol1 = instructionFactory.symbol();
 		

@@ -17,7 +17,7 @@ public class Return implements Instruction {
    public void eval(final SClassLoader cl, final State state) {
       state.op(new StackOp<Void>() {
 		@Override
-		public Void eval(Stack stack) {
+		public Void eval(final Stack stack) {
 			stack.popFrame(returnCount);
 			
 			return null;

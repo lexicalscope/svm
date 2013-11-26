@@ -8,8 +8,12 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 
+import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.Stack;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
+import com.lexicalscope.symb.vm.concinstructions.InvokeStatic;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
@@ -39,9 +43,8 @@ public class SClassLoader {
 					.getResourceAsStream(
 							name.replace(".", File.separator) + ".class");
 
-			if (in == null) {
+			if (in == null)
 				throw new SClassNotFoundException(name);
-			}
 
 			try {
 				new ClassReader(in).accept(classNode, 0);
@@ -59,7 +62,22 @@ public class SClassLoader {
 		return load(klass).staticMethod(name, desc);
 	}
 
-	public Instruction instructionFor(AbstractInsnNode abstractInsnNode) {
+	public Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
 		return instructions.instructionFor(abstractInsnNode);
+	}
+	
+	public State initial(final String klass) {
+		return initial(klass, "main", "([Ljava/lang/String;)V");
+	}
+
+	public State initial(final MethodInfo info) {
+		return initial(info.klass(), info.name(), info.desc());
+	}
+	
+	public State initial(final String klass, final String name,
+			final String desc) {
+		final SMethod method = loadMethod(klass, name, desc);
+		return new State(new Stack(new InvokeStatic(klass, name, desc), 0,
+				method.argSize()), new Heap());
 	}
 }

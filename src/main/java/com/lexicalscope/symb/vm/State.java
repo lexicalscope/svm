@@ -26,7 +26,7 @@ public class State {
 	public State op(final StackFrameVop op) {
 		stack.query(new StackFrameOp<Void>() {
 			@Override
-			public Void eval(StackFrame stackFrame) {
+			public Void eval(final StackFrame stackFrame) {
 				op.eval(stackFrame);
 				return null;
 			}
@@ -37,7 +37,7 @@ public class State {
 	public State op(final StackVop op) {
 		op(new StackOp<Void>() {
 			@Override
-			public Void eval(Stack stack) {
+			public Void eval(final Stack stack) {
 				op.eval(stack);
 				return null;
 			}
@@ -47,6 +47,14 @@ public class State {
 
 	public void advance(final SClassLoader cl) {
 		stack.instruction().eval(cl, this);
+	}
+
+	public State[] fork(){
+		return new State[]{this.snapshot(), this.snapshot()};
+	}
+	
+	private State snapshot() {
+		return new State(stack.snapshot(), heap.snapshot());
 	}
 
 	@Override

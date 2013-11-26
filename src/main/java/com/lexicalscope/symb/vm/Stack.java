@@ -5,6 +5,7 @@ import static java.util.Objects.hash;
 
 import java.util.ArrayDeque;
 import java.util.Deque;
+import java.util.Iterator;
 
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
@@ -57,6 +58,14 @@ public class Stack {
 
 	public int size() {
 		return stack.size();
+	}
+	
+	public Stack snapshot() {
+		final ArrayDeque<StackFrame> stackCopy = new ArrayDeque<>(stack.size());
+		for (final Iterator<StackFrame> iterator = stackCopy.descendingIterator(); iterator.hasNext();) {
+			stackCopy.push(iterator.next().snapshot());
+		}
+		return new Stack(stackCopy);
 	}
 
 	@Override

@@ -12,9 +12,14 @@ public final class StackFrame {
 			final Instruction instruction, 
 			final int maxLocals,
 			final int maxStack) {
+		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1);
+
+	}
+
+	private StackFrame(final Instruction instruction, final Object[] stack, final int opTop) {
 		this.instruction = instruction;
-		this.stack = new Object[maxLocals + maxStack];
-		this.opTop = maxLocals - 1;
+		this.stack = stack;
+		this.opTop = opTop;
 	}
 
 	public <T> T op(final StackFrameOp<T> op) {
@@ -80,18 +85,8 @@ public final class StackFrame {
 		return stack[opTop];
 	}
 
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj != null && obj.getClass().equals(this.getClass())) {
-			final StackFrame that = (StackFrame) obj;
-			return instruction.equals(that.instruction);
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return instruction.hashCode();
+	public StackFrame snapshot() {
+		return new StackFrame(instruction, stack.clone(), opTop);
 	}
 
 	@Override

@@ -28,7 +28,7 @@ public class InvokeStatic implements Instruction {
       state.op(new StackOp<Void>(){
 		@Override
 		// think it returns +1 as static methods do not have a this
-		public Void eval(Stack stack) {
+		public Void eval(final Stack stack) {
 			stack.pushFrame(cl.instructionFor(methodInsnNode.getNext()), targetMethod, targetMethod.argSize() - 1);
 			return null;
 		}});
