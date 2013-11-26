@@ -28,11 +28,11 @@ public class StateMatchers {
 			@Override
 			protected boolean matchesSafely(final State item,
 					final Description mismatchDescription) {
-				final Object operand = (int) item
+				final Object operand = item
 						.op(new StackFrameOp<Object>() {
 							@Override
 							public Object eval(final StackFrame stackFrame) {
-								return (int) stackFrame.peekOperand();
+								return stackFrame.peekOperand();
 							}
 						});
 				mismatchDescription.appendText(

@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class Iload implements StackFrameOp<Void> {
+public class Iload implements StackFrameVop {
    private final int var;
 
    public Iload(final int var) {
@@ -10,9 +10,8 @@ public class Iload implements StackFrameOp<Void> {
    }
 
    @Override
-   public Void eval(final StackFrame operands) {
+   public void eval(final StackFrame operands) {
       operands.push(operands.local(var));
-      return null;
    }
 
    @Override

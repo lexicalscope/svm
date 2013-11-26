@@ -22,6 +22,6 @@ public final class Terminate implements Instruction {
 
    @Override
    public String toString() {
-      return "TERMINTATE";
+      return "TERMINATE";
    }
 }

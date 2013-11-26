@@ -13,6 +13,7 @@ import com.lexicalscope.symb.vm.concinstructions.LinearInstruction;
 import com.lexicalscope.symb.vm.concinstructions.Return;
 import com.lexicalscope.symb.vm.concinstructions.Terminate;
 import com.lexicalscope.symb.vm.concinstructions.UnsupportedInstruction;
+import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.Iload;
 import com.lexicalscope.symb.vm.instructions.transformers.StackFrameTransformer;
 
@@ -51,7 +52,7 @@ public final class BaseInstructions implements Instructions {
 			switch (abstractInsnNode.getOpcode()) {
 			case Opcodes.IADD:
 				return new LinearInstruction(abstractInsnNode,
-						new StackFrameTransformer(instructionFactory.addOperation()));
+						new StackFrameTransformer(new BinaryOp(instructionFactory.addOperation())));
 			default:
 				return new UnsupportedInstruction(abstractInsnNode);
 			}

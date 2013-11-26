@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
+import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 
 public interface InstructionFactory {
-	IAddOp addOperation();
+	BinaryOperator addOperation();
 }

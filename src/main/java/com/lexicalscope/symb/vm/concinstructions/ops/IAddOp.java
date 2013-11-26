@@ -1,18 +1,15 @@
 package com.lexicalscope.symb.vm.concinstructions.ops;
 
-import com.lexicalscope.symb.vm.StackFrame;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
+import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 
-public class IAddOp implements StackFrameOp<Void> {
-   @Override
-   public Void eval(final StackFrame operands) {
-      operands.push((int) operands.pop() + (int) operands.pop());
+public class IAddOp implements BinaryOperator {
+	@Override
+	public Object eval(Object left, Object right) {
+		return (int) left + (int) right;
+	}
 
-      return null;
-   }
-
-   @Override
-   public String toString() {
-      return "IADD";
-   }
+	@Override
+	public String toString() {
+		return "IADD";
+	}
 }

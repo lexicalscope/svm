@@ -5,12 +5,11 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class StackFrameTransformer implements StateTransformer {
-   private final StackFrameOp<Void> op;
+   private final StackFrameVop op;
 
-   public StackFrameTransformer(final StackFrameOp<Void> op) {
+   public StackFrameTransformer(final StackFrameVop op) {
       this.op = op;
    }
 
