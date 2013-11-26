@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
@@ -44,8 +45,8 @@ public class State {
 		return this;
 	}
 
-	public void advance(final Vm vm) {
-		stack.instruction().eval(vm, this);
+	public void advance(final SClassLoader cl) {
+		stack.instruction().eval(cl, this);
 	}
 
 	@Override

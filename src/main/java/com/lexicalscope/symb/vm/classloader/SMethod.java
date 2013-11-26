@@ -7,25 +7,27 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.concinstructions.Instructions;
 
 public class SMethod {
-   private final MethodNode method;
+	private final MethodNode method;
+	private final Instructions instructions;
 
-   public SMethod(final MethodNode method) {
-      this.method = method;
-   }
+	public SMethod(Instructions instructions, final MethodNode method) {
+		this.instructions = instructions;
+		this.method = method;
+	}
 
-   public int maxLocals() {
-      return method.maxLocals;
-   }
+	public int maxLocals() {
+		return method.maxLocals;
+	}
 
-   public int maxStack() {
-      return method.maxStack;
-   }
+	public int maxStack() {
+		return method.maxStack;
+	}
 
-   public Instruction entry() {
-      return Instructions.instructionFor(method.instructions.get(0));
-   }
+	public Instruction entry() {
+		return instructions.instructionFor(method.instructions.get(0));
+	}
 
-   public int argSize() {
-      return Type.getMethodType(method.desc).getArgumentsAndReturnSizes() >> 2;
-   }
+	public int argSize() {
+		return Type.getMethodType(method.desc).getArgumentsAndReturnSizes() >> 2;
+	}
 }

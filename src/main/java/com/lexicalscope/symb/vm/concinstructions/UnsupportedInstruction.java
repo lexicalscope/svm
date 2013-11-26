@@ -4,7 +4,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public class UnsupportedInstruction implements Instruction {
    private final AbstractInsnNode abstractInsnNode;
@@ -14,7 +14,7 @@ public class UnsupportedInstruction implements Instruction {
    }
 
    @Override
-   public void eval(final Vm vm, final State state) {
+   public void eval(final SClassLoader cl, final State state) {
       throw new UnsupportedInstructionException(abstractInsnNode);
    }
 }

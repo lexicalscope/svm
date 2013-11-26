@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.vm.classloader.SClassLoader;
+
 public interface Instruction {
-   void eval(Vm vm, State state);
+   void eval(SClassLoader cl, State state);
 }

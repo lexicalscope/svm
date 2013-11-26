@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.concinstructions;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 
 public class Return implements Instruction {
@@ -14,7 +14,7 @@ public class Return implements Instruction {
    }
 
    @Override
-   public void eval(final Vm vm, final State state) {
+   public void eval(final SClassLoader cl, final State state) {
       state.op(new StackOp<Void>() {
 		@Override
 		public Void eval(Stack stack) {
