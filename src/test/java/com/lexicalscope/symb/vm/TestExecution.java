@@ -2,14 +2,14 @@ package com.lexicalscope.symb.vm;
 
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiation;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.matchers.StateMatchers;
-
 public class TestExecution {
    private final Vm vm = new Vm();
+   
    @Test
    public void executeEmptyMainMethod() {
       final State initial = vm.initial("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
@@ -22,6 +22,6 @@ public class TestExecution {
       final State initial = vm.initial("com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I").op(loadConstants(1,2));
       final State result = vm.execute(initial);
       
-      assertThat(result, StateMatchers.normalTerminiationWithResult(3));
+      assertThat(result, normalTerminiationWithResult(3));
    }
 }

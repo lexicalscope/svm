@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.instructions.InvokeStatic;
-import com.lexicalscope.symb.vm.instructions.TerminationException;
+import com.lexicalscope.symb.vm.concinstructions.InvokeStatic;
+import com.lexicalscope.symb.vm.concinstructions.TerminationException;
 
 public class Vm {
    private final SClassLoader classLoader = new SClassLoader();

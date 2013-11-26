@@ -11,7 +11,7 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.instructions.Terminate;
+import com.lexicalscope.symb.vm.concinstructions.Terminate;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 

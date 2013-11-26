@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.instructions.transformers;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.instructions.StateTransformer;
+import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 

@@ -1,6 +1,6 @@
-package com.lexicalscope.symb.vm.instructions;
+package com.lexicalscope.symb.vm.concinstructions;
 
-import static com.lexicalscope.symb.vm.instructions.Instructions.instructionFor;
+import static com.lexicalscope.symb.vm.concinstructions.Instructions.instructionFor;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 

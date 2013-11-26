@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions;
+package com.lexicalscope.symb.vm.concinstructions;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;

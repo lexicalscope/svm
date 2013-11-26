@@ -4,7 +4,7 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.symb.vm.concinstructions.Instructions;
 
 public class SMethod {
    private final MethodNode method;
