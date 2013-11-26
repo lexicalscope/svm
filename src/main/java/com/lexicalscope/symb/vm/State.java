@@ -45,14 +45,14 @@ public class State {
 		return this;
 	}
 
-	public void advance(final SClassLoader cl) {
-		stack.instruction().eval(cl, this);
+	public void advance(final SClassLoader cl, final Vm vm) {
+		stack.instruction().eval(cl, vm, this);
 	}
 
 	public State[] fork(){
 		return new State[]{this.snapshot(), this.snapshot()};
 	}
-	
+
 	private State snapshot() {
 		return new State(stack.snapshot(), heap.snapshot());
 	}

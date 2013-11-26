@@ -5,13 +5,14 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.vm.classloader.MethodInfo;
+
 public class TestExecution {
-   private final Vm vm = new Vm();
-   
+   private final MethodInfo entryPoint = new MethodInfo("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
    @Test
    public void executeEmptyMainMethod() {
-      final State initial = vm.initial("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
+      final Vm vm = Vm.concreteVm(entryPoint);
 
-      assertThat(vm.execute(initial), normalTerminiation());
+      assertThat(vm.execute(), normalTerminiation());
    }
 }

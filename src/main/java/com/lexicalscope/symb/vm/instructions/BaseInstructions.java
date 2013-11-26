@@ -9,11 +9,6 @@ import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.concinstructions.Label;
-import com.lexicalscope.symb.vm.concinstructions.LineNumber;
-import com.lexicalscope.symb.vm.concinstructions.LinearInstruction;
-import com.lexicalscope.symb.vm.concinstructions.Return;
-import com.lexicalscope.symb.vm.concinstructions.Terminate;
 import com.lexicalscope.symb.vm.concinstructions.UnsupportedInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;

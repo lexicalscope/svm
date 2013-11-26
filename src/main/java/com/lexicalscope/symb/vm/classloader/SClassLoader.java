@@ -13,10 +13,10 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
-import com.lexicalscope.symb.vm.concinstructions.InvokeStatic;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.symb.vm.instructions.InvokeStatic;
 
 public class SClassLoader {
 	private final Instructions instructions;
