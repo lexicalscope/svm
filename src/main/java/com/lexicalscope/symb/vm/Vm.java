@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
@@ -42,6 +43,10 @@ public class Vm {
 		return initial(klass, "main", "([Ljava/lang/String;)V");
 	}
 
+	public State initial(MethodInfo info) {
+		return initial(info.klass(), info.name(), info.desc());
+	}
+	
 	public State initial(final String klass, final String name,
 			final String desc) {
 		final SMethod method = classLoader.loadMethod(klass, name, desc);
