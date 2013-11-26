@@ -1,6 +1,7 @@
-package com.lexicalscope.symb.vm.instructions.ops;
+package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import com.lexicalscope.symb.vm.StackFrame;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class IAddOp implements StackFrameOp<Void> {
    @Override

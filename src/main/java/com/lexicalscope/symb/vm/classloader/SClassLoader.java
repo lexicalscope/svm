@@ -9,8 +9,10 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.concinstructions.ConcInstructions;
-import com.lexicalscope.symb.vm.concinstructions.Instructions;
+import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
+import com.lexicalscope.symb.vm.instructions.BaseInstructions;
+import com.lexicalscope.symb.vm.instructions.InstructionFactory;
+import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SClassLoader {
 	private final Instructions instructions;
@@ -19,8 +21,12 @@ public class SClassLoader {
 		this.instructions = instructions;
 	}
 
+	public SClassLoader(final InstructionFactory instructionFactory) {
+		this(new BaseInstructions(instructionFactory));
+	}
+	
 	public SClassLoader() {
-		this(new ConcInstructions());
+		this(new ConcInstructionFactory());
 	}
 
 	public SClass load(final String name) {

@@ -1,24 +1,22 @@
 package com.lexicalscope.symb.vm;
 
-import org.objectweb.asm.tree.AbstractInsnNode;
-
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.concinstructions.ConcInstructions;
-import com.lexicalscope.symb.vm.concinstructions.Instructions;
+import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.concinstructions.InvokeStatic;
 import com.lexicalscope.symb.vm.concinstructions.TerminationException;
+import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 
 public class Vm {
 	private final SClassLoader classLoader;
 
-	public Vm(Instructions instructions) {
-		classLoader = new SClassLoader(instructions);
+	public Vm(InstructionFactory instructionFactory) {
+		classLoader = new SClassLoader(instructionFactory);
 	}
 	
 	public Vm() {
-		this(new ConcInstructions());
+		this(new ConcInstructionFactory());
 	}
 	
 	public State execute(final String klass) {
@@ -49,11 +47,5 @@ public class Vm {
 		final SMethod method = classLoader.loadMethod(klass, name, desc);
 		return new State(new Stack(new InvokeStatic(klass, name, desc), 0,
 				method.argSize()), new Heap());
-	}
-
-	
-
-	public Instruction instructionFor(AbstractInsnNode abstractInsnNode) {
-		return new ConcInstructions().instructionFor(abstractInsnNode);
 	}
 }

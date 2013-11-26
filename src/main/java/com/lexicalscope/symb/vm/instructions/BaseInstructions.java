@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.concinstructions;
+package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -7,11 +7,22 @@ import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.instructions.ops.IAddOp;
+import com.lexicalscope.symb.vm.concinstructions.Label;
+import com.lexicalscope.symb.vm.concinstructions.LineNumber;
+import com.lexicalscope.symb.vm.concinstructions.LinearInstruction;
+import com.lexicalscope.symb.vm.concinstructions.Return;
+import com.lexicalscope.symb.vm.concinstructions.Terminate;
+import com.lexicalscope.symb.vm.concinstructions.UnsupportedInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.Iload;
 import com.lexicalscope.symb.vm.instructions.transformers.StackFrameTransformer;
 
-public class ConcInstructions implements Instructions {
+public final class BaseInstructions implements Instructions {
+	private final InstructionFactory instructionFactory;
+
+	public BaseInstructions(InstructionFactory instructionFactory) {
+		this.instructionFactory = instructionFactory;
+	}
+	
 	@Override
 	public Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
 		if (abstractInsnNode == null)
@@ -40,7 +51,7 @@ public class ConcInstructions implements Instructions {
 			switch (abstractInsnNode.getOpcode()) {
 			case Opcodes.IADD:
 				return new LinearInstruction(abstractInsnNode,
-						new StackFrameTransformer(new IAddOp()));
+						new StackFrameTransformer(instructionFactory.addOperation()));
 			default:
 				return new UnsupportedInstruction(abstractInsnNode);
 			}

@@ -5,7 +5,7 @@ import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.symb.vm.concinstructions.Instructions;
+import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SClass {
 	private final ClassNode classNode;
