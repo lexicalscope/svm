@@ -1,44 +1,55 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
+import com.lexicalscope.symb.vm.instructions.ops.StackOp;
+import com.lexicalscope.symb.vm.instructions.ops.StackVop;
 
 public class State {
-   private final Stack stack;
-   private final Heap heap;
+	private final Stack stack;
+	private final Heap heap;
 
-   public State(final Stack stack, final Heap heap) {
-      this.stack = stack;
-      this.heap = heap;
-   }
+	public State(final Stack stack, final Heap heap) {
+		this.stack = stack;
+		this.heap = heap;
+	}
 
-   public Instruction instruction() {
-      return stack.instruction();
-   }
+	public <T> T op(final StackFrameOp<T> op) {
+		return stack.query(op);
+	}
 
-   public State discardTop(final int i) {
-      return new State(stack.discardTop(i), heap);
-   }
+	public <T> T op(final StackOp<T> stackOp) {
+		return stackOp.eval(stack);
+	}
 
-   public State push(final Instruction returnTo, final SMethod method, final int argCount) {
-      stack.push(returnTo, method, argCount);
-      return this;
-   }
+	public State op(final StackFrameVop op) {
+		stack.query(new StackFrameOp<Void>() {
+			@Override
+			public Void eval(StackFrame stackFrame) {
+				op.eval(stackFrame);
+				return null;
+			}
+		});
+		return this;
+	}
 
-   public Stack stack() {
-      return stack;
-   }
+	public State op(final StackVop op) {
+		op(new StackOp<Void>() {
+			@Override
+			public Void eval(Stack stack) {
+				op.eval(stack);
+				return null;
+			}
+		});
+		return this;
+	}
 
-   public <T> T op(final StackFrameOp<T> op) {
-	   return stack.op(op);
-   }
+	public void advance(final Vm vm) {
+		stack.instruction().eval(vm, this);
+	}
 
-   @Override
-   public String toString() {
-      return String.format("stack:<%s>, heap:<%s>", stack, heap);
-   }
-
-   public void advance(final Vm vm) {
-      instruction().eval(vm, this);
-   }
+	@Override
+	public String toString() {
+		return String.format("stack:<%s>, heap:<%s>", stack, heap);
+	}
 }

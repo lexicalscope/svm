@@ -44,8 +44,8 @@ public final class StackFrame {
       return instruction;
    }
 
-   public StackFrame loadConst(final int i) {
-      push(i);
+   public StackFrame loadConst(final Object val) {
+      push(val);
       return this;
    }
 

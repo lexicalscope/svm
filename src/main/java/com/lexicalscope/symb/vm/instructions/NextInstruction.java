@@ -7,16 +7,15 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
+import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 
 public class NextInstruction implements Transistion {
    @Override
    public void next(final Vm vm, final State state, final AbstractInsnNode abstractInsnNode) {
-      state.op(new StackFrameOp<Void>() {
+      state.op(new StackFrameVop() {
          @Override
-         public Void eval(final StackFrame stackFrame) {
+         public void eval(final StackFrame stackFrame) {
             stackFrame.advance(instructionFor(abstractInsnNode.getNext()));
-            return null;
          }
       });
    }
