@@ -1,6 +1,5 @@
-package com.lexicalscope.symb.vm.symbinstructions;
+package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 
 public class ValueSymbol implements Symbol {
 	private final int name;

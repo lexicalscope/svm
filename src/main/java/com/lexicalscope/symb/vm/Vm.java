@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
 
 import java.util.ArrayDeque;
+import java.util.Collection;
 import java.util.Deque;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
@@ -29,6 +30,7 @@ public class Vm {
          } catch (final TerminationException termination) {
             assert pending.pop() == termination.getFinalState();
             finished.push(pending.pop());
+            System.out.println("BACKTRACK");
          }
       }
       return result();
@@ -45,5 +47,16 @@ public class Vm {
    public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
       final SClassLoader classLoader = new SClassLoader(instructionFactory);
       return new Vm(classLoader.initial(entryPoint).op(loadConstants(args)), classLoader);
+   }
+
+   public void fork(final State[] states) {
+      pending.pop();
+      for (final State state : states) {
+         pending.push(state);
+      }
+   }
+
+   public Collection<State> results() {
+      return finished;
    }
 }

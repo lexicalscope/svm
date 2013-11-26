@@ -4,7 +4,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
-import com.lexicalscope.symb.vm.concinstructions.ops.IConstM1Op;
+import com.lexicalscope.symb.vm.concinstructions.ops.IConstM1Operator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
@@ -28,6 +28,6 @@ public class ConcInstructionFactory implements InstructionFactory {
 
 	@Override
 	public NullaryOperator iconst_m1() {
-		return new IConstM1Op();
+		return new IConstM1Operator();
 	}
 }

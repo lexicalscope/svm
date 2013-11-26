@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import com.lexicalscope.symb.vm.instructions.NullaryOperator;
 
-public class IConstM1Op implements NullaryOperator {
+public class IConstM1Operator implements NullaryOperator {
 	@Override
 	public Object eval() {
 		return -1;

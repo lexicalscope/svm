@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm;
 
+import static java.util.Arrays.copyOf;
+
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public final class StackFrame {
@@ -9,7 +11,7 @@ public final class StackFrame {
 	private final int vars = 0; // pointer to local variables
 
 	public StackFrame(
-			final Instruction instruction, 
+			final Instruction instruction,
 			final int maxLocals,
 			final int maxStack) {
 		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1);
@@ -86,7 +88,7 @@ public final class StackFrame {
 	}
 
 	public StackFrame snapshot() {
-		return new StackFrame(instruction, stack.clone(), opTop);
+		return new StackFrame(instruction, copyOf(stack, stack.length), opTop);
 	}
 
 	@Override

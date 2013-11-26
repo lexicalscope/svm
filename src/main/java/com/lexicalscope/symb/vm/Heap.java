@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm;
 
-public class Heap {
-	public Heap snapshot() {
-		return new Heap();
-	}
+public interface Heap {
+
+   Heap snapshot();
+
 }

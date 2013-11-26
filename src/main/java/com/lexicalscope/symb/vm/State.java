@@ -53,12 +53,26 @@ public class State {
 		return new State[]{this.snapshot(), this.snapshot()};
 	}
 
-	private State snapshot() {
+	public State snapshot() {
 		return new State(stack.snapshot(), heap.snapshot());
 	}
 
 	@Override
 	public String toString() {
 		return String.format("stack:<%s>, heap:<%s>", stack, heap);
+	}
+
+	@Override
+	public boolean equals(final Object obj) {
+	   if(obj != null && obj.getClass().equals(this.getClass())) {
+	      final State that = (State) obj;
+	      return that.stack.equals(this.stack) && that.heap.equals(this.heap);
+	   }
+	   return false;
+	}
+
+	@Override
+	public int hashCode() {
+	   return stack.hashCode() ^ heap.hashCode();
 	}
 }

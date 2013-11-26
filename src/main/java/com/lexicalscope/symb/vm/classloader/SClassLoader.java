@@ -8,9 +8,9 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.ClassNode;
 
-import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.SimpleHeap;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.Stack;
+import com.lexicalscope.symb.vm.DequeStack;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
@@ -77,7 +77,7 @@ public class SClassLoader {
 	public State initial(final String klass, final String name,
 			final String desc) {
 		final SMethod method = loadMethod(klass, name, desc);
-		return new State(new Stack(new InvokeStatic(klass, name, desc), 0,
-				method.argSize()), new Heap());
+		return new State(new DequeStack(new InvokeStatic(klass, name, desc), 0,
+				method.argSize()), new SimpleHeap());
 	}
 }

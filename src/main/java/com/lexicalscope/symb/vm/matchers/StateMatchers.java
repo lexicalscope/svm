@@ -36,7 +36,7 @@ public class StateMatchers {
 							}
 						});
 				mismatchDescription.appendText(
-						"state with top of operand stack ")
+						"state with top of operand stack equal to ")
 						.appendValue(operand);
 				return equalTo(val).matches(operand);
 			}
@@ -74,7 +74,7 @@ public class StateMatchers {
 			@Override
 			public void describeTo(final Description description) {
 				description.appendText("state with ").appendValue(expectedSize)
-						.appendText("stack frames");
+						.appendText(" stack frames");
 			}
 
 			@Override
@@ -87,16 +87,16 @@ public class StateMatchers {
 					}
 				});
 				mismatchDescription.appendText("state with ")
-						.appendValue(actualSize).appendText("stack frames");
+						.appendValue(actualSize).appendText(" stack frames");
 				return equalTo(expectedSize).matches(actualSize);
 			}
 		};
 	}
 
-	public static Matcher<? super State> normalTerminiationWithResult(Object result) {
+	public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
 		return both(normalTerminiation()).and(operandEqual(result));
 	}
-	
+
 	public static Matcher<? super State> normalTerminiation() {
 		return both(instructionEqual(new Terminate())).and(stackSize(1));
 	}

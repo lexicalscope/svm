@@ -1,89 +1,20 @@
 package com.lexicalscope.symb.vm;
 
-import static com.google.common.collect.Iterables.elementsEqual;
-import static java.util.Objects.hash;
-
-import java.util.ArrayDeque;
-import java.util.Deque;
-import java.util.Iterator;
-
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
-public class Stack {
-	private final Deque<StackFrame> stack;
+public interface Stack {
 
-	private Stack(final Deque<StackFrame> stack) {
-		this.stack = stack;
-	}
+   Stack popFrame(int returnCount);
 
-	public Stack(final Instruction instruction, final int maxLocals,
-			final int maxStack) {
-		this(new ArrayDeque<StackFrame>() {
-			{
-				push(new StackFrame(instruction, maxLocals, maxStack));
-			}
-		});
-	}
+   Stack pushFrame(Instruction returnTo, SMethod method, int argCount);
 
-	public Stack popFrame(final int returnCount) {
-		pushOperands(stack.pop().pop(returnCount));
-		return this;
-	}
+   Instruction instruction();
 
-	public Stack pushFrame(final Instruction returnTo, final SMethod method,
-			final int argCount) {
-		final Object[] args = head().advance(returnTo).pop(argCount);
-		stack.push(new StackFrame(method.entry(), method.maxLocals(),
-				method.maxStack()).setLocals(args));
-		return this;
-	}
+   <T> T query(StackFrameOp<T> op);
 
-	private Stack pushOperands(final Object[] operands) {
-		head().pushAll(operands);
-		return this;
-	}
+   int size();
 
-	public Instruction instruction() {
-		return head().instruction();
-	}
+   Stack snapshot();
 
-	private StackFrame head() {
-		return stack.peek();
-	}
-
-	public <T> T query(final StackFrameOp<T> op) {
-		return stack.peek().op(op);
-	}
-
-	public int size() {
-		return stack.size();
-	}
-	
-	public Stack snapshot() {
-		final ArrayDeque<StackFrame> stackCopy = new ArrayDeque<>(stack.size());
-		for (final Iterator<StackFrame> iterator = stackCopy.descendingIterator(); iterator.hasNext();) {
-			stackCopy.push(iterator.next().snapshot());
-		}
-		return new Stack(stackCopy);
-	}
-
-	@Override
-	public boolean equals(final Object obj) {
-		if (obj != null && obj.getClass().equals(this.getClass())) {
-			final Stack that = (Stack) obj;
-			return elementsEqual(this.stack, that.stack);
-		}
-		return false;
-	}
-
-	@Override
-	public int hashCode() {
-		return hash(stack.toArray());
-	}
-
-	@Override
-	public String toString() {
-		return String.format("%s", stack);
-	}
 }
