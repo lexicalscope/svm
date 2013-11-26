@@ -16,11 +16,11 @@ public class Stack {
 		this.stack = stack;
 	}
 
-	public Stack(final SMethod method, final Instruction instruction, final int maxLocals,
+	public Stack(final Instruction instruction, final int maxLocals,
 			final int maxStack) {
 		this(new ArrayDeque<StackFrame>() {
 			{
-				push(new StackFrame(method, instruction, maxLocals, maxStack));
+				push(new StackFrame(instruction, maxLocals, maxStack));
 			}
 		});
 	}
@@ -33,8 +33,8 @@ public class Stack {
 	public Stack pushFrame(final Instruction returnTo, final SMethod method,
 			final int argCount) {
 		final Object[] args = head().advance(returnTo).pop(argCount);
-		stack.push(new StackFrame(method, method.entry(), method.maxLocals(), method
-				.maxStack()).setLocals(args));
+		stack.push(new StackFrame(method.entry(), method.maxLocals(),
+				method.maxStack()).setLocals(args));
 		return this;
 	}
 

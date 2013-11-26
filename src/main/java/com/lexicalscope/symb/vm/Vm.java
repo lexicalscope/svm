@@ -50,7 +50,7 @@ public class Vm {
 	public State initial(final String klass, final String name,
 			final String desc) {
 		final SMethod method = classLoader.loadMethod(klass, name, desc);
-		return new State(new Stack(new SMethod(null, null), new InvokeStatic(klass, name, desc), 0,
+		return new State(new Stack(new InvokeStatic(klass, name, desc), 0,
 				method.argSize()), new Heap());
 	}
 }

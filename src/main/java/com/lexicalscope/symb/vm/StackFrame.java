@@ -1,17 +1,14 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public final class StackFrame {
 	private final Object[] stack;
-	private SMethod method; // execution environment
 	private Instruction instruction; // PC
 	private int opTop; // pointer to top of operand stack
 	private final int vars = 0; // pointer to local variables
 
 	public StackFrame(
-			final SMethod method,
 			final Instruction instruction, 
 			final int maxLocals,
 			final int maxStack) {
