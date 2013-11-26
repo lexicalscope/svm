@@ -10,7 +10,7 @@ public class SMethod {
 	private final MethodNode method;
 	private final Instructions instructions;
 
-	public SMethod(Instructions instructions, final MethodNode method) {
+	public SMethod(final Instructions instructions, final MethodNode method) {
 		this.instructions = instructions;
 		this.method = method;
 	}

@@ -12,7 +12,7 @@ import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 public class Vm {
 	private final SClassLoader classLoader;
 
-	public Vm(InstructionFactory instructionFactory) {
+	public Vm(final InstructionFactory instructionFactory) {
 		classLoader = new SClassLoader(instructionFactory);
 	}
 	
@@ -43,14 +43,14 @@ public class Vm {
 		return initial(klass, "main", "([Ljava/lang/String;)V");
 	}
 
-	public State initial(MethodInfo info) {
+	public State initial(final MethodInfo info) {
 		return initial(info.klass(), info.name(), info.desc());
 	}
 	
 	public State initial(final String klass, final String name,
 			final String desc) {
 		final SMethod method = classLoader.loadMethod(klass, name, desc);
-		return new State(new Stack(new InvokeStatic(klass, name, desc), 0,
+		return new State(new Stack(new SMethod(null, null), new InvokeStatic(klass, name, desc), 0,
 				method.argSize()), new Heap());
 	}
 }

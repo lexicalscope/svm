@@ -17,4 +17,9 @@ public class UnsupportedInstruction implements Instruction {
    public void eval(final SClassLoader cl, final State state) {
       throw new UnsupportedInstructionException(abstractInsnNode);
    }
+   
+   @Override
+	public String toString() {
+		return String.format("UNSUPPORTED opcode(%s) type(%s)", abstractInsnNode.getOpcode(), abstractInsnNode.getClass().getSimpleName());
+	}
 }
