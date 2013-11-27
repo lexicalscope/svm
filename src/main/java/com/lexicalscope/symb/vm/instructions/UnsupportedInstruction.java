@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.concinstructions;
+package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
