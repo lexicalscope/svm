@@ -11,7 +11,7 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ConstSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.MulSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 
@@ -40,7 +40,7 @@ public class TestBranch {
 		vm.execute();
 		final Collection<State> results = vm.results();
 		assertThat(vm.results(), hasSize(2));
-		assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new ConstSymbol(-1)))));
+		assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new IConstSymbol(-1)))));
 		assertThat(vm.results(), hasItem(normalTerminiationWithResult(symbol1)));
 	}
 }

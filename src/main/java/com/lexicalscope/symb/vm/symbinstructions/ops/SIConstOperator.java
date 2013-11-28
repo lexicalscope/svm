@@ -1,13 +1,13 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
 import com.lexicalscope.symb.vm.instructions.NullaryOperator;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ConstSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 
 public final class SIConstOperator implements NullaryOperator {
-   private final ConstSymbol val;
+   private final IConstSymbol val;
 
    public SIConstOperator(final int val) {
-      this.val = new ConstSymbol(val);
+      this.val = new IConstSymbol(val);
    }
 
    @Override

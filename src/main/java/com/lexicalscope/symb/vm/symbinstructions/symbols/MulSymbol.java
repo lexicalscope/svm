@@ -29,4 +29,9 @@ public class MulSymbol implements Symbol {
 	public String toString() {
 		return String.format("(* %s %s)", left, right);
 	}
+
+   @Override
+   public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
+      return visitor.mul(left, right);
+   }
 }

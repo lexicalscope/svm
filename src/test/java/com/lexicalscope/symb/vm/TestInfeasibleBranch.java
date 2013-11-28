@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ConstSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 
 public class TestInfeasibleBranch {
@@ -23,13 +23,13 @@ public class TestInfeasibleBranch {
 	}
 
 	@Test
-	public void symbExecuteBothBranches() {
+	public void symbExecuteShouldSearchOnlyOneBranch() {
 		final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
 		final Symbol symbol1 = instructionFactory.symbol();
 
 		final Vm vm = Vm.vm(instructionFactory, infeasibleMethod, symbol1);
 		vm.execute();
-		assertThat(vm.results(), hasItem(normalTerminiationWithResult(new ConstSymbol(-10))));
+		assertThat(vm.results(), hasItem(normalTerminiationWithResult(new IConstSymbol(-10))));
 		assertThat(vm.results(), hasSize(1));
 	}
 }

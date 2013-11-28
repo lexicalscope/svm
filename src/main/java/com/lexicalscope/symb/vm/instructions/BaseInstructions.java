@@ -129,6 +129,14 @@ public final class BaseInstructions implements Instructions {
             return iconst(insnNode, 0);
 			case Opcodes.ICONST_1:
             return iconst(insnNode, 1);
+			case Opcodes.ICONST_2:
+            return iconst(insnNode, 2);
+			case Opcodes.ICONST_3:
+            return iconst(insnNode, 3);
+			case Opcodes.ICONST_4:
+            return iconst(insnNode, 4);
+			case Opcodes.ICONST_5:
+            return iconst(insnNode, 5);
 			}
 			break;
 		case AbstractInsnNode.INT_INSN:

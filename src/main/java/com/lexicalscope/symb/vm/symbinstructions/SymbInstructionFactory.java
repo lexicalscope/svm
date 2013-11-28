@@ -19,11 +19,13 @@ import com.lexicalscope.symb.vm.symbinstructions.ops.SIConstOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ValueSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IntSymbol;
+import com.lexicalscope.symb.z3.FeasbilityChecker;
 
 public class SymbInstructionFactory implements InstructionFactory {
-	private static final class SBranchGEInstruction implements Instruction {
+	private final class SBranchGEInstruction implements Instruction {
       private final JumpInsnNode jumpInsnNode;
 
       private SBranchGEInstruction(final JumpInsnNode jumpInsnNode) {
@@ -35,31 +37,48 @@ public class SymbInstructionFactory implements InstructionFactory {
          final Pc pc = (Pc) state.getMeta();
          final Symbol operand = (Symbol) state.op(popOperand());
 
-         pc.and(new GeSymbol(operand));
+         final GeSymbol jumpSymbol = new GeSymbol(operand);
+         final Pc jumpPc = pc.snapshot().and(jumpSymbol);
+         final boolean jumpFeasible = feasbilityChecker.check(jumpPc);
 
-         final State[] states = state.fork();
+         final NotSymbol nojumpSymbol = new NotSymbol(jumpSymbol);
+         final Pc nojumpPc = pc.snapshot().and(nojumpSymbol);
+         final boolean nojumpFeasible = feasbilityChecker.check(nojumpPc);
 
-         // TODO[tim]: update PC and check feasibility here
-
-         // jump
-         final Pc jump = (Pc) states[0].getMeta();
-         states[0].op(new StackFrameVop() {
+         final StackFrameVop jumpOp = new StackFrameVop() {
             @Override
             public void eval(final StackFrame stackFrame) {
                stackFrame.advance(cl.instructionFor(jumpInsnNode.label.getNext()));
             }
-         });
+         };
 
-         // no jump
-         final Pc noJump = (Pc) states[0].getMeta();
-         states[1].op(new StackFrameVop() {
+         final StackFrameVop nojumpOp = new StackFrameVop() {
             @Override
             public void eval(final StackFrame stackFrame) {
                stackFrame.advance(cl.instructionFor(jumpInsnNode.getNext()));
             }
-         });
+         };
 
-         vm.fork(states);
+         if(jumpFeasible && nojumpFeasible)
+         {
+            final State[] states = state.fork();
+
+            // jump
+            ((Pc) states[0].getMeta()).and(jumpSymbol);
+            states[0].op(jumpOp);
+
+            // no jump
+            ((Pc) states[1].getMeta()).and(nojumpSymbol);
+            states[1].op(nojumpOp);
+
+            vm.fork(states);
+         } else if(jumpFeasible) {
+            state.op(jumpOp);
+         } else if(nojumpFeasible) {
+            state.op(nojumpOp);
+         } else {
+            throw new RuntimeException("unable to check feasibility");
+         }
       }
 
       @Override
@@ -68,6 +87,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       }
    }
 
+	private final FeasbilityChecker feasbilityChecker = new FeasbilityChecker();
    private int symbol = -1;
 
 	@Override
@@ -86,7 +106,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
 	public Symbol symbol() {
-		return new ValueSymbol(++symbol);
+		return new IntSymbol(++symbol);
 	}
 
 	@Override
