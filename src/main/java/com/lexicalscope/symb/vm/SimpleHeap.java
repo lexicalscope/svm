@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm;
 
-public class SimpleHeap implements Heap {
-   private final Object[] objects = new Object[100];
+public final class SimpleHeap implements Heap {
+   private final SObject[] objects = new SObject[100];
    private int free = 0;
 
 	@Override
@@ -13,6 +13,20 @@ public class SimpleHeap implements Heap {
    public ObjectRef newObject() {
       objects[free] = new SObject();
       return new ObjectRef(free++);
+   }
+
+   @Override
+   public void put(final Object obj, final String string, final Object val) {
+      objectForRef(obj).put(string, val);
+   }
+
+   @Override
+   public Object get(final Object obj, final String string) {
+      return objectForRef(obj).get(string);
+   }
+
+   private SObject objectForRef(final Object obj) {
+      return objects[((ObjectRef) obj).address()];
    }
 
    @Override

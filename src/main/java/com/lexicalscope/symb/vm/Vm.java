@@ -28,7 +28,7 @@ public class Vm {
             System.out.println(pending.peek());
             pending.peek().advance(classLoader, this);
          } catch (final TerminationException termination) {
-            assert pending.pop() == termination.getFinalState();
+            assert pending.peek() == termination.getFinalState();
             finished.push(pending.pop());
             System.out.println("BACKTRACK");
          }

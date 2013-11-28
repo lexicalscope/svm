@@ -8,6 +8,8 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
+import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 
 public class TestCell {
    MethodInfo viaCellMethod = new MethodInfo(
@@ -15,7 +17,16 @@ public class TestCell {
 
    @Test
    public void concExecuteCellNewGetSet() {
-      final Vm vm = concreteVm(viaCellMethod, -2);
-      assertThat(vm.execute(), normalTerminiationWithResult(-2));
+      final Vm vm = concreteVm(viaCellMethod, -6);
+      assertThat(vm.execute(), normalTerminiationWithResult(-6));
+   }
+
+   @Test
+   public void symbExecuteCellNewGetSet() {
+      final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
+      final Symbol symbol1 = instructionFactory.symbol();
+
+      final Vm vm = Vm.vm(instructionFactory, viaCellMethod, symbol1);
+      assertThat(vm.execute(), normalTerminiationWithResult(symbol1));
    }
 }

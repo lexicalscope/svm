@@ -2,6 +2,7 @@ package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FrameNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -59,6 +60,52 @@ public final class BaseInstructions implements Instructions {
                new StackFrameTransformer(new AStore(varInsnNode.var)));
          }
 			break;
+		case AbstractInsnNode.FIELD_INSN:
+		   final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
+         switch (abstractInsnNode.getOpcode()) {
+            case Opcodes.PUTFIELD:
+               return new LinearInstruction(abstractInsnNode, new StateTransformer() {
+                  @Override
+                  public void transform(final State state, final Instruction nextInstruction) {
+                     state.op(new HeapVop(){
+                        @Override
+                        public void eval(final StackFrame stackFrame, final Heap heap) {
+                           stackFrame.advance(nextInstruction);
+
+                           final Object val = stackFrame.pop();
+                           final Object obj = stackFrame.pop();
+
+                           heap.put(obj, fieldKey(fieldInsnNode), val);
+                        }});
+                  }
+
+                  @Override
+                  public String toString() {
+                     return "PUTFIELD " + fieldKey(fieldInsnNode);
+                  }
+               });
+            case Opcodes.GETFIELD:
+               return new LinearInstruction(abstractInsnNode, new StateTransformer() {
+                  @Override
+                  public void transform(final State state, final Instruction nextInstruction) {
+                     state.op(new HeapVop(){
+                        @Override
+                        public void eval(final StackFrame stackFrame, final Heap heap) {
+                           stackFrame.advance(nextInstruction);
+
+                           final Object obj = stackFrame.pop();
+
+                           stackFrame.push(heap.get(obj, fieldKey(fieldInsnNode)));
+                        }});
+                  }
+
+                  @Override
+                  public String toString() {
+                     return "GETFIELD " + fieldKey(fieldInsnNode);
+                  }
+               });
+         }
+         break;
 		case AbstractInsnNode.INSN:
 		   final InsnNode insnNode = (InsnNode) abstractInsnNode;
 			switch (abstractInsnNode.getOpcode()) {
@@ -70,10 +117,10 @@ public final class BaseInstructions implements Instructions {
 				return binaryOp(abstractInsnNode, instructionFactory.iaddOperation());
 			case Opcodes.IMUL:
 				return binaryOp(abstractInsnNode, instructionFactory.imulOperation());
-			case Opcodes.ICONST_M1:
+			case Opcodes.DUP:
 				return new LinearInstruction(insnNode,
 						new StackFrameTransformer(new DupOp()));
-   		case Opcodes.DUP:
+			case Opcodes.ICONST_M1:
             return new LinearInstruction(insnNode,
                   new StackFrameTransformer(new NullaryOp(
                         instructionFactory.iconst_m1())));
@@ -169,4 +216,8 @@ public final class BaseInstructions implements Instructions {
 				new StackFrameTransformer(new BinaryOp(
 						addOperation)));
 	}
+
+   private static String fieldKey(final FieldInsnNode fieldInsnNode) {
+      return String.format("%s.%s:%s", fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
+   }
 }
