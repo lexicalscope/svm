@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
-public interface Stack {
+public interface Stack extends Snapshotable<Stack> {
 
    Stack popFrame(int returnCount);
 
@@ -15,6 +15,7 @@ public interface Stack {
 
    int size();
 
+   @Override
    Stack snapshot();
 
 }

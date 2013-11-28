@@ -2,10 +2,10 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class AStore implements StackFrameVop {
+public class Store implements StackFrameVop {
    private final int var;
 
-   public AStore(final int var) {
+   public Store(final int var) {
       this.var = var;
    }
 

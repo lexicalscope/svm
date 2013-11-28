@@ -51,6 +51,7 @@ public class Vm {
 
    public void fork(final State[] states) {
       pending.pop();
+      System.out.println("FORK");
       for (final State state : states) {
          pending.push(state);
       }

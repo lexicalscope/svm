@@ -20,11 +20,15 @@ public class TestStateSnapshot {
       final Heap heap = context.mock(Heap.class, "Heap");
       final Heap heapCopy = context.mock(Heap.class, "Heap copy");
 
+      final Snapshotable<?> meta = context.mock(Snapshotable.class, "Meta");
+      final Snapshotable<?> metaCopy = context.mock(Snapshotable.class, "Meta copy");
+
       context.checking(new Expectations(){{
          oneOf(heap).snapshot(); will(returnValue(heapCopy));
          oneOf(stack).snapshot(); will(returnValue(stackCopy));
+         oneOf(meta).snapshot(); will(returnValue(metaCopy));
       }});
 
-      assertThat(new State(stack, heap).snapshot(), equalTo(new State(stackCopy, heapCopy)));
+      assertThat(new State(stack, heap, meta).snapshot(), equalTo(new State(stackCopy, heapCopy, metaCopy)));
    }
 }

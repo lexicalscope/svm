@@ -5,6 +5,7 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.FrameNode;
 import org.objectweb.asm.tree.InsnNode;
+import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LineNumberNode;
@@ -22,12 +23,12 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
-import com.lexicalscope.symb.vm.instructions.ops.AStore;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.DupOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
+import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.transformers.StackFrameTransformer;
 
 public final class BaseInstructions implements Instructions {
@@ -55,9 +56,9 @@ public final class BaseInstructions implements Instructions {
 			case Opcodes.ILOAD:
 			case Opcodes.ALOAD:
 			   return load(varInsnNode);
+			case Opcodes.ISTORE:
 		   case Opcodes.ASTORE:
-		      return new LinearInstruction(varInsnNode,
-               new StackFrameTransformer(new AStore(varInsnNode.var)));
+		      return store(varInsnNode);
          }
 			break;
 		case AbstractInsnNode.FIELD_INSN:
@@ -108,7 +109,7 @@ public final class BaseInstructions implements Instructions {
          break;
 		case AbstractInsnNode.INSN:
 		   final InsnNode insnNode = (InsnNode) abstractInsnNode;
-			switch (abstractInsnNode.getOpcode()) {
+         switch (abstractInsnNode.getOpcode()) {
 			case Opcodes.RETURN:
 				return new Return(0);
 			case Opcodes.IRETURN:
@@ -117,15 +118,26 @@ public final class BaseInstructions implements Instructions {
 				return binaryOp(abstractInsnNode, instructionFactory.iaddOperation());
 			case Opcodes.IMUL:
 				return binaryOp(abstractInsnNode, instructionFactory.imulOperation());
+        case Opcodes.ISUB:
+            return binaryOp(abstractInsnNode, instructionFactory.isubOperation());
 			case Opcodes.DUP:
 				return new LinearInstruction(insnNode,
 						new StackFrameTransformer(new DupOp()));
 			case Opcodes.ICONST_M1:
-            return new LinearInstruction(insnNode,
-                  new StackFrameTransformer(new NullaryOp(
-                        instructionFactory.iconst_m1())));
+			   return iconst(insnNode, -1);
+			case Opcodes.ICONST_0:
+            return iconst(insnNode, 0);
+			case Opcodes.ICONST_1:
+            return iconst(insnNode, 1);
 			}
 			break;
+		case AbstractInsnNode.INT_INSN:
+         final IntInsnNode intInsnNode = (IntInsnNode) abstractInsnNode;
+         switch (abstractInsnNode.getOpcode()) {
+            case Opcodes.BIPUSH:
+               return iconst(intInsnNode, intInsnNode.operand);
+         }
+         break;
 		case AbstractInsnNode.TYPE_INSN:
          final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
          switch (abstractInsnNode.getOpcode()) {
@@ -204,6 +216,21 @@ public final class BaseInstructions implements Instructions {
 
 		return new UnsupportedInstruction(abstractInsnNode);
 	}
+
+   private LinearInstruction store(final VarInsnNode varInsnNode) {
+      return new LinearInstruction(varInsnNode,
+         new StackFrameTransformer(new Store(varInsnNode.var)));
+   }
+
+   private Instruction iconst(final AbstractInsnNode insnNode, final int constVal) {
+      return nullary(insnNode, instructionFactory.iconst(constVal));
+   }
+
+   private LinearInstruction nullary(final AbstractInsnNode insnNode, final NullaryOperator nullary) {
+      return new LinearInstruction(insnNode,
+            new StackFrameTransformer(new NullaryOp(
+                  nullary)));
+   }
 
    private LinearInstruction load(final VarInsnNode varInsnNode) {
       return new LinearInstruction(varInsnNode,

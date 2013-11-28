@@ -5,6 +5,8 @@ import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiation
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import java.util.Collection;
+
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
@@ -36,6 +38,7 @@ public class TestBranch {
 
 		final Vm vm = Vm.vm(instructionFactory, absMethod, symbol1);
 		vm.execute();
+		final Collection<State> results = vm.results();
 		assertThat(vm.results(), hasSize(2));
 		assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new ConstSymbol(-1)))));
 		assertThat(vm.results(), hasItem(normalTerminiationWithResult(symbol1)));
