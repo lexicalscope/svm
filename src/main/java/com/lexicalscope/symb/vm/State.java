@@ -23,6 +23,16 @@ public class State {
 		return stackOp.eval(stack);
 	}
 
+   public void op(final HeapVop op) {
+      stack.query(new StackFrameOp<Void>() {
+         @Override
+         public Void eval(final StackFrame stackFrame) {
+            op.eval(stackFrame, heap);
+            return null;
+         }
+      });
+   }
+
 	public State op(final StackFrameVop op) {
 		stack.query(new StackFrameOp<Void>() {
 			@Override

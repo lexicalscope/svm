@@ -15,7 +15,6 @@ public final class StackFrame {
 			final int maxLocals,
 			final int maxStack) {
 		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1);
-
 	}
 
 	private StackFrame(final Instruction instruction, final Object[] stack, final int opTop) {
@@ -67,6 +66,7 @@ public final class StackFrame {
 	}
 
 	public StackFrame setLocals(final Object[] args) {
+	   assert args.length == opTop - vars;
 		System.arraycopy(args, 0, stack, vars, args.length);
 		return this;
 	}
