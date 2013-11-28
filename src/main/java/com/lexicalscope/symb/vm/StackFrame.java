@@ -65,8 +65,11 @@ public final class StackFrame {
 		return stack[vars + var];
 	}
 
+   public void local(final int var, final Object val) {
+      stack[vars + var] = val;
+   }
+
 	public StackFrame setLocals(final Object[] args) {
-	   assert args.length == opTop - vars;
 		System.arraycopy(args, 0, stack, vars, args.length);
 		return this;
 	}
@@ -83,7 +86,7 @@ public final class StackFrame {
 		return result;
 	}
 
-	public Object peekOperand() {
+	public Object peek() {
 		return stack[opTop];
 	}
 

@@ -32,7 +32,7 @@ public class StateMatchers {
 						.op(new StackFrameOp<Object>() {
 							@Override
 							public Object eval(final StackFrame stackFrame) {
-								return stackFrame.peekOperand();
+								return stackFrame.peek();
 							}
 						});
 				mismatchDescription.appendText(

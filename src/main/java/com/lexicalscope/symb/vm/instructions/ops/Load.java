@@ -2,10 +2,10 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class Iload implements StackFrameVop {
+public class Load implements StackFrameVop {
    private final int var;
 
-   public Iload(final int var) {
+   public Load(final int var) {
       this.var = var;
    }
 
@@ -16,6 +16,6 @@ public class Iload implements StackFrameVop {
 
    @Override
    public String toString() {
-      return String.format("ILOAD %d", var);
+      return String.format("LOAD %d", var);
    }
 }

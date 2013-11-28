@@ -14,4 +14,13 @@ public class SimpleHeap implements Heap {
       objects[free] = new SObject();
       return new ObjectRef(free++);
    }
+
+   @Override
+   public String toString() {
+      final StringBuilder result = new StringBuilder();
+      for (int i = 0; i < free; i++) {
+         result.append("$").append(i).append("=").append(objects[i]);
+      }
+      return result.toString();
+   }
 }

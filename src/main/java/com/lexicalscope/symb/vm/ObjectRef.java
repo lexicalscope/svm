@@ -6,4 +6,9 @@ public class ObjectRef {
    public ObjectRef(final int address) {
       this.address = address;
    }
+
+   @Override
+   public String toString() {
+      return String.format("$%d", address);
+   }
 }
