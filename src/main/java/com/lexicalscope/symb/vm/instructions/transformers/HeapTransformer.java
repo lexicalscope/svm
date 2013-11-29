@@ -1,13 +1,13 @@
 package com.lexicalscope.symb.vm.instructions.transformers;
 
+import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 
-public final class StackFrameTransformer implements StateTransformer {
-   private final StackFrameVop op;
+public final class HeapTransformer implements StateTransformer {
+   private final HeapVop op;
 
-   public StackFrameTransformer(final StackFrameVop op) {
+   public HeapTransformer(final HeapVop op) {
       this.op = op;
    }
 
