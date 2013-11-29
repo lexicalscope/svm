@@ -67,12 +67,10 @@ public final class BaseInstructions implements Instructions {
             case Opcodes.PUTFIELD:
                return new LinearInstruction(abstractInsnNode, new StateTransformer() {
                   @Override
-                  public void transform(final State state, final Instruction nextInstruction) {
+                  public void transform(final State state) {
                      state.op(new HeapVop(){
                         @Override
                         public void eval(final StackFrame stackFrame, final Heap heap) {
-                           stackFrame.advance(nextInstruction);
-
                            final Object val = stackFrame.pop();
                            final Object obj = stackFrame.pop();
 
@@ -88,12 +86,10 @@ public final class BaseInstructions implements Instructions {
             case Opcodes.GETFIELD:
                return new LinearInstruction(abstractInsnNode, new StateTransformer() {
                   @Override
-                  public void transform(final State state, final Instruction nextInstruction) {
+                  public void transform(final State state) {
                      state.op(new HeapVop(){
                         @Override
                         public void eval(final StackFrame stackFrame, final Heap heap) {
-                           stackFrame.advance(nextInstruction);
-
                            final Object obj = stackFrame.pop();
 
                            stackFrame.push(heap.get(obj, fieldKey(fieldInsnNode)));
@@ -152,11 +148,10 @@ public final class BaseInstructions implements Instructions {
          case Opcodes.NEW:
             return new LinearInstruction(abstractInsnNode, new StateTransformer() {
                @Override
-               public void transform(final State state, final Instruction nextInstruction) {
+               public void transform(final State state) {
                   state.op(new HeapVop(){
                      @Override
                      public void eval(final StackFrame stackFrame, final Heap heap) {
-                        stackFrame.advance(nextInstruction);
                         stackFrame.push(heap.newObject());
                      }});
                }

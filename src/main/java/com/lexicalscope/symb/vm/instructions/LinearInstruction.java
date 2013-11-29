@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.nextInstruction;
+
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
@@ -19,7 +21,8 @@ public class LinearInstruction implements Instruction {
 
    @Override
    public void eval(final SClassLoader cl, final Vm vm, final State state) {
-      transformer.transform(state, cl.instructionFor(abstractInsnNode.getNext()));
+      state.op(nextInstruction(cl, abstractInsnNode));
+      transformer.transform(state);
    }
 
    @Override

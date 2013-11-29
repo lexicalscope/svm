@@ -9,7 +9,6 @@ import com.microsoft.z3.Context;
 import com.microsoft.z3.IntExpr;
 import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
-import com.microsoft.z3.Version;
 import com.microsoft.z3.Z3Exception;
 
 public class FeasbilityChecker {
@@ -23,11 +22,6 @@ public class FeasbilityChecker {
       }
       //Log.open("test.log");
 
-      System.out.print("Z3 Major Version: ");
-      System.out.println(Version.getMajor());
-      System.out.print("Z3 Full Version: ");
-      System.out.println(Version.getString());
-
       final HashMap<String, String> cfg = new HashMap<String, String>();
       cfg.put("model", "true");
       try {
@@ -37,7 +31,7 @@ public class FeasbilityChecker {
       }
    }
 
-   public boolean findModelExample2() throws Z3Exception  {
+   public boolean checkZ3IsWorking() throws Z3Exception  {
       final IntExpr x = ctx.mkIntConst("x");
       final IntExpr y = ctx.mkIntConst("y");
       final IntExpr one = ctx.mkInt(1);
