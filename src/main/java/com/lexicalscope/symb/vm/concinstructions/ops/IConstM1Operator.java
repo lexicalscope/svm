@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.concinstructions.ops;
 
-import com.lexicalscope.symb.vm.instructions.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 
 public class IConstM1Operator implements NullaryOperator {
 	@Override

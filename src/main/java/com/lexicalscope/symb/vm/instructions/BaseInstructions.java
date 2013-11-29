@@ -15,11 +15,9 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Stack;
-import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
@@ -29,6 +27,8 @@ import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.DupOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
+import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
+import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.transformers.HeapTransformer;
@@ -115,22 +115,7 @@ public final class BaseInstructions implements Instructions {
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return linearInstruction(abstractInsnNode, new StateTransformer() {
-                     @Override
-                     public void transform(final State state) {
-                        state.op(new HeapVop() {
-                           @Override
-                           public void eval(final StackFrame stackFrame, final Heap heap) {
-                              stackFrame.push(heap.newObject());
-                           }
-                        });
-                     }
-
-                     @Override
-                     public String toString() {
-                        return String.format("NEW %s", typeInsnNode.desc);
-                     }
-                  });
+                  return heapOp(typeInsnNode, newOp(typeInsnNode));
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
@@ -192,7 +177,7 @@ public final class BaseInstructions implements Instructions {
       return new UnsupportedInstruction(abstractInsnNode);
    }
 
-   private Instruction stackOp(final InsnNode insnNode, DupOp stackOp) {
+   private Instruction stackOp(final InsnNode insnNode, final DupOp stackOp) {
       return linearInstruction(insnNode, new StackFrameTransformer(stackOp));
    }
 

@@ -2,6 +2,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
@@ -26,5 +27,9 @@ public final class Ops {
 
    public static HeapVop getField(final FieldInsnNode fieldInsnNode) {
       return new GetFieldOp(fieldInsnNode);
+   }
+
+   public static HeapVop newOp(final TypeInsnNode typeInsnNode) {
+      return new NewOp(typeInsnNode);
    }
 }

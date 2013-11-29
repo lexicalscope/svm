@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
-import com.lexicalscope.symb.vm.instructions.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 
 public final class SIConstOperator implements NullaryOperator {

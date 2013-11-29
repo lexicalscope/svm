@@ -10,8 +10,8 @@ import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
-import com.lexicalscope.symb.vm.instructions.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 
 public class ConcInstructionFactory implements InstructionFactory {
 	@Override public BinaryOperator iaddOperation() {
