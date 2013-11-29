@@ -87,7 +87,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ISUB:
                   return binaryOp(abstractInsnNode, instructionFactory.isubOperation());
                case Opcodes.DUP:
-                  return stackOp(insnNode, new DupOp());
+                  return stackOp(insnNode, dup());
                case Opcodes.ICONST_M1:
                   return iconst(insnNode, -1);
                case Opcodes.ICONST_0:

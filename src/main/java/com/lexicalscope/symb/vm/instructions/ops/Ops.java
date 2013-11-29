@@ -32,4 +32,8 @@ public final class Ops {
    public static HeapVop newOp(final TypeInsnNode typeInsnNode) {
       return new NewOp(typeInsnNode);
    }
+
+   public static DupOp dup() {
+      return new DupOp();
+   }
 }
