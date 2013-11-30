@@ -66,14 +66,46 @@ final class BitTrie {
    // we keep track of the root at each level to avoid excessive copying
    // when we give out a key that requires a new level in the tree we
    // used the next "root" and clear the old
-   private Object[] root1;
-   private Object[][] root2;
-   private Object[][][] root3;
-   private Object[][][][] root4;
-   private Object[][][][][] root5;
-   private Object[][][][][][] root6;
-   private Object[][][][][][][] root7;
-   private Object[][][][][][][][] root8;
+   private Node1 root1;
+   private Node2 root2;
+   private Node3 root3;
+   private Node4 root4;
+   private Node5 root5;
+   private Node6 root6;
+   private Node7 root7;
+   private Node8 root8;
+
+   private static final class Node1 {
+      Object[] d = new Object[level1Width];
+   }
+
+   private static final class Node2 {
+      Node1[] d = new Node1[level2Width];
+   }
+
+   private static final class Node3 {
+      Node2[] d = new Node2[level3Width];
+   }
+
+   private static final class Node4 {
+      Node3[] d = new Node3[level4Width];
+   }
+
+   private static final class Node5 {
+      Node4[] d = new Node4[level5Width];
+   }
+
+   private static final class Node6 {
+      Node5[] d = new Node5[level6Width];
+   }
+
+   private static final class Node7 {
+      Node6[] d = new Node6[level7Width];
+   }
+
+   private static final class Node8 {
+      Node7[] d = new Node7[level8Width];
+   }
 
    public BitTrie() { this(1); };
    public BitTrie(final int start) {
@@ -85,14 +117,14 @@ final class BitTrie {
       if(free == 0) throw new IndexOutOfBoundsException("BitTrie is full");
       highestBit = level(free);
 
-      Object[] trav1 = null;
-      Object[][] trav2 = null;
-      Object[][][] trav3 = null;
-      Object[][][][] trav4 = null;
-      Object[][][][][] trav5 = null;
-      Object[][][][][][] trav6 = null;
-      Object[][][][][][][] trav7 = null;
-      Object[][][][][][][][] trav8 = null;
+      Node8 trav8 = null;
+      Node7 trav7 = null;
+      Node6 trav6 = null;
+      Node5 trav5 = null;
+      Node4 trav4 = null;
+      Node3 trav3 = null;
+      Node2 trav2 = null;
+      Node1 trav1 = null;
 
       boolean init = false;
       switch (highestBit) {
@@ -101,79 +133,79 @@ final class BitTrie {
          case 29:
             final int level8Offset = (free & _level8Mask) >>> level8Shift;
             if(!init){
-               if(root8 == null) {init = true; root8 = new Object[level8Width][][][][][][][]; root8[0] = root7; root7 = null;} trav8 = root8;}
-            if(trav8[level8Offset] == null) { trav8[level8Offset] = new Object[level7Width][][][][][][]; }
+               if(root8 == null) {init = true; root8 = new Node8(); root8.d[0] = root7; root7 = null;} trav8 = root8;}
+            if(trav8.d[level8Offset] == null) { trav8.d[level8Offset] = new Node7(); }
 
-            trav7 = trav8[level8Offset];
+            trav7 = trav8.d[level8Offset];
          case 28:
          case 27:
          case 26:
          case 25:
             final int level7Offset = (free & _level7Mask) >>> level7Shift;
             if(!init){
-               if(root7 == null) {init = true; root7 = new Object[level7Width][][][][][][]; root7[0] = root6; root6 = null;} trav7 = root7;}
-            if(trav7[level7Offset] == null) { trav7[level7Offset] = new Object[level6Width][][][][][]; }
+               if(root7 == null) {init = true; root7 = new Node7(); root7.d[0] = root6; root6 = null;} trav7 = root7;}
+            if(trav7.d[level7Offset] == null) { trav7.d[level7Offset] = new Node6(); }
 
-            trav6 = trav7[level7Offset];
+            trav6 = trav7.d[level7Offset];
          case 24:
          case 23:
          case 22:
          case 21:
             final int level6Offset = (free & _level6Mask) >>> level6Shift;
             if(!init){
-               if(root6 == null) {init = true; root6 = new Object[level6Width][][][][][]; root6[0] = root5; root5 = null;} trav6 = root6;}
-            if(trav6[level6Offset] == null) { trav6[level6Offset] = new Object[level5Width][][][][]; }
+               if(root6 == null) {init = true; root6 = new Node6(); root6.d[0] = root5; root5 = null;} trav6 = root6;}
+            if(trav6.d[level6Offset] == null) { trav6.d[level6Offset] = new Node5(); }
 
-            trav5 = trav6[level6Offset];
+            trav5 = trav6.d[level6Offset];
          case 20:
          case 19:
          case 18:
          case 17:
             final int level5Offset = (free & _level5Mask) >>> level5Shift;
             if(!init){
-               if(root5 == null) {init = true; root5 = new Object[level5Width][][][][]; root5[0] = root4; root4 = null;} trav5 = root5;}
-            if(trav5[level5Offset] == null) { trav5[level5Offset] = new Object[level4Width][][][]; }
+               if(root5 == null) {init = true; root5 = new Node5(); root5.d[0] = root4; root4 = null;} trav5 = root5;}
+            if(trav5.d[level5Offset] == null) { trav5.d[level5Offset] = new Node4(); }
 
-            trav4 = trav5[level5Offset];
+            trav4 = trav5.d[level5Offset];
          case 16:
          case 15:
          case 14:
          case 13:
             final int level4Offset = (free & _level4Mask) >>> level4Shift;
             if(!init){
-               if(root4 == null) {init = true; root4 = new Object[level4Width][][][]; root4[0] = root3; root3 = null;} trav4 = root4;}
-            if(trav4[level4Offset] == null) { trav4[level4Offset] = new Object[level3Width][][]; }
+               if(root4 == null) {init = true; root4 = new Node4(); root4.d[0] = root3; root3 = null;} trav4 = root4;}
+            if(trav4.d[level4Offset] == null) { trav4.d[level4Offset] = new Node3(); }
 
-            trav3 = trav4[level4Offset];
+            trav3 = trav4.d[level4Offset];
          case 12:
          case 11:
          case 10:
          case 9:
             final int level3Offset = (free & _level3Mask) >>> level3Shift;
             if(!init){
-               if(root3 == null) {init = true; root3 = new Object[level3Width][][]; root3[0] = root2; root2 = null;} trav3 = root3;}
-            if(trav3[level3Offset] == null) { trav3[level3Offset] = new Object[level2Width][]; }
+               if(root3 == null) {init = true; root3 = new Node3(); root3.d[0] = root2; root2 = null;} trav3 = root3;}
+            if(trav3.d[level3Offset] == null) { trav3.d[level3Offset] = new Node2(); }
 
-            trav2 = trav3[level3Offset];
+            trav2 = trav3.d[level3Offset];
          case 8:
          case 7:
          case 6:
          case 5:
             final int level2Offset = (free & _level2Mask) >>> level2Shift;
             if(!init){
-               if(root2 == null) {init = true; root2 = new Object[level2Width][]; root2[0] = root1; root1 = null;} trav2 = root2;}
-            if(trav2[level2Offset] == null) { trav2[level2Offset] = new Object[level1Width]; }
+               if(root2 == null) {init = true; root2 = new Node2(); root2.d[0] = root1; root1 = null;} trav2 = root2;}
+            if(trav2.d[level2Offset] == null) { trav2.d[level2Offset] = new Node1(); }
 
-            trav1 = trav2[level2Offset];
+            trav1 = trav2.d[level2Offset];
          case 4:
          case 3:
          case 2:
          case 1:
          case 0:
             if(!init){
-               if(root1 == null){init = true; root1 = new Object[level1Width];} trav1 = root1;
+               if(root1 == null){init = true; root1 = new Node1(); root1.d = new Object[level1Width];} trav1 = root1;
             }
-            trav1[free & _level1Mask] = value;
+            trav1.d[free & _level1Mask] = value;
       }
 
       // we expect this to overflow, as we are using our 32 bit address as unsigned
@@ -185,47 +217,62 @@ final class BitTrie {
    }
 
    public Object get(final int key) {
+      Node7 trav7 = null;
+      Node6 trav6 = null;
+      Node5 trav5 = null;
+      Node4 trav4 = null;
+      Node3 trav3 = null;
+      Node2 trav2 = null;
+      Node1 trav1 = null;
+
       switch (highestBit) {
-         case 0:
-         case 1:
-         case 2:
-         case 3:
-         case 4:
-             return root1[key];
-         case 5:
-         case 6:
-         case 7:
-         case 8:
-             return root2[(key & _level2Mask) >>> level2Shift][key & _level1Mask];
-         case 9:
-         case 10:
-         case 11:
-         case 12:
-            return root3[(key & _level3Mask) >>> level3Shift][(key & _level2Mask) >>> level2Shift][key & _level1Mask];
-         case 13:
-         case 14:
-         case 15:
-         case 16:
-            return root4[(key & _level4Mask) >>> level4Shift][(key & _level3Mask) >>> level3Shift][(key & _level2Mask) >>> level2Shift][key & _level1Mask];
-         case 17:
-         case 18:
-         case 19:
-         case 20:
-            return root5[(key & _level5Mask) >>> level5Shift][(key & _level4Mask) >>> level4Shift][(key & _level3Mask) >>> level3Shift][(key & _level2Mask) >>> level2Shift][key & _level1Mask];
-         case 21:
-         case 22:
-         case 23:
-         case 24:
-            return root6[(key & _level6Mask) >>> level6Shift][(key & _level5Mask) >>> level5Shift][(key & _level4Mask) >>> level4Shift][(key & _level3Mask) >>> level3Shift][(key & _level2Mask) >>> level2Shift][key & _level1Mask];
-         case 25:
-         case 26:
-         case 27:
-         case 28:
-            return root7[(key & _level7Mask) >>> level7Shift][(key & _level6Mask) >>> level6Shift][(key & _level5Mask) >>> level5Shift][(key & _level4Mask) >>> level4Shift][(key & _level3Mask) >>> level3Shift][(key & _level2Mask) >>> level2Shift][key & _level1Mask];
-         case 29:
-         case 30:
          case 31:
-            return root8[(key & _level8Mask) >>> level8Shift][(key & _level7Mask) >>> level7Shift][(key & _level6Mask) >>> level6Shift][(key & _level5Mask) >>> level5Shift][(key & _level4Mask) >>> level4Shift][(key & _level3Mask) >>> level3Shift][(key & _level2Mask) >>> level2Shift][key & _level1Mask];
+         case 30:
+         case 29:
+            trav7 = root8.d[(key & _level8Mask) >>> level8Shift];
+         case 28:
+         case 27:
+         case 26:
+         case 25:
+            if(trav7 == null) trav7 = root7;
+             trav6 = trav7.d[(key & _level7Mask) >>> level7Shift];
+         case 24:
+         case 23:
+         case 22:
+         case 21:
+            if(trav6 == null) trav6 = root6;
+             trav5 = trav6.d[(key & _level6Mask) >>> level6Shift];
+         case 20:
+         case 19:
+         case 18:
+         case 17:
+            if(trav5 == null) trav5 = root5;
+             trav4 = trav5.d[(key & _level5Mask) >>> level5Shift];
+         case 16:
+         case 15:
+         case 14:
+         case 13:
+            if(trav4 == null) trav4 = root4;
+            trav3 = trav4.d[(key & _level4Mask) >>> level4Shift];
+         case 12:
+         case 11:
+         case 10:
+         case 9:
+            if(trav3 == null) trav3 = root3;
+            trav2 = trav3.d[(key & _level3Mask) >>> level3Shift];
+         case 8:
+         case 7:
+         case 6:
+         case 5:
+            if(trav2 == null) trav2 = root2;
+            trav1 = trav2.d[(key & _level2Mask) >>> level2Shift];
+         case 4:
+         case 3:
+         case 2:
+         case 1:
+         case 0:
+            if(trav1 == null) trav1 = root1;
+            return trav1.d[key & _level1Mask];
       }
       throw new IndexOutOfBoundsException("the key you have requested is in free space: "+ key);
    }
@@ -287,5 +334,53 @@ final class BitTrie {
             return 8;
       }
       throw new IndexOutOfBoundsException("depth out of bounds");
+   }
+
+   public BitTrie copy() {
+      assert false; // doesn't work yet
+      final BitTrie result = new BitTrie(free);
+      switch (highestBit) {
+         case 0:
+         case 1:
+         case 2:
+         case 3:
+         case 4:
+             result.root1 = root1;
+         case 5:
+         case 6:
+         case 7:
+         case 8:
+            result.root2 = root2;
+         case 9:
+         case 10:
+         case 11:
+         case 12:
+            result.root3 = root3;
+         case 13:
+         case 14:
+         case 15:
+         case 16:
+            result.root4 = root4;
+         case 17:
+         case 18:
+         case 19:
+         case 20:
+            result.root5 = root5;
+         case 21:
+         case 22:
+         case 23:
+         case 24:
+            result.root6 = root6;
+         case 25:
+         case 26:
+         case 27:
+         case 28:
+            result.root7 = root7;
+         case 29:
+         case 30:
+         case 31:
+            result.root8 = root8;
+      }
+      return result;
    }
 }
