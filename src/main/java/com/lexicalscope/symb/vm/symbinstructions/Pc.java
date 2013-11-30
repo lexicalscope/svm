@@ -25,6 +25,9 @@ public class Pc implements Snapshotable<Pc> {
 
    @Override
    public Pc snapshot() {
+      // we only change the path condition at fork points.
+      // so we should be able to do better than this.
+      // probably Pc should be immutable.
       return new Pc(new ArrayList<>(conjunction));
    }
 
