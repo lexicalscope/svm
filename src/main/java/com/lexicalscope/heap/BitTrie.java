@@ -2,7 +2,13 @@ package com.lexicalscope.heap;
 
 
 /**
- * Here be dragons.
+ * Here be dragons. This code is hand optimised.
+ *
+ * It is essentially a bit-trie with shadowed pages and nodes, design for fast cloning with high levels of sharing between clones. It uses reference counting to perform copy-on-write of shared tree nodes.
+ *
+ * The following paper describes a similar data structure, but using a b-tree instead of a bit-trie. You should
+ * familiarise yourself with this material before modifying anything in this class.
+ *    Rodeh, Ohad. "B-trees, shadowing, and clones." ACM Transactions on Storage (TOS) 3.4 (2008): 2.
  *
  * @author tim
  */
@@ -76,6 +82,8 @@ final class BitTrie {
    private Node7 root7;
    private Node8 root8;
 
+
+   // we use 8 different node types to avoid the need to cast
    private static final class Node1 {
       public Node1() {
          this(new Object[level1Width]);
@@ -186,12 +194,26 @@ final class BitTrie {
       highestBit = level(free - 1);
    }
 
+   // This is a reference counted fast-clone associative array, it gives out keys in sequence and is optimised for that use case.
+   //
+   // It is designed to clone very fast. clone just copies the root pointer, and increments the reference count at the root node.
+   // Subsequent writes check the reference count of each node that they modify. If the reference count is more than 1 the node is
+   // copied before modification. The reference count of the original is decremented, and the reference count of every child node
+   // is incremented. This propagates sharing information and copying down the path being modified in a single pass.
+   //
+   // It is especially intended for write access patterns that are clustered in a single leaf node. This will result in a single
+   // path being copied. Writes that span two adjacent leaf nodes in the worst case can result in 15.
+   //
+   // Modes that are rarely modified could end up shared across a very large number of copies.
+
+
+
    public int insert(final Object value) {
       assert root1 != null ^ root2 != null ^ root3 != null ^ root4 != null ^ root5 != null ^ root6 != null ^ root7 != null ^ root8 != null
            || root1 == null && root2 == null && root3 == null && root4 == null && root5 == null && root6 == null && root7 == null && root8 == null;
 
       if(free == 0) throw new IndexOutOfBoundsException("BitTrie is full");
-      highestBit = level(free);
+      if(highestBit < 29) highestBit = level(free);
 
       Node8 trav8 = null;
       Node7 trav7 = null;
@@ -385,7 +407,8 @@ final class BitTrie {
       throw new IndexOutOfBoundsException("the key you have requested is in free space: "+ key);
    }
 
-   public int level(final int v) {
+   // log base 2 by fast table lookup
+   public static int level(final int v) {
       int t, tt;
 
       if ((tt = v >>> 16) != 0)
