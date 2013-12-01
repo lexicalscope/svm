@@ -8,6 +8,8 @@ import org.junit.Test;
 
 public class TestBitTrie {
    private final Object value = new Object();
+   private final Object value1 = new Object() {@Override public String toString() {return "value1";}};
+   private final Object value2 = new Object() {@Override public String toString() {return "value2";}};;
 
    @Test public void firstObjectGoesBottomLeft() {
       final BitTrie trie = new BitTrie();
@@ -30,6 +32,22 @@ public class TestBitTrie {
 
    @Test public void object32GoesIn2() {
       testInsertAt(32, 2);
+   }
+
+   @Test public void object62GoesIn2() {
+      testInsertAt(63, 2);
+   }
+
+   @Test public void object63GoesIn2() {
+      testInsertAt(63, 2);
+   }
+
+   @Test public void object64GoesIn2() {
+      testInsertAt(64, 2);
+   }
+
+   @Test public void object65GoesIn2() {
+      testInsertAt(65, 2);
    }
 
    @Test public void object511GoesIn2() {
@@ -84,6 +102,57 @@ public class TestBitTrie {
       testInsertAt(-1, 8);
    }
 
+   @Test public void copy1isDistinct() {
+      copyIsDistinct(1);
+   }
+
+   @Test public void copy31isDistinct() {
+      copyIsDistinct(31);
+   }
+
+   @Test public void copy32isDistinct() {
+      copyIsDistinct(32);
+   }
+
+   @Test public void copy512isDistinct() {
+      copyIsDistinct(512);
+   }
+
+   @Test public void copy8192isDistinct() {
+      copyIsDistinct(8192);
+   }
+
+   @Test public void copy131072isDistinct() {
+      copyIsDistinct(131072);
+   }
+
+   @Test public void copy2097152isDistinct() {
+      copyIsDistinct(2097152);
+   }
+
+   @Test public void copy33554432isDistinct() {
+      copyIsDistinct(33554432);
+   }
+
+   @Test public void copy536870912isDistinct() {
+      copyIsDistinct(536870912);
+   }
+
+   private void copyIsDistinct(final int start) {
+      final BitTrie trie = new BitTrie(start);
+      final int key = trie.insert(value);
+      final BitTrie copy = trie.copy();
+
+      assertThat(trie.get(key), equalTo(value));
+      assertThat(copy.get(key), equalTo(value));
+
+      assertThat(trie.insert(value1), equalTo(start+1));
+      assertThat(copy.insert(value2), equalTo(start+1));
+
+      assertThat(trie.get(start+1), equalTo(value1));
+      assertThat(copy.get(start+1), equalTo(value2));
+   }
+
    @Test public void objectm1IsLastObject() {
       final BitTrie trie = new BitTrie(-1);
       assertThat(trie.insert(value), equalTo(-1));
@@ -107,5 +176,21 @@ public class TestBitTrie {
       assertThat(key, equalTo(start));
       assertThat(trie.get(key), equalTo(value));
       assertThat(trie.depth(), equalTo(depth));
+   }
+
+   @Test public void level2offsetOf31is0(){
+      assertThat((31 & 0b00000000000000000000000111100000) >>> 5, equalTo(0));
+   }
+
+   @Test public void level1offsetOf31is31(){
+      assertThat(31 & 0b00000000000000000000000000011111, equalTo(31));
+   }
+
+   @Test public void level2offsetOf32is1(){
+      assertThat((32 & 0b00000000000000000000000111100000) >>> 5, equalTo(1));
+   }
+
+   @Test public void level1offsetOf32is1(){
+      assertThat(32 & 0b00000000000000000000000000011111, equalTo(0));
    }
 }
