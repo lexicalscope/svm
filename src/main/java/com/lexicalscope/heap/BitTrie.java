@@ -453,7 +453,7 @@ final class BitTrie {
          case 3:
          case 4:
              result.root1 = root1;
-             root1.c++;
+             if(root1 != null) root1.c++;
              break;
          case 5:
          case 6:

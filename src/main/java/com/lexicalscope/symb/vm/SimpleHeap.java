@@ -1,5 +1,10 @@
 package com.lexicalscope.symb.vm;
 
+/**
+ * @author tim
+ * @deprecated just need to implement toString on the FastHeap and then this can be removed
+ */
+@Deprecated()
 public final class SimpleHeap implements Heap {
    private final SObject[] objects = new SObject[100];
    private int free = 0;
