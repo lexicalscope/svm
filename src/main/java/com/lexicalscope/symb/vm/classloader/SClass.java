@@ -13,17 +13,22 @@ public class SClass {
    private final TreeMap<Integer, FieldNode> fieldMap;
 	private final ClassNode classNode;
 	private final Instructions instructions;
+   private final int classStartOffset;
+   private final int subclassOffset;
 
 	public SClass(final Instructions instructions, final ClassNode classNode, final SClass superclass) {
 		this.instructions = instructions;
 		this.classNode = classNode;
 
-		fieldMap = new TreeMap<>();
+		this.classStartOffset = superclass == null ? 0 :superclass.subclassOffset;
+		this.fieldMap = new TreeMap<>();
+		if(superclass != null) fieldMap.putAll(superclass.fieldMap);
 
 		final List<?> fields = classNode.fields;
 		for (int i = 0; i < fields.size(); i++) {
-		   fieldMap.put(i, (FieldNode) fields.get(i));
+		   fieldMap.put(i + classStartOffset, (FieldNode) fields.get(i));
       }
+		subclassOffset = fieldMap.size();
 	}
 
 	@SuppressWarnings("unchecked")
