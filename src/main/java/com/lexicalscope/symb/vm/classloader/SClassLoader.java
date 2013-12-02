@@ -58,6 +58,11 @@ public class SClassLoader {
 		}
 	}
 
+   public SClass load(final Class<?> klass) {
+      return load(klass.getCanonicalName().replaceAll("\\.", "/"));
+   }
+
+
 	public SMethod loadMethod(final String klass, final String name,
 			final String desc) {
 		return load(klass).staticMethod(name, desc);

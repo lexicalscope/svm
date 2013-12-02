@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.MethodNode;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SClass {
-   private final TreeMap<Integer, FieldNode> fieldMap;
+   private final TreeMap<SFieldName, Integer> fieldMap;
 	private final ClassNode classNode;
 	private final Instructions instructions;
    private final int classStartOffset;
@@ -26,7 +26,8 @@ public class SClass {
 
 		final List<?> fields = classNode.fields;
 		for (int i = 0; i < fields.size(); i++) {
-		   fieldMap.put(i + classStartOffset, (FieldNode) fields.get(i));
+		   final FieldNode fieldNode = (FieldNode) fields.get(i);
+         fieldMap.put(new SFieldName(this.name(), fieldNode.name), i + classStartOffset);
       }
 		subclassOffset = fieldMap.size();
 	}
@@ -47,5 +48,22 @@ public class SClass {
 
    public Integer fieldCount() {
       return fieldMap.size();
+   }
+
+   public Integer fieldIndex(final SFieldName name) {
+      return fieldMap.get(name);
+   }
+
+   public boolean hasField(final SFieldName name) {
+      return fieldMap.containsKey(name);
+   }
+
+   public String name() {
+      return classNode.name;
+   }
+
+   @Override
+   public String toString() {
+      return String.format("%s <%s>", name(), fieldMap);
    }
 }
