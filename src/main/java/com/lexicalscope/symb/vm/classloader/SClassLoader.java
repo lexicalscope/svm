@@ -32,6 +32,8 @@ public class SClassLoader {
 	}
 
 	public SClass load(final String name) {
+	   if(name == null) { return null; }
+
 		try {
 			final ClassNode classNode = new ClassNode();
 
@@ -49,7 +51,8 @@ public class SClassLoader {
 			} finally {
 				in.close();
 			}
-			return new SClass(instructions, classNode);
+			final SClass superclassNode = load(classNode.superName);
+			return new SClass(instructions, classNode, superclassNode);
 		} catch (final IOException e) {
 			throw new SClassLoadingFailException(name, e);
 		}
