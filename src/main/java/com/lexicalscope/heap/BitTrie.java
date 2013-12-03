@@ -1,5 +1,9 @@
 package com.lexicalscope.heap;
 
+import java.util.Iterator;
+
+import com.google.common.base.Joiner;
+
 
 /**
  * Here be dragons. This code is hand optimised.
@@ -12,7 +16,7 @@ package com.lexicalscope.heap;
  *
  * @author tim
  */
-final class BitTrie {
+final class BitTrie implements Iterable<Object>{
    //  8    7    6    5   4    3     2    1
    // 000-0000-0000-0000-0000-0000-0000-00000
 
@@ -65,6 +69,7 @@ final class BitTrie {
 
 
    private int free = 1; // start at 1 as 0 is reserved for null
+   private int startingFree = free;
 
    // because keys are allocated in sequence we only use the bottom left of the
    // tree to start with and expand the tree upward as more keyspace is used
@@ -190,9 +195,10 @@ final class BitTrie {
 
    public BitTrie() { this(1); };
    public BitTrie(final int start) {
+      this.startingFree = start;
       free = start;
       highestBit = level(free - 1);
-   }
+   }   
 
    // This is a reference counted fast-clone associative array, it gives out keys in sequence and is optimised for that use case.
    //
@@ -529,4 +535,16 @@ final class BitTrie {
       }
       return result;
    }
+
+   @Override
+   public Iterator<Object> iterator() {
+      return new BitTrieIterator(this, startingFree);
+   }
+   
+   @Override
+   public String toString() {
+       Joiner joiner = Joiner.on(", ").useForNull("null");
+       return "[" + joiner.join(this) + "]";
+   }
+   
 }
