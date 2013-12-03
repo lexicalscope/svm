@@ -69,7 +69,6 @@ final class BitTrie implements Iterable<Object>{
 
 
    private int free = 1; // start at 1 as 0 is reserved for null
-   private int startingFree = free;
 
    // because keys are allocated in sequence we only use the bottom left of the
    // tree to start with and expand the tree upward as more keyspace is used
@@ -195,7 +194,6 @@ final class BitTrie implements Iterable<Object>{
 
    public BitTrie() { this(1); };
    public BitTrie(final int start) {
-      this.startingFree = start;
       free = start;
       highestBit = level(free - 1);
    }   
@@ -538,7 +536,7 @@ final class BitTrie implements Iterable<Object>{
 
    @Override
    public Iterator<Object> iterator() {
-      return new BitTrieIterator(this, startingFree);
+      return new BitTrieIterator(this, free - 1);
    }
    
    @Override

@@ -13,19 +13,19 @@ public class TestBitTrieToString {
       final BitTrie trie = new BitTrie();
       trie.insert(value1);
       trie.insert(value2);
-      assertThat(trie, contains(value1, value2));
+      assertThat(trie, contains(null, value1, value2));
    }
  
    @Test public void bitTrieIteratorGivesInitialNullsWhenStartIsNot1() {
       final BitTrie trie = new BitTrie(3);
       trie.insert(value1);
       trie.insert(value2);
-      assertThat(trie, contains(null, null, value1, value2));
+      assertThat(trie, contains(null, null, null, value1, value2));
    }
    
    @Test
    public void bitTrieToStringPresentsOrderedStringRepresentationsOfItems() {
-      final BitTrie trie = new BitTrie(2);
+      final BitTrie trie = new BitTrie(1);
       trie.insert(value1);
       trie.insert(value2);
       assertThat(trie.toString(), equalTo("[null, value1, value2]"));  

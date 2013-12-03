@@ -5,23 +5,23 @@ import java.util.Iterator;
 public class BitTrieIterator implements Iterator<Object> {
 
    private BitTrie trie;
-   private int start;
-   private int current;
+   private int currentIndex;
+   private int endIndex;
 
-   public BitTrieIterator(BitTrie trie, int start) {
+   public BitTrieIterator(BitTrie trie, int endIndex) {
       this.trie = trie;
-      this.start = start;
-      current = 1;
+      this.endIndex = endIndex;
+      currentIndex = 0;
    }
 
    @Override
    public boolean hasNext() {
-      return current < start || null != trie.get(current);
+      return currentIndex <= endIndex;
    }
 
    @Override
    public Object next() {
-      return current++ < start ? null : trie.get(current-1);
+      return trie.get(currentIndex++);
    }
 
    @Override
