@@ -1,6 +1,8 @@
 package com.lexicalscope.heap;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import com.google.common.base.Joiner;
 
@@ -184,6 +186,7 @@ final class BitTrie implements Iterable<Object>{
          this(new Node7[level8Width]);
       }
 
+   
       public Node8(final Node7[] clone) {
          d = clone;
       }
@@ -346,6 +349,7 @@ final class BitTrie implements Iterable<Object>{
       // MAXINT + 1 == MININT == 10000000000000000000000000000000
       // ie.  MAXINT path is left right right right right right right right
       // then MININT path is right left left left left left left left
+      System.out.println("FREE: " + free);
       return free++;
    }
 
@@ -536,7 +540,7 @@ final class BitTrie implements Iterable<Object>{
 
    @Override
    public Iterator<Object> iterator() {
-      return new BitTrieIterator(this, free - 1);
+      return new BitTrieIterator(this, free);
    }
    
    @Override
@@ -545,4 +549,35 @@ final class BitTrie implements Iterable<Object>{
        return "[" + joiner.join(this) + "]";
    }
    
+   private class BitTrieIterator implements Iterator<Object> {
+      private BitTrie trie;
+      private int currentIndex;
+      private int size;
+
+      public BitTrieIterator(BitTrie trie, int size) {
+         this.trie = trie;
+         this.size = size;
+         currentIndex = 0;
+      }
+
+      @Override
+      public boolean hasNext() {
+         return currentIndex < size;
+      }
+
+      @Override
+      public Object next() {
+         if (size < free)
+            throw new ConcurrentModificationException();
+         if (currentIndex >= size)
+            throw new NoSuchElementException();
+         return trie.get(currentIndex++);
+      }
+
+      @Override
+      public void remove() {
+         throw new UnsupportedOperationException();
+      }
+
+   }
 }
