@@ -39,4 +39,9 @@ public class FastHeap implements Heap {
    public Heap snapshot() {
       return new FastHeap(trie.copy());
    }
+   
+   @Override
+   public String toString() {
+      return trie.toString();
+   }
 }
