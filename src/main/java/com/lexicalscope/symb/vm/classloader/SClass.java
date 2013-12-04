@@ -15,10 +15,12 @@ public class SClass {
 	private final Instructions instructions;
    private final int classStartOffset;
    private final int subclassOffset;
+   private final SClass superclass;
 
 	public SClass(final Instructions instructions, final ClassNode classNode, final SClass superclass) {
 		this.instructions = instructions;
 		this.classNode = classNode;
+      this.superclass = superclass;
 
 		this.classStartOffset = superclass == null ? 0 :superclass.subclassOffset;
 		this.fieldMap = new TreeMap<>();
@@ -60,6 +62,10 @@ public class SClass {
 
    public String name() {
       return classNode.name;
+   }
+
+   public Object superclass() {
+      return superclass;
    }
 
    @Override

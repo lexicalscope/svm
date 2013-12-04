@@ -30,4 +30,18 @@ public class SClassMatchers {
          }
       };
    }
+
+   public static Matcher<? super SClass> hasSuperclass(final Matcher<SClass> matcher) {
+      return new TypeSafeDiagnosingMatcher<SClass>(SClass.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("class with superclass matching ").appendDescriptionOf(matcher);
+         }
+
+         @Override
+         protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
+            mismatchDescription.appendText("class with superclass ").appendValue(item.superclass());
+            return matcher.matches(item.superclass());
+         }};
+   }
 }

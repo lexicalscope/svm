@@ -7,6 +7,7 @@ import java.util.Collection;
 import java.util.Deque;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
+import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
@@ -45,7 +46,7 @@ public class Vm {
    }
 
    public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
-      final SClassLoader classLoader = new SClassLoader(instructionFactory);
+      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory);
       return new Vm(classLoader.initial(entryPoint).op(loadConstants(args)), classLoader);
    }
 

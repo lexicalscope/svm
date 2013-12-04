@@ -12,7 +12,7 @@ import org.junit.Test;
  * @author tim
  */
 public class TestFieldLInking {
-   private final SClassLoader sClassLoader = new SClassLoader();
+   private final SClassLoader sClassLoader = new AsmSClassLoader();
    private final SClass classWithFiveFields = sClassLoader.load(ClassWith5Fields.class);
    private final SClass subClassWithThreeFields = sClassLoader.load(SubClassWithAdditionalFields.class);
    private final SClass subClassWithOverloadedField = sClassLoader.load(SubClassWithOverloadedField.class);

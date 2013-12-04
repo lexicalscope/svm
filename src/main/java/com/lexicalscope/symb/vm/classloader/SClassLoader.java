@@ -1,89 +1,22 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-
-import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.ClassNode;
 
-import com.lexicalscope.heap.FastHeap;
-import com.lexicalscope.symb.vm.DequeStack;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
-import com.lexicalscope.symb.vm.instructions.BaseInstructions;
-import com.lexicalscope.symb.vm.instructions.InstructionFactory;
-import com.lexicalscope.symb.vm.instructions.Instructions;
-import com.lexicalscope.symb.vm.instructions.InvokeStatic;
 
-public class SClassLoader {
-	private final Instructions instructions;
-   private final InstructionFactory instructionFactory;
+public interface SClassLoader {
+   SClass load(String name);
 
-	public SClassLoader(final InstructionFactory instructionFactory) {
-		this.instructionFactory = instructionFactory;
-      this.instructions = new BaseInstructions(instructionFactory);
-	}
+   SClass load(Class<?> klass);
 
-	public SClassLoader() {
-		this(new ConcInstructionFactory());
-	}
+   SMethod loadMethod(String klass, String name, String desc);
 
-	public SClass load(final String name) {
-	   if(name == null) { return null; }
+   Instruction instructionFor(AbstractInsnNode abstractInsnNode);
 
-		try {
-			final ClassNode classNode = new ClassNode();
+   State initial(String klass);
 
-			final InputStream in = this
-					.getClass()
-					.getClassLoader()
-					.getResourceAsStream(
-							name.replace(".", File.separator) + ".class");
+   State initial(MethodInfo info);
 
-			if (in == null)
-				throw new SClassNotFoundException(name);
-
-			try {
-				new ClassReader(in).accept(classNode, 0);
-			} finally {
-				in.close();
-			}
-			final SClass superclassNode = load(classNode.superName);
-			return new SClass(instructions, classNode, superclassNode);
-		} catch (final IOException e) {
-			throw new SClassLoadingFailException(name, e);
-		}
-	}
-
-   public SClass load(final Class<?> klass) {
-      return load(klass.getCanonicalName().replaceAll("\\.", "/"));
-   }
-
-
-	public SMethod loadMethod(final String klass, final String name,
-			final String desc) {
-		return load(klass).staticMethod(name, desc);
-	}
-
-	public Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
-		return instructions.instructionFor(abstractInsnNode);
-	}
-
-	public State initial(final String klass) {
-		return initial(klass, "main", "([Ljava/lang/String;)V");
-	}
-
-	public State initial(final MethodInfo info) {
-		return initial(info.klass(), info.name(), info.desc());
-	}
-
-	public State initial(final String klass, final String name,
-			final String desc) {
-		final SMethod method = loadMethod(klass, name, desc);
-		return new State(new DequeStack(new InvokeStatic(klass, name, desc), 0,
-				method.argSize()), new FastHeap(), instructionFactory.initialMeta());
-	}
+   State initial(String klass, String name, String desc);
 }
