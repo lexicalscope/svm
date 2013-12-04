@@ -19,11 +19,14 @@ import com.lexicalscope.symb.vm.symbinstructions.ops.SIConstOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IntSymbol;
 import com.lexicalscope.symb.z3.FeasbilityChecker;
 
+/**
+ * @author tim
+ */
 public class SymbInstructionFactory implements InstructionFactory {
 	private final class SBranchGEInstruction implements Instruction {
       private final JumpInsnNode jumpInsnNode;
@@ -106,7 +109,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
 	public Symbol symbol() {
-		return new IntSymbol(++symbol);
+		return new ISymbol(++symbol);
 	}
 
 	@Override

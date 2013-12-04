@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
 
-public class IntSymbol implements Symbol {
+public class ISymbol implements Symbol {
 	private final int name;
 
-	public IntSymbol(final int name) {
+	public ISymbol(final int name) {
 		this.name = name;
 	}
 
@@ -21,7 +21,7 @@ public class IntSymbol implements Symbol {
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj != null && obj.getClass().equals(this.getClass())) {
-			return name == ((IntSymbol) obj).name;
+			return name == ((ISymbol) obj).name;
 		}
 		return false;
 	}
