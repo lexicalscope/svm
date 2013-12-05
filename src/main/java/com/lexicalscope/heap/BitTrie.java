@@ -349,7 +349,6 @@ final class BitTrie implements Iterable<Object>{
       // MAXINT + 1 == MININT == 10000000000000000000000000000000
       // ie.  MAXINT path is left right right right right right right right
       // then MININT path is right left left left left left left left
-      System.out.println("FREE: " + free);
       return free++;
    }
 

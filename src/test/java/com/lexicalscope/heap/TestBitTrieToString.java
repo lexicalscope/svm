@@ -9,7 +9,9 @@ import java.util.ConcurrentModificationException;
 import java.util.Iterator;
 import java.util.NoSuchElementException;
 
+import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 public class TestBitTrieToString {
    private final Object value1 = new Object() {@Override public String toString() {return "value1";}};
@@ -36,23 +38,26 @@ public class TestBitTrieToString {
       assertThat(trie.toString(), equalTo("[null, value1, value2]"));  
    }
    
-   @Test(expected=NoSuchElementException.class) 
-   public void canOnlyCallNextIfElementsRemainInIterator() {
+   @Rule public ExpectedException exception = ExpectedException.none();
+   
+   @Test public void canOnlyCallNextIfElementsRemainInIterator() {
       final Iterator<Object> it = new BitTrie().iterator();
       it.next();
+      exception.expect(NoSuchElementException.class);
       it.next();
    }
    
-   @Test(expected=UnsupportedOperationException.class) 
-   public void removeNotSupported() {
-      new BitTrie().iterator().remove();
+   @Test public void removeNotSupported() {
+      Iterator<Object> it = new BitTrie().iterator();
+      exception.expect(UnsupportedOperationException.class);
+      it.remove();
    }
    
-   @Test(expected=ConcurrentModificationException.class)
-   public void callingNextOnIteratorAfterInsertionOnTrieCausesAnException() {
+   @Test public void callingNextOnIteratorAfterInsertionOnTrieCausesAnException() {
       final BitTrie trie = new BitTrie();
       Iterator<Object> it = trie.iterator();
       trie.insert(value1);
+      exception.expect(ConcurrentModificationException.class);
       it.next();
    }
 }
