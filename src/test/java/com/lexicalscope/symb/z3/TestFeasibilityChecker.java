@@ -12,6 +12,6 @@ public class TestFeasibilityChecker {
 
    @Test
    public void testZ3IsWorking() throws Z3Exception {
-      new FeasbilityChecker().checkZ3IsWorking();
+      feasbilityChecker.checkZ3IsWorking();
    }
 }
