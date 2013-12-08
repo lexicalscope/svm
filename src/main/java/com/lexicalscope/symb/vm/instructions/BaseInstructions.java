@@ -15,8 +15,10 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
+import com.lexicalscope.symb.vm.DefaultInstruction;
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
@@ -38,6 +40,10 @@ public final class BaseInstructions implements Instructions {
 
    @Override
    public Instruction instructionFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
+    return new DefaultInstruction(instructionTransformFor(classLoader, abstractInsnNode));
+   }
+
+   private InstructionTransform instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
       if (abstractInsnNode == null)
          return new Terminate();
 
@@ -134,7 +140,7 @@ public final class BaseInstructions implements Instructions {
       return new UnsupportedInstruction(abstractInsnNode);
    }
 
-   private Instruction stackOp(final InsnNode insnNode, final DupOp stackOp) {
+   private InstructionTransform stackOp(final InsnNode insnNode, final DupOp stackOp) {
       return linearInstruction(insnNode, new StackFrameTransformer(stackOp));
    }
 
@@ -146,7 +152,7 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(varInsnNode, new StackFrameTransformer(new Store(varInsnNode.var)));
    }
 
-   private Instruction iconst(final AbstractInsnNode insnNode, final int constVal) {
+   private InstructionTransform iconst(final AbstractInsnNode insnNode, final int constVal) {
       return nullary(insnNode, instructionFactory.iconst(constVal));
    }
 

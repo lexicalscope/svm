@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.concinstructions;
 
 import org.objectweb.asm.tree.JumpInsnNode;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
@@ -29,7 +29,7 @@ public class ConcInstructionFactory implements InstructionFactory {
 	}
 
 	@Override
-	public Instruction branchIfge(final JumpInsnNode jumpInsnNode) {
+	public InstructionTransform branchIfge(final JumpInsnNode jumpInsnNode) {
 		return new BranchInstruction(new Ge(), jumpInsnNode);
 	}
 

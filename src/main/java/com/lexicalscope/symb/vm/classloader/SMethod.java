@@ -11,7 +11,6 @@ public class SMethod {
    private final SClassLoader classLoader;
 	private final MethodNode method;
 	private final Instructions instructions;
-	private Instruction entryPoint;
 
 	public SMethod(
 	      final SClassLoader classLoader,

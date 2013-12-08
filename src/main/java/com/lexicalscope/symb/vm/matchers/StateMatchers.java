@@ -8,6 +8,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
@@ -44,7 +45,7 @@ public class StateMatchers {
 	}
 
 	public static Matcher<? super State> instructionEqual(
-			final Instruction instruction) {
+			final InstructionTransform instruction) {
 		return new TypeSafeDiagnosingMatcher<State>(State.class) {
 			@Override
 			public void describeTo(final Description description) {

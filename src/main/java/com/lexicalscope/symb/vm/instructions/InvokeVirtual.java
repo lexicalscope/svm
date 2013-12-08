@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.tree.MethodInsnNode;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
@@ -10,7 +10,7 @@ import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 
-final class InvokeVirtual implements Instruction {
+final class InvokeVirtual implements InstructionTransform {
    private final MethodInsnNode methodInsnNode;
 
    InvokeVirtual(MethodInsnNode methodInsnNode) {

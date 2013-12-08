@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm.classloader;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.heap.FastHeap;
+import com.lexicalscope.symb.vm.DefaultInstruction;
 import com.lexicalscope.symb.vm.DequeStack;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
@@ -54,6 +55,6 @@ public class AsmSClassLoader implements SClassLoader {
 
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
-      return new State(new DequeStack(new InvokeStatic(klass, name, desc), 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
+      return new State(new DequeStack(new DefaultInstruction(new InvokeStatic(klass, name, desc)), 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }

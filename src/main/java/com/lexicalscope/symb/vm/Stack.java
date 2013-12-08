@@ -4,7 +4,6 @@ import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public interface Stack extends Snapshotable<Stack> {
-
    Stack popFrame(int returnCount);
 
    Stack pushFrame(Instruction returnTo, SMethod method, int argCount);
@@ -17,5 +16,4 @@ public interface Stack extends Snapshotable<Stack> {
 
    @Override
    Stack snapshot();
-
 }
