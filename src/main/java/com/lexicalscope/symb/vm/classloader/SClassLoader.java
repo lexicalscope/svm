@@ -14,9 +14,5 @@ public interface SClassLoader {
 
    Instruction instructionFor(AbstractInsnNode abstractInsnNode);
 
-   State initial(String klass);
-
    State initial(MethodInfo info);
-
-   State initial(String klass, String name, String desc);
 }
