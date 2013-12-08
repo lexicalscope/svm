@@ -1,6 +1,8 @@
 package com.lexicalscope.heap;
 
+import java.util.ConcurrentModificationException;
 import java.util.Iterator;
+import java.util.NoSuchElementException;
 
 import com.google.common.base.Joiner;
 
@@ -185,6 +187,7 @@ final class BitTrie implements Iterable<Object>{
       public Node8() {
          this(new Node7[level8Width]);
       }
+
 
       public Node8(final Node7[] clone) {
          d = clone;
@@ -580,12 +583,44 @@ final class BitTrie implements Iterable<Object>{
 
    @Override
    public Iterator<Object> iterator() {
-      return new BitTrieIterator(this, free - 1);
+      return new BitTrieIterator(this, free);
    }
 
    @Override
    public String toString() {
        final Joiner joiner = Joiner.on(", ").useForNull("null");
        return "[" + joiner.join(this) + "]";
+   }
+
+   private class BitTrieIterator implements Iterator<Object> {
+      private final BitTrie trie;
+      private int currentIndex;
+      private final int size;
+
+      public BitTrieIterator(final BitTrie trie, final int size) {
+         this.trie = trie;
+         this.size = size;
+         currentIndex = 0;
+      }
+
+      @Override
+      public boolean hasNext() {
+         return currentIndex < size;
+      }
+
+      @Override
+      public Object next() {
+         if (size < free)
+            throw new ConcurrentModificationException();
+         if (currentIndex >= size)
+            throw new NoSuchElementException();
+         return trie.get(currentIndex++);
+      }
+
+      @Override
+      public void remove() {
+         throw new UnsupportedOperationException();
+      }
+
    }
 }
