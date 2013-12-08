@@ -17,11 +17,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.Stack;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -29,7 +25,6 @@ import com.lexicalscope.symb.vm.instructions.ops.DupOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
-import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.transformers.HeapTransformer;
 import com.lexicalscope.symb.vm.instructions.transformers.StackFrameTransformer;
@@ -129,47 +124,9 @@ public final class BaseInstructions implements Instructions {
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESPECIAL:
-                  return new Instruction() {
-                     @Override
-                     public void eval(final SClassLoader cl, final Vm vm, final State state) {
-                        final SMethod targetMethod = cl.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
-
-                        state.op(new StackOp<Void>() {
-                           @Override
-                           public Void eval(final Stack stack) {
-                              stack.pushFrame(cl.instructionFor(methodInsnNode.getNext()), targetMethod, targetMethod.argSize());
-                              return null;
-                           }
-                        });
-                     }
-
-                     @Override
-                     public String toString() {
-                        return String.format("INVOKESPECIAL %s", methodInsnNode.desc);
-                     }
-                  };
+                  return new InvokeSpecial(methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
-                  return new Instruction() {
-                     @Override
-                     public void eval(final SClassLoader cl, final Vm vm, final State state) {
-                        final SMethod targetMethod = cl.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
-
-                        // TODO[tim]: resolve overridden methods
-
-                        state.op(new StackOp<Void>() {
-                           @Override
-                           public Void eval(final Stack stack) {
-                              stack.pushFrame(cl.instructionFor(methodInsnNode.getNext()), targetMethod, targetMethod.argSize());
-                              return null;
-                           }
-                        });
-                     }
-
-                     @Override
-                     public String toString() {
-                        return String.format("INVOKESPECIAL %s", methodInsnNode.desc);
-                     }
-                  };
+                  return new InvokeVirtual(methodInsnNode);
             }
             break;
       }

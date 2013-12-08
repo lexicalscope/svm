@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
 import org.objectweb.asm.Type;
+import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.Instruction;
@@ -10,6 +11,7 @@ public class SMethod {
    private final SClassLoader classLoader;
 	private final MethodNode method;
 	private final Instructions instructions;
+	private Instruction entryPoint;
 
 	public SMethod(
 	      final SClassLoader classLoader,
@@ -29,10 +31,14 @@ public class SMethod {
 	}
 
 	public Instruction entry() {
-		return instructions.instructionFor(classLoader, method.instructions.get(0));
+		return instructions.instructionFor(classLoader, getEntryPoint());
 	}
 
-	public int argSize() {
+	private AbstractInsnNode getEntryPoint() {
+      return method.instructions.get(0);
+   }
+
+   public int argSize() {
 		return Type.getMethodType(method.desc).getArgumentsAndReturnSizes() >> 2;
 	}
 }
