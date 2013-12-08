@@ -42,7 +42,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override
-   public Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
+   public Instruction instructionFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
       if (abstractInsnNode == null)
          return new Terminate();
 
@@ -68,9 +68,9 @@ public final class BaseInstructions implements Instructions {
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return heapOp(abstractInsnNode, putField(fieldInsnNode));
+                  return heapOp(abstractInsnNode, putField(classLoader, fieldInsnNode));
                case Opcodes.GETFIELD:
-                  return heapOp(abstractInsnNode, getField(fieldInsnNode));
+                  return heapOp(abstractInsnNode, getField(classLoader, fieldInsnNode));
             }
             break;
          case AbstractInsnNode.INSN:
@@ -115,7 +115,7 @@ public final class BaseInstructions implements Instructions {
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return heapOp(typeInsnNode, newOp(typeInsnNode));
+                  return heapOp(typeInsnNode, newOp(classLoader, typeInsnNode));
             }
             break;
          case AbstractInsnNode.JUMP_INSN:

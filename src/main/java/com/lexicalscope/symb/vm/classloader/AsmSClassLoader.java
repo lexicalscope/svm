@@ -45,7 +45,7 @@ public class AsmSClassLoader implements SClassLoader {
 
 	@Override
    public Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
-		return instructions.instructionFor(abstractInsnNode);
+		return instructions.instructionFor(this, abstractInsnNode);
 	}
 
 	@Override

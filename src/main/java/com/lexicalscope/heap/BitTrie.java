@@ -8,7 +8,9 @@ import com.google.common.base.Joiner;
 /**
  * Here be dragons. This code is hand optimised.
  *
- * It is essentially a bit-trie with shadowed pages and nodes, design for fast cloning with high levels of sharing between clones. It uses reference counting to perform copy-on-write of shared tree nodes.
+ * It is essentially a bit-trie with shadowed pages and nodes, design for fast cloning with
+ * high levels of sharing between clones. It uses reference counting to perform copy-on-write
+ * of shared tree nodes.
  *
  * The following paper describes a similar data structure, but using a b-tree instead of a bit-trie. You should
  * familiarise yourself with this material before modifying anything in this class.
@@ -192,12 +194,6 @@ final class BitTrie implements Iterable<Object>{
       int c = 1;
    }
 
-   public BitTrie() { this(1); };
-   public BitTrie(final int start) {
-      free = start;
-      highestBit = level(free - 1);
-   }   
-
    // This is a reference counted fast-clone associative array, it gives out keys in sequence and is optimised for that use case.
    //
    // It is designed to clone very fast. clone just copies the root pointer, and increments the reference count at the root node.
@@ -210,14 +206,65 @@ final class BitTrie implements Iterable<Object>{
    //
    // Modes that are rarely modified could end up shared across a very large number of copies.
 
+   public BitTrie() { this(1); };
+   public BitTrie(final int start) {
+      free = start;
+      highestBit = level(free - 1);
+   }
 
+   // TODO[tim] optimise
+   /**
+    * Allocate a contiguous section of space
+    *
+    * @param size the amount of space to allocate
+    *
+    * @return index of the first allocated element
+    */
+   public int allocate(final int size) {
+      if (size < 0) throw new IllegalArgumentException("cannot allocate " + size + " space");
 
+      final int result = insert(null);
+      for (int i = 1; i < size; i++) {
+         insert(null);
+      }
+      return result;
+   }
+
+   /**
+    * Insert the given value at the given key
+    *
+    * @param key the key must already have been allocated
+    * @param value the value to insert
+    *
+    * @return the value that was previously at the key
+    */
+   public Object insert(final int key, final Object value) {
+      if (key >= free) throw new IndexOutOfBoundsException("Inserting Past End of BitTrie " + key);
+
+      return insertAt(key, value);
+   }
+
+   // TODO[tim]: inserts are sequential so perhaps shouldn't have to search from root
+   // the way that clone works at the moment means we have to check that no parent node
+   // has a reference count higher than 1
    public int insert(final Object value) {
-      assert root1 != null ^ root2 != null ^ root3 != null ^ root4 != null ^ root5 != null ^ root6 != null ^ root7 != null ^ root8 != null
-           || root1 == null && root2 == null && root3 == null && root4 == null && root5 == null && root6 == null && root7 == null && root8 == null;
-
       if(free == 0) throw new IndexOutOfBoundsException("BitTrie is full");
-      if(highestBit < 29) highestBit = level(free);
+
+      insertAt(free, value);
+
+      // we expect this to overflow, as we are using our 32 bit address as unsigned
+      //               MAXINT == 01111111111111111111111111111111
+      // MAXINT + 1 == MININT == 10000000000000000000000000000000
+      // ie.  MAXINT path is left right right right right right right right
+      // then MININT path is right left left left left left left left
+      return free++;
+   }
+
+   private Object insertAt(final int index, final Object value) {
+      assert root1 != null ^ root2 != null ^ root3 != null ^ root4 != null ^ root5 != null ^ root6 != null ^ root7 != null ^ root8 != null
+            || root1 == null && root2 == null && root3 == null && root4 == null && root5 == null && root6 == null && root7 == null && root8 == null;
+
+      if(highestBit < 29) highestBit = level(index);
 
       Node8 trav8 = null;
       Node7 trav7 = null;
@@ -233,7 +280,7 @@ final class BitTrie implements Iterable<Object>{
          case 31:
          case 30:
          case 29:
-            final int level8Offset = (free & _level8Mask) >>> level8Shift;
+            final int level8Offset = (index & _level8Mask) >>> level8Shift;
             init = true;
             if(root8 == null) {root8 = new Node8(); root8.d[0] = root7; root7 = null;}
             if(root8.c > 1) {final Node8 copy = new Node8(root8.d.clone()); root8.c--; root8 = copy; for(int i = 0; i < root8.d.length; i++){if(root8.d[i] != null){root8.d[i].c++;}}}
@@ -246,7 +293,7 @@ final class BitTrie implements Iterable<Object>{
          case 27:
          case 26:
          case 25:
-            final int level7Offset = (free & _level7Mask) >>> level7Shift;
+            final int level7Offset = (index & _level7Mask) >>> level7Shift;
             if(!init){
                init = true;
                if(root7 == null) {root7 = new Node7(); root7.d[0] = root6; root6 = null;}
@@ -260,7 +307,7 @@ final class BitTrie implements Iterable<Object>{
          case 23:
          case 22:
          case 21:
-            final int level6Offset = (free & _level6Mask) >>> level6Shift;
+            final int level6Offset = (index & _level6Mask) >>> level6Shift;
             if(!init){
                init = true;
                if(root6 == null) {root6 = new Node6(); root6.d[0] = root5; root5 = null;}
@@ -274,7 +321,7 @@ final class BitTrie implements Iterable<Object>{
          case 19:
          case 18:
          case 17:
-            final int level5Offset = (free & _level5Mask) >>> level5Shift;
+            final int level5Offset = (index & _level5Mask) >>> level5Shift;
             if(!init){
                init = true;
                if(root5 == null) {root5 = new Node5(); root5.d[0] = root4; root4 = null;}
@@ -288,7 +335,7 @@ final class BitTrie implements Iterable<Object>{
          case 15:
          case 14:
          case 13:
-            final int level4Offset = (free & _level4Mask) >>> level4Shift;
+            final int level4Offset = (index & _level4Mask) >>> level4Shift;
             if(!init){
                init = true;
                if(root4 == null) {root4 = new Node4(); root4.d[0] = root3; root3 = null;}
@@ -302,7 +349,7 @@ final class BitTrie implements Iterable<Object>{
          case 11:
          case 10:
          case 9:
-            final int level3Offset = (free & _level3Mask) >>> level3Shift;
+            final int level3Offset = (index & _level3Mask) >>> level3Shift;
             if(!init){
                init = true;
                if(root3 == null) {root3 = new Node3(); root3.d[0] = root2; root2 = null;}
@@ -316,7 +363,7 @@ final class BitTrie implements Iterable<Object>{
          case 7:
          case 6:
          case 5:
-            final int level2Offset = (free & _level2Mask) >>> level2Shift;
+            final int level2Offset = (index & _level2Mask) >>> level2Shift;
             if(!init){
                init = true;
                if(root2 == null) {root2 = new Node2(); root2.d[0] = root1; root1 = null;}
@@ -331,22 +378,19 @@ final class BitTrie implements Iterable<Object>{
          case 2:
          case 1:
          case 0:
-            if(!init){
-               init = true;
-               if(root1 == null){root1 = new Node1(); root1.d = new Object[level1Width];}
-               if(root1.c > 1) {final Node1 copy = new Node1(root1.d.clone()); root1.c--; root1 = copy;}
-               trav1 = root1;
-
-            }
-            trav1.d[free & _level1Mask] = value;
       }
 
-      // we expect this to overflow, as we are using our 32 bit address as unsigned
-      //               MAXINT == 01111111111111111111111111111111
-      // MAXINT + 1 == MININT == 10000000000000000000000000000000
-      // ie.  MAXINT path is left right right right right right right right
-      // then MININT path is right left left left left left left left
-      return free++;
+      if(!init){
+         init = true;
+         if(root1 == null){root1 = new Node1(); root1.d = new Object[level1Width];}
+         if(root1.c > 1) {final Node1 copy = new Node1(root1.d.clone()); root1.c--; root1 = copy;}
+         trav1 = root1;
+
+      }
+      final int level1Offset = index & _level1Mask;
+      final Object oldValue = trav1.d[level1Offset];
+      trav1.d[level1Offset] = value;
+      return oldValue;
    }
 
    public Object get(final int key) {
@@ -538,11 +582,10 @@ final class BitTrie implements Iterable<Object>{
    public Iterator<Object> iterator() {
       return new BitTrieIterator(this, free - 1);
    }
-   
+
    @Override
    public String toString() {
-       Joiner joiner = Joiner.on(", ").useForNull("null");
+       final Joiner joiner = Joiner.on(", ").useForNull("null");
        return "[" + joiner.join(this) + "]";
    }
-   
 }

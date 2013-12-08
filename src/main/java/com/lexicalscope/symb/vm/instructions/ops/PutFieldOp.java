@@ -7,12 +7,16 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.StackFrame;
+import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.SFieldName;
 
 final class PutFieldOp implements HeapVop {
    private final FieldInsnNode fieldInsnNode;
+   private final int offset;
 
-   PutFieldOp(final FieldInsnNode fieldInsnNode) {
+   PutFieldOp(final SClass klass, final FieldInsnNode fieldInsnNode) {
       this.fieldInsnNode = fieldInsnNode;
+      this.offset = klass.fieldIndex(new SFieldName(fieldInsnNode.owner, fieldInsnNode.name));
    }
 
    @Override
@@ -20,7 +24,7 @@ final class PutFieldOp implements HeapVop {
       final Object val = stackFrame.pop();
       final Object obj = stackFrame.pop();
 
-      heap.put(obj, fieldKey(fieldInsnNode), val);
+      heap.put(obj, offset, val);
    }
 
    @Override

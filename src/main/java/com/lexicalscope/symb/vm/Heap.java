@@ -1,12 +1,13 @@
 package com.lexicalscope.symb.vm;
 
-public interface Heap extends Snapshotable<Heap> {
-   Object newObject();
+import com.lexicalscope.symb.vm.classloader.SClass;
 
-   void put(Object obj, String string, Object val);
-   Object get(Object obj, String string);
+public interface Heap extends Snapshotable<Heap> {
+   Object newObject(SClass klass);
+
+   void put(Object obj, int offset, Object val);
+   Object get(Object obj, int offset);
 
    @Override
    Heap snapshot();
-
 }

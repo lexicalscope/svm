@@ -16,9 +16,15 @@ public class SClass {
    private final int classStartOffset;
    private final int subclassOffset;
    private final SClass superclass;
+   private final SClassLoader classLoader;
 
-	public SClass(final Instructions instructions, final ClassNode classNode, final SClass superclass) {
-		this.instructions = instructions;
+	public SClass(
+	      final SClassLoader classLoader,
+	      final Instructions instructions,
+	      final ClassNode classNode,
+	      final SClass superclass) {
+		this.classLoader = classLoader;
+      this.instructions = instructions;
 		this.classNode = classNode;
       this.superclass = superclass;
 
@@ -42,7 +48,7 @@ public class SClass {
 	public SMethod staticMethod(final String name, final String desc) {
 		for (final MethodNode method : methods()) {
 			if (method.name.equals(name) && method.desc.equals(desc)) {
-				return new SMethod(instructions, method);
+				return new SMethod(classLoader, instructions, method);
 			}
 		}
 		throw new SMethodNotFoundException("main");

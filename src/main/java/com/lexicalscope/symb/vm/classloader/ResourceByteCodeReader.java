@@ -38,7 +38,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
             in.close();
          }
          final SClass superclassNode = classLoader.load(classNode.superName);
-         return new SClass(instructions, classNode, superclassNode);
+         return new SClass(classLoader, instructions, classNode, superclassNode);
       } catch (final IOException e) {
          throw new SClassLoadingFailException(name, e);
       }

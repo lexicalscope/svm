@@ -21,16 +21,16 @@ public final class Ops {
       return new NextInstructionOp(cl, abstractInsnNode);
    }
 
-   public static HeapVop putField(final FieldInsnNode fieldInsnNode) {
-      return new PutFieldOp(fieldInsnNode);
+   public static HeapVop putField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
+      return new PutFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
    }
 
-   public static HeapVop getField(final FieldInsnNode fieldInsnNode) {
-      return new GetFieldOp(fieldInsnNode);
+   public static HeapVop getField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
+      return new GetFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
    }
 
-   public static HeapVop newOp(final TypeInsnNode typeInsnNode) {
-      return new NewOp(typeInsnNode);
+   public static HeapVop newOp(final SClassLoader classLoader, final TypeInsnNode typeInsnNode) {
+      return new NewOp(classLoader, typeInsnNode);
    }
 
    public static DupOp dup() {

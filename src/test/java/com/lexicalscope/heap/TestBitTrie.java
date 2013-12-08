@@ -27,79 +27,79 @@ public class TestBitTrie {
    }
 
    @Test public void object31GoesIn1() {
-      testInsertAt(31, 1);
+      testInsertAndSetAt(31, 1);
    }
 
    @Test public void object32GoesIn2() {
-      testInsertAt(32, 2);
+      testInsertAndSetAt(32, 2);
    }
 
    @Test public void object62GoesIn2() {
-      testInsertAt(63, 2);
+      testInsertAndSetAt(63, 2);
    }
 
    @Test public void object63GoesIn2() {
-      testInsertAt(63, 2);
+      testInsertAndSetAt(63, 2);
    }
 
    @Test public void object64GoesIn2() {
-      testInsertAt(64, 2);
+      testInsertAndSetAt(64, 2);
    }
 
    @Test public void object65GoesIn2() {
-      testInsertAt(65, 2);
+      testInsertAndSetAt(65, 2);
    }
 
    @Test public void object511GoesIn2() {
-      testInsertAt(511, 2);
+      testInsertAndSetAt(511, 2);
    }
 
    @Test public void object512GoesIn3() {
-      testInsertAt(512, 3);
+      testInsertAndSetAt(512, 3);
    }
 
    @Test public void object8191GoesIn3() {
-      testInsertAt(8191, 3);
+      testInsertAndSetAt(8191, 3);
    }
 
    @Test public void object8192GoesIn4() {
-      testInsertAt(8192, 4);
+      testInsertAndSetAt(8192, 4);
    }
 
    @Test public void object131071GoesIn4() {
-      testInsertAt(131071, 4);
+      testInsertAndSetAt(131071, 4);
    }
 
    @Test public void object131072GoesIn5() {
-      testInsertAt(131072, 5);
+      testInsertAndSetAt(131072, 5);
    }
 
    @Test public void object2097151GoesIn5() {
-      testInsertAt(2097151, 5);
+      testInsertAndSetAt(2097151, 5);
    }
 
    @Test public void object2097152GoesIn6() {
-      testInsertAt(2097152, 6);
+      testInsertAndSetAt(2097152, 6);
    }
 
    @Test public void object33554431GoesIn6() {
-      testInsertAt(33554431, 6);
+      testInsertAndSetAt(33554431, 6);
    }
 
    @Test public void object33554432GoesIn7() {
-      testInsertAt(33554432, 7);
+      testInsertAndSetAt(33554432, 7);
    }
 
    @Test public void object536870911GoesIn7() {
-      testInsertAt(536870911, 7);
+      testInsertAndSetAt(536870911, 7);
    }
 
    @Test public void object536870912GoesIn8() {
-      testInsertAt(536870912, 8);
+      testInsertAndSetAt(536870912, 8);
    }
 
    @Test public void objectm1GoesIn8() {
-      testInsertAt(-1, 8);
+      testInsertAndSetAt(-1, 8);
    }
 
    @Test public void copy1isDistinct() {
@@ -170,12 +170,18 @@ public class TestBitTrie {
       assertThat(trie.insert(value), equalTo(Integer.MIN_VALUE));
    }
 
-   private void testInsertAt(final int start, final int depth) {
+   private Object testInsertAndSetAt(final int start, final int depth) {
       final BitTrie trie = new BitTrie(start);
       final int key = trie.insert(value);
       assertThat(key, equalTo(start));
       assertThat(trie.get(key), equalTo(value));
       assertThat(trie.depth(), equalTo(depth));
+
+      assertThat(trie.insert(key, value1), equalTo(value));
+      assertThat(trie.get(key), equalTo(value1));
+      assertThat(trie.depth(), equalTo(depth));
+
+      return value;
    }
 
    @Test public void level2offsetOf31is0(){
@@ -192,5 +198,17 @@ public class TestBitTrie {
 
    @Test public void level1offsetOf32is1(){
       assertThat(32 & 0b00000000000000000000000000011111, equalTo(0));
+   }
+
+   @Test public void allocate1Skips1(){
+      final BitTrie trie = new BitTrie();
+      assertThat(trie.allocate(1), equalTo(1));
+      assertThat(trie.allocate(1), equalTo(2));
+   }
+
+   @Test public void allocate5Skips5(){
+      final BitTrie trie = new BitTrie();
+      assertThat(trie.allocate(5), equalTo(1));
+      assertThat(trie.allocate(1), equalTo(6));
    }
 }

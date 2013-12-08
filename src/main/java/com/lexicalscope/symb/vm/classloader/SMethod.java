@@ -7,13 +7,16 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SMethod {
+   private final SClassLoader classLoader;
 	private final MethodNode method;
 	private final Instructions instructions;
 
 	public SMethod(
+	      final SClassLoader classLoader,
 	      final Instructions instructions,
 	      final MethodNode method) {
-		this.instructions = instructions;
+		this.classLoader = classLoader;
+      this.instructions = instructions;
 		this.method = method;
 	}
 
@@ -26,7 +29,7 @@ public class SMethod {
 	}
 
 	public Instruction entry() {
-		return instructions.instructionFor(method.instructions.get(0));
+		return instructions.instructionFor(classLoader, method.instructions.get(0));
 	}
 
 	public int argSize() {
