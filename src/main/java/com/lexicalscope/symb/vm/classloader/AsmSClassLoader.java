@@ -55,6 +55,6 @@ public class AsmSClassLoader implements SClassLoader {
 
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
-      return new State(new DequeStack(new DefaultInstruction(new InvokeStatic(klass, name, desc)), 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
+      return new State(new DequeStack(new DefaultInstruction(this, new InvokeStatic(klass, name, desc), null), 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }

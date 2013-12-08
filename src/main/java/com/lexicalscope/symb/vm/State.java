@@ -60,7 +60,7 @@ public class State implements Snapshotable<State> {
 	}
 
 	public void advance(final SClassLoader cl, final Vm vm) {
-		stack.instruction().eval(cl, vm, this);
+		stack.instruction().eval(vm, this);
 	}
 
 	public State[] fork(){

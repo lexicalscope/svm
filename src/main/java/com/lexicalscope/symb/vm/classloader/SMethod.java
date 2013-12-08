@@ -11,6 +11,7 @@ public class SMethod {
    private final SClassLoader classLoader;
 	private final MethodNode method;
 	private final Instructions instructions;
+   private Instruction entryPoint;
 
 	public SMethod(
 	      final SClassLoader classLoader,
@@ -30,10 +31,22 @@ public class SMethod {
 	}
 
 	public Instruction entry() {
-		return instructions.instructionFor(classLoader, getEntryPoint());
+	   if(entryPoint == null) link();
+		return entryPoint;
 	}
 
-	private AbstractInsnNode getEntryPoint() {
+	private void link() {
+	   AbstractInsnNode asmInstruction = getEntryPoint();
+	   entryPoint = instructions.instructionFor(classLoader, asmInstruction);
+	   Instruction prev = entryPoint;
+
+	   while(asmInstruction.getNext() == null) {
+	      asmInstruction = asmInstruction.getNext();
+	      prev = instructions.instructionFor(classLoader, asmInstruction);
+	   }
+   }
+
+   private AbstractInsnNode getEntryPoint() {
       return method.instructions.get(0);
    }
 

@@ -40,7 +40,7 @@ public final class BaseInstructions implements Instructions {
 
    @Override
    public Instruction instructionFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
-    return new DefaultInstruction(instructionTransformFor(classLoader, abstractInsnNode));
+    return new DefaultInstruction(classLoader, instructionTransformFor(classLoader, abstractInsnNode), null);
    }
 
    private InstructionTransform instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
