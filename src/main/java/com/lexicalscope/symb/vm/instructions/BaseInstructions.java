@@ -74,9 +74,9 @@ public final class BaseInstructions implements Instructions {
             final InsnNode insnNode = (InsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.RETURN:
-                  return new Return(0);
+                  return new ReturnInstruction(0);
                case Opcodes.IRETURN:
-                  return new Return(1);
+                  return new ReturnInstruction(1);
                case Opcodes.IADD:
                   return binaryOp(instructionFactory.iaddOperation());
                case Opcodes.IMUL:
