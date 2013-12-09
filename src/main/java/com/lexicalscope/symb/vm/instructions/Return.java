@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.State;
@@ -15,7 +16,7 @@ public class Return implements InstructionTransform {
    }
 
    @Override
-   public void eval(final SClassLoader cl, final Vm vm, final State state) {
+   public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
       state.op(new StackOp<Void>() {
 		@Override
 		public Void eval(final Stack stack) {

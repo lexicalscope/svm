@@ -6,17 +6,38 @@ public class DefaultInstruction implements Instruction {
    private final InstructionTransform instructionTransform;
    private final SClassLoader classLoader;
    private Instruction next;
+   private Instruction target;
 
    public DefaultInstruction(
          final SClassLoader classLoader,
          final InstructionTransform instructionTransform,
-         final DefaultInstruction prev) {
+         final Instruction prev) {
       this.instructionTransform = instructionTransform;
       this.classLoader = classLoader;
-      if(prev != null) prev.next = this;
+      if(prev != null) prev.next(this);
    }
 
    @Override public void eval(final Vm vm, final State state) {
-      instructionTransform.eval(classLoader, vm, state);
+      instructionTransform.eval(classLoader, vm, state, this);
+   }
+
+   @Override public void next(final Instruction instruction) {
+      next = instruction;
+   }
+
+   @Override public Instruction next() {
+      return next;
+   }
+
+   @Override public Instruction jmpTarget() {
+      return target;
+   }
+
+   @Override public void target(final Instruction instruction) {
+      target = instruction;
+   }
+
+   @Override public String toString() {
+      return String.format("%s (next=%s)", instructionTransform.toString(), next);
    }
 }

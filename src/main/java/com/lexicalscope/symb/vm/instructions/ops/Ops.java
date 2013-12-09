@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
@@ -17,8 +17,8 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static StackFrameVop nextInstruction(final SClassLoader cl, final AbstractInsnNode abstractInsnNode) {
-      return new NextInstructionOp(cl, abstractInsnNode);
+   public static StackFrameVop nextInstruction(final Instruction instruction) {
+      return new NextInstructionOp(instruction);
    }
 
    public static HeapVop putField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {

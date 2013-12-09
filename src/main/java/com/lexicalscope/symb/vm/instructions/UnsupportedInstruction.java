@@ -2,6 +2,7 @@ package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
@@ -15,7 +16,7 @@ public class UnsupportedInstruction implements InstructionTransform {
    }
 
    @Override
-   public void eval(final SClassLoader cl, final Vm vm, final State state) {
+   public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
       throw new UnsupportedInstructionException(abstractInsnNode);
    }
 

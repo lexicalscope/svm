@@ -1,17 +1,15 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import org.objectweb.asm.tree.AbstractInsnNode;
-
 import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.symb.vm.DefaultInstruction;
 import com.lexicalscope.symb.vm.DequeStack;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 import com.lexicalscope.symb.vm.instructions.InvokeStatic;
+import com.lexicalscope.symb.vm.instructions.Terminate;
 
 public class AsmSClassLoader implements SClassLoader {
    private final Instructions instructions;
@@ -44,17 +42,14 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override
-   public Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
-      return instructions.instructionFor(this, abstractInsnNode);
-   }
-
-   @Override
    public State initial(final MethodInfo info) {
       return initial(info.klass(), info.name(), info.desc());
    }
 
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
-      return new State(new DequeStack(new DefaultInstruction(this, new InvokeStatic(klass, name, desc), null), 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
+      final DefaultInstruction initialInstruction = new DefaultInstruction(this, new InvokeStatic(klass, name, desc), null);
+      initialInstruction.next(new DefaultInstruction(this, new Terminate(), initialInstruction));
+      return new State(new DequeStack(initialInstruction, 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }

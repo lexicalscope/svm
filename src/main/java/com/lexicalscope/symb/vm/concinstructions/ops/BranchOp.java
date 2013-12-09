@@ -1,33 +1,29 @@
 package com.lexicalscope.symb.vm.concinstructions.ops;
 
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.JumpInsnNode;
-
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.StackFrame;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 
 public final class BranchOp implements StackFrameVop {
-	private final SClassLoader cl;
 	private final BranchPredicate branchPredicate;
-	private final JumpInsnNode jumpInsnNode;
+   private final Instruction instruction;
 
-	public BranchOp(final SClassLoader cl, final JumpInsnNode jumpInsnNode,
+	public BranchOp(
+	      final Instruction instruction,
 			final BranchPredicate branchPredicate) {
-		this.cl = cl;
+      this.instruction = instruction;
 		this.branchPredicate = branchPredicate;
-		this.jumpInsnNode = jumpInsnNode;
 	}
 
 	@Override
 	public void eval(final StackFrame stackFrame) {
-		final AbstractInsnNode next;
+		final Instruction next;
 		if(branchPredicate.eval(stackFrame)) {
-			next = jumpInsnNode.label.getNext();
+			next = instruction.jmpTarget();
 		} else {
-			next = jumpInsnNode.getNext();
+			next = instruction.next();
 		}
-		stackFrame.advance(cl.instructionFor(next));
+		stackFrame.advance(next);
 	}
 }

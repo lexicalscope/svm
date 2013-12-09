@@ -1,7 +1,12 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Map.Entry;
+
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
+import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.Instruction;
@@ -36,14 +41,27 @@ public class SMethod {
 	}
 
 	private void link() {
+	   final Map<AbstractInsnNode, Instruction> linked = new HashMap<>();
+
 	   AbstractInsnNode asmInstruction = getEntryPoint();
-	   entryPoint = instructions.instructionFor(classLoader, asmInstruction);
+	   entryPoint = instructions.instructionFor(classLoader, asmInstruction, null);
+	   linked.put(asmInstruction, entryPoint);
+
 	   Instruction prev = entryPoint;
 
-	   while(asmInstruction.getNext() == null) {
+	   while(asmInstruction.getNext() != null) {
 	      asmInstruction = asmInstruction.getNext();
-	      prev = instructions.instructionFor(classLoader, asmInstruction);
+	      prev = instructions.instructionFor(classLoader, asmInstruction, prev);
+
+	      linked.put(asmInstruction, prev);
 	   }
+
+	   for (final Entry<AbstractInsnNode, Instruction> entry : linked.entrySet()) {
+         if(entry.getKey() instanceof JumpInsnNode) {
+            final JumpInsnNode key = (JumpInsnNode) entry.getKey();
+            entry.getValue().target(linked.get(key.label.getNext()));
+         }
+      }
    }
 
    private AbstractInsnNode getEntryPoint() {

@@ -4,6 +4,7 @@ import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
 
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.StackFrame;
@@ -36,7 +37,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       }
 
       @Override
-      public void eval(final SClassLoader cl, final Vm vm, final State state) {
+      public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
          final Pc pc = (Pc) state.getMeta();
          final Symbol operand = (Symbol) state.op(popOperand());
 
@@ -51,14 +52,14 @@ public class SymbInstructionFactory implements InstructionFactory {
          final StackFrameVop jumpOp = new StackFrameVop() {
             @Override
             public void eval(final StackFrame stackFrame) {
-               stackFrame.advance(cl.instructionFor(jumpInsnNode.label.getNext()));
+               stackFrame.advance(instruction.jmpTarget());
             }
          };
 
          final StackFrameVop nojumpOp = new StackFrameVop() {
             @Override
             public void eval(final StackFrame stackFrame) {
-               stackFrame.advance(cl.instructionFor(jumpInsnNode.getNext()));
+               stackFrame.advance(instruction.next());
             }
          };
 
