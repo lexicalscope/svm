@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.*;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
 
 import org.objectweb.asm.Opcodes;
@@ -126,9 +127,9 @@ public final class BaseInstructions implements Instructions {
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESPECIAL:
-                  return new InvokeSpecial(classLoader, methodInsnNode);
+                  return createInvokeSpecial(classLoader, methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
-                  return new InvokeVirtual(classLoader, methodInsnNode);
+                  return createInvokeVirtual(classLoader, methodInsnNode);
             }
             break;
       }

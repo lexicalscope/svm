@@ -8,7 +8,7 @@ import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
-import com.lexicalscope.symb.vm.instructions.InvokeStatic;
+import com.lexicalscope.symb.vm.instructions.MethodCallInstruction;
 
 public class AsmSClassLoader implements SClassLoader {
    private final Instructions instructions;
@@ -47,7 +47,7 @@ public class AsmSClassLoader implements SClassLoader {
 
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
-      final InstructionInternalNode initialInstruction = new InstructionInternalNode(this, new InvokeStatic(this, klass, name, desc), null);
+      final InstructionInternalNode initialInstruction = new InstructionInternalNode(this, MethodCallInstruction.createInvokeStatic(this, klass, name, desc), null);
       return new State(new DequeStack(initialInstruction, 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }
