@@ -14,11 +14,11 @@ import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 import com.microsoft.z3.Z3Exception;
 
-public class FeasbilityChecker implements Closeable {
+public class FeasibilityChecker implements Closeable {
    // TODO[tim]: use z3 stack for efficency
    private final Context ctx;
 
-   public FeasbilityChecker() {
+   public FeasibilityChecker() {
       try {
          Context.ToggleWarningMessages(true);
       } catch (final Z3Exception e) {

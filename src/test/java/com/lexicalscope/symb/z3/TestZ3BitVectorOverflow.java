@@ -13,7 +13,7 @@ import com.microsoft.z3.Z3Exception;
 
 public class TestZ3BitVectorOverflow {
    @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
-   private final FeasbilityChecker feasbilityChecker = new FeasbilityChecker();
+   private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
 
    @Test
    public void testZ3IsWorking() throws Z3Exception {
