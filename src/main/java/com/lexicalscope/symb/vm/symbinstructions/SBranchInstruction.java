@@ -2,12 +2,13 @@ package com.lexicalscope.symb.vm.symbinstructions;
 
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
 
+import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
@@ -52,16 +53,14 @@ final class SBranchInstruction implements Instruction {
       final Pc nojumpPc = pc.snapshot().and(nojumpSymbol);
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
-      final StackFrameVop jumpOp = new StackFrameVop() {
-         @Override
-         public void eval(final StackFrame stackFrame) {
+      final HeapVop jumpOp = new HeapVop() {
+         @Override public void eval(final StackFrame stackFrame, final Heap heap) {
             stackFrame.advance(instruction.jmpTarget());
          }
       };
 
-      final StackFrameVop nojumpOp = new StackFrameVop() {
-         @Override
-         public void eval(final StackFrame stackFrame) {
+      final HeapVop nojumpOp = new HeapVop() {
+         @Override public void eval(final StackFrame stackFrame, final Heap heap) {
             stackFrame.advance(instruction.next());
          }
       };

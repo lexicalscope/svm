@@ -17,7 +17,7 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static StackFrameVop nextInstruction(final InstructionNode instruction) {
+   public static HeapVop nextInstruction(final InstructionNode instruction) {
       return new NextInstructionOp(instruction);
    }
 

@@ -1,18 +1,19 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.StackFrame;
 
-public final class LoadConstants implements StackFrameVop {
-	private final Object[] values;
+public final class LoadConstants implements HeapVop {
+   private final Object[] values;
 
-	LoadConstants(Object ... values) {
-		this.values = values;
-	}
+   LoadConstants(final Object... values) {
+      this.values = values;
+   }
 
-	@Override
-     public void eval(final StackFrame stackFrame) {
-    	 for (Object param : values) {
-    		 stackFrame.loadConst(param);
-		}
-     }
+   @Override public void eval(final StackFrame stackFrame, final Heap heap) {
+      for (final Object param : values) {
+         stackFrame.loadConst(param);
+      }
+   }
 }

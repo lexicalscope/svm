@@ -3,7 +3,6 @@ package com.lexicalscope.symb.vm;
 import static com.google.common.base.Objects.equal;
 
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 import com.lexicalscope.symb.vm.instructions.ops.StackVop;
 
@@ -26,7 +25,7 @@ public class State implements Snapshotable<State> {
 		return stackOp.eval(stack);
 	}
 
-   public void op(final HeapVop op) {
+   public State op(final HeapVop op) {
       stack.query(new StackFrameOp<Void>() {
          @Override
          public Void eval(final StackFrame stackFrame) {
@@ -34,18 +33,8 @@ public class State implements Snapshotable<State> {
             return null;
          }
       });
+      return this;
    }
-
-	public State op(final StackFrameVop op) {
-		stack.query(new StackFrameOp<Void>() {
-			@Override
-			public Void eval(final StackFrame stackFrame) {
-				op.eval(stackFrame);
-				return null;
-			}
-		});
-		return this;
-	}
 
 	public State op(final StackVop op) {
 		op(new StackOp<Void>() {
