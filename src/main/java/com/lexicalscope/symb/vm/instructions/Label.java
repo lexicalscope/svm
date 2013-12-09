@@ -18,7 +18,7 @@ public class Label implements InstructionTransform {
 
 	@Override
 	public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
-		new NextInstruction().next(cl, state, abstractInsnNode, instruction);
+		new NextInstruction().next(state, instruction);
 	}
 
 	@Override

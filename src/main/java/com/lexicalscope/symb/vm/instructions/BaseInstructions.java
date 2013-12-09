@@ -5,7 +5,6 @@ import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.FrameNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -53,7 +52,7 @@ public final class BaseInstructions implements Instructions {
          case AbstractInsnNode.LINE:
             return new LineNumber((LineNumberNode) abstractInsnNode);
          case AbstractInsnNode.FRAME:
-            return new Frame((FrameNode) abstractInsnNode);
+            return new Frame();
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
