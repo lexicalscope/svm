@@ -8,7 +8,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
-import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
@@ -48,7 +47,7 @@ public final class BaseInstructions implements Instructions {
          case AbstractInsnNode.LABEL:
             return noop("LABEL");
          case AbstractInsnNode.LINE:
-            return new LineNumber((LineNumberNode) abstractInsnNode);
+            return noop("LINENUMBER");
          case AbstractInsnNode.FRAME:
             return noop("FRAME");
          case AbstractInsnNode.VAR_INSN:
