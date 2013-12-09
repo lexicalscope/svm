@@ -17,7 +17,6 @@ import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.TerminateInstruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
@@ -37,10 +36,12 @@ public final class BaseInstructions implements Instructions {
       this.instructionFactory = instructionFactory;
    }
 
-   @Override public InstructionNode instructionFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode, final InstructionNode previous) {
-      if (abstractInsnNode == null)
-         return new TerminateInstruction();
-      return new InstructionInternalNode(classLoader, instructionTransformFor(classLoader, abstractInsnNode), previous);
+   @Override public void instructionFor(
+         final SClassLoader classLoader,
+         final AbstractInsnNode abstractInsnNode,
+         final InstructionNode previous,
+         final InstructionSink instructionSink) {
+      instructionSink.nextInstruction(abstractInsnNode, new InstructionInternalNode(classLoader, instructionTransformFor(classLoader, abstractInsnNode), previous));
    }
 
    private Instruction instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {

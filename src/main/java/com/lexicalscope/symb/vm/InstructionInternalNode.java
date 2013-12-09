@@ -22,8 +22,6 @@ public class InstructionInternalNode implements InstructionNode {
 
       next = new TerminateInstruction();
       target = new TerminateInstruction();
-
-      if(prev != null) prev.next(this);
    }
 
    @Override public void eval(final Vm vm, final State state) {

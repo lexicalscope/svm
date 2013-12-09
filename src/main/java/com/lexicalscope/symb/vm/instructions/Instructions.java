@@ -6,5 +6,9 @@ import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public interface Instructions {
-	InstructionNode instructionFor(SClassLoader classLoader, AbstractInsnNode abstractInsnNode, InstructionNode previous);
+   public interface InstructionSink {
+      void nextInstruction(AbstractInsnNode asmInstruction, InstructionNode node);
+   }
+
+   void instructionFor(SClassLoader classLoader, AbstractInsnNode abstractInsnNode, InstructionNode previous, InstructionSink instructionSink);
 }

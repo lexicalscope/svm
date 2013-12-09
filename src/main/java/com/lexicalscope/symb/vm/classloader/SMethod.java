@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -11,6 +11,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.symb.vm.instructions.Instructions.InstructionSink;
 
 public class SMethod {
    private final SClassLoader classLoader;
@@ -41,19 +42,21 @@ public class SMethod {
 	}
 
 	private void link() {
-	   final Map<AbstractInsnNode, InstructionNode> linked = new HashMap<>();
+	   final Map<AbstractInsnNode, InstructionNode> linked = new LinkedHashMap<>();
+	   final InstructionNode[] prev = new InstructionNode[1];
+
+	   final InstructionSink instructionSink = new InstructionSink() {
+         @Override public void nextInstruction(final AbstractInsnNode asmInstruction, final InstructionNode node) {
+            linked.put(asmInstruction, node);
+            if(prev[0] != null) prev[0].next(node);
+            prev[0] = node;
+         }
+	   };
 
 	   AbstractInsnNode asmInstruction = getEntryPoint();
-	   entryPoint = instructions.instructionFor(classLoader, asmInstruction, null);
-	   linked.put(asmInstruction, entryPoint);
-
-	   InstructionNode prev = entryPoint;
-
-	   while(asmInstruction.getNext() != null) {
+	   while(asmInstruction != null) {
+	      instructions.instructionFor(classLoader, asmInstruction, prev[0], instructionSink);
 	      asmInstruction = asmInstruction.getNext();
-	      prev = instructions.instructionFor(classLoader, asmInstruction, prev);
-
-	      linked.put(asmInstruction, prev);
 	   }
 
 	   for (final Entry<AbstractInsnNode, InstructionNode> entry : linked.entrySet()) {
@@ -62,6 +65,8 @@ public class SMethod {
             entry.getValue().jmpTarget(linked.get(key.label.getNext()));
          }
       }
+
+	   entryPoint = linked.values().iterator().next();
    }
 
    private AbstractInsnNode getEntryPoint() {
