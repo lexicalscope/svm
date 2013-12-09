@@ -2,7 +2,6 @@ package com.lexicalscope.symb.vm;
 
 import static com.google.common.base.Objects.equal;
 
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
@@ -59,7 +58,7 @@ public class State implements Snapshotable<State> {
 		return this;
 	}
 
-	public void advance(final SClassLoader cl, final Vm vm) {
+	public void advance(final Vm vm) {
 		stack.instruction().eval(vm, this);
 	}
 
