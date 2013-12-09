@@ -9,7 +9,6 @@ import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 import com.lexicalscope.symb.vm.instructions.InvokeStatic;
-import com.lexicalscope.symb.vm.instructions.Terminate;
 
 public class AsmSClassLoader implements SClassLoader {
    private final Instructions instructions;
@@ -49,7 +48,6 @@ public class AsmSClassLoader implements SClassLoader {
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
       final DefaultInstruction initialInstruction = new DefaultInstruction(this, new InvokeStatic(klass, name, desc), null);
-      initialInstruction.next(new DefaultInstruction(this, new Terminate(), initialInstruction));
       return new State(new DequeStack(initialInstruction, 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }

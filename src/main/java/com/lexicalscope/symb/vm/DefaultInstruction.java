@@ -14,6 +14,10 @@ public class DefaultInstruction implements Instruction {
          final Instruction prev) {
       this.instructionTransform = instructionTransform;
       this.classLoader = classLoader;
+
+      next = new TerminateInstruction();
+      target = new TerminateInstruction();
+
       if(prev != null) prev.next(this);
    }
 
@@ -33,11 +37,11 @@ public class DefaultInstruction implements Instruction {
       return target;
    }
 
-   @Override public void target(final Instruction instruction) {
+   @Override public void jmpTarget(final Instruction instruction) {
       target = instruction;
    }
 
    @Override public String toString() {
-      return String.format("%s (next=%s)", instructionTransform.toString(), next);
+      return String.format("%s", instructionTransform.toString(), next);
    }
 }

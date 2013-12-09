@@ -8,11 +8,10 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.instructions.Terminate;
+import com.lexicalscope.symb.vm.TerminateInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 import com.lexicalscope.symb.vm.instructions.ops.StackOp;
 
@@ -45,12 +44,12 @@ public class StateMatchers {
 	}
 
 	public static Matcher<? super State> instructionEqual(
-			final InstructionTransform instruction) {
+			final Instruction expectedInstruction) {
 		return new TypeSafeDiagnosingMatcher<State>(State.class) {
 			@Override
 			public void describeTo(final Description description) {
 				description.appendText("state with next instruction equal to ")
-						.appendValue(instruction);
+						.appendValue(expectedInstruction);
 			}
 
 			@Override
@@ -65,7 +64,7 @@ public class StateMatchers {
 						});
 				mismatchDescription.appendText("state with next instruction ")
 						.appendValue(instruction);
-				return equalTo(instruction).matches(instruction);
+				return equalTo(expectedInstruction).matches(instruction);
 			}
 		};
 	}
@@ -99,6 +98,6 @@ public class StateMatchers {
 	}
 
 	public static Matcher<? super State> normalTerminiation() {
-		return both(instructionEqual(new Terminate())).and(stackSize(1));
+		return both(instructionEqual(new TerminateInstruction())).and(stackSize(1));
 	}
 }

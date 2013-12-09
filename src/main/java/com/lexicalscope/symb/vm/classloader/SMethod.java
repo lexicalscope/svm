@@ -59,7 +59,7 @@ public class SMethod {
 	   for (final Entry<AbstractInsnNode, Instruction> entry : linked.entrySet()) {
          if(entry.getKey() instanceof JumpInsnNode) {
             final JumpInsnNode key = (JumpInsnNode) entry.getKey();
-            entry.getValue().target(linked.get(key.label.getNext()));
+            entry.getValue().jmpTarget(linked.get(key.label.getNext()));
          }
       }
    }
