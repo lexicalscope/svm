@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
 import com.lexicalscope.heap.FastHeap;
-import com.lexicalscope.symb.vm.DefaultInstruction;
+import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.DequeStack;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
@@ -47,7 +47,7 @@ public class AsmSClassLoader implements SClassLoader {
 
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
-      final DefaultInstruction initialInstruction = new DefaultInstruction(this, new InvokeStatic(klass, name, desc), null);
+      final InstructionInternalNode initialInstruction = new InstructionInternalNode(this, new InvokeStatic(klass, name, desc), null);
       return new State(new DequeStack(initialInstruction, 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }

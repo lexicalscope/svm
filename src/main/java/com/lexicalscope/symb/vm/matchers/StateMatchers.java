@@ -7,7 +7,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
@@ -44,7 +44,7 @@ public class StateMatchers {
 	}
 
 	public static Matcher<? super State> instructionEqual(
-			final Instruction expectedInstruction) {
+			final InstructionNode expectedInstruction) {
 		return new TypeSafeDiagnosingMatcher<State>(State.class) {
 			@Override
 			public void describeTo(final Description description) {
@@ -55,10 +55,10 @@ public class StateMatchers {
 			@Override
 			protected boolean matchesSafely(final State item,
 					final Description mismatchDescription) {
-				final Instruction instruction = item
-						.op(new StackFrameOp<Instruction>() {
+				final InstructionNode instruction = item
+						.op(new StackFrameOp<InstructionNode>() {
 							@Override
-							public Instruction eval(final StackFrame stackFrame) {
+							public InstructionNode eval(final StackFrame stackFrame) {
 								return stackFrame.instruction();
 							}
 						});

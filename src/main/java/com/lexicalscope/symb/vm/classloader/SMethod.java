@@ -9,14 +9,14 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SMethod {
    private final SClassLoader classLoader;
 	private final MethodNode method;
 	private final Instructions instructions;
-   private Instruction entryPoint;
+   private InstructionNode entryPoint;
 
 	public SMethod(
 	      final SClassLoader classLoader,
@@ -35,19 +35,19 @@ public class SMethod {
 		return method.maxStack;
 	}
 
-	public Instruction entry() {
+	public InstructionNode entry() {
 	   if(entryPoint == null) link();
 		return entryPoint;
 	}
 
 	private void link() {
-	   final Map<AbstractInsnNode, Instruction> linked = new HashMap<>();
+	   final Map<AbstractInsnNode, InstructionNode> linked = new HashMap<>();
 
 	   AbstractInsnNode asmInstruction = getEntryPoint();
 	   entryPoint = instructions.instructionFor(classLoader, asmInstruction, null);
 	   linked.put(asmInstruction, entryPoint);
 
-	   Instruction prev = entryPoint;
+	   InstructionNode prev = entryPoint;
 
 	   while(asmInstruction.getNext() != null) {
 	      asmInstruction = asmInstruction.getNext();
@@ -56,7 +56,7 @@ public class SMethod {
 	      linked.put(asmInstruction, prev);
 	   }
 
-	   for (final Entry<AbstractInsnNode, Instruction> entry : linked.entrySet()) {
+	   for (final Entry<AbstractInsnNode, InstructionNode> entry : linked.entrySet()) {
          if(entry.getKey() instanceof JumpInsnNode) {
             final JumpInsnNode key = (JumpInsnNode) entry.getKey();
             entry.getValue().jmpTarget(linked.get(key.label.getNext()));

@@ -6,9 +6,9 @@ import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 public interface Stack extends Snapshotable<Stack> {
    Stack popFrame(int returnCount);
 
-   Stack pushFrame(Instruction returnTo, SMethod method, int argCount);
+   Stack pushFrame(InstructionNode returnTo, SMethod method, int argCount);
 
-   Instruction instruction();
+   InstructionNode instruction();
 
    <T> T query(StackFrameOp<T> op);
 

@@ -2,24 +2,24 @@ package com.lexicalscope.symb.vm;
 
 import com.lexicalscope.symb.vm.instructions.TerminationException;
 
-public class TerminateInstruction implements Instruction {
+public class TerminateInstruction implements InstructionNode {
    @Override public void eval(final Vm vm, final State state) {
       throw new TerminationException(state);
    }
 
-   @Override public void next(final Instruction instruction) {
+   @Override public void next(final InstructionNode instruction) {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
-   @Override public void jmpTarget(final Instruction instruction) {
+   @Override public void jmpTarget(final InstructionNode instruction) {
       throw new UnsupportedOperationException();
    }
 
-   @Override public Instruction next() {
+   @Override public InstructionNode next() {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
-   @Override public Instruction jmpTarget() {
+   @Override public InstructionNode jmpTarget() {
       throw new UnsupportedOperationException();
    }
 

@@ -4,7 +4,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.symb.vm.HeapVop;
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
@@ -17,7 +17,7 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static StackFrameVop nextInstruction(final Instruction instruction) {
+   public static StackFrameVop nextInstruction(final InstructionNode instruction) {
       return new NextInstructionOp(instruction);
    }
 

@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions;
 
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.nextInstruction;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
@@ -17,7 +17,7 @@ public class LinearInstruction implements InstructionTransform {
    }
 
    @Override
-   public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
+   public void eval(final SClassLoader cl, final Vm vm, final State state, final InstructionNode instruction) {
       state.op(nextInstruction(instruction));
       transformer.transform(state);
    }

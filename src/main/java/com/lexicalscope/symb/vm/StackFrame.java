@@ -6,18 +6,18 @@ import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public final class StackFrame {
 	private final Object[] stack;
-	private Instruction instruction; // PC
+	private InstructionNode instruction; // PC
 	private int opTop; // pointer to top of operand stack
 	private final int vars = 0; // pointer to local variables
 
 	public StackFrame(
-			final Instruction instruction,
+			final InstructionNode instruction,
 			final int maxLocals,
 			final int maxStack) {
 		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1);
 	}
 
-	private StackFrame(final Instruction instruction, final Object[] stack, final int opTop) {
+	private StackFrame(final InstructionNode instruction, final Object[] stack, final int opTop) {
 		this.instruction = instruction;
 		this.stack = stack;
 		this.opTop = opTop;
@@ -27,7 +27,7 @@ public final class StackFrame {
 		return op.eval(this);
 	}
 
-	public StackFrame advance(final Instruction nextInstruction) {
+	public StackFrame advance(final InstructionNode nextInstruction) {
 		instruction = nextInstruction;
 		return this;
 	}
@@ -46,7 +46,7 @@ public final class StackFrame {
 		}
 	}
 
-	public Instruction instruction() {
+	public InstructionNode instruction() {
 		return instruction;
 	}
 

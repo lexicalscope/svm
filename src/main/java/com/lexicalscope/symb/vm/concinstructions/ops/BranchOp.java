@@ -1,16 +1,16 @@
 package com.lexicalscope.symb.vm.concinstructions.ops;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.instructions.ops.StackFrameVop;
 
 public final class BranchOp implements StackFrameVop {
 	private final BranchPredicate branchPredicate;
-   private final Instruction instruction;
+   private final InstructionNode instruction;
 
 	public BranchOp(
-	      final Instruction instruction,
+	      final InstructionNode instruction,
 			final BranchPredicate branchPredicate) {
       this.instruction = instruction;
 		this.branchPredicate = branchPredicate;
@@ -18,7 +18,7 @@ public final class BranchOp implements StackFrameVop {
 
 	@Override
 	public void eval(final StackFrame stackFrame) {
-		final Instruction next;
+		final InstructionNode next;
 		if(branchPredicate.eval(stackFrame)) {
 			next = instruction.jmpTarget();
 		} else {

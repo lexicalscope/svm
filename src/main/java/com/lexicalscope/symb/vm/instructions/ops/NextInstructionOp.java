@@ -1,12 +1,12 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
 
 final class NextInstructionOp implements StackFrameVop {
-   private final Instruction instruction;
+   private final InstructionNode instruction;
 
-   NextInstructionOp(final Instruction instruction) {
+   NextInstructionOp(final InstructionNode instruction) {
       this.instruction = instruction;
    }
 

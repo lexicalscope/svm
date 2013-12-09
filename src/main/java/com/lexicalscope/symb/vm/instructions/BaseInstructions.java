@@ -14,9 +14,9 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.symb.vm.DefaultInstruction;
+import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.HeapVop;
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.TerminateInstruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
@@ -38,10 +38,10 @@ public final class BaseInstructions implements Instructions {
       this.instructionFactory = instructionFactory;
    }
 
-   @Override public Instruction instructionFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode, final Instruction previous) {
+   @Override public InstructionNode instructionFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode, final InstructionNode previous) {
       if (abstractInsnNode == null)
          return new TerminateInstruction();
-      return new DefaultInstruction(classLoader, instructionTransformFor(classLoader, abstractInsnNode), previous);
+      return new InstructionInternalNode(classLoader, instructionTransformFor(classLoader, abstractInsnNode), previous);
    }
 
    private InstructionTransform instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {

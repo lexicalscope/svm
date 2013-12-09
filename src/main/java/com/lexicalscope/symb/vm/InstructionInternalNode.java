@@ -2,16 +2,21 @@ package com.lexicalscope.symb.vm;
 
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
-public class DefaultInstruction implements Instruction {
+/**
+ * A none leaf node, which should have one or two successors
+ *
+ * @author tim
+ */
+public class InstructionInternalNode implements InstructionNode {
    private final InstructionTransform instructionTransform;
    private final SClassLoader classLoader;
-   private Instruction next;
-   private Instruction target;
+   private InstructionNode next;
+   private InstructionNode target;
 
-   public DefaultInstruction(
+   public InstructionInternalNode(
          final SClassLoader classLoader,
          final InstructionTransform instructionTransform,
-         final Instruction prev) {
+         final InstructionNode prev) {
       this.instructionTransform = instructionTransform;
       this.classLoader = classLoader;
 
@@ -22,22 +27,24 @@ public class DefaultInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm vm, final State state) {
+      assert next != null;
+
       instructionTransform.eval(classLoader, vm, state, this);
    }
 
-   @Override public void next(final Instruction instruction) {
+   @Override public void next(final InstructionNode instruction) {
       next = instruction;
    }
 
-   @Override public Instruction next() {
+   @Override public InstructionNode next() {
       return next;
    }
 
-   @Override public Instruction jmpTarget() {
+   @Override public InstructionNode jmpTarget() {
       return target;
    }
 
-   @Override public void jmpTarget(final Instruction instruction) {
+   @Override public void jmpTarget(final InstructionNode instruction) {
       target = instruction;
    }
 

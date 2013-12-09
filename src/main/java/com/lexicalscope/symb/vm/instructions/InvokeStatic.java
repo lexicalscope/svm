@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.instructions;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.MethodInsnNode;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.State;
@@ -24,7 +24,7 @@ public class InvokeStatic implements InstructionTransform {
    }
 
    @Override
-   public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
+   public void eval(final SClassLoader cl, final Vm vm, final State state, final InstructionNode instruction) {
       final SMethod targetMethod = cl.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
 
       state.op(new StackOp<Void>(){

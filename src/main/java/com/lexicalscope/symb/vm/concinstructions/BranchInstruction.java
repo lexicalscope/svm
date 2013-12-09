@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.concinstructions;
 
 import org.objectweb.asm.tree.JumpInsnNode;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.InstructionTransform;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
@@ -20,7 +20,7 @@ final class BranchInstruction implements InstructionTransform {
 	}
 
 	@Override
-	public void eval(final SClassLoader cl, final Vm vm, final State state, final Instruction instruction) {
+	public void eval(final SClassLoader cl, final Vm vm, final State state, final InstructionNode instruction) {
 		state.op(new BranchOp(instruction, branchPredicate));
 	}
 

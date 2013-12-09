@@ -17,7 +17,7 @@ public class DequeStack implements Stack {
 		this.stack = stack;
 	}
 
-	public DequeStack(final Instruction instruction, final int maxLocals,
+	public DequeStack(final InstructionNode instruction, final int maxLocals,
 			final int maxStack) {
 		this(new ArrayDeque<StackFrame>() {
 			{
@@ -33,7 +33,7 @@ public class DequeStack implements Stack {
 	}
 
 	@Override
-   public Stack pushFrame(final Instruction returnTo, final SMethod method,
+   public Stack pushFrame(final InstructionNode returnTo, final SMethod method,
 			final int argCount) {
 		final Object[] args = head().advance(returnTo).pop(argCount);
 		stack.push(new StackFrame(method.entry(), method.maxLocals(),
@@ -47,7 +47,7 @@ public class DequeStack implements Stack {
 	}
 
 	@Override
-   public Instruction instruction() {
+   public InstructionNode instruction() {
 		return head().instruction();
 	}
 
