@@ -14,10 +14,10 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.HeapVop;
-import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionInternalNode;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.TerminateInstruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
@@ -128,9 +128,9 @@ public final class BaseInstructions implements Instructions {
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESPECIAL:
-                  return new InvokeSpecial(methodInsnNode);
+                  return new InvokeSpecial(classLoader, methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
-                  return new InvokeVirtual(methodInsnNode);
+                  return new InvokeVirtual(classLoader, methodInsnNode);
             }
             break;
       }
