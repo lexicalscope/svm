@@ -8,7 +8,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
-import org.objectweb.asm.tree.LabelNode;
 import org.objectweb.asm.tree.LineNumberNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
@@ -47,11 +46,11 @@ public final class BaseInstructions implements Instructions {
    private Instruction instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.LABEL:
-            return new Label((LabelNode) abstractInsnNode);
+            return noop("LABEL");
          case AbstractInsnNode.LINE:
             return new LineNumber((LineNumberNode) abstractInsnNode);
          case AbstractInsnNode.FRAME:
-            return new Frame();
+            return noop("FRAME");
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
@@ -136,6 +135,10 @@ public final class BaseInstructions implements Instructions {
       }
 
       return new UnsupportedInstruction(abstractInsnNode);
+   }
+
+   private LinearInstruction noop(final String description) {
+      return new LinearInstruction(new Noop(description));
    }
 
    private Instruction stackOp(final DupOp stackOp) {
