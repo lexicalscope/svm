@@ -1,8 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class NullaryOp implements StackFrameVop {
+public class NullaryOp implements HeapVop {
 	private final NullaryOperator operator;
 
 	public NullaryOp(final NullaryOperator operator) {
@@ -10,12 +12,11 @@ public class NullaryOp implements StackFrameVop {
 	}
 
 	@Override
-	public void eval(final StackFrame stackFrame) {
-		stackFrame.push(operator.eval());
-	}
-	
-	@Override
 	public String toString() {
 		return operator.toString();
 	}
+
+   @Override public void eval(final StackFrame stackFrame, final Heap heap) {
+      stackFrame.push(operator.eval());
+   }
 }

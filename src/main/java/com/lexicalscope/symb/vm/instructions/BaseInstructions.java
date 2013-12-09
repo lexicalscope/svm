@@ -16,16 +16,12 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
-import com.lexicalscope.symb.vm.instructions.ops.DupOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
-import com.lexicalscope.symb.vm.instructions.transformers.HeapTransformer;
-import com.lexicalscope.symb.vm.instructions.transformers.StackFrameTransformer;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
@@ -67,9 +63,9 @@ public final class BaseInstructions implements Instructions {
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return heapOp(putField(classLoader, fieldInsnNode));
+                  return linearInstruction(putField(classLoader, fieldInsnNode));
                case Opcodes.GETFIELD:
-                  return heapOp(getField(classLoader, fieldInsnNode));
+                  return linearInstruction(getField(classLoader, fieldInsnNode));
             }
             break;
          case AbstractInsnNode.INSN:
@@ -86,7 +82,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ISUB:
                   return binaryOp(instructionFactory.isubOperation());
                case Opcodes.DUP:
-                  return stackOp(dup());
+                  return linearInstruction(dup());
                case Opcodes.ICONST_M1:
                   return iconst(-1);
                case Opcodes.ICONST_0:
@@ -114,7 +110,7 @@ public final class BaseInstructions implements Instructions {
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return heapOp(newOp(classLoader, typeInsnNode));
+                  return linearInstruction(newOp(classLoader, typeInsnNode));
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
@@ -138,16 +134,8 @@ public final class BaseInstructions implements Instructions {
       return new UnsupportedInstruction(abstractInsnNode);
    }
 
-   private Instruction stackOp(final DupOp stackOp) {
-      return linearInstruction(new StackFrameTransformer(stackOp));
-   }
-
-   private LinearInstruction heapOp(final HeapVop heapOp) {
-      return linearInstruction(new HeapTransformer(heapOp));
-   }
-
    private LinearInstruction store(final VarInsnNode varInsnNode) {
-      return linearInstruction(new StackFrameTransformer(new Store(varInsnNode.var)));
+      return linearInstruction(new Store(varInsnNode.var));
    }
 
    private Instruction iconst(final int constVal) {
@@ -155,19 +143,19 @@ public final class BaseInstructions implements Instructions {
    }
 
    private LinearInstruction nullary(final NullaryOperator nullary) {
-      return linearInstruction(new StackFrameTransformer(new NullaryOp(nullary)));
+      return linearInstruction(new NullaryOp(nullary));
    }
 
    private LinearInstruction load(final VarInsnNode varInsnNode) {
-      return linearInstruction(new StackFrameTransformer(new Load(varInsnNode.var)));
+      return linearInstruction(new Load(varInsnNode.var));
    }
 
-   private LinearInstruction linearInstruction(final StateTransformer transformer) {
-      return new LinearInstruction(transformer);
+   private LinearInstruction linearInstruction(final HeapVop op) {
+      return new LinearInstruction(op);
    }
 
    private LinearInstruction binaryOp(final BinaryOperator addOperation) {
-      return new LinearInstruction(new StackFrameTransformer(new BinaryOp(addOperation)));
+      return new LinearInstruction(new BinaryOp(addOperation));
    }
 
    public static String fieldKey(final FieldInsnNode fieldInsnNode) {

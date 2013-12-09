@@ -1,8 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class Store implements StackFrameVop {
+public class Store implements HeapVop {
    private final int var;
 
    public Store(final int var) {
@@ -10,12 +12,11 @@ public class Store implements StackFrameVop {
    }
 
    @Override
-   public void eval(final StackFrame stackFrame) {
-      stackFrame.local(var, stackFrame.pop());
-   }
-
-   @Override
    public String toString() {
       return String.format("ASTORE %d", var);
+   }
+
+   @Override public void eval(final StackFrame stackFrame, final Heap heap) {
+      stackFrame.local(var, stackFrame.pop());
    }
 }
