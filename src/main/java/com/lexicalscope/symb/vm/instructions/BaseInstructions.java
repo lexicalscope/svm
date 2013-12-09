@@ -17,7 +17,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.InstructionTransform;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.TerminateInstruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
@@ -44,7 +44,7 @@ public final class BaseInstructions implements Instructions {
       return new InstructionInternalNode(classLoader, instructionTransformFor(classLoader, abstractInsnNode), previous);
    }
 
-   private InstructionTransform instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
+   private Instruction instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.LABEL:
             return new Label((LabelNode) abstractInsnNode);
@@ -138,7 +138,7 @@ public final class BaseInstructions implements Instructions {
       return new UnsupportedInstruction(abstractInsnNode);
    }
 
-   private InstructionTransform stackOp(final DupOp stackOp) {
+   private Instruction stackOp(final DupOp stackOp) {
       return linearInstruction(new StackFrameTransformer(stackOp));
    }
 
@@ -150,7 +150,7 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new StackFrameTransformer(new Store(varInsnNode.var)));
    }
 
-   private InstructionTransform iconst(final int constVal) {
+   private Instruction iconst(final int constVal) {
       return nullary(instructionFactory.iconst(constVal));
    }
 

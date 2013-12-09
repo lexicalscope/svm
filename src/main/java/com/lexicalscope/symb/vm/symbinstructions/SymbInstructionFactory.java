@@ -5,7 +5,7 @@ import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.InstructionTransform;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
@@ -29,7 +29,7 @@ import com.lexicalscope.symb.z3.FeasbilityChecker;
  * @author tim
  */
 public class SymbInstructionFactory implements InstructionFactory {
-	private final class SBranchGEInstruction implements InstructionTransform {
+	private final class SBranchGEInstruction implements Instruction {
       private final JumpInsnNode jumpInsnNode;
 
       private SBranchGEInstruction(final JumpInsnNode jumpInsnNode) {
@@ -114,7 +114,7 @@ public class SymbInstructionFactory implements InstructionFactory {
 	}
 
 	@Override
-	public InstructionTransform branchIfge(final JumpInsnNode jumpInsnNode) {
+	public Instruction branchIfge(final JumpInsnNode jumpInsnNode) {
 		return new SBranchGEInstruction(jumpInsnNode);
 	}
 

@@ -8,14 +8,14 @@ import com.lexicalscope.symb.vm.classloader.SClassLoader;
  * @author tim
  */
 public class InstructionInternalNode implements InstructionNode {
-   private final InstructionTransform instructionTransform;
+   private final Instruction instructionTransform;
    private final SClassLoader classLoader;
    private InstructionNode next;
    private InstructionNode target;
 
    public InstructionInternalNode(
          final SClassLoader classLoader,
-         final InstructionTransform instructionTransform,
+         final Instruction instructionTransform,
          final InstructionNode prev) {
       this.instructionTransform = instructionTransform;
       this.classLoader = classLoader;
