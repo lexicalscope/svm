@@ -21,7 +21,7 @@ final class InvokeVirtual implements Instruction {
    }
 
    @Override
-   public void eval(final SClassLoader cl, final Vm vm, final State state, final InstructionNode instruction) {
+   public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       final SMethod targetMethod = classLoader.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
 
       // TODO[tim]: resolve overridden methods

@@ -29,7 +29,7 @@ public class InstructionInternalNode implements InstructionNode {
    @Override public void eval(final Vm vm, final State state) {
       assert next != null;
 
-      instructionTransform.eval(classLoader, vm, state, this);
+      instructionTransform.eval(vm, state, this);
    }
 
    @Override public void next(final InstructionNode instruction) {

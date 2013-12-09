@@ -6,7 +6,6 @@ import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.ops.BranchOp;
 
 final class BranchInstruction implements Instruction {
@@ -20,7 +19,7 @@ final class BranchInstruction implements Instruction {
 	}
 
 	@Override
-	public void eval(final SClassLoader cl, final Vm vm, final State state, final InstructionNode instruction) {
+	public void eval(final Vm vm, final State state, final InstructionNode instruction) {
 		state.op(new BranchOp(instruction, branchPredicate));
 	}
 

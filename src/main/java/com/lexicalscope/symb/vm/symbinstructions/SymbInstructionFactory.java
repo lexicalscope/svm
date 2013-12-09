@@ -10,7 +10,6 @@ import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -37,7 +36,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       }
 
       @Override
-      public void eval(final SClassLoader cl, final Vm vm, final State state, final InstructionNode instruction) {
+      public void eval(final Vm vm, final State state, final InstructionNode instruction) {
          final Pc pc = (Pc) state.getMeta();
          final Symbol operand = (Symbol) state.op(popOperand());
 
