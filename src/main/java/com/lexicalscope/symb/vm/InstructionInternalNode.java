@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 /**
  * A none leaf node, which should have one or two successors
@@ -8,17 +7,12 @@ import com.lexicalscope.symb.vm.classloader.SClassLoader;
  * @author tim
  */
 public class InstructionInternalNode implements InstructionNode {
-   private final Instruction instructionTransform;
-   private final SClassLoader classLoader;
+   private final Instruction instruction;
    private InstructionNode next;
    private InstructionNode target;
 
-   public InstructionInternalNode(
-         final SClassLoader classLoader,
-         final Instruction instructionTransform,
-         final InstructionNode prev) {
-      this.instructionTransform = instructionTransform;
-      this.classLoader = classLoader;
+   public InstructionInternalNode(final Instruction instruction) {
+      this.instruction = instruction;
 
       next = new TerminateInstruction();
       target = new TerminateInstruction();
@@ -27,7 +21,7 @@ public class InstructionInternalNode implements InstructionNode {
    @Override public void eval(final Vm vm, final State state) {
       assert next != null;
 
-      instructionTransform.eval(vm, state, this);
+      instruction.eval(vm, state, this);
    }
 
    @Override public void next(final InstructionNode instruction) {
@@ -47,6 +41,6 @@ public class InstructionInternalNode implements InstructionNode {
    }
 
    @Override public String toString() {
-      return String.format("%s", instructionTransform.toString(), next);
+      return String.format("%s", instruction.toString(), next);
    }
 }

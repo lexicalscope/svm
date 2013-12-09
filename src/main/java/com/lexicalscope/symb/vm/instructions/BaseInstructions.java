@@ -15,8 +15,6 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.HeapVop;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.InstructionInternalNode;
-import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.StateTransformer;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
@@ -39,19 +37,21 @@ public final class BaseInstructions implements Instructions {
    @Override public void instructionFor(
          final SClassLoader classLoader,
          final AbstractInsnNode abstractInsnNode,
-         final InstructionNode previous,
          final InstructionSink instructionSink) {
-      instructionSink.nextInstruction(abstractInsnNode, new InstructionInternalNode(classLoader, instructionTransformFor(classLoader, abstractInsnNode), previous));
+
+      switch (abstractInsnNode.getType()) {
+         case AbstractInsnNode.LINE:
+         case AbstractInsnNode.FRAME:
+         case AbstractInsnNode.LABEL:
+            instructionSink.noInstruction(abstractInsnNode);
+            return;
+      }
+
+      instructionSink.nextInstruction(abstractInsnNode, instructionTransformFor(classLoader, abstractInsnNode));
    }
 
    private Instruction instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
       switch (abstractInsnNode.getType()) {
-         case AbstractInsnNode.LABEL:
-            return noop("LABEL");
-         case AbstractInsnNode.LINE:
-            return noop("LINENUMBER");
-         case AbstractInsnNode.FRAME:
-            return noop("FRAME");
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
@@ -136,10 +136,6 @@ public final class BaseInstructions implements Instructions {
       }
 
       return new UnsupportedInstruction(abstractInsnNode);
-   }
-
-   private LinearInstruction noop(final String description) {
-      return new LinearInstruction(new Noop(description));
    }
 
    private Instruction stackOp(final DupOp stackOp) {

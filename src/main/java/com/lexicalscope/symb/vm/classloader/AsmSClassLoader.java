@@ -47,7 +47,7 @@ public class AsmSClassLoader implements SClassLoader {
 
    private State initial(final String klass, final String name, final String desc) {
       final SMethod method = loadMethod(klass, name, desc);
-      final InstructionInternalNode initialInstruction = new InstructionInternalNode(this, MethodCallInstruction.createInvokeStatic(this, klass, name, desc), null);
+      final InstructionInternalNode initialInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(this, klass, name, desc));
       return new State(new DequeStack(initialInstruction, 0, method.argSize()), new FastHeap(), instructionFactory.initialMeta());
    }
 }
