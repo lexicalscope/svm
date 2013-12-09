@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
@@ -17,19 +17,19 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static HeapVop nextInstruction(final InstructionNode instruction) {
+   public static Vop nextInstruction(final InstructionNode instruction) {
       return new NextInstructionOp(instruction);
    }
 
-   public static HeapVop putField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
+   public static Vop putField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
       return new PutFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
    }
 
-   public static HeapVop getField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
+   public static Vop getField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
       return new GetFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
    }
 
-   public static HeapVop newOp(final SClassLoader classLoader, final TypeInsnNode typeInsnNode) {
+   public static Vop newOp(final SClassLoader classLoader, final TypeInsnNode typeInsnNode) {
       return new NewOp(classLoader, typeInsnNode);
    }
 

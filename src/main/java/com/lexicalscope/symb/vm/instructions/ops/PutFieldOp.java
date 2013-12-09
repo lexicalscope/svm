@@ -5,12 +5,12 @@ import static com.lexicalscope.symb.vm.instructions.BaseInstructions.fieldKey;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 
-final class PutFieldOp implements HeapVop {
+final class PutFieldOp implements Vop {
    private final FieldInsnNode fieldInsnNode;
    private final int offset;
 

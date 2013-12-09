@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.concinstructions;
 
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
+import com.lexicalscope.symb.vm.Op;
 
-public interface BranchPredicate extends StackFrameOp<Boolean> {
+public interface BranchPredicate extends Op<Boolean> {
 
 }

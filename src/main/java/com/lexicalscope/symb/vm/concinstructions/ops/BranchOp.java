@@ -1,12 +1,12 @@
 package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 
-public final class BranchOp implements HeapVop {
+public final class BranchOp implements Vop {
 	private final BranchPredicate branchPredicate;
    private final InstructionNode instruction;
 
@@ -19,7 +19,7 @@ public final class BranchOp implements HeapVop {
 
    @Override public void eval(final StackFrame stackFrame, final Heap heap) {
       final InstructionNode next;
-      if(branchPredicate.eval(stackFrame)) {
+      if(branchPredicate.eval(stackFrame, null)) {
          next = instruction.jmpTarget();
       } else {
          next = instruction.next();

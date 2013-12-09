@@ -8,7 +8,6 @@ import java.util.Deque;
 import java.util.Iterator;
 
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public class DequeStack implements Stack {
 	private final Deque<StackFrame> stack;
@@ -55,9 +54,12 @@ public class DequeStack implements Stack {
 		return stack.peek();
 	}
 
-	@Override
-   public <T> T query(final StackFrameOp<T> op) {
-		return stack.peek().op(op);
+	@Override public <T> T query(final Op<T> op, final Heap heap) {
+		return op.eval(stack.peek(), heap);
+	}
+
+	@Override public void query(final Vop op, final Heap heap) {
+	   op.eval(stack.peek(), heap);
 	}
 
 	@Override

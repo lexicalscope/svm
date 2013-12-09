@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class NullaryOp implements HeapVop {
+public class NullaryOp implements Vop {
 	private final NullaryOperator operator;
 
 	public NullaryOp(final NullaryOperator operator) {

@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class DupOp implements HeapVop {
+public class DupOp implements Vop {
    @Override
    public String toString() {
       return "DUP";

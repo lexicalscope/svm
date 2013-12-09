@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
@@ -53,13 +53,13 @@ final class SBranchInstruction implements Instruction {
       final Pc nojumpPc = pc.snapshot().and(nojumpSymbol);
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
-      final HeapVop jumpOp = new HeapVop() {
+      final Vop jumpOp = new Vop() {
          @Override public void eval(final StackFrame stackFrame, final Heap heap) {
             stackFrame.advance(instruction.jmpTarget());
          }
       };
 
-      final HeapVop nojumpOp = new HeapVop() {
+      final Vop nojumpOp = new Vop() {
          @Override public void eval(final StackFrame stackFrame, final Heap heap) {
             stackFrame.advance(instruction.next());
          }

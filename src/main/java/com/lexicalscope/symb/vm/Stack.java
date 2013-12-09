@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm;
 
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
 
 public interface Stack extends Snapshotable<Stack> {
    Stack popFrame(int returnCount);
@@ -10,10 +9,12 @@ public interface Stack extends Snapshotable<Stack> {
 
    InstructionNode instruction();
 
-   <T> T query(StackFrameOp<T> op);
+   void query(Vop op, Heap heap);
+   <T> T query(Op<T> op, Heap heap);
 
    int size();
 
    @Override
    Stack snapshot();
+
 }

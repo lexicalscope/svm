@@ -13,7 +13,7 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
@@ -150,7 +150,7 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Load(varInsnNode.var));
    }
 
-   private LinearInstruction linearInstruction(final HeapVop op) {
+   private LinearInstruction linearInstruction(final Vop op) {
       return new LinearInstruction(op);
    }
 

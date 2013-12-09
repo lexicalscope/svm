@@ -6,11 +6,11 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Stack;
+import com.lexicalscope.symb.vm.StackVop;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.instructions.ops.StackVop;
 
 public class MethodCallInstruction implements Instruction {
    public interface MethodInvokation {

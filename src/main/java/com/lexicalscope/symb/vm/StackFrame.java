@@ -2,8 +2,6 @@ package com.lexicalscope.symb.vm;
 
 import static java.util.Arrays.copyOf;
 
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
-
 public final class StackFrame {
 	private final Object[] stack;
 	private InstructionNode instruction; // PC
@@ -21,10 +19,6 @@ public final class StackFrame {
 		this.instruction = instruction;
 		this.stack = stack;
 		this.opTop = opTop;
-	}
-
-	public <T> T op(final StackFrameOp<T> op) {
-		return op.eval(this);
 	}
 
 	public StackFrame advance(final InstructionNode nextInstruction) {

@@ -2,10 +2,6 @@ package com.lexicalscope.symb.vm;
 
 import static com.google.common.base.Objects.equal;
 
-import com.lexicalscope.symb.vm.instructions.ops.StackFrameOp;
-import com.lexicalscope.symb.vm.instructions.ops.StackOp;
-import com.lexicalscope.symb.vm.instructions.ops.StackVop;
-
 public class State implements Snapshotable<State> {
 	private final Stack stack;
 	private final Heap heap;
@@ -17,24 +13,18 @@ public class State implements Snapshotable<State> {
       this.meta = meta;
 	}
 
-	public <T> T op(final StackFrameOp<T> op) {
-		return stack.query(op);
+	public <T> T op(final Op<T> op) {
+		return stack.query(op, heap);
+	}
+
+	public State op(final Vop op) {
+	   stack.query(op, heap);
+	   return this;
 	}
 
 	public <T> T op(final StackOp<T> stackOp) {
 		return stackOp.eval(stack);
 	}
-
-   public State op(final HeapVop op) {
-      stack.query(new StackFrameOp<Void>() {
-         @Override
-         public Void eval(final StackFrame stackFrame) {
-            op.eval(stackFrame, heap);
-            return null;
-         }
-      });
-      return this;
-   }
 
 	public State op(final StackVop op) {
 		op(new StackOp<Void>() {

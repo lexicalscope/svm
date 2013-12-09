@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.HeapVop;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.StackFrame;
 
-public class BinaryOp implements HeapVop {
+public class BinaryOp implements Vop {
 	private final BinaryOperator operator;
 
 	public BinaryOp(final BinaryOperator operator) {
