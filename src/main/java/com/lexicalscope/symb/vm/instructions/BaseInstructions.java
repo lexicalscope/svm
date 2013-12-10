@@ -72,6 +72,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(getField(fieldInsnNode));
                case Opcodes.GETSTATIC:
                   return loadingInstruction(fieldInsnNode, getStatic(fieldInsnNode));
+               case Opcodes.PUTSTATIC:
+                  return loadingInstruction(fieldInsnNode, putStatic(fieldInsnNode));
             }
             break;
          case AbstractInsnNode.INSN:

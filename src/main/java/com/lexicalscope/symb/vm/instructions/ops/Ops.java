@@ -32,6 +32,10 @@ public final class Ops {
       return new GetStaticOp(fieldInsnNode);
    }
 
+   public static Vop putStatic(final FieldInsnNode fieldInsnNode) {
+      return new PutStaticOp(fieldInsnNode);
+   }
+
    public static Vop newOp(final TypeInsnNode typeInsnNode) {
       return new NewOp(typeInsnNode);
    }
