@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
@@ -27,6 +27,10 @@ public final class Ops {
 
    public static Vop getField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
       return new GetFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
+   }
+
+   public static Vop getStatic(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
+      return new GetStaticOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
    }
 
    public static Vop newOp(final SClassLoader classLoader, final TypeInsnNode typeInsnNode) {

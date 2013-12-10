@@ -13,6 +13,24 @@ public class SClassMatchers {
       return hasField(null, name, withIndex);
    }
 
+   public static Matcher<? super SClass> hasStaticField(final String name, final int withIndex) {
+      return new TypeSafeDiagnosingMatcher<SClass>(SClass.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("field called ").appendValue(name).appendText(" at index ").appendValue(withIndex);
+         }
+
+         @Override
+         protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
+            final String definedIn = item.name();
+            final SFieldName qualifiedFieldName = new SFieldName(definedIn, name);
+
+            mismatchDescription.appendValue(item);
+            return item.hasStaticField(qualifiedFieldName) && item.staticFieldIndex(qualifiedFieldName) == withIndex;
+         }
+      };
+   }
+
    public static Matcher<? super SClass> hasField(final SClass definingClass, final String name, final int withIndex) {
       return new TypeSafeDiagnosingMatcher<SClass>(SClass.class) {
          @Override

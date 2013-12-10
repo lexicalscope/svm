@@ -13,8 +13,8 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -46,6 +46,10 @@ public final class BaseInstructions implements Instructions {
       instructionSink.nextInstruction(abstractInsnNode, instructionTransformFor(classLoader, abstractInsnNode));
    }
 
+   /*
+    * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
+    */
+
    private Instruction instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.VAR_INSN:
@@ -66,6 +70,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(putField(classLoader, fieldInsnNode));
                case Opcodes.GETFIELD:
                   return linearInstruction(getField(classLoader, fieldInsnNode));
+               case Opcodes.GETSTATIC:
+                  return loadingInstruction(classLoader, fieldInsnNode, getStatic(classLoader, fieldInsnNode));
             }
             break;
          case AbstractInsnNode.INSN:
@@ -123,6 +129,8 @@ public final class BaseInstructions implements Instructions {
          case AbstractInsnNode.METHOD_INSN:
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
+               case Opcodes.INVOKESTATIC:
+                  return createInvokeStatic(classLoader, methodInsnNode);
                case Opcodes.INVOKESPECIAL:
                   return createInvokeSpecial(classLoader, methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
@@ -152,6 +160,10 @@ public final class BaseInstructions implements Instructions {
 
    private LinearInstruction linearInstruction(final Vop op) {
       return new LinearInstruction(op);
+   }
+
+   private LoadingInstruction loadingInstruction(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode, final Vop op) {
+      return new LoadingInstruction(classLoader, fieldInsnNode.owner, op);
    }
 
    private LinearInstruction binaryOp(final BinaryOperator addOperation) {

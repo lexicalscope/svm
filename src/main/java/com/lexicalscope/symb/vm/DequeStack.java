@@ -32,8 +32,7 @@ public class DequeStack implements Stack {
 	}
 
 	@Override
-   public Stack pushFrame(final InstructionNode returnTo, final SMethod method,
-			final int argCount) {
+   public Stack pushFrame(final InstructionNode returnTo, final SMethod method, final int argCount) {
 		final Object[] args = head().advance(returnTo).pop(argCount);
 		stack.push(new StackFrame(method.entry(), method.maxLocals(),
 				method.maxStack()).setLocals(args));

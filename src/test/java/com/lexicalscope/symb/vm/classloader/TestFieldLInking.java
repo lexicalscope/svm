@@ -16,6 +16,8 @@ public class TestFieldLInking {
    private final SClass classWithFiveFields = sClassLoader.load(ClassWith5Fields.class);
    private final SClass subClassWithThreeFields = sClassLoader.load(SubClassWithAdditionalFields.class);
    private final SClass subClassWithOverloadedField = sClassLoader.load(SubClassWithOverloadedField.class);
+   private final SClass classWith4StaticFields = sClassLoader.load(ClassWith5StaticFields.class);
+   private final SClass classWith4StaticFieldsAnd2DynamicFields = sClassLoader.load(ClassWith4StaticFieldsAnd2DynamicFields.class);
 
    @Test public void classWithNoSuperClassCountsFieldsFrom0() {
       assertThat(classWithFiveFields.fieldCount(), equalTo(5));
@@ -42,5 +44,25 @@ public class TestFieldLInking {
       assertThat(subClassWithOverloadedField.fieldCount(), equalTo(5+1));
       assertThat(subClassWithOverloadedField, hasField(classWithFiveFields, "c", withIndex(2)));
       assertThat(subClassWithOverloadedField, hasField("c", withIndex(5)));
+   }
+
+   @Test public void classCountsStaticFieldsFrom0() {
+      assertThat(classWith4StaticFields.fieldCount(), equalTo(0));
+      assertThat(classWith4StaticFields.staticFieldCount(), equalTo(4));
+      assertThat(classWith4StaticFields, hasStaticField("a", withIndex(0)));
+      assertThat(classWith4StaticFields, hasStaticField("b", withIndex(1)));
+      assertThat(classWith4StaticFields, hasStaticField("c", withIndex(2)));
+      assertThat(classWith4StaticFields, hasStaticField("d", withIndex(3)));
+   }
+
+   @Test public void classWithStaticAndDynamicFieldsSeparatesThem() {
+      assertThat(classWith4StaticFieldsAnd2DynamicFields.fieldCount(), equalTo(2));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields.staticFieldCount(), equalTo(4));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("a", withIndex(0)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("b", withIndex(1)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("c", withIndex(2)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("d", withIndex(3)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("e", withIndex(0)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("f", withIndex(1)));
    }
 }

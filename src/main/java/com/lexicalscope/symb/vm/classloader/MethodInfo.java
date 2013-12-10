@@ -1,17 +1,22 @@
 package com.lexicalscope.symb.vm.classloader;
 
+
 public class MethodInfo {
 	private final String klass;
 	private final String name;
 	private final String desc;
 
-	public MethodInfo(String klass, String name, String desc) {
+	public MethodInfo(final String klass, final String name, final String desc) {
 		this.klass = klass;
 		this.name = name;
 		this.desc = desc;
 	}
 
-	public String klass() {
+	public MethodInfo(final Class<?> klass, final String name, final String desc) {
+      this(klass.getName().replace(".", "/"), name, desc);
+   }
+
+   public String klass() {
 		return klass;
 	}
 
