@@ -22,11 +22,11 @@ public final class Ops {
    }
 
    public static Vop putField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
-      return new PutFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
+      return new PutFieldOp(classLoader, fieldInsnNode);
    }
 
    public static Vop getField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
-      return new GetFieldOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
+      return new GetFieldOp(classLoader, fieldInsnNode);
    }
 
    public static Vop getStatic(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {

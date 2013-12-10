@@ -3,12 +3,12 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;

@@ -14,6 +14,9 @@ public class TestStateSnapshot {
 
    @Test
    public void test() {
+      final Statics statics = context.mock(Statics.class, "Statics");
+      final Statics staticsCopy = context.mock(Statics.class, "Statics copy");
+
       final Stack stack = context.mock(Stack.class, "Stack");
       final Stack stackCopy = context.mock(Stack.class, "Stack copy");
 
@@ -24,11 +27,12 @@ public class TestStateSnapshot {
       final Snapshotable<?> metaCopy = context.mock(Snapshotable.class, "Meta copy");
 
       context.checking(new Expectations(){{
+         oneOf(statics).snapshot(); will(returnValue(staticsCopy));
          oneOf(heap).snapshot(); will(returnValue(heapCopy));
          oneOf(stack).snapshot(); will(returnValue(stackCopy));
          oneOf(meta).snapshot(); will(returnValue(metaCopy));
       }});
 
-      assertThat(new State(stack, heap, meta).snapshot(), equalTo(new State(stackCopy, heapCopy, metaCopy)));
+      assertThat(new StateImpl(statics, stack, heap, meta).snapshot(), equalTo(new StateImpl(staticsCopy, stackCopy, heapCopy, metaCopy)));
    }
 }

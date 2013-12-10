@@ -9,9 +9,9 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
-import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.StackOp;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.TerminateInstruction;
@@ -32,7 +32,7 @@ public class StateMatchers {
 				final Object operand = item
 						.op(new Op<Object>() {
 							@Override
-							public Object eval(final StackFrame stackFrame, Heap heap) {
+							public Object eval(final StackFrame stackFrame, final Heap heap) {
 								return stackFrame.peek();
 							}
 						});
@@ -59,7 +59,7 @@ public class StateMatchers {
 				final InstructionNode instruction = item
 						.op(new Op<InstructionNode>() {
 							@Override
-							public InstructionNode eval(final StackFrame stackFrame, Heap heap) {
+							public InstructionNode eval(final StackFrame stackFrame, final Heap heap) {
 								return stackFrame.instruction();
 							}
 						});

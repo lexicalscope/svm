@@ -2,7 +2,7 @@ package com.lexicalscope.heap;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.ObjectRef;
-import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.Allocatable;
 
 public class FastHeap implements Heap {
    private final BitTrie trie;
@@ -16,7 +16,7 @@ public class FastHeap implements Heap {
    }
 
    @Override
-   public Object newObject(final SClass klass) {
+   public Object newObject(final Allocatable klass) {
       final int key = trie.allocate(klass.fieldCount());
       return new ObjectRef(key);
    }

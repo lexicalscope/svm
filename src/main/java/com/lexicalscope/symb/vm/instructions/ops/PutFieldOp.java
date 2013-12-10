@@ -5,22 +5,27 @@ import static com.lexicalscope.symb.vm.instructions.BaseInstructions.fieldKey;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.symb.vm.Heap;
-import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.StackFrame;
-import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 
 final class PutFieldOp implements Vop {
    private final FieldInsnNode fieldInsnNode;
-   private final int offset;
+   private final SClassLoader classLoader;
+   private final SFieldName name;
 
-   PutFieldOp(final SClass klass, final FieldInsnNode fieldInsnNode) {
+   public PutFieldOp(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
+      this.classLoader = classLoader;
       this.fieldInsnNode = fieldInsnNode;
-      this.offset = klass.fieldIndex(new SFieldName(fieldInsnNode.owner, fieldInsnNode.name));
+      this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
    }
 
    @Override
    public void eval(final StackFrame stackFrame, final Heap heap) {
+      // TODO[tim]: link should remove this
+      final int offset = classLoader.load(fieldInsnNode.owner).fieldIndex(name);
+
       final Object val = stackFrame.pop();
       final Object obj = stackFrame.pop();
 

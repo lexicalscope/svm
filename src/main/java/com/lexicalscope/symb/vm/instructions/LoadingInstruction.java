@@ -22,12 +22,12 @@ public class LoadingInstruction implements Instruction {
 
    @Override
    public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      if(!classLoader.load(klassName).initialised(state)) {
-//         vm.initKlass(klassName);
-      } else {
+      //if(state.initialised(klassname)) {
+      //         vm.initKlass(klassName);
+      //} else {
          state.op(nextInstruction(instruction));
          state.op(op);
-      }
+      //}
    }
 
    @Override

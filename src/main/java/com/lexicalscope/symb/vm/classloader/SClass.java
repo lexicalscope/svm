@@ -8,17 +8,16 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
-public class SClass {
+public class SClass implements Allocatable {
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
 	private final ClassNode classNode;
 	private final Instructions instructions;
    private final int classStartOffset;
    private final int subclassOffset;
-   private final SClass superclass;
+   private final Allocatable superclass;
    private final SClassLoader classLoader;
 
 	public SClass(
@@ -67,6 +66,7 @@ public class SClass {
 		throw new SMethodNotFoundException(name, desc);
 	}
 
+   @Override
    public int fieldCount() {
       return fieldMap.size();
    }
@@ -99,8 +99,12 @@ public class SClass {
       return superclass;
    }
 
-   public boolean initialised(final State state) {
-      return true;
+   public Allocatable statics() {
+      return new Allocatable() {
+         @Override public int fieldCount() {
+            return staticFieldCount();
+         }
+      };
    }
 
    @Override
