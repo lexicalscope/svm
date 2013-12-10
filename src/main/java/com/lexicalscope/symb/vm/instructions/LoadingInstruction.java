@@ -19,9 +19,10 @@ public class LoadingInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      state.op(new DefineClassOp(klassName));
-      state.op(nextInstruction(instruction));
-      state.op(op);
+      if(!state.op(new DefineClassOp(klassName))){
+         state.op(nextInstruction(instruction));
+         state.op(op);
+      }
    }
 
    @Override public String toString() {

@@ -24,18 +24,6 @@ public class Vm {
       pending.push(state);
    }
 
-   public static State initial(final SClassLoader classLoader, final MethodInfo info) {
-      return initial(classLoader, info.klass(), info.name(), info.desc());
-   }
-
-   private static State initial(final SClassLoader classLoader, final String klass, final String name, final String desc) {
-      final InstructionInternalNode initialInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass, name, desc));
-      final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
-
-      final StaticsImpl statics = new StaticsImpl(classLoader);
-      return new StateImpl(statics, new DequeStack(initialInstruction, 0, argSize), new FastHeap(), classLoader.initialMeta());
-   }
-
    public State execute() {
       while (!pending.isEmpty()) {
          try {
@@ -54,15 +42,6 @@ public class Vm {
       return finished.peek();
    }
 
-   public static Vm concreteVm(final MethodInfo entryPoint, final Object ... args) {
-      return vm(new ConcInstructionFactory(), entryPoint, args);
-   }
-
-   public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
-      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory);
-      return new Vm(Vm.initial(classLoader, entryPoint).op(loadConstants(args)));
-   }
-
    public void fork(final State[] states) {
       pending.pop();
       System.out.println("FORK");
@@ -73,5 +52,26 @@ public class Vm {
 
    public Collection<State> results() {
       return finished;
+   }
+
+   public static Vm concreteVm(final MethodInfo entryPoint, final Object ... args) {
+      return vm(new ConcInstructionFactory(), entryPoint, args);
+   }
+
+   public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
+      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory);
+      return new Vm(Vm.initial(classLoader, entryPoint).op(loadConstants(args)));
+   }
+
+   public static State initial(final SClassLoader classLoader, final MethodInfo info) {
+      return initial(classLoader, info.klass(), info.name(), info.desc());
+   }
+
+   private static State initial(final SClassLoader classLoader, final String klass, final String name, final String desc) {
+      final InstructionInternalNode initialInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass, name, desc));
+      final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
+
+      final StaticsImpl statics = new StaticsImpl(classLoader);
+      return new StateImpl(statics, new DequeStack(initialInstruction, 0, argSize), new FastHeap(), classLoader.initialMeta());
    }
 }

@@ -2,5 +2,5 @@ package com.lexicalscope.symb.vm;
 
 
 public interface Vop {
-   void eval(StackFrame stackFrame, Heap heap, Statics statics);
+   void eval(StackFrame stackFrame, Stack stack, Heap heap, Statics statics);
 }

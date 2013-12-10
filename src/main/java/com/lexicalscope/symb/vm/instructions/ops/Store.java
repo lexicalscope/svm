@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.StackFrame;
@@ -17,7 +18,7 @@ public class Store implements Vop {
       return String.format("ASTORE %d", var);
    }
 
-   @Override public void eval(final StackFrame stackFrame, final Heap heap, Statics statics) {
+   @Override public void eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
       stackFrame.local(var, stackFrame.pop());
    }
 }

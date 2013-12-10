@@ -11,26 +11,29 @@ import com.lexicalscope.symb.vm.classloader.SMethod;
 public class StaticsImpl implements Statics {
    // TODO[tim]: need fast-clone version
    private final Map<String, SClass> defined;
+   private final Map<SClass, Object> staticsAddresses;
+
    private final SClassLoader classLoader;
 
    public StaticsImpl(final SClassLoader classLoader) {
-      this(classLoader, new HashMap<String, SClass>());
+      this(classLoader, new HashMap<String, SClass>(), new HashMap<SClass, Object>());
    }
 
-   private StaticsImpl(final SClassLoader classLoader, final Map<String, SClass> defined) {
+   private StaticsImpl(final SClassLoader classLoader, final Map<String, SClass> defined, final Map<SClass, Object> staticsAddresses) {
       this.defined = defined;
       this.classLoader = classLoader;
+      this.staticsAddresses = staticsAddresses;
    }
 
    @Override public Statics snapshot() {
-      return new StaticsImpl(classLoader, new HashMap<>(defined));
+      return new StaticsImpl(classLoader, new HashMap<>(defined), new HashMap<>(staticsAddresses));
    }
 
-   @Override public void defineClass(final String klassName) {
+   @Override public SClass defineClass(final String klassName) {
       if(isDefined(klassName)) {
          throw new DuplicateClassDefinitionException(defined.get(klassName));
       }
-      classLoader.load(klassName, new ClassLoaded(){
+      return classLoader.load(klassName, new ClassLoaded(){
          @Override public void loaded(final SClass klass) {
             defined.put(klass.name(), klass);
          }});
@@ -52,5 +55,13 @@ public class StaticsImpl implements Statics {
          throw new MissingClassDefinitionException(klassName);
       }
       return load(klassName).staticMethod(name, desc);
+   }
+
+   @Override public void staticsAt(final SClass klass, final Object staticsAddress) {
+      staticsAddresses.put(klass, staticsAddress);
+   }
+
+   @Override public Object whereMyStaticsAt(final SClass klass) {
+      return staticsAddresses.get(klass);
    }
 }

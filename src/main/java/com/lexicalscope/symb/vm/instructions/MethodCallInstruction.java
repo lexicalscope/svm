@@ -19,7 +19,7 @@ public class MethodCallInstruction implements Instruction {
 
       String name();
 
-      void load(State state, String klassName);
+      boolean load(State state, String klassName);
    }
 
    public static class VirtualMethodInvokation implements MethodInvokation {
@@ -31,7 +31,7 @@ public class MethodCallInstruction implements Instruction {
          return "INVOKEVIRTUAL";
       }
 
-      @Override public void load(final State state, final String klassName) { }
+      @Override public boolean load(final State state, final String klassName) { return false; }
    }
 
    public static class SpecialMethodInvokation implements MethodInvokation {
@@ -43,7 +43,7 @@ public class MethodCallInstruction implements Instruction {
          return "INVOKESPECIAL";
       }
 
-      @Override public void load(final State state, final String klassName) { }
+      @Override public boolean load(final State state, final String klassName) { return false; }
    }
 
    public static class StaticMethodInvokation implements MethodInvokation {
@@ -55,8 +55,8 @@ public class MethodCallInstruction implements Instruction {
          return "INVOKESTATIC";
       }
 
-      @Override public void load(final State state, final String klassName) {
-         state.op(new DefineClassOp(klassName));
+      @Override public boolean load(final State state, final String klassName) {
+         return state.op(new DefineClassOp(klassName));
       }
    }
 
@@ -69,15 +69,15 @@ public class MethodCallInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      methodInvokation.load(state, methodInsnNode.owner);
-
-      state.op(new StackVop() {
-         @Override public void eval(final Stack stack, final Statics statics) {
-            // TODO[tim]: virtual does not resolve overridden methods
-            final SMethod targetMethod = statics.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
-            stack.pushFrame(instruction.next(), targetMethod, methodInvokation.argSize(targetMethod));
-         }
-      });
+      if(!methodInvokation.load(state, methodInsnNode.owner)){
+         state.op(new StackVop() {
+            @Override public void eval(final Stack stack, final Statics statics) {
+               // TODO[tim]: virtual does not resolve overridden methods
+               final SMethod targetMethod = statics.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+               stack.pushFrame(instruction.next(), targetMethod, methodInvokation.argSize(targetMethod));
+            }
+         });
+      }
    }
 
    @Override

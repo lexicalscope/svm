@@ -1,21 +1,40 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import static com.lexicalscope.symb.vm.JavaConstants.*;
+
 import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.vm.InstructionInternalNode;
+import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.instructions.MethodCallInstruction;
 
-public final class DefineClassOp implements Vop {
+public final class DefineClassOp implements Op<Boolean> {
    private final String klassName;
 
    public DefineClassOp(final String klassName) {
       this.klassName = klassName;
    }
 
-   // TODO[tim]: optimise checking if class is defined - preferable using linker
-   @Override public void eval(final StackFrame stackFrame, final Heap heap, final Statics statics) {
+   @Override public Boolean eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       if (!statics.isDefined(klassName)) {
-         statics.defineClass(klassName);
+         final SClass klass = statics.defineClass(klassName);
+
+         if(klass.statics().fieldCount() > 0) {
+            final Object staticsAddress = heap.newObject(klass.statics());
+            statics.staticsAt(klass, staticsAddress);
+         }
+
+         if(klass.hasStaticInitialiser())
+         {
+            final InstructionInternalNode injectedInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
+            injectedInstruction.next(stackFrame.instruction());
+            stackFrame.advance(injectedInstruction);
+            return true;
+         }
       }
+      return false;
    }
 }

@@ -8,40 +8,55 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SClass implements Allocatable {
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
-	private final ClassNode classNode;
-	private final Instructions instructions;
+   private final TreeMap<SMethodName, SMethod> methodMap;
+
+   private final ClassNode classNode;
+   private final Instructions instructions;
    private final int classStartOffset;
    private final int subclassOffset;
    private final Allocatable superclass;
    private final SClassLoader classLoader;
 
-	public SClass(
-	      final SClassLoader classLoader,
-	      final Instructions instructions,
-	      final ClassNode classNode,
-	      final SClass superclass) {
-		this.classLoader = classLoader;
+   // TODO[tim]: far to much work in this constructor
+   public SClass(final SClassLoader classLoader, final Instructions instructions, final ClassNode classNode, final SClass superclass) {
+      this.classLoader = classLoader;
       this.instructions = instructions;
-		this.classNode = classNode;
+      this.classNode = classNode;
       this.superclass = superclass;
 
-		this.classStartOffset = superclass == null ? 0 :superclass.subclassOffset;
-		this.staticFieldMap = new TreeMap<>();
-		this.fieldMap = new TreeMap<>();
-		if(superclass != null) fieldMap.putAll(superclass.fieldMap);
+      this.classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
+      this.staticFieldMap = new TreeMap<>();
+      this.fieldMap = new TreeMap<>();
+      this.methodMap = new TreeMap<>();
 
-		final List<?> fields = classNode.fields;
-		int staticOffset = 0;
-		int dynamicOffset = 0;
-		for (int i = 0; i < fields.size(); i++) {
-		   final FieldNode fieldNode = (FieldNode) fields.get(i);
+      if (superclass != null)
+         fieldMap.putAll(superclass.fieldMap);
+
+      initialiseFieldMaps();
+      initialiseMethodMap();
+      subclassOffset = fieldMap.size();
+   }
+
+   private void initialiseMethodMap() {
+      for (final MethodNode method : methods()) {
+         methodMap.put(new SMethodName(method.name, method.desc), new SMethod(classLoader, instructions, method));
+      }
+   }
+
+   private void initialiseFieldMaps() {
+      final List<?> fields = classNode.fields;
+      int staticOffset = 0;
+      int dynamicOffset = 0;
+      for (int i = 0; i < fields.size(); i++) {
+         final FieldNode fieldNode = (FieldNode) fields.get(i);
          final SFieldName fieldName = new SFieldName(this.name(), fieldNode.name);
-         if((fieldNode.access & Opcodes.ACC_STATIC) !=0) {
+         if ((fieldNode.access & Opcodes.ACC_STATIC) != 0) {
             staticFieldMap.put(fieldName, staticOffset);
             staticOffset++;
          } else {
@@ -49,25 +64,25 @@ public class SClass implements Allocatable {
             dynamicOffset++;
          }
       }
-		subclassOffset = fieldMap.size();
-	}
+   }
 
-	@SuppressWarnings("unchecked")
-	private List<MethodNode> methods() {
-		return classNode.methods;
-	}
+   @SuppressWarnings("unchecked") private List<MethodNode> methods() {
+      return classNode.methods;
+   }
 
-	public SMethod staticMethod(final String name, final String desc) {
-		for (final MethodNode method : methods()) {
-			if (method.name.equals(name) && method.desc.equals(desc)) {
-				return new SMethod(classLoader, instructions, method);
-			}
-		}
-		throw new SMethodNotFoundException(name, desc);
-	}
+   public SMethod staticMethod(final String name, final String desc) {
+      final SMethod result = methodMap.get(new SMethodName(name, desc));
+      if (result == null) {
+         throw new SMethodNotFoundException(name, desc);
+      }
+      return result;
+   }
 
-   @Override
-   public int fieldCount() {
+   public boolean hasStaticInitialiser() {
+      return methodMap.containsKey(new SMethodName(JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
+   }
+
+   @Override public int fieldCount() {
       return fieldMap.size();
    }
 
@@ -107,8 +122,7 @@ public class SClass implements Allocatable {
       };
    }
 
-   @Override
-   public String toString() {
+   @Override public String toString() {
       return String.format("%s s<%s> <%s>", name(), staticFieldMap, fieldMap);
    }
 }

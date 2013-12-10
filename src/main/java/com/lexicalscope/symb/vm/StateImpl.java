@@ -21,7 +21,7 @@ public class StateImpl implements State {
 
 	@Override
    public <T> T op(final Op<T> op) {
-		return stack.query(op, heap);
+		return stack.query(op, statics, heap);
 	}
 
 	@Override
