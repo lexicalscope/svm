@@ -9,7 +9,7 @@ public interface Stack extends Snapshotable<Stack> {
 
    InstructionNode instruction();
 
-   void query(Vop op, Heap heap);
+   void query(Vop op, Statics statics, Heap heap);
    <T> T query(Op<T> op, Heap heap);
 
    int size();

@@ -17,7 +17,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
    }
 
    @Override
-   public SClass load(final SClassLoader classLoader, final String name) {
+   public SClass load(final SClassLoader classLoader, final String name, final ClassLoaded classLoaded) {
       if(name == null) { return null; }
 
       try {
@@ -37,7 +37,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
          } finally {
             in.close();
          }
-         final SClass superclassNode = classLoader.load(classNode.superName);
+         final SClass superclassNode = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
          return new SClass(classLoader, instructions, classNode, superclassNode);
       } catch (final IOException e) {
          throw new SClassLoadingFailException(name, e);

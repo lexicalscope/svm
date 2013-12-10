@@ -1,16 +1,19 @@
 package com.lexicalscope.symb.vm;
 
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
+import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
+import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
+import com.lexicalscope.symb.vm.instructions.MethodCallInstruction;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
 
 public class Vm {
@@ -19,6 +22,18 @@ public class Vm {
 
    public Vm(final State state) {
       pending.push(state);
+   }
+
+   public static State initial(final SClassLoader classLoader, final MethodInfo info) {
+      return initial(classLoader, info.klass(), info.name(), info.desc());
+   }
+
+   private static State initial(final SClassLoader classLoader, final String klass, final String name, final String desc) {
+      final InstructionInternalNode initialInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass, name, desc));
+      final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
+
+      final StaticsImpl statics = new StaticsImpl(classLoader);
+      return new StateImpl(statics, new DequeStack(initialInstruction, 0, argSize), new FastHeap(), classLoader.initialMeta());
    }
 
    public State execute() {
@@ -45,7 +60,7 @@ public class Vm {
 
    public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory);
-      return new Vm(classLoader.initial(entryPoint).op(loadConstants(args)));
+      return new Vm(Vm.initial(classLoader, entryPoint).op(loadConstants(args)));
    }
 
    public void fork(final State[] states) {

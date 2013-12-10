@@ -57,8 +57,8 @@ public class DequeStack implements Stack {
 		return op.eval(stack.peek(), heap);
 	}
 
-	@Override public void query(final Vop op, final Heap heap) {
-	   op.eval(stack.peek(), heap);
+	@Override public void query(final Vop op, final Statics statics, final Heap heap) {
+	   op.eval(stack.peek(), heap, statics);
 	}
 
 	@Override

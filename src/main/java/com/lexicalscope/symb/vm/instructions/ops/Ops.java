@@ -5,7 +5,6 @@ import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public final class Ops {
@@ -21,20 +20,20 @@ public final class Ops {
       return new NextInstructionOp(instruction);
    }
 
-   public static Vop putField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
-      return new PutFieldOp(classLoader, fieldInsnNode);
+   public static Vop putField(final FieldInsnNode fieldInsnNode) {
+      return new PutFieldOp(fieldInsnNode);
    }
 
-   public static Vop getField(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
-      return new GetFieldOp(classLoader, fieldInsnNode);
+   public static Vop getField(final FieldInsnNode fieldInsnNode) {
+      return new GetFieldOp(fieldInsnNode);
    }
 
-   public static Vop getStatic(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode) {
-      return new GetStaticOp(classLoader.load(fieldInsnNode.owner), fieldInsnNode);
+   public static Vop getStatic(final FieldInsnNode fieldInsnNode) {
+      return new GetStaticOp(fieldInsnNode);
    }
 
-   public static Vop newOp(final SClassLoader classLoader, final TypeInsnNode typeInsnNode) {
-      return new NewOp(classLoader, typeInsnNode);
+   public static Vop newOp(final TypeInsnNode typeInsnNode) {
+      return new NewOp(typeInsnNode);
    }
 
    public static DupOp dup() {

@@ -15,10 +15,11 @@ public class CachingByteCodeReader implements ByteCodeReader {
    }
 
    @Override
-   public SClass load(final SClassLoader classLoader, final String name) {
+   public SClass load(final SClassLoader classLoader, final String name, final ClassLoaded classLoaded) {
+      assert name != null;
       SClass result = classCache.get(name);
       if(result == null) {
-         result = byteCodeReader.load(classLoader, name);
+         result = byteCodeReader.load(classLoader, name, classLoaded);
          classCache.put(name, result);
       }
       return result;

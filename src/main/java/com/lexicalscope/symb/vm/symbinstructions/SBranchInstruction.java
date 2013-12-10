@@ -7,6 +7,7 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
@@ -54,13 +55,13 @@ final class SBranchInstruction implements Instruction {
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
       final Vop jumpOp = new Vop() {
-         @Override public void eval(final StackFrame stackFrame, final Heap heap) {
+         @Override public void eval(final StackFrame stackFrame, final Heap heap, Statics statics) {
             stackFrame.advance(instruction.jmpTarget());
          }
       };
 
       final Vop nojumpOp = new Vop() {
-         @Override public void eval(final StackFrame stackFrame, final Heap heap) {
+         @Override public void eval(final StackFrame stackFrame, final Heap heap, Statics statics) {
             stackFrame.advance(instruction.next());
          }
       };

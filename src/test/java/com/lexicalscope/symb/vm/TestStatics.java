@@ -1,7 +1,8 @@
 package com.lexicalscope.symb.vm;
 
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.sameInstance;
+import static org.objectweb.asm.Type.getInternalName;
 
 import org.junit.Rule;
 import org.junit.Test;
@@ -15,19 +16,19 @@ public class TestStatics {
    @Rule public ExpectedException exception = ExpectedException.none();
 
    private final SClassLoader classLoader = new AsmSClassLoader();
-   private final StaticsImpl statics = new StaticsImpl();
+   private final StaticsImpl statics = new StaticsImpl(classLoader);
    private final SClass emptyClass = classLoader.load(EmptyClass.class);
 
    @Test public void definedClassGivesClassRef() {
-      final Object klassRef = statics.defineClass(emptyClass);
+      statics.defineClass(getInternalName(EmptyClass.class));
 
-      assertThat(emptyClass, equalTo(statics.classDef(klassRef)));
+      assertThat(emptyClass, sameInstance(statics.load(getInternalName(EmptyClass.class))));
    }
 
    @Test public void definedClassCannotBeRedefined() {
-      statics.defineClass(emptyClass);
+      statics.defineClass(getInternalName(EmptyClass.class));
 
       exception.expect(DuplicateClassDefinitionException.class);
-      statics.defineClass(emptyClass);
+      statics.defineClass(getInternalName(EmptyClass.class));
    }
 }

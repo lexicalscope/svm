@@ -5,6 +5,7 @@ import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackVop;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 
 public class ReturnInstruction implements Instruction {
@@ -16,7 +17,7 @@ public class ReturnInstruction implements Instruction {
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       state.op(new StackVop() {
-         @Override public void eval(final Stack stack) {
+         @Override public void eval(final Stack stack, Statics statics) {
             stack.popFrame(returnCount);
          }
       });

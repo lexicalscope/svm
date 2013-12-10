@@ -1,13 +1,21 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Snapshotable;
 
 public interface SClassLoader {
-   SClass load(String name);
+   /**
+    * @param classLoaded reports any additional loaded classes (superclasses, etc)
+    * @return the loaded class
+    */
+   SClass load(String name, ClassLoaded classLoaded);
 
+   /**
+    * @param classLoaded reports any additional loaded classes (superclasses, etc)
+    * @return the loaded class
+    */
+   SClass load(Class<?> klass, ClassLoaded classLoaded);
    SClass load(Class<?> klass);
 
-   SMethod loadMethod(String klass, String name, String desc);
+   Snapshotable<?> initialMeta();
 
-   State initial(MethodInfo info);
 }

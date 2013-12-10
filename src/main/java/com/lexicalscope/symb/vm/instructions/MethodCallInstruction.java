@@ -8,15 +8,18 @@ import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackVop;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class MethodCallInstruction implements Instruction {
    public interface MethodInvokation {
       int argSize(SMethod targetMethod);
 
       String name();
+
+      void load(State state, String klassName);
    }
 
    public static class VirtualMethodInvokation implements MethodInvokation {
@@ -27,6 +30,8 @@ public class MethodCallInstruction implements Instruction {
       @Override public String name() {
          return "INVOKEVIRTUAL";
       }
+
+      @Override public void load(final State state, final String klassName) { }
    }
 
    public static class SpecialMethodInvokation implements MethodInvokation {
@@ -37,6 +42,8 @@ public class MethodCallInstruction implements Instruction {
       @Override public String name() {
          return "INVOKESPECIAL";
       }
+
+      @Override public void load(final State state, final String klassName) { }
    }
 
    public static class StaticMethodInvokation implements MethodInvokation {
@@ -47,24 +54,27 @@ public class MethodCallInstruction implements Instruction {
       @Override public String name() {
          return "INVOKESTATIC";
       }
+
+      @Override public void load(final State state, final String klassName) {
+         state.op(new DefineClassOp(klassName));
+      }
    }
 
-   private final SClassLoader classLoader;
    private final MethodInsnNode methodInsnNode;
    private final MethodInvokation methodInvokation;
 
-   public MethodCallInstruction(final SClassLoader classLoader, final MethodInsnNode methodInsnNode, final MethodInvokation methodInvokation) {
-      this.classLoader = classLoader;
+   public MethodCallInstruction(final MethodInsnNode methodInsnNode, final MethodInvokation methodInvokation) {
       this.methodInsnNode = methodInsnNode;
       this.methodInvokation = methodInvokation;
    }
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      // TODO[tim]: virtual does not resolve overridden methods
-      final SMethod targetMethod = classLoader.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+      methodInvokation.load(state, methodInsnNode.owner);
 
       state.op(new StackVop() {
-         @Override public void eval(final Stack stack) {
+         @Override public void eval(final Stack stack, final Statics statics) {
+            // TODO[tim]: virtual does not resolve overridden methods
+            final SMethod targetMethod = statics.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
             stack.pushFrame(instruction.next(), targetMethod, methodInvokation.argSize(targetMethod));
          }
       });
@@ -75,19 +85,19 @@ public class MethodCallInstruction implements Instruction {
       return String.format("%s %s%s", methodInvokation.name(), methodInsnNode.name, methodInsnNode.desc);
    }
 
-   public static Instruction createInvokeVirtual(final SClassLoader classLoader, final MethodInsnNode methodInsnNode) {
-      return new MethodCallInstruction(classLoader, methodInsnNode, new VirtualMethodInvokation());
+   public static Instruction createInvokeVirtual(final MethodInsnNode methodInsnNode) {
+      return new MethodCallInstruction(methodInsnNode, new VirtualMethodInvokation());
    }
 
-   public static Instruction createInvokeSpecial(final SClassLoader classLoader, final MethodInsnNode methodInsnNode) {
-      return new MethodCallInstruction(classLoader, methodInsnNode, new SpecialMethodInvokation());
+   public static Instruction createInvokeSpecial(final MethodInsnNode methodInsnNode) {
+      return new MethodCallInstruction(methodInsnNode, new SpecialMethodInvokation());
    }
 
-   public static Instruction createInvokeStatic(final SClassLoader classLoader, final MethodInsnNode methodInsnNode) {
-      return new MethodCallInstruction(classLoader, methodInsnNode, new StaticMethodInvokation());
+   public static Instruction createInvokeStatic(final MethodInsnNode methodInsnNode) {
+      return new MethodCallInstruction(methodInsnNode, new StaticMethodInvokation());
    }
 
-   public static Instruction createInvokeStatic(final SClassLoader classLoader, final String klass, final String method, final String desc) {
-      return createInvokeStatic(classLoader, new MethodInsnNode(Opcodes.INVOKESTATIC, klass, method, desc));
+   public static Instruction createInvokeStatic(final String klass, final String method, final String desc) {
+      return createInvokeStatic(new MethodInsnNode(Opcodes.INVOKESTATIC, klass, method, desc));
    }
 }

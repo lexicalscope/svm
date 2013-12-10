@@ -26,7 +26,7 @@ public class StateImpl implements State {
 
 	@Override
    public StateImpl op(final Vop op) {
-	   stack.query(op, heap);
+	   stack.query(op, statics, heap);
 	   return this;
 	}
 
@@ -40,7 +40,7 @@ public class StateImpl implements State {
 		op(new StackOp<Void>() {
 			@Override
 			public Void eval(final Stack stack) {
-				op.eval(stack);
+				op.eval(stack, statics);
 				return null;
 			}
 		});

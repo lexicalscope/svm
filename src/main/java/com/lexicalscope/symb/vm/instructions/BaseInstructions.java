@@ -67,11 +67,11 @@ public final class BaseInstructions implements Instructions {
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return linearInstruction(putField(classLoader, fieldInsnNode));
+                  return linearInstruction(putField(fieldInsnNode));
                case Opcodes.GETFIELD:
-                  return linearInstruction(getField(classLoader, fieldInsnNode));
+                  return linearInstruction(getField(fieldInsnNode));
                case Opcodes.GETSTATIC:
-                  return loadingInstruction(classLoader, fieldInsnNode, getStatic(classLoader, fieldInsnNode));
+                  return loadingInstruction(fieldInsnNode, getStatic(fieldInsnNode));
             }
             break;
          case AbstractInsnNode.INSN:
@@ -116,7 +116,7 @@ public final class BaseInstructions implements Instructions {
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return linearInstruction(newOp(classLoader, typeInsnNode));
+                  return loadingInstruction(typeInsnNode, newOp(typeInsnNode));
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
@@ -130,11 +130,11 @@ public final class BaseInstructions implements Instructions {
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESTATIC:
-                  return createInvokeStatic(classLoader, methodInsnNode);
+                  return createInvokeStatic(methodInsnNode);
                case Opcodes.INVOKESPECIAL:
-                  return createInvokeSpecial(classLoader, methodInsnNode);
+                  return createInvokeSpecial(methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
-                  return createInvokeVirtual(classLoader, methodInsnNode);
+                  return createInvokeVirtual(methodInsnNode);
             }
             break;
       }
@@ -162,8 +162,16 @@ public final class BaseInstructions implements Instructions {
       return new LinearInstruction(op);
    }
 
-   private LoadingInstruction loadingInstruction(final SClassLoader classLoader, final FieldInsnNode fieldInsnNode, final Vop op) {
-      return new LoadingInstruction(classLoader, fieldInsnNode.owner, op);
+   private LoadingInstruction loadingInstruction(final FieldInsnNode fieldInsnNode, final Vop op) {
+      return loadingInstruction(fieldInsnNode.owner, op);
+   }
+
+   private LoadingInstruction loadingInstruction(final TypeInsnNode fieldInsnNode, final Vop op) {
+      return loadingInstruction(fieldInsnNode.desc, op);
+   }
+
+   private LoadingInstruction loadingInstruction(final String klassName, final Vop op) {
+      return new LoadingInstruction(klassName, op);
    }
 
    private LinearInstruction binaryOp(final BinaryOperator addOperation) {
