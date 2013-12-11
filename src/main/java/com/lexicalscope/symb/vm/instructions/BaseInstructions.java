@@ -18,11 +18,11 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
-import com.lexicalscope.symb.vm.instructions.ops.ANewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
+import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
@@ -135,6 +135,8 @@ public final class BaseInstructions implements Instructions {
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.BIPUSH:
                   return iconst(intInsnNode.operand);
+               case Opcodes.NEWARRAY:
+               return linearInstruction(new NewArrayOp());
             }
             break;
          case AbstractInsnNode.TYPE_INSN:
@@ -143,7 +145,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.NEW:
                   return newObject(typeInsnNode.desc);
                case Opcodes.ANEWARRAY:
-                  return linearInstruction(new ANewArrayOp(typeInsnNode));
+                  return linearInstruction(new NewArrayOp());
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
@@ -213,14 +215,6 @@ public final class BaseInstructions implements Instructions {
 
    private LoadingInstruction loadingInstruction(final FieldInsnNode fieldInsnNode, final Vop op) {
       return loadingInstruction(fieldInsnNode.owner, op);
-   }
-
-   private LoadingInstruction loadingInstruction(final TypeInsnNode typeInsnNode, final Vop op) {
-      return loadingInstruction(op, typeInsnNode.desc);
-   }
-
-   private LoadingInstruction loadingInstruction(final Vop op, final String klassDesc) {
-      return loadingInstruction(klassDesc, op);
    }
 
    private LoadingInstruction loadingInstruction(final String klassDesc, final Vop op) {

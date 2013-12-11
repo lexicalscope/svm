@@ -224,7 +224,7 @@ final class BitTrie implements Iterable<Object>{
     * @return index of the first allocated element
     */
    public int allocate(final int size) {
-      if (size < 0) throw new IllegalArgumentException("cannot allocate " + size + " space");
+      if (size <= 0) throw new IllegalArgumentException("cannot allocate " + size + " space");
 
       final int result = insert(null);
       for (int i = 1; i < size; i++) {
@@ -257,6 +257,7 @@ final class BitTrie implements Iterable<Object>{
    public int insert(final Object value) {
       if(free == 0) throw new IndexOutOfBoundsException("BitTrie is full");
 
+      if(highestBit < 29) highestBit = level(free);
       insertAt(free, value);
 
       // we expect this to overflow, as we are using our 32 bit address as unsigned
@@ -268,10 +269,7 @@ final class BitTrie implements Iterable<Object>{
    }
 
    private Object insertAt(final int index, final Object value) {
-      assert root1 != null ^ root2 != null ^ root3 != null ^ root4 != null ^ root5 != null ^ root6 != null ^ root7 != null ^ root8 != null
-            || root1 == null && root2 == null && root3 == null && root4 == null && root5 == null && root6 == null && root7 == null && root8 == null;
-
-      if(highestBit < 29) highestBit = level(index);
+      assert invariant() : summary(index);
 
       Node8 trav8 = null;
       Node7 trav7 = null;
@@ -392,12 +390,23 @@ final class BitTrie implements Iterable<Object>{
          if(root1 == null){root1 = new Node1(); root1.d = new Object[level1Width];}
          if(root1.c > 1) {final Node1 copy = new Node1(root1.d.clone()); root1.c--; root1 = copy;}
          trav1 = root1;
-
       }
+
       final int level1Offset = index & _level1Mask;
       final Object oldValue = trav1.d[level1Offset];
       trav1.d[level1Offset] = value;
+
+      assert invariant() : summary(index);
       return oldValue;
+   }
+
+   private String summary(final int index) {
+      return String.format("inserting at %d = %s, %s, %s, %s, %s, %s, %s, %s", index, root1, root2, root3, root4, root5, root6, root7, root8);
+   }
+
+   private boolean invariant() {
+      return root1 != null ^ root2 != null ^ root3 != null ^ root4 != null ^ root5 != null ^ root6 != null ^ root7 != null ^ root8 != null
+            || root1 == null && root2 == null && root3 == null && root4 == null && root5 == null && root6 == null && root7 == null && root8 == null;
    }
 
    public Object get(final int key) {
