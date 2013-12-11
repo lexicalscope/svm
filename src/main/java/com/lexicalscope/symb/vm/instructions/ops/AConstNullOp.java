@@ -10,4 +10,8 @@ public class AConstNullOp implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       stackFrame.push(heap.nullPointer());
    }
+
+   @Override public String toString() {
+      return "ACONST_NULL";
+   }
 }

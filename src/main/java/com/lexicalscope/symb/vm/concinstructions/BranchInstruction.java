@@ -25,6 +25,6 @@ final class BranchInstruction implements Instruction {
 
 	@Override
 	public String toString() {
-		return String.format("IFGE oc:%s", jumpInsnNode.getNext().getOpcode());
+		return branchPredicate.toString();
 	}
 }

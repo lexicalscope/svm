@@ -29,8 +29,18 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder newObject(final String klassDesc) {
+      instructions.add(baseInstructions.newObject(klassDesc));
+      return this;
+   }
+
    public StatementBuilder aconst_null() {
       instructions.add(baseInstructions.aconst_null());
+      return this;
+   }
+
+   public StatementBuilder iconst_0() {
+      instructions.add(baseInstructions.iconst_0());
       return this;
    }
 

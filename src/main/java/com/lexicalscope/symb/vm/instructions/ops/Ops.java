@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
 import org.objectweb.asm.tree.FieldInsnNode;
-import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Vop;
@@ -36,8 +35,8 @@ public final class Ops {
       return new PutStaticOp(fieldInsnNode);
    }
 
-   public static Vop newOp(final TypeInsnNode typeInsnNode) {
-      return new NewOp(typeInsnNode);
+   public static Vop newOp(final String klassDesc) {
+      return new NewOp(klassDesc);
    }
 
    public static DupOp dup() {

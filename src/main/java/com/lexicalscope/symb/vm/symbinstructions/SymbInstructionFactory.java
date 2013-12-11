@@ -42,9 +42,17 @@ public class SymbInstructionFactory implements InstructionFactory {
 	}
 
 	@Override
-	public Instruction branchIfge(final JumpInsnNode jumpInsnNode) {
+	public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
 		return SBranchInstruction.geInstruction(feasibilityChecker);
 	}
+
+   @Override public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
 
 	@Override
 	public NullaryOperator iconst(final int val) {
@@ -58,5 +66,9 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override
    public Snapshotable<?> initialMeta() {
       return new Pc();
+   }
+
+   @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("unable to handle symbolic object yet");
    }
 }

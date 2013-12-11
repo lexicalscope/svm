@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm;
 
-public class ObjectRef {
+public final class ObjectRef {
    private final int address;
 
    public ObjectRef(final int address) {
@@ -9,6 +9,18 @@ public class ObjectRef {
 
    public int address() {
       return address;
+   }
+
+   @Override public int hashCode() {
+      return address;
+   }
+
+   @Override public boolean equals(final Object obj) {
+      if(obj == this) return true;
+      if(obj != null && obj.getClass().equals(this.getClass())) {
+         return ((ObjectRef) obj).address == address;
+      }
+      return false;
    }
 
    @Override

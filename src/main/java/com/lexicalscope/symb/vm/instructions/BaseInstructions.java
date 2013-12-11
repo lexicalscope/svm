@@ -82,9 +82,13 @@ public final class BaseInstructions implements Instructions {
          case AbstractInsnNode.INSN:
             final InsnNode insnNode = (InsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
+               case Opcodes.ACONST_NULL:
+                  return aconst_null();
                case Opcodes.RETURN:
                   return returnVoid();
                case Opcodes.IRETURN:
+                  return return1();
+               case Opcodes.ARETURN:
                   return return1();
                case Opcodes.IADD:
                   return binaryOp(instructionFactory.iaddOperation());
@@ -97,7 +101,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ICONST_M1:
                   return iconst(-1);
                case Opcodes.ICONST_0:
-                  return iconst(0);
+                  return iconst_0();
                case Opcodes.ICONST_1:
                   return iconst(1);
                case Opcodes.ICONST_2:
@@ -137,7 +141,7 @@ public final class BaseInstructions implements Instructions {
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return loadingInstruction(typeInsnNode, newOp(typeInsnNode));
+                  return newObject(typeInsnNode.desc);
                case Opcodes.ANEWARRAY:
                   return linearInstruction(new ANewArrayOp(typeInsnNode));
             }
@@ -146,7 +150,13 @@ public final class BaseInstructions implements Instructions {
             final JumpInsnNode jumpInsnNode = (JumpInsnNode) abstractInsnNode;
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
-                  return instructionFactory.branchIfge(jumpInsnNode);
+                  return instructionFactory.branchIfGe(jumpInsnNode);
+               case Opcodes.IFNE:
+                  return instructionFactory.branchIfNe(jumpInsnNode);
+               case Opcodes.IFNONNULL:
+                  return instructionFactory.branchIfNonNull(jumpInsnNode);
+               case Opcodes.GOTO:
+                  return instructionFactory.branchGoto(jumpInsnNode);
             }
             break;
          case AbstractInsnNode.METHOD_INSN:
@@ -177,6 +187,10 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new AConstNullOp());
    }
 
+   public Instruction iconst_0() {
+      return iconst(0);
+   }
+
    private Instruction stringPoolLoad(final String constVal) {
       return nullary(instructionFactory.stringPoolLoad(constVal));
    }
@@ -201,12 +215,16 @@ public final class BaseInstructions implements Instructions {
       return loadingInstruction(fieldInsnNode.owner, op);
    }
 
-   private LoadingInstruction loadingInstruction(final TypeInsnNode fieldInsnNode, final Vop op) {
-      return loadingInstruction(fieldInsnNode.desc, op);
+   private LoadingInstruction loadingInstruction(final TypeInsnNode typeInsnNode, final Vop op) {
+      return loadingInstruction(op, typeInsnNode.desc);
    }
 
-   private LoadingInstruction loadingInstruction(final String klassName, final Vop op) {
-      return new LoadingInstruction(klassName, op);
+   private LoadingInstruction loadingInstruction(final Vop op, final String klassDesc) {
+      return loadingInstruction(klassDesc, op);
+   }
+
+   private LoadingInstruction loadingInstruction(final String klassDesc, final Vop op) {
+      return new LoadingInstruction(klassDesc, op);
    }
 
    private LinearInstruction binaryOp(final BinaryOperator addOperation) {
@@ -231,5 +249,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction return1() {
       return new ReturnInstruction(1);
+   }
+
+   public Instruction newObject(final String klassDesc) {
+      return loadingInstruction(klassDesc, newOp(klassDesc));
    }
 }

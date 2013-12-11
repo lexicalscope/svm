@@ -15,7 +15,10 @@ public interface InstructionFactory {
 	NullaryOperator iconst(int val);
 	NullaryOperator stringPoolLoad(String constVal);
 
-	Instruction branchIfge(JumpInsnNode jumpInsnNode);
+	Instruction branchIfGe(JumpInsnNode jumpInsnNode);
+	Instruction branchIfNe(JumpInsnNode jumpInsnNode);
+	Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
+	Instruction branchGoto(JumpInsnNode jumpInsnNode);
 
 	Snapshotable<?> initialMeta();
 }

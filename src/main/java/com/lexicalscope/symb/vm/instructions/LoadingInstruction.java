@@ -10,16 +10,16 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class LoadingInstruction implements Instruction {
-   private final String klassName;
+   private final String klassDesc;
    private final Vop op;
 
-   public LoadingInstruction(final String klassName, final Vop op) {
-      this.klassName = klassName;
+   public LoadingInstruction(final String klassDesc, final Vop op) {
+      this.klassDesc = klassDesc;
       this.op = op;
    }
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      if(!state.op(new DefineClassOp(klassName))){
+      if(!state.op(new DefineClassOp(klassDesc))){
          state.op(nextInstruction(instruction));
          state.op(op);
       }

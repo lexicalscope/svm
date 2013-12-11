@@ -10,6 +10,9 @@ import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
+import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
+import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
+import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -30,9 +33,26 @@ public class ConcInstructionFactory implements InstructionFactory {
 	}
 
 	@Override
-	public Instruction branchIfge(final JumpInsnNode jumpInsnNode) {
-		return new BranchInstruction(new Ge(), jumpInsnNode);
+	public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
+		return branchInstruction(jumpInsnNode, new Ge());
 	}
+
+   @Override
+   public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new Ne());
+   }
+
+	@Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
+	   return branchInstruction(jumpInsnNode, new NonNull());
+	}
+
+   @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new Unconditional());
+   }
+
+   private Instruction branchInstruction(final JumpInsnNode jumpInsnNode, final BranchPredicate branchPredicate) {
+      return new BranchInstruction(branchPredicate, jumpInsnNode);
+   }
 
 	@Override
 	public NullaryOperator iconst(final int val) {
