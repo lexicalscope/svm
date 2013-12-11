@@ -13,12 +13,16 @@ public interface InstructionFactory {
 	BinaryOperator isubOperation();
 
 	NullaryOperator iconst(int val);
+	NullaryOperator lconst(long val);
 	NullaryOperator stringPoolLoad(String constVal);
 
 	Instruction branchIfGe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfNe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
 	Instruction branchGoto(JumpInsnNode jumpInsnNode);
+
+	Instruction branchIfICmpLe(JumpInsnNode jumpInsnNode);
+	Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);
 
 	Snapshotable<?> initialMeta();
 }

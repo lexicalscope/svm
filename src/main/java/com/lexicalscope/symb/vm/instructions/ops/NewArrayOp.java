@@ -9,6 +9,8 @@ import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 
 public class NewArrayOp implements Vop {
+   public static final int ARRAY_PREAMBLE = 1;
+
    // TODO - arrays can have different types
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       final Object top = stackFrame.pop();
@@ -22,10 +24,14 @@ public class NewArrayOp implements Vop {
 
       final Object arrayAddress = heap.newObject(new Allocatable() {
          @Override public int fieldCount() {
-            return arrayLength + 1;
+            return arrayLength + ARRAY_PREAMBLE;
          }
       });
       heap.put(arrayAddress, 0, arrayLength);
       stackFrame.push(arrayAddress);
+   }
+
+   @Override public String toString() {
+      return "NEWARRAY";
    }
 }

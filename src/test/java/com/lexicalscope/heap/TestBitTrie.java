@@ -26,19 +26,19 @@ public class TestBitTrie {
       assertThat(trie.get(key), equalTo(value));
    }
 
-   @Test public void canInsertAndOverwrite1000Object() {
+   @Test public void canInsertAndOverwrite100bject() {
       final BitTrie trie = new BitTrie();
-      for (int i = 0; i < 1000; i++) {
+      for (int i = 0; i < 100; i++) {
          trie.insert(null);
       }
 
-      for (int i = 1; i < 1001; i++) {
+      for (int i = 1; i < 101; i++) {
          trie.insert(i, null);
       }
    }
-   @Test public void canAllocate1000Object() {
+   @Test public void canAllocate100bject() {
       final BitTrie trie = new BitTrie();
-      trie.allocate(1000);
+      trie.allocate(100);
    }
 
    @Test public void object31GoesIn1() {

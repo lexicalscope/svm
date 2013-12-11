@@ -54,9 +54,21 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
+   @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
 	@Override
 	public NullaryOperator iconst(final int val) {
 		return new SIConstOperator(val);
+	}
+
+	@Override public NullaryOperator lconst(final long val) {
+	   throw new UnsupportedOperationException("not implemented yet");
 	}
 
 	@Override public NullaryOperator stringPoolLoad(final String constVal) {
