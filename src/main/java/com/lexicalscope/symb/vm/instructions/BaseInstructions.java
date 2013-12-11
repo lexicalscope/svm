@@ -9,13 +9,13 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
+import org.objectweb.asm.tree.LdcInsnNode;
 import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
@@ -31,7 +31,6 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public void instructionFor(
-         final SClassLoader classLoader,
          final AbstractInsnNode abstractInsnNode,
          final InstructionSink instructionSink) {
 
@@ -43,14 +42,14 @@ public final class BaseInstructions implements Instructions {
             return;
       }
 
-      instructionSink.nextInstruction(abstractInsnNode, instructionTransformFor(classLoader, abstractInsnNode));
+      instructionSink.nextInstruction(abstractInsnNode, instructionFor(abstractInsnNode));
    }
 
    /*
     * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
     */
 
-   private Instruction instructionTransformFor(final SClassLoader classLoader, final AbstractInsnNode abstractInsnNode) {
+   private Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
@@ -80,7 +79,7 @@ public final class BaseInstructions implements Instructions {
             final InsnNode insnNode = (InsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.RETURN:
-                  return new ReturnInstruction(0);
+                  return returnVoid();
                case Opcodes.IRETURN:
                   return new ReturnInstruction(1);
                case Opcodes.IADD:
@@ -105,6 +104,18 @@ public final class BaseInstructions implements Instructions {
                   return iconst(4);
                case Opcodes.ICONST_5:
                   return iconst(5);
+            }
+            break;
+         case AbstractInsnNode.LDC_INSN:
+            final LdcInsnNode ldcInsnNode = (LdcInsnNode) abstractInsnNode;
+            switch (abstractInsnNode.getOpcode()) {
+               case Opcodes.LDC:
+                  if(ldcInsnNode.cst instanceof Integer) {
+                     return iconst((int) ldcInsnNode.cst);
+                  } else if(ldcInsnNode.cst instanceof String) {
+                     return stringPoolLoad((String) ldcInsnNode.cst);
+                  }
+                  System.out.println(ldcInsnNode.cst);
             }
             break;
          case AbstractInsnNode.INT_INSN:
@@ -152,6 +163,10 @@ public final class BaseInstructions implements Instructions {
       return nullary(instructionFactory.iconst(constVal));
    }
 
+   private Instruction stringPoolLoad(final String constVal) {
+      return nullary(instructionFactory.stringPoolLoad(constVal));
+   }
+
    private LinearInstruction nullary(final NullaryOperator nullary) {
       return linearInstruction(new NullaryOp(nullary));
    }
@@ -182,5 +197,9 @@ public final class BaseInstructions implements Instructions {
 
    public static String fieldKey(final FieldInsnNode fieldInsnNode) {
       return String.format("%s.%s:%s", fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
+   }
+
+   @Override public Instruction returnVoid() {
+      return new ReturnInstruction(0);
    }
 }

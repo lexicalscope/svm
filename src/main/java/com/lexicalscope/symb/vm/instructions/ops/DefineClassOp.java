@@ -2,8 +2,11 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import static com.lexicalscope.symb.vm.JavaConstants.*;
 
+import java.util.List;
+
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
@@ -19,22 +22,29 @@ public final class DefineClassOp implements Op<Boolean> {
    }
 
    @Override public Boolean eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+      boolean jumpToInitaliser = false;
       if (!statics.isDefined(klassName)) {
-         final SClass klass = statics.defineClass(klassName);
+         InstructionNode currentInstruction = stackFrame.instruction();
 
-         if(klass.statics().fieldCount() > 0) {
-            final Object staticsAddress = heap.newObject(klass.statics());
-            statics.staticsAt(klass, staticsAddress);
-         }
+         // should initialise all the superclasses.
 
-         if(klass.hasStaticInitialiser())
-         {
-            final InstructionInternalNode injectedInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
-            injectedInstruction.next(stackFrame.instruction());
-            stackFrame.advance(injectedInstruction);
-            return true;
+         final List<SClass> klasses = statics.defineClass(klassName);
+         for (final SClass klass : klasses) {
+            if(klass.statics().fieldCount() > 0) {
+               final Object staticsAddress = heap.newObject(klass.statics());
+               statics.staticsAt(klass, staticsAddress);
+            }
+
+            if(klass.hasStaticInitialiser())
+            {
+               final InstructionInternalNode injectedInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
+               injectedInstruction.next(currentInstruction);
+               currentInstruction = injectedInstruction;
+               stackFrame.advance(injectedInstruction);
+               jumpToInitaliser = true;
+            }
          }
       }
-      return false;
+      return jumpToInitaliser;
    }
 }

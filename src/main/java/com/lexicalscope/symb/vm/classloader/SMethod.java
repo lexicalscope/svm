@@ -6,6 +6,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -19,15 +20,18 @@ import com.lexicalscope.symb.vm.instructions.Instructions.InstructionSink;
 
 public class SMethod {
    private final SClassLoader classLoader;
+   private final SMethodName methodName;
 	private final MethodNode method;
 	private final Instructions instructions;
    private InstructionNode entryPoint;
 
 	public SMethod(
 	      final SClassLoader classLoader,
+	      final SMethodName methodName,
 	      final Instructions instructions,
 	      final MethodNode method) {
 		this.classLoader = classLoader;
+      this.methodName = methodName;
       this.instructions = instructions;
 		this.method = method;
 	}
@@ -46,7 +50,19 @@ public class SMethod {
 	}
 
 	private void link() {
-	   final List<AbstractInsnNode> unlinked = new ArrayList<>();
+	   if((method.access & Opcodes.ACC_NATIVE) != 0) {
+	      linkNativeMethod();
+	   } else {
+	      linkJavaMethod();
+	   }
+   }
+
+   private void linkNativeMethod() {
+      entryPoint = classLoader.resolveNative(methodName);
+   }
+
+   private void linkJavaMethod() {
+      final List<AbstractInsnNode> unlinked = new ArrayList<>();
 	   final Map<AbstractInsnNode, InstructionNode> linked = new LinkedHashMap<>();
 	   final InstructionNode[] prev = new InstructionNode[1];
 
@@ -69,7 +85,7 @@ public class SMethod {
 
 	   AbstractInsnNode asmInstruction = getEntryPoint();
 	   while(asmInstruction != null) {
-	      instructions.instructionFor(classLoader, asmInstruction, instructionSink);
+	      instructions.instructionFor(asmInstruction, instructionSink);
 	      asmInstruction = asmInstruction.getNext();
 	   }
 

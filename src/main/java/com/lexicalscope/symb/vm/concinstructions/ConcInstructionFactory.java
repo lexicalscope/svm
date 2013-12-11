@@ -8,6 +8,7 @@ import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
+import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -36,6 +37,10 @@ public class ConcInstructionFactory implements InstructionFactory {
 	@Override
 	public NullaryOperator iconst(final int val) {
 	   return new IConstOperator(val);
+	}
+
+	@Override public NullaryOperator stringPoolLoad(final String val) {
+	   return new StringPoolLoadOperator(val);
 	}
 
    @Override

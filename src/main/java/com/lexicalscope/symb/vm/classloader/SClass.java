@@ -45,7 +45,8 @@ public class SClass implements Allocatable {
 
    private void initialiseMethodMap() {
       for (final MethodNode method : methods()) {
-         methodMap.put(new SMethodName(method.name, method.desc), new SMethod(classLoader, instructions, method));
+         final SMethodName methodName = new SMethodName(classNode.name, method.name, method.desc);
+         methodMap.put(methodName, new SMethod(classLoader, methodName, instructions, method));
       }
    }
 
@@ -71,7 +72,7 @@ public class SClass implements Allocatable {
    }
 
    public SMethod staticMethod(final String name, final String desc) {
-      final SMethod result = methodMap.get(new SMethodName(name, desc));
+      final SMethod result = methodMap.get(new SMethodName(classNode.name, name, desc));
       if (result == null) {
          throw new SMethodNotFoundException(name, desc);
       }
@@ -79,7 +80,7 @@ public class SClass implements Allocatable {
    }
 
    public boolean hasStaticInitialiser() {
-      return methodMap.containsKey(new SMethodName(JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
+      return methodMap.containsKey(new SMethodName(classNode.name, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
    }
 
    @Override public int fieldCount() {

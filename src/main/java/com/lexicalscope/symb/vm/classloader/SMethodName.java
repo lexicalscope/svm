@@ -1,21 +1,33 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import org.objectweb.asm.Type;
+
 public class SMethodName implements Comparable<SMethodName> {
+   private final String klassName;
    private final String desc;
    private final String name;
 
-   public SMethodName(final String name, final String desc) {
+   public SMethodName(final String klassName, final String name, final String desc) {
+      this.klassName = klassName;
       this.name = name;
       this.desc = desc;
    }
 
+   public boolean isVoidMethod() {
+      return Type.getReturnType(desc).equals(Type.VOID_TYPE);
+   }
+
    @Override
    public int compareTo(final SMethodName o) {
-      final int firstCompare = this.name.compareTo(o.name);
-      if(firstCompare == 0) {
-         return this.desc.compareTo(o.desc);
+      final int firstCompare = this.klassName.compareTo(o.klassName);
+      if(firstCompare != 0) {
+         return firstCompare;
       }
-      return firstCompare;
+      final int secondCompare = this.name.compareTo(o.name);
+      if(secondCompare != 0) {
+         return secondCompare;
+      }
+      return this.desc.compareTo(o.desc);
    }
 
    @Override

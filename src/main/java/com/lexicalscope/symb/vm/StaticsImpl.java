@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import com.lexicalscope.symb.vm.classloader.ClassLoaded;
@@ -29,14 +31,19 @@ public class StaticsImpl implements Statics {
       return new StaticsImpl(classLoader, new HashMap<>(defined), new HashMap<>(staticsAddresses));
    }
 
-   @Override public SClass defineClass(final String klassName) {
+   @Override public List<SClass> defineClass(final String klassName) {
       if(isDefined(klassName)) {
          throw new DuplicateClassDefinitionException(defined.get(klassName));
       }
-      return classLoader.load(klassName, new ClassLoaded(){
+
+      final List<SClass> result = new ArrayList<>();
+      classLoader.load(klassName, new ClassLoaded(){
          @Override public void loaded(final SClass klass) {
             defined.put(klass.name(), klass);
+            result.add(klass);
          }});
+
+      return result;
    }
 
    @Override public boolean isDefined(final String klass) {

@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Snapshotable;
 
 public interface SClassLoader {
@@ -17,5 +18,7 @@ public interface SClassLoader {
    SClass load(Class<?> klass);
 
    Snapshotable<?> initialMeta();
+
+   InstructionNode resolveNative(SMethodName methodName);
 
 }

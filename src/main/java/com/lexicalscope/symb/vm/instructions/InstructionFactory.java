@@ -13,6 +13,7 @@ public interface InstructionFactory {
 	BinaryOperator isubOperation();
 
 	NullaryOperator iconst(int val);
+	NullaryOperator stringPoolLoad(String constVal);
 
 	Instruction branchIfge(JumpInsnNode jumpInsnNode);
 

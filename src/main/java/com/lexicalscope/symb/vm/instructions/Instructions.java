@@ -3,7 +3,6 @@ package com.lexicalscope.symb.vm.instructions;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public interface Instructions {
    public interface InstructionSink {
@@ -11,5 +10,7 @@ public interface Instructions {
       void noInstruction(AbstractInsnNode abstractInsnNode);
    }
 
-   void instructionFor(SClassLoader classLoader, AbstractInsnNode abstractInsnNode, InstructionSink instructionSink);
+   void instructionFor(AbstractInsnNode abstractInsnNode, InstructionSink instructionSink);
+
+   Instruction returnVoid();
 }

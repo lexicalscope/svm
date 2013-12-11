@@ -82,7 +82,7 @@ public class MethodCallInstruction implements Instruction {
 
    @Override
    public String toString() {
-      return String.format("%s %s%s", methodInvokation.name(), methodInsnNode.name, methodInsnNode.desc);
+      return String.format("%s %s.%s%s", methodInvokation.name(), methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
    }
 
    public static Instruction createInvokeVirtual(final MethodInsnNode methodInsnNode) {

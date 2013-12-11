@@ -51,6 +51,10 @@ public class SymbInstructionFactory implements InstructionFactory {
 		return new SIConstOperator(val);
 	}
 
+	@Override public NullaryOperator stringPoolLoad(final String constVal) {
+	   throw new UnsupportedOperationException("unable to handle symbolic strings yet");
+	}
+
    @Override
    public Snapshotable<?> initialMeta() {
       return new Pc();

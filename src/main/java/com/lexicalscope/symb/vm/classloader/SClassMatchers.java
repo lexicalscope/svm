@@ -1,5 +1,8 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import static org.hamcrest.Matchers.equalTo;
+import static org.objectweb.asm.Type.getInternalName;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -60,6 +63,24 @@ public class SClassMatchers {
          protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
             mismatchDescription.appendText("class with superclass ").appendValue(item.superclass());
             return matcher.matches(item.superclass());
+         }};
+   }
+
+   public static Matcher<SClass> nameIs(final Class<?> klass) {
+      return name(getInternalName(klass));
+   }
+
+   public static Matcher<SClass> name(final String internalName) {
+      return new TypeSafeDiagnosingMatcher<SClass>(SClass.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("class with name ").appendValue(internalName);
+         }
+
+         @Override
+         protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
+            mismatchDescription.appendText("class with name ").appendValue(item.name());
+            return equalTo(internalName).matches(item.name());
          }};
    }
 }
