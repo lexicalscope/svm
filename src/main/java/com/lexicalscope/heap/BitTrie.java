@@ -247,6 +247,10 @@ final class BitTrie implements Iterable<Object>{
       return insertAt(key, value);
    }
 
+   public int nullPointer() {
+      return 0;
+   }
+
    // TODO[tim]: inserts are sequential so perhaps shouldn't have to search from root
    // the way that clone works at the moment means we have to check that no parent node
    // has a reference count higher than 1

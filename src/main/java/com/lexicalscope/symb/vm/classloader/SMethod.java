@@ -23,7 +23,10 @@ public class SMethod {
    private final SMethodName methodName;
 	private final MethodNode method;
 	private final Instructions instructions;
+
    private InstructionNode entryPoint;
+   private int maxLocals;
+   private int maxStack;
 
 	public SMethod(
 	      final SClassLoader classLoader,
@@ -37,19 +40,23 @@ public class SMethod {
 	}
 
 	public int maxLocals() {
-		return method.maxLocals;
+	   link();
+		return maxLocals;
 	}
 
 	public int maxStack() {
-		return method.maxStack;
+	   link();
+		return maxStack;
 	}
 
 	public InstructionNode entry() {
-	   if(entryPoint == null) link();
+	   link();
 		return entryPoint;
 	}
 
 	private void link() {
+	   if(entryPoint != null) return;
+
 	   if((method.access & Opcodes.ACC_NATIVE) != 0) {
 	      linkNativeMethod();
 	   } else {
@@ -58,7 +65,11 @@ public class SMethod {
    }
 
    private void linkNativeMethod() {
-      entryPoint = classLoader.resolveNative(methodName);
+      final MethodBody resolved = classLoader.resolveNative(methodName);
+
+      maxLocals = resolved.maxLocals();
+      maxStack = resolved.maxStack();
+      entryPoint = resolved.entryPoint();
    }
 
    private void linkJavaMethod() {
@@ -102,6 +113,8 @@ public class SMethod {
          }
       }
 
+      maxLocals = method.maxLocals;
+      maxStack = method.maxStack;
 	   entryPoint = linked.values().iterator().next();
    }
 

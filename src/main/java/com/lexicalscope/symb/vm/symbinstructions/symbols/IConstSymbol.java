@@ -1,11 +1,15 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public class IConstSymbol implements Symbol {
+public final class IConstSymbol implements Symbol {
 	private final int val;
 
    public IConstSymbol(final int val) {
       this.val = val;
 	}
+
+   public int val() {
+      return val;
+   }
 
    @Override
    public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {

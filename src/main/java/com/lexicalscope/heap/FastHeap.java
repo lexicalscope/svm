@@ -35,6 +35,10 @@ public class FastHeap implements Heap {
       return ((ObjectRef) obj).address();
    }
 
+   @Override public Object nullPointer() {
+      return new ObjectRef(trie.nullPointer());
+   }
+
    @Override
    public Heap snapshot() {
       return new FastHeap(trie.copy());

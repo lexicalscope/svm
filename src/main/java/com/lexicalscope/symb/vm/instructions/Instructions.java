@@ -12,5 +12,7 @@ public interface Instructions {
 
    void instructionFor(AbstractInsnNode abstractInsnNode, InstructionSink instructionSink);
 
-   Instruction returnVoid();
+   Instruction defineClass(String internalName);
+
+   StatementBuilder statements();
 }

@@ -15,4 +15,8 @@ public class TestLinkedList {
       final Vm vm = concreteVm(infeasibleMethod, 4);
       assertThat(vm.execute(), normalTerminiationWithResult(-10));
    }
+
+   Object foo() {
+      return null;
+   }
 }

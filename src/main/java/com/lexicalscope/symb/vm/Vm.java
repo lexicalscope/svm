@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeStatic;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
 import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
@@ -13,7 +14,6 @@ import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
-import com.lexicalscope.symb.vm.instructions.MethodCallInstruction;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
 
 public class Vm {
@@ -68,10 +68,14 @@ public class Vm {
    }
 
    private static State initial(final SClassLoader classLoader, final String klass, final String name, final String desc) {
-      final InstructionInternalNode initialInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass, name, desc));
+      final InstructionNode defineClassClass = classLoader.defineClassClassInstruction();
+      final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(klass, name, desc));
+
+      defineClassClass.next(entryPointInstruction);
+
       final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
-      return new StateImpl(statics, new DequeStack(initialInstruction, 0, argSize), new FastHeap(), classLoader.initialMeta());
+      return new StateImpl(statics, new DequeStack(defineClassClass, 0, argSize), new FastHeap(), classLoader.initialMeta());
    }
 }

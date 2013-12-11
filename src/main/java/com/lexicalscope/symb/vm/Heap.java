@@ -8,6 +8,5 @@ public interface Heap extends Snapshotable<Heap> {
    void put(Object obj, int offset, Object val);
    Object get(Object obj, int offset);
 
-   @Override
-   Heap snapshot();
+   Object nullPointer();
 }

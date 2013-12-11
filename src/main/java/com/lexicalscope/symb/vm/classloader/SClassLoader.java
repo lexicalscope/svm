@@ -19,6 +19,10 @@ public interface SClassLoader {
 
    Snapshotable<?> initialMeta();
 
-   InstructionNode resolveNative(SMethodName methodName);
+   MethodBody resolveNative(SMethodName methodName);
 
+   /**
+    * Instruction which defines the class of the class Class
+    */
+   InstructionNode defineClassClassInstruction();
 }

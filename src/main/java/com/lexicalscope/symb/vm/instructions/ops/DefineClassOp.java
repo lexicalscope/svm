@@ -47,4 +47,8 @@ public final class DefineClassOp implements Op<Boolean> {
       }
       return jumpToInitaliser;
    }
+
+   @Override public String toString() {
+      return "Define Class " + klassName;
+   }
 }

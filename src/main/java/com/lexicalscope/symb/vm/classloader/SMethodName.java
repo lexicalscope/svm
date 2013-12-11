@@ -48,6 +48,6 @@ public class SMethodName implements Comparable<SMethodName> {
 
    @Override
    public String toString() {
-      return name + desc;
+      return klassName + "." + name + desc;
    }
 }

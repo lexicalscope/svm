@@ -51,9 +51,18 @@ public class AsmSClassLoader implements SClassLoader {
       return instructionFactory.initialMeta();
    }
 
-   @Override public InstructionNode resolveNative(final SMethodName methodName) {
+   @Override public MethodBody resolveNative(final SMethodName methodName) {
       // TODO[tim]: make native methods do something
-      if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported");
-      return new InstructionInternalNode(instructions.returnVoid());
+
+      if(methodName.equals(new SMethodName("java/lang/Class", "getClassLoader0", "()Ljava/lang/ClassLoader;"))) {
+         return instructions.statements().maxStack(1).aconst_null().return1().build();
+      }
+
+      if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
+      return instructions.statements().returnVoid().build();
+   }
+
+   @Override public InstructionNode defineClassClassInstruction() {
+      return new InstructionInternalNode(instructions.defineClass(getInternalName(Class.class)));
    }
 }
