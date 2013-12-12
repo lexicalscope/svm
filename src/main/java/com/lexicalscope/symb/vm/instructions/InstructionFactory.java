@@ -19,11 +19,14 @@ public interface InstructionFactory {
 	Vop stringPoolLoad(String constVal);
 
 	Instruction branchIfGe(JumpInsnNode jumpInsnNode);
+	Instruction branchIfLt(JumpInsnNode jumpInsnNode);
 	Instruction branchIfEq(JumpInsnNode jumpInsnNode);
 	Instruction branchIfNe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
 	Instruction branchGoto(JumpInsnNode jumpInsnNode);
 
+	Instruction branchIfICmpEq(JumpInsnNode jumpInsnNode);
+	Instruction branchIfICmpNe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfICmpLe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfICmpGe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);

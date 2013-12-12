@@ -47,6 +47,11 @@ public class SymbInstructionFactory implements InstructionFactory {
 		return SBranchInstruction.geInstruction(feasibilityChecker);
 	}
 
+   @Override
+   public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
    @Override public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
@@ -56,6 +61,14 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 

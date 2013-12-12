@@ -14,9 +14,12 @@ import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpEq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpGe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLt;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpNe;
+import com.lexicalscope.symb.vm.concinstructions.predicates.Lt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
 import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
@@ -45,6 +48,11 @@ public class ConcInstructionFactory implements InstructionFactory {
 	}
 
    @Override
+   public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new Lt());
+   }
+
+   @Override
    public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new Ne());
    }
@@ -52,6 +60,14 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override
    public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new Eq());
+   }
+
+   @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new ICmpEq());
+   }
+
+   @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new ICmpNe());
    }
 
    @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {

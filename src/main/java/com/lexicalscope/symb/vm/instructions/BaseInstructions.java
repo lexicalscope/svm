@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm.instructions;
 
 import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.*;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.*;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.*;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
 
 import org.objectweb.asm.Opcodes;
@@ -21,8 +23,6 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayLengthOp;
-import com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp;
-import com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
@@ -129,13 +129,15 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ICONST_5:
                   return iconst(5);
                case Opcodes.CASTORE:
+                  return linearInstruction(caStore());
                case Opcodes.IASTORE:
                case Opcodes.AASTORE:
-                  return linearInstruction(new ArrayStoreOp());
+                  return linearInstruction(aaStore());
                case Opcodes.CALOAD:
+                  return linearInstruction(caLoad());
                case Opcodes.IALOAD:
                case Opcodes.AALOAD:
-                  return linearInstruction(new ArrayLoadOp());
+                  return linearInstruction(aaLoad());
                case Opcodes.ARRAYLENGTH:
                   return linearInstruction(new ArrayLengthOp());
                case Opcodes.ISHL:
@@ -204,12 +206,18 @@ public final class BaseInstructions implements Instructions {
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
                   return instructionFactory.branchIfGe(jumpInsnNode);
+               case Opcodes.IFLT:
+                  return instructionFactory.branchIfLt(jumpInsnNode);
                case Opcodes.IFEQ:
                   return instructionFactory.branchIfEq(jumpInsnNode);
                case Opcodes.IFNE:
                   return instructionFactory.branchIfNe(jumpInsnNode);
                case Opcodes.IFNONNULL:
                   return instructionFactory.branchIfNonNull(jumpInsnNode);
+               case Opcodes.IF_ICMPEQ:
+                  return instructionFactory.branchIfICmpEq(jumpInsnNode);
+               case Opcodes.IF_ICMPNE:
+                  return instructionFactory.branchIfICmpNe(jumpInsnNode);
                case Opcodes.IF_ICMPLE:
                   return instructionFactory.branchIfICmpLe(jumpInsnNode);
                case Opcodes.IF_ICMPLT:
