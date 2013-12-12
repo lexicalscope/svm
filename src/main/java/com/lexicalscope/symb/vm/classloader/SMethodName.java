@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.classloader;
 
 import org.objectweb.asm.Type;
 
-public class SMethodName implements Comparable<SMethodName> {
+public final class SMethodName implements Comparable<SMethodName> {
    private final String klassName;
    private final String desc;
    private final String name;
@@ -11,6 +11,10 @@ public class SMethodName implements Comparable<SMethodName> {
       this.klassName = klassName;
       this.name = name;
       this.desc = desc;
+   }
+
+   public SMethodName(final Class<?> klass, final String name, final String desc) {
+      this(Type.getInternalName(klass), name, desc);
    }
 
    public boolean isVoidMethod() {
@@ -49,5 +53,17 @@ public class SMethodName implements Comparable<SMethodName> {
    @Override
    public String toString() {
       return klassName + "." + name + desc;
+   }
+
+   public String klassName() {
+      return klassName;
+   }
+
+   public String name() {
+      return name;
+   }
+
+   public String desc() {
+      return desc;
    }
 }

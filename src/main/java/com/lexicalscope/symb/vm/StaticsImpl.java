@@ -9,6 +9,7 @@ import com.lexicalscope.symb.vm.classloader.ClassLoaded;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class StaticsImpl implements Statics {
    // TODO[tim]: need fast-clone version
@@ -64,6 +65,10 @@ public class StaticsImpl implements Statics {
          throw new MissingClassDefinitionException(klassName);
       }
       return load(klassName).staticMethod(name, desc);
+   }
+
+   @Override public SMethod loadMethod(final SMethodName sMethodName) {
+      return loadMethod(sMethodName.klassName(), sMethodName.name(), sMethodName.desc());
    }
 
    @Override public void staticsAt(final SClass klass, final Object staticsAddress) {

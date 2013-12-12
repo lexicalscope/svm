@@ -13,4 +13,8 @@ public class ArrayLengthOp implements Vop {
       final Object address = stackFrame.pop();
       stackFrame.push(heap.get(address, ARRAY_LENGTH_OFFSET));
    }
+
+   @Override public String toString() {
+      return "ARRAY_LENGTH";
+   }
 }

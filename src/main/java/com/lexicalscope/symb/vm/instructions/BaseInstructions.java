@@ -7,6 +7,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
+import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.InsnNode;
 import org.objectweb.asm.tree.IntInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
@@ -26,6 +27,11 @@ import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
+import com.lexicalscope.symb.vm.instructions.ops.IincOp;
+import com.lexicalscope.symb.vm.instructions.ops.IorOp;
+import com.lexicalscope.symb.vm.instructions.ops.IshlOp;
+import com.lexicalscope.symb.vm.instructions.ops.IushrOp;
+import com.lexicalscope.symb.vm.instructions.ops.IxorOp;
 import com.lexicalscope.symb.vm.instructions.ops.L2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
@@ -132,6 +138,14 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new ArrayLoadOp());
                case Opcodes.ARRAYLENGTH:
                   return linearInstruction(new ArrayLengthOp());
+               case Opcodes.ISHL:
+                  return linearInstruction(new IshlOp());
+               case Opcodes.IUSHR:
+                  return linearInstruction(new IushrOp());
+               case Opcodes.IOR:
+                  return linearInstruction(new IorOp());
+               case Opcodes.IXOR:
+                  return linearInstruction(new IxorOp());
                case Opcodes.LUSHR:
                   return linearInstruction(new LushrOp());
                case Opcodes.L2I:
@@ -167,6 +181,13 @@ public final class BaseInstructions implements Instructions {
                   return iconst(intInsnNode.operand);
                case Opcodes.NEWARRAY:
                return linearInstruction(new NewArrayOp());
+            }
+            break;
+         case AbstractInsnNode.IINC_INSN:
+            final IincInsnNode iincInsnNode = (IincInsnNode) abstractInsnNode;
+            switch (abstractInsnNode.getOpcode()) {
+               case Opcodes.IINC:
+                  return linearInstruction(new IincOp(iincInsnNode.var, iincInsnNode.incr));
             }
             break;
          case AbstractInsnNode.TYPE_INSN:
@@ -240,7 +261,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    private Instruction stringPoolLoad(final String constVal) {
-      return nullary(instructionFactory.stringPoolLoad(constVal));
+      return linearInstruction(instructionFactory.stringPoolLoad(constVal));
    }
 
    private Instruction objectPoolLoad(final Type constVal) {

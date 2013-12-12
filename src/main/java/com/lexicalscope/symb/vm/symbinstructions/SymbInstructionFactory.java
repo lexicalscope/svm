@@ -4,6 +4,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -83,7 +84,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-	@Override public NullaryOperator stringPoolLoad(final String constVal) {
+	@Override public Vop stringPoolLoad(final String constVal) {
 	   throw new UnsupportedOperationException("unable to handle symbolic strings yet");
 	}
 

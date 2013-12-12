@@ -7,10 +7,10 @@ import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
-final class NewOp implements Vop {
+public final class NewOp implements Vop {
    private final String klassDesc;
 
-   NewOp(final String klassDesc) {
+   public NewOp(final String klassDesc) {
       this.klassDesc = klassDesc;
    }
 

@@ -4,6 +4,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 
@@ -15,7 +16,7 @@ public interface InstructionFactory {
 	NullaryOperator iconst(int val);
 	NullaryOperator lconst(long val);
 	NullaryOperator fconst(float val);
-	NullaryOperator stringPoolLoad(String constVal);
+	Vop stringPoolLoad(String constVal);
 
 	Instruction branchIfGe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfEq(JumpInsnNode jumpInsnNode);

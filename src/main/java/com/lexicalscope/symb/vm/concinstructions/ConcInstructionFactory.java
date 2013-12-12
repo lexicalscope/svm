@@ -4,6 +4,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
@@ -92,7 +93,7 @@ public class ConcInstructionFactory implements InstructionFactory {
       return new FConstOperator(val);
    }
 
-	@Override public NullaryOperator stringPoolLoad(final String val) {
+	@Override public Vop stringPoolLoad(final String val) {
 	   return new StringPoolLoadOperator(val);
 	}
 

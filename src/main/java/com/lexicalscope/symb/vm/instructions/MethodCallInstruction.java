@@ -11,6 +11,7 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class MethodCallInstruction implements Instruction {
@@ -60,20 +61,24 @@ public class MethodCallInstruction implements Instruction {
       }
    }
 
-   private final MethodInsnNode methodInsnNode;
    private final MethodInvokation methodInvokation;
+   private final SMethodName sMethodName;
 
-   public MethodCallInstruction(final MethodInsnNode methodInsnNode, final MethodInvokation methodInvokation) {
-      this.methodInsnNode = methodInsnNode;
+   public MethodCallInstruction(final SMethodName sMethodName, final MethodInvokation methodInvokation) {
+      this.sMethodName = sMethodName;
       this.methodInvokation = methodInvokation;
    }
 
+   public MethodCallInstruction(final MethodInsnNode methodInsnNode, final MethodInvokation methodInvokation) {
+      this(new SMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc), methodInvokation);
+   }
+
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      if(!methodInvokation.load(state, methodInsnNode.owner)){
+      if(!methodInvokation.load(state, sMethodName.klassName())){
          state.op(new StackVop() {
             @Override public void eval(final Stack stack, final Statics statics) {
                // TODO[tim]: virtual does not resolve overridden methods
-               final SMethod targetMethod = statics.loadMethod(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+               final SMethod targetMethod = statics.loadMethod(sMethodName);
                stack.pushFrame(instruction.next(), targetMethod, methodInvokation.argSize(targetMethod));
             }
          });
@@ -82,7 +87,7 @@ public class MethodCallInstruction implements Instruction {
 
    @Override
    public String toString() {
-      return String.format("%s %s.%s%s", methodInvokation.name(), methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+      return String.format("%s %s", methodInvokation.name(), sMethodName);
    }
 
    public static Instruction createInvokeVirtual(final MethodInsnNode methodInsnNode) {
@@ -93,8 +98,16 @@ public class MethodCallInstruction implements Instruction {
       return new MethodCallInstruction(methodInsnNode, new SpecialMethodInvokation());
    }
 
+   public static Instruction createInvokeSpecial(final SMethodName sMethodName) {
+      return new MethodCallInstruction(sMethodName, new SpecialMethodInvokation());
+   }
+
    public static Instruction createInvokeStatic(final MethodInsnNode methodInsnNode) {
       return new MethodCallInstruction(methodInsnNode, new StaticMethodInvokation());
+   }
+
+   public static Instruction createInvokeStatic(final SMethodName sMethodName) {
+      return new MethodCallInstruction(sMethodName, new StaticMethodInvokation());
    }
 
    public static Instruction createInvokeStatic(final String klass, final String method, final String desc) {

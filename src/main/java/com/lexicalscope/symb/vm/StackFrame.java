@@ -5,6 +5,7 @@ import static java.util.Arrays.copyOf;
 public final class StackFrame {
 	private final Object[] stack;
 	private InstructionNode instruction; // PC
+	private final int opBot; // pointer to bottom of operand stack
 	private int opTop; // pointer to top of operand stack
 	private final int vars = 0; // pointer to local variables
 
@@ -12,12 +13,17 @@ public final class StackFrame {
 			final InstructionNode instruction,
 			final int maxLocals,
 			final int maxStack) {
-		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1);
+		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
 	}
 
-	private StackFrame(final InstructionNode instruction, final Object[] stack, final int opTop) {
+	private StackFrame(
+	      final InstructionNode instruction,
+	      final Object[] stack,
+	      final int opBot,
+	      final int opTop) {
 		this.instruction = instruction;
 		this.stack = stack;
+      this.opBot = opBot;
 		this.opTop = opTop;
 	}
 
@@ -85,19 +91,25 @@ public final class StackFrame {
 	}
 
 	public StackFrame snapshot() {
-		return new StackFrame(instruction, copyOf(stack, stack.length), opTop);
+		return new StackFrame(instruction, copyOf(stack, stack.length), opBot, opTop);
 	}
 
 	@Override
 	public String toString() {
-		String separator = "";
-		final StringBuilder stackString = new StringBuilder();
-		for (int i = vars; i <= opTop; i++) {
+		final StringBuilder locals = new StringBuilder();
+		final StringBuilder operands = new StringBuilder();
+		formatStack(locals, vars, opBot);
+		formatStack(operands, opBot + 1, opTop);
+
+		return String.format("%s [%s][%s]", instruction, locals, operands);
+	}
+
+   private void formatStack(final StringBuilder stackString, final int start, final int end) {
+      String separator = "";
+      for (int i = start; i <= end; i++) {
 			stackString.append(separator);
 			stackString.append(stack[i]);
 			separator = ", ";
 		}
-
-		return String.format("%s [%s]", instruction, stackString);
-	}
+   }
 }
