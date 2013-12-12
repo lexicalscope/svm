@@ -20,6 +20,7 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayLengthOp;
+import com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -125,6 +126,10 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.IASTORE:
                case Opcodes.AASTORE:
                   return linearInstruction(new ArrayStoreOp());
+               case Opcodes.CALOAD:
+               case Opcodes.IALOAD:
+               case Opcodes.AALOAD:
+                  return linearInstruction(new ArrayLoadOp());
                case Opcodes.ARRAYLENGTH:
                   return linearInstruction(new ArrayLengthOp());
                case Opcodes.LUSHR:
