@@ -9,7 +9,7 @@ package com.lexicalscope.symb.vm;
 public interface InstructionNode {
    void eval(Vm vm, StateImpl state);
 
-   void next(InstructionNode instruction);
+   InstructionNode next(InstructionNode instruction);
    void jmpTarget(InstructionNode instruction);
 
    InstructionNode next();

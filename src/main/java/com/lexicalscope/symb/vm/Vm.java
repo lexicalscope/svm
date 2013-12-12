@@ -69,9 +69,10 @@ public class Vm {
 
    private static State initial(final SClassLoader classLoader, final String klass, final String name, final String desc) {
       final InstructionNode defineClassClass = classLoader.defineClassClassInstruction();
+      final InstructionNode defineStringClass = classLoader.defineStringClassInstruction();
       final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(klass, name, desc));
 
-      defineClassClass.next(entryPointInstruction);
+      defineClassClass.next(defineStringClass).next(entryPointInstruction);
 
       final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
 

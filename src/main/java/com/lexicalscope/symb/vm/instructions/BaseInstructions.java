@@ -24,6 +24,7 @@ import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
+import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -285,5 +286,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction addressToHashCode() {
       return linearInstruction(new AddressToHashCodeOp());
+   }
+
+   public Instruction nanoTime() {
+      return linearInstruction(new NanoTimeOp());
    }
 }

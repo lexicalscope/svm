@@ -13,6 +13,7 @@ import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SClass implements Allocatable {
    public static final int STATICS_PREAMBLE = 1;
+   public static final int OBJECT_PREAMBLE = 1;
 
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
@@ -86,11 +87,11 @@ public class SClass implements Allocatable {
    }
 
    @Override public int fieldCount() {
-      return fieldMap.size();
+      return fieldMap.size() + OBJECT_PREAMBLE;
    }
 
    public int fieldIndex(final SFieldName name) {
-      return fieldMap.get(name);
+      return fieldMap.get(name) + OBJECT_PREAMBLE;
    }
 
    public boolean hasField(final SFieldName name) {

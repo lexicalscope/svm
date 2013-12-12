@@ -18,7 +18,9 @@ final class NewOp implements Vop {
    public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       // TODO[tim]: linking should remove this
       final SClass klass = statics.load(klassDesc);
-      stackFrame.push(heap.newObject(klass));
+      final Object address = heap.newObject(klass);
+      heap.put(address, 0, klass);
+      stackFrame.push(address);
    }
 
    @Override

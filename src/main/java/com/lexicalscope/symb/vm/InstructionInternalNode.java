@@ -24,8 +24,9 @@ public class InstructionInternalNode implements InstructionNode {
       instruction.eval(vm, state, this);
    }
 
-   @Override public void next(final InstructionNode instruction) {
+   @Override public InstructionNode next(final InstructionNode instruction) {
       next = instruction;
+      return next;
    }
 
    @Override public InstructionNode next() {

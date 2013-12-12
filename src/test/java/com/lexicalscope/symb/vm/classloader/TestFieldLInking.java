@@ -19,35 +19,35 @@ public class TestFieldLInking {
    private final SClass classWith4StaticFields = sClassLoader.load(ClassWith5StaticFields.class);
    private final SClass classWith4StaticFieldsAnd2DynamicFields = sClassLoader.load(ClassWith4StaticFieldsAnd2DynamicFields.class);
 
-   @Test public void classWithNoSuperClassCountsFieldsFrom0() {
-      assertThat(classWithFiveFields.fieldCount(), equalTo(5));
-      assertThat(classWithFiveFields, hasField("a", withIndex(0)));
-      assertThat(classWithFiveFields, hasField("b", withIndex(1)));
-      assertThat(classWithFiveFields, hasField("c", withIndex(2)));
-      assertThat(classWithFiveFields, hasField("d", withIndex(3)));
-      assertThat(classWithFiveFields, hasField("e", withIndex(4)));
+   @Test public void classWithNoSuperClassCountsFieldsFromPreamble() {
+      assertThat(classWithFiveFields.fieldCount(), equalTo(6));
+      assertThat(classWithFiveFields, hasField("a", withIndex(1)));
+      assertThat(classWithFiveFields, hasField("b", withIndex(2)));
+      assertThat(classWithFiveFields, hasField("c", withIndex(3)));
+      assertThat(classWithFiveFields, hasField("d", withIndex(4)));
+      assertThat(classWithFiveFields, hasField("e", withIndex(5)));
    }
 
    @Test public void classWithSuperClassCountsFieldsFromSuperClassFields() {
-      assertThat(subClassWithThreeFields.fieldCount(), equalTo(5+3));
-      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "a", withIndex(0)));
-      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "b", withIndex(1)));
-      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "c", withIndex(2)));
-      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "d", withIndex(3)));
-      assertThat(subClassWithThreeFields, SClassMatchers.hasField(classWithFiveFields, "e", withIndex(4)));
-      assertThat(subClassWithThreeFields, hasField("f", withIndex(5)));
-      assertThat(subClassWithThreeFields, hasField("g", withIndex(6)));
-      assertThat(subClassWithThreeFields, hasField("h", withIndex(7)));
+      assertThat(subClassWithThreeFields.fieldCount(), equalTo(5+3+SClass.OBJECT_PREAMBLE));
+      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "a", withIndex(1)));
+      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "b", withIndex(2)));
+      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "c", withIndex(3)));
+      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "d", withIndex(4)));
+      assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "e", withIndex(5)));
+      assertThat(subClassWithThreeFields, hasField("f", withIndex(6)));
+      assertThat(subClassWithThreeFields, hasField("g", withIndex(7)));
+      assertThat(subClassWithThreeFields, hasField("h", withIndex(8)));
    }
 
    @Test public void classWithOverloadedFieldHasMoreThanOneIndex() {
-      assertThat(subClassWithOverloadedField.fieldCount(), equalTo(5+1));
-      assertThat(subClassWithOverloadedField, hasField(classWithFiveFields, "c", withIndex(2)));
-      assertThat(subClassWithOverloadedField, hasField("c", withIndex(5)));
+      assertThat(subClassWithOverloadedField.fieldCount(), equalTo(5+1+SClass.OBJECT_PREAMBLE));
+      assertThat(subClassWithOverloadedField, hasField(classWithFiveFields, "c", withIndex(3)));
+      assertThat(subClassWithOverloadedField, hasField("c", withIndex(6)));
    }
 
    @Test public void classCountsStaticFieldsFrom0() {
-      assertThat(classWith4StaticFields.fieldCount(), equalTo(0));
+      assertThat(classWith4StaticFields.fieldCount(), equalTo(1));
       assertThat(classWith4StaticFields.staticFieldCount(), equalTo(4));
       assertThat(classWith4StaticFields, hasStaticField("a", withIndex(1)));
       assertThat(classWith4StaticFields, hasStaticField("b", withIndex(2)));
@@ -56,13 +56,13 @@ public class TestFieldLInking {
    }
 
    @Test public void classWithStaticAndDynamicFieldsSeparatesThem() {
-      assertThat(classWith4StaticFieldsAnd2DynamicFields.fieldCount(), equalTo(2));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields.fieldCount(), equalTo(3));
       assertThat(classWith4StaticFieldsAnd2DynamicFields.staticFieldCount(), equalTo(4));
       assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("a", withIndex(1)));
       assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("b", withIndex(2)));
       assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("c", withIndex(3)));
       assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("d", withIndex(4)));
-      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("e", withIndex(0)));
-      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("f", withIndex(1)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("e", withIndex(1)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("f", withIndex(2)));
    }
 }

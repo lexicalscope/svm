@@ -63,6 +63,8 @@ public class AsmSClassLoader implements SClassLoader {
          return instructions.statements().maxStack(1).newObject("java/lang/Class").return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "identityHashCode", "(Ljava/lang/Object;)I"))) {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
+      } else if (methodName.equals(new SMethodName("java/lang/System", "nanoTime", "()J"))) {
+         return instructions.statements().maxStack(1).nanoTime().return1().build();
       }
 
       if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
@@ -73,7 +75,7 @@ public class AsmSClassLoader implements SClassLoader {
       return new InstructionInternalNode(instructions.defineClass(getInternalName(Class.class)));
    }
 
-   boolean foo() {
-      return false;
+   @Override public InstructionNode defineStringClassInstruction() {
+      return new InstructionInternalNode(instructions.defineClass(getInternalName(String.class)));
    }
 }

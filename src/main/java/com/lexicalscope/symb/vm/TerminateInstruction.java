@@ -7,7 +7,7 @@ public class TerminateInstruction implements InstructionNode {
       throw new TerminationException(state);
    }
 
-   @Override public void next(final InstructionNode instruction) {
+   @Override public InstructionNode next(final InstructionNode instruction) {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
