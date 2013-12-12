@@ -13,6 +13,7 @@ import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpGe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
@@ -54,6 +55,10 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new ICmpLe());
+   }
+
+   @Override public Instruction branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new ICmpGe());
    }
 
    @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {

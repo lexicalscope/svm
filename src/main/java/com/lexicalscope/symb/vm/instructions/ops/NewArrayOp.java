@@ -9,6 +9,7 @@ import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 
 public class NewArrayOp implements Vop {
+   static final int ARRAY_LENGTH_OFFSET = 0;
    public static final int ARRAY_PREAMBLE = 1;
 
    // TODO - arrays can have different types
@@ -27,7 +28,7 @@ public class NewArrayOp implements Vop {
             return arrayLength + ARRAY_PREAMBLE;
          }
       });
-      heap.put(arrayAddress, 0, arrayLength);
+      heap.put(arrayAddress, ARRAY_LENGTH_OFFSET, arrayLength);
       stackFrame.push(arrayAddress);
    }
 

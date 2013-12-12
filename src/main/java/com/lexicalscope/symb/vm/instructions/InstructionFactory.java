@@ -24,6 +24,7 @@ public interface InstructionFactory {
 	Instruction branchGoto(JumpInsnNode jumpInsnNode);
 
 	Instruction branchIfICmpLe(JumpInsnNode jumpInsnNode);
+	Instruction branchIfICmpGe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);
 
 	Snapshotable<?> initialMeta();
