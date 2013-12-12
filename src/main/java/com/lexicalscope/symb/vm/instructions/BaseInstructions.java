@@ -22,6 +22,7 @@ import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
@@ -65,6 +66,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ALOAD:
                   return load(varInsnNode);
                case Opcodes.ISTORE:
+               case Opcodes.LSTORE:
                case Opcodes.ASTORE:
                   return store(varInsnNode);
             }
@@ -290,5 +292,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction nanoTime() {
       return linearInstruction(new NanoTimeOp());
+   }
+
+   public Instruction currentTimeMillis() {
+      return linearInstruction(new CurrentTimeMillisOp());
    }
 }

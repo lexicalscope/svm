@@ -65,6 +65,8 @@ public class AsmSClassLoader implements SClassLoader {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "nanoTime", "()J"))) {
          return instructions.statements().maxStack(1).nanoTime().return1().build();
+      } else if (methodName.equals(new SMethodName("java/lang/System", "currentTimeMillis", "()J"))) {
+         return instructions.statements().maxStack(1).currentTimeMillis().return1().build();
       }
 
       if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
