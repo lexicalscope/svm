@@ -54,6 +54,16 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder addressToHashCode() {
+      instructions.add(baseInstructions.addressToHashCode());
+      return this;
+   }
+
+   public StatementBuilder aload(final int index) {
+      instructions.add(baseInstructions.aload(index));
+      return this;
+   }
+
    public MethodBody build() {
       InstructionInternalNode next = null;
       for (final Instruction instruction : reverse(instructions)) {

@@ -39,8 +39,10 @@ public class StaticsImpl implements Statics {
       final List<SClass> result = new ArrayList<>();
       classLoader.load(klassName, new ClassLoaded(){
          @Override public void loaded(final SClass klass) {
-            defined.put(klass.name(), klass);
-            result.add(klass);
+            if(!defined.containsKey(klass.name())) {
+               defined.put(klass.name(), klass);
+               result.add(klass);
+            }
          }});
 
       return result;
@@ -65,10 +67,13 @@ public class StaticsImpl implements Statics {
    }
 
    @Override public void staticsAt(final SClass klass, final Object staticsAddress) {
+      assert !staticsAddresses.containsKey(klass);
       staticsAddresses.put(klass, staticsAddress);
    }
 
    @Override public Object whereMyStaticsAt(final SClass klass) {
-      return staticsAddresses.get(klass);
+      final Object address = staticsAddresses.get(klass);
+      if(address == null) throw new IllegalStateException("no statics for " + klass);
+      return address;
    }
 }

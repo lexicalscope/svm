@@ -48,4 +48,8 @@ public class FastHeap implements Heap {
    public String toString() {
       return trie.toString();
    }
+
+   @Override public int hashCode(final Object address) {
+      return objectForRef(address);
+   }
 }

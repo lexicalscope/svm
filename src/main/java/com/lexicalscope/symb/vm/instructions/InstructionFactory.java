@@ -14,9 +14,11 @@ public interface InstructionFactory {
 
 	NullaryOperator iconst(int val);
 	NullaryOperator lconst(long val);
+	NullaryOperator fconst(float val);
 	NullaryOperator stringPoolLoad(String constVal);
 
 	Instruction branchIfGe(JumpInsnNode jumpInsnNode);
+	Instruction branchIfEq(JumpInsnNode jumpInsnNode);
 	Instruction branchIfNe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
 	Instruction branchGoto(JumpInsnNode jumpInsnNode);

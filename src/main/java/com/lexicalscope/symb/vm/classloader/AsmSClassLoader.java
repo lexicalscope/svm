@@ -61,6 +61,8 @@ public class AsmSClassLoader implements SClassLoader {
       } else if (methodName.equals(new SMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
          // TODO[tim] we need to somewhere store the mapping between class objects and the class they represent
          return instructions.statements().maxStack(1).newObject("java/lang/Class").return1().build();
+      } else if (methodName.equals(new SMethodName("java/lang/System", "identityHashCode", "(Ljava/lang/Object;)I"))) {
+         return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
       }
 
       if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported - " + methodName);

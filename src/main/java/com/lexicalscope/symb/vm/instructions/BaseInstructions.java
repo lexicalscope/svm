@@ -18,6 +18,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
+import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -115,6 +116,7 @@ public final class BaseInstructions implements Instructions {
                   return iconst(5);
                case Opcodes.CASTORE:
                case Opcodes.IASTORE:
+               case Opcodes.AASTORE:
                   return linearInstruction(new ArrayStoreOp());
             }
             break;
@@ -126,11 +128,13 @@ public final class BaseInstructions implements Instructions {
                      return iconst((int) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Long) {
                      return lconst((long) ldcInsnNode.cst);
+                  } else if(ldcInsnNode.cst instanceof Float) {
+                     return fconst((float) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof String) {
                      return stringPoolLoad((String) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Type) {
                      final Type toLoad = (Type) ldcInsnNode.cst;
-                     if(toLoad.getSort()== Type.OBJECT) {
+                     if(toLoad.getSort() == Type.OBJECT) {
                         return objectPoolLoad(toLoad);
                      }
                   }
@@ -161,6 +165,8 @@ public final class BaseInstructions implements Instructions {
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
                   return instructionFactory.branchIfGe(jumpInsnNode);
+               case Opcodes.IFEQ:
+                  return instructionFactory.branchIfEq(jumpInsnNode);
                case Opcodes.IFNE:
                   return instructionFactory.branchIfNe(jumpInsnNode);
                case Opcodes.IFNONNULL:
@@ -201,6 +207,10 @@ public final class BaseInstructions implements Instructions {
       return nullary(instructionFactory.lconst(constVal));
    }
 
+   private Instruction fconst(final float constVal) {
+      return nullary(instructionFactory.fconst(constVal));
+   }
+
    public Instruction aconst_null() {
       return linearInstruction(new AConstNullOp());
    }
@@ -222,7 +232,15 @@ public final class BaseInstructions implements Instructions {
    }
 
    private LinearInstruction load(final VarInsnNode varInsnNode) {
-      return linearInstruction(new Load(varInsnNode.var));
+      return load(varInsnNode.var);
+   }
+
+   private LinearInstruction load(final int index) {
+      return linearInstruction(new Load(index));
+   }
+
+   public Instruction aload(final int index) {
+      return load(index);
    }
 
    private LinearInstruction linearInstruction(final Vop op) {
@@ -263,5 +281,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction newObject(final String klassDesc) {
       return loadingInstruction(klassDesc, newOp(klassDesc));
+   }
+
+   public Instruction addressToHashCode() {
+      return linearInstruction(new AddressToHashCodeOp());
    }
 }

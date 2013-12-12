@@ -50,6 +50,10 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
+   @Override public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
    @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
@@ -70,6 +74,10 @@ public class SymbInstructionFactory implements InstructionFactory {
 	@Override public NullaryOperator lconst(final long val) {
 	   throw new UnsupportedOperationException("not implemented yet");
 	}
+
+   @Override public NullaryOperator fconst(final float val) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
 
 	@Override public NullaryOperator stringPoolLoad(final String constVal) {
 	   throw new UnsupportedOperationException("unable to handle symbolic strings yet");

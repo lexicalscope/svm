@@ -4,12 +4,14 @@ import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
+import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
+import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLt;
@@ -45,6 +47,11 @@ public class ConcInstructionFactory implements InstructionFactory {
       return branchInstruction(jumpInsnNode, new Ne());
    }
 
+   @Override
+   public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new Eq());
+   }
+
    @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new ICmpLe());
    }
@@ -73,6 +80,11 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override
    public NullaryOperator lconst(final long val) {
       return new LConstOperator(val);
+   }
+
+   @Override
+   public NullaryOperator fconst(final float val) {
+      return new FConstOperator(val);
    }
 
 	@Override public NullaryOperator stringPoolLoad(final String val) {

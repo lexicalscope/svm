@@ -49,19 +49,19 @@ public class TestFieldLInking {
    @Test public void classCountsStaticFieldsFrom0() {
       assertThat(classWith4StaticFields.fieldCount(), equalTo(0));
       assertThat(classWith4StaticFields.staticFieldCount(), equalTo(4));
-      assertThat(classWith4StaticFields, hasStaticField("a", withIndex(0)));
-      assertThat(classWith4StaticFields, hasStaticField("b", withIndex(1)));
-      assertThat(classWith4StaticFields, hasStaticField("c", withIndex(2)));
-      assertThat(classWith4StaticFields, hasStaticField("d", withIndex(3)));
+      assertThat(classWith4StaticFields, hasStaticField("a", withIndex(1)));
+      assertThat(classWith4StaticFields, hasStaticField("b", withIndex(2)));
+      assertThat(classWith4StaticFields, hasStaticField("c", withIndex(3)));
+      assertThat(classWith4StaticFields, hasStaticField("d", withIndex(4)));
    }
 
    @Test public void classWithStaticAndDynamicFieldsSeparatesThem() {
       assertThat(classWith4StaticFieldsAnd2DynamicFields.fieldCount(), equalTo(2));
       assertThat(classWith4StaticFieldsAnd2DynamicFields.staticFieldCount(), equalTo(4));
-      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("a", withIndex(0)));
-      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("b", withIndex(1)));
-      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("c", withIndex(2)));
-      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("d", withIndex(3)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("a", withIndex(1)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("b", withIndex(2)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("c", withIndex(3)));
+      assertThat(classWith4StaticFieldsAnd2DynamicFields, hasStaticField("d", withIndex(4)));
       assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("e", withIndex(0)));
       assertThat(classWith4StaticFieldsAnd2DynamicFields, hasField("f", withIndex(1)));
    }

@@ -2,10 +2,10 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 
-public class LConstOperator implements NullaryOperator {
-	private final long val;
+public class FConstOperator implements NullaryOperator {
+	private final float val;
 
-   public LConstOperator(final long val) {
+   public FConstOperator(final float val) {
       this.val = val;
    }
 
@@ -16,6 +16,6 @@ public class LConstOperator implements NullaryOperator {
 
 	@Override
 	public String toString() {
-		return "LCONST_" + val;
+		return "FCONST_" + val;
 	}
 }

@@ -12,6 +12,8 @@ import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class SClass implements Allocatable {
+   public static final int STATICS_PREAMBLE = 1;
+
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, SMethod> methodMap;
@@ -100,7 +102,7 @@ public class SClass implements Allocatable {
    }
 
    public int staticFieldIndex(final SFieldName name) {
-      return staticFieldMap.get(name);
+      return staticFieldMap.get(name) + STATICS_PREAMBLE;
    }
 
    public boolean hasStaticField(final SFieldName name) {
@@ -118,7 +120,7 @@ public class SClass implements Allocatable {
    public Allocatable statics() {
       return new Allocatable() {
          @Override public int fieldCount() {
-            return staticFieldCount();
+            return staticFieldCount() + STATICS_PREAMBLE;
          }
       };
    }

@@ -32,6 +32,7 @@ public final class DefineClassOp implements Op<Boolean> {
          for (final SClass klass : klasses) {
             if(klass.statics().fieldCount() > 0) {
                final Object staticsAddress = heap.newObject(klass.statics());
+               heap.put(staticsAddress, 0, klass.name());
                statics.staticsAt(klass, staticsAddress);
             }
 
