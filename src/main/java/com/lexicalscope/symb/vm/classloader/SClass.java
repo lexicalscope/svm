@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 import java.util.TreeMap;
 
 import org.objectweb.asm.Opcodes;
@@ -11,9 +13,12 @@ import org.objectweb.asm.tree.MethodNode;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
-public class SClass implements Allocatable {
+public final class SClass implements Allocatable {
    public static final int STATICS_PREAMBLE = 1;
    public static final int OBJECT_PREAMBLE = 1;
+   public static final int OBJECT_CLASS_OFFSET = 0;
+
+   private final Set<SClass> superTypes = new HashSet<>();
 
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
@@ -23,11 +28,16 @@ public class SClass implements Allocatable {
    private final Instructions instructions;
    private final int classStartOffset;
    private final int subclassOffset;
-   private final Allocatable superclass;
+   private final SClass superclass;
    private final SClassLoader classLoader;
 
-   // TODO[tim]: far to much work in this constructor
-   public SClass(final SClassLoader classLoader, final Instructions instructions, final ClassNode classNode, final SClass superclass) {
+   // TODO[tim]: far too much work in this constructor
+   public SClass(
+         final SClassLoader classLoader,
+         final Instructions instructions,
+         final ClassNode classNode,
+         final SClass superclass,
+         final List<SClass> interfaces) {
       this.classLoader = classLoader;
       this.instructions = instructions;
       this.classNode = classNode;
@@ -38,8 +48,16 @@ public class SClass implements Allocatable {
       this.fieldMap = new TreeMap<>();
       this.methodMap = new TreeMap<>();
 
-      if (superclass != null)
+      superTypes.add(this);
+
+      if (superclass != null) {
          fieldMap.putAll(superclass.fieldMap);
+         superTypes.addAll(superclass.superTypes);
+      }
+
+      for (final SClass interfac3 : interfaces) {
+         superTypes.addAll(interfac3.superTypes);
+      }
 
       initialiseFieldMaps();
       initialiseMethodMap();
@@ -124,6 +142,10 @@ public class SClass implements Allocatable {
             return staticFieldCount() + STATICS_PREAMBLE;
          }
       };
+   }
+
+   public boolean instanceOf(final SClass other) {
+      return other == this || superTypes.contains(other);
    }
 
    @Override public String toString() {

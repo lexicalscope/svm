@@ -3,6 +3,8 @@ package com.lexicalscope.symb.vm.classloader;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
@@ -37,8 +39,17 @@ public class ResourceByteCodeReader implements ByteCodeReader {
          } finally {
             in.close();
          }
-         final SClass superclassNode = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
-         return new SClass(classLoader, instructions, classNode, superclassNode);
+
+         final SClass superclass = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
+
+         @SuppressWarnings("unchecked")
+         final List<String> interfaceNames = classNode.interfaces;
+         final List<SClass> interfaces = new ArrayList<>();
+         for (final String interfaceName : interfaceNames) {
+            interfaces.add(classLoader.load(interfaceName, classLoaded));
+         }
+
+         return new SClass(classLoader, instructions, classNode, superclass, interfaces);
       } catch (final IOException e) {
          throw new SClassLoadingFailException(name, e);
       }

@@ -83,4 +83,17 @@ public class SClassMatchers {
             return equalTo(internalName).matches(item.name());
          }};
    }
+
+   public static final Matcher<? super SClass> isInstanceOf(final SClass klass) {
+      return new TypeSafeDiagnosingMatcher<SClass>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("instanceOf ").appendValue(klass);
+         }
+   
+         @Override protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item);
+            return item.instanceOf(klass);
+         }
+      };
+   }
 }

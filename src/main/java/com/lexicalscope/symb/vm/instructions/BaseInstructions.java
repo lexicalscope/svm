@@ -28,6 +28,7 @@ import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
+import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
 import com.lexicalscope.symb.vm.instructions.ops.IorOp;
 import com.lexicalscope.symb.vm.instructions.ops.IshlOp;
 import com.lexicalscope.symb.vm.instructions.ops.IushrOp;
@@ -199,6 +200,10 @@ public final class BaseInstructions implements Instructions {
                   return newObject(typeInsnNode.desc);
                case Opcodes.ANEWARRAY:
                   return linearInstruction(new NewArrayOp());
+               case Opcodes.INSTANCEOF:
+                  return linearInstruction(new InstanceOfOp(typeInsnNode.desc));
+               case Opcodes.CHECKCAST:
+                  return linearInstruction(new CheckCastOp(typeInsnNode.desc));
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
