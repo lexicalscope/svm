@@ -12,6 +12,8 @@ import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpEq;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpNe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpEq;
@@ -88,6 +90,14 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new Unconditional());
+   }
+
+   @Override public Instruction branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new ACmpNe());
+   }
+
+   @Override public Instruction branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new ACmpEq());
    }
 
    private Instruction branchInstruction(final JumpInsnNode jumpInsnNode, final BranchPredicate branchPredicate) {

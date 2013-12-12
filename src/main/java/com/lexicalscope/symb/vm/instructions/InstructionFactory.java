@@ -31,5 +31,8 @@ public interface InstructionFactory {
 	Instruction branchIfICmpGe(JumpInsnNode jumpInsnNode);
 	Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);
 
+	Instruction branchIfACmpEq(JumpInsnNode jumpInsnNode);
+	Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
+
 	Snapshotable<?> initialMeta();
 }
