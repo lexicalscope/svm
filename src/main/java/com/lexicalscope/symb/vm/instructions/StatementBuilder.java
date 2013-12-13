@@ -74,6 +74,11 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder currentThread() {
+      instructions.add(baseInstructions.currentThread());
+      return this;
+   }
+
    public MethodBody build() {
       InstructionInternalNode next = null;
       for (final Instruction instruction : reverse(instructions)) {

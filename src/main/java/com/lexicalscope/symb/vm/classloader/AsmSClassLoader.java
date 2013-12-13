@@ -29,9 +29,7 @@ public class AsmSClassLoader implements SClassLoader {
     * @see com.lexicalscope.symb.vm.classloader.SClassLoader#load(java.lang.String, com.lexicalscope.symb.vm.classloader.ClassLoaded)
     */
    @Override public SClass load(final String name, final ClassLoaded classLoaded) {
-      final SClass result = byteCodeReader.load(this, name, classLoaded);
-      classLoaded.loaded(result);
-      return result;
+      return byteCodeReader.load(this, name, classLoaded);
    }
 
    @Override public SClass load(final Class<?> klass, final ClassLoaded classLoaded) {
@@ -67,6 +65,9 @@ public class AsmSClassLoader implements SClassLoader {
          return instructions.statements().maxStack(1).nanoTime().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "currentTimeMillis", "()J"))) {
          return instructions.statements().maxStack(1).currentTimeMillis().return1().build();
+      } else if (methodName.equals(new SMethodName("java/lang/Thread", "currentThread", "()Ljava/lang/Thread;"))) {
+         // TODO[tim] we need to somehow store a thread object, probably initalise it at the start
+         return instructions.statements().maxStack(1).currentThread().return1().build();
       }
 
       if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
@@ -79,5 +80,19 @@ public class AsmSClassLoader implements SClassLoader {
 
    @Override public InstructionNode defineStringClassInstruction() {
       return new InstructionInternalNode(instructions.defineClass(getInternalName(String.class)));
+   }
+
+   @Override public InstructionNode defineThreadClassInstruction() {
+      return new InstructionInternalNode(instructions.defineClass(getInternalName(Thread.class)));
+   }
+
+   @Override public InstructionNode initThreadInstruction() {
+      final InstructionInternalNode firstInstruction = new InstructionInternalNode(instructions.initThread());
+      firstInstruction.next(new InstructionInternalNode(instructions.createInvokeSpecial(new SMethodName("java/lang/Thread", "<init>", "()V"))));
+      return firstInstruction;
+   }
+
+   void foo() {
+      new Thread();
    }
 }

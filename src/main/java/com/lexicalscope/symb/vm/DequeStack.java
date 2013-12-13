@@ -11,9 +11,11 @@ import com.lexicalscope.symb.vm.classloader.SMethod;
 
 public class DequeStack implements Stack {
 	private final Deque<StackFrame> stack;
+   private Object currentThread;
 
-	private DequeStack(final Deque<StackFrame> stack) {
+	private DequeStack(final Deque<StackFrame> stack, final Object currentThread) {
 		this.stack = stack;
+      this.currentThread = currentThread;
 	}
 
 	public DequeStack(final InstructionNode instruction, final int maxLocals,
@@ -22,7 +24,7 @@ public class DequeStack implements Stack {
 			{
 				push(new StackFrame(instruction, maxLocals, maxStack));
 			}
-		});
+		}, null);
 	}
 
 	@Override
@@ -73,8 +75,17 @@ public class DequeStack implements Stack {
 			stackCopy.push(iterator.next().snapshot());
 		}
 		assert stackCopy.size() == stack.size();
-		return new DequeStack(stackCopy);
+		return new DequeStack(stackCopy, currentThread);
 	}
+
+	@Override public void currentThread(final Object currentThread) {
+      this.currentThread = currentThread;
+	}
+
+   @Override public Object currentThread() {
+      assert currentThread != null;
+      return currentThread;
+   }
 
 	@Override
 	public boolean equals(final Object obj) {

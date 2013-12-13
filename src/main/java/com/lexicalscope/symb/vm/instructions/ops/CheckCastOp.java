@@ -9,17 +9,16 @@ import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
-public class InstanceOfOp implements Vop {
+public class CheckCastOp implements Vop {
    private final String klassName;
 
-   public InstanceOfOp(final String klassName) {
+   public CheckCastOp(final String klassName) {
       this.klassName = klassName;
    }
 
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-      final Object address = stackFrame.pop();
+      final Object address = stackFrame.peek();
       if(!heap.nullPointer().equals(address)) {
-         stackFrame.push(1);
          return;
       }
 
@@ -27,13 +26,12 @@ public class InstanceOfOp implements Vop {
       final SClass classFromInstruction = statics.load(klassName);
 
       if(classFromHeap.instanceOf(classFromInstruction)) {
-         stackFrame.push(1);
          return;
       }
-      stackFrame.push(0);
-   }
 
-   @Override public String toString() {
-      return "INSTANCEOF";
+      stackFrame.pop();
+
+      // TODO[tim]: should throw an in-game class cast exception
+      throw new UnsupportedOperationException();
    }
 }

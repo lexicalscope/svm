@@ -7,6 +7,8 @@ package com.lexicalscope.symb.vm;
  * @author tim
  */
 public class InstructionInternalNode implements InstructionNode {
+   private static TerminateInstruction terminate = new TerminateInstruction();
+
    private final Instruction instruction;
    private InstructionNode next;
    private InstructionNode target;
@@ -14,8 +16,8 @@ public class InstructionInternalNode implements InstructionNode {
    public InstructionInternalNode(final Instruction instruction) {
       this.instruction = instruction;
 
-      next = new TerminateInstruction();
-      target = new TerminateInstruction();
+      next = terminate;
+      target = terminate;
    }
 
    @Override public void eval(final Vm vm, final StateImpl state) {
@@ -25,8 +27,8 @@ public class InstructionInternalNode implements InstructionNode {
    }
 
    @Override public InstructionNode next(final InstructionNode instruction) {
-      next = instruction;
-      return next;
+      if(next.equals(terminate)) return next = instruction;
+      else return next.next(instruction);
    }
 
    @Override public InstructionNode next() {

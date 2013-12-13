@@ -3,9 +3,13 @@ package com.lexicalscope.symb.vm.classloader;
 import static org.hamcrest.Matchers.equalTo;
 import static org.objectweb.asm.Type.getInternalName;
 
+import java.net.URL;
+
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
+
+import com.lexicalscope.symb.vm.Vm;
 
 public class SClassMatchers {
    public static int withIndex(final int i) {
@@ -84,15 +88,30 @@ public class SClassMatchers {
          }};
    }
 
-   public static final Matcher<? super SClass> isInstanceOf(final SClass klass) {
+   public static Matcher<? super SClass> isInstanceOf(final SClass klass) {
       return new TypeSafeDiagnosingMatcher<SClass>() {
          @Override public void describeTo(final Description description) {
             description.appendText("instanceOf ").appendValue(klass);
          }
-   
+
          @Override protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.instanceOf(klass);
+         }
+      };
+   }
+
+   public static Matcher<? super SClass> loadedFromSamePlaceAs(final Class<Vm> klass) {
+      final URL expectedLocation = klass.getProtectionDomain().getCodeSource().getLocation();
+
+      return new TypeSafeDiagnosingMatcher<SClass>(){
+         @Override public void describeTo(final Description description) {
+            description.appendText("class loaded from ").appendValue(expectedLocation);
+         }
+
+         @Override protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
+            mismatchDescription.appendText("class loaded from ").appendValue(item.loadedFrom());
+            return item.loadedFrom().toExternalForm().startsWith(expectedLocation.toExternalForm());
          }
       };
    }

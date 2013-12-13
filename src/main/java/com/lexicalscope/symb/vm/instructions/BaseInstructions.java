@@ -20,14 +20,18 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayLengthOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
+import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
+import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
 import com.lexicalscope.symb.vm.instructions.ops.IorOp;
 import com.lexicalscope.symb.vm.instructions.ops.IshlOp;
@@ -104,6 +108,8 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.RETURN:
                   return returnVoid();
                case Opcodes.IRETURN:
+                  return return1();
+               case Opcodes.LRETURN:
                   return return1();
                case Opcodes.ARETURN:
                   return return1();
@@ -241,7 +247,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.INVOKESTATIC:
                   return createInvokeStatic(methodInsnNode);
                case Opcodes.INVOKESPECIAL:
-                  return createInvokeSpecial(methodInsnNode);
+                  return MethodCallInstruction.createInvokeSpecial(methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
                   return createInvokeVirtual(methodInsnNode);
             }
@@ -323,6 +329,10 @@ public final class BaseInstructions implements Instructions {
       return new LinearInstruction(new DefineClassOp(klassName));
    }
 
+   @Override public Instruction initThread() {
+      return new LinearInstruction(new InitThreadOp());
+   }
+
    @Override public StatementBuilder statements() {
       return new StatementBuilder(this);
    }
@@ -349,5 +359,13 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction currentTimeMillis() {
       return linearInstruction(new CurrentTimeMillisOp());
+   }
+
+   @Override public Instruction createInvokeSpecial(final SMethodName sMethodName) {
+      return MethodCallInstruction.createInvokeSpecial(sMethodName);
+   }
+
+   public Instruction currentThread() {
+      return linearInstruction(new CurrentThreadOp());
    }
 }

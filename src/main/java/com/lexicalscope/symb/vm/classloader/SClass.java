@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import java.net.URL;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -24,6 +25,7 @@ public final class SClass implements Allocatable {
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, SMethod> methodMap;
 
+   private final URL loadedFromUrl;
    private final ClassNode classNode;
    private final Instructions instructions;
    private final int classStartOffset;
@@ -35,11 +37,13 @@ public final class SClass implements Allocatable {
    public SClass(
          final SClassLoader classLoader,
          final Instructions instructions,
+         final URL loadedFromUrl,
          final ClassNode classNode,
          final SClass superclass,
          final List<SClass> interfaces) {
       this.classLoader = classLoader;
       this.instructions = instructions;
+      this.loadedFromUrl = loadedFromUrl;
       this.classNode = classNode;
       this.superclass = superclass;
 
@@ -146,6 +150,10 @@ public final class SClass implements Allocatable {
 
    public boolean instanceOf(final SClass other) {
       return other == this || superTypes.contains(other);
+   }
+
+   public URL loadedFrom() {
+      return loadedFromUrl;
    }
 
    @Override public String toString() {

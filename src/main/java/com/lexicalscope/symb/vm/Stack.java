@@ -14,7 +14,9 @@ public interface Stack extends Snapshotable<Stack> {
 
    int size();
 
+   void currentThread(Object address);
+   Object currentThread();
+
    @Override
    Stack snapshot();
-
 }
