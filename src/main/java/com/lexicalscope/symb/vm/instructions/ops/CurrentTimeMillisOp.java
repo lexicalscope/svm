@@ -10,4 +10,8 @@ public class CurrentTimeMillisOp implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       stackFrame.push(System.currentTimeMillis());
    }
+
+   @Override public String toString() {
+      return "CURRENT_TIME_MILLIS";
+   }
 }

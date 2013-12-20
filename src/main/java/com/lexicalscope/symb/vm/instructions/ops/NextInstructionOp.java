@@ -2,10 +2,10 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
+import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.StackFrame;
 
 final class NextInstructionOp implements Vop {
    private final InstructionNode instruction;

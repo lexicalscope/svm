@@ -6,8 +6,7 @@ import static java.util.Objects.hash;
 import java.util.ArrayDeque;
 import java.util.Deque;
 import java.util.Iterator;
-
-import com.lexicalscope.symb.vm.classloader.SMethod;
+import java.util.List;
 
 public class DequeStack implements Stack {
 	private final Deque<StackFrame> stack;
@@ -18,28 +17,26 @@ public class DequeStack implements Stack {
       this.currentThread = currentThread;
 	}
 
-	public DequeStack(final InstructionNode instruction, final int maxLocals,
-			final int maxStack) {
-		this(new ArrayDeque<StackFrame>() {
-			{
-				push(new StackFrame(instruction, maxLocals, maxStack));
-			}
-		}, null);
-	}
+	public DequeStack() {
+	   this(new ArrayDeque<StackFrame>(), null);
+   }
 
-	@Override
+   @Override
    public Stack popFrame(final int returnCount) {
 		pushOperands(stack.pop().pop(returnCount));
 		return this;
 	}
 
-	@Override
-   public Stack pushFrame(final InstructionNode returnTo, final SMethod method, final int argCount) {
-		final Object[] args = head().advance(returnTo).pop(argCount);
-		stack.push(new StackFrame(method.entry(), method.maxLocals(),
-				method.maxStack()).setLocals(args));
+	@Override public Stack methodInvocation(final InstructionNode returnTo, final int argCount, final StackFrame stackFrame) {
+      final Object[] args = head().advance(returnTo).pop(argCount);
+      push(stackFrame.setLocals(args));
 		return this;
-	}
+   }
+
+	@Override public Stack push(final StackFrame stackFrame) {
+      stack.push(stackFrame);
+      return this;
+   }
 
 	private Stack pushOperands(final Object[] operands) {
 		head().pushAll(operands);
@@ -85,6 +82,15 @@ public class DequeStack implements Stack {
    @Override public Object currentThread() {
       assert currentThread != null;
       return currentThread;
+   }
+
+//   public List<SStackTraceElement> trace() {
+//      // TODO Auto-generated method stub
+//      return null;
+//   }
+
+   public List<Object> trace() {
+      throw new UnsupportedOperationException();
    }
 
 	@Override

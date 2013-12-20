@@ -1,11 +1,11 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.classloader.SMethod;
 
 public interface Stack extends Snapshotable<Stack> {
    Stack popFrame(int returnCount);
 
-   Stack pushFrame(InstructionNode returnTo, SMethod method, int argCount);
+   Stack push(StackFrame stackFrame);
+   Stack methodInvocation(InstructionNode returnTo, int argCount, StackFrame newStackFrame);
 
    InstructionNode instruction();
 

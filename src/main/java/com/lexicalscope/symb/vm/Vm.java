@@ -79,6 +79,9 @@ public class Vm {
       final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
-      return new StateImpl(statics, new DequeStack(defineClassClass, 0, argSize), new FastHeap(), classLoader.initialMeta());
+
+      final DequeStack stack = new DequeStack();
+      stack.push(new SnapshotableStackFrame(defineClassClass, 0, argSize));
+      return new StateImpl(statics, stack, new FastHeap(), classLoader.initialMeta());
    }
 }

@@ -5,7 +5,9 @@ import org.objectweb.asm.tree.MethodInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Stack;
+import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.StackVop;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
@@ -79,7 +81,10 @@ public class MethodCallInstruction implements Instruction {
             @Override public void eval(final Stack stack, final Statics statics) {
                // TODO[tim]: virtual does not resolve overridden methods
                final SMethod targetMethod = statics.loadMethod(sMethodName);
-               stack.pushFrame(instruction.next(), targetMethod, methodInvokation.argSize(targetMethod));
+
+               final StackFrame stackFrame = new SnapshotableStackFrame(targetMethod.entry(), targetMethod.maxLocals(),targetMethod.maxStack());
+
+               stack.methodInvocation(instruction.next(), methodInvokation.argSize(targetMethod), stackFrame);
             }
          });
       }

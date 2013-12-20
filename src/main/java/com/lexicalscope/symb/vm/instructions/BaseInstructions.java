@@ -135,6 +135,8 @@ public final class BaseInstructions implements Instructions {
                   return iconst(4);
                case Opcodes.ICONST_5:
                   return iconst(5);
+               case Opcodes.LCONST_1:
+                  return lconst(1);
                case Opcodes.CASTORE:
                   return linearInstruction(caStore());
                case Opcodes.IASTORE:

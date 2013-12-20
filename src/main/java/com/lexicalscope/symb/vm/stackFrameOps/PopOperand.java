@@ -2,8 +2,8 @@ package com.lexicalscope.symb.vm.stackFrameOps;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
-import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 
 public final class PopOperand implements Op<Object> {
