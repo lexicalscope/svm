@@ -6,18 +6,17 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 
-public class BinaryOp implements Vop {
-   private final BinaryOperator operator;
+public class UnaryOp implements Vop {
+   private final UnaryOperator operator;
 
-   public BinaryOp(final BinaryOperator operator) {
+   public UnaryOp(final UnaryOperator operator) {
       this.operator = operator;
    }
 
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-      final Object right = stackFrame.pop();
-      final Object left = stackFrame.pop();
+      final Object val = stackFrame.pop();
 
-      stackFrame.push(operator.eval(left, right));
+      stackFrame.push(operator.eval(val));
    }
 
    @Override

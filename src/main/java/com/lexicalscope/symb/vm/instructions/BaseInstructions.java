@@ -53,6 +53,8 @@ import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
+import com.lexicalscope.symb.vm.instructions.ops.UnaryOp;
+import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
@@ -127,6 +129,8 @@ public final class BaseInstructions implements Instructions {
                   return binaryOp(instructionFactory.imulOperation());
                case Opcodes.ISUB:
                   return binaryOp(instructionFactory.isubOperation());
+               case Opcodes.INEG:
+                  return unaryOp(instructionFactory.inegOperation());
                case Opcodes.DUP:
                   return linearInstruction(dup());
                case Opcodes.ICONST_M1:
@@ -327,8 +331,12 @@ public final class BaseInstructions implements Instructions {
       return new LoadingInstruction(klassDesc, op);
    }
 
-   private LinearInstruction binaryOp(final BinaryOperator addOperation) {
-      return new LinearInstruction(new BinaryOp(addOperation));
+   private LinearInstruction binaryOp(final BinaryOperator operation) {
+      return new LinearInstruction(new BinaryOp(operation));
+   }
+
+   private LinearInstruction unaryOp(final UnaryOperator operation) {
+      return new LinearInstruction(new UnaryOp(operation));
    }
 
    public static String fieldKey(final FieldInsnNode fieldInsnNode) {

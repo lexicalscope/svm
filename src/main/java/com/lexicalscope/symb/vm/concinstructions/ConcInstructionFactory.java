@@ -9,6 +9,7 @@ import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
+import com.lexicalscope.symb.vm.concinstructions.ops.INegOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
@@ -28,26 +29,32 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 
 public class ConcInstructionFactory implements InstructionFactory {
-	@Override public BinaryOperator iaddOperation() {
-		return new IAddOp();
-	}
+   @Override public BinaryOperator iaddOperation() {
+      return new IAddOp();
+   }
 
-	@Override
-	public BinaryOperator imulOperation() {
-		return new IMulOp();
-	}
+   @Override
+   public BinaryOperator imulOperation() {
+      return new IMulOp();
+   }
 
-	@Override
-	public BinaryOperator isubOperation() {
-	   return new ISubOp();
-	}
+   @Override
+   public BinaryOperator isubOperation() {
+      return new ISubOp();
+   }
 
-	@Override
-	public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
-		return branchInstruction(jumpInsnNode, new Ge());
-	}
+   @Override
+   public UnaryOperator inegOperation() {
+      return new INegOp();
+   }
+
+   @Override
+   public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new Ge());
+   }
 
    @Override
    public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
@@ -84,9 +91,9 @@ public class ConcInstructionFactory implements InstructionFactory {
       return branchInstruction(jumpInsnNode, new ICmpLt());
    }
 
-	@Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
-	   return branchInstruction(jumpInsnNode, new NonNull());
-	}
+   @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new NonNull());
+   }
 
    @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new Unconditional());
@@ -104,10 +111,10 @@ public class ConcInstructionFactory implements InstructionFactory {
       return new BranchInstruction(branchPredicate, jumpInsnNode);
    }
 
-	@Override
-	public NullaryOperator iconst(final int val) {
-	   return new IConstOperator(val);
-	}
+   @Override
+   public NullaryOperator iconst(final int val) {
+      return new IConstOperator(val);
+   }
 
    @Override
    public NullaryOperator lconst(final long val) {
@@ -119,9 +126,9 @@ public class ConcInstructionFactory implements InstructionFactory {
       return new FConstOperator(val);
    }
 
-	@Override public Vop stringPoolLoad(final String val) {
-	   return new StringPoolLoadOperator(val);
-	}
+   @Override public Vop stringPoolLoad(final String val) {
+      return new StringPoolLoadOperator(val);
+   }
 
    @Override
    public Snapshotable<?> initialMeta() {
