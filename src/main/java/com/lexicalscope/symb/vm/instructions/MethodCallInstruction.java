@@ -82,7 +82,7 @@ public class MethodCallInstruction implements Instruction {
                // TODO[tim]: virtual does not resolve overridden methods
                final SMethod targetMethod = statics.loadMethod(sMethodName);
 
-               final StackFrame stackFrame = new SnapshotableStackFrame(targetMethod.entry(), targetMethod.maxLocals(),targetMethod.maxStack());
+               final StackFrame stackFrame = new SnapshotableStackFrame(sMethodName, targetMethod.entry(), targetMethod.maxLocals(),targetMethod.maxStack());
 
                stack.methodInvocation(instruction.next(), methodInvokation.argSize(targetMethod), stackFrame);
             }

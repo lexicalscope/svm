@@ -2,26 +2,32 @@ package com.lexicalscope.symb.vm;
 
 import static java.util.Arrays.copyOf;
 
+import com.lexicalscope.symb.vm.classloader.SMethodName;
+
 public final class SnapshotableStackFrame implements StackFrame {
 	private final Object[] stack;
 	private InstructionNode instruction; // PC
 	private final int opBot; // pointer to bottom of operand stack
 	private int opTop; // pointer to top of operand stack
 	private final int vars = 0; // pointer to local variables
+   private SMethodName name;
 
 	public SnapshotableStackFrame(
+	      final SMethodName name,
 			final InstructionNode instruction,
 			final int maxLocals,
 			final int maxStack) {
-		this(instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
+		this(name, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
 	}
 
 	private SnapshotableStackFrame(
+	      SMethodName name, 
 	      final InstructionNode instruction,
 	      final Object[] stack,
 	      final int opBot,
 	      final int opTop) {
-		this.instruction = instruction;
+		this.name = name;
+      this.instruction = instruction;
 		this.stack = stack;
       this.opBot = opBot;
 		this.opTop = opTop;
@@ -104,7 +110,7 @@ public final class SnapshotableStackFrame implements StackFrame {
 
 	@Override
    public SnapshotableStackFrame snapshot() {
-		return new SnapshotableStackFrame(instruction, copyOf(stack, stack.length), opBot, opTop);
+		return new SnapshotableStackFrame(name, instruction, copyOf(stack, stack.length), opBot, opTop);
 	}
 
 	@Override
@@ -124,5 +130,9 @@ public final class SnapshotableStackFrame implements StackFrame {
 			stackString.append(stack[i]);
 			separator = ", ";
 		}
+   }
+
+   @Override public SMethodName method() {
+      return name;
    }
 }

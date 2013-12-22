@@ -4,6 +4,7 @@ import static com.google.common.collect.Iterables.elementsEqual;
 import static java.util.Objects.hash;
 
 import java.util.ArrayDeque;
+import java.util.ArrayList;
 import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
@@ -84,13 +85,12 @@ public class DequeStack implements Stack {
       return currentThread;
    }
 
-//   public List<SStackTraceElement> trace() {
-//      // TODO Auto-generated method stub
-//      return null;
-//   }
-
-   public List<Object> trace() {
-      throw new UnsupportedOperationException();
+   public Iterable<SStackTraceElement> trace() {
+      List<SStackTraceElement> trace = new ArrayList<>();
+      for (StackFrame stackFrame : stack) {
+         trace.add(new SStackTraceElement(stackFrame.method()));
+      }
+      return new StackTrace(trace);
    }
 
 	@Override
