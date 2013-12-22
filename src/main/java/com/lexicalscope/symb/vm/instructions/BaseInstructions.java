@@ -90,6 +90,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ILOAD:
                case Opcodes.LLOAD:
                case Opcodes.ALOAD:
+               case Opcodes.FLOAD:
                   return load(varInsnNode);
                case Opcodes.ISTORE:
                case Opcodes.LSTORE:
@@ -149,6 +150,8 @@ public final class BaseInstructions implements Instructions {
                   return iconst(5);
                case Opcodes.LCONST_1:
                   return lconst(1);
+               case Opcodes.FCONST_0:
+                  return fconst_0();
                case Opcodes.CASTORE:
                   return linearInstruction(caStore());
                case Opcodes.IASTORE:
@@ -293,6 +296,10 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction iconst_0() {
       return iconst(0);
+   }
+
+   public Instruction fconst_0() {
+      return fconst(0);
    }
 
    private Instruction stringPoolLoad(final String constVal) {
