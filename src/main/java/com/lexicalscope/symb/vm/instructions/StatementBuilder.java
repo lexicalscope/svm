@@ -44,6 +44,11 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder lconst(final long l) {
+      instructions.add(baseInstructions.lconst(l));
+      return this;
+   }
+
    public StatementBuilder return1() {
       instructions.add(baseInstructions.return1());
       return this;

@@ -85,12 +85,12 @@ public class DequeStack implements Stack {
       return currentThread;
    }
 
-   public Iterable<SStackTraceElement> trace() {
+   public SStackTrace trace() {
       List<SStackTraceElement> trace = new ArrayList<>();
       for (StackFrame stackFrame : stack) {
          trace.add(new SStackTraceElement(stackFrame.method()));
       }
-      return new StackTrace(trace);
+      return new SStackTrace(trace);
    }
 
 	@Override

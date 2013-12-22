@@ -68,9 +68,13 @@ public class AsmSClassLoader implements SClassLoader {
       } else if (methodName.equals(new SMethodName("java/lang/Thread", "currentThread", "()Ljava/lang/Thread;"))) {
          // TODO[tim] we need to somehow store a thread object, probably initalise it at the start
          return instructions.statements().maxStack(1).currentThread().return1().build();
+      } else if (methodName.equals(new SMethodName("java/lang/Runtime", "freeMemory", "()J"))) {
+         return instructions.statements().maxStack(1).lconst(4294967296L).return1().build();
       }
 
-      if(!methodName.isVoidMethod()) throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
+      if(!methodName.isVoidMethod()) {
+         throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
+      }
       return instructions.statements().returnVoid().build();
    }
 

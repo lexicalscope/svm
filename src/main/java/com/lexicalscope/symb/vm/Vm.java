@@ -35,6 +35,10 @@ public class Vm {
             finished.push(pending.pop());
             System.out.println("BACKTRACK");
          }
+         catch (RuntimeException e) {
+            System.out.println(pending.peek().trace());
+            throw e;
+         }
       }
       return result();
    }

@@ -65,6 +65,10 @@ public class StateImpl implements State {
    @Override public StateImpl snapshot() {
 		return new StateImpl(statics.snapshot(), stack.snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
 	}
+   
+   @Override public SStackTrace trace() {
+      return stack.trace();
+   }
 
 	@Override
 	public String toString() {

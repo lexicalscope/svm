@@ -12,4 +12,6 @@ public interface State extends Snapshotable<State>{
    void advance(Vm vm);
 
    Object getMeta();
+
+   SStackTrace trace();
 }

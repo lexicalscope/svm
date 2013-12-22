@@ -1,9 +1,17 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.*;
-import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.*;
-import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.*;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
+import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeStatic;
+import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeVirtual;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.aaLoad;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.caLoad;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.aaStore;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.caStore;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.dup;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.getField;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.getStatic;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.newOp;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.putField;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.putStatic;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -191,7 +199,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.BIPUSH:
                   return iconst(intInsnNode.operand);
                case Opcodes.NEWARRAY:
-               return linearInstruction(new NewArrayOp());
+                  return linearInstruction(new NewArrayOp());
             }
             break;
          case AbstractInsnNode.IINC_INSN:
@@ -267,7 +275,7 @@ public final class BaseInstructions implements Instructions {
       return nullary(instructionFactory.iconst(constVal));
    }
 
-   private Instruction lconst(final long constVal) {
+   public Instruction lconst(final long constVal) {
       return nullary(instructionFactory.lconst(constVal));
    }
 
