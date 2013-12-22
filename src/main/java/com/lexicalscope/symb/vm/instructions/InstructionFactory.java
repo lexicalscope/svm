@@ -21,6 +21,7 @@ public interface InstructionFactory {
    Vop stringPoolLoad(String constVal);
 
    Instruction branchIfGe(JumpInsnNode jumpInsnNode);
+   Instruction branchIfLe(JumpInsnNode jumpInsnNode);
    Instruction branchIfLt(JumpInsnNode jumpInsnNode);
    Instruction branchIfEq(JumpInsnNode jumpInsnNode);
    Instruction branchIfNe(JumpInsnNode jumpInsnNode);

@@ -53,6 +53,11 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override
+   public Instruction branchIfLe(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override
    public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }

@@ -38,6 +38,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
+import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
 import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
@@ -176,6 +177,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new LushrOp());
                case Opcodes.L2I:
                   return linearInstruction(new L2IOp());
+               case Opcodes.FCMPG:
+                  return binaryOp(new FCmpGOperator());
             }
             break;
          case AbstractInsnNode.LDC_INSN:
@@ -234,6 +237,8 @@ public final class BaseInstructions implements Instructions {
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
                   return instructionFactory.branchIfGe(jumpInsnNode);
+               case Opcodes.IFLE:
+                  return instructionFactory.branchIfLe(jumpInsnNode);
                case Opcodes.IFLT:
                   return instructionFactory.branchIfLt(jumpInsnNode);
                case Opcodes.IFEQ:
