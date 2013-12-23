@@ -38,4 +38,8 @@ public interface InstructionFactory {
    Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
 
    Snapshotable<?> initialMeta();
+
+
+   // initial values for fields
+   Object initInt();
 }

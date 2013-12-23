@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
 import java.net.URL;
+import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -32,6 +33,7 @@ public final class SClass implements Allocatable {
    private final int subclassOffset;
    private final SClass superclass;
    private final SClassLoader classLoader;
+   private final ArrayList<Object> fieldInit;
 
    // TODO[tim]: far too much work in this constructor
    public SClass(
@@ -50,12 +52,14 @@ public final class SClass implements Allocatable {
       this.classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
       this.staticFieldMap = new TreeMap<>();
       this.fieldMap = new TreeMap<>();
+      this.fieldInit = new ArrayList<>();
       this.methodMap = new TreeMap<>();
 
       superTypes.add(this);
 
       if (superclass != null) {
          fieldMap.putAll(superclass.fieldMap);
+         fieldInit.addAll(superclass.fieldInit);
          superTypes.addAll(superclass.superTypes);
       }
 
@@ -87,6 +91,7 @@ public final class SClass implements Allocatable {
             staticOffset++;
          } else {
             fieldMap.put(fieldName, dynamicOffset + classStartOffset);
+            fieldInit.add(classLoader.init(fieldNode.desc));
             dynamicOffset++;
          }
       }
@@ -118,6 +123,10 @@ public final class SClass implements Allocatable {
 
    public boolean hasField(final SFieldName name) {
       return fieldMap.containsKey(name);
+   }
+
+   public List<Object> fieldInit() {
+      return fieldInit;
    }
 
    public int staticFieldCount() {

@@ -140,4 +140,8 @@ public class ConcInstructionFactory implements InstructionFactory {
    public Snapshotable<?> initialMeta() {
       return null;
    }
+
+   @Override public Object initInt() {
+      return 0;
+   }
 }

@@ -22,6 +22,13 @@ public final class NewOp implements Vop {
       final SClass klass = statics.load(klassDesc);
       final Object address = heap.newObject(klass);
       heap.put(address, OBJECT_CLASS_OFFSET, klass);
+
+      final Object nullPointer = heap.nullPointer();
+      int fieldOffset = OBJECT_CLASS_OFFSET + 1;
+      for (final Object initialValue : klass.fieldInit()) {
+         heap.put(address, fieldOffset, initialValue == null ? nullPointer : initialValue);
+         fieldOffset++;
+      }
       stackFrame.push(address);
    }
 

@@ -2,6 +2,8 @@ package com.lexicalscope.symb.vm.classloader;
 
 import static org.objectweb.asm.Type.getInternalName;
 
+import org.objectweb.asm.Type;
+
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Snapshotable;
@@ -96,7 +98,20 @@ public class AsmSClassLoader implements SClassLoader {
       return firstInstruction;
    }
 
-   void foo() {
-      new Thread();
+   @Override public Object init(final String desc) {
+      final Type type = Type.getType(desc);
+      switch (type.getSort()) {
+         case Type.OBJECT:
+            return null;
+         case Type.ARRAY:
+            return null;
+         case Type.INT:
+            return instructionFactory.initInt();
+         case Type.FLOAT:
+            return 0f;
+         case Type.BOOLEAN:
+            return false;
+      }
+      throw new UnsupportedOperationException(desc);
    }
 }

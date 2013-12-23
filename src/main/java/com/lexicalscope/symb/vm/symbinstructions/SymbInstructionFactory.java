@@ -13,6 +13,7 @@ import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIConstOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -126,5 +127,9 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("unable to handle symbolic object yet");
+   }
+
+   @Override public Object initInt() {
+      return new IConstSymbol(0);
    }
 }

@@ -29,4 +29,6 @@ public interface SClassLoader {
    InstructionNode defineThreadClassInstruction();
 
    InstructionNode initThreadInstruction();
+
+   Object init(String desc);
 }
