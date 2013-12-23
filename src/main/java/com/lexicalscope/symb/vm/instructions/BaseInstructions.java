@@ -31,6 +31,7 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
+import com.lexicalscope.symb.vm.instructions.ops.ArrayCopyOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayLengthOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -397,5 +398,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction currentThread() {
       return linearInstruction(new CurrentThreadOp());
+   }
+
+   public Instruction arrayCopy() {
+      return linearInstruction(new ArrayCopyOp());
    }
 }

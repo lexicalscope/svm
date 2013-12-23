@@ -84,6 +84,11 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder arrayCopy() {
+      instructions.add(baseInstructions.arrayCopy());
+      return this;
+   }
+
    public MethodBody build() {
       InstructionInternalNode next = null;
       for (final Instruction instruction : reverse(instructions)) {

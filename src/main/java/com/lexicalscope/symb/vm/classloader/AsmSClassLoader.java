@@ -27,9 +27,6 @@ public class AsmSClassLoader implements SClassLoader {
       this(new ConcInstructionFactory());
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClassLoader#load(java.lang.String, com.lexicalscope.symb.vm.classloader.ClassLoaded)
-    */
    @Override public SClass load(final String name, final ClassLoaded classLoaded) {
       return byteCodeReader.load(this, name, classLoaded);
    }
@@ -54,12 +51,13 @@ public class AsmSClassLoader implements SClassLoader {
    @Override public MethodBody resolveNative(final SMethodName methodName) {
       // TODO[tim]: make native methods do something
 
-      if(methodName.equals(new SMethodName("java/lang/Class", "getClassLoader0", "()Ljava/lang/ClassLoader;"))) {
+      if (methodName.equals(new SMethodName("java/lang/Class", "getClassLoader0", "()Ljava/lang/ClassLoader;"))) {
          return instructions.statements().maxStack(1).aconst_null().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
          return instructions.statements().maxStack(1).iconst_0().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
-         // TODO[tim] we need to somewhere store the mapping between class objects and the class they represent
+         // TODO[tim] we need to somewhere store the mapping between class
+         // objects and the class they represent
          return instructions.statements().maxStack(1).newObject("java/lang/Class").return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "identityHashCode", "(Ljava/lang/Object;)I"))) {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
@@ -68,15 +66,16 @@ public class AsmSClassLoader implements SClassLoader {
       } else if (methodName.equals(new SMethodName("java/lang/System", "currentTimeMillis", "()J"))) {
          return instructions.statements().maxStack(1).currentTimeMillis().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/Thread", "currentThread", "()Ljava/lang/Thread;"))) {
-         // TODO[tim] we need to somehow store a thread object, probably initalise it at the start
+         // TODO[tim] we need to somehow store a thread object, probably
+         // initalise it at the start
          return instructions.statements().maxStack(1).currentThread().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/Runtime", "freeMemory", "()J"))) {
          return instructions.statements().maxStack(1).lconst(4294967296L).return1().build();
+      } else if (methodName.equals(new SMethodName("java/lang/System", "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V"))) {
+         return instructions.statements().maxLocals(5).arrayCopy().returnVoid().build();
       }
 
-      if(!methodName.isVoidMethod()) {
-         throw new UnsupportedOperationException("only void native methods are supported - " + methodName);
-      }
+      if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
       return instructions.statements().returnVoid().build();
    }
 
