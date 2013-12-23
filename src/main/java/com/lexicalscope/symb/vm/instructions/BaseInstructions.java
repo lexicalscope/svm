@@ -54,6 +54,7 @@ import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.PopOp;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
@@ -180,6 +181,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new L2IOp());
                case Opcodes.FCMPG:
                   return binaryOp(new FCmpGOperator());
+               case Opcodes.POP:
+                  return linearInstruction(new PopOp());
             }
             break;
          case AbstractInsnNode.LDC_INSN:
