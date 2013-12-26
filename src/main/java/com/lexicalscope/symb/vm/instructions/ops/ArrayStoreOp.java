@@ -37,7 +37,7 @@ public class ArrayStoreOp implements Vop {
       final int offset = (int) stackFrame.pop();
       final Object arrayref = stackFrame.pop();
 
-      heap.put(arrayref, offset + ARRAY_PREAMBLE, value);
+      heap.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
    }
 
    @Override public String toString() {

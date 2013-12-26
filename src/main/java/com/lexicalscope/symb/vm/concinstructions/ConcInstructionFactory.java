@@ -19,6 +19,7 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpEq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpGe;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpGt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpNe;
@@ -95,6 +96,10 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new ICmpLt());
+   }
+
+   @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new ICmpGt());
    }
 
    @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {

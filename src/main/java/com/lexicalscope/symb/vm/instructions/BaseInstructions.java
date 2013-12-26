@@ -259,6 +259,8 @@ public final class BaseInstructions implements Instructions {
                   return instructionFactory.branchIfICmpLe(jumpInsnNode);
                case Opcodes.IF_ICMPLT:
                   return instructionFactory.branchIfICmpLt(jumpInsnNode);
+               case Opcodes.IF_ICMPGT:
+                  return instructionFactory.branchIfICmpGt(jumpInsnNode);
                case Opcodes.IF_ICMPGE:
                   return instructionFactory.branchIfICmpGe(jumpInsnNode);
                case Opcodes.IF_ACMPNE:

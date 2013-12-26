@@ -95,6 +95,10 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
+   @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
    @Override public Instruction branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }

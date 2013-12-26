@@ -118,6 +118,7 @@ public final class SClass implements Allocatable {
    }
 
    public int fieldIndex(final SFieldName name) {
+      assert fieldMap.containsKey(name) : fieldMap;
       return fieldMap.get(name) + OBJECT_PREAMBLE;
    }
 

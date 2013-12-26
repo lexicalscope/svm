@@ -33,6 +33,7 @@ public interface InstructionFactory {
    Instruction branchIfICmpLe(JumpInsnNode jumpInsnNode);
    Instruction branchIfICmpGe(JumpInsnNode jumpInsnNode);
    Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpGt(JumpInsnNode jumpInsnNode);
 
    Instruction branchIfACmpEq(JumpInsnNode jumpInsnNode);
    Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
