@@ -28,6 +28,7 @@ public class FastHeap implements Heap {
 
    @Override
    public Object get(final Object obj, final int offset) {
+      assert offset >= 0;
       return trie.get(objectForRef(obj) + offset);
    }
 

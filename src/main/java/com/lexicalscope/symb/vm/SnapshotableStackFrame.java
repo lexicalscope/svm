@@ -121,7 +121,7 @@ public final class SnapshotableStackFrame implements StackFrame {
       formatStack(locals, vars, opBot);
       formatStack(operands, opBot + 1, opTop);
 
-      return String.format("%s [%s][%s]", instruction, locals, operands);
+      return String.format("%s l[%s]o[%s]", instruction, locals, operands);
    }
 
    private void formatStack(final StringBuilder stackString, final int start, final int end) {

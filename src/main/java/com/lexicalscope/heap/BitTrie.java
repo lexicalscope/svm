@@ -224,7 +224,9 @@ final class BitTrie implements Iterable<Object>{
     * @return index of the first allocated element
     */
    public int allocate(final int size) {
-      if (size <= 0) throw new IllegalArgumentException("cannot allocate " + size + " space");
+      if (size <= 0) {
+         throw new IllegalArgumentException("cannot allocate " + size + " space");
+      }
 
       final int result = insert(null);
       for (int i = 1; i < size; i++) {
@@ -242,7 +244,9 @@ final class BitTrie implements Iterable<Object>{
     * @return the value that was previously at the key
     */
    public Object insert(final int key, final Object value) {
-      if (key >= free) throw new IndexOutOfBoundsException("Inserting Past End of BitTrie " + key);
+      if (key >= free) {
+         throw new IndexOutOfBoundsException("Inserting Past End of BitTrie " + key);
+      }
 
       return insertAt(key, value);
    }
@@ -255,9 +259,13 @@ final class BitTrie implements Iterable<Object>{
    // the way that clone works at the moment means we have to check that no parent node
    // has a reference count higher than 1
    public int insert(final Object value) {
-      if(free == 0) throw new IndexOutOfBoundsException("BitTrie is full");
+      if(free == 0) {
+         throw new IndexOutOfBoundsException("BitTrie is full");
+      }
 
-      if(highestBit < 29) highestBit = level(free);
+      if(highestBit < 29) {
+         highestBit = level(free);
+      }
       insertAt(free, value);
 
       // we expect this to overflow, as we are using our 32 bit address as unsigned
@@ -286,42 +294,42 @@ final class BitTrie implements Iterable<Object>{
          case 30:
          case 29:
             final int level8Offset = (index & _level8Mask) >>> level8Shift;
+      init = true;
+      if(root8 == null) {root8 = new Node8(); root8.d[0] = root7; root7 = null;}
+      if(root8.c > 1) {final Node8 copy = new Node8(root8.d.clone()); root8.c--; root8 = copy; for(int i = 0; i < root8.d.length; i++){if(root8.d[i] != null){root8.d[i].c++;}}}
+      trav8 = root8;
+      if(trav8.d[level8Offset] == null) { trav8.d[level8Offset] = new Node7(); }
+
+      trav7 = trav8.d[level8Offset];
+      if(trav7.c > 1) {final Node7 copy = new Node7(trav7.d.clone()); trav7.c--; trav8.d[level8Offset] = trav7 = copy; for(int i = 0; i < trav7.d.length; i++){if(trav7.d[i] != null){trav7.d[i].c++;}}}
+      case 28:
+      case 27:
+      case 26:
+      case 25:
+         final int level7Offset = (index & _level7Mask) >>> level7Shift;
+         if(!init){
             init = true;
-            if(root8 == null) {root8 = new Node8(); root8.d[0] = root7; root7 = null;}
-            if(root8.c > 1) {final Node8 copy = new Node8(root8.d.clone()); root8.c--; root8 = copy; for(int i = 0; i < root8.d.length; i++){if(root8.d[i] != null){root8.d[i].c++;}}}
-            trav8 = root8;
-            if(trav8.d[level8Offset] == null) { trav8.d[level8Offset] = new Node7(); }
+            if(root7 == null) {root7 = new Node7(); root7.d[0] = root6; root6 = null;}
+            if(root7.c > 1) {final Node7 copy = new Node7(root7.d.clone()); root7.c--; root7 = copy; for(int i = 0; i < root7.d.length; i++){if(root7.d[i] != null){root7.d[i].c++;}}}
+            trav7 = root7;}
+         if(trav7.d[level7Offset] == null) { trav7.d[level7Offset] = new Node6(); }
 
-            trav7 = trav8.d[level8Offset];
-            if(trav7.c > 1) {final Node7 copy = new Node7(trav7.d.clone()); trav7.c--; trav8.d[level8Offset] = trav7 = copy; for(int i = 0; i < trav7.d.length; i++){if(trav7.d[i] != null){trav7.d[i].c++;}}}
-         case 28:
-         case 27:
-         case 26:
-         case 25:
-            final int level7Offset = (index & _level7Mask) >>> level7Shift;
-            if(!init){
-               init = true;
-               if(root7 == null) {root7 = new Node7(); root7.d[0] = root6; root6 = null;}
-               if(root7.c > 1) {final Node7 copy = new Node7(root7.d.clone()); root7.c--; root7 = copy; for(int i = 0; i < root7.d.length; i++){if(root7.d[i] != null){root7.d[i].c++;}}}
-               trav7 = root7;}
-            if(trav7.d[level7Offset] == null) { trav7.d[level7Offset] = new Node6(); }
+         trav6 = trav7.d[level7Offset];
+         if(trav6.c > 1) {final Node6 copy = new Node6(trav6.d.clone()); trav6.c--; trav7.d[level7Offset] = trav6 = copy; for(int i = 0; i < trav6.d.length; i++){if(trav6.d[i] != null){trav6.d[i].c++;}}}
+      case 24:
+      case 23:
+      case 22:
+      case 21:
+         final int level6Offset = (index & _level6Mask) >>> level6Shift;
+         if(!init){
+            init = true;
+            if(root6 == null) {root6 = new Node6(); root6.d[0] = root5; root5 = null;}
+            if(root6.c > 1) {final Node6 copy = new Node6(root6.d.clone()); root6.c--; root6 = copy; for(int i = 0; i < root6.d.length; i++){if(root6.d[i] != null){root6.d[i].c++;}}}
+            trav6 = root6;}
+         if(trav6.d[level6Offset] == null) { trav6.d[level6Offset] = new Node5(); }
 
-            trav6 = trav7.d[level7Offset];
-            if(trav6.c > 1) {final Node6 copy = new Node6(trav6.d.clone()); trav6.c--; trav7.d[level7Offset] = trav6 = copy; for(int i = 0; i < trav6.d.length; i++){if(trav6.d[i] != null){trav6.d[i].c++;}}}
-         case 24:
-         case 23:
-         case 22:
-         case 21:
-            final int level6Offset = (index & _level6Mask) >>> level6Shift;
-            if(!init){
-               init = true;
-               if(root6 == null) {root6 = new Node6(); root6.d[0] = root5; root5 = null;}
-               if(root6.c > 1) {final Node6 copy = new Node6(root6.d.clone()); root6.c--; root6 = copy; for(int i = 0; i < root6.d.length; i++){if(root6.d[i] != null){root6.d[i].c++;}}}
-               trav6 = root6;}
-            if(trav6.d[level6Offset] == null) { trav6.d[level6Offset] = new Node5(); }
-
-            trav5 = trav6.d[level6Offset];
-            if(trav5.c > 1) {final Node5 copy = new Node5(trav5.d.clone()); trav5.c--; trav6.d[level6Offset] = trav5 = copy; for(int i = 0; i < trav5.d.length; i++){if(trav5.d[i] != null){trav5.d[i].c++;}}}
+         trav5 = trav6.d[level6Offset];
+         if(trav5.c > 1) {final Node5 copy = new Node5(trav5.d.clone()); trav5.c--; trav6.d[level6Offset] = trav5 = copy; for(int i = 0; i < trav5.d.length; i++){if(trav5.d[i] != null){trav5.d[i].c++;}}}
          case 20:
          case 19:
          case 18:
@@ -350,39 +358,39 @@ final class BitTrie implements Iterable<Object>{
 
             trav3 = trav4.d[level4Offset];
             if(trav3.c > 1) {final Node3 copy = new Node3(trav3.d.clone()); trav3.c--; trav4.d[level4Offset] = trav3 = copy; for(int i = 0; i < trav3.d.length; i++){if(trav3.d[i] != null){trav3.d[i].c++;}}}
-         case 12:
-         case 11:
-         case 10:
-         case 9:
-            final int level3Offset = (index & _level3Mask) >>> level3Shift;
-            if(!init){
-               init = true;
-               if(root3 == null) {root3 = new Node3(); root3.d[0] = root2; root2 = null;}
-               if(root3.c > 1) {final Node3 copy = new Node3(root3.d.clone()); root3.c--; root3 = copy; for(int i = 0; i < root3.d.length; i++){if(root3.d[i] != null){root3.d[i].c++;}}}
-               trav3 = root3;}
-            if(trav3.d[level3Offset] == null) { trav3.d[level3Offset] = new Node2(); }
+            case 12:
+            case 11:
+            case 10:
+            case 9:
+               final int level3Offset = (index & _level3Mask) >>> level3Shift;
+               if(!init){
+                  init = true;
+                  if(root3 == null) {root3 = new Node3(); root3.d[0] = root2; root2 = null;}
+                  if(root3.c > 1) {final Node3 copy = new Node3(root3.d.clone()); root3.c--; root3 = copy; for(int i = 0; i < root3.d.length; i++){if(root3.d[i] != null){root3.d[i].c++;}}}
+                  trav3 = root3;}
+               if(trav3.d[level3Offset] == null) { trav3.d[level3Offset] = new Node2(); }
 
-            trav2 = trav3.d[level3Offset];
-            if(trav2.c > 1) {final Node2 copy = new Node2(trav2.d.clone()); trav2.c--; trav3.d[level3Offset] = trav2 = copy; for(int i = 0; i < trav2.d.length; i++){if(trav2.d[i] != null){trav2.d[i].c++;}}}
-         case 8:
-         case 7:
-         case 6:
-         case 5:
-            final int level2Offset = (index & _level2Mask) >>> level2Shift;
-            if(!init){
-               init = true;
-               if(root2 == null) {root2 = new Node2(); root2.d[0] = root1; root1 = null;}
-               if(root2.c > 1) {final Node2 copy = new Node2(root2.d.clone()); root2.c--; root2 = copy; for(int i = 0; i < root2.d.length; i++){if(root2.d[i] != null){root2.d[i].c++;}}}
-               trav2 = root2;}
-            if(trav2.d[level2Offset] == null) { trav2.d[level2Offset] = new Node1(); }
+               trav2 = trav3.d[level3Offset];
+               if(trav2.c > 1) {final Node2 copy = new Node2(trav2.d.clone()); trav2.c--; trav3.d[level3Offset] = trav2 = copy; for(int i = 0; i < trav2.d.length; i++){if(trav2.d[i] != null){trav2.d[i].c++;}}}
+            case 8:
+            case 7:
+            case 6:
+            case 5:
+               final int level2Offset = (index & _level2Mask) >>> level2Shift;
+               if(!init){
+                  init = true;
+                  if(root2 == null) {root2 = new Node2(); root2.d[0] = root1; root1 = null;}
+                  if(root2.c > 1) {final Node2 copy = new Node2(root2.d.clone()); root2.c--; root2 = copy; for(int i = 0; i < root2.d.length; i++){if(root2.d[i] != null){root2.d[i].c++;}}}
+                  trav2 = root2;}
+               if(trav2.d[level2Offset] == null) { trav2.d[level2Offset] = new Node1(); }
 
-            trav1 = trav2.d[level2Offset];
-            if(trav1.c > 1) {final Node1 copy = new Node1(trav1.d.clone()); trav1.c--; trav2.d[level2Offset] = trav1 = copy;}
-         case 4:
-         case 3:
-         case 2:
-         case 1:
-         case 0:
+               trav1 = trav2.d[level2Offset];
+               if(trav1.c > 1) {final Node1 copy = new Node1(trav1.d.clone()); trav1.c--; trav2.d[level2Offset] = trav1 = copy;}
+               case 4:
+               case 3:
+               case 2:
+               case 1:
+               case 0:
       }
 
       if(!init){
@@ -428,44 +436,59 @@ final class BitTrie implements Iterable<Object>{
          case 27:
          case 26:
          case 25:
-            if(trav7 == null) trav7 = root7;
-             trav6 = trav7.d[(key & _level7Mask) >>> level7Shift];
+            if(trav7 == null) {
+               trav7 = root7;
+            }
+            trav6 = trav7.d[(key & _level7Mask) >>> level7Shift];
          case 24:
          case 23:
          case 22:
          case 21:
-            if(trav6 == null) trav6 = root6;
-             trav5 = trav6.d[(key & _level6Mask) >>> level6Shift];
+            if(trav6 == null) {
+               trav6 = root6;
+            }
+            trav5 = trav6.d[(key & _level6Mask) >>> level6Shift];
          case 20:
          case 19:
          case 18:
          case 17:
-            if(trav5 == null) trav5 = root5;
-             trav4 = trav5.d[(key & _level5Mask) >>> level5Shift];
+            if(trav5 == null) {
+               trav5 = root5;
+            }
+            trav4 = trav5.d[(key & _level5Mask) >>> level5Shift];
          case 16:
          case 15:
          case 14:
          case 13:
-            if(trav4 == null) trav4 = root4;
+            if(trav4 == null) {
+               trav4 = root4;
+            }
             trav3 = trav4.d[(key & _level4Mask) >>> level4Shift];
          case 12:
          case 11:
          case 10:
          case 9:
-            if(trav3 == null) trav3 = root3;
+            if(trav3 == null) {
+               assert root3 != null;
+               trav3 = root3;
+            };
             trav2 = trav3.d[(key & _level3Mask) >>> level3Shift];
          case 8:
          case 7:
          case 6:
          case 5:
-            if(trav2 == null) trav2 = root2;
+            if(trav2 == null) {
+               trav2 = root2;
+            }
             trav1 = trav2.d[(key & _level2Mask) >>> level2Shift];
          case 4:
          case 3:
          case 2:
          case 1:
          case 0:
-            if(trav1 == null) trav1 = root1;
+            if(trav1 == null) {
+               trav1 = root1;
+            }
             return trav1.d[key & _level1Mask];
       }
       throw new IndexOutOfBoundsException("the key you have requested is in free space: "+ key);
@@ -477,11 +500,11 @@ final class BitTrie implements Iterable<Object>{
 
       if ((tt = v >>> 16) != 0)
       {
-        return (t = tt >>> 8) != 0 ? 24 + logTable256[t] : 16 + logTable256[tt];
+         return (t = tt >>> 8) != 0 ? 24 + logTable256[t] : 16 + logTable256[tt];
       }
       else
       {
-        return (t = v >>> 8) != 0 ? 8 + logTable256[t] : logTable256[v];
+         return (t = v >>> 8) != 0 ? 8 + logTable256[t] : logTable256[v];
       }
    }
 
@@ -492,12 +515,12 @@ final class BitTrie implements Iterable<Object>{
          case 2:
          case 3:
          case 4:
-             return 1;
+            return 1;
          case 5:
          case 6:
          case 7:
          case 8:
-             return 2;
+            return 2;
          case 9:
          case 10:
          case 11:
@@ -539,9 +562,11 @@ final class BitTrie implements Iterable<Object>{
          case 2:
          case 3:
          case 4:
-             result.root1 = root1;
-             if(root1 != null) root1.c++;
-             break;
+            result.root1 = root1;
+            if(root1 != null) {
+               root1.c++;
+            }
+            break;
          case 5:
          case 6:
          case 7:
@@ -601,8 +626,8 @@ final class BitTrie implements Iterable<Object>{
 
    @Override
    public String toString() {
-       final Joiner joiner = Joiner.on(", ").useForNull("null");
-       return "[" + joiner.join(this) + "]";
+      final Joiner joiner = Joiner.on(", ").useForNull("null");
+      return "[" + joiner.join(this) + "]";
    }
 
    private class BitTrieIterator implements Iterator<Object> {
@@ -623,10 +648,12 @@ final class BitTrie implements Iterable<Object>{
 
       @Override
       public Object next() {
-         if (size < free)
+         if (size < free) {
             throw new ConcurrentModificationException();
-         if (currentIndex >= size)
+         }
+         if (currentIndex >= size) {
             throw new NoSuchElementException();
+         }
          return trie.get(currentIndex++);
       }
 

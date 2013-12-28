@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -58,6 +59,10 @@ public final class SClass implements Allocatable {
       superTypes.add(this);
 
       if (superclass != null) {
+         final TreeMap<SFieldName, Integer> superFieldMap = superclass.fieldMap;
+         for (final Entry<SFieldName, Integer> superField : superFieldMap.entrySet()) {
+            fieldMap.put(new SFieldName(classNode.name, superField.getKey().getName()), superField.getValue());
+         }
          fieldMap.putAll(superclass.fieldMap);
          fieldInit.addAll(superclass.fieldInit);
          superTypes.addAll(superclass.superTypes);
@@ -118,7 +123,7 @@ public final class SClass implements Allocatable {
    }
 
    public int fieldIndex(final SFieldName name) {
-      assert fieldMap.containsKey(name) : fieldMap;
+      assert fieldMap.containsKey(name) : "cannot find " + name + " in " + fieldMap;
       return fieldMap.get(name) + OBJECT_PREAMBLE;
    }
 

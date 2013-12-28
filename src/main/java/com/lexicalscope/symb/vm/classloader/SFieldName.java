@@ -20,13 +20,19 @@ public class SFieldName implements Comparable<SFieldName> {
 
    @Override
    public boolean equals(final Object obj) {
-      if (obj == this) return true;
+      if (obj == this) {
+         return true;
+      }
 
       if(obj != null && obj.getClass().equals(this.getClass())) {
          final SFieldName that = (SFieldName) obj;
          return that.definedIn.equals(definedIn) && that.name.equals(name);
       }
       return false;
+   }
+
+   public String getName() {
+      return name;
    }
 
    @Override

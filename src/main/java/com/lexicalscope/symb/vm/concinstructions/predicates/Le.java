@@ -7,12 +7,12 @@ import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 
 public class Le implements BranchPredicate {
-	@Override
-	public Boolean eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-		return (int) stackFrame.pop() >= 0;
-	}
+   @Override
+   public Boolean eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+      return (int) stackFrame.pop() <= 0;
+   }
 
-	@Override public String toString() {
-	   return "GE";
-	}
+   @Override public String toString() {
+      return "LE";
+   }
 }

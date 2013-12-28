@@ -18,4 +18,8 @@ public class IincOp implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       stackFrame.local(var, (int)stackFrame.local(var) + incr);
    }
+
+   @Override public String toString() {
+      return String.format("IINC %d %d", var, incr);
+   }
 }

@@ -36,7 +36,14 @@ public class ArrayLoadOp implements Vop {
       final int offset = (int) stackFrame.pop();
       final Object arrayref = stackFrame.pop();
 
+      // TODO[tim]: check bounds in-game
+      assert inBounds(heap, offset, arrayref) : String.format("out-of-bounds %d %s%n%s%n%s", offset, stack.trace(), stackFrame, heap);
+
       stackFrame.push(valueTransform.transformForStore(heap.get(arrayref, offset + ARRAY_PREAMBLE)));
+   }
+
+   private boolean inBounds(final Heap heap, final int offset, final Object arrayref) {
+      return offset >= 0 && offset < (int) heap.get(arrayref, NewArrayOp.ARRAY_LENGTH_OFFSET);
    }
 
    @Override public String toString() {
