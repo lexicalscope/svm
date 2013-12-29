@@ -39,6 +39,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
+import com.lexicalscope.symb.vm.instructions.ops.DoubleToRawLongBits;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FloatToRawIntBits;
@@ -99,6 +100,7 @@ public final class BaseInstructions implements Instructions {
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.LLOAD:
+               case Opcodes.DLOAD:
                   return load2(varInsnNode);
                case Opcodes.ILOAD:
                case Opcodes.ALOAD:
@@ -383,6 +385,10 @@ public final class BaseInstructions implements Instructions {
       return load(index);
    }
 
+   public Instruction dload(final int index) {
+      return load2(index);
+   }
+
    private LinearInstruction linearInstruction(final Vop op) {
       return new LinearInstruction(op);
    }
@@ -461,5 +467,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction floatToRawIntBits() {
       return linearInstruction(new FloatToRawIntBits());
+   }
+
+   public Instruction doubleToRawLongBits() {
+      return linearInstruction(new DoubleToRawLongBits());
    }
 }

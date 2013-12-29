@@ -99,8 +99,18 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder doubleToRawLongBits() {
+      add(baseInstructions.doubleToRawLongBits());
+      return this;
+   }
+
    public StatementBuilder fload(final int index) {
       add(baseInstructions.fload(index));
+      return this;
+   }
+
+   public StatementBuilder dload(final int index) {
+      add(baseInstructions.dload(index));
       return this;
    }
 
