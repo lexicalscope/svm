@@ -42,6 +42,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.DoubleToRawLongBits;
+import com.lexicalscope.symb.vm.instructions.ops.F2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FloatToRawIntBits;
@@ -138,6 +139,8 @@ public final class BaseInstructions implements Instructions {
                   return returnVoid();
                case Opcodes.IRETURN:
                   return return1();
+               case Opcodes.FRETURN:
+                  return return1();
                case Opcodes.LRETURN:
                   return return2();
                case Opcodes.ARETURN:
@@ -204,6 +207,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new L2IOp());
                case Opcodes.I2F:
                   return linearInstruction(new I2FOp());
+               case Opcodes.F2I:
+                  return linearInstruction(new F2IOp());
                case Opcodes.FCMPG:
                   return binaryOp(new FCmpGOperator());
                case Opcodes.FCMPL:
