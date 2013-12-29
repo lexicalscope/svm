@@ -6,6 +6,7 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 
@@ -21,6 +22,7 @@ public interface InstructionFactory {
    NullaryOperator iconst(int val);
    NullaryOperator lconst(long val);
    NullaryOperator fconst(float val);
+   Nullary2Operator dconst(double val);
    Vop stringPoolLoad(String constVal);
 
    Instruction branchIfGe(JumpInsnNode jumpInsnNode);

@@ -5,6 +5,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.ops.DConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.FMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
@@ -31,6 +32,7 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 
@@ -146,6 +148,11 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override
    public NullaryOperator fconst(final float val) {
       return new FConstOperator(val);
+   }
+
+   @Override
+   public Nullary2Operator dconst(final double val) {
+      return new DConstOperator(val);
    }
 
    @Override public Vop stringPoolLoad(final String val) {

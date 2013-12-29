@@ -43,6 +43,7 @@ import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FloatToRawIntBits;
 import com.lexicalscope.symb.vm.instructions.ops.I2FOp;
+import com.lexicalscope.symb.vm.instructions.ops.I2LOp;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
 import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
@@ -55,6 +56,8 @@ import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
+import com.lexicalscope.symb.vm.instructions.ops.Nullary2Op;
+import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.PopOp;
@@ -184,6 +187,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new IxorOp());
                case Opcodes.LUSHR:
                   return linearInstruction(new LushrOp());
+               case Opcodes.I2L:
+                  return linearInstruction(new I2LOp());
                case Opcodes.L2I:
                   return linearInstruction(new L2IOp());
                case Opcodes.I2F:
@@ -206,6 +211,8 @@ public final class BaseInstructions implements Instructions {
                      return lconst((long) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Float) {
                      return fconst((float) ldcInsnNode.cst);
+                  } else if(ldcInsnNode.cst instanceof Double) {
+                     return dconst((double) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof String) {
                      return stringPoolLoad((String) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Type) {
@@ -312,6 +319,10 @@ public final class BaseInstructions implements Instructions {
       return nullary(instructionFactory.fconst(constVal));
    }
 
+   private Instruction dconst(final double constVal) {
+      return nullary2(instructionFactory.dconst(constVal));
+   }
+
    public Instruction aconst_null() {
       return linearInstruction(new AConstNullOp());
    }
@@ -334,6 +345,10 @@ public final class BaseInstructions implements Instructions {
 
    private LinearInstruction nullary(final NullaryOperator nullary) {
       return linearInstruction(new NullaryOp(nullary));
+   }
+
+   private LinearInstruction nullary2(final Nullary2Operator nullary) {
+      return linearInstruction(new Nullary2Op(nullary));
    }
 
    private LinearInstruction load(final VarInsnNode varInsnNode) {

@@ -110,6 +110,8 @@ public class AsmSClassLoader implements SClassLoader {
             return instructionFactory.initInt();
          case Type.FLOAT:
             return 0f;
+         case Type.DOUBLE:
+            return 0d;
          case Type.BOOLEAN:
             return false;
       }
