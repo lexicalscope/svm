@@ -40,6 +40,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
+import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
 import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
@@ -181,6 +182,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new L2IOp());
                case Opcodes.FCMPG:
                   return binaryOp(new FCmpGOperator());
+               case Opcodes.FCMPL:
+                  return binaryOp(new FCmpLOperator());
                case Opcodes.POP:
                   return linearInstruction(new PopOp());
             }
