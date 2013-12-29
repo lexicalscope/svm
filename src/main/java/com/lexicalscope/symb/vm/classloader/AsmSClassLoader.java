@@ -62,15 +62,15 @@ public class AsmSClassLoader implements SClassLoader {
       } else if (methodName.equals(new SMethodName("java/lang/System", "identityHashCode", "(Ljava/lang/Object;)I"))) {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "nanoTime", "()J"))) {
-         return instructions.statements().maxStack(1).nanoTime().return1().build();
+         return instructions.statements().maxStack(2).nanoTime().return2().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "currentTimeMillis", "()J"))) {
-         return instructions.statements().maxStack(1).currentTimeMillis().return1().build();
+         return instructions.statements().maxStack(2).currentTimeMillis().return2().build();
       } else if (methodName.equals(new SMethodName("java/lang/Thread", "currentThread", "()Ljava/lang/Thread;"))) {
          // TODO[tim] we need to somehow store a thread object, probably
          // initalise it at the start
          return instructions.statements().maxStack(1).currentThread().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/Runtime", "freeMemory", "()J"))) {
-         return instructions.statements().maxStack(1).lconst(4294967296L).return1().build();
+         return instructions.statements().maxStack(2).lconst(4294967296L).return2().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V"))) {
          return instructions.statements().maxLocals(5).arrayCopy().returnVoid().build();
       } else if (methodName.equals(new SMethodName("java/lang/Float", "floatToRawIntBits", "(F)I"))) {

@@ -8,7 +8,7 @@ import com.lexicalscope.symb.vm.Vop;
 
 public class NanoTimeOp implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-      stackFrame.push(System.nanoTime());
+      stackFrame.pushDoubleWord(System.nanoTime());
    }
 
    @Override public String toString() {

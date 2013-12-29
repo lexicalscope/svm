@@ -6,19 +6,19 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 
-public class Nullary2Op implements Vop {
-   private final Nullary2Operator operator;
+public class Load2 implements Vop {
+   private final int var;
 
-   public Nullary2Op(final Nullary2Operator operator) {
-      this.operator = operator;
+   public Load2(final int var) {
+      this.var = var;
    }
 
    @Override
    public String toString() {
-      return operator.toString();
+      return String.format("LOAD2 %d", var);
    }
 
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-      stackFrame.pushDoubleWord(operator.eval());
+      stackFrame.pushDoubleWord(stackFrame.local(var));
    }
 }

@@ -113,7 +113,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       return new SIConstOperator(val);
    }
 
-   @Override public NullaryOperator lconst(final long val) {
+   @Override public Nullary2Operator lconst(final long val) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 

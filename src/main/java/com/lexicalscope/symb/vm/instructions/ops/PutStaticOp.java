@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.symb.vm.Heap;
@@ -14,10 +15,13 @@ import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 final class PutStaticOp implements Vop {
    private final FieldInsnNode fieldInsnNode;
    private final SFieldName name;
+   private final boolean doubleWord;
 
    PutStaticOp(final FieldInsnNode fieldInsnNode) {
       this.fieldInsnNode = fieldInsnNode;
       this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
+      final int sort = Type.getType(fieldInsnNode.desc).getSort();
+      doubleWord = sort == Type.DOUBLE || sort == Type.LONG;
    }
 
    @Override
@@ -26,7 +30,13 @@ final class PutStaticOp implements Vop {
       final Object staticsAddress = statics.whereMyStaticsAt(klass);
       final int offset = klass.staticFieldIndex(name);
 
-      heap.put(staticsAddress, offset, stackFrame.pop());
+      Object value;
+      if(doubleWord) {
+         value = stackFrame.popDoubleWord();
+      } else {
+         value = stackFrame.pop();
+      }
+      heap.put(staticsAddress, offset, value);
    }
 
    @Override

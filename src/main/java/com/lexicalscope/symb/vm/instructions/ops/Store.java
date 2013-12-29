@@ -15,10 +15,10 @@ public class Store implements Vop {
 
    @Override
    public String toString() {
-      return String.format("ASTORE %d", var);
+      return String.format("STORE %d", var);
    }
 
-   @Override public void eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
+   @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       stackFrame.local(var, stackFrame.pop());
    }
 }

@@ -20,7 +20,7 @@ public interface InstructionFactory {
    BinaryOperator fmulOperation();
 
    NullaryOperator iconst(int val);
-   NullaryOperator lconst(long val);
+   Nullary2Operator lconst(long val);
    NullaryOperator fconst(float val);
    Nullary2Operator dconst(double val);
    Vop stringPoolLoad(String constVal);

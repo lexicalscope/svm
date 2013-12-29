@@ -53,6 +53,7 @@ import com.lexicalscope.symb.vm.instructions.ops.IushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.IxorOp;
 import com.lexicalscope.symb.vm.instructions.ops.L2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
+import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
@@ -62,6 +63,7 @@ import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.PopOp;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
+import com.lexicalscope.symb.vm.instructions.ops.Store2;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 
@@ -96,13 +98,15 @@ public final class BaseInstructions implements Instructions {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
-               case Opcodes.ILOAD:
                case Opcodes.LLOAD:
+                  return load2(varInsnNode);
+               case Opcodes.ILOAD:
                case Opcodes.ALOAD:
                case Opcodes.FLOAD:
                   return load(varInsnNode);
-               case Opcodes.ISTORE:
                case Opcodes.LSTORE:
+                  return store2(varInsnNode);
+               case Opcodes.ISTORE:
                case Opcodes.ASTORE:
                   return store(varInsnNode);
             }
@@ -130,7 +134,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.IRETURN:
                   return return1();
                case Opcodes.LRETURN:
-                  return return1();
+                  return return2();
                case Opcodes.ARETURN:
                   return return1();
                case Opcodes.IAND:
@@ -307,12 +311,16 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Store(varInsnNode.var));
    }
 
+   private LinearInstruction store2(final VarInsnNode varInsnNode) {
+      return linearInstruction(new Store2(varInsnNode.var));
+   }
+
    private Instruction iconst(final int constVal) {
       return nullary(instructionFactory.iconst(constVal));
    }
 
    public Instruction lconst(final long constVal) {
-      return nullary(instructionFactory.lconst(constVal));
+      return nullary2(instructionFactory.lconst(constVal));
    }
 
    private Instruction fconst(final float constVal) {
@@ -355,8 +363,16 @@ public final class BaseInstructions implements Instructions {
       return load(varInsnNode.var);
    }
 
+   private LinearInstruction load2(final VarInsnNode varInsnNode) {
+      return load2(varInsnNode.var);
+   }
+
    private LinearInstruction load(final int index) {
       return linearInstruction(new Load(index));
+   }
+
+   private LinearInstruction load2(final int index) {
+      return linearInstruction(new Load2(index));
    }
 
    public Instruction aload(final int index) {
@@ -409,6 +425,10 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction return1() {
       return new ReturnInstruction(1);
+   }
+
+   public Instruction return2() {
+      return new ReturnInstruction(2);
    }
 
    public Instruction newObject(final String klassDesc) {

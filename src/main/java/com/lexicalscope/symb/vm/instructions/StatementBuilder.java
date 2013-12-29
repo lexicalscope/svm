@@ -54,6 +54,11 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder return2() {
+      add(baseInstructions.return2());
+      return this;
+   }
+
    public StatementBuilder returnVoid() {
       add(baseInstructions.returnVoid());
       return this;

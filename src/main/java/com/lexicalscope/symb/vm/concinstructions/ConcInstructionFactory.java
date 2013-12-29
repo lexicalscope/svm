@@ -141,7 +141,7 @@ public class ConcInstructionFactory implements InstructionFactory {
    }
 
    @Override
-   public NullaryOperator lconst(final long val) {
+   public Nullary2Operator lconst(final long val) {
       return new LConstOperator(val);
    }
 

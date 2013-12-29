@@ -6,8 +6,10 @@ public interface StackFrame  extends Snapshotable<StackFrame>{
    StackFrame advance(InstructionNode nextInstruction);
 
    StackFrame push(Object val);
+   StackFrame pushDoubleWord(Object val);
 
    Object pop();
+   Object popDoubleWord();
 
    InstructionNode instruction();
 
@@ -28,4 +30,5 @@ public interface StackFrame  extends Snapshotable<StackFrame>{
    Object peek();
 
    SMethodName method();
+
 }

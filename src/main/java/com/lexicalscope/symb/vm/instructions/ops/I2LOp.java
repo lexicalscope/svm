@@ -8,7 +8,6 @@ import com.lexicalscope.symb.vm.Vop;
 
 public class I2LOp implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-      stackFrame.push((long)(int) stackFrame.pop());
-      stackFrame.push(new Padding());
+      stackFrame.pushDoubleWord((long)(int) stackFrame.pop());
    }
 }

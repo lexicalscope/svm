@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm;
 import static java.util.Arrays.copyOf;
 
 import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.instructions.ops.Padding;
 
 public final class SnapshotableStackFrame implements StackFrame {
    private final Object[] stack;
@@ -41,9 +42,22 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public StackFrame push(final Object val) {
+      assert !(val instanceof Double);
+      assert !(val instanceof Long);
+      pushInternal(val);
+      return this;
+   }
+
+   @Override
+   public StackFrame pushDoubleWord(final Object val) {
+      pushInternal(val);
+      pushInternal(new Padding());
+      return this;
+   }
+
+   private void pushInternal(final Object val) {
       opTop++;
       stack[opTop] = val;
-      return this;
    }
 
    @Override
@@ -53,6 +67,13 @@ public final class SnapshotableStackFrame implements StackFrame {
       } finally {
          opTop--;
       }
+   }
+
+   @Override
+   public Object popDoubleWord() {
+      assert peek() instanceof Padding : this;
+      pop();
+      return pop();
    }
 
    @Override
