@@ -140,4 +140,8 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override public BinaryOperator fmulOperation() {
       throw new UnsupportedOperationException("not implemented yet");
    }
+
+   @Override public BinaryOperator iandOperation() {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
 }

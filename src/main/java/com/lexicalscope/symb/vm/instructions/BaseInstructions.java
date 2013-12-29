@@ -130,6 +130,8 @@ public final class BaseInstructions implements Instructions {
                   return return1();
                case Opcodes.ARETURN:
                   return return1();
+               case Opcodes.IAND:
+                  return binaryOp(instructionFactory.iandOperation());
                case Opcodes.IADD:
                   return binaryOp(instructionFactory.iaddOperation());
                case Opcodes.IMUL:

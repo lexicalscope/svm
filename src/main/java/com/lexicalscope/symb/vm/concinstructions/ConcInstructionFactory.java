@@ -60,6 +60,10 @@ public class ConcInstructionFactory implements InstructionFactory {
       return new INegOp();
    }
 
+   @Override public BinaryOperator iandOperation() {
+      return new IAndOp();
+   }
+
    @Override
    public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new Ge());
