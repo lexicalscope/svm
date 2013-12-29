@@ -73,6 +73,8 @@ public class AsmSClassLoader implements SClassLoader {
          return instructions.statements().maxStack(1).lconst(4294967296L).return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/System", "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V"))) {
          return instructions.statements().maxLocals(5).arrayCopy().returnVoid().build();
+      } else if (methodName.equals(new SMethodName("java/lang/Float", "floatToRawIntBits", "(F)I"))) {
+         return instructions.statements().maxStack(1).maxLocals(1).fload(0).floatToRawIntBits().return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }

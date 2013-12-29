@@ -30,63 +30,77 @@ public class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      instructions.add(baseInstructions.newObject(klassDesc));
+      add(baseInstructions.newObject(klassDesc));
       return this;
    }
 
    public StatementBuilder aconst_null() {
-      instructions.add(baseInstructions.aconst_null());
+      add(baseInstructions.aconst_null());
       return this;
    }
 
    public StatementBuilder iconst_0() {
-      instructions.add(baseInstructions.iconst_0());
+      add(baseInstructions.iconst_0());
       return this;
    }
 
    public StatementBuilder lconst(final long l) {
-      instructions.add(baseInstructions.lconst(l));
+      add(baseInstructions.lconst(l));
       return this;
    }
 
    public StatementBuilder return1() {
-      instructions.add(baseInstructions.return1());
+      add(baseInstructions.return1());
       return this;
    }
 
    public StatementBuilder returnVoid() {
-      instructions.add(baseInstructions.returnVoid());
+      add(baseInstructions.returnVoid());
       return this;
    }
 
    public StatementBuilder addressToHashCode() {
-      instructions.add(baseInstructions.addressToHashCode());
+      add(baseInstructions.addressToHashCode());
       return this;
    }
 
    public StatementBuilder aload(final int index) {
-      instructions.add(baseInstructions.aload(index));
+      add(baseInstructions.aload(index));
       return this;
    }
 
    public StatementBuilder nanoTime() {
-      instructions.add(baseInstructions.nanoTime());
+      add(baseInstructions.nanoTime());
       return this;
    }
 
    public StatementBuilder currentTimeMillis() {
-      instructions.add(baseInstructions.currentTimeMillis());
+      add(baseInstructions.currentTimeMillis());
       return this;
    }
 
    public StatementBuilder currentThread() {
-      instructions.add(baseInstructions.currentThread());
+      add(baseInstructions.currentThread());
       return this;
    }
 
    public StatementBuilder arrayCopy() {
-      instructions.add(baseInstructions.arrayCopy());
+      add(baseInstructions.arrayCopy());
       return this;
+   }
+
+   public StatementBuilder floatToRawIntBits() {
+      add(baseInstructions.floatToRawIntBits());
+      return this;
+   }
+
+   public StatementBuilder fload(final int index) {
+      add(baseInstructions.fload(index));
+      return this;
+   }
+
+   private void add(final Instruction instruction) {
+      instructions.add(instruction);
    }
 
    public MethodBody build() {

@@ -41,6 +41,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
+import com.lexicalscope.symb.vm.instructions.ops.FloatToRawIntBits;
 import com.lexicalscope.symb.vm.instructions.ops.I2FOp;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
 import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
@@ -345,6 +346,10 @@ public final class BaseInstructions implements Instructions {
       return load(index);
    }
 
+   public Instruction fload(final int index) {
+      return load(index);
+   }
+
    private LinearInstruction linearInstruction(final Vop op) {
       return new LinearInstruction(op);
    }
@@ -415,5 +420,9 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction arrayCopy() {
       return linearInstruction(new ArrayCopyOp());
+   }
+
+   public Instruction floatToRawIntBits() {
+      return linearInstruction(new FloatToRawIntBits());
    }
 }
