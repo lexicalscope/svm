@@ -55,6 +55,7 @@ import com.lexicalscope.symb.vm.instructions.ops.IshlOp;
 import com.lexicalscope.symb.vm.instructions.ops.IushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.IxorOp;
 import com.lexicalscope.symb.vm.instructions.ops.L2IOp;
+import com.lexicalscope.symb.vm.instructions.ops.LCmpOp;
 import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
@@ -207,6 +208,8 @@ public final class BaseInstructions implements Instructions {
                   return binaryOp(new FCmpGOperator());
                case Opcodes.FCMPL:
                   return binaryOp(new FCmpLOperator());
+               case Opcodes.LCMP:
+                  return linearInstruction(new LCmpOp());
                case Opcodes.POP:
                   return linearInstruction(new PopOp());
             }
