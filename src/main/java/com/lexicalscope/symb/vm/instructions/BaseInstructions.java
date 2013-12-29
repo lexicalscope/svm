@@ -272,6 +272,8 @@ public final class BaseInstructions implements Instructions {
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
                   return instructionFactory.branchIfGe(jumpInsnNode);
+               case Opcodes.IFGT:
+                  return instructionFactory.branchIfGt(jumpInsnNode);
                case Opcodes.IFLE:
                   return instructionFactory.branchIfLe(jumpInsnNode);
                case Opcodes.IFLT:

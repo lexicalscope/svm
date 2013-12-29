@@ -154,4 +154,8 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override public Binary2Operator landOperation() {
       throw new UnsupportedOperationException("not implemented yet");
    }
+
+   @Override public Instruction branchIfGt(final JumpInsnNode jumpInsnNode) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
 }
