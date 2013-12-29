@@ -6,6 +6,7 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
+import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -147,6 +148,10 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Nullary2Operator dconst(final double val) {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override public Binary2Operator landOperation() {
       throw new UnsupportedOperationException("not implemented yet");
    }
 }

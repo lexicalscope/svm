@@ -33,6 +33,8 @@ import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayCopyOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayLengthOp;
+import com.lexicalscope.symb.vm.instructions.ops.Binary2Op;
+import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
@@ -141,6 +143,8 @@ public final class BaseInstructions implements Instructions {
                   return return1();
                case Opcodes.IAND:
                   return binaryOp(instructionFactory.iandOperation());
+               case Opcodes.LAND:
+                  return binary2Op(instructionFactory.landOperation());
                case Opcodes.IADD:
                   return binaryOp(instructionFactory.iaddOperation());
                case Opcodes.IMUL:
@@ -403,6 +407,10 @@ public final class BaseInstructions implements Instructions {
 
    private LinearInstruction binaryOp(final BinaryOperator operation) {
       return new LinearInstruction(new BinaryOp(operation));
+   }
+
+   private LinearInstruction binary2Op(final Binary2Operator operation) {
+      return new LinearInstruction(new Binary2Op(operation));
    }
 
    private LinearInstruction unaryOp(final UnaryOperator operation) {

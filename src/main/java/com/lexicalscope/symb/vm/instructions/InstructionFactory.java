@@ -5,6 +5,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -16,6 +17,8 @@ public interface InstructionFactory {
    BinaryOperator isubOperation();
    BinaryOperator iandOperation();
    UnaryOperator inegOperation();
+
+   Binary2Operator landOperation();
 
    BinaryOperator fmulOperation();
 

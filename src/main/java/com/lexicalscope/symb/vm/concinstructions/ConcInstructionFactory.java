@@ -31,6 +31,7 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
 import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
+import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
@@ -45,7 +46,6 @@ public class ConcInstructionFactory implements InstructionFactory {
    public BinaryOperator imulOperation() {
       return new IMulOp();
    }
-
 
    @Override
    public BinaryOperator fmulOperation() {
@@ -64,6 +64,10 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public BinaryOperator iandOperation() {
       return new IAndOp();
+   }
+
+   @Override public Binary2Operator landOperation() {
+      return new LAndOp();
    }
 
    @Override
