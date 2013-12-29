@@ -136,4 +136,8 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override public Object initInt() {
       return new IConstSymbol(0);
    }
+
+   @Override public BinaryOperator fmulOperation() {
+      throw new UnsupportedOperationException("not implemented yet");
+   }
 }

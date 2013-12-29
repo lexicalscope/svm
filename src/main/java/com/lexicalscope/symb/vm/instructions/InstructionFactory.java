@@ -15,6 +15,8 @@ public interface InstructionFactory {
    BinaryOperator isubOperation();
    UnaryOperator inegOperation();
 
+   BinaryOperator fmulOperation();
+
    NullaryOperator iconst(int val);
    NullaryOperator lconst(long val);
    NullaryOperator fconst(float val);

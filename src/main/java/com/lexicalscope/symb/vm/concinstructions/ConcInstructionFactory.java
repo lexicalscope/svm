@@ -6,6 +6,7 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
+import com.lexicalscope.symb.vm.concinstructions.ops.FMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
@@ -41,6 +42,12 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override
    public BinaryOperator imulOperation() {
       return new IMulOp();
+   }
+
+
+   @Override
+   public BinaryOperator fmulOperation() {
+      return new FMulOp();
    }
 
    @Override

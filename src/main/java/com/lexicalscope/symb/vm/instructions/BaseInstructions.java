@@ -41,6 +41,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
+import com.lexicalscope.symb.vm.instructions.ops.I2FOp;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
 import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
@@ -132,6 +133,8 @@ public final class BaseInstructions implements Instructions {
                   return binaryOp(instructionFactory.iaddOperation());
                case Opcodes.IMUL:
                   return binaryOp(instructionFactory.imulOperation());
+               case Opcodes.FMUL:
+                  return binaryOp(instructionFactory.fmulOperation());
                case Opcodes.ISUB:
                   return binaryOp(instructionFactory.isubOperation());
                case Opcodes.INEG:
@@ -180,6 +183,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new LushrOp());
                case Opcodes.L2I:
                   return linearInstruction(new L2IOp());
+               case Opcodes.I2F:
+                  return linearInstruction(new I2FOp());
                case Opcodes.FCMPG:
                   return binaryOp(new FCmpGOperator());
                case Opcodes.FCMPL:
