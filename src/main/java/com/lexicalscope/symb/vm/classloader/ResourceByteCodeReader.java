@@ -22,7 +22,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
    }
 
    @Override
-   public SClass load(final SClassLoader classLoader, final String name, final ClassLoaded classLoaded) {
+   public AsmSClass load(final SClassLoader classLoader, final String name, final ClassLoaded classLoaded) {
       if(name == null) { return null; }
 
       try {
@@ -37,16 +37,16 @@ public class ResourceByteCodeReader implements ByteCodeReader {
             throw new SClassNotFoundException(name);
 
          final ClassNode classNode = loadClassBytecodeFromUrl(classUrl);
-         final SClass superclass = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
+         final AsmSClass superclass = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
 
          @SuppressWarnings("unchecked")
          final List<String> interfaceNames = classNode.interfaces;
-         final List<SClass> interfaces = new ArrayList<>();
+         final List<AsmSClass> interfaces = new ArrayList<>();
          for (final String interfaceName : interfaceNames) {
             interfaces.add(classLoader.load(interfaceName, classLoaded));
          }
 
-         final SClass result = new SClass(classLoader, instructions, classUrl, classNode, superclass, interfaces);
+         final AsmSClass result = new AsmSClass(classLoader, instructions, classUrl, classNode, superclass, interfaces);
          classLoaded.loaded(result);
          return result;
       } catch (final IOException e) {

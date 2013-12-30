@@ -1,0 +1,83 @@
+package com.lexicalscope.symb.vm;
+
+import java.net.URL;
+import java.util.Collections;
+import java.util.List;
+
+import com.lexicalscope.symb.vm.classloader.Allocatable;
+import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
+
+public class PrimitiveSClass implements SClass {
+   private final String klassName;
+
+   public PrimitiveSClass(final String klassName) {
+      this.klassName = klassName;
+   }
+
+   @Override public SMethodName resolve(final SMethodName sMethodName) {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override public SMethod staticMethod(final String name, final String desc) {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override public boolean hasStaticInitialiser() {
+      return false;
+   }
+
+   @Override public int fieldCount() {
+      return 0;
+   }
+
+   @Override public int fieldIndex(final SFieldName name) {
+      return 0;
+   }
+
+   @Override public boolean hasField(final SFieldName name) {
+      return false;
+   }
+
+   @Override public List<Object> fieldInit() {
+      return Collections.emptyList();
+   }
+
+   @Override public int staticFieldCount() {
+      return 0;
+   }
+
+   @Override public int staticFieldIndex(final SFieldName name) {
+      return 0;
+   }
+
+   @Override public boolean hasStaticField(final SFieldName name) {
+      return false;
+   }
+
+   @Override public String name() {
+      return klassName;
+   }
+
+   @Override public Object superclass() {
+      return null;
+   }
+
+   @Override public Allocatable statics() {
+      return new Allocatable() {
+         @Override public int fieldCount() {
+            return STATICS_PREAMBLE;
+         }
+      };
+   }
+
+   @Override public boolean instanceOf(final SClass other) {
+      return other == this;
+   }
+
+   @Override public URL loadedFrom() {
+      throw new UnsupportedOperationException();
+   }
+}

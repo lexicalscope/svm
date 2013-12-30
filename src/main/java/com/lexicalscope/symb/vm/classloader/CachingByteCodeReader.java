@@ -7,7 +7,7 @@ import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class CachingByteCodeReader implements ByteCodeReader {
    // TODO[tim]: should probably allow class definitions to be garbage collected using weak references
-   private final Map<String, SClass> classCache = new HashMap<>();
+   private final Map<String, AsmSClass> classCache = new HashMap<>();
    private final ResourceByteCodeReader byteCodeReader;
 
    public CachingByteCodeReader(final Instructions instructions) {
@@ -15,9 +15,9 @@ public class CachingByteCodeReader implements ByteCodeReader {
    }
 
    @Override
-   public SClass load(final SClassLoader classLoader, final String name, final ClassLoaded classLoaded) {
+   public AsmSClass load(final SClassLoader classLoader, final String name, final ClassLoaded classLoaded) {
       assert name != null;
-      SClass result = classCache.get(name);
+      AsmSClass result = classCache.get(name);
       if(result == null) {
          result = byteCodeReader.load(classLoader, name, classLoaded);
          classCache.put(name, result);

@@ -44,6 +44,11 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder iconst(final int i) {
+      add(baseInstructions.iconst(i));
+      return this;
+   }
+
    public StatementBuilder lconst(final long l) {
       add(baseInstructions.lconst(l));
       return this;
@@ -111,6 +116,11 @@ public class StatementBuilder {
 
    public StatementBuilder dload(final int index) {
       add(baseInstructions.dload(index));
+      return this;
+   }
+
+   public StatementBuilder getCallerClass() {
+      add(baseInstructions.getCallerClass());
       return this;
    }
 

@@ -42,6 +42,7 @@ import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
+import com.lexicalscope.symb.vm.instructions.ops.DefinePrimitiveClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.DoubleToRawLongBits;
 import com.lexicalscope.symb.vm.instructions.ops.F2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
@@ -340,7 +341,7 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Store2(varInsnNode.var));
    }
 
-   private Instruction iconst(final int constVal) {
+   Instruction iconst(final int constVal) {
       return nullary(instructionFactory.iconst(constVal));
    }
 
@@ -502,6 +503,10 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction doubleToRawLongBits() {
       return linearInstruction(new DoubleToRawLongBits());
+   }
+
+   public Instruction getCallerClass() {
+      return linearInstruction(new GetCallerClass());
    }
 
    @Override public Object initialFieldValue(final String desc) {

@@ -49,6 +49,16 @@ public class StaticsImpl implements Statics {
       return result;
    }
 
+   @Override public SClass definePrimitiveClass(final String klassName) {
+      if(isDefined(klassName)) {
+         throw new DuplicateClassDefinitionException(defined.get(klassName));
+      }
+
+      final PrimitiveSClass result = new PrimitiveSClass(klassName);
+      defined.put(klassName, result);
+      return result;
+   }
+
    @Override public boolean isDefined(final String klass) {
       return defined.containsKey(klass);
    }
@@ -78,7 +88,9 @@ public class StaticsImpl implements Statics {
 
    @Override public Object whereMyStaticsAt(final SClass klass) {
       final Object address = staticsAddresses.get(klass);
-      if(address == null) throw new IllegalStateException("no statics for " + klass);
+      if(address == null) {
+         throw new IllegalStateException("no statics for " + klass);
+      }
       return address;
    }
 }

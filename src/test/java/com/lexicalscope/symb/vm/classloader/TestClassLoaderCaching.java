@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.hasSuperclass;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.sameInstance;
 
@@ -15,6 +16,6 @@ public class TestClassLoaderCaching {
 
    @Test public void superclassIsCachedCopy(){
       sClassLoader.load(SubClassWithAdditionalFields.class);
-      assertThat(sClassLoader.load(SubClassWithAdditionalFields.class), SClassMatchers.hasSuperclass(sameInstance(classWithFiveFields)));
+      assertThat(sClassLoader.load(SubClassWithAdditionalFields.class), hasSuperclass(sameInstance(classWithFiveFields)));
    }
 }

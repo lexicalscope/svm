@@ -30,15 +30,10 @@ public final class DefineClassOp implements Op<Boolean> {
 
          final List<SClass> klasses = statics.defineClass(klassName);
 
-         final String classClassName = getInternalName(Class.class);
-         final SClass classClass = statics.load(classClassName);
+         final SClass classClass = statics.load(getInternalName(Class.class));
 
          for (final SClass klass : klasses) {
-            if(klass.statics().fieldCount() > 0) {
-               final Object staticsAddress = heap.newObject(klass.statics());
-               heap.put(staticsAddress, SClass.OBJECT_CLASS_OFFSET, classClass);
-               statics.staticsAt(klass, staticsAddress);
-            }
+            allocateStatics(heap, statics, classClass, klass);
 
             if(klass.hasStaticInitialiser())
             {
@@ -51,6 +46,14 @@ public final class DefineClassOp implements Op<Boolean> {
          }
       }
       return jumpToInitaliser;
+   }
+
+   static void allocateStatics(final Heap heap, final Statics statics, final SClass classClass, final SClass klass) {
+      if(klass.statics().fieldCount() > 0) {
+         final Object staticsAddress = heap.newObject(klass.statics());
+         heap.put(staticsAddress, SClass.OBJECT_CLASS_OFFSET, classClass);
+         statics.staticsAt(klass, staticsAddress);
+      }
    }
 
    @Override public String toString() {

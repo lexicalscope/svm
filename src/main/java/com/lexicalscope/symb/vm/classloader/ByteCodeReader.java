@@ -1,5 +1,5 @@
 package com.lexicalscope.symb.vm.classloader;
 
 public interface ByteCodeReader {
-   SClass load(SClassLoader classLoader, String name, ClassLoaded classLoaded);
+   AsmSClass load(SClassLoader classLoader, String name, ClassLoaded classLoaded);
 }

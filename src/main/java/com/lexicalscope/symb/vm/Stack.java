@@ -2,6 +2,11 @@ package com.lexicalscope.symb.vm;
 
 
 public interface Stack extends Snapshotable<Stack> {
+   /**
+    * @return The previous stack frame
+    */
+   StackFrame caller();
+
    Stack popFrame(int returnCount);
 
    Stack push(StackFrame stackFrame);
@@ -17,4 +22,5 @@ public interface Stack extends Snapshotable<Stack> {
    Object currentThread();
 
    SStackTrace trace();
+
 }

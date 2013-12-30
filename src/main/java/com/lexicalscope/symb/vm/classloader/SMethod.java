@@ -27,16 +27,23 @@ public class SMethod {
    private InstructionNode entryPoint;
    private int maxLocals;
    private int maxStack;
+   private final SClass klass;
 
    public SMethod(
          final SClassLoader classLoader,
+         final SClass klass,
          final SMethodName methodName,
          final Instructions instructions,
          final MethodNode method) {
       this.classLoader = classLoader;
+      this.klass = klass;
       this.methodName = methodName;
       this.instructions = instructions;
       this.method = method;
+   }
+
+   public SClass klass() {
+      return klass;
    }
 
    public int maxLocals() {

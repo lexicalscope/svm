@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.*;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.hasField;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.hasStaticField;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.withIndex;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 

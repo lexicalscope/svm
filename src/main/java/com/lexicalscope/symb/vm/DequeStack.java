@@ -88,6 +88,12 @@ public class DequeStack implements Stack {
       return new SStackTrace(trace);
    }
 
+   @Override public StackFrame caller() {
+      final Iterator<StackFrame> iterator = stack.iterator();
+      iterator.next();
+      return iterator.next();
+   };
+
    @Override
    public boolean equals(final Object obj) {
       if (obj != null && obj.getClass().equals(this.getClass())) {

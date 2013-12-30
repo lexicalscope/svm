@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm;
 
 import static java.util.Arrays.copyOf;
 
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.Padding;
 
 public final class SnapshotableStackFrame implements StackFrame {
@@ -11,23 +11,23 @@ public final class SnapshotableStackFrame implements StackFrame {
    private final int opBot; // pointer to bottom of operand stack
    private int opTop; // pointer to top of operand stack
    private final int vars = 0; // pointer to local variables
-   private final SMethodName name;
+   private final SMethod method;
 
    public SnapshotableStackFrame(
-         final SMethodName name,
+         final SMethod method,
          final InstructionNode instruction,
          final int maxLocals,
          final int maxStack) {
-      this(name, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
+      this(method, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
    }
 
    private SnapshotableStackFrame(
-         final SMethodName name,
+         final SMethod method,
          final InstructionNode instruction,
          final Object[] stack,
          final int opBot,
          final int opTop) {
-      this.name = name;
+      this.method = method;
       this.instruction = instruction;
       this.stack = stack;
       this.opBot = opBot;
@@ -132,7 +132,7 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public SnapshotableStackFrame snapshot() {
-      return new SnapshotableStackFrame(name, instruction, copyOf(stack, stack.length), opBot, opTop);
+      return new SnapshotableStackFrame(method, instruction, copyOf(stack, stack.length), opBot, opTop);
    }
 
    @Override
@@ -154,7 +154,7 @@ public final class SnapshotableStackFrame implements StackFrame {
       }
    }
 
-   @Override public SMethodName method() {
-      return name;
+   @Override public SMethod method() {
+      return method;
    }
 }

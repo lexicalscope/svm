@@ -12,7 +12,6 @@ import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
@@ -87,7 +86,7 @@ public class Vm {
       final StaticsImpl statics = new StaticsImpl(classLoader);
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(new SMethodName("", "", ""), defineClassClass, 0, argSize));
+      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, argSize));
       return new StateImpl(statics, stack, new FastHeap(), classLoader.initialMeta());
    }
 }

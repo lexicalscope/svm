@@ -14,6 +14,8 @@ public interface Statics extends Snapshotable<Statics> {
    SMethod loadMethod(SMethodName sMethodName);
 
    List<SClass> defineClass(String klass);
+   SClass definePrimitiveClass(String klassName);
+
    void staticsAt(SClass klass, Object staticsAddress);
    Object whereMyStaticsAt(SClass klass);
 

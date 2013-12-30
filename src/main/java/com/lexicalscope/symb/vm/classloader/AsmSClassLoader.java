@@ -9,6 +9,7 @@ import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 
 public class AsmSClassLoader implements SClassLoader {
    private final Instructions instructions;
@@ -25,15 +26,15 @@ public class AsmSClassLoader implements SClassLoader {
       this(new ConcInstructionFactory());
    }
 
-   @Override public SClass load(final String name, final ClassLoaded classLoaded) {
+   @Override public AsmSClass load(final String name, final ClassLoaded classLoaded) {
       return byteCodeReader.load(this, name, classLoaded);
    }
 
-   @Override public SClass load(final Class<?> klass, final ClassLoaded classLoaded) {
+   @Override public AsmSClass load(final Class<?> klass, final ClassLoaded classLoaded) {
       return load(getInternalName(klass), classLoaded);
    }
 
-   @Override public SClass load(final Class<?> klass) {
+   @Override public AsmSClass load(final Class<?> klass) {
       return load(klass, new NullClassLoaded());
    }
 
@@ -77,6 +78,16 @@ public class AsmSClassLoader implements SClassLoader {
          return instructions.statements().maxStack(2).maxLocals(1).dload(0).doubleToRawLongBits().return2().build();
       } else if (methodName.equals(new SMethodName("java/lang/Object", "hashCode", "()I"))) {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
+      } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "arrayBaseOffset", "(Ljava/lang/Class;)I"))) {
+         return instructions.statements().maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1().build();
+      } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "arrayIndexScale", "(Ljava/lang/Class;)I"))) {
+         return instructions.statements().maxStack(1).maxLocals(1).iconst(1).return1().build();
+      } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "addressSize", "()I"))) {
+         // there is not really good answer here, because everything takes up "1" in our heap.
+         // we should return either 4 or 8, but will try 1 and see what happens
+         return instructions.statements().maxStack(1).iconst(1).return1().build();
+      } else if (methodName.equals(new SMethodName("sun/reflect/Reflection", "getCallerClass", "()Ljava/lang/Class;"))) {
+         return instructions.statements().maxStack(1).maxLocals(1).getCallerClass().return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
@@ -88,7 +99,20 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override public InstructionNode definePrimitiveClassesInstruction() {
-      return new InstructionInternalNode(instructions.definePrimitiveClass(getInternalName(boolean.class)));
+      final InstructionInternalNode first = definePrimitiveClassInstruction(boolean[].class);
+      first.next(definePrimitiveClassInstruction(byte[].class));
+      first.next(definePrimitiveClassInstruction(char[].class));
+      first.next(definePrimitiveClassInstruction(short[].class));
+      first.next(definePrimitiveClassInstruction(int[].class));
+      first.next(definePrimitiveClassInstruction(float[].class));
+      first.next(definePrimitiveClassInstruction(long[].class));
+      first.next(definePrimitiveClassInstruction(double[].class));
+      first.next(definePrimitiveClassInstruction(Object[].class));
+      return first;
+   }
+
+   private InstructionInternalNode definePrimitiveClassInstruction(final Class<?> klass) {
+      return new InstructionInternalNode(instructions.definePrimitiveClass(getInternalName(klass)));
    }
 
    @Override public InstructionNode defineStringClassInstruction() {

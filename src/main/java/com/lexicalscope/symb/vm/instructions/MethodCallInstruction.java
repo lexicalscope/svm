@@ -125,7 +125,7 @@ public class MethodCallInstruction implements Instruction {
                final SMethodName resolvedMethod = methodInvokation.resolveMethod(args, sMethodName, heap);
                final SMethod targetMethod = statics.loadMethod(resolvedMethod);
 
-               final StackFrame newStackFrame = new SnapshotableStackFrame(resolvedMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
+               final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
 
                stackFrame.advance(instruction.next());
                stack.push(newStackFrame.setLocals(args));

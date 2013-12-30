@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.*;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.loadedFromSamePlaceAs;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.nameIs;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;
