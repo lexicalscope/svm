@@ -69,7 +69,7 @@ public class NewArrayOp implements Vop {
       }
 
       final Object arrayAddress = heap.newObject(new Allocatable() {
-         @Override public int fieldCount() {
+         @Override public int allocateSize() {
             return arrayLength + ARRAY_PREAMBLE;
          }
       });

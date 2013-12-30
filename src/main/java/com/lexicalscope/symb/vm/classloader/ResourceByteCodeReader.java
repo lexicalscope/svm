@@ -33,8 +33,9 @@ public class ResourceByteCodeReader implements ByteCodeReader {
             classUrl = classUrlFromClassPath(name);
          }
 
-         if (classUrl == null)
+         if (classUrl == null) {
             throw new SClassNotFoundException(name);
+         }
 
          final ClassNode classNode = loadClassBytecodeFromUrl(classUrl);
          final AsmSClass superclass = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
@@ -46,7 +47,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
             interfaces.add(classLoader.load(interfaceName, classLoaded));
          }
 
-         final AsmSClass result = new AsmSClass(classLoader, instructions, classUrl, classNode, superclass, interfaces);
+         final AsmSClass result = AsmSClass.newSClass(classLoader, instructions, classUrl, classNode, superclass, interfaces);
          classLoaded.loaded(result);
          return result;
       } catch (final IOException e) {

@@ -29,7 +29,7 @@ public class PrimitiveSClass implements SClass {
       return false;
    }
 
-   @Override public int fieldCount() {
+   @Override public int allocateSize() {
       return 0;
    }
 
@@ -67,7 +67,7 @@ public class PrimitiveSClass implements SClass {
 
    @Override public Allocatable statics() {
       return new Allocatable() {
-         @Override public int fieldCount() {
+         @Override public int allocateSize() {
             return STATICS_PREAMBLE;
          }
       };

@@ -17,7 +17,7 @@ public class FastHeap implements Heap {
 
    @Override
    public Object newObject(final Allocatable klass) {
-      final int key = trie.allocate(klass.fieldCount());
+      final int key = trie.allocate(klass.allocateSize());
       return new ObjectRef(key);
    }
 

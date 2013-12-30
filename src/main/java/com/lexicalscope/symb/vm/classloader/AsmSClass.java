@@ -27,11 +27,12 @@ public final class AsmSClass implements SClass {
    private final URL loadedFromUrl;
    private final ClassNode classNode;
    private final Instructions instructions;
-   private final int classStartOffset;
    private final int subclassOffset;
    private final SClass superclass;
    private final SClassLoader classLoader;
    private final ArrayList<Object> fieldInit;
+
+   private final int fieldcount;
 
    // TODO[tim]: far too much work in this constructor
    public AsmSClass(
@@ -40,14 +41,14 @@ public final class AsmSClass implements SClass {
          final URL loadedFromUrl,
          final ClassNode classNode,
          final AsmSClass superclass,
-         final List<AsmSClass> interfaces) {
+         final List<AsmSClass> interfaces,
+         final SClassBuilder sClassBuilder) {
       this.classLoader = classLoader;
       this.instructions = instructions;
       this.loadedFromUrl = loadedFromUrl;
       this.classNode = classNode;
       this.superclass = superclass;
 
-      this.classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
       this.staticFieldMap = new TreeMap<>();
       this.fieldMap = new TreeMap<>();
       this.fieldInit = new ArrayList<>();
@@ -71,9 +72,13 @@ public final class AsmSClass implements SClass {
          superTypes.addAll(interfac3.superTypes);
       }
 
-      initialiseFieldMaps();
+      fieldInit.addAll(sClassBuilder.declaredFieldInit);
+      fieldMap.putAll(sClassBuilder.declaredFieldMap);
+      staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
+
       initialiseMethodMap();
-      subclassOffset = fieldMap.size();
+      fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFieldMap.size();
+      subclassOffset = sClassBuilder.classStartOffset + sClassBuilder.declaredFieldMap.size();
    }
 
    private void initialiseMethodMap() {
@@ -82,24 +87,6 @@ public final class AsmSClass implements SClass {
          final SMethod smethod = new SMethod(classLoader, this, methodName, instructions, method);
          methodMap.put(methodName, smethod);
          virtuals.put(new SVirtualMethodName(method.name, method.desc), smethod);
-      }
-   }
-
-   private void initialiseFieldMaps() {
-      final List<?> fields = classNode.fields;
-      int staticOffset = 0;
-      int dynamicOffset = 0;
-      for (int i = 0; i < fields.size(); i++) {
-         final FieldNode fieldNode = (FieldNode) fields.get(i);
-         final SFieldName fieldName = new SFieldName(this.name(), fieldNode.name);
-         if ((fieldNode.access & Opcodes.ACC_STATIC) != 0) {
-            staticFieldMap.put(fieldName, staticOffset);
-            staticOffset++;
-         } else {
-            fieldMap.put(fieldName, dynamicOffset + classStartOffset);
-            fieldInit.add(classLoader.init(fieldNode.desc));
-            dynamicOffset++;
-         }
       }
    }
 
@@ -140,8 +127,8 @@ public final class AsmSClass implements SClass {
    /* (non-Javadoc)
     * @see com.lexicalscope.symb.vm.classloader.SClass#fieldCount()
     */
-   @Override public int fieldCount() {
-      return fieldMap.size() + OBJECT_PREAMBLE;
+   @Override public int allocateSize() {
+      return fieldcount + OBJECT_PREAMBLE;
    }
 
    /* (non-Javadoc)
@@ -215,7 +202,7 @@ public final class AsmSClass implements SClass {
    @Override
    public Allocatable statics() {
       return new Allocatable() {
-         @Override public int fieldCount() {
+         @Override public int allocateSize() {
             return staticFieldCount() + STATICS_PREAMBLE;
          }
       };
@@ -239,5 +226,42 @@ public final class AsmSClass implements SClass {
 
    @Override public String toString() {
       return String.format("%s s<%s> <%s>", name(), staticFieldMap, fieldMap);
+   }
+
+   private static class SClassBuilder {
+      private final SClassLoader classLoader;
+      private final int classStartOffset;
+      private final TreeMap<SFieldName, Integer> declaredFieldMap = new TreeMap<>();
+      private final TreeMap<SFieldName, Integer> declaredStaticFieldMap = new TreeMap<>();
+      private final List<Object> declaredFieldInit = new ArrayList<>();
+
+      public SClassBuilder(final SClassLoader classLoader, final AsmSClass superclass) {
+         this.classLoader = classLoader;
+         classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
+      }
+
+      private void initialiseFieldMaps(final ClassNode classNode) {
+         final List<?> fields = classNode.fields;
+         int staticOffset = 0;
+         int dynamicOffset = 0;
+         for (int i = 0; i < fields.size(); i++) {
+            final FieldNode fieldNode = (FieldNode) fields.get(i);
+            final SFieldName fieldName = new SFieldName(classNode.name, fieldNode.name);
+            if ((fieldNode.access & Opcodes.ACC_STATIC) != 0) {
+               declaredStaticFieldMap.put(fieldName, staticOffset);
+               staticOffset++;
+            } else {
+               declaredFieldMap.put(fieldName, dynamicOffset + classStartOffset);
+               declaredFieldInit.add(classLoader.init(fieldNode.desc));
+               dynamicOffset++;
+            }
+         }
+      }
+   }
+
+   public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final AsmSClass superclass, final List<AsmSClass> interfaces) {
+      final SClassBuilder sClassBuilder = new SClassBuilder(classLoader, superclass);
+      sClassBuilder.initialiseFieldMaps(classNode);
+      return new AsmSClass(classLoader, instructions, loadedFromUrl, classNode, superclass, interfaces, sClassBuilder);
    }
 }

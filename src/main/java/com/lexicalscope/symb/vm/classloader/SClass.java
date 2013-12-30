@@ -15,7 +15,7 @@ public interface SClass extends Allocatable {
    boolean hasStaticInitialiser();
 
    @Override
-   int fieldCount();
+   int allocateSize();
 
    int fieldIndex(SFieldName name);
 

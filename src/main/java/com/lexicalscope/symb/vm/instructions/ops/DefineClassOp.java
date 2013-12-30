@@ -49,7 +49,7 @@ public final class DefineClassOp implements Op<Boolean> {
    }
 
    static void allocateStatics(final Heap heap, final Statics statics, final SClass classClass, final SClass klass) {
-      if(klass.statics().fieldCount() > 0) {
+      if(klass.statics().allocateSize() > 0) {
          final Object staticsAddress = heap.newObject(klass.statics());
          heap.put(staticsAddress, SClass.OBJECT_CLASS_OFFSET, classClass);
          statics.staticsAt(klass, staticsAddress);
