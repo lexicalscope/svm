@@ -13,6 +13,8 @@ public interface Instructions {
 
    void instructionFor(AbstractInsnNode abstractInsnNode, InstructionSink instructionSink);
 
+   Object initialFieldValue(String desc);
+
    Instruction defineClass(String internalName);
    Instruction createInvokeSpecial(SMethodName sMethodName);
 

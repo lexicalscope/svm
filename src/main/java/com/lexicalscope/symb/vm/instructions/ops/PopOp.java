@@ -10,4 +10,8 @@ public class PopOp implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       stackFrame.pop();
    }
+
+   @Override public String toString() {
+      return "POP";
+   }
 }

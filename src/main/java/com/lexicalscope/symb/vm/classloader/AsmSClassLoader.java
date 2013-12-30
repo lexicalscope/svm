@@ -2,8 +2,6 @@ package com.lexicalscope.symb.vm.classloader;
 
 import static org.objectweb.asm.Type.getInternalName;
 
-import org.objectweb.asm.Type;
-
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Snapshotable;
@@ -77,6 +75,8 @@ public class AsmSClassLoader implements SClassLoader {
          return instructions.statements().maxStack(1).maxLocals(1).fload(0).floatToRawIntBits().return1().build();
       } else if (methodName.equals(new SMethodName("java/lang/Double", "doubleToRawLongBits", "(D)J"))) {
          return instructions.statements().maxStack(2).maxLocals(1).dload(0).doubleToRawLongBits().return2().build();
+      } else if (methodName.equals(new SMethodName("java/lang/Object", "hashCode", "()I"))) {
+         return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
@@ -102,21 +102,6 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override public Object init(final String desc) {
-      final Type type = Type.getType(desc);
-      switch (type.getSort()) {
-         case Type.OBJECT:
-            return null;
-         case Type.ARRAY:
-            return null;
-         case Type.INT:
-            return instructionFactory.initInt();
-         case Type.FLOAT:
-            return 0f;
-         case Type.DOUBLE:
-            return 0d;
-         case Type.BOOLEAN:
-            return false;
-      }
-      throw new UnsupportedOperationException(desc);
+      return instructions.initialFieldValue(desc);
    }
 }

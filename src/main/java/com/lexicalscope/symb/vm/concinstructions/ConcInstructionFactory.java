@@ -30,6 +30,7 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Le;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Lt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
 import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
+import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
@@ -123,6 +124,10 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(jumpInsnNode, new ICmpGt());
+   }
+
+   @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(jumpInsnNode, new Null());
    }
 
    @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {

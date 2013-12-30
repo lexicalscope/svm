@@ -249,7 +249,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.BIPUSH:
                   return iconst(intInsnNode.operand);
                case Opcodes.NEWARRAY:
-                  return linearInstruction(new NewArrayOp());
+                  return linearInstruction(new NewArrayOp(initialFieldValue(intInsnNode.operand)));
             }
             break;
          case AbstractInsnNode.IINC_INSN:
@@ -287,6 +287,8 @@ public final class BaseInstructions implements Instructions {
                   return instructionFactory.branchIfEq(jumpInsnNode);
                case Opcodes.IFNE:
                   return instructionFactory.branchIfNe(jumpInsnNode);
+               case Opcodes.IFNULL:
+                  return instructionFactory.branchIfNull(jumpInsnNode);
                case Opcodes.IFNONNULL:
                   return instructionFactory.branchIfNonNull(jumpInsnNode);
                case Opcodes.IF_ICMPEQ:
@@ -491,5 +493,58 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction doubleToRawLongBits() {
       return linearInstruction(new DoubleToRawLongBits());
+   }
+
+   @Override public Object initialFieldValue(final String desc) {
+      final Type type = Type.getType(desc);
+      final int sort = type.getSort();
+      switch (sort) {
+         case Type.OBJECT:
+            return null;
+         case Type.ARRAY:
+            return null;
+         case Type.INT:
+            return instructionFactory.initInt();
+         case Type.FLOAT:
+            return 0f;
+         case Type.DOUBLE:
+            return 0d;
+         case Type.BOOLEAN:
+            return false;
+      }
+      throw new UnsupportedOperationException("" + sort);
+   }
+
+   private Object initialFieldValue(final int atype) {
+      /*
+       * Array Type  atype
+       * T_BOOLEAN    4
+       * T_CHAR       5
+       * T_FLOAT      6
+       * T_DOUBLE     7
+       * T_BYTE       8
+       * T_SHORT      9
+       * T_INT       10
+       * T_LONG      11
+       */
+      switch (atype) {
+         case 4:
+            return false;
+         case 5:
+            return (char) '\u0000';
+         case 6:
+            return (float) 0f;
+         case 7:
+            return (double) 0d;
+         case 8:
+            return (byte) 0;
+         case 9:
+            return (short) 0;
+         case 10:
+            return instructionFactory.initInt();
+         case 11:
+            return (long) 0l;
+      }
+      throw new UnsupportedOperationException("" + atype);
    }
 }

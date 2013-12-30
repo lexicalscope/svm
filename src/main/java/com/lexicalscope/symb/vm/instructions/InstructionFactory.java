@@ -34,6 +34,7 @@ public interface InstructionFactory {
    Instruction branchIfLt(JumpInsnNode jumpInsnNode);
    Instruction branchIfEq(JumpInsnNode jumpInsnNode);
    Instruction branchIfNe(JumpInsnNode jumpInsnNode);
+   Instruction branchIfNull(JumpInsnNode jumpInsnNode);
    Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
    Instruction branchGoto(JumpInsnNode jumpInsnNode);
 
@@ -48,7 +49,6 @@ public interface InstructionFactory {
    Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
 
    Snapshotable<?> initialMeta();
-
 
    // initial values for fields
    Object initInt();
