@@ -26,6 +26,7 @@ public final class SClass implements Allocatable {
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, SMethod> methodMap;
+   private final TreeMap<SVirtualMethodName, SMethod> virtuals;
 
    private final URL loadedFromUrl;
    private final ClassNode classNode;
@@ -55,6 +56,7 @@ public final class SClass implements Allocatable {
       this.fieldMap = new TreeMap<>();
       this.fieldInit = new ArrayList<>();
       this.methodMap = new TreeMap<>();
+      this.virtuals = new TreeMap<>();
 
       superTypes.add(this);
 
@@ -66,6 +68,7 @@ public final class SClass implements Allocatable {
          fieldMap.putAll(superclass.fieldMap);
          fieldInit.addAll(superclass.fieldInit);
          superTypes.addAll(superclass.superTypes);
+         virtuals.putAll(superclass.virtuals);
       }
 
       for (final SClass interfac3 : interfaces) {
@@ -80,7 +83,9 @@ public final class SClass implements Allocatable {
    private void initialiseMethodMap() {
       for (final MethodNode method : methods()) {
          final SMethodName methodName = new SMethodName(classNode.name, method.name, method.desc);
-         methodMap.put(methodName, new SMethod(classLoader, methodName, instructions, method));
+         final SMethod smethod = new SMethod(classLoader, methodName, instructions, method);
+         methodMap.put(methodName, smethod);
+         virtuals.put(new SVirtualMethodName(method.name, method.desc), smethod);
       }
    }
 
@@ -104,6 +109,12 @@ public final class SClass implements Allocatable {
 
    @SuppressWarnings("unchecked") private List<MethodNode> methods() {
       return classNode.methods;
+   }
+
+   public SMethodName resolve(final SMethodName sMethodName) {
+      final SVirtualMethodName methodKey = new SVirtualMethodName(sMethodName.name(), sMethodName.desc());
+      assert virtuals.containsKey(methodKey) : methodKey + " not in " + virtuals;
+      return virtuals.get(methodKey).name();
    }
 
    public SMethod staticMethod(final String name, final String desc) {

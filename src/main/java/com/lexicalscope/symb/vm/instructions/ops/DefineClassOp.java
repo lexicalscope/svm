@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static com.lexicalscope.symb.vm.JavaConstants.*;
+import static com.lexicalscope.symb.vm.JavaConstants.CLINIT;
+import static com.lexicalscope.symb.vm.JavaConstants.NOARGS_VOID_DESC;
+import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.List;
 
@@ -26,13 +28,15 @@ public final class DefineClassOp implements Op<Boolean> {
       if (!statics.isDefined(klassName)) {
          InstructionNode currentInstruction = stackFrame.instruction();
 
-         // should initialise all the superclasses.
-
          final List<SClass> klasses = statics.defineClass(klassName);
+
+         final String classClassName = getInternalName(Class.class);
+         final SClass classClass = statics.load(classClassName);
+
          for (final SClass klass : klasses) {
             if(klass.statics().fieldCount() > 0) {
                final Object staticsAddress = heap.newObject(klass.statics());
-               heap.put(staticsAddress, 0, klass.name());
+               heap.put(staticsAddress, SClass.OBJECT_CLASS_OFFSET, classClass);
                statics.staticsAt(klass, staticsAddress);
             }
 

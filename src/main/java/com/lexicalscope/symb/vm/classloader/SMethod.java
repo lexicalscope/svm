@@ -21,47 +21,49 @@ import com.lexicalscope.symb.vm.instructions.Instructions.InstructionSink;
 public class SMethod {
    private final SClassLoader classLoader;
    private final SMethodName methodName;
-	private final MethodNode method;
-	private final Instructions instructions;
+   private final MethodNode method;
+   private final Instructions instructions;
 
    private InstructionNode entryPoint;
    private int maxLocals;
    private int maxStack;
 
-	public SMethod(
-	      final SClassLoader classLoader,
-	      final SMethodName methodName,
-	      final Instructions instructions,
-	      final MethodNode method) {
-		this.classLoader = classLoader;
+   public SMethod(
+         final SClassLoader classLoader,
+         final SMethodName methodName,
+         final Instructions instructions,
+         final MethodNode method) {
+      this.classLoader = classLoader;
       this.methodName = methodName;
       this.instructions = instructions;
-		this.method = method;
-	}
+      this.method = method;
+   }
 
-	public int maxLocals() {
-	   link();
-		return maxLocals;
-	}
+   public int maxLocals() {
+      link();
+      return maxLocals;
+   }
 
-	public int maxStack() {
-	   link();
-		return maxStack;
-	}
+   public int maxStack() {
+      link();
+      return maxStack;
+   }
 
-	public InstructionNode entry() {
-	   link();
-		return entryPoint;
-	}
+   public InstructionNode entry() {
+      link();
+      return entryPoint;
+   }
 
-	private void link() {
-	   if(entryPoint != null) return;
+   private void link() {
+      if(entryPoint != null) {
+         return;
+      }
 
-	   if((method.access & Opcodes.ACC_NATIVE) != 0) {
-	      linkNativeMethod();
-	   } else {
-	      linkJavaMethod();
-	   }
+      if((method.access & Opcodes.ACC_NATIVE) != 0) {
+         linkNativeMethod();
+      } else {
+         linkJavaMethod();
+      }
    }
 
    private void linkNativeMethod() {
@@ -74,10 +76,10 @@ public class SMethod {
 
    private void linkJavaMethod() {
       final List<AbstractInsnNode> unlinked = new ArrayList<>();
-	   final Map<AbstractInsnNode, InstructionNode> linked = new LinkedHashMap<>();
-	   final InstructionNode[] prev = new InstructionNode[1];
+      final Map<AbstractInsnNode, InstructionNode> linked = new LinkedHashMap<>();
+      final InstructionNode[] prev = new InstructionNode[1];
 
-	   final InstructionSink instructionSink = new InstructionSink() {
+      final InstructionSink instructionSink = new InstructionSink() {
          @Override public void nextInstruction(final AbstractInsnNode asmInstruction, final Instruction instruction) {
             final InstructionNode node = new InstructionInternalNode(instruction);
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
@@ -85,22 +87,24 @@ public class SMethod {
             }
             unlinked.clear();
             linked.put(asmInstruction, node);
-            if(prev[0] != null) prev[0].next(node);
+            if(prev[0] != null) {
+               prev[0].next(node);
+            }
             prev[0] = node;
          }
 
          @Override public void noInstruction(final AbstractInsnNode abstractInsnNode) {
             unlinked.add(abstractInsnNode);
          }
-	   };
+      };
 
-	   AbstractInsnNode asmInstruction = getEntryPoint();
-	   while(asmInstruction != null) {
-	      instructions.instructionFor(asmInstruction, instructionSink);
-	      asmInstruction = asmInstruction.getNext();
-	   }
+      AbstractInsnNode asmInstruction = getEntryPoint();
+      while(asmInstruction != null) {
+         instructions.instructionFor(asmInstruction, instructionSink);
+         asmInstruction = asmInstruction.getNext();
+      }
 
-	   for (final Entry<AbstractInsnNode, InstructionNode> entry : linked.entrySet()) {
+      for (final Entry<AbstractInsnNode, InstructionNode> entry : linked.entrySet()) {
          if(entry.getKey() instanceof JumpInsnNode) {
             final JumpInsnNode asmJumpInstruction = (JumpInsnNode) entry.getKey();
             final AbstractInsnNode asmInstructionAfterTargetLabel = asmJumpInstruction.label.getNext();
@@ -115,7 +119,7 @@ public class SMethod {
 
       maxLocals = method.maxLocals;
       maxStack = method.maxStack;
-	   entryPoint = linked.values().iterator().next();
+      entryPoint = linked.values().iterator().next();
    }
 
    private AbstractInsnNode getEntryPoint() {
@@ -123,6 +127,14 @@ public class SMethod {
    }
 
    public int argSize() {
-		return Type.getMethodType(method.desc).getArgumentsAndReturnSizes() >> 2;
-	}
+      return Type.getMethodType(method.desc).getArgumentsAndReturnSizes() >> 2;
+   }
+
+   public SMethodName name() {
+      return methodName;
+   }
+
+   @Override public String toString() {
+      return name().toString();
+   }
 }

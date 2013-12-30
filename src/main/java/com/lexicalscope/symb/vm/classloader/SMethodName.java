@@ -36,18 +36,20 @@ public final class SMethodName implements Comparable<SMethodName> {
 
    @Override
    public boolean equals(final Object obj) {
-      if (obj == this) return true;
+      if (obj == this) {
+         return true;
+      }
 
       if(obj != null && obj.getClass().equals(this.getClass())) {
          final SMethodName that = (SMethodName) obj;
-         return that.desc.equals(desc) && that.name.equals(name);
+         return that.klassName.equals(klassName) && that.desc.equals(desc) && that.name.equals(name);
       }
       return false;
    }
 
    @Override
    public int hashCode() {
-      return desc.hashCode() ^ name.hashCode();
+      return klassName.hashCode() ^ desc.hashCode() ^ name.hashCode();
    }
 
    @Override

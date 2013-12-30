@@ -314,6 +314,8 @@ public final class BaseInstructions implements Instructions {
                   return createInvokeStatic(methodInsnNode);
                case Opcodes.INVOKESPECIAL:
                   return MethodCallInstruction.createInvokeSpecial(methodInsnNode);
+               case Opcodes.INVOKEINTERFACE:
+                  return MethodCallInstruction.createInvokeInterface(methodInsnNode);
                case Opcodes.INVOKEVIRTUAL:
                   return createInvokeVirtual(methodInsnNode);
             }

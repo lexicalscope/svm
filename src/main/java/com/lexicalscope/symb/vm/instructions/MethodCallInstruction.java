@@ -3,15 +3,17 @@ package com.lexicalscope.symb.vm.instructions;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.MethodInsnNode;
 
+import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
-import com.lexicalscope.symb.vm.StackVop;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
@@ -23,6 +25,8 @@ public class MethodCallInstruction implements Instruction {
       String name();
 
       boolean load(State state, String klassName);
+
+      SMethodName resolveMethod(Object[] args, SMethodName sMethodName, Heap heap);
    }
 
    public static class VirtualMethodInvokation implements MethodInvokation {
@@ -35,6 +39,33 @@ public class MethodCallInstruction implements Instruction {
       }
 
       @Override public boolean load(final State state, final String klassName) { return false; }
+
+      @Override public SMethodName resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+         return resolveVirtualMethod(args, sMethodName, heap);
+      }
+   }
+
+   public static class InterfaceMethodInvokation implements MethodInvokation {
+      @Override public int argSize(final SMethod targetMethod) {
+         return targetMethod.argSize();
+      }
+
+      @Override public String name() {
+         return "INVOKEINTERFACE";
+      }
+
+      @Override public boolean load(final State state, final String klassName) { return false; }
+
+      @Override public SMethodName resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+         return resolveVirtualMethod(args, sMethodName, heap);
+      }
+   }
+
+   private static SMethodName resolveVirtualMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+      final Object receiver = heap.get(args[0], SClass.OBJECT_CLASS_OFFSET);
+      assert receiver != null : sMethodName;
+      assert receiver instanceof SClass : receiver;
+      return ((SClass) receiver).resolve(sMethodName);
    }
 
    public static class SpecialMethodInvokation implements MethodInvokation {
@@ -47,6 +78,10 @@ public class MethodCallInstruction implements Instruction {
       }
 
       @Override public boolean load(final State state, final String klassName) { return false; }
+
+      @Override public SMethodName resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+         return sMethodName;
+      }
    }
 
    public static class StaticMethodInvokation implements MethodInvokation {
@@ -60,6 +95,10 @@ public class MethodCallInstruction implements Instruction {
 
       @Override public boolean load(final State state, final String klassName) {
          return state.op(new DefineClassOp(klassName));
+      }
+
+      @Override public SMethodName resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+         return sMethodName;
       }
    }
 
@@ -77,14 +116,19 @@ public class MethodCallInstruction implements Instruction {
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       if(!methodInvokation.load(state, sMethodName.klassName())){
-         state.op(new StackVop() {
-            @Override public void eval(final Stack stack, final Statics statics) {
+         state.op(new Vop() {
+            @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+               final SMethod invokedMethod = statics.loadMethod(sMethodName);
+               final Object[] args = stackFrame.pop(methodInvokation.argSize(invokedMethod));
+
                // TODO[tim]: virtual does not resolve overridden methods
-               final SMethod targetMethod = statics.loadMethod(sMethodName);
+               final SMethodName resolvedMethod = methodInvokation.resolveMethod(args, sMethodName, heap);
+               final SMethod targetMethod = statics.loadMethod(resolvedMethod);
 
-               final StackFrame stackFrame = new SnapshotableStackFrame(sMethodName, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
+               final StackFrame newStackFrame = new SnapshotableStackFrame(resolvedMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
 
-               stack.methodInvocation(instruction.next(), methodInvokation.argSize(targetMethod), stackFrame);
+               stackFrame.advance(instruction.next());
+               stack.push(newStackFrame.setLocals(args));
             }
          });
       }
@@ -97,6 +141,10 @@ public class MethodCallInstruction implements Instruction {
 
    public static Instruction createInvokeVirtual(final MethodInsnNode methodInsnNode) {
       return new MethodCallInstruction(methodInsnNode, new VirtualMethodInvokation());
+   }
+
+   public static Instruction createInvokeInterface(final MethodInsnNode methodInsnNode) {
+      return new MethodCallInstruction(methodInsnNode, new InterfaceMethodInvokation());
    }
 
    public static Instruction createInvokeSpecial(final MethodInsnNode methodInsnNode) {

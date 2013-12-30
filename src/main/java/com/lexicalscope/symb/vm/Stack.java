@@ -5,7 +5,6 @@ public interface Stack extends Snapshotable<Stack> {
    Stack popFrame(int returnCount);
 
    Stack push(StackFrame stackFrame);
-   Stack methodInvocation(InstructionNode returnTo, int argCount, StackFrame newStackFrame);
 
    InstructionNode instruction();
 
