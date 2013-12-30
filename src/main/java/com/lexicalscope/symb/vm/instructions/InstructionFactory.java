@@ -21,6 +21,9 @@ public interface InstructionFactory {
    Binary2Operator landOperation();
 
    BinaryOperator fmulOperation();
+   BinaryOperator fdivOperation();
+   BinaryOperator faddOperation();
+   BinaryOperator fsubOperation();
 
    NullaryOperator iconst(int val);
    Nullary2Operator lconst(long val);

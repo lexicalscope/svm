@@ -155,6 +155,8 @@ public final class BaseInstructions implements Instructions {
                   return binaryOp(instructionFactory.imulOperation());
                case Opcodes.FMUL:
                   return binaryOp(instructionFactory.fmulOperation());
+               case Opcodes.FDIV:
+                  return binaryOp(instructionFactory.fdivOperation());
                case Opcodes.ISUB:
                   return binaryOp(instructionFactory.isubOperation());
                case Opcodes.INEG:
