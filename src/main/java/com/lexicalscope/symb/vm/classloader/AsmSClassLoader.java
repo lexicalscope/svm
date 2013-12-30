@@ -87,6 +87,10 @@ public class AsmSClassLoader implements SClassLoader {
       return new InstructionInternalNode(instructions.defineClass(getInternalName(Class.class)));
    }
 
+   @Override public InstructionNode definePrimitiveClassesInstruction() {
+      return new InstructionInternalNode(instructions.definePrimitiveClass(getInternalName(boolean.class)));
+   }
+
    @Override public InstructionNode defineStringClassInstruction() {
       return new InstructionInternalNode(instructions.defineClass(getInternalName(String.class)));
    }

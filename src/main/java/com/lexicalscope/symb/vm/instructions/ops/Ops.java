@@ -7,11 +7,11 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public final class Ops {
-	public static LoadConstants loadConstants(final Object ... values) {
-		return new LoadConstants(values);
-	}
+   public static LoadConstants loadConstants(final Object ... values) {
+      return new LoadConstants(values);
+   }
 
-	public static PopOperand popOperand() {
+   public static PopOperand popOperand() {
       return new PopOperand();
    }
 
@@ -41,5 +41,9 @@ public final class Ops {
 
    public static DupOp dup() {
       return new DupOp();
+   }
+
+   public static Dup_X1Op dup_x1() {
+      return new Dup_X1Op();
    }
 }

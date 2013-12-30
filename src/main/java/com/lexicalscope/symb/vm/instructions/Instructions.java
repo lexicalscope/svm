@@ -16,6 +16,8 @@ public interface Instructions {
    Object initialFieldValue(String desc);
 
    Instruction defineClass(String internalName);
+   Instruction definePrimitiveClass(String internalName);
+
    Instruction createInvokeSpecial(SMethodName sMethodName);
 
    Instruction initThread();

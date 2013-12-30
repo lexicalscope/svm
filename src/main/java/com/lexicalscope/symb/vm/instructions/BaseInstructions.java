@@ -7,6 +7,7 @@ import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.caLoad;
 import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.aaStore;
 import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.caStore;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.dup;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.dup_x1;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.getField;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.getStatic;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.newOp;
@@ -163,6 +164,8 @@ public final class BaseInstructions implements Instructions {
                   return unaryOp(instructionFactory.inegOperation());
                case Opcodes.DUP:
                   return linearInstruction(dup());
+               case Opcodes.DUP_X1:
+                  return linearInstruction(dup_x1());
                case Opcodes.ICONST_M1:
                   return iconst(-1);
                case Opcodes.ICONST_0:
@@ -237,11 +240,11 @@ public final class BaseInstructions implements Instructions {
                      return stringPoolLoad((String) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Type) {
                      final Type toLoad = (Type) ldcInsnNode.cst;
-                     if(toLoad.getSort() == Type.OBJECT) {
+                     if(toLoad.getSort() == Type.OBJECT || toLoad.getSort() == Type.ARRAY) {
                         return objectPoolLoad(toLoad);
                      }
                   }
-                  //System.out.println("!!!!!!!! " + ldcInsnNode.cst + " " + ldcInsnNode.cst.getClass());
+                  // System.out.println("!!!!!!!! " + ldcInsnNode.cst + " " + ldcInsnNode.cst.getClass());
             }
             break;
          case AbstractInsnNode.INT_INSN:
@@ -439,6 +442,10 @@ public final class BaseInstructions implements Instructions {
 
    @Override public Instruction defineClass(final String klassName) {
       return new LinearInstruction(new DefineClassOp(klassName));
+   }
+
+   @Override public Instruction definePrimitiveClass(final String klassName) {
+      return new LinearInstruction(new DefinePrimitiveClassOp(klassName));
    }
 
    @Override public Instruction initThread() {
