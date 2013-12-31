@@ -9,7 +9,6 @@ import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
-import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public class TestStatics {
@@ -17,12 +16,11 @@ public class TestStatics {
 
    private final SClassLoader classLoader = new AsmSClassLoader();
    private final StaticsImpl statics = new StaticsImpl(classLoader);
-   private final SClass emptyClass = classLoader.load(EmptyClass.class);
 
    @Test public void definedClassGivesClassRef() {
       statics.defineClass(getInternalName(EmptyClass.class));
 
-      assertThat(emptyClass, sameInstance(statics.load(getInternalName(EmptyClass.class))));
+      assertThat(classLoader.load(EmptyClass.class), sameInstance(statics.load(getInternalName(EmptyClass.class))));
    }
 
    @Test public void definedClassCannotBeRedefined() {

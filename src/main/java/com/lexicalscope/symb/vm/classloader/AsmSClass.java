@@ -21,8 +21,8 @@ public final class AsmSClass implements SClass {
 
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
-   private final TreeMap<SMethodName, SMethod> methodMap;
-   private final TreeMap<SVirtualMethodName, SMethod> virtuals;
+   private final TreeMap<SMethodName, AsmSMethod> methodMap;
+   private final TreeMap<SVirtualMethodName, AsmSMethod> virtuals;
 
    private final URL loadedFromUrl;
    private final ClassNode classNode;
@@ -84,7 +84,7 @@ public final class AsmSClass implements SClass {
    private void initialiseMethodMap() {
       for (final MethodNode method : methods()) {
          final SMethodName methodName = new SMethodName(classNode.name, method.name, method.desc);
-         final SMethod smethod = new SMethod(classLoader, this, methodName, instructions, method);
+         final AsmSMethod smethod = new AsmSMethod(classLoader, this, methodName, instructions, method);
          methodMap.put(methodName, smethod);
          virtuals.put(new SVirtualMethodName(method.name, method.desc), smethod);
       }
