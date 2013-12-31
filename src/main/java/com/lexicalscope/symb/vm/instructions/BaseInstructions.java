@@ -489,6 +489,14 @@ public final class BaseInstructions implements Instructions {
       return MethodCallInstruction.createInvokeSpecial(sMethodName);
    }
 
+   public Instruction invokeInterface(final String klassName, final String methodName, final String desc) {
+      return invokeInterface(new SMethodName(klassName, methodName, desc));
+   }
+
+   private Instruction invokeInterface(final SMethodName sMethodName) {
+      return MethodCallInstruction.createInvokeInterface(sMethodName);
+   }
+
    public Instruction currentThread() {
       return linearInstruction(new CurrentThreadOp());
    }
@@ -517,8 +525,16 @@ public final class BaseInstructions implements Instructions {
             return null;
          case Type.ARRAY:
             return null;
+         case Type.CHAR:
+            return (char) '\u0000';
+         case Type.BYTE:
+            return (byte) 0;
+         case Type.SHORT:
+            return (short) 0;
          case Type.INT:
             return instructionFactory.initInt();
+         case Type.LONG:
+            return 0L;
          case Type.FLOAT:
             return 0f;
          case Type.DOUBLE:

@@ -147,6 +147,10 @@ public class MethodCallInstruction implements Instruction {
       return new MethodCallInstruction(methodInsnNode, new InterfaceMethodInvokation());
    }
 
+   public static Instruction createInvokeInterface(final SMethodName sMethodName) {
+      return new MethodCallInstruction(sMethodName, new InterfaceMethodInvokation());
+   }
+
    public static Instruction createInvokeSpecial(final MethodInsnNode methodInsnNode) {
       return new MethodCallInstruction(methodInsnNode, new SpecialMethodInvokation());
    }
@@ -166,4 +170,5 @@ public class MethodCallInstruction implements Instruction {
    public static Instruction createInvokeStatic(final String klass, final String method, final String desc) {
       return createInvokeStatic(new MethodInsnNode(Opcodes.INVOKESTATIC, klass, method, desc));
    }
+
 }

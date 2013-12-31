@@ -128,6 +128,11 @@ public class StatementBuilder {
       instructions.add(instruction);
    }
 
+   public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
+      add(baseInstructions.invokeInterface(klassName, methodName, desc));
+      return this;
+   }
+
    public MethodBody build() {
       InstructionInternalNode next = null;
       for (final Instruction instruction : reverse(instructions)) {

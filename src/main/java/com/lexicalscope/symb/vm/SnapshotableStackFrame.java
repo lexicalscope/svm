@@ -44,12 +44,18 @@ public final class SnapshotableStackFrame implements StackFrame {
    public StackFrame push(final Object val) {
       assert !(val instanceof Double);
       assert !(val instanceof Long);
+      assert !(val instanceof Character);
+      assert !(val instanceof Short);
+      assert !(val instanceof Byte);
+
       pushInternal(val);
       return this;
    }
 
    @Override
    public StackFrame pushDoubleWord(final Object val) {
+      assert val instanceof Double || val instanceof Long;
+
       pushInternal(val);
       pushInternal(new Padding());
       return this;

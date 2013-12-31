@@ -4,6 +4,7 @@ import static com.lexicalscope.symb.vm.Vm.concreteVm;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.Vm;
@@ -21,7 +22,7 @@ public class TestCell {
       assertThat(vm.execute(), normalTerminiationWithResult(-6));
    }
 
-   @Test
+   @Test @Ignore
    public void symbExecuteCellNewGetSet() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final Symbol symbol1 = instructionFactory.symbol();
