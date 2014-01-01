@@ -87,6 +87,6 @@ public class Vm {
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, argSize));
-      return new StateImpl(statics, stack, new FastHeap(), classLoader.initialMeta());
+      return new StateImpl(statics, stack, new CheckingHeap(new FastHeap()), classLoader.initialMeta());
    }
 }

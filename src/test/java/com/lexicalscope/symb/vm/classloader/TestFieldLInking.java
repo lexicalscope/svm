@@ -1,8 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.hasField;
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.hasStaticField;
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.withIndex;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -24,6 +22,7 @@ public class TestFieldLInking {
    @Test public void classWithNoSuperClassCountsFieldsFromPreamble() {
       assertThat(classWithFiveFields.allocateSize(), equalTo(6));
       assertThat(classWithFiveFields, hasField("a", withIndex(1)));
+      assertThat(classWithFiveFields, hasFieldAtIndex(1, "a"));
       assertThat(classWithFiveFields, hasField("b", withIndex(2)));
       assertThat(classWithFiveFields, hasField("c", withIndex(3)));
       assertThat(classWithFiveFields, hasField("d", withIndex(4)));
@@ -38,6 +37,7 @@ public class TestFieldLInking {
       assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "d", withIndex(4)));
       assertThat(subClassWithThreeFields, hasField(classWithFiveFields, "e", withIndex(5)));
       assertThat(subClassWithThreeFields, hasField("f", withIndex(6)));
+      assertThat(subClassWithThreeFields, hasFieldAtIndex(6, "f"));
       assertThat(subClassWithThreeFields, hasField("g", withIndex(7)));
       assertThat(subClassWithThreeFields, hasField("h", withIndex(8)));
    }

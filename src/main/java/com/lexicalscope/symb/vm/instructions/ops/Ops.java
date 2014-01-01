@@ -15,8 +15,13 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static Vop nextInstruction(final InstructionNode instruction) {
+   public static Vop advanceToNextInstruction(final InstructionNode instruction) {
       return new NextInstructionOp(instruction);
+   }
+
+
+   public static Vop advanceTo(final InstructionNode instruction) {
+      return new AdvanceToInstructionOp(instruction);
    }
 
    public static Vop putField(final FieldInsnNode fieldInsnNode) {

@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm;
 
+import static org.objectweb.asm.Type.getInternalName;
+
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +15,7 @@ import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class StaticsImpl implements Statics {
    // TODO[tim]: need fast-clone version
+   private static final String klassKlassName = getInternalName(Class.class);
    private final Map<String, SClass> defined;
    private final Map<SClass, Object> staticsAddresses;
 
@@ -92,5 +95,9 @@ public class StaticsImpl implements Statics {
          throw new IllegalStateException("no statics for " + klass);
       }
       return address;
+   }
+
+   @Override public SClass classClass() {
+      return load(klassKlassName);
    }
 }

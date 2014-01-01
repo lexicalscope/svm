@@ -1,18 +1,9 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeStatic;
-import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeVirtual;
-import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.aaLoad;
-import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.caLoad;
-import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.aaStore;
-import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.caStore;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.dup;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.dup_x1;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.getField;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.getStatic;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.newOp;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.putField;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.putStatic;
+import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.*;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.*;
+import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.*;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -41,7 +32,6 @@ import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
-import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.DefinePrimitiveClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.DoubleToRawLongBits;
 import com.lexicalscope.symb.vm.instructions.ops.F2IOp;
@@ -64,6 +54,7 @@ import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
+import com.lexicalscope.symb.vm.instructions.ops.NoOp;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Op;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
@@ -442,7 +433,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public Instruction defineClass(final String klassName) {
-      return new LinearInstruction(new DefineClassOp(klassName));
+      return new LoadingInstruction(klassName, new NoOp());
    }
 
    @Override public Instruction definePrimitiveClass(final String klassName) {

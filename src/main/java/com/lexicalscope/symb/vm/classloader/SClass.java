@@ -18,6 +18,8 @@ public interface SClass extends Allocatable {
    int allocateSize();
 
    int fieldIndex(SFieldName name);
+   String fieldDescAtIndex(int index);
+   String fieldNameAtIndex(int index);
 
    boolean hasField(SFieldName name);
 
@@ -38,4 +40,5 @@ public interface SClass extends Allocatable {
    boolean instanceOf(SClass other);
 
    URL loadedFrom();
+
 }

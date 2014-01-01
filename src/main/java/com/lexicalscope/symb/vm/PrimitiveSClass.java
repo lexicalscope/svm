@@ -37,6 +37,14 @@ public class PrimitiveSClass implements SClass {
       return 0;
    }
 
+   @Override public String fieldDescAtIndex(final int i) {
+      return null;
+   }
+
+   @Override public String fieldNameAtIndex(final int index) {
+      return null;
+   }
+
    @Override public boolean hasField(final SFieldName name) {
       return false;
    }

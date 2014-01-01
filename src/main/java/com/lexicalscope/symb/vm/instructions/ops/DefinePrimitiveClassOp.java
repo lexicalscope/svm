@@ -1,7 +1,5 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static org.objectweb.asm.Type.getInternalName;
-
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;
@@ -19,7 +17,7 @@ public final class DefinePrimitiveClassOp implements Op<Boolean> {
    @Override public Boolean eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       if (!statics.isDefined(klassName)) {
          final SClass klass = statics.definePrimitiveClass(klassName);
-         final SClass classClass = statics.load(getInternalName(Class.class));
+         final SClass classClass = statics.classClass();
          DefineClassOp.allocateStatics(heap, statics, classClass, klass);
       }
       return false;

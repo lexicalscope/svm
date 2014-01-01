@@ -19,6 +19,7 @@ import com.lexicalscope.symb.vm.instructions.Instructions;
 public final class AsmSClass implements SClass {
    private final Set<SClass> superTypes = new HashSet<>();
 
+   private final List<FieldNode> fields;
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, AsmSMethod> methodMap;
@@ -50,6 +51,7 @@ public final class AsmSClass implements SClass {
       this.superclass = superclass;
 
       this.staticFieldMap = new TreeMap<>();
+      this.fields = new ArrayList<>();
       this.fieldMap = new TreeMap<>();
       this.fieldInit = new ArrayList<>();
       this.methodMap = new TreeMap<>();
@@ -62,6 +64,7 @@ public final class AsmSClass implements SClass {
          for (final Entry<SFieldName, Integer> superField : superFieldMap.entrySet()) {
             fieldMap.put(new SFieldName(classNode.name, superField.getKey().getName()), superField.getValue());
          }
+         fields.addAll(superclass.fields);
          fieldMap.putAll(superclass.fieldMap);
          fieldInit.addAll(superclass.fieldInit);
          superTypes.addAll(superclass.superTypes);
@@ -72,6 +75,7 @@ public final class AsmSClass implements SClass {
          superTypes.addAll(interfac3.superTypes);
       }
 
+      fields.addAll(sClassBuilder.declaredFields);
       fieldInit.addAll(sClassBuilder.declaredFieldInit);
       fieldMap.putAll(sClassBuilder.declaredFieldMap);
       staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
@@ -140,25 +144,24 @@ public final class AsmSClass implements SClass {
       return fieldMap.get(name) + OBJECT_PREAMBLE;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#hasField(com.lexicalscope.symb.vm.classloader.SFieldName)
-    */
+   @Override public String fieldDescAtIndex(final int index) {
+      return fields.get(index - OBJECT_PREAMBLE).desc;
+   }
+
+   @Override public String fieldNameAtIndex(final int index) {
+      return fields.get(index - OBJECT_PREAMBLE).name;
+   }
+
    @Override
    public boolean hasField(final SFieldName name) {
       return fieldMap.containsKey(name);
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#fieldInit()
-    */
    @Override
    public List<Object> fieldInit() {
       return fieldInit;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#staticFieldCount()
-    */
    @Override
    public int staticFieldCount() {
       return staticFieldMap.size();
@@ -231,6 +234,7 @@ public final class AsmSClass implements SClass {
    private static class SClassBuilder {
       private final SClassLoader classLoader;
       private final int classStartOffset;
+      private final List<FieldNode> declaredFields = new ArrayList<>();
       private final TreeMap<SFieldName, Integer> declaredFieldMap = new TreeMap<>();
       private final TreeMap<SFieldName, Integer> declaredStaticFieldMap = new TreeMap<>();
       private final List<Object> declaredFieldInit = new ArrayList<>();
@@ -251,6 +255,7 @@ public final class AsmSClass implements SClass {
                declaredStaticFieldMap.put(fieldName, staticOffset);
                staticOffset++;
             } else {
+               declaredFields.add(fieldNode);
                declaredFieldMap.put(fieldName, dynamicOffset + classStartOffset);
                declaredFieldInit.add(classLoader.init(fieldNode.desc));
                dynamicOffset++;

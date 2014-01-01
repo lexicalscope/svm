@@ -20,6 +20,21 @@ public class SClassMatchers {
       return hasField(null, name, withIndex);
    }
 
+   public static Matcher<? super SClass> hasFieldAtIndex(final int index, final String withName) {
+      return new TypeSafeDiagnosingMatcher<SClass>(SClass.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("field called ").appendValue(withName).appendText(" at index ").appendValue(index);
+         }
+
+         @Override
+         protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
+            mismatchDescription.appendText("field called ").appendValue(item.fieldNameAtIndex(index));
+            return item.fieldNameAtIndex(index).equals(withName);
+         }
+      };
+   }
+
    public static Matcher<? super SClass> hasStaticField(final String name, final int withIndex) {
       return new TypeSafeDiagnosingMatcher<SClass>(SClass.class) {
          @Override

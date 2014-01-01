@@ -1,12 +1,17 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.nextInstruction;
+import static com.lexicalscope.symb.vm.JavaConstants.*;
+import static com.lexicalscope.symb.vm.instructions.ops.Ops.advanceTo;
+
+import java.util.List;
 
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class LoadingInstruction implements Instruction {
@@ -19,10 +24,27 @@ public class LoadingInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      if(!state.op(new DefineClassOp(klassDesc))){
-         state.op(nextInstruction(instruction));
+      final List<SClass> definedClasses = state.op(new DefineClassOp(klassDesc));
+      if(definedClasses.isEmpty()){
+         state.op(advanceTo(instruction.next()));
          state.op(op);
+      } else {
+         InstructionNode currentInstruction = instruction;
+         for (final SClass klass : definedClasses) {
+            if(klass.hasStaticInitialiser())
+            {
+               currentInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(currentInstruction, klass);
+            }
+         }
+         state.op(advanceTo(currentInstruction));
       }
+
+   }
+
+   private InstructionNode replaceCurrentInstructionWithInvocationOfStaticInitaliser(final InstructionNode currentInstruction, final SClass klass) {
+      final InstructionInternalNode injectedInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
+      injectedInstruction.next(currentInstruction);
+      return injectedInstruction;
    }
 
    @Override public String toString() {

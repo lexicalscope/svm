@@ -102,14 +102,14 @@ public class AsmSClassLoader implements SClassLoader {
 
    @Override public InstructionNode definePrimitiveClassesInstruction() {
       final InstructionInternalNode first = definePrimitiveClassInstruction(boolean[].class);
-      first.next(definePrimitiveClassInstruction(byte[].class));
-      first.next(definePrimitiveClassInstruction(char[].class));
-      first.next(definePrimitiveClassInstruction(short[].class));
-      first.next(definePrimitiveClassInstruction(int[].class));
-      first.next(definePrimitiveClassInstruction(float[].class));
-      first.next(definePrimitiveClassInstruction(long[].class));
-      first.next(definePrimitiveClassInstruction(double[].class));
-      first.next(definePrimitiveClassInstruction(Object[].class));
+      first.next(definePrimitiveClassInstruction(byte[].class))
+      .next(definePrimitiveClassInstruction(char[].class))
+      .next(definePrimitiveClassInstruction(short[].class))
+      .next(definePrimitiveClassInstruction(int[].class))
+      .next(definePrimitiveClassInstruction(float[].class))
+      .next(definePrimitiveClassInstruction(long[].class))
+      .next(definePrimitiveClassInstruction(double[].class))
+      .next(definePrimitiveClassInstruction(Object[].class));
       return first;
    }
 
