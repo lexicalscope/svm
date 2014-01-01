@@ -2,6 +2,9 @@ package com.lexicalscope.symb.vm.classloader;
 
 import static org.objectweb.asm.Type.getInternalName;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Snapshotable;
@@ -9,6 +12,7 @@ import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 
 public class AsmSClassLoader implements SClassLoader {
@@ -97,32 +101,13 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override public InstructionNode defineClassClassInstruction() {
-      return new InstructionInternalNode(instructions.defineClass(getInternalName(Class.class)));
-   }
+      final List<String> bootstrapClasses = new ArrayList<>();
+      bootstrapClasses.add(getInternalName(Class.class));
+      bootstrapClasses.add(getInternalName(String.class));
+      bootstrapClasses.add(getInternalName(Thread.class));
+      bootstrapClasses.addAll(DefineClassOp.primitives);
 
-   @Override public InstructionNode definePrimitiveClassesInstruction() {
-      final InstructionInternalNode first = definePrimitiveClassInstruction(boolean[].class);
-      first.next(definePrimitiveClassInstruction(byte[].class))
-      .next(definePrimitiveClassInstruction(char[].class))
-      .next(definePrimitiveClassInstruction(short[].class))
-      .next(definePrimitiveClassInstruction(int[].class))
-      .next(definePrimitiveClassInstruction(float[].class))
-      .next(definePrimitiveClassInstruction(long[].class))
-      .next(definePrimitiveClassInstruction(double[].class))
-      .next(definePrimitiveClassInstruction(Object[].class));
-      return first;
-   }
-
-   private InstructionInternalNode definePrimitiveClassInstruction(final Class<?> klass) {
-      return new InstructionInternalNode(instructions.definePrimitiveClass(getInternalName(klass)));
-   }
-
-   @Override public InstructionNode defineStringClassInstruction() {
-      return new InstructionInternalNode(instructions.defineClass(getInternalName(String.class)));
-   }
-
-   @Override public InstructionNode defineThreadClassInstruction() {
-      return new InstructionInternalNode(instructions.defineClass(getInternalName(Thread.class)));
+      return new InstructionInternalNode(instructions.defineClass(bootstrapClasses));
    }
 
    @Override public InstructionNode initThreadInstruction() {

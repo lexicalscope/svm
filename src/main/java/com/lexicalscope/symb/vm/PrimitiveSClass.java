@@ -88,4 +88,8 @@ public class PrimitiveSClass implements SClass {
    @Override public URL loadedFrom() {
       throw new UnsupportedOperationException();
    }
+
+   @Override public boolean isArray() {
+      return klassName.startsWith("[");
+   }
 }

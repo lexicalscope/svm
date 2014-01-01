@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import java.util.List;
+
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
@@ -15,8 +17,7 @@ public interface Instructions {
 
    Object initialFieldValue(String desc);
 
-   Instruction defineClass(String internalName);
-   Instruction definePrimitiveClass(String internalName);
+   Instruction defineClass(List<String> klassNames);
 
    Instruction createInvokeSpecial(SMethodName sMethodName);
 

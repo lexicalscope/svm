@@ -35,6 +35,8 @@ public class CheckingHeap implements Heap {
          assert klass == null;
          return true;
       }
+      if(klass == null) { return true; }
+      if(klass.isArray()) {return true; /* TODO[tim]: check array element type */}
       final Type type = Type.getType(klass.fieldDescAtIndex(offset));
       switch(type.getSort()) {
          case Type.INT:

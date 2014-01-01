@@ -25,9 +25,6 @@ public interface SClassLoader {
     * Instruction which defines the class of the class Class
     */
    InstructionNode defineClassClassInstruction();
-   InstructionNode defineStringClassInstruction();
-   InstructionNode defineThreadClassInstruction();
-   InstructionNode definePrimitiveClassesInstruction();
 
    InstructionNode initThreadInstruction();
 

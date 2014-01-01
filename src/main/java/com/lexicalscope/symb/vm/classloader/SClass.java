@@ -41,4 +41,5 @@ public interface SClass extends Allocatable {
 
    URL loadedFrom();
 
+   boolean isArray();
 }

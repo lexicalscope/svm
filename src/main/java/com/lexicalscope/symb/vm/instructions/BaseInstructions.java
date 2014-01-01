@@ -5,6 +5,8 @@ import static com.lexicalscope.symb.vm.instructions.ops.ArrayLoadOp.*;
 import static com.lexicalscope.symb.vm.instructions.ops.ArrayStoreOp.*;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
 
+import java.util.List;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -32,7 +34,6 @@ import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
-import com.lexicalscope.symb.vm.instructions.ops.DefinePrimitiveClassOp;
 import com.lexicalscope.symb.vm.instructions.ops.DoubleToRawLongBits;
 import com.lexicalscope.symb.vm.instructions.ops.F2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
@@ -432,12 +433,8 @@ public final class BaseInstructions implements Instructions {
       return String.format("%s.%s:%s", fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
    }
 
-   @Override public Instruction defineClass(final String klassName) {
-      return new LoadingInstruction(klassName, new NoOp());
-   }
-
-   @Override public Instruction definePrimitiveClass(final String klassName) {
-      return new LinearInstruction(new DefinePrimitiveClassOp(klassName));
+   @Override public Instruction defineClass(final List<String> klassNames) {
+      return new LoadingInstruction(klassNames, new NoOp());
    }
 
    @Override public Instruction initThread() {

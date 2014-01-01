@@ -269,4 +269,8 @@ public final class AsmSClass implements SClass {
       sClassBuilder.initialiseFieldMaps(classNode);
       return new AsmSClass(classLoader, instructions, loadedFromUrl, classNode, superclass, interfaces, sClassBuilder);
    }
+
+   @Override public boolean isArray() {
+      return false;
+   }
 }
