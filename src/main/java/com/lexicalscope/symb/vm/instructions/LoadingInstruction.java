@@ -48,9 +48,10 @@ public class LoadingInstruction implements Instruction {
    }
 
    private InstructionNode replaceCurrentInstructionWithInvocationOfStaticInitaliser(final InstructionNode currentInstruction, final SClass klass) {
-      final InstructionInternalNode injectedInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
-      injectedInstruction.next(currentInstruction);
-      return injectedInstruction;
+      final InstructionInternalNode classConstructorInstruction = new InstructionInternalNode(MethodCallInstruction.createClassDefaultConstructor(klass.name()));
+      final InstructionInternalNode staticInitialiserInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
+      staticInitialiserInstruction.next(classConstructorInstruction).next(currentInstruction);
+      return staticInitialiserInstruction;
    }
 
    @Override public String toString() {

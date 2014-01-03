@@ -1,10 +1,13 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import static com.lexicalscope.symb.vm.JavaConstants.NOARGS_VOID_DESC;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.MethodInsnNode;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
@@ -16,7 +19,7 @@ import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class MethodCallInstruction {
    public interface MethodInvokation {
-      int argSize(SMethod targetMethod);
+      Object[] args(Statics statics, StackFrame stackFrame, SMethod targetMethod);
 
       String name();
 
@@ -24,8 +27,8 @@ public class MethodCallInstruction {
    }
 
    public static class VirtualMethodInvokation implements MethodInvokation {
-      @Override public int argSize(final SMethod targetMethod) {
-         return targetMethod.argSize();
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethod targetMethod) {
+         return stackFrame.pop(targetMethod.argSize());
       }
 
       @Override public String name() {
@@ -38,8 +41,8 @@ public class MethodCallInstruction {
    }
 
    public static class InterfaceMethodInvokation implements MethodInvokation {
-      @Override public int argSize(final SMethod targetMethod) {
-         return targetMethod.argSize();
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethod targetMethod) {
+         return stackFrame.pop(targetMethod.argSize());
       }
 
       @Override public String name() {
@@ -59,8 +62,8 @@ public class MethodCallInstruction {
    }
 
    public static class SpecialMethodInvokation implements MethodInvokation {
-      @Override public int argSize(final SMethod targetMethod) {
-         return targetMethod.argSize();
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethod targetMethod) {
+         return stackFrame.pop(targetMethod.argSize());
       }
 
       @Override public String name() {
@@ -72,9 +75,32 @@ public class MethodCallInstruction {
       }
    }
 
+   public static class ClassDefaultConstructorMethodInvokation implements MethodInvokation {
+      private final String klassName;
+
+      public ClassDefaultConstructorMethodInvokation(final String klassName) {
+         this.klassName = klassName;
+      }
+
+      @Override public Object[] args(
+            final Statics statics,
+            final StackFrame stackFrame,
+            final SMethod targetMethod) {
+         return new Object[]{statics.whereMyClassAt(klassName)};
+      }
+
+      @Override public String name() {
+         return "INVOKECLASSCONSTRUCTOR";
+      }
+
+      @Override public SMethodName resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+         return sMethodName;
+      }
+   }
+
    public static class StaticMethodInvokation implements MethodInvokation {
-      @Override public int argSize(final SMethod targetMethod) {
-         return targetMethod.argSize() - 1;
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethod targetMethod) {
+         return stackFrame.pop(targetMethod.argSize() - 1);
       }
 
       @Override public String name() {
@@ -106,7 +132,7 @@ public class MethodCallInstruction {
 
       @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
          final SMethod invokedMethod = statics.loadMethod(sMethodName);
-         final Object[] args = stackFrame.pop(methodInvokation.argSize(invokedMethod));
+         final Object[] args = methodInvokation.args(statics, stackFrame, invokedMethod);
 
          // TODO[tim]: virtual does not resolve overridden methods
          final SMethodName resolvedMethod = methodInvokation.resolveMethod(args, sMethodName, heap);
@@ -135,6 +161,10 @@ public class MethodCallInstruction {
 
    public static Instruction createInvokeSpecial(final SMethodName sMethodName) {
       return new LinearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation()));
+   }
+
+   public static Instruction createClassDefaultConstructor(final String klassName) {
+      return new LinearInstruction(new MethodCallOp(new SMethodName(JavaConstants.CLASS_CLASS, JavaConstants.INIT, NOARGS_VOID_DESC), new ClassDefaultConstructorMethodInvokation(klassName)));
    }
 
    public static Instruction createInvokeStatic(final MethodInsnNode methodInsnNode) {

@@ -23,6 +23,7 @@ public interface Statics extends Snapshotable<Statics> {
 
    void classAt(SClass klass, Object classAddress);
    Object whereMyClassAt(SClass klass);
+   Object whereMyClassAt(String internalName);
 
    boolean isDefined(String klass);
 

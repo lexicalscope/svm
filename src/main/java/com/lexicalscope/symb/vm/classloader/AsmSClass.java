@@ -116,7 +116,7 @@ public final class AsmSClass implements SClass {
    public SMethod staticMethod(final String name, final String desc) {
       final SMethod result = methodMap.get(new SMethodName(classNode.name, name, desc));
       if (result == null) {
-         throw new SMethodNotFoundException(name, desc);
+         throw new SMethodNotFoundException(this, name, desc);
       }
       return result;
    }

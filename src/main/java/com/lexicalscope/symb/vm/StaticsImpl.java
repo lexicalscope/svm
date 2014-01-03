@@ -125,6 +125,11 @@ public class StaticsImpl implements Statics {
       return address;
    }
 
+   @Override public Object whereMyClassAt(final String internalName) {
+      final SClass klass = load(internalName);
+      return whereMyClassAt(klass);
+   }
+
    @Override public SClass classClass() {
       return load(klassKlassName);
    }
