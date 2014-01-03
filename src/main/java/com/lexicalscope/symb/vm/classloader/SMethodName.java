@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
+
 import org.objectweb.asm.Type;
 
 public final class SMethodName implements Comparable<SMethodName> {
@@ -67,5 +69,9 @@ public final class SMethodName implements Comparable<SMethodName> {
 
    public String desc() {
       return desc;
+   }
+
+   public int argSize() {
+      return getArgumentsAndReturnSizes(desc()) >> 2;
    }
 }

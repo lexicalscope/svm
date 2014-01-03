@@ -14,6 +14,7 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class LoadingInstruction implements Instruction {
@@ -49,7 +50,7 @@ public class LoadingInstruction implements Instruction {
 
    private InstructionNode replaceCurrentInstructionWithInvocationOfStaticInitaliser(final InstructionNode currentInstruction, final SClass klass) {
       final InstructionInternalNode classConstructorInstruction = new InstructionInternalNode(MethodCallInstruction.createClassDefaultConstructor(klass.name()));
-      final InstructionInternalNode staticInitialiserInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(klass.name(), CLINIT, NOARGS_VOID_DESC));
+      final InstructionInternalNode staticInitialiserInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(new SMethodName(klass.name(), CLINIT, NOARGS_VOID_DESC)));
       staticInitialiserInstruction.next(classConstructorInstruction).next(currentInstruction);
       return staticInitialiserInstruction;
    }

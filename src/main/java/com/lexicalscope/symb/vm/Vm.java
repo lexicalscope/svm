@@ -2,7 +2,6 @@ package com.lexicalscope.symb.vm;
 
 import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeStatic;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
-import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -12,6 +11,7 @@ import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
@@ -68,22 +68,20 @@ public class Vm {
    }
 
    public static State initial(final SClassLoader classLoader, final MethodInfo info) {
-      return initial(classLoader, info.klass(), info.name(), info.desc());
+      return initial(classLoader, new SMethodName(info.klass(), info.name(), info.desc()));
    }
 
-   private static State initial(final SClassLoader classLoader, final String klass, final String name, final String desc) {
+   private static State initial(final SClassLoader classLoader, final SMethodName methodName) {
       final InstructionNode defineClassClass = classLoader.defineClassClassInstruction();
       final InstructionNode initThread = classLoader.initThreadInstruction();
-      final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(klass, name, desc));
+      final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(methodName));
 
       defineClassClass.next(initThread).next(entryPointInstruction);
-
-      final int argSize = getArgumentsAndReturnSizes(desc) >> 2;
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, argSize));
+      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, methodName.argSize()));
       return new StateImpl(statics, stack, new CheckingHeap(new FastHeap()), classLoader.initialMeta());
    }
 }

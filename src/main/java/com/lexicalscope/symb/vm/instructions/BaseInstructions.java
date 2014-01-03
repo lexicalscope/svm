@@ -309,15 +309,16 @@ public final class BaseInstructions implements Instructions {
             break;
          case AbstractInsnNode.METHOD_INSN:
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
+            final SMethodName name = new SMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESTATIC:
-                  return createInvokeStatic(methodInsnNode);
+                  return createInvokeStatic(name);
                case Opcodes.INVOKESPECIAL:
-                  return MethodCallInstruction.createInvokeSpecial(methodInsnNode);
+                  return MethodCallInstruction.createInvokeSpecial(name);
                case Opcodes.INVOKEINTERFACE:
-                  return MethodCallInstruction.createInvokeInterface(methodInsnNode);
+                  return MethodCallInstruction.createInvokeInterface(name);
                case Opcodes.INVOKEVIRTUAL:
-                  return createInvokeVirtual(methodInsnNode);
+                  return createInvokeVirtual(name);
             }
             break;
       }
