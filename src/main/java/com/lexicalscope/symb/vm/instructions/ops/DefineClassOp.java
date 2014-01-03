@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.google.common.collect.ImmutableList;
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;
@@ -47,22 +48,21 @@ public final class DefineClassOp implements Op<List<SClass>> {
       final List<SClass> results = new ArrayList<>();
       for (final String klassName : klassNames) {
          if (!statics.isDefined(klassName)) {
+            final List<SClass> klasses;
             if(isPrimitive(klassName)) {
-               final SClass klass = statics.definePrimitiveClass(klassName);
-               allocateClass(heap, statics, klass);
-               allocateStatics(heap, statics, statics.staticsMarker(klass), klass);
+               klasses = ImmutableList.of(statics.definePrimitiveClass(klassName));
                // primitive classes do not need initialisation
             }
             else
             {
-               results.addAll(statics.defineClass(klassName));
+               klasses = statics.defineClass(klassName);
+               results.addAll(klasses);
             }
-         }
-      }
-      if(!results.isEmpty()) {
-         for (final SClass klass : results) {
-            allocateClass(heap, statics, klass);
-            allocateStatics(heap, statics, statics.staticsMarker(klass), klass);
+
+            for (final SClass klass : klasses) {
+               allocateClass(heap, statics, klass);
+               allocateStatics(heap, statics, statics.staticsMarker(klass), klass);
+            }
          }
       }
       return results;
