@@ -52,9 +52,9 @@ public class MethodCallInstruction {
    }
 
    private static SMethodName resolveVirtualMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
-      final Object receiver = heap.get(args[0], SClass.OBJECT_CLASS_OFFSET);
+      final Object receiver = heap.get(args[0], SClass.OBJECT_MARKER_OFFSET);
       assert receiver != null : sMethodName;
-      assert receiver instanceof SClass : receiver;
+      assert receiver instanceof SClass : "no " + sMethodName + " in " + receiver;
       return ((SClass) receiver).resolve(sMethodName);
    }
 

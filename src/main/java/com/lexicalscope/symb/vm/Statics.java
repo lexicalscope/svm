@@ -16,8 +16,13 @@ public interface Statics extends Snapshotable<Statics> {
    List<SClass> defineClass(String klass);
    SClass definePrimitiveClass(String klassName);
 
+   StaticsMarker staticsMarker(SClass klass);
+
    void staticsAt(SClass klass, Object staticsAddress);
    Object whereMyStaticsAt(SClass klass);
+
+   void classAt(SClass klass, Object classAddress);
+   Object whereMyClassAt(SClass klass);
 
    boolean isDefined(String klass);
 

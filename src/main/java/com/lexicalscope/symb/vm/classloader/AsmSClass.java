@@ -9,6 +9,7 @@ import java.util.Set;
 import java.util.TreeMap;
 
 import org.objectweb.asm.Opcodes;
+import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
@@ -271,6 +272,14 @@ public final class AsmSClass implements SClass {
    }
 
    @Override public boolean isArray() {
+      return false;
+   }
+
+   @Override public boolean isKlassKlass() {
+      return name().equals(Type.getInternalName(Class.class));
+   }
+
+   @Override public boolean isPrimitive() {
       return false;
    }
 }

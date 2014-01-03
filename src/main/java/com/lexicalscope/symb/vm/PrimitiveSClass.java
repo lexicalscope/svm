@@ -10,7 +10,7 @@ import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 
-public class PrimitiveSClass implements SClass {
+public final class PrimitiveSClass implements SClass {
    private final String klassName;
 
    public PrimitiveSClass(final String klassName) {
@@ -91,5 +91,17 @@ public class PrimitiveSClass implements SClass {
 
    @Override public boolean isArray() {
       return klassName.startsWith("[");
+   }
+
+   @Override public boolean isKlassKlass() {
+      return false;
+   }
+
+   @Override public boolean isPrimitive() {
+      return true;
+   }
+
+   @Override public String toString() {
+      return "class: " + name();
    }
 }

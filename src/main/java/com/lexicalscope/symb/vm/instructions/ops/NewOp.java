@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_CLASS_OFFSET;
+import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Op;
@@ -20,17 +20,22 @@ public final class NewOp implements Op<Object> {
    public Object eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       // TODO[tim]: linking should remove this
       final SClass klass = statics.load(klassDesc);
+      final Object address = allocateObject(heap, klass);
+      stackFrame.push(address);
+
+      return address;
+   }
+
+   public static Object allocateObject(final Heap heap, final SClass klass) {
       final Object address = heap.newObject(klass);
-      heap.put(address, OBJECT_CLASS_OFFSET, klass);
+      heap.put(address, OBJECT_MARKER_OFFSET, klass);
 
       final Object nullPointer = heap.nullPointer();
-      int fieldOffset = OBJECT_CLASS_OFFSET + 1;
+      int fieldOffset = OBJECT_MARKER_OFFSET + 1;
       for (final Object initialValue : klass.fieldInit()) {
          heap.put(address, fieldOffset, initialValue == null ? nullPointer : initialValue);
          fieldOffset++;
       }
-      stackFrame.push(address);
-
       return address;
    }
 

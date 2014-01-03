@@ -6,7 +6,7 @@ import java.util.List;
 public interface SClass extends Allocatable {
    public static final int STATICS_PREAMBLE = 1;
    public static final int OBJECT_PREAMBLE = 1;
-   public static final int OBJECT_CLASS_OFFSET = 0;
+   public static final int OBJECT_MARKER_OFFSET = 0;
 
    SMethodName resolve(SMethodName sMethodName);
 
@@ -42,4 +42,6 @@ public interface SClass extends Allocatable {
    URL loadedFrom();
 
    boolean isArray();
+   boolean isPrimitive();
+   boolean isKlassKlass();
 }

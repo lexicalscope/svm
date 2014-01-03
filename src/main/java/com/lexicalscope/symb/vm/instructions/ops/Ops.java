@@ -19,7 +19,6 @@ public final class Ops {
       return new NextInstructionOp(instruction);
    }
 
-
    public static Vop advanceTo(final InstructionNode instruction) {
       return new AdvanceToInstructionOp(instruction);
    }

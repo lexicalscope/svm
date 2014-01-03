@@ -11,6 +11,7 @@ import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.StaticsMarker;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class DefineClassOp implements Op<List<SClass>> {
@@ -48,7 +49,8 @@ public final class DefineClassOp implements Op<List<SClass>> {
          if (!statics.isDefined(klassName)) {
             if(isPrimitive(klassName)) {
                final SClass klass = statics.definePrimitiveClass(klassName);
-               DefineClassOp.allocateStatics(heap, statics, statics.classClass(), klass);
+               allocateClass(heap, statics, klass);
+               allocateStatics(heap, statics, statics.staticsMarker(klass), klass);
                // primitive classes do not need initialisation
             }
             else
@@ -59,7 +61,8 @@ public final class DefineClassOp implements Op<List<SClass>> {
       }
       if(!results.isEmpty()) {
          for (final SClass klass : results) {
-            allocateStatics(heap, statics, statics.classClass(), klass);
+            allocateClass(heap, statics, klass);
+            allocateStatics(heap, statics, statics.staticsMarker(klass), klass);
          }
       }
       return results;
@@ -69,10 +72,14 @@ public final class DefineClassOp implements Op<List<SClass>> {
       return primitives.contains(klassName);
    }
 
-   static void allocateStatics(final Heap heap, final Statics statics, final SClass classClass, final SClass klass) {
+   static void allocateClass(final Heap heap, final Statics statics, final SClass klass) {
+      final Object classAddress = NewOp.allocateObject(heap, statics.classClass());
+      statics.classAt(klass, classAddress);
+   }
+   static void allocateStatics(final Heap heap, final Statics statics, final StaticsMarker staticsMarker, final SClass klass) {
       if(klass.statics().allocateSize() > 0) {
          final Object staticsAddress = heap.newObject(klass.statics());
-         heap.put(staticsAddress, SClass.OBJECT_CLASS_OFFSET, classClass);
+         heap.put(staticsAddress, SClass.OBJECT_MARKER_OFFSET, staticsMarker);
          statics.staticsAt(klass, staticsAddress);
       }
    }

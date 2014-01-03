@@ -30,20 +30,28 @@ public class CheckingHeap implements Heap {
    }
 
    private boolean putPreCondition(final Object address, final int offset, final Object val) {
-      final SClass klass = (SClass) heap.get(address, SClass.OBJECT_CLASS_OFFSET);
-      if(offset == SClass.OBJECT_CLASS_OFFSET) {
-         assert klass == null;
+      final Object marker = heap.get(address, SClass.OBJECT_MARKER_OFFSET);
+      if(offset == SClass.OBJECT_MARKER_OFFSET) {
+         assert marker == null;
          return true;
       }
-      if(klass == null) { return true; }
-      if(klass.isArray()) {return true; /* TODO[tim]: check array element type */}
-      final Type type = Type.getType(klass.fieldDescAtIndex(offset));
-      switch(type.getSort()) {
-         case Type.INT:
-            assert val instanceof Integer;
-            break;
+      if(marker instanceof SClass) {
+         final SClass klass = (SClass) marker;
+         if(klass == null) { return true; }
+         if(klass.isArray()) {return true; /* TODO[tim]: check array element type */}
+         if(klass.isKlassKlass()) {return true; /* TODO[tim]: check static fields */}
+         final Type type = Type.getType(klass.fieldDescAtIndex(offset));
+         switch(type.getSort()) {
+            case Type.INT:
+               assert val instanceof Integer;
+               break;
+         }
+         return true;
+      } else if (marker instanceof StaticsMarker) {
+         return true;
+      } else {
+         return false;
       }
-      return true;
    }
 
    @Override

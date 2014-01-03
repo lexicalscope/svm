@@ -17,22 +17,37 @@ public class StaticsImpl implements Statics {
    // TODO[tim]: need fast-clone version
    private static final String klassKlassName = getInternalName(Class.class);
    private final Map<String, SClass> defined;
+
+   // TODO[tim]: combine these maps for efficiency
    private final Map<SClass, Object> staticsAddresses;
+   private final Map<SClass, Object> classAddresses;
 
    private final SClassLoader classLoader;
 
    public StaticsImpl(final SClassLoader classLoader) {
-      this(classLoader, new HashMap<String, SClass>(), new HashMap<SClass, Object>());
+      this(classLoader,
+            new HashMap<String, SClass>(),
+            new HashMap<SClass, Object>(),
+            new HashMap<SClass, Object>());
    }
 
-   private StaticsImpl(final SClassLoader classLoader, final Map<String, SClass> defined, final Map<SClass, Object> staticsAddresses) {
+   private StaticsImpl(
+         final SClassLoader classLoader,
+         final Map<String, SClass> defined,
+         final Map<SClass, Object> staticsAddresses,
+         final Map<SClass, Object> classAddresses) {
       this.defined = defined;
       this.classLoader = classLoader;
       this.staticsAddresses = staticsAddresses;
+      this.classAddresses = classAddresses;
    }
 
    @Override public Statics snapshot() {
-      return new StaticsImpl(classLoader, new HashMap<>(defined), new HashMap<>(staticsAddresses));
+      return new StaticsImpl(
+            classLoader,
+            new HashMap<>(defined),
+            new HashMap<>(staticsAddresses),
+            new HashMap<>(classAddresses));
    }
 
    @Override public List<SClass> defineClass(final String klassName) {
@@ -97,7 +112,24 @@ public class StaticsImpl implements Statics {
       return address;
    }
 
+   @Override public void classAt(final SClass klass, final Object classAddress) {
+      assert !classAddresses.containsKey(klass);
+      classAddresses.put(klass, classAddress);
+   }
+
+   @Override public Object whereMyClassAt(final SClass klass) {
+      final Object address = classAddresses.get(klass);
+      if(address == null) {
+         throw new IllegalStateException("no class for " + klass);
+      }
+      return address;
+   }
+
    @Override public SClass classClass() {
       return load(klassKlassName);
+   }
+
+   @Override public StaticsMarker staticsMarker(final SClass klass) {
+      return new StaticsMarker(klass);
    }
 }

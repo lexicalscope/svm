@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static com.lexicalscope.symb.vm.classloader.AsmSClass.OBJECT_CLASS_OFFSET;
+import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
@@ -22,7 +22,7 @@ public class CheckCastOp implements Vop {
          return;
       }
 
-      final SClass classFromHeap = (SClass) heap.get(address, OBJECT_CLASS_OFFSET);
+      final SClass classFromHeap = (SClass) heap.get(address, OBJECT_MARKER_OFFSET);
       final SClass classFromInstruction = statics.load(klassName);
 
       if(classFromHeap.instanceOf(classFromInstruction)) {

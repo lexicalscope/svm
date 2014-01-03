@@ -18,7 +18,7 @@ public class ObjectPoolLoad implements Vop {
 
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       final SClass klass = statics.load(type.getInternalName());
-      stackFrame.push(statics.whereMyStaticsAt(klass));
+      stackFrame.push(statics.whereMyClassAt(klass));
    }
 
    @Override public String toString() {
