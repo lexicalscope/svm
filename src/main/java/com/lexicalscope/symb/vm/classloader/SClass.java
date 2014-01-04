@@ -25,8 +25,6 @@ public interface SClass extends Allocatable {
 
    List<Object> fieldInit();
 
-   int staticFieldCount();
-
    int staticFieldIndex(SFieldName name);
 
    boolean hasStaticField(SFieldName name);

@@ -59,8 +59,7 @@ public class StaticsImpl implements Statics {
       classLoader.load(klassName, new ClassLoaded(){
          @Override public void loaded(final SClass klass) {
             if(!defined.containsKey(klass.name())) {
-               defined.put(klass.name(), klass);
-               result.add(klass);
+               result.add(cache(klass.name(), klass));
             }
          }});
 
@@ -73,6 +72,11 @@ public class StaticsImpl implements Statics {
       }
 
       final PrimitiveSClass result = new PrimitiveSClass(klassName);
+      cache(klassName, result);
+      return result;
+   }
+
+   private SClass cache(final String klassName, final SClass result) {
       defined.put(klassName, result);
       return result;
    }

@@ -11,4 +11,8 @@ public class GetCallerClass implements Vop {
       // TODO[tim]: demeter
       stackFrame.push(statics.whereMyClassAt(stack.caller().method().klass()));
    }
+
+   @Override public String toString() {
+      return "CallerClass";
+   }
 }

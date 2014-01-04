@@ -34,4 +34,8 @@ public class CheckCastOp implements Vop {
       // TODO[tim]: should throw an in-game class cast exception
       throw new UnsupportedOperationException();
    }
+
+   @Override public String toString() {
+      return "CHECKCAST " + klassName;
+   }
 }

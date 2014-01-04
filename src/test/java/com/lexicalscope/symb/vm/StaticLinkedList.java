@@ -1,11 +1,11 @@
 package com.lexicalscope.symb.vm;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class StaticLinkedList {
    public static int addRemove(final int x) {
-      final LinkedList<Integer> list = new LinkedList<>();
+      final ArrayList<Integer> list = new ArrayList<>();
       list.add(x);
-      return list.removeFirst();
+      return list.remove(0);
    }
 }

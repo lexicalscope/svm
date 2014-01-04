@@ -53,10 +53,6 @@ public final class PrimitiveSClass implements SClass {
       return Collections.emptyList();
    }
 
-   @Override public int staticFieldCount() {
-      return 0;
-   }
-
    @Override public int staticFieldIndex(final SFieldName name) {
       return 0;
    }

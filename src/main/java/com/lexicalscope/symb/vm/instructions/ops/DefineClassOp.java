@@ -13,6 +13,7 @@ import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.StaticsMarker;
+import com.lexicalscope.symb.vm.classloader.AsmSClass;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class DefineClassOp implements Op<List<SClass>> {
@@ -73,7 +74,9 @@ public final class DefineClassOp implements Op<List<SClass>> {
    }
 
    static void allocateClass(final Heap heap, final Statics statics, final SClass klass) {
-      final Object classAddress = NewOp.allocateObject(heap, statics.classClass());
+      final SClass classClass = statics.classClass();
+      final Object classAddress = NewOp.allocateObject(heap, classClass);
+      heap.put(classAddress,  classClass.fieldIndex(AsmSClass.internalClassPointer), klass);
       statics.classAt(klass, classAddress);
    }
    static void allocateStatics(final Heap heap, final Statics statics, final StaticsMarker staticsMarker, final SClass klass) {

@@ -5,6 +5,7 @@ import static org.objectweb.asm.Type.getInternalName;
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
@@ -27,8 +28,8 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 
       try {
          final URL classUrl;
-         if(name.equals(getInternalName(Thread.class))) {
-            classUrl = new URL(ResourceByteCodeReader.class.getProtectionDomain().getCodeSource().getLocation(), name + ".class");
+         if(name.equals(getInternalName(Thread.class)) || name.equals("java/lang/Integer$IntegerCache")) {
+            classUrl = loadLocalVersion(name);
          } else {
             classUrl = classUrlFromClassPath(name);
          }
@@ -53,6 +54,10 @@ public class ResourceByteCodeReader implements ByteCodeReader {
       } catch (final IOException e) {
          throw new SClassLoadingFailException(name, e);
       }
+   }
+
+   private URL loadLocalVersion(final String name) throws MalformedURLException {
+      return new URL(ResourceByteCodeReader.class.getProtectionDomain().getCodeSource().getLocation(), "lib/" + name + ".class");
    }
 
    private URL classUrlFromClassPath(final String name) {

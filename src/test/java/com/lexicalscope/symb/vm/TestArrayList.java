@@ -8,11 +8,11 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 
-public class TestLinkedList {
-   final MethodInfo linkedListAddRemove = new MethodInfo(StaticLinkedList.class, "addRemove", "(I)I");
+public class TestArrayList {
+   final MethodInfo arrayListAddRemove = new MethodInfo(StaticArrayList.class, "addRemove", "(I)I");
 
    @Test public void linkedListAddThenGet() {
-      final Vm vm = concreteVm(linkedListAddRemove, 4);
+      final Vm vm = concreteVm(arrayListAddRemove, 4);
       assertThat(vm.execute(), normalTerminiationWithResult(4));
    }
 }

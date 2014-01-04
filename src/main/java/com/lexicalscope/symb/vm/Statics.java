@@ -28,4 +28,5 @@ public interface Statics extends Snapshotable<Statics> {
    boolean isDefined(String klass);
 
    SClass classClass();
+
 }

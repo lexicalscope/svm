@@ -17,8 +17,14 @@ import org.objectweb.asm.tree.MethodNode;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
-public final class AsmSClass implements SClass {
+public class AsmSClass implements SClass {
+   public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");
+
    private final Set<SClass> superTypes = new HashSet<>();
+
+   private final List<FieldNode> declaredFields;
+   private final TreeMap<SFieldName, Integer> declaredFieldMap;
+   private final TreeMap<SFieldName, Integer> declaredStaticFieldMap;
 
    private final List<FieldNode> fields;
    private final TreeMap<SFieldName, Integer> fieldMap;
@@ -51,6 +57,12 @@ public final class AsmSClass implements SClass {
       this.classNode = classNode;
       this.superclass = superclass;
 
+      this.declaredFields = sClassBuilder.declaredFields;
+      this.declaredFieldMap = sClassBuilder.declaredFieldMap;
+      this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
+      this.subclassOffset = sClassBuilder.subclassOffset;
+      this.fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFieldMap.size();
+
       this.staticFieldMap = new TreeMap<>();
       this.fields = new ArrayList<>();
       this.fieldMap = new TreeMap<>();
@@ -61,8 +73,8 @@ public final class AsmSClass implements SClass {
       superTypes.add(this);
 
       if (superclass != null) {
-         final TreeMap<SFieldName, Integer> superFieldMap = superclass.fieldMap;
-         for (final Entry<SFieldName, Integer> superField : superFieldMap.entrySet()) {
+         for (final Entry<SFieldName, Integer> superField : superclass.fieldMap.entrySet()) {
+            // if a field is not shadowed, looking it up in this class should resolve the superclass field
             fieldMap.put(new SFieldName(classNode.name, superField.getKey().getName()), superField.getValue());
          }
          fields.addAll(superclass.fields);
@@ -82,8 +94,6 @@ public final class AsmSClass implements SClass {
       staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
 
       initialiseMethodMap();
-      fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFieldMap.size();
-      subclassOffset = sClassBuilder.classStartOffset + sClassBuilder.declaredFieldMap.size();
    }
 
    private void initialiseMethodMap() {
@@ -163,7 +173,6 @@ public final class AsmSClass implements SClass {
       return fieldInit;
    }
 
-   @Override
    public int staticFieldCount() {
       return staticFieldMap.size();
    }
@@ -235,6 +244,7 @@ public final class AsmSClass implements SClass {
    private static class SClassBuilder {
       private final SClassLoader classLoader;
       private final int classStartOffset;
+      private int subclassOffset;
       private final List<FieldNode> declaredFields = new ArrayList<>();
       private final TreeMap<SFieldName, Integer> declaredFieldMap = new TreeMap<>();
       private final TreeMap<SFieldName, Integer> declaredStaticFieldMap = new TreeMap<>();
@@ -246,7 +256,7 @@ public final class AsmSClass implements SClass {
       }
 
       private void initialiseFieldMaps(final ClassNode classNode) {
-         final List<?> fields = classNode.fields;
+         final List<?> fields = fields(classNode);
          int staticOffset = 0;
          int dynamicOffset = 0;
          for (int i = 0; i < fields.size(); i++) {
@@ -256,12 +266,23 @@ public final class AsmSClass implements SClass {
                declaredStaticFieldMap.put(fieldName, staticOffset);
                staticOffset++;
             } else {
+               System.out.println(fieldNode.signature);
                declaredFields.add(fieldNode);
                declaredFieldMap.put(fieldName, dynamicOffset + classStartOffset);
                declaredFieldInit.add(classLoader.init(fieldNode.desc));
                dynamicOffset++;
             }
          }
+         subclassOffset = classStartOffset + declaredFieldMap.size();
+      }
+
+      private List fields(final ClassNode classNode) {
+         if(classNode.name.equals(JavaConstants.CLASS_CLASS)) {
+            final List<Object> result = new ArrayList<>(classNode.fields);
+            result.add(new FieldNode(Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL, internalClassPointer.getName(), Type.getDescriptor(Object.class), "Ljava/lang/Object;", null));
+            return result;
+         }
+         return classNode.fields;
       }
    }
 

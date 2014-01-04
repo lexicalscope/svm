@@ -3,8 +3,7 @@ package com.lexicalscope.symb.vm;
 import static com.lexicalscope.symb.vm.Vm.concreteVm;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.*;
 
 import org.junit.Ignore;
 import org.junit.Test;
