@@ -506,10 +506,6 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new GetCallerClass());
    }
 
-   public Instruction fieldArray() {
-      return linearInstruction(new GetFieldArray());
-   }
-
    @Override public Object initialFieldValue(final String desc) {
       final Type type = Type.getType(desc);
       final int sort = type.getSort();

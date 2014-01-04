@@ -133,11 +133,6 @@ public class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder fieldArray() {
-      add(baseInstructions.fieldArray());
-      return this;
-   }
-
    public MethodBody build() {
       InstructionInternalNode next = null;
       for (final Instruction instruction : reverse(instructions)) {

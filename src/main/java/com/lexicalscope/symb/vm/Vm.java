@@ -15,6 +15,7 @@ import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
+import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;
 
 public class Vm {
    private final Deque<State> pending = new ArrayDeque<>();
@@ -63,7 +64,7 @@ public class Vm {
    }
 
    public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
-      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory);
+      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
       return new Vm(Vm.initial(classLoader, entryPoint).op(loadConstants(args)));
    }
 
