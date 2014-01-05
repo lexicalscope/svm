@@ -8,11 +8,13 @@ public final class SMethodName implements Comparable<SMethodName> {
    private final String klassName;
    private final String desc;
    private final String name;
+   private final int hashCode;
 
    public SMethodName(final String klassName, final String name, final String desc) {
       this.klassName = klassName;
       this.name = name;
       this.desc = desc;
+      this.hashCode = klassName.hashCode() ^ desc.hashCode() ^ name.hashCode();
    }
 
    public SMethodName(final Class<?> klass, final String name, final String desc) {
@@ -51,7 +53,7 @@ public final class SMethodName implements Comparable<SMethodName> {
 
    @Override
    public int hashCode() {
-      return klassName.hashCode() ^ desc.hashCode() ^ name.hashCode();
+      return hashCode;
    }
 
    @Override

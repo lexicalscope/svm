@@ -28,7 +28,7 @@ public class Vm {
    public State execute() {
       while (!pending.isEmpty()) {
          try {
-            System.out.println(pending.peek());
+            //System.out.println(pending.peek());
             pending.peek().advance(this);
          } catch (final TerminationException termination) {
             assert pending.peek() == termination.getFinalState();
