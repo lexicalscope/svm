@@ -37,25 +37,20 @@ public class DefaultNativeMethods implements NativeMethods {
          // TODO[tim] we need to somehow store a thread object, probably
          // initalise it at the start
          return instructions.statements().maxStack(1).currentThread().return1().build();
-      } else if (methodName.equals(new SMethodName("java/lang/Runtime", "freeMemory", "()J"))) {
-         return instructions.statements().maxStack(2).lconst(4294967296L).return2().build();
-      } else if (methodName.equals(new SMethodName("java/lang/System", "arraycopy", "(Ljava/lang/Object;ILjava/lang/Object;II)V"))) {
-         return instructions.statements().maxLocals(5).arrayCopy().returnVoid().build();
-      } else if (methodName.equals(new SMethodName("java/lang/Float", "floatToRawIntBits", "(F)I"))) {
-         return instructions.statements().maxStack(1).maxLocals(1).fload(0).floatToRawIntBits().return1().build();
-      } else if (methodName.equals(new SMethodName("java/lang/Double", "doubleToRawLongBits", "(D)J"))) {
-         return instructions.statements().maxStack(2).maxLocals(1).dload(0).doubleToRawLongBits().return2().build();
-      } else if (methodName.equals(new SMethodName("java/lang/Object", "hashCode", "()I"))) {
-         return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
       return instructions.statements().returnVoid().build();
    }
-
    public static NativeMethods natives() {
+
       return natives(Arrays.<NativeMethodDef>asList(
             new Java_lang_class_getClassLoader0(),
+            new Java_lang_runtime_freeMemory(),
+            new Java_lang_system_arraycopy(),
+            new Java_lang_float_floatToRawIntBits(),
+            new Java_lang_double_doubleToRawLongBits(),
+            new Java_lang_object_hashCode(),
             new Sun_misc_unsafe_arrayBaseOffset(),
             new Sun_misc_unsafe_arrayIndexScale(),
             new Sun_misc_unsafe_addressSize(),
