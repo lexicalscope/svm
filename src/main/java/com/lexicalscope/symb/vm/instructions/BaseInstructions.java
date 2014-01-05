@@ -39,6 +39,8 @@ import com.lexicalscope.symb.vm.instructions.ops.F2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FloatToRawIntBits;
+import com.lexicalscope.symb.vm.instructions.ops.GetCallerClass;
+import com.lexicalscope.symb.vm.instructions.ops.GetPrimitiveClass;
 import com.lexicalscope.symb.vm.instructions.ops.I2FOp;
 import com.lexicalscope.symb.vm.instructions.ops.I2LOp;
 import com.lexicalscope.symb.vm.instructions.ops.IincOp;
@@ -504,6 +506,10 @@ public final class BaseInstructions implements Instructions {
 
    public Instruction getCallerClass() {
       return linearInstruction(new GetCallerClass());
+   }
+
+   public Instruction getPrimitiveClass() {
+      return linearInstruction(new GetPrimitiveClass());
    }
 
    @Override public Object initialFieldValue(final String desc) {

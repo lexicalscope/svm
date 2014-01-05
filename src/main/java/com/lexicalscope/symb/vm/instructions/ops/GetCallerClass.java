@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions;
+package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;

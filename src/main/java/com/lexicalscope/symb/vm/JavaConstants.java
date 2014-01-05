@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class JavaConstants {
@@ -10,4 +11,5 @@ public class JavaConstants {
    public static final String THREAD_CLASS = "java/lang/Thread";
    public static final String CLASS_CLASS = "java/lang/Class";
    public static final SMethodName CLASS_DEFAULT_CONSTRUCTOR = new SMethodName(CLASS_CLASS, INIT, NOARGS_VOID_DESC);
+   public static final SFieldName STRING_VALUE_FIELD = new SFieldName(STRING_CLASS, "value");
 }

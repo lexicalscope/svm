@@ -26,7 +26,7 @@ public class DefaultNativeMethods implements NativeMethods {
       } else if (methodName.equals(new SMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
          // TODO[tim] we need to somewhere store the mapping between class
          // objects and the class they represent
-         return instructions.statements().maxStack(1).newObject("java/lang/Class").return1().build();
+         return instructions.statements().maxLocals(1).maxStack(1).getPrimitiveClass().return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }

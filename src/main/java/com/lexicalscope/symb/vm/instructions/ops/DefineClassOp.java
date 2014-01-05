@@ -90,4 +90,8 @@ public final class DefineClassOp implements Op<List<SClass>> {
    @Override public String toString() {
       return "Define Classes " + klassNames;
    }
+
+   public static boolean primitivesContains(final String klassName) {
+      return primitives.contains(klassName);
+   }
 }

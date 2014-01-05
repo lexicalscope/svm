@@ -124,6 +124,11 @@ public class StatementBuilder {
       return this;
    }
 
+   public StatementBuilder getPrimitiveClass() {
+      add(baseInstructions.getPrimitiveClass());
+      return this;
+   }
+
    private void add(final Instruction instruction) {
       instructions.add(instruction);
    }
