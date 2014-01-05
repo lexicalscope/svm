@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.natives;
 import com.lexicalscope.symb.vm.classloader.MethodBody;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
-public class Sun_misc_unsafe_addressSize extends AbstractNativeMethodDef {
+public final class Sun_misc_unsafe_addressSize extends AbstractNativeMethodDef {
    public Sun_misc_unsafe_addressSize() {
       super("sun/misc/Unsafe", "addressSize", "()I");
    }

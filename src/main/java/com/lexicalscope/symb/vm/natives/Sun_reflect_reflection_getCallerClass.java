@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.natives;
 import com.lexicalscope.symb.vm.classloader.MethodBody;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
-public class Sun_reflect_reflection_getCallerClass extends AbstractNativeMethodDef {
+public final class Sun_reflect_reflection_getCallerClass extends AbstractNativeMethodDef {
    public Sun_reflect_reflection_getCallerClass() {
       super("sun/reflect/Reflection", "getCallerClass", "()Ljava/lang/Class;");
    }

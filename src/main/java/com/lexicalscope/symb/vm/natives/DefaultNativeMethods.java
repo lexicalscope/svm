@@ -8,7 +8,6 @@ import java.util.Map;
 import com.lexicalscope.symb.vm.classloader.MethodBody;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
-import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 
 public class DefaultNativeMethods implements NativeMethods {
    private final Map<SMethodName, NativeMethodDef> natives;
@@ -48,8 +47,6 @@ public class DefaultNativeMethods implements NativeMethods {
          return instructions.statements().maxStack(2).maxLocals(1).dload(0).doubleToRawLongBits().return2().build();
       } else if (methodName.equals(new SMethodName("java/lang/Object", "hashCode", "()I"))) {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
-      } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "arrayBaseOffset", "(Ljava/lang/Class;)I"))) {
-         return instructions.statements().maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
@@ -59,6 +56,7 @@ public class DefaultNativeMethods implements NativeMethods {
    public static NativeMethods natives() {
       return natives(Arrays.<NativeMethodDef>asList(
             new Java_lang_class_getClassLoader0(),
+            new Sun_misc_unsafe_arrayBaseOffset(),
             new Sun_misc_unsafe_arrayIndexScale(),
             new Sun_misc_unsafe_addressSize(),
             new Sun_reflect_reflection_getCallerClass(),
