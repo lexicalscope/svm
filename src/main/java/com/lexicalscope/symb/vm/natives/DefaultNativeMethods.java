@@ -27,16 +27,6 @@ public class DefaultNativeMethods implements NativeMethods {
          // TODO[tim] we need to somewhere store the mapping between class
          // objects and the class they represent
          return instructions.statements().maxStack(1).newObject("java/lang/Class").return1().build();
-      } else if (methodName.equals(new SMethodName("java/lang/System", "identityHashCode", "(Ljava/lang/Object;)I"))) {
-         return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
-      } else if (methodName.equals(new SMethodName("java/lang/System", "nanoTime", "()J"))) {
-         return instructions.statements().maxStack(2).nanoTime().return2().build();
-      } else if (methodName.equals(new SMethodName("java/lang/System", "currentTimeMillis", "()J"))) {
-         return instructions.statements().maxStack(2).currentTimeMillis().return2().build();
-      } else if (methodName.equals(new SMethodName("java/lang/Thread", "currentThread", "()Ljava/lang/Thread;"))) {
-         // TODO[tim] we need to somehow store a thread object, probably
-         // initalise it at the start
-         return instructions.statements().maxStack(1).currentThread().return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
@@ -46,6 +36,10 @@ public class DefaultNativeMethods implements NativeMethods {
 
       return natives(Arrays.<NativeMethodDef>asList(
             new Java_lang_class_getClassLoader0(),
+            new Java_lang_system_identityHashCode(),
+            new Java_lang_system_nanoTime(),
+            new Java_lang_system_currentTimeMillis(),
+            new Java_lang_thread_currentThread(),
             new Java_lang_runtime_freeMemory(),
             new Java_lang_system_arraycopy(),
             new Java_lang_float_floatToRawIntBits(),
