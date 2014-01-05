@@ -50,12 +50,6 @@ public class DefaultNativeMethods implements NativeMethods {
          return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
       } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "arrayBaseOffset", "(Ljava/lang/Class;)I"))) {
          return instructions.statements().maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1().build();
-      } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "arrayIndexScale", "(Ljava/lang/Class;)I"))) {
-         return instructions.statements().maxStack(1).maxLocals(1).iconst(1).return1().build();
-      } else if (methodName.equals(new SMethodName("sun/misc/Unsafe", "addressSize", "()I"))) {
-         // there is not really good answer here, because everything takes up "1" in our heap.
-         // we should return either 4 or 8, but will try 1 and see what happens
-         return instructions.statements().maxStack(1).iconst(1).return1().build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
@@ -65,8 +59,10 @@ public class DefaultNativeMethods implements NativeMethods {
    public static NativeMethods natives() {
       return natives(Arrays.<NativeMethodDef>asList(
             new Java_lang_class_getClassLoader0(),
-            new Java_security_accessController_doPrivileged(),
-            new Sun_reflect_reflection_getCallerClass()
+            new Sun_misc_unsafe_arrayIndexScale(),
+            new Sun_misc_unsafe_addressSize(),
+            new Sun_reflect_reflection_getCallerClass(),
+            new Java_security_accessController_doPrivileged()
             ));
    }
 
