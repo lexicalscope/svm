@@ -6,9 +6,11 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.LAndOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.DConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
+import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -72,6 +74,10 @@ public class SymbInstructionFactory implements InstructionFactory {
       return SBranchInstruction.geInstruction(feasibilityChecker);
    }
 
+   @Override public Instruction branchIfGt(final JumpInsnNode jumpInsnNode) {
+      return SBranchInstruction.gtInstruction(feasibilityChecker);
+   }
+
    @Override
    public Instruction branchIfLe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.leInstruction(feasibilityChecker);
@@ -128,7 +134,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Nullary2Operator lconst(final long val) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return new LConstOperator(val);
    }
 
    @Override public NullaryOperator fconst(final float val) {
@@ -169,11 +175,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Binary2Operator landOperation() {
-      throw new UnsupportedOperationException("not implemented yet");
-   }
-
-   @Override public Instruction branchIfGt(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return new LAndOp();
    }
 
    @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
