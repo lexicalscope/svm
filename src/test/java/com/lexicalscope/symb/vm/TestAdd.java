@@ -3,7 +3,6 @@ package com.lexicalscope.symb.vm;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
@@ -21,7 +20,7 @@ public class TestAdd {
       assertThat(vm.execute(), normalTerminiationWithResult(3));
    }
 
-   @Test @Ignore
+   @Test
    public void symbExecuteStaticAddMethod() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.symbol();

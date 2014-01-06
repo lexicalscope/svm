@@ -5,14 +5,13 @@ import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiation
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
-import org.junit.Ignore;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.MulSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.MulSymbol;
 
 public class TestBranch {
    MethodInfo absMethod = new MethodInfo(
@@ -30,7 +29,7 @@ public class TestBranch {
       assertThat(vm.execute(), normalTerminiationWithResult(2));
    }
 
-   @Test @Ignore
+   @Test
    public void symbExecuteBothBranches() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.symbol();
