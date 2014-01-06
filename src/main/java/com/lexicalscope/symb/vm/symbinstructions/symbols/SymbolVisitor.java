@@ -6,6 +6,7 @@ public interface SymbolVisitor<T, E extends Throwable> {
    T constant(int val) throws E;
 
    T ge(ISymbol val) throws E;
+   T ge(ISymbol value1, ISymbol value2) throws E;
 
    T mul(ISymbol left, ISymbol right) throws E;
 
@@ -13,5 +14,6 @@ public interface SymbolVisitor<T, E extends Throwable> {
 
    T sub(ISymbol left, ISymbol right) throws E;
 
-   T intSymbol(int name) throws E;;
+   T intSymbol(int name) throws E;
+
 }

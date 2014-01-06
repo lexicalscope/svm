@@ -9,10 +9,12 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.GeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpGeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.SBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchStrategy;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -32,7 +34,7 @@ final class SBranchInstruction implements Instruction {
    public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       final Pc pc = (Pc) state.getMeta();
 
-      final GeSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);
+      final ISymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);
 
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
@@ -81,7 +83,12 @@ final class SBranchInstruction implements Instruction {
    }
 
    public static Instruction geInstruction(final FeasibilityChecker feasibilityChecker) {
-      UnarySBranchStrategy unaryBranchStrategy = new UnarySBranchStrategy(new GeStrategy());
+      final UnarySBranchStrategy unaryBranchStrategy = new UnarySBranchStrategy(new GeStrategy());
       return new SBranchInstruction(feasibilityChecker, unaryBranchStrategy);
+   }
+
+   public static Instruction icmpgeInstruction(final FeasibilityChecker feasibilityChecker) {
+      final BinarySBranchStrategy binaryBranchStrategy = new BinarySBranchStrategy(new ICmpGeStrategy());
+      return new SBranchInstruction(feasibilityChecker, binaryBranchStrategy);
    }
 }

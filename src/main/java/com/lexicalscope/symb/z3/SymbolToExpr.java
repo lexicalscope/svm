@@ -40,6 +40,11 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
       return ctx.mkBVSGE((BitVecExpr) val.accept(this), constant(0));
    }
 
+
+   @Override public Expr ge(final ISymbol value1, final ISymbol value2) throws Z3Exception {
+      return ctx.mkBVSGE((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
+   }
+
    @Override
    public Expr not(final ISymbol val) throws Z3Exception {
       return ctx.mkNot((BoolExpr) val.accept(this));

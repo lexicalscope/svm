@@ -6,7 +6,6 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
@@ -43,14 +42,13 @@ public interface InstructionFactory {
    Instruction branchIfNe(JumpInsnNode jumpInsnNode);
    Instruction branchIfNull(JumpInsnNode jumpInsnNode);
    Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
-   Instruction branchGoto(JumpInsnNode jumpInsnNode);
 
-   BranchPredicate branchIfICmpEq(JumpInsnNode jumpInsnNode);
-   BranchPredicate branchIfICmpNe(JumpInsnNode jumpInsnNode);
-   BranchPredicate branchIfICmpLe(JumpInsnNode jumpInsnNode);
-   BranchPredicate branchIfICmpGe(JumpInsnNode jumpInsnNode);
-   BranchPredicate branchIfICmpLt(JumpInsnNode jumpInsnNode);
-   BranchPredicate branchIfICmpGt(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpEq(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpNe(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpLe(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpGe(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);
+   Instruction branchIfICmpGt(JumpInsnNode jumpInsnNode);
 
    Instruction branchIfACmpEq(JumpInsnNode jumpInsnNode);
    Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
