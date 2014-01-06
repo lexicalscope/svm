@@ -67,7 +67,6 @@ import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.ops.Store2;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
@@ -266,7 +265,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.NEW:
                   return newObject(typeInsnNode.desc);
                case Opcodes.ANEWARRAY:
-                  return linearInstruction(new NewArrayOp());
+                  return linearInstruction(instructionFactory.aNewArray());
                case Opcodes.INSTANCEOF:
                   return linearInstruction(new InstanceOfOp(typeInsnNode.desc));
                case Opcodes.CHECKCAST:

@@ -3,26 +3,40 @@ package com.lexicalscope.symb.z3;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
+import org.jmock.Expectations;
+import org.jmock.auto.Mock;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.AddSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
+import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 import com.microsoft.z3.Z3Exception;
 
 public class TestZ3BitVectorOverflow {
-   @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
+   @Rule public final AutoCloseRule autoCloseRule = new AutoCloseRule();
+   @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
+   @Mock private ISimplificationResult result;
+
    private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
 
    @Test
    public void testZ3IsWorking() throws Z3Exception {
-      assertThat(feasbilityChecker.simplifyBv32Expr(new AddSymbol(new IConstSymbol(3), new IConstSymbol(3))), equalTo(6));
+      context.checking(new Expectations(){{
+         oneOf(result).simplifiedToValue(6);
+      }});
+      feasbilityChecker.simplifyBv32Expr(new AddSymbol(new IConstSymbol(3), new IConstSymbol(3)), result);
    }
 
    @Test
    public void testMaxIntPlus1() throws Z3Exception {
+      context.checking(new Expectations(){{
+         oneOf(result).simplifiedToValue(Integer.MAX_VALUE + 1);
+      }});
+
       assertThat(Integer.MAX_VALUE + 1, equalTo(Integer.MIN_VALUE));
-      assertThat(feasbilityChecker.simplifyBv32Expr(new AddSymbol(new IConstSymbol(Integer.MAX_VALUE), new IConstSymbol(1))), equalTo(Integer.MAX_VALUE + 1));
+      feasbilityChecker.simplifyBv32Expr(new AddSymbol(new IConstSymbol(Integer.MAX_VALUE), new IConstSymbol(1)), result);
    }
 }

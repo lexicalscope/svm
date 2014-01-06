@@ -16,20 +16,26 @@ public final class NewConcArray implements ArrayConstructor {
          final int arrayLength,
          final InitStrategy initStrategy) {
       final Object initValue = initStrategy.initialValue(heap);
-      // TODO - arrays can have different types
-      final SClass objectArrayClass = statics.load(getInternalName(Object[].class));
 
       final Object arrayAddress = heap.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return arrayLength + NewArrayOp.ARRAY_PREAMBLE;
          }
       });
-      heap.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);
-      heap.put(arrayAddress, NewArrayOp.ARRAY_LENGTH_OFFSET, arrayLength);
+
+      initArrayPreamble(heap, statics, arrayAddress, arrayLength);
+
       for (int i = 0; i < arrayLength; i++) {
          heap.put(arrayAddress, NewArrayOp.ARRAY_PREAMBLE + i, initValue);
       }
       stackFrame.push(arrayAddress);
+   }
+
+   public static void initArrayPreamble(final Heap heap, final Statics statics, final Object arrayAddress, final Object arrayLength) {
+      // TODO - arrays can have different types
+      final SClass objectArrayClass = statics.load(getInternalName(Object[].class));
+      heap.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);
+      heap.put(arrayAddress, NewArrayOp.ARRAY_LENGTH_OFFSET, arrayLength);
    }
 
    @Override public void newArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy) {

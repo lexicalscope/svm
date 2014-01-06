@@ -219,4 +219,8 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override public NewArrayOp newArray(final Object initialFieldValue) {
       return new NewArrayOp(initialFieldValue, new NewConcArray());
    }
+
+   @Override public Vop aNewArray() {
+      return new NewArrayOp(new NewConcArray());
+   }
 }

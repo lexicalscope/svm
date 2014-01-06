@@ -100,7 +100,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.icmpltInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
@@ -190,6 +190,10 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public NewArrayOp newArray(final Object initialFieldValue) {
-      return new NewArrayOp(initialFieldValue, new NewSymbArray());
+      return new NewArrayOp(initialFieldValue, new NewSymbArray(feasibilityChecker));
+   }
+
+   @Override public Vop aNewArray() {
+      return new NewArrayOp(new NewSymbArray(feasibilityChecker));
    }
 }

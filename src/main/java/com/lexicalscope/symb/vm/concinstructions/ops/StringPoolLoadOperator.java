@@ -12,6 +12,7 @@ import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.instructions.ops.NewOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 
 public final class StringPoolLoadOperator implements Vop {
    private final String val;
@@ -31,7 +32,7 @@ public final class StringPoolLoadOperator implements Vop {
       final char[] chars = val.toCharArray();
 
       stackFrame.push(chars.length);
-      new NewArrayOp().eval(stackFrame, stack, heap, statics);
+      new NewArrayOp(new NewConcArray()).eval(stackFrame, stack, heap, statics);
       final Object valueAddress = stackFrame.pop();
 
       for (int i = 0; i < chars.length; i++) {
@@ -42,8 +43,8 @@ public final class StringPoolLoadOperator implements Vop {
       stackFrame.push(stringAddress);
    }
 
-	@Override
-	public String toString() {
-		return "LDC string: " + new String(val);
-	}
+   @Override
+   public String toString() {
+      return "LDC string: " + new String(val);
+   }
 }

@@ -9,6 +9,7 @@ import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
+import com.microsoft.z3.Expr;
 import com.microsoft.z3.IntExpr;
 import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
@@ -81,53 +82,63 @@ public class FeasibilityChecker implements Closeable {
       ctx.dispose();
    }
 
-   public int simplifyBv32Expr(final ISymbol symbol) {
+   public interface ISimplificationResult {
+      void simplifiedToValue(int value);
+      void simplified(ISymbol simplification);
+   }
+
+   public void simplifyBv32Expr(final ISymbol symbol, final ISimplificationResult result) {
       try {
          // problem with overflow handling
          // http://stackoverflow.com/questions/20383866/z3-modeling-java-twos-complement-overflow-and-underflow-in-z3-bit-vector-addit
-         return (int) ((BitVecNum) symbol.accept(new SymbolToExpr(ctx)).simplify()).getLong();
+         final Expr simplification = symbol.accept(new SymbolToExpr(ctx)).simplify();
+         if(simplification.isBVNumeral()) {
+            result.simplifiedToValue((int) ((BitVecNum) simplification).getLong());
+         } else {
+            result.simplified(new SimplifiedSymbol(simplification));
+         }
       } catch (final Z3Exception e) {
          throw new RuntimeException("unable to simplify " + symbol, e);
       }
    }
 
-//   This uses a bit blasting tactic...
-//
-//   public int simplifyBv32Expr(final Symbol symbol) {
-//      try {
-//         final Solver s = ctx.mkSolver();
-//         try {
-//            final Tactic simplify = ctx.mkTactic("simplify");
-//            final Tactic solveEquations = ctx.mkTactic("solve-eqs");
-//            final Tactic bitBlast = ctx.mkTactic("bit-blast");
-//            final Tactic propositional = ctx.mkTactic("sat");
-//
-//            final Tactic tactic = ctx.parAndThen(simplify, ctx.parAndThen(solveEquations, ctx.parAndThen(bitBlast, propositional)));
-//
-//            final Goal goal = ctx.mkGoal(true, false, false);
-//            goal.add(ctx.mkEq(ctx.mkBVConst("__res", 32), symbol.accept(new SymbolToExpr(ctx))));
-//
-//
-//            final ApplyResult ar = tactic.apply(goal);
-//
-//            for (final BoolExpr e : ar.getSubgoals()[0].getFormulas())
-//                s.add(e);
-//            final Status q = s.check();
-//            System.out.println("Solver says: " + q);
-//            System.out.println("Model: \n" + s.getModel());
-//            System.out.println("Converted Model: \n"
-//                    + ar.convertModel(0, s.getModel()));
-//
-//            final Expr unsimple = symbol.accept(new SymbolToExpr(ctx));
-//            System.out.println("!!!!! " + unsimple);
-//            final Expr simplified = unsimple.simplify().simplify();
-//            System.out.println("!!!!! " + simplified);
-//            return 7;
-//         } finally {
-//            s.dispose();
-//         }
-//      } catch (final Z3Exception e) {
-//         throw new RuntimeException("unable to chec satisfiablility", e);
-//      }
-//   }
+   //   This uses a bit blasting tactic...
+   //
+   //   public int simplifyBv32Expr(final Symbol symbol) {
+   //      try {
+   //         final Solver s = ctx.mkSolver();
+   //         try {
+   //            final Tactic simplify = ctx.mkTactic("simplify");
+   //            final Tactic solveEquations = ctx.mkTactic("solve-eqs");
+   //            final Tactic bitBlast = ctx.mkTactic("bit-blast");
+   //            final Tactic propositional = ctx.mkTactic("sat");
+   //
+   //            final Tactic tactic = ctx.parAndThen(simplify, ctx.parAndThen(solveEquations, ctx.parAndThen(bitBlast, propositional)));
+   //
+   //            final Goal goal = ctx.mkGoal(true, false, false);
+   //            goal.add(ctx.mkEq(ctx.mkBVConst("__res", 32), symbol.accept(new SymbolToExpr(ctx))));
+   //
+   //
+   //            final ApplyResult ar = tactic.apply(goal);
+   //
+   //            for (final BoolExpr e : ar.getSubgoals()[0].getFormulas())
+   //                s.add(e);
+   //            final Status q = s.check();
+   //            System.out.println("Solver says: " + q);
+   //            System.out.println("Model: \n" + s.getModel());
+   //            System.out.println("Converted Model: \n"
+   //                    + ar.convertModel(0, s.getModel()));
+   //
+   //            final Expr unsimple = symbol.accept(new SymbolToExpr(ctx));
+   //            System.out.println("!!!!! " + unsimple);
+   //            final Expr simplified = unsimple.simplify().simplify();
+   //            System.out.println("!!!!! " + simplified);
+   //            return 7;
+   //         } finally {
+   //            s.dispose();
+   //         }
+   //      } catch (final Z3Exception e) {
+   //         throw new RuntimeException("unable to chec satisfiablility", e);
+   //      }
+   //   }
 }

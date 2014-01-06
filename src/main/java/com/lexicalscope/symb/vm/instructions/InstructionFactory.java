@@ -33,6 +33,8 @@ public interface InstructionFactory {
    Vop stringPoolLoad(String constVal);
 
    Vop newArray(Object initialFieldValue);
+   Vop aNewArray();
+
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
 

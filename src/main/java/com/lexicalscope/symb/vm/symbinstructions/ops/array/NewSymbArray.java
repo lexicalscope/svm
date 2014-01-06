@@ -3,21 +3,51 @@ package com.lexicalscope.symb.vm.symbinstructions.ops.array;
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.instructions.ops.array.ArrayConstructor;
 import com.lexicalscope.symb.vm.instructions.ops.array.InitStrategy;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.z3.FeasibilityChecker;
+import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 
 public class NewSymbArray implements ArrayConstructor {
+   private final FeasibilityChecker feasibilityChecker;
+
+   public NewSymbArray(final FeasibilityChecker feasibilityChecker) {
+      this.feasibilityChecker = feasibilityChecker;
+   }
+
    @Override public void newArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy) {
       final Object top = stackFrame.pop();
-      // need to deal with symbolic lengths
-      final int arrayLength;
-      if(top instanceof IConstSymbol) {
-         arrayLength = ((IConstSymbol) top).val();
+      if(top instanceof ISymbol) {
+         feasibilityChecker.simplifyBv32Expr((ISymbol) top, new ISimplificationResult(){
+            @Override public void simplifiedToValue(final int arrayLength) {
+               newConcreteArray(stackFrame, heap, statics, initStrategy, arrayLength);
+            }
+
+            @Override public void simplified(final ISymbol simplification) {
+               newSymbolicArray(stackFrame, heap, statics, initStrategy, simplification);
+            }});
+      } else if (top instanceof Integer) {
+         newConcreteArray(stackFrame, heap, statics, initStrategy, (int) top);
       } else {
-         arrayLength = (int) top;
+         throw new UnsupportedOperationException("array length " + top);
       }
+   }
+
+   private void newSymbolicArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy, final ISymbol arrayLength) {
+      final Object arrayAddress = heap.newObject(new Allocatable() {
+         @Override public int allocateSize() {
+            return NewArrayOp.ARRAY_PREAMBLE;
+         }
+      });
+      NewConcArray.initArrayPreamble(heap, statics, arrayAddress, arrayLength);
+      stackFrame.push(arrayAddress);
+   }
+
+   private void newConcreteArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy, final int arrayLength) {
       new NewConcArray().newConcreteArray(stackFrame, heap, statics, arrayLength, initStrategy);
    }
 }

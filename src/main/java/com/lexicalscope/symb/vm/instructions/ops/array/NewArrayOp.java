@@ -13,8 +13,8 @@ public class NewArrayOp implements Vop {
    private final InitStrategy initStrategy;
    private final ArrayConstructor arrayConstructor;
 
-   public NewArrayOp() {
-      this(new ReferenceInitStrategy(), new NewConcArray());
+   public NewArrayOp(final ArrayConstructor arrayConstructor) {
+      this(new ReferenceInitStrategy(), arrayConstructor);
    }
 
    public NewArrayOp(final Object initialValue, final ArrayConstructor arrayConstructor) {

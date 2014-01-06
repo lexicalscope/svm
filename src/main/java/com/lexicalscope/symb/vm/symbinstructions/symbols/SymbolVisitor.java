@@ -8,6 +8,8 @@ public interface SymbolVisitor<T, E extends Throwable> {
    T ge(ISymbol val) throws E;
    T ge(ISymbol value1, ISymbol value2) throws E;
 
+   T lt(ISymbol value1, ISymbol value2) throws E;
+
    T mul(ISymbol left, ISymbol right) throws E;
 
    T not(ISymbol val) throws E;
@@ -18,4 +20,7 @@ public interface SymbolVisitor<T, E extends Throwable> {
 
    T tru3() throws E;
    T fals3() throws E;
+
+   T simplified(Object simplification) throws E;
+
 }
