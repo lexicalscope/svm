@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -79,27 +80,27 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
+   @Override public BranchPredicate branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
+   @Override public BranchPredicate branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
+   @Override public BranchPredicate branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
+   @Override public BranchPredicate branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
+   @Override public BranchPredicate branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
+   @Override public BranchPredicate branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 

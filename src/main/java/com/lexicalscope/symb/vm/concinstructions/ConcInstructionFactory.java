@@ -39,6 +39,7 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
 import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
+import com.lexicalscope.symb.vm.instructions.BranchInstruction;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -97,84 +98,84 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override
    public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Ge());
+      return branchInstruction(new Ge());
    }
 
    @Override
    public Instruction branchIfGt(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Gt());
+      return branchInstruction(new Gt());
    }
 
    @Override
    public Instruction branchIfLe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Le());
+      return branchInstruction(new Le());
    }
 
    @Override
    public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Lt());
+      return branchInstruction(new Lt());
    }
 
    @Override
    public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Ne());
+      return branchInstruction(new Ne());
    }
 
    @Override
    public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Eq());
+      return branchInstruction(new Eq());
    }
 
-   @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ICmpEq());
+   @Override public BranchPredicate branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
+      return icmp(new ICmpEq());
    }
 
-   @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ICmpNe());
+   @Override public BranchPredicate branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
+      return icmp(new ICmpNe());
    }
 
-   @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ICmpLe());
+   @Override public BranchPredicate branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
+      return icmp(new ICmpLe());
    }
 
-   @Override public Instruction branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ICmpGe());
+   @Override public BranchPredicate branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
+      return icmp(new ICmpGe());
    }
 
-   @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ICmpLt());
+   @Override public BranchPredicate branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
+      return icmp(new ICmpLt());
    }
 
-   @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ICmpGt());
+   @Override public BranchPredicate branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
+      return icmp(new ICmpGt());
    }
 
    @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Null());
+      return branchInstruction(new Null());
    }
 
    @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new NonNull());
+      return branchInstruction(new NonNull());
    }
 
    @Override public Instruction branchGoto(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new Unconditional());
+      return branchInstruction(new Unconditional());
    }
 
    @Override public Instruction branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ACmpNe());
+      return branchInstruction(new ACmpNe());
    }
 
    @Override public Instruction branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(jumpInsnNode, new ACmpEq());
+      return branchInstruction(new ACmpEq());
    }
 
-   private Instruction branchInstruction(final JumpInsnNode jumpInsnNode, final ICmpOp op) {
-      return new BranchInstruction(new ICmpBranchPredicate(op), jumpInsnNode);
+   private BranchPredicate icmp(final ICmpOp op) {
+      return new ICmpBranchPredicate(op);
    }
 
-   private Instruction branchInstruction(final JumpInsnNode jumpInsnNode, final BranchPredicate branchPredicate) {
-      return new BranchInstruction(branchPredicate, jumpInsnNode);
+   private Instruction branchInstruction(final BranchPredicate branchPredicate) {
+      return new BranchInstruction(branchPredicate);
    }
 
    @Override

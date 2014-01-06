@@ -1,7 +1,5 @@
 package com.lexicalscope.symb.vm.symbinstructions;
 
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
-
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
@@ -11,26 +9,14 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.GeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.SBranchStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 final class SBranchInstruction implements Instruction {
-   public interface SBranchStrategy {
-      GeSymbol conditionSymbol(ISymbol operand);
-   }
-
-   private static final class GeStrategy implements SBranchStrategy {
-      @Override public GeSymbol conditionSymbol(final ISymbol operand) {
-         return new GeSymbol(operand);
-      }
-
-      @Override public String toString() {
-         return "IFGE";
-      }
-   }
-
    private final FeasibilityChecker feasibilityChecker;
    private final SBranchStrategy branchStrategy;
 
@@ -45,9 +31,9 @@ final class SBranchInstruction implements Instruction {
    @Override
    public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       final Pc pc = (Pc) state.getMeta();
-      final ISymbol operand = (ISymbol) state.op(popOperand());
 
-      final GeSymbol jumpSymbol = branchStrategy.conditionSymbol(operand);
+      final GeSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);
+
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
 
@@ -56,13 +42,13 @@ final class SBranchInstruction implements Instruction {
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
       final Vop jumpOp = new Vop() {
-         @Override public void eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
+         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
             stackFrame.advance(instruction.jmpTarget());
          }
       };
 
       final Vop nojumpOp = new Vop() {
-         @Override public void eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
+         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
             stackFrame.advance(instruction.next());
          }
       };
@@ -95,6 +81,7 @@ final class SBranchInstruction implements Instruction {
    }
 
    public static Instruction geInstruction(final FeasibilityChecker feasibilityChecker) {
-      return new SBranchInstruction(feasibilityChecker, new GeStrategy());
+      UnarySBranchStrategy unaryBranchStrategy = new UnarySBranchStrategy(new GeStrategy());
+      return new SBranchInstruction(feasibilityChecker, unaryBranchStrategy);
    }
 }

@@ -23,6 +23,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
 import com.lexicalscope.symb.vm.instructions.ops.ArrayCopyOp;
@@ -292,17 +293,17 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.IFNONNULL:
                   return instructionFactory.branchIfNonNull(jumpInsnNode);
                case Opcodes.IF_ICMPEQ:
-                  return instructionFactory.branchIfICmpEq(jumpInsnNode);
+                  return branch(instructionFactory.branchIfICmpEq(jumpInsnNode));
                case Opcodes.IF_ICMPNE:
-                  return instructionFactory.branchIfICmpNe(jumpInsnNode);
+                  return branch(instructionFactory.branchIfICmpNe(jumpInsnNode));
                case Opcodes.IF_ICMPLE:
-                  return instructionFactory.branchIfICmpLe(jumpInsnNode);
+                  return branch(instructionFactory.branchIfICmpLe(jumpInsnNode));
                case Opcodes.IF_ICMPLT:
-                  return instructionFactory.branchIfICmpLt(jumpInsnNode);
+                  return branch(instructionFactory.branchIfICmpLt(jumpInsnNode));
                case Opcodes.IF_ICMPGT:
-                  return instructionFactory.branchIfICmpGt(jumpInsnNode);
+                  return branch(instructionFactory.branchIfICmpGt(jumpInsnNode));
                case Opcodes.IF_ICMPGE:
-                  return instructionFactory.branchIfICmpGe(jumpInsnNode);
+                  return branch(instructionFactory.branchIfICmpGe(jumpInsnNode));
                case Opcodes.IF_ACMPNE:
                   return instructionFactory.branchIfACmpNe(jumpInsnNode);
                case Opcodes.GOTO:
@@ -326,6 +327,10 @@ public final class BaseInstructions implements Instructions {
       }
 
       return new UnsupportedInstruction(abstractInsnNode);
+   }
+
+   private Instruction branch(final BranchPredicate branchPredicate) {
+      return new BranchInstruction(branchPredicate);
    }
 
    private LinearInstruction store(final VarInsnNode varInsnNode) {
