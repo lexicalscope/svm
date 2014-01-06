@@ -11,14 +11,20 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.EqStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.GeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.GtStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpEqStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpGeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpGtStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpLeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpLtStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpNeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.LeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.LtStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.NeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.SBranchStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
@@ -89,8 +95,31 @@ final class SBranchInstruction implements Instruction {
    }
 
    public static Instruction geInstruction(final FeasibilityChecker feasibilityChecker) {
-      final UnarySBranchStrategy unaryBranchStrategy = new UnarySBranchStrategy(new GeStrategy());
-      return new SBranchInstruction(feasibilityChecker, unaryBranchStrategy);
+      return ibranchInstruction(feasibilityChecker, new GeStrategy());
+   }
+
+   public static Instruction gtInstruction(final FeasibilityChecker feasibilityChecker) {
+      return ibranchInstruction(feasibilityChecker, new GtStrategy());
+   }
+
+   public static Instruction leInstruction(final FeasibilityChecker feasibilityChecker) {
+      return ibranchInstruction(feasibilityChecker, new LeStrategy());
+   }
+
+   public static Instruction ltInstruction(final FeasibilityChecker feasibilityChecker) {
+      return ibranchInstruction(feasibilityChecker, new LtStrategy());
+   }
+
+   public static Instruction neInstruction(final FeasibilityChecker feasibilityChecker) {
+      return ibranchInstruction(feasibilityChecker, new NeStrategy());
+   }
+
+   public static Instruction eqInstruction(final FeasibilityChecker feasibilityChecker) {
+      return ibranchInstruction(feasibilityChecker, new EqStrategy());
+   }
+
+   private static Instruction ibranchInstruction(final FeasibilityChecker feasibilityChecker, final UnarySBranchOp unaryStrategy) {
+      return new SBranchInstruction(feasibilityChecker, new UnarySBranchStrategy(unaryStrategy));
    }
 
    public static Instruction icmpgeInstruction(final FeasibilityChecker feasibilityChecker) {

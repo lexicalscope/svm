@@ -48,20 +48,40 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
       return ctx.mkBVSGE((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
    }
 
+   @Override public Expr lt(final ISymbol val) throws Z3Exception {
+      return ctx.mkBVSLT((BitVecExpr) val.accept(this), constant(0));
+   }
+
    @Override public BoolExpr lt(final ISymbol value1, final ISymbol value2) throws Z3Exception {
       return ctx.mkBVSLT((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
+   }
+
+   @Override public Expr gt(final ISymbol val) throws Z3Exception {
+      return ctx.mkBVSGT((BitVecExpr) val.accept(this), constant(0));
    }
 
    @Override public BoolExpr gt(final ISymbol value1, final ISymbol value2) throws Z3Exception {
       return ctx.mkBVSGT((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
    }
 
+   @Override public Expr le(final ISymbol val) throws Z3Exception {
+      return ctx.mkBVSLE((BitVecExpr) val.accept(this), constant(0));
+   }
+
    @Override public BoolExpr le(final ISymbol value1, final ISymbol value2) throws Z3Exception {
       return ctx.mkBVSLE((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
    }
 
+   @Override public Expr ne(final ISymbol val) throws Z3Exception {
+      return ctx.mkNot(ctx.mkEq(val.accept(this), constant(0)));
+   }
+
    @Override public BoolExpr ne(final ISymbol value1, final ISymbol value2) throws Z3Exception {
       return ctx.mkNot(eq(value1, value2));
+   }
+
+   @Override public Expr eq(final ISymbol val) throws Z3Exception {
+      return ctx.mkEq(val.accept(this), constant(0));
    }
 
    @Override public BoolExpr eq(final ISymbol value1, final ISymbol value2) throws Z3Exception {

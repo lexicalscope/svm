@@ -74,20 +74,20 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override
    public Instruction branchIfLe(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.leInstruction(feasibilityChecker);
    }
 
    @Override
    public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.ltInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.neInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.eqInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {

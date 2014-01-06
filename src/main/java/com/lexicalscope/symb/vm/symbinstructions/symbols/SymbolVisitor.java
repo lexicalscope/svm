@@ -10,10 +10,15 @@ public interface SymbolVisitor<T, E extends Throwable> {
 
    T ge(ISymbol val) throws E;
    T ge(ISymbol value1, ISymbol value2) throws E;
+   T gt(ISymbol val) throws E;
    T gt(ISymbol value1, ISymbol value2) throws E;
+   T le(ISymbol val) throws E;
    T le(ISymbol value1, ISymbol value2) throws E;
+   T lt(ISymbol val) throws E;
    T lt(ISymbol value1, ISymbol value2) throws E;
+   T ne(ISymbol val) throws E;
    T ne(ISymbol value1, ISymbol value2) throws E;
+   T eq(ISymbol val) throws E;
    T eq(ISymbol value1, ISymbol value2) throws E;
 
    T not(ISymbol val) throws E;
