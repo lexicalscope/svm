@@ -117,7 +117,7 @@ public final class BaseInstructions implements Instructions {
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return linearInstruction(putField(fieldInsnNode));
+                  return linearInstruction(instructionFactory.putField(fieldInsnNode));
                case Opcodes.GETFIELD:
                   return linearInstruction(getField(fieldInsnNode));
                case Opcodes.GETSTATIC:

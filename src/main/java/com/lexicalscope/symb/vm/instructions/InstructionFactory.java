@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
@@ -30,6 +31,8 @@ public interface InstructionFactory {
    NullaryOperator fconst(float val);
    Nullary2Operator dconst(double val);
    Vop stringPoolLoad(String constVal);
+
+   Vop putField(FieldInsnNode fieldInsnNode);
 
    Instruction branchIfGe(JumpInsnNode jumpInsnNode);
    Instruction branchIfGt(JumpInsnNode jumpInsnNode);

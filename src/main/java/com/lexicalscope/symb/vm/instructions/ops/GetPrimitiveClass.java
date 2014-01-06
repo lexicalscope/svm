@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import static com.lexicalscope.symb.vm.instructions.ops.DefineClassOp.primitivesContains;
+
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.Stack;
@@ -12,7 +14,7 @@ public final class GetPrimitiveClass implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       final Object primitiveNameRef = stackFrame.pop();
       final String klassName = inGameStringToRealLifeString(statics, heap, primitiveNameRef);
-      assert DefineClassOp.primitivesContains(klassName) : klassName + " is not a primitive";
+      assert primitivesContains(klassName) : klassName + " is not a primitive";
       stackFrame.push(statics.whereMyClassAt(klassName));
    }
 

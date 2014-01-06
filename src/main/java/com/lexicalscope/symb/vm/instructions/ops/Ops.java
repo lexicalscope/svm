@@ -4,6 +4,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public final class Ops {
@@ -23,8 +24,8 @@ public final class Ops {
       return new AdvanceToInstructionOp(instruction);
    }
 
-   public static Vop putField(final FieldInsnNode fieldInsnNode) {
-      return new PutFieldOp(fieldInsnNode);
+   public static Vop putField(final FieldInsnNode fieldInsnNode, final FieldConversionFactory fieldConversionFactory) {
+      return new PutFieldOp(fieldConversionFactory, fieldInsnNode);
    }
 
    public static Vop getField(final FieldInsnNode fieldInsnNode) {

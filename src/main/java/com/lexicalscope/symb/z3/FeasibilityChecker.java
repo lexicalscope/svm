@@ -4,7 +4,7 @@ import java.io.Closeable;
 import java.util.HashMap;
 
 import com.lexicalscope.symb.vm.symbinstructions.Pc;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.BoolExpr;
@@ -81,7 +81,7 @@ public class FeasibilityChecker implements Closeable {
       ctx.dispose();
    }
 
-   public int simplifyBv32Expr(final Symbol symbol) {
+   public int simplifyBv32Expr(final ISymbol symbol) {
       try {
          // problem with overflow handling
          // http://stackoverflow.com/questions/20383866/z3-modeling-java-twos-complement-overflow-and-underflow-in-z3-bit-vector-addit

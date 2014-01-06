@@ -5,20 +5,20 @@ import java.util.List;
 
 import com.google.common.base.Joiner;
 import com.lexicalscope.symb.vm.Snapshotable;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class Pc implements Snapshotable<Pc> {
-   private final List<Symbol> conjunction;
+   private final List<ISymbol> conjunction;
 
-   public Pc(final ArrayList<Symbol> conjunction) {
+   public Pc(final ArrayList<ISymbol> conjunction) {
       this.conjunction = conjunction;
    }
 
    public Pc() {
-      this(new ArrayList<Symbol>());
+      this(new ArrayList<ISymbol>());
    }
 
-   public Pc and(final Symbol symbol) {
+   public Pc and(final ISymbol symbol) {
       conjunction.add(symbol);
       return this;
    }

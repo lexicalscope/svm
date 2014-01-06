@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public final class IConstSymbol implements Symbol {
+public final class IConstSymbol implements ISymbol {
 	private final int val;
 
    public IConstSymbol(final int val) {

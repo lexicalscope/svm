@@ -1,9 +1,9 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public class GeSymbol implements Symbol {
-   private final Symbol val;
+public class GeSymbol implements ISymbol {
+   private final ISymbol val;
 
-   public GeSymbol(final Symbol val) {
+   public GeSymbol(final ISymbol val) {
       this.val = val;
    }
 

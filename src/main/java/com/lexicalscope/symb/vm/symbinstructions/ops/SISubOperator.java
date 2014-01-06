@@ -2,12 +2,12 @@ package com.lexicalscope.symb.vm.symbinstructions.ops;
 
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.SubSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class SISubOperator implements BinaryOperator {
 	@Override
 	public Object eval(final Object left, final Object right) {
-		return new SubSymbol((Symbol) left, (Symbol)right);
+		return new SubSymbol((ISymbol) left, (ISymbol)right);
 	}
 
 	@Override

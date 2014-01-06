@@ -2,11 +2,11 @@ package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
 
 
-public class AddSymbol implements Symbol {
-	private final Symbol left;
-	private final Symbol right;
+public class AddSymbol implements ISymbol {
+	private final ISymbol left;
+	private final ISymbol right;
 
-	public AddSymbol(final Symbol left, final Symbol right) {
+	public AddSymbol(final ISymbol left, final ISymbol right) {
 		this.left = left;
 		this.right = right;
 	}

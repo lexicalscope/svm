@@ -1,9 +1,9 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public class NotSymbol implements Symbol {
-   private final Symbol val;
+public class NotSymbol implements ISymbol {
+   private final ISymbol val;
 
-   public NotSymbol(final Symbol val) {
+   public NotSymbol(final ISymbol val) {
       this.val = val;
    }
 

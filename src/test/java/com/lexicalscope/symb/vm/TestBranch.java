@@ -12,7 +12,7 @@ import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.MulSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class TestBranch {
    MethodInfo absMethod = new MethodInfo(
@@ -33,7 +33,7 @@ public class TestBranch {
    @Test @Ignore
    public void symbExecuteBothBranches() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final Symbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, absMethod, symbol1);
       vm.execute();

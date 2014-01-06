@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions;
 
+import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
@@ -10,14 +11,15 @@ import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIConstOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.ops.SymbFieldConversionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 /**
@@ -46,8 +48,8 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   public Symbol symbol() {
-      return new ISymbol(++symbol);
+   public ISymbol symbol() {
+      return new ITerminalSymbol(++symbol);
    }
 
    @Override
@@ -136,7 +138,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Object initInt() {
-      return new IConstSymbol(0);
+      return 0;
    }
 
    @Override public BinaryOperator fmulOperation() {
@@ -173,5 +175,9 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
+   }
+
+   @Override public Vop putField(final FieldInsnNode fieldInsnNode) {
+      return Ops.putField(fieldInsnNode, new SymbFieldConversionFactory());
    }
 }

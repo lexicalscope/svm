@@ -1,10 +1,12 @@
 package com.lexicalscope.symb.vm.concinstructions;
 
+import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.ops.ConcFieldConversionFactory;
 import com.lexicalscope.symb.vm.concinstructions.ops.DConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.FAddOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
@@ -23,12 +25,14 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpNe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ge;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Gt;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpBranchPredicate;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpEq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpGe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpGt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpLt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpNe;
+import com.lexicalscope.symb.vm.concinstructions.predicates.ICmpOp;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Le;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Lt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
@@ -40,6 +44,7 @@ import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 
 public class ConcInstructionFactory implements InstructionFactory {
@@ -164,6 +169,10 @@ public class ConcInstructionFactory implements InstructionFactory {
       return branchInstruction(jumpInsnNode, new ACmpEq());
    }
 
+   private Instruction branchInstruction(final JumpInsnNode jumpInsnNode, final ICmpOp op) {
+      return new BranchInstruction(new ICmpBranchPredicate(op), jumpInsnNode);
+   }
+
    private Instruction branchInstruction(final JumpInsnNode jumpInsnNode, final BranchPredicate branchPredicate) {
       return new BranchInstruction(branchPredicate, jumpInsnNode);
    }
@@ -199,5 +208,9 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Object initInt() {
       return 0;
+   }
+
+   @Override public Vop putField(final FieldInsnNode fieldInsnNode) {
+      return Ops.putField(fieldInsnNode, new ConcFieldConversionFactory());
    }
 }

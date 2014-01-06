@@ -13,16 +13,16 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.GeSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 final class SBranchInstruction implements Instruction {
    public interface SBranchStrategy {
-      GeSymbol conditionSymbol(Symbol operand);
+      GeSymbol conditionSymbol(ISymbol operand);
    }
 
    private static final class GeStrategy implements SBranchStrategy {
-      @Override public GeSymbol conditionSymbol(final Symbol operand) {
+      @Override public GeSymbol conditionSymbol(final ISymbol operand) {
          return new GeSymbol(operand);
       }
 
@@ -45,7 +45,7 @@ final class SBranchInstruction implements Instruction {
    @Override
    public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       final Pc pc = (Pc) state.getMeta();
-      final Symbol operand = (Symbol) state.op(popOperand());
+      final ISymbol operand = (ISymbol) state.op(popOperand());
 
       final GeSymbol jumpSymbol = branchStrategy.conditionSymbol(operand);
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);

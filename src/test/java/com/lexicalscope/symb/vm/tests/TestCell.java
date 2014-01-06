@@ -10,7 +10,7 @@ import org.junit.Test;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class TestCell {
    MethodInfo viaCellMethod = new MethodInfo(
@@ -25,7 +25,7 @@ public class TestCell {
    @Test @Ignore
    public void symbExecuteCellNewGetSet() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final Symbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, viaCellMethod, symbol1);
       assertThat(vm.execute(), normalTerminiationWithResult(symbol1));

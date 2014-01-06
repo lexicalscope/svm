@@ -11,55 +11,33 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 
 final class PutFieldOp implements Vop {
-   private interface PutFieldConversion {
-      Object convert(Object val);
-   }
-
-   private static final class IntToInt implements PutFieldConversion {
-      @Override public Object convert(final Object val) {
-         assert val instanceof Integer;
-         return val;
-      }
-   }
-
-   private static final class NoConversion implements PutFieldConversion {
-      @Override public Object convert(final Object val) {
-         return val;
-      }
-   }
-
-   private static final class IntToChar implements PutFieldConversion {
-      @Override public Object convert(final Object val) {
-         return (char)(int) val;
-      }
-   }
-
    private final FieldInsnNode fieldInsnNode;
    private final SFieldName name;
    private final PutFieldConversion conversion;
 
-   public PutFieldOp(final FieldInsnNode fieldInsnNode) {
+   public PutFieldOp(final FieldConversionFactory fieldConversionFactory, final FieldInsnNode fieldInsnNode) {
       this.fieldInsnNode = fieldInsnNode;
       this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
-      this.conversion = conversionForGetField(fieldInsnNode);
+      this.conversion = conversionForGetField(fieldConversionFactory, fieldInsnNode);
    }
 
-   private PutFieldConversion conversionForGetField(final FieldInsnNode fieldInsnNode) {
+   private PutFieldConversion conversionForGetField(final FieldConversionFactory fieldConversionFactory, final FieldInsnNode fieldInsnNode) {
       final Type fieldType = Type.getType(fieldInsnNode.desc);
       PutFieldConversion conversion;
       switch (fieldType.getSort()) {
          case Type.CHAR:
-            conversion = new IntToChar();
+            conversion = fieldConversionFactory.intToChar();
             break;
 
          case Type.INT:
-            conversion = new IntToInt();
+            conversion = fieldConversionFactory.intToInt();
             break;
 
          default:
-            conversion = new NoConversion();
+            conversion = fieldConversionFactory.noConversion();
             break;
       }
       return conversion;
