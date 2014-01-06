@@ -8,6 +8,13 @@ public final class LtStrategy implements UnarySBranchOp {
       return new LtSymbol(operand);
    }
 
+   @Override public ISymbol conditionSymbol(final Integer value) {
+      if(value < 0) {
+         return new TrueSymbol();
+      }
+      return new FalseSymbol();
+   }
+
    @Override public String toString() {
       return "IFLT";
    }

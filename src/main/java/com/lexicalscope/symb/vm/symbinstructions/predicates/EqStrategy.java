@@ -8,6 +8,13 @@ public final class EqStrategy implements UnarySBranchOp {
       return new EqSymbol(operand);
    }
 
+   @Override public ISymbol conditionSymbol(final Integer value) {
+      if(value == 0) {
+         return new TrueSymbol();
+      }
+      return new FalseSymbol();
+   }
+
    @Override public String toString() {
       return "IFEQ";
    }

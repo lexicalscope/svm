@@ -8,6 +8,13 @@ public final class LeStrategy implements UnarySBranchOp {
       return new LeSymbol(operand);
    }
 
+   @Override public ISymbol conditionSymbol(final Integer value) {
+      if(value <= 0) {
+         return new TrueSymbol();
+      }
+      return new FalseSymbol();
+   }
+
    @Override public String toString() {
       return "IFLE";
    }
