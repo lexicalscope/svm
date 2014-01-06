@@ -32,4 +32,8 @@ public class BinarySBranchStrategy implements SBranchStrategy {
          return op.conditionSymbol(svalue1, svalue2);
       }
    }
+
+   @Override public String toString() {
+      return op.toString();
+   }
 }

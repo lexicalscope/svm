@@ -6,11 +6,15 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.concinstructions.LAndOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.DConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
+import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
+import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
+import com.lexicalscope.symb.vm.instructions.BranchInstruction;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -147,7 +151,15 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("unable to handle symbolic object yet");
+      return branchInstruction(new NonNull());
+   }
+
+   @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Null());
+   }
+
+   private Instruction branchInstruction(final BranchPredicate branchPredicate) {
+      return new BranchInstruction(branchPredicate);
    }
 
    @Override public Object initInt() {
@@ -176,10 +188,6 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Binary2Operator landOperation() {
       return new LAndOp();
-   }
-
-   @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
    }
 
    @Override public Vop putField(final FieldInsnNode fieldInsnNode) {

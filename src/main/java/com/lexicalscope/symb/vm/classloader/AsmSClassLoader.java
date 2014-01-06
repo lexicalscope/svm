@@ -58,7 +58,7 @@ public class AsmSClassLoader implements SClassLoader {
       return natives.resolveNative(instructions, methodName);
    }
 
-   @Override public InstructionNode defineClassClassInstruction() {
+   @Override public InstructionNode defineBootstrapClassesInstruction() {
       final List<String> bootstrapClasses = new ArrayList<>();
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));

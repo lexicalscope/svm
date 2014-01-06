@@ -56,6 +56,6 @@ public class LoadingInstruction implements Instruction {
    }
 
    @Override public String toString() {
-      return op.toString();
+      return "(loading " + klassNames + ") " + op.toString();
    }
 }

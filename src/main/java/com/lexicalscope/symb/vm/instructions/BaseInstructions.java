@@ -176,6 +176,8 @@ public final class BaseInstructions implements Instructions {
                   return iconst(4);
                case Opcodes.ICONST_5:
                   return iconst(5);
+               case Opcodes.LCONST_0:
+                  return lconst(0);
                case Opcodes.LCONST_1:
                   return lconst(1);
                case Opcodes.FCONST_0:

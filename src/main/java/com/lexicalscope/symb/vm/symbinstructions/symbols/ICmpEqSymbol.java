@@ -12,4 +12,9 @@ public class ICmpEqSymbol implements ISymbol {
    @Override public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
       return visitor.eq(value1, value2);
    }
+
+   @Override
+   public String toString() {
+      return String.format("(== %s %s)", value1, value2);
+   }
 }

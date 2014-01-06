@@ -31,4 +31,7 @@ public class SIBinaryOperatorAdapter implements BinaryOperator {
       }
    }
 
+   @Override public String toString() {
+      return op.toString();
+   }
 }

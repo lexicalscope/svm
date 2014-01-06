@@ -18,4 +18,8 @@ public class SimplifiedSymbol implements ISymbol {
    @Override public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
       return visitor.simplified(simplification);
    }
+
+   @Override public String toString() {
+      return simplification.toString();
+   }
 }

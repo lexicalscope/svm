@@ -73,7 +73,7 @@ public class Vm {
    }
 
    private static State initial(final SClassLoader classLoader, final SMethodName methodName) {
-      final InstructionNode defineClassClass = classLoader.defineClassClassInstruction();
+      final InstructionNode defineClassClass = classLoader.defineBootstrapClassesInstruction();
       final InstructionNode initThread = classLoader.initThreadInstruction();
       final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(methodName));
 

@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.loadedFromSamePlaceAs;
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.nameIs;
+import static com.lexicalscope.symb.vm.classloader.SClassMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;
@@ -20,7 +19,7 @@ public class TestThreadIsLoadedFromLocal {
 
    @Test public void javaLangThreadLocalVersionIsLoaded() {
       context.checking(new Expectations(){{
-         oneOf(classLoaded).loaded(with(nameIs(Object.class)));
+         exactly(2).of(classLoaded).loaded(with(nameIs(Object.class)));
          oneOf(classLoaded).loaded(with(nameIs(Runnable.class)));
          oneOf(classLoaded).loaded(with(nameIs(Thread.class)));
       }});

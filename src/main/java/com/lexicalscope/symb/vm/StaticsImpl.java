@@ -87,14 +87,14 @@ public class StaticsImpl implements Statics {
 
    @Override public SClass load(final String klassName) {
       if(!isDefined(klassName)) {
-         throw new MissingClassDefinitionException(klassName);
+         throw new MissingClassDefinitionException(klassName, defined);
       }
       return defined.get(klassName);
    }
 
    @Override public SMethod loadMethod(final String klassName, final String name, final String desc) {
       if(!isDefined(klassName)) {
-         throw new MissingClassDefinitionException(klassName);
+         throw new MissingClassDefinitionException(klassName, defined);
       }
       return load(klassName).staticMethod(name, desc);
    }

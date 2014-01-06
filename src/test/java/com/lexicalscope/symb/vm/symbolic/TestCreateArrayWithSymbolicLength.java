@@ -19,7 +19,7 @@ public class TestCreateArrayWithSymbolicLength {
 
    public static Object[] fillArrayWithSymbolicLength(final int length) {
       final Object[] array = create(length);
-      for (int i = 0; i < min(5, array.length); i++) {
+      for (int i = 0; i < min(4, array.length); i++) {
          array[i] = i;
       }
       return array;
@@ -31,6 +31,7 @@ public class TestCreateArrayWithSymbolicLength {
 
       final Vm vm = Vm.vm(instructionFactory, createMethod, symbol1);
       vm.execute();
+
    }
 
    @Test public void fillArrayWithSymbolicLength() throws Exception {

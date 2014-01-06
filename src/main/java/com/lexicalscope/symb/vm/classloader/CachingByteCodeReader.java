@@ -21,6 +21,10 @@ public class CachingByteCodeReader implements ByteCodeReader {
       if(result == null) {
          result = byteCodeReader.load(classLoader, name, classLoaded);
          classCache.put(name, result);
+      } else {
+         // TODO[tim]: simplify this, this cache is shared across multiple snapshots
+         // the cache in Statics gives semantics to the classloading
+         classLoaded.loaded(result);
       }
       return result;
    }
