@@ -32,6 +32,7 @@ public interface InstructionFactory {
    Nullary2Operator dconst(double val);
    Vop stringPoolLoad(String constVal);
 
+   Vop newArray(Object initialFieldValue);
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
 

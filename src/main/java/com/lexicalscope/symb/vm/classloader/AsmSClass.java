@@ -109,9 +109,6 @@ public class AsmSClass implements SClass {
       return classNode.methods;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#resolve(com.lexicalscope.symb.vm.classloader.SMethodName)
-    */
    @Override
    public SMethodName resolve(final SMethodName sMethodName) {
       final SVirtualMethodName methodKey = new SVirtualMethodName(sMethodName.name(), sMethodName.desc());
@@ -119,9 +116,6 @@ public class AsmSClass implements SClass {
       return virtuals.get(methodKey).name();
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#staticMethod(java.lang.String, java.lang.String)
-    */
    @Override
    public SMethod staticMethod(final String name, final String desc) {
       final SMethod result = methodMap.get(new SMethodName(classNode.name, name, desc));
@@ -131,24 +125,15 @@ public class AsmSClass implements SClass {
       return result;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#hasStaticInitialiser()
-    */
    @Override
    public boolean hasStaticInitialiser() {
       return methodMap.containsKey(new SMethodName(classNode.name, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#fieldCount()
-    */
    @Override public int allocateSize() {
       return fieldcount + OBJECT_PREAMBLE;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#fieldIndex(com.lexicalscope.symb.vm.classloader.SFieldName)
-    */
    @Override
    public int fieldIndex(final SFieldName name) {
       assert fieldMap.containsKey(name) : "cannot find " + name + " in " + fieldMap;
@@ -266,7 +251,6 @@ public class AsmSClass implements SClass {
                declaredStaticFieldMap.put(fieldName, staticOffset);
                staticOffset++;
             } else {
-               System.out.println(fieldNode.signature);
                declaredFields.add(fieldNode);
                declaredFieldMap.put(fieldName, dynamicOffset + classStartOffset);
                declaredFieldInit.add(classLoader.init(fieldNode.desc));

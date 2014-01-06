@@ -57,7 +57,6 @@ import com.lexicalscope.symb.vm.instructions.ops.Load;
 import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
-import com.lexicalscope.symb.vm.instructions.ops.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.NoOp;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Op;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
@@ -68,6 +67,7 @@ import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.ops.Store2;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
@@ -250,7 +250,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.BIPUSH:
                   return iconst(intInsnNode.operand);
                case Opcodes.NEWARRAY:
-                  return linearInstruction(new NewArrayOp(initialFieldValue(intInsnNode.operand)));
+                  return linearInstruction(instructionFactory.newArray(initialFieldValue(intInsnNode.operand)));
             }
             break;
          case AbstractInsnNode.IINC_INSN:

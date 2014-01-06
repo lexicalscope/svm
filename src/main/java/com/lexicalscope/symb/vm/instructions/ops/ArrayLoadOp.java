@@ -1,12 +1,13 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static com.lexicalscope.symb.vm.instructions.ops.NewArrayOp.ARRAY_PREAMBLE;
+import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public class ArrayLoadOp implements Vop {
    public interface ValueTransform {

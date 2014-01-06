@@ -46,6 +46,8 @@ import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 
 public class ConcInstructionFactory implements InstructionFactory {
    @Override public BinaryOperator iaddOperation() {
@@ -212,5 +214,9 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Vop getField(final FieldInsnNode fieldInsnNode) {
       return Ops.getField(fieldInsnNode, new ConcFieldConversionFactory());
+   }
+
+   @Override public NewArrayOp newArray(final Object initialFieldValue) {
+      return new NewArrayOp(initialFieldValue, new NewConcArray());
    }
 }

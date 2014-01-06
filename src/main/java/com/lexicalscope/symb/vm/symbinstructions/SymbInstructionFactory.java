@@ -14,12 +14,14 @@ import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperatorAdapter;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SymbFieldConversionFactory;
+import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -185,5 +187,9 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Vop getField(final FieldInsnNode fieldInsnNode) {
       return Ops.getField(fieldInsnNode, new SymbFieldConversionFactory());
+   }
+
+   @Override public NewArrayOp newArray(final Object initialFieldValue) {
+      return new NewArrayOp(initialFieldValue, new NewSymbArray());
    }
 }
