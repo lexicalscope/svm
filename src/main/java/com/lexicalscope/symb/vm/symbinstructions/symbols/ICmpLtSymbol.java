@@ -10,6 +10,6 @@ public class ICmpLtSymbol implements ISymbol {
    }
 
    @Override public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
-      return visitor.ge(value1, value2);
+      return visitor.lt(value1, value2);
    }
 }

@@ -19,7 +19,6 @@ import com.lexicalscope.symb.vm.concinstructions.ops.IMulOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.INegOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ISubOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.LConstOperator;
-import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpEq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpNe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
@@ -193,10 +192,6 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override
    public Nullary2Operator dconst(final double val) {
       return new DConstOperator(val);
-   }
-
-   @Override public Vop stringPoolLoad(final String val) {
-      return new StringPoolLoadOperator(val);
    }
 
    @Override

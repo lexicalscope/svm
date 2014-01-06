@@ -6,6 +6,8 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.ops.DConstOperator;
+import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
@@ -16,6 +18,7 @@ import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
+import com.lexicalscope.symb.vm.symbinstructions.ops.SIAndOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperatorAdapter;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
@@ -36,6 +39,10 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override
    public BinaryOperator iaddOperation() {
       return siBinary(new SIAddOperator());
+   }
+
+   @Override public BinaryOperator iandOperation() {
+      return siBinary(new SIAndOperator());
    }
 
    @Override
@@ -84,15 +91,15 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.icmpeqInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.icmpneInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.icmpleInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
@@ -104,7 +111,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return SBranchInstruction.icmpgtInstruction(feasibilityChecker);
    }
 
    @Override public Instruction branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
@@ -125,11 +132,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public NullaryOperator fconst(final float val) {
-      throw new UnsupportedOperationException("not implemented yet");
-   }
-
-   @Override public Vop stringPoolLoad(final String constVal) {
-      throw new UnsupportedOperationException("unable to handle symbolic strings yet");
+      return new FConstOperator(val);
    }
 
    @Override
@@ -161,12 +164,8 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public BinaryOperator iandOperation() {
-      throw new UnsupportedOperationException("not implemented yet");
-   }
-
    @Override public Nullary2Operator dconst(final double val) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return new DConstOperator(val);
    }
 
    @Override public Binary2Operator landOperation() {

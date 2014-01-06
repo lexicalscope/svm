@@ -23,6 +23,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
 import com.lexicalscope.symb.vm.instructions.ops.AConstNullOp;
 import com.lexicalscope.symb.vm.instructions.ops.AddressToHashCodeOp;
@@ -365,7 +366,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    private Instruction stringPoolLoad(final String constVal) {
-      return linearInstruction(instructionFactory.stringPoolLoad(constVal));
+      return linearInstruction(new StringPoolLoadOperator(constVal));
    }
 
    private Instruction objectPoolLoad(final Type constVal) {

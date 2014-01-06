@@ -12,8 +12,12 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.GeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpEqStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpGeStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpGtStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpLeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpLtStrategy;
+import com.lexicalscope.symb.vm.symbinstructions.predicates.ICmpNeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.SBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
@@ -91,6 +95,22 @@ final class SBranchInstruction implements Instruction {
 
    public static Instruction icmpgeInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpGeStrategy());
+   }
+
+   public static Instruction icmpleInstruction(final FeasibilityChecker feasibilityChecker) {
+      return icmpInstruction(feasibilityChecker, new ICmpLeStrategy());
+   }
+
+   public static Instruction icmpneInstruction(final FeasibilityChecker feasibilityChecker) {
+      return icmpInstruction(feasibilityChecker, new ICmpNeStrategy());
+   }
+
+   public static Instruction icmpeqInstruction(final FeasibilityChecker feasibilityChecker) {
+      return icmpInstruction(feasibilityChecker, new ICmpEqStrategy());
+   }
+
+   public static Instruction icmpgtInstruction(final FeasibilityChecker feasibilityChecker) {
+      return icmpInstruction(feasibilityChecker, new ICmpGtStrategy());
    }
 
    public static Instruction icmpltInstruction(final FeasibilityChecker feasibilityChecker) {

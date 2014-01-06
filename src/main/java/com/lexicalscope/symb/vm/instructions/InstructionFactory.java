@@ -30,7 +30,6 @@ public interface InstructionFactory {
    Nullary2Operator lconst(long val);
    NullaryOperator fconst(float val);
    Nullary2Operator dconst(double val);
-   Vop stringPoolLoad(String constVal);
 
    Vop newArray(Object initialFieldValue);
    Vop aNewArray();
