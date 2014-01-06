@@ -4,6 +4,7 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 
 public class CheckingHeap implements Heap {
@@ -43,7 +44,7 @@ public class CheckingHeap implements Heap {
          final Type type = Type.getType(klass.fieldDescAtIndex(offset));
          switch(type.getSort()) {
             case Type.INT:
-               assert val instanceof Integer;
+               assert val instanceof Integer || val instanceof ISymbol;
                break;
          }
          return true;

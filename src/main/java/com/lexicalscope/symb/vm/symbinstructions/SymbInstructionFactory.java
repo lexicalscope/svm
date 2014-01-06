@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -14,7 +15,8 @@ import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
-import com.lexicalscope.symb.vm.symbinstructions.ops.SIConstOperator;
+import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperator;
+import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperatorAdapter;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SymbFieldConversionFactory;
@@ -31,17 +33,21 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override
    public BinaryOperator iaddOperation() {
-      return new SIAddOperator();
+      return siBinary(new SIAddOperator());
    }
 
    @Override
    public BinaryOperator imulOperation() {
-      return new SIMulOperator();
+      return siBinary(new SIMulOperator());
    }
 
    @Override
    public BinaryOperator isubOperation() {
-      return new SISubOperator();
+      return siBinary(new SISubOperator());
+   }
+
+   private SIBinaryOperatorAdapter siBinary(final SIBinaryOperator op) {
+      return new SIBinaryOperatorAdapter(op);
    }
 
    @Override public UnaryOperator inegOperation() {
@@ -109,7 +115,7 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override
    public NullaryOperator iconst(final int val) {
-      return new SIConstOperator(val);
+      return new IConstOperator(val);
    }
 
    @Override public Nullary2Operator lconst(final long val) {
@@ -175,5 +181,9 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Vop putField(final FieldInsnNode fieldInsnNode) {
       return Ops.putField(fieldInsnNode, new SymbFieldConversionFactory());
+   }
+
+   @Override public Vop getField(final FieldInsnNode fieldInsnNode) {
+      return Ops.getField(fieldInsnNode, new SymbFieldConversionFactory());
    }
 }

@@ -9,57 +9,35 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 
 final class GetFieldOp implements Vop {
-   private interface GetFieldConversion {
-      Object convert(Object val);
-   }
-
-   private static final class NoConversion implements GetFieldConversion {
-      @Override public Object convert(final Object val) {
-         return val;
-      }
-   }
-
-   private static final class CharToInt implements GetFieldConversion {
-      @Override public Object convert(final Object val) {
-         return (int)(char) val;
-      }
-   }
-
-   private final class IntToInt implements GetFieldConversion {
-      @Override public Object convert(final Object val) {
-         assert val instanceof Integer : name;
-         return val;
-      }
-   }
-
    private final FieldInsnNode fieldInsnNode;
    private final SFieldName name;
-   private final GetFieldConversion conversion;
+   private final PutFieldConversion conversion;
 
-   public GetFieldOp(final FieldInsnNode fieldInsnNode) {
+   public GetFieldOp(final FieldConversionFactory fieldConversionFactory, final FieldInsnNode fieldInsnNode) {
       this.fieldInsnNode = fieldInsnNode;
       this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
 
-      this.conversion = conversionForGetField(fieldInsnNode);
+      this.conversion = conversionForGetField(fieldConversionFactory, fieldInsnNode);
    }
 
-   private GetFieldConversion conversionForGetField(final FieldInsnNode fieldInsnNode) {
+   private PutFieldConversion conversionForGetField(final FieldConversionFactory fieldConversionFactory, final FieldInsnNode fieldInsnNode) {
       final Type fieldType = Type.getType(fieldInsnNode.desc);
-      GetFieldConversion conversion;
+      PutFieldConversion conversion;
       switch (fieldType.getSort()) {
          case Type.CHAR:
-            conversion = new CharToInt();
+            conversion = fieldConversionFactory.charToInt();
             break;
 
          case Type.INT:
-            conversion = new IntToInt();
+            conversion = fieldConversionFactory.intToInt();
             break;
 
          default:
-            conversion = new NoConversion();
+            conversion = fieldConversionFactory.noConversion();
             break;
       }
       return conversion;

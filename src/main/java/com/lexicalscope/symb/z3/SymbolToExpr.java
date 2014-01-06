@@ -54,4 +54,12 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    public Expr intSymbol(final int name) throws Z3Exception {
       return ctx.mkBVConst("i" + name, 32);
    }
+
+   @Override public Expr tru3() throws Z3Exception {
+      return ctx.mkTrue();
+   }
+
+   @Override public Expr fals3() throws Z3Exception {
+      return ctx.mkFalse();
+   }
 }

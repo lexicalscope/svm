@@ -33,6 +33,7 @@ public interface InstructionFactory {
    Vop stringPoolLoad(String constVal);
 
    Vop putField(FieldInsnNode fieldInsnNode);
+   Vop getField(FieldInsnNode fieldInsnNode);
 
    Instruction branchIfGe(JumpInsnNode jumpInsnNode);
    Instruction branchIfGt(JumpInsnNode jumpInsnNode);

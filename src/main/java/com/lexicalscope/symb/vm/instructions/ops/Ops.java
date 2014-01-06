@@ -28,8 +28,8 @@ public final class Ops {
       return new PutFieldOp(fieldConversionFactory, fieldInsnNode);
    }
 
-   public static Vop getField(final FieldInsnNode fieldInsnNode) {
-      return new GetFieldOp(fieldInsnNode);
+   public static Vop getField(final FieldInsnNode fieldInsnNode, final FieldConversionFactory fieldConversionFactory) {
+      return new GetFieldOp(fieldConversionFactory, fieldInsnNode);
    }
 
    public static Vop getStatic(final FieldInsnNode fieldInsnNode) {

@@ -120,7 +120,7 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.PUTFIELD:
                   return linearInstruction(instructionFactory.putField(fieldInsnNode));
                case Opcodes.GETFIELD:
-                  return linearInstruction(getField(fieldInsnNode));
+                  return linearInstruction(instructionFactory.getField(fieldInsnNode));
                case Opcodes.GETSTATIC:
                   return loadingInstruction(fieldInsnNode, getStatic(fieldInsnNode));
                case Opcodes.PUTSTATIC:

@@ -22,6 +22,12 @@ public class ConcFieldConversionFactory implements FieldConversionFactory {
       }
    }
 
+   private static final class CharToInt implements PutFieldConversion {
+      @Override public Object convert(final Object val) {
+         return (int)(char) val;
+      }
+   }
+
    @Override
    public NoConversion noConversion() {
       return new NoConversion();
@@ -35,5 +41,9 @@ public class ConcFieldConversionFactory implements FieldConversionFactory {
    @Override
    public IntToChar intToChar() {
       return new IntToChar();
+   }
+
+   @Override public PutFieldConversion charToInt() {
+      return new CharToInt();
    }
 }

@@ -16,4 +16,6 @@ public interface SymbolVisitor<T, E extends Throwable> {
 
    T intSymbol(int name) throws E;
 
+   T tru3() throws E;
+   T fals3() throws E;
 }

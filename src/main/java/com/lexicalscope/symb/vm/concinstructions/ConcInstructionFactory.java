@@ -209,4 +209,8 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override public Vop putField(final FieldInsnNode fieldInsnNode) {
       return Ops.putField(fieldInsnNode, new ConcFieldConversionFactory());
    }
+
+   @Override public Vop getField(final FieldInsnNode fieldInsnNode) {
+      return Ops.getField(fieldInsnNode, new ConcFieldConversionFactory());
+   }
 }

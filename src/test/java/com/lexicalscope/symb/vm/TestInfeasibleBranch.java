@@ -9,7 +9,6 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class TestInfeasibleBranch {
@@ -29,7 +28,7 @@ public class TestInfeasibleBranch {
 
       final Vm vm = Vm.vm(instructionFactory, infeasibleMethod, symbol1);
       vm.execute();
-      assertThat(vm.results(), hasItem(normalTerminiationWithResult(new IConstSymbol(-10))));
+      assertThat(vm.results(), hasItem(normalTerminiationWithResult(-10)));
       assertThat(vm.results(), hasSize(1));
    }
 }

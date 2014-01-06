@@ -1,17 +1,19 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
-import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.AddSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
-public class SIAddOperator implements BinaryOperator {
-	@Override
-	public Object eval(Object left, Object right) {
-		return new AddSymbol((ISymbol) left, (ISymbol)right);
-	}
+public class SIAddOperator implements SIBinaryOperator {
+   @Override
+   public String toString() {
+      return "S IADD";
+   }
 
-	@Override
-	public String toString() {
-		return "S IADD";
-	}
+   @Override public Integer eval(final Integer value1, final Integer value2) {
+      return value1 + value2;
+   }
+
+   @Override public ISymbol eval(final ISymbol svalue1, final ISymbol svalue2) {
+      return new AddSymbol(svalue1, svalue2);
+   }
 }

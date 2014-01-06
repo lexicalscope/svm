@@ -27,6 +27,15 @@ public class SymbFieldConversionFactory implements FieldConversionFactory {
       }
    }
 
+   private static final class CharToInt implements PutFieldConversion {
+      @Override public Object convert(final Object val) {
+         if(val instanceof ISymbol) {
+            throw new IllegalStateException("symbolic char not supported");
+         }
+         return (int)(char) val;
+      }
+   }
+
    @Override
    public NoConversion noConversion() {
       return new NoConversion();
@@ -40,5 +49,9 @@ public class SymbFieldConversionFactory implements FieldConversionFactory {
    @Override
    public IntToChar intToChar() {
       return new IntToChar();
+   }
+
+   @Override public PutFieldConversion charToInt() {
+      return new CharToInt();
    }
 }

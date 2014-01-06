@@ -8,4 +8,5 @@ public interface FieldConversionFactory {
    PutFieldConversion intToInt();
 
    PutFieldConversion intToChar();
+   PutFieldConversion charToInt();
 }
