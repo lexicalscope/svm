@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public final class NeSymbol extends AbstractUnarySymbol {
+public final class NeSymbol extends AbstractUnaryBoolSymbol {
    public NeSymbol(final ISymbol val) {
       super(val);
    }

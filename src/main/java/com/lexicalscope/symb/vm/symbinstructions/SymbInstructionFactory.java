@@ -210,4 +210,8 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override public Vop aaStore() {
       return SArrayStoreOp.aaStore(feasibilityChecker);
    }
+
+   @Override public Vop iaStore() {
+      return SArrayStoreOp.iaStore(feasibilityChecker);
+   }
 }

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public final class EqSymbol extends AbstractUnarySymbol {
+public final class EqSymbol extends AbstractUnaryBoolSymbol {
    public EqSymbol(final ISymbol val) {
       super(val);
    }

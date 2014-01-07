@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.AddSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IAddSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 import com.microsoft.z3.Z3Exception;
@@ -27,7 +27,7 @@ public class TestZ3BitVectorOverflow {
       context.checking(new Expectations(){{
          oneOf(result).simplifiedToValue(6);
       }});
-      feasbilityChecker.simplifyBv32Expr(new AddSymbol(new IConstSymbol(3), new IConstSymbol(3)), result);
+      feasbilityChecker.simplifyBv32Expr(new IAddSymbol(new IConstSymbol(3), new IConstSymbol(3)), result);
    }
 
    @Test
@@ -37,6 +37,6 @@ public class TestZ3BitVectorOverflow {
       }});
 
       assertThat(Integer.MAX_VALUE + 1, equalTo(Integer.MIN_VALUE));
-      feasbilityChecker.simplifyBv32Expr(new AddSymbol(new IConstSymbol(Integer.MAX_VALUE), new IConstSymbol(1)), result);
+      feasbilityChecker.simplifyBv32Expr(new IAddSymbol(new IConstSymbol(Integer.MAX_VALUE), new IConstSymbol(1)), result);
    }
 }

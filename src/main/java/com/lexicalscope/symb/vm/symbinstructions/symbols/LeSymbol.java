@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public final class LeSymbol extends AbstractUnarySymbol {
+public final class LeSymbol extends AbstractUnaryBoolSymbol {
    public LeSymbol(final ISymbol val) {
       super(val);
    }

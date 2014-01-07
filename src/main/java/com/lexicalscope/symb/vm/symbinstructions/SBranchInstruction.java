@@ -26,7 +26,7 @@ import com.lexicalscope.symb.vm.symbinstructions.predicates.NeStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.SBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.UnarySBranchStrategy;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -46,7 +46,7 @@ final class SBranchInstruction implements Instruction {
    public void eval(final Vm vm, final State state, final InstructionNode instruction) {
       final Pc pc = (Pc) state.getMeta();
 
-      final ISymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);
+      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);
 
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);

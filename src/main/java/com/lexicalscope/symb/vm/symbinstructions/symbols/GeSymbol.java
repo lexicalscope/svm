@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public final class GeSymbol extends AbstractUnarySymbol {
+public final class GeSymbol extends AbstractUnaryBoolSymbol {
    public GeSymbol(final ISymbol val) {
       super(val);
    }

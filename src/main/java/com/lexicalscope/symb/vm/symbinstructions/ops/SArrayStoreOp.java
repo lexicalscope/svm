@@ -8,6 +8,10 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
+import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IArrayStoreSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -36,13 +40,21 @@ public class SArrayStoreOp implements Vop {
    }
 
    private void storeInSymbolicArray(final Heap heap, final Object arrayref, final Object offset, final Object value) {
-      throw new UnsupportedOperationException("symbolic array");
+      final IArraySymbol symbol = (IArraySymbol) heap.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET);
+      final ISymbol offsetSymbol = offset instanceof ISymbol ? (ISymbol) offset : new IConstSymbol((int) offset);
+      final ISymbol valueSymbol = value instanceof ISymbol ? (ISymbol) value : new IConstSymbol((int) value);
+      heap.put(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET, new IArrayStoreSymbol(symbol, offsetSymbol, valueSymbol));
    }
 
    @Override public String toString() {
       return "ARRAYSTORE";
    }
+
    public static Vop aaStore(final FeasibilityChecker feasibilityChecker) {
       return new SArrayStoreOp(feasibilityChecker, ArrayStoreOp.aaStore());
+   }
+
+   public static Vop iaStore(final FeasibilityChecker feasibilityChecker) {
+      return new SArrayStoreOp(feasibilityChecker, ArrayStoreOp.iaStore());
    }
 }

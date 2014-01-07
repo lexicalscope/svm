@@ -8,11 +8,13 @@ import com.lexicalscope.symb.vm.instructions.ops.array.ArrayConstructor;
 import com.lexicalscope.symb.vm.instructions.ops.array.InitStrategy;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IArrayZeroedSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 
 public class NewSymbArray implements ArrayConstructor {
+   public static final int ARRAY_SYMBOL_OFFSET = NewArrayOp.ARRAY_PREAMBLE + 0;
    private final FeasibilityChecker feasibilityChecker;
 
    public NewSymbArray(final FeasibilityChecker feasibilityChecker) {
@@ -40,10 +42,12 @@ public class NewSymbArray implements ArrayConstructor {
    private void newSymbolicArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy, final ISymbol arrayLength) {
       final Object arrayAddress = heap.newObject(new Allocatable() {
          @Override public int allocateSize() {
-            return NewArrayOp.ARRAY_PREAMBLE;
+            return NewArrayOp.ARRAY_PREAMBLE + 1;
          }
       });
       NewConcArray.initArrayPreamble(heap, statics, arrayAddress, arrayLength);
+      // TODO[tim]: support other kinds of arrays
+      heap.put(arrayAddress, ARRAY_SYMBOL_OFFSET, new IArrayZeroedSymbol());
       stackFrame.push(arrayAddress);
    }
 

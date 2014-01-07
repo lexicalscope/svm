@@ -1,8 +1,8 @@
 package com.lexicalscope.symb.vm.symbinstructions.predicates;
 
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 
 public interface SBranchStrategy {
-   ISymbol branchPredicateSymbol(State state);
+   BoolSymbol branchPredicateSymbol(State state);
 }

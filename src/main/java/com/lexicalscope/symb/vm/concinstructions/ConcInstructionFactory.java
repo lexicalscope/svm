@@ -223,4 +223,8 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override public Vop aaStore() {
       return ArrayStoreOp.aaStore();
    }
+
+   @Override public Vop iaStore() {
+      return ArrayStoreOp.iaStore();
+   }
 }

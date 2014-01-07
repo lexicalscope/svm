@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions.ops;
+package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
 

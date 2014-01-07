@@ -21,9 +21,14 @@ public interface SymbolVisitor<T, E extends Throwable> {
    T eq(ISymbol val) throws E;
    T eq(ISymbol value1, ISymbol value2) throws E;
 
-   T not(ISymbol val) throws E;
+   T not(BoolSymbol val) throws E;
 
    T intSymbol(int name) throws E;
+
+   T intArraySymbol(int name) throws E;
+   T intArrayZeroed() throws E;
+   T iarrayStore(IArraySymbol arraySymbol, ISymbol indexSymbol, ISymbol valueSymbol) throws E;
+   T iarraySelect(IArraySymbol arraySymbol, ISymbol indexSymbol) throws E;
 
    T tru3() throws E;
    T fals3() throws E;

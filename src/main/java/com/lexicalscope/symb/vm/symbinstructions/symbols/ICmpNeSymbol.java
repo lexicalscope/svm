@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public class ICmpNeSymbol implements ISymbol {
+public class ICmpNeSymbol implements BoolSymbol {
    private final ISymbol value1;
    private final ISymbol value2;
 

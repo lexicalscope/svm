@@ -7,7 +7,7 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.AddSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IAddSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class TestAdd {
@@ -27,6 +27,6 @@ public class TestAdd {
       final ISymbol symbol2 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, addMethod,symbol1, symbol2);
-      assertThat(vm.execute(), normalTerminiationWithResult(new AddSymbol(symbol1, symbol2)));
+      assertThat(vm.execute(), normalTerminiationWithResult(new IAddSymbol(symbol1, symbol2)));
    }
 }

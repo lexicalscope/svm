@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm.symbinstructions.predicates;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.popOperand;
 
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
@@ -13,7 +14,7 @@ public class BinarySBranchStrategy implements SBranchStrategy {
       this.op = op;
    }
 
-   @Override public ISymbol branchPredicateSymbol(final State state) {
+   @Override public BoolSymbol branchPredicateSymbol(final State state) {
       // TODO[tim]: efficiency of stack operations
       final Object value2 = state.op(popOperand());
       final Object value1 = state.op(popOperand());

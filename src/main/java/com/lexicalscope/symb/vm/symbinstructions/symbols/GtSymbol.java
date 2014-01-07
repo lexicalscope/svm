@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-public final class GtSymbol extends AbstractUnarySymbol {
+public final class GtSymbol extends AbstractUnaryBoolSymbol {
    public GtSymbol(final ISymbol val) {
       super(val);
    }

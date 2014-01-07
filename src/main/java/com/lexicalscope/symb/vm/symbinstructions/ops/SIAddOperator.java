@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
-import com.lexicalscope.symb.vm.symbinstructions.symbols.AddSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IAddSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class SIAddOperator implements SIBinaryOperator {
@@ -14,6 +14,6 @@ public class SIAddOperator implements SIBinaryOperator {
    }
 
    @Override public ISymbol eval(final ISymbol svalue1, final ISymbol svalue2) {
-      return new AddSymbol(svalue1, svalue2);
+      return new IAddSymbol(svalue1, svalue2);
    }
 }

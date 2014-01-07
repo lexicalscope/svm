@@ -60,7 +60,7 @@ public class ArrayStoreOp implements Vop {
       return new ArrayStoreOp(noTransform);
    }
 
-   public static Vop iaStore() {
+   public static ArrayStoreOp iaStore() {
       return new ArrayStoreOp(noTransform);
    }
 }

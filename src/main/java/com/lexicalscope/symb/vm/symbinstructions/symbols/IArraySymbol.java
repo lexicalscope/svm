@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
-
-public interface ISymbol extends Symbol {
+public interface IArraySymbol extends Symbol {
 
 }

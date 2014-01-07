@@ -2,11 +2,11 @@ package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
 
 
-public class AddSymbol implements ISymbol {
+public class IAddSymbol implements ISymbol {
 	private final ISymbol left;
 	private final ISymbol right;
 
-	public AddSymbol(final ISymbol left, final ISymbol right) {
+	public IAddSymbol(final ISymbol left, final ISymbol right) {
 		this.left = left;
 		this.right = right;
 	}
@@ -19,7 +19,7 @@ public class AddSymbol implements ISymbol {
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj != null && obj.getClass().equals(this.getClass())) {
-			final AddSymbol that = (AddSymbol) obj;
+			final IAddSymbol that = (IAddSymbol) obj;
 			return that.left.equals(this.left) && that.right.equals(this.right);
 		}
 		return false;

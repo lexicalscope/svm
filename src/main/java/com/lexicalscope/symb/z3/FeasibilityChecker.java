@@ -3,6 +3,9 @@ package com.lexicalscope.symb.z3;
 import java.io.Closeable;
 import java.util.HashMap;
 
+import org.hamcrest.Description;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
+
 import com.lexicalscope.symb.vm.symbinstructions.Pc;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.microsoft.z3.ArithExpr;
@@ -15,11 +18,12 @@ import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 import com.microsoft.z3.Z3Exception;
 
-public class FeasibilityChecker implements Closeable {
+public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements Closeable {
    // TODO[tim]: use z3 stack for efficency
    private final Context ctx;
 
    public FeasibilityChecker() {
+      super(Pc.class);
       try {
          Context.ToggleWarningMessages(true);
       } catch (final Z3Exception e) {
@@ -52,7 +56,7 @@ public class FeasibilityChecker implements Closeable {
       return check(q);
    }
 
-   private boolean check(final BoolExpr expr) {
+   boolean check(final BoolExpr expr) {
       try {
          final Solver s = ctx.mkSolver();
          try {
@@ -67,11 +71,13 @@ public class FeasibilityChecker implements Closeable {
    }
 
    public boolean check(final Pc pc) {
+      final BoolExpr expr;
       try {
-         return check(pc.accept(new PcToZ3(ctx)));
+         expr = pc.accept(new PcToZ3(ctx));
       } catch (final Z3Exception e) {
-         throw new RuntimeException("could not map PC to Z3", e);
+         throw new RuntimeException("could not map PC to Z3: " + pc, e);
       }
+      return check(expr);
    }
 
    /**
@@ -101,6 +107,20 @@ public class FeasibilityChecker implements Closeable {
          throw new RuntimeException("unable to simplify " + symbol, e);
       }
    }
+
+   @Override public void describeTo(final Description description) {
+      description.appendText("feasible path condition");
+   }
+
+   @Override protected boolean matchesSafely(final Pc item, final Description mismatchDescription) {
+      mismatchDescription.appendText("infeasible ").appendValue(item);
+      return check(item);
+   }
+
+   Context ctx() {
+      return ctx;
+   }
+
 
    //   This uses a bit blasting tactic...
    //
