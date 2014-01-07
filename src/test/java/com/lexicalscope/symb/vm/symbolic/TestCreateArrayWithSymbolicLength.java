@@ -2,8 +2,11 @@ package com.lexicalscope.symb.vm.symbolic;
 
 import static java.lang.Math.min;
 
+import java.util.Collection;
+
 import org.junit.Test;
 
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
@@ -31,7 +34,6 @@ public class TestCreateArrayWithSymbolicLength {
 
       final Vm vm = Vm.vm(instructionFactory, createMethod, symbol1);
       vm.execute();
-
    }
 
    @Test public void fillArrayWithSymbolicLength() throws Exception {
@@ -40,5 +42,10 @@ public class TestCreateArrayWithSymbolicLength {
 
       final Vm vm = Vm.vm(instructionFactory, fillMethod, symbol1);
       vm.execute();
+
+      final Collection<State> results = vm.results();
+      for (final State state : results) {
+         System.out.println(state);
+      }
    }
 }

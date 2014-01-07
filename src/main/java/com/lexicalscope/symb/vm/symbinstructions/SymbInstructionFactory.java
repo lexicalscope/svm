@@ -23,6 +23,7 @@ import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
+import com.lexicalscope.symb.vm.symbinstructions.ops.SArrayStoreOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAndOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIBinaryOperator;
@@ -204,5 +205,9 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Vop aNewArray() {
       return new NewArrayOp(new NewSymbArray(feasibilityChecker));
+   }
+
+   @Override public Vop aaStore() {
+      return SArrayStoreOp.aaStore(feasibilityChecker);
    }
 }

@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ConcFieldConversionFactory;
 import com.lexicalscope.symb.vm.concinstructions.ops.DConstOperator;
 import com.lexicalscope.symb.vm.concinstructions.ops.FAddOp;
@@ -217,5 +218,9 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Vop aNewArray() {
       return new NewArrayOp(new NewConcArray());
+   }
+
+   @Override public Vop aaStore() {
+      return ArrayStoreOp.aaStore();
    }
 }

@@ -72,7 +72,7 @@ public class StateImpl implements State {
 
    @Override
    public String toString() {
-      return String.format("stack:<%s>, heap:<>, meta:<%s>", stack, /*heap,*/ meta);
+      return String.format("stack:<%s>, heap:<%s>, meta:<%s>", stack, heap, meta);
    }
 
    @Override public boolean equals(final Object obj) {

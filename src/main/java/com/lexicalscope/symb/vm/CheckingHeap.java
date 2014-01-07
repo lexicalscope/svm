@@ -69,4 +69,8 @@ public class CheckingHeap implements Heap {
    public int hashCode(final Object address) {
       return heap.hashCode(address);
    }
+
+   @Override public String toString() {
+      return heap.toString();
+   }
 }

@@ -1,6 +1,6 @@
-package com.lexicalscope.symb.vm.instructions.ops;
+package com.lexicalscope.symb.vm.concinstructions.ops;
 
-import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
+import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.*;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
@@ -36,8 +36,16 @@ public class ArrayStoreOp implements Vop {
       final Object value = stackFrame.pop();
       final int offset = (int) stackFrame.pop();
       final Object arrayref = stackFrame.pop();
+      storeInHeap(heap, arrayref, offset, value);
+   }
 
+   public void storeInHeap(final Heap heap, final Object arrayref, final int offset, final Object value) {
+      assert boundsCheck(heap, arrayref, offset);
       heap.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
+   }
+
+   private boolean boundsCheck(final Heap heap, final Object arrayref, final int offset) {
+      return offset < (int) heap.get(arrayref, ARRAY_LENGTH_OFFSET);
    }
 
    @Override public String toString() {
@@ -48,7 +56,11 @@ public class ArrayStoreOp implements Vop {
       return new ArrayStoreOp(truncateToChar);
    }
 
-   public static Vop aaStore() {
+   public static ArrayStoreOp aaStore() {
+      return new ArrayStoreOp(noTransform);
+   }
+
+   public static Vop iaStore() {
       return new ArrayStoreOp(noTransform);
    }
 }

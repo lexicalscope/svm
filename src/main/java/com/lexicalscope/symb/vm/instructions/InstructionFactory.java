@@ -33,6 +33,7 @@ public interface InstructionFactory {
 
    Vop newArray(Object initialFieldValue);
    Vop aNewArray();
+   Vop aaStore();
 
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
