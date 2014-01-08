@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import static com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp.*;
+import static com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp.caLoad;
 import static com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp.caStore;
 import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.*;
 import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
@@ -191,8 +191,9 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.CALOAD:
                   return linearInstruction(caLoad());
                case Opcodes.IALOAD:
+                  return linearInstruction(instructionFactory.iaLoad());
                case Opcodes.AALOAD:
-                  return linearInstruction(aaLoad());
+                  return linearInstruction(instructionFactory.aaLoad());
                case Opcodes.ARRAYLENGTH:
                   return linearInstruction(new ArrayLengthOp());
                case Opcodes.ISHL:

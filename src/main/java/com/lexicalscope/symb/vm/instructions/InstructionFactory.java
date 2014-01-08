@@ -36,6 +36,9 @@ public interface InstructionFactory {
    Vop aaStore();
    Vop iaStore();
 
+   Vop iaLoad();
+   Vop aaLoad();
+
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
 

@@ -11,17 +11,17 @@ import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public class ArrayLoadOp implements Vop {
    public interface ValueTransform {
-      Object transformForStore(Object value);
+      Object transformForLoad(Object value);
    }
 
    private static ValueTransform noTransform = new ValueTransform() {
-      @Override public Object transformForStore(final Object value) {
+      @Override public Object transformForLoad(final Object value) {
          return value;
       }
    };
 
    private static ValueTransform widenToInt = new ValueTransform() {
-      @Override public Object transformForStore(final Object value) {
+      @Override public Object transformForLoad(final Object value) {
          assert value instanceof Character;
          return (int)(char)value;
       }
@@ -37,10 +37,14 @@ public class ArrayLoadOp implements Vop {
       final int offset = (int) stackFrame.pop();
       final Object arrayref = stackFrame.pop();
 
-      // TODO[tim]: check bounds in-game
-      assert inBounds(heap, offset, arrayref) : String.format("out-of-bounds %d %s%n%s%n%s", offset, stack.trace(), stackFrame, heap);
+      stackFrame.push(loadFromHeap(heap, arrayref, offset));
+   }
 
-      stackFrame.push(valueTransform.transformForStore(heap.get(arrayref, offset + ARRAY_PREAMBLE)));
+   public Object loadFromHeap(final Heap heap, final Object arrayref, final int offset) {
+      // TODO[tim]: check bounds in-game
+      assert inBounds(heap, offset, arrayref) : String.format("out-of-bounds %d %s %s", offset, arrayref, heap);
+
+      return valueTransform.transformForLoad(heap.get(arrayref, offset + ARRAY_PREAMBLE));
    }
 
    private boolean inBounds(final Heap heap, final int offset, final Object arrayref) {
@@ -51,11 +55,15 @@ public class ArrayLoadOp implements Vop {
       return "ARRAYLOAD";
    }
 
-   public static Vop caLoad() {
+   public static ArrayLoadOp caLoad() {
       return new ArrayLoadOp(widenToInt);
    }
 
-   public static Vop aaLoad() {
+   public static ArrayLoadOp aaLoad() {
+      return new ArrayLoadOp(noTransform);
+   }
+
+   public static ArrayLoadOp iaLoad() {
       return new ArrayLoadOp(noTransform);
    }
 }
