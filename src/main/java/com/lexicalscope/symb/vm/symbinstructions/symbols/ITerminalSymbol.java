@@ -2,26 +2,30 @@ package com.lexicalscope.symb.vm.symbinstructions.symbols;
 
 
 public class ITerminalSymbol implements ISymbol {
-   private final int name;
+   private final String name;
 
    public ITerminalSymbol(final int name) {
+      this(("i" + name).intern());
+   }
+
+   public ITerminalSymbol(final String name) {
       this.name = name;
    }
 
    @Override
    public String toString() {
-      return String.format("#i%d", name);
+      return String.format("#%s", name);
    }
 
    @Override
    public int hashCode() {
-      return name;
+      return name.hashCode();
    }
 
    @Override
    public boolean equals(final Object obj) {
       if (obj != null && obj.getClass().equals(this.getClass())) {
-         return name == ((ITerminalSymbol) obj).name;
+         return name.equals(((ITerminalSymbol) obj).name);
       }
       return false;
    }

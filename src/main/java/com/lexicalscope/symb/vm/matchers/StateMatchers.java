@@ -16,10 +16,52 @@ import com.lexicalscope.symb.vm.StackOp;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
+import com.lexicalscope.symb.vm.symbinstructions.Pc;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.z3.FeasibilityChecker;
+import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 
 public class StateMatchers {
    public static Matcher<? super State> operandEqual(final Object expected) {
       return operandMatching(equalTo(expected));
+   }
+
+   public static Matcher<? super State> resultSimplifiesToInt(
+         final FeasibilityChecker feasibilityChecker,
+         final int expectedValue) {
+      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText(
+                  "state with top of operand stack that simplifies to ")
+                  .appendValue(expectedValue);
+         }
+
+         @Override
+         protected boolean matchesSafely(final State item,
+               final Description mismatchDescription) {
+            final Object operand = item.op(new PeekOperandOp());
+            if(operand instanceof Integer) {
+               return expectedValue == (int) operand;
+            }
+
+            final Pc pc = (Pc) item.getMeta();
+
+            final boolean[] result = new boolean[1];
+            feasibilityChecker.simplifyBv32Expr((ISymbol) operand, pc, new ISimplificationResult(){
+               @Override public void simplifiedToValue(final int value) {
+                  mismatchDescription.appendText("state with top of operand stack simplifies to ").appendValue(value);
+                  result[0] = value == expectedValue;
+               }
+
+               @Override public void simplified(final ISymbol simplification) {
+                  mismatchDescription.appendText("state with top of operand stack simplifies to ").appendValue(simplification);
+                  result[0] = false;
+               }});
+
+            return result[0];
+         }
+      };
    }
 
    private static Matcher<? super State> operandMatching(final Matcher<Object> expectedMatcher) {
@@ -34,13 +76,7 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final Object operand = item
-                  .op(new Op<Object>() {
-                     @Override
-                     public Object eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-                        return stackFrame.peek();
-                     }
-                  });
+            final Object operand = item.op(new PeekOperandOp());
             mismatchDescription.appendText("state with top of operand stack ");
             expectedMatcher.describeMismatch(operand, mismatchDescription);
             return expectedMatcher.matches(operand);
@@ -48,8 +84,7 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> instructionEqual(
-         final InstructionNode expectedInstruction) {
+   public static Matcher<? super State> instructionEqual(final InstructionNode expectedInstruction) {
       return new TypeSafeDiagnosingMatcher<State>(State.class) {
          @Override
          public void describeTo(final Description description) {

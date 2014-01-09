@@ -1,15 +1,17 @@
 package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResultMatching;
-import static com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers.simplifiesToInt;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.resultSimplifiesToInt;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
+
+import java.util.Collection;
 
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
@@ -75,10 +77,18 @@ public class TestCreateArrayWithSymbolicLength {
       final Vm vm = Vm.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
+      for (int i = -3; i < 10; i++) {
+         System.out.println(reverseArrayWithSymbolicLength(i));
+      }
+
       //      System.out.println(reverseArrayWithSymbolicLength(4));
       //      System.out.println(vm.results());
       // !!!!!!!!!!!!! Need to assert PC, not just try to simplify state. PC has constraints
       // on i0 which are needed to fully simplify the final symbolic state
-      assertThat(vm.results(), hasItem(normalTerminiationWithResultMatching(simplifiesToInt(feasbilityChecker, -3))));
+      final Collection<State> results = vm.results();
+      for (final State state : results) {
+      }
+
+      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 3)));
    }
 }

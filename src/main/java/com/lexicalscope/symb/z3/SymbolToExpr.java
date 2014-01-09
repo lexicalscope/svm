@@ -104,8 +104,8 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    }
 
    @Override
-   public Expr intSymbol(final int name) throws Z3Exception {
-      return ctx.mkConst("i" + name, intBvSort);
+   public Expr intSymbol(final String name) throws Z3Exception {
+      return ctx.mkConst(name, intBvSort);
    }
 
    @Override public BoolExpr tru3() throws Z3Exception {

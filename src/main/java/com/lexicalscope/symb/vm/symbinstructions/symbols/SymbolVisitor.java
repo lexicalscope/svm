@@ -23,7 +23,7 @@ public interface SymbolVisitor<T, E extends Throwable> {
 
    T not(BoolSymbol val) throws E;
 
-   T intSymbol(int name) throws E;
+   T intSymbol(String name) throws E;
 
    T intArraySymbol(int name) throws E;
    T intArrayZeroed() throws E;
