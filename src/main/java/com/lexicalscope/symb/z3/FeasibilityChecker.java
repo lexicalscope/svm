@@ -8,6 +8,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.vm.symbinstructions.Pc;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
 import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.BoolExpr;
@@ -94,8 +95,12 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
    }
 
 
-   public void simplifyBv32Expr(final ISymbol symbol, final Pc pc, final ISimplificationResult result) {
-      new Simplification(symbol, pc, result).eval(new Simplifier(ctx));
+   public void modelForBv32Expr(final ISymbol symbol, final Pc pc, final ISimplificationResult result) {
+      new SimplifyISymbolGivenPc(symbol, pc, result).eval(new Simplifier(ctx));
+   }
+
+   public void modelForInputTerminalBv32Expr(final ITerminalSymbol symbol, final Pc pc, final ISimplificationResult result) {
+      new ObtainExampleForITerminalGivenPc(symbol, pc, result).eval(new Simplifier(ctx));
    }
 
    public void simplifyBv32Expr(final ISymbol symbol, final ISimplificationResult result) {
@@ -120,45 +125,6 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
          throw new RuntimeException("unable to simplify " + symbol, e);
       }
    }
-
-   //   private void powerSimplify(final ISymbol symbol, final Expr expr, final BoolExpr pcExpr, final ISimplificationResult result) {
-   //      try {
-   //         final Solver solver = ctx.mkSolver();
-   //         try {
-   //            final Tactic simplify = ctx.mkTactic("simplify");
-   //            final Tactic solveEquations = ctx.mkTactic("solve-eqs");
-   //            final Tactic bitBlast = ctx.mkTactic("bit-blast");
-   //            final Tactic propositional = ctx.mkTactic("sat");
-   //
-   //            final Tactic tactic = ctx.parAndThen(simplify, ctx.parAndThen(solveEquations, ctx.parAndThen(bitBlast, propositional)));
-   //
-   //            final BitVecExpr resultSymbol = ctx.mkBVConst("__res", 32);
-   //
-   //            final Goal goal = ctx.mkGoal(true, false, false);
-   //            goal.add(pcExpr);
-   //            goal.add(ctx.mkEq(resultSymbol, expr));
-   //
-   //            final ApplyResult resultOfApply = tactic.apply(goal);
-   //
-   //            for (final BoolExpr subGoalFormula : resultOfApply.getSubgoals()[0].getFormulas()) {
-   //               solver.add(subGoalFormula);
-   //            }
-   //
-   //            final Status status = solver.check();
-   //            if(!status.equals(Status.SATISFIABLE)) {
-   //               throw new RuntimeException("unable to find model for " + symbol);
-   //            }
-   //
-   //            final Model convertModel = resultOfApply.convertModel(0, solver.getModel());
-   //            queryModel(convertModel, resultSymbol, result);
-   //         } finally {
-   //            solver.dispose();
-   //         }
-   //      } catch (final Z3Exception e) {
-   //         throw new RuntimeException("unable to check satisfiablility", e);
-   //      }
-   //   }
-
 
    @Override public void describeTo(final Description description) {
       description.appendText("feasible path condition");

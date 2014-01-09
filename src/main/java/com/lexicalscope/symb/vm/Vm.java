@@ -34,6 +34,8 @@ public class Vm {
             assert pending.peek() == termination.getFinalState();
             finished.push(pending.pop());
             System.out.println("BACKTRACK");
+            System.out.println("    TERM " + finished.peek().getMeta());
+
          }
          catch (final RuntimeException e) {
             System.out.println(pending.peek().trace());
@@ -49,8 +51,10 @@ public class Vm {
 
    public void fork(final State[] states) {
       pending.pop();
+
       System.out.println("FORK");
       for (final State state : states) {
+         System.out.println("     " + state.getMeta());
          pending.push(state);
       }
    }

@@ -33,7 +33,6 @@ import com.lexicalscope.symb.vm.symbinstructions.ops.SIMulOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SymbFieldConversionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -79,7 +78,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   public ISymbol symbol() {
+   public ITerminalSymbol symbol() {
       return new ITerminalSymbol(++symbol);
    }
 

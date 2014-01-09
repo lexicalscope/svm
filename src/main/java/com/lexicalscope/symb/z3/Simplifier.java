@@ -19,9 +19,14 @@ public class Simplifier {
       this.ctx = ctx;
    }
 
-   public SModel powerSimplify(final Pc pc, final BoolSymbol symbol) {
+   public SModel powerSimplify(final Pc pc, final BoolSymbol ... exprToSolve) {
       try {
-         return new SModel(ctx, powerSimplify(pc.accept(new PcToZ3(ctx)), (BoolExpr) symbol.accept(new SymbolToExpr(ctx))));
+         final BoolExpr[] z3ToSolve = new BoolExpr[exprToSolve.length + 1];
+         for (int i = 0; i < exprToSolve.length; i++) {
+            z3ToSolve[i] = (BoolExpr) exprToSolve[i].accept(new SymbolToExpr(ctx));
+         }
+         z3ToSolve[exprToSolve.length] = pc.accept(new PcToZ3(ctx));
+         return new SModel(ctx, powerSimplify(z3ToSolve));
       } catch (final Z3Exception e) {
          throw new RuntimeException("unable to create expressions", e);
       }

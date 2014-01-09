@@ -48,7 +48,7 @@ public class StateMatchers {
             final Pc pc = (Pc) item.getMeta();
 
             final boolean[] result = new boolean[1];
-            feasibilityChecker.simplifyBv32Expr((ISymbol) operand, pc, new ISimplificationResult(){
+            feasibilityChecker.modelForBv32Expr((ISymbol) operand, pc, new ISimplificationResult(){
                @Override public void simplifiedToValue(final int value) {
                   mismatchDescription.appendText("state with top of operand stack simplifies to ").appendValue(value);
                   result[0] = value == expectedValue;

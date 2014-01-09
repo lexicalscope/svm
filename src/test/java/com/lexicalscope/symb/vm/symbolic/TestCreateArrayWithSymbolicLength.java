@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.symbolic;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.resultSimplifiesToInt;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasItem;
+import static org.hamcrest.Matchers.*;
 
 import java.util.Collection;
 
@@ -16,6 +16,7 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestCreateArrayWithSymbolicLength {
@@ -45,12 +46,12 @@ public class TestCreateArrayWithSymbolicLength {
       }
 
       final int[] array = new int[length];
-      for (int i = 0; i < min(4, array.length); i++) {
+      for (int i = 0; i < min(array.length, 4); i++) {
          array[i] = i;
       }
 
       final int[] result = new int[length];
-      for (int i = 0; i < min(4, array.length); i++) {
+      for (int i = 0; i < min(array.length, 4); i++) {
          result[array.length - 1 - i] = array[i];
       }
 
@@ -72,23 +73,16 @@ public class TestCreateArrayWithSymbolicLength {
    }
 
    @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
-      final ISymbol symbol1 = instructionFactory.symbol();
+      final ITerminalSymbol symbol1 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
-      for (int i = -3; i < 10; i++) {
-         System.out.println(reverseArrayWithSymbolicLength(i));
-      }
-
-      //      System.out.println(reverseArrayWithSymbolicLength(4));
-      //      System.out.println(vm.results());
-      // !!!!!!!!!!!!! Need to assert PC, not just try to simplify state. PC has constraints
-      // on i0 which are needed to fully simplify the final symbolic state
       final Collection<State> results = vm.results();
-      for (final State state : results) {
-      }
-
+      assertThat(results, hasSize(6));
+      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 0)));
+      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 1)));
+      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 2)));
       assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 3)));
    }
 }
