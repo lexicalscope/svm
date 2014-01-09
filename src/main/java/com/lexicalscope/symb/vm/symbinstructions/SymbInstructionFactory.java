@@ -41,8 +41,16 @@ import com.lexicalscope.symb.z3.FeasibilityChecker;
  * @author tim
  */
 public class SymbInstructionFactory implements InstructionFactory {
-   final FeasibilityChecker feasibilityChecker = new FeasibilityChecker();
+   private final FeasibilityChecker feasibilityChecker;
    private int symbol = -1;
+
+   public SymbInstructionFactory(final FeasibilityChecker feasbilityChecker) {
+      feasibilityChecker = feasbilityChecker;
+   }
+
+   public SymbInstructionFactory() {
+      this(new FeasibilityChecker());
+   }
 
    @Override
    public BinaryOperator iaddOperation() {

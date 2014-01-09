@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
+import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
@@ -11,7 +12,6 @@ import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArrayStoreSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -41,9 +41,9 @@ public class SArrayStoreOp implements Vop {
 
    private void storeInSymbolicArray(final Heap heap, final Object arrayref, final Object offset, final Object value) {
       final IArraySymbol symbol = (IArraySymbol) heap.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET);
-      final ISymbol offsetSymbol = offset instanceof ISymbol ? (ISymbol) offset : new IConstSymbol((int) offset);
-      final ISymbol valueSymbol = value instanceof ISymbol ? (ISymbol) value : new IConstSymbol((int) value);
-      heap.put(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET, new IArrayStoreSymbol(symbol, offsetSymbol, valueSymbol));
+      heap.put(arrayref,
+            NewSymbArray.ARRAY_SYMBOL_OFFSET,
+            new IArrayStoreSymbol(symbol, asISymbol(offset), asISymbol(value)));
    }
 
    @Override public String toString() {

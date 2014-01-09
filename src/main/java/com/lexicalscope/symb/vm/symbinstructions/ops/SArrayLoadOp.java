@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
+import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Stack;
@@ -11,7 +12,6 @@ import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySelectSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -39,7 +39,9 @@ public class SArrayLoadOp implements Vop {
    }
 
    private Object loadFromSymbolicArray(final Heap heap, final Object arrayref, final Object offset) {
-      return new IArraySelectSymbol((IArraySymbol) heap.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET), offset instanceof ISymbol ? (ISymbol) offset : new IConstSymbol((int) offset));
+      return new IArraySelectSymbol(
+            (IArraySymbol) heap.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET),
+            asISymbol(offset));
    }
 
    @Override public String toString() {

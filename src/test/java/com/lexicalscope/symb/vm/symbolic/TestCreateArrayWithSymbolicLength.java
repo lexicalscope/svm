@@ -1,20 +1,26 @@
 package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResultMatching;
+import static com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers.simplifiesToInt;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.hasItem;
 
+import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.MulSymbol;
+import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestCreateArrayWithSymbolicLength {
+   @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
+   private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
+   private final SymbInstructionFactory instructionFactory = new SymbInstructionFactory(feasbilityChecker);
+
    final MethodInfo createMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "create", "(I)[Ljava/lang/Object;");
    final MethodInfo fillMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "fillArrayWithSymbolicLength", "(I)[I");
    final MethodInfo reverseMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "reverseArrayWithSymbolicLength", "(I)I");
@@ -43,14 +49,13 @@ public class TestCreateArrayWithSymbolicLength {
 
       final int[] result = new int[length];
       for (int i = 0; i < min(4, array.length); i++) {
-         result[3 - i] = array[i] * -1;
+         result[array.length - 1 - i] = array[i];
       }
 
       return result[0];
    }
 
    @Test public void createArrayWithSymbolicLength() throws Exception {
-      final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, createMethod, symbol1);
@@ -58,7 +63,6 @@ public class TestCreateArrayWithSymbolicLength {
    }
 
    @Test public void fillArrayWithSymbolicLength() throws Exception {
-      final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, fillMethod, symbol1);
@@ -66,12 +70,15 @@ public class TestCreateArrayWithSymbolicLength {
    }
 
    @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
-      final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.symbol();
 
       final Vm vm = Vm.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
-      assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new IConstSymbol(-1)))));
+      //      System.out.println(reverseArrayWithSymbolicLength(4));
+      //      System.out.println(vm.results());
+      // !!!!!!!!!!!!! Need to assert PC, not just try to simplify state. PC has constraints
+      // on i0 which are needed to fully simplify the final symbolic state
+      assertThat(vm.results(), hasItem(normalTerminiationWithResultMatching(simplifiesToInt(feasbilityChecker, -3))));
    }
 }

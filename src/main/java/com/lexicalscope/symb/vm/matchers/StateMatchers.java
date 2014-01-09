@@ -18,88 +18,95 @@ import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
 
 public class StateMatchers {
-	public static Matcher<? super State> operandEqual(final Object val) {
-		return new TypeSafeDiagnosingMatcher<State>(State.class) {
-			@Override
-			public void describeTo(final Description description) {
-				description.appendText(
-						"state with top of operand stack equal to ")
-						.appendValue(val);
-			}
+   public static Matcher<? super State> operandEqual(final Object expected) {
+      return operandMatching(equalTo(expected));
+   }
 
-			@Override
-			protected boolean matchesSafely(final State item,
-					final Description mismatchDescription) {
-				final Object operand = item
-						.op(new Op<Object>() {
-							@Override
-							public Object eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
-								return stackFrame.peek();
-							}
-						});
-				mismatchDescription.appendText(
-						"state with top of operand stack equal to ")
-						.appendValue(operand);
-				return equalTo(val).matches(operand);
-			}
-		};
-	}
+   private static Matcher<? super State> operandMatching(final Matcher<Object> expectedMatcher) {
+      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText(
+                  "state with top of operand stack matching ")
+                  .appendDescriptionOf(expectedMatcher);
+         }
 
-	public static Matcher<? super State> instructionEqual(
-			final InstructionNode expectedInstruction) {
-		return new TypeSafeDiagnosingMatcher<State>(State.class) {
-			@Override
-			public void describeTo(final Description description) {
-				description.appendText("state with next instruction equal to ")
-						.appendValue(expectedInstruction);
-			}
+         @Override
+         protected boolean matchesSafely(final State item,
+               final Description mismatchDescription) {
+            final Object operand = item
+                  .op(new Op<Object>() {
+                     @Override
+                     public Object eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+                        return stackFrame.peek();
+                     }
+                  });
+            mismatchDescription.appendText("state with top of operand stack ");
+            expectedMatcher.describeMismatch(operand, mismatchDescription);
+            return expectedMatcher.matches(operand);
+         }
+      };
+   }
 
-			@Override
-			protected boolean matchesSafely(final State item,
-					final Description mismatchDescription) {
-				final InstructionNode instruction = item
-						.op(new Op<InstructionNode>() {
-							@Override
-							public InstructionNode eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
-								return stackFrame.instruction();
-							}
-						});
-				mismatchDescription.appendText("state with next instruction ")
-						.appendValue(instruction);
-				return equalTo(expectedInstruction).matches(instruction);
-			}
-		};
-	}
+   public static Matcher<? super State> instructionEqual(
+         final InstructionNode expectedInstruction) {
+      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("state with next instruction equal to ")
+            .appendValue(expectedInstruction);
+         }
 
-	public static Matcher<? super State> stackSize(final int expectedSize) {
-		return new TypeSafeDiagnosingMatcher<State>(State.class) {
-			@Override
-			public void describeTo(final Description description) {
-				description.appendText("state with ").appendValue(expectedSize)
-						.appendText(" stack frames");
-			}
+         @Override
+         protected boolean matchesSafely(final State item,
+               final Description mismatchDescription) {
+            final InstructionNode instruction = item
+                  .op(new Op<InstructionNode>() {
+                     @Override
+                     public InstructionNode eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+                        return stackFrame.instruction();
+                     }
+                  });
+            mismatchDescription.appendText("state with next instruction ")
+            .appendValue(instruction);
+            return equalTo(expectedInstruction).matches(instruction);
+         }
+      };
+   }
 
-			@Override
-			protected boolean matchesSafely(final State item,
-					final Description mismatchDescription) {
-				final int actualSize = item.op(new StackOp<Integer>() {
-					@Override
-					public Integer eval(final Stack stack) {
-						return stack.size();
-					}
-				});
-				mismatchDescription.appendText("state with ")
-						.appendValue(actualSize).appendText(" stack frames");
-				return equalTo(expectedSize).matches(actualSize);
-			}
-		};
-	}
+   public static Matcher<? super State> stackSize(final int expectedSize) {
+      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("state with ").appendValue(expectedSize)
+            .appendText(" stack frames");
+         }
 
-	public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
-		return both(normalTerminiation()).and(operandEqual(result));
-	}
+         @Override
+         protected boolean matchesSafely(final State item,
+               final Description mismatchDescription) {
+            final int actualSize = item.op(new StackOp<Integer>() {
+               @Override
+               public Integer eval(final Stack stack) {
+                  return stack.size();
+               }
+            });
+            mismatchDescription.appendText("state with ")
+            .appendValue(actualSize).appendText(" stack frames");
+            return equalTo(expectedSize).matches(actualSize);
+         }
+      };
+   }
 
-	public static Matcher<? super State> normalTerminiation() {
-		return both(instructionEqual(new TerminateInstruction())).and(stackSize(1));
-	}
+   public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
+      return both(normalTerminiation()).and(operandEqual(result));
+   }
+
+   public static Matcher<? super State> normalTerminiationWithResultMatching(final Matcher<Object> matcher) {
+      return both(normalTerminiation()).and(operandMatching(matcher));
+   }
+
+   public static Matcher<? super State> normalTerminiation() {
+      return both(instructionEqual(new TerminateInstruction())).and(stackSize(1));
+   }
 }
