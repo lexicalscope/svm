@@ -8,6 +8,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import com.lexicalscope.MatchersAdditional.Transform;
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
@@ -17,6 +18,7 @@ import com.lexicalscope.symb.vm.StackOp;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -42,8 +44,8 @@ public class StateMatchers {
       return new SimplifyingMatcherBuilder(feasibilityChecker);
    }
 
-   private static ModelForStateTransform stateToModel(final FeasibilityChecker feasibilityChecker) {
-      return new ModelForStateTransform(feasibilityChecker);
+   private static Transform<Symbol,State> stateToModel(final FeasibilityChecker feasibilityChecker) {
+      return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
    }
 
    private static Matcher<? super State> operandMatching(final Matcher<Object> expectedMatcher) {
