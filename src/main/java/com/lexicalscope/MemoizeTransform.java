@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.matchers;
+package com.lexicalscope;
 
 import org.hamcrest.Description;
 import org.hamcrest.StringDescription;
@@ -6,7 +6,6 @@ import org.hamcrest.StringDescription;
 import com.google.common.cache.CacheBuilder;
 import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
-import com.lexicalscope.MatchersAdditional.Transform;
 
 public class MemoizeTransform<T, S> implements Transform<T, S> {
    private static final class TransfromResult<T> {

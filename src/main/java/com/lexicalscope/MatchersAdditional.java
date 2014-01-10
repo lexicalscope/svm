@@ -2,14 +2,9 @@ package com.lexicalscope;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matchers;
-import org.hamcrest.SelfDescribing;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 public class MatchersAdditional {
-   public interface Transform<T, S> extends SelfDescribing {
-      T transform(S item, Description mismatchDescription);
-   }
-
    public static final class TransformMatcherBuilder<T, S> {
       private final Transform<T, S> transform;
 

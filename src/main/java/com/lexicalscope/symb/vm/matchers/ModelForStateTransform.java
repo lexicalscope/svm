@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.matchers;
 
 import org.hamcrest.Description;
 
-import com.lexicalscope.MatchersAdditional.Transform;
+import com.lexicalscope.Transform;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.symbinstructions.Pc;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
