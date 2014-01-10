@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.matchers;
 
+import static com.lexicalscope.MatchersAdditional.after;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.CombinableMatcher.both;
 
@@ -16,52 +17,33 @@ import com.lexicalscope.symb.vm.StackOp;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
-import com.lexicalscope.symb.vm.symbinstructions.Pc;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
-import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 
 public class StateMatchers {
    public static Matcher<? super State> operandEqual(final Object expected) {
       return operandMatching(equalTo(expected));
    }
 
-   public static Matcher<? super State> resultSimplifiesToInt(
-         final FeasibilityChecker feasibilityChecker,
-         final int expectedValue) {
-      return new TypeSafeDiagnosingMatcher<State>(State.class) {
-         @Override
-         public void describeTo(final Description description) {
-            description.appendText(
-                  "state with top of operand stack that simplifies to ")
-                  .appendValue(expectedValue);
-         }
+   public static class SimplifyingMatcherBuilder {
+      private final FeasibilityChecker feasibilityChecker;
 
-         @Override
-         protected boolean matchesSafely(final State item,
-               final Description mismatchDescription) {
-            final Object operand = item.op(new PeekOperandOp());
-            if(operand instanceof Integer) {
-               return expectedValue == (int) operand;
-            }
+      public SimplifyingMatcherBuilder(final FeasibilityChecker feasibilityChecker) {
+         this.feasibilityChecker = feasibilityChecker;
+      }
 
-            final Pc pc = (Pc) item.getMeta();
+      public Matcher<? super State> toInt(final int expectedValue) {
+         return after(stateToModel(feasibilityChecker)).matches(SymbolMatchers.symbolEquivalentTo(expectedValue));
+      }
+   }
 
-            final boolean[] result = new boolean[1];
-            feasibilityChecker.modelForBv32Expr((ISymbol) operand, pc, new ISimplificationResult(){
-               @Override public void simplifiedToValue(final int value) {
-                  mismatchDescription.appendText("state with top of operand stack simplifies to ").appendValue(value);
-                  result[0] = value == expectedValue;
-               }
+   public static SimplifyingMatcherBuilder resultSimplifies(
+         final FeasibilityChecker feasibilityChecker) {
+      return new SimplifyingMatcherBuilder(feasibilityChecker);
+   }
 
-               @Override public void simplified(final ISymbol simplification) {
-                  mismatchDescription.appendText("state with top of operand stack simplifies to ").appendValue(simplification);
-                  result[0] = false;
-               }});
-
-            return result[0];
-         }
-      };
+   private static ModelForStateTransform stateToModel(final FeasibilityChecker feasibilityChecker) {
+      return new ModelForStateTransform(feasibilityChecker);
    }
 
    private static Matcher<? super State> operandMatching(final Matcher<Object> expectedMatcher) {

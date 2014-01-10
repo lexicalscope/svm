@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.resultSimplifiesToInt;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.resultSimplifies;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -80,9 +80,9 @@ public class TestCreateArrayWithSymbolicLength {
 
       final Collection<State> results = vm.results();
       assertThat(results, hasSize(6));
-      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 0)));
-      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 1)));
-      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 2)));
-      assertThat(results, hasItem(resultSimplifiesToInt(feasbilityChecker, 3)));
+      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(0))); // should be 3 of these
+      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(1)));
+      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(2)));
+      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(3)));
    }
 }

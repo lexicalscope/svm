@@ -7,8 +7,10 @@ import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.vm.symbinstructions.Pc;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 import com.microsoft.z3.ArithExpr;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.BoolExpr;
@@ -139,7 +141,18 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       return ctx;
    }
 
+   public Symbol modelForBv32Expr(final ISymbol operand, final Pc pc) {
+      final Symbol[] result = new Symbol[1];
+      modelForBv32Expr(operand, pc, new ISimplificationResult(){
+         @Override public void simplifiedToValue(final int value) {
+            result[0] = new IConstSymbol(value);
+         }
 
+         @Override public void simplified(final ISymbol simplification) {
+            result[0] = simplification;
+         }});
+      return result[0];
+   }
 
    //   This uses a bit blasting tactic...
    //
@@ -180,4 +193,8 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
    //         throw new RuntimeException("unable to chec satisfiablility", e);
    //      }
    //   }
+
+   @Override public String toString() {
+      return "Z3 Feasibility Checker";
+   }
 }
