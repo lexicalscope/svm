@@ -1,19 +1,18 @@
 package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.resultSimplifies;
+import static com.lexicalscope.MatchersAdditional.after;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.*;
+import static com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers.symbolEquivalentTo;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.*;
-
-import java.util.Collection;
 
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
+import com.lexicalscope.symb.vm.matchers.StateMatchers.SimplifyingMatcherBuilder;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
@@ -22,6 +21,7 @@ import com.lexicalscope.symb.z3.FeasibilityChecker;
 public class TestCreateArrayWithSymbolicLength {
    @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
    private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
+   private final SimplifyingMatcherBuilder simpifies = resultSimplifies(feasbilityChecker);
    private final SymbInstructionFactory instructionFactory = new SymbInstructionFactory(feasbilityChecker);
 
    final MethodInfo createMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "create", "(I)[Ljava/lang/Object;");
@@ -78,11 +78,12 @@ public class TestCreateArrayWithSymbolicLength {
       final Vm vm = Vm.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
-      final Collection<State> results = vm.results();
-      assertThat(results, hasSize(6));
-      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(0))); // should be 3 of these
-      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(1)));
-      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(2)));
-      assertThat(results, hasItem(resultSimplifies(feasbilityChecker).toInt(3)));
+      assertThat(vm.results(), after(stateToModel(feasbilityChecker)).
+            has(3, symbolEquivalentTo(0)).
+            has(symbolEquivalentTo(1)).
+            has(symbolEquivalentTo(2)).
+            has(symbolEquivalentTo(3)).
+            only().
+            inAnyOrder());
    }
 }

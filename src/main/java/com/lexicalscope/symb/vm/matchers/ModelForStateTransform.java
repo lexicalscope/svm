@@ -25,16 +25,19 @@ public class ModelForStateTransform implements Transform<Symbol, State> {
       final Object operand = item.op(new PeekOperandOp());
 
       if(operand instanceof Integer) {
-         mismatchDescription.appendText("already a value ").appendValue(item);
+         mismatchDescription.appendText("a value ").appendValue(operand);
          return new IConstSymbol((int) operand);
       }
 
       final Pc pc = (Pc) item.getMeta();
+      final Symbol modelForBv32Expr = feasibilityChecker.modelForBv32Expr((ISymbol) operand, pc);
       mismatchDescription
-      .appendText("simplification of ")
+      .appendText("simplification ")
+      .appendValue(modelForBv32Expr)
+      .appendText(" of ")
       .appendValue(operand)
       .appendText(" and ")
       .appendValue(pc);
-      return feasibilityChecker.modelForBv32Expr((ISymbol) operand, pc);
+      return modelForBv32Expr;
    }
 }

@@ -45,7 +45,7 @@ public class StateMatchers {
       return new SimplifyingMatcherBuilder(feasibilityChecker);
    }
 
-   private static Transform<Symbol,State> stateToModel(final FeasibilityChecker feasibilityChecker) {
+   public static Transform<Symbol,State> stateToModel(final FeasibilityChecker feasibilityChecker) {
       return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
    }
 
