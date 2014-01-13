@@ -30,117 +30,96 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      add(factory.newObject(klassDesc));
-      return this;
+      return add(factory.newObject(klassDesc));
    }
 
    public StatementBuilder aconst_null() {
-      add(factory.aconst_null());
-      return this;
+      return add(factory.aconst_null());
    }
 
    public StatementBuilder iconst_0() {
-      add(factory.iconst_0());
-      return this;
+      return add(factory.iconst_0());
    }
 
    public StatementBuilder iconst(final int i) {
-      add(factory.iconst(i));
-      return this;
+      return add(factory.iconst(i));
    }
 
    public StatementBuilder lconst(final long l) {
-      add(factory.lconst(l));
-      return this;
+      return add(factory.lconst(l));
    }
 
    public StatementBuilder return1() {
-      add(factory.return1());
-      return this;
+      return add(factory.return1());
    }
 
    public StatementBuilder return2() {
-      add(factory.return2());
-      return this;
+      return add(factory.return2());
    }
 
    public StatementBuilder returnVoid() {
-      add(factory.returnVoid());
-      return this;
+      return add(factory.returnVoid());
    }
 
    public StatementBuilder addressToHashCode() {
-      add(factory.addressToHashCode());
-      return this;
+      return add(factory.addressToHashCode());
    }
 
    public StatementBuilder aload(final int index) {
-      add(factory.aload(index));
-      return this;
+      return add(factory.aload(index));
    }
 
    public StatementBuilder nanoTime() {
-      add(factory.nanoTime());
-      return this;
+      return add(factory.nanoTime());
    }
 
    public StatementBuilder currentTimeMillis() {
-      add(factory.currentTimeMillis());
-      return this;
+      return add(factory.currentTimeMillis());
    }
 
    public StatementBuilder currentThread() {
-      add(factory.currentThread());
-      return this;
+      return add(factory.currentThread());
    }
 
    public StatementBuilder arrayCopy() {
-      add(factory.arrayCopy());
-      return this;
+      return add(factory.arrayCopy());
    }
 
    public StatementBuilder floatToRawIntBits() {
-      add(factory.floatToRawIntBits());
-      return this;
+      return add(factory.floatToRawIntBits());
    }
 
    public StatementBuilder doubleToRawLongBits() {
-      add(factory.doubleToRawLongBits());
-      return this;
+      return add(factory.doubleToRawLongBits());
    }
 
    public StatementBuilder fload(final int index) {
-      add(factory.fload(index));
-      return this;
+      return add(factory.fload(index));
    }
 
    public StatementBuilder dload(final int index) {
-      add(factory.dload(index));
-      return this;
+      return add(factory.dload(index));
    }
 
    public StatementBuilder getCallerClass() {
-      add(factory.getCallerClass());
-      return this;
+      return add(factory.getCallerClass());
    }
 
    public StatementBuilder getPrimitiveClass() {
-      add(factory.getPrimitiveClass());
-      return this;
+      return add(factory.getPrimitiveClass());
    }
 
    public StatementBuilder nop() {
-      add(factory.nop());
-      return this;
+      return add(factory.nop());
    }
 
-   private void add(final Instruction instruction) {
+   private StatementBuilder add(final Instruction instruction) {
       instructions.add(instruction);
+      return this;
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
-      add(factory.invokeInterface(klassName, methodName, desc));
-      return this;
+      return add(factory.invokeInterface(klassName, methodName, desc));
    }
 
    public MethodBody build() {
