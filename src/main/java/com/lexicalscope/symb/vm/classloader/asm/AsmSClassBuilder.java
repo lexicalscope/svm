@@ -13,13 +13,11 @@ public class AsmSClassBuilder {
    private final SClassLoader classLoader;
    private final DeclaredFields declaredFields;
    final TreeMap<SFieldName, Integer> declaredStaticFieldMap = new TreeMap<>();
-   private final int classStartOffset;
 
 
    public AsmSClassBuilder(final SClassLoader classLoader, final AsmSClass superclass) {
       this.classLoader = classLoader;
-      classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
-      declaredFields = new DeclaredFields(classStartOffset);
+      declaredFields = new DeclaredFields();
    }
 
    void initialiseFieldMaps(final List<FieldNode> fields) {

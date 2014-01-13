@@ -40,7 +40,6 @@ public class AsmSClass implements SClass {
 
    private final URL loadedFromUrl;
    private final Instructions instructions;
-   final int subclassOffset;
    private final SClass superclass;
    private final SClassLoader classLoader;
 
@@ -82,7 +81,6 @@ public class AsmSClass implements SClass {
 
       initialiseMethodMap(classNode);
 
-      this.subclassOffset = (superclass == null ? 0 : superclass.subclassOffset) + declaredFields.count();
    }
 
    private void initialiseMethodMap(final ClassNode classNode) {

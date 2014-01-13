@@ -45,8 +45,10 @@ public final class Fields {
          // if a field is not shadowed, looking it up in this class should resolve the superclass field
          result.map.put(new SFieldName(subclassName, superField.getKey().getName()), superField.getValue());
       }
-      result.fields.addAll(declaredFields.fields());
-      result.map.putAll(declaredFields.map());
+      for (final SField field : declaredFields.fields()) {
+         result.fields.add(field);
+         result.map.put(field.name(), result.fields.size() - 1);
+      }
       return result;
    }
 
