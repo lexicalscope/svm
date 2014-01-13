@@ -7,7 +7,6 @@ import java.util.List;
 import java.util.Set;
 
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.classloader.Allocatable;
@@ -31,17 +30,15 @@ public class AsmSClass implements SClass {
    private final URL loadedFromUrl;
    private final SClass superclass;
 
-
-   // TODO[tim]: far too much work in this constructor
    public AsmSClass(
          final URL loadedFromUrl,
-         final ClassNode classNode,
+         final String klassName,
          final AsmSClass superclass,
          final List<AsmSClass> interfaces,
          final AsmSClassBuilder sClassBuilder) {
       this.loadedFromUrl = loadedFromUrl;
       this.superclass = superclass;
-      this.klassName = classNode.name;
+      this.klassName = klassName;
 
       this.declaredFields = sClassBuilder.declaredFields();
       this.declaredMethods = sClassBuilder.declaredMethods();

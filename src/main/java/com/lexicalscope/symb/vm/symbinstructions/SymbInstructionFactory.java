@@ -34,6 +34,8 @@ import com.lexicalscope.symb.vm.symbinstructions.ops.SISubOperator;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SymbFieldConversionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.OSymbol;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.OTerminalSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 /**
@@ -78,8 +80,12 @@ public class SymbInstructionFactory implements InstructionFactory {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   public ITerminalSymbol symbol() {
+   public ITerminalSymbol isymbol() {
       return new ITerminalSymbol(++symbol);
+   }
+
+   public OSymbol osymbol(final String klassName) {
+      return new OTerminalSymbol(++symbol, klassName);
    }
 
    @Override

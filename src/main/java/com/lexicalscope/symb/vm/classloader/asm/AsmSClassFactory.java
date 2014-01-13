@@ -15,7 +15,7 @@ public class AsmSClassFactory {
 
       return new AsmSClass(
             loadedFromUrl,
-            classNode,
+            classNode.name,
             superclass,
             interfaces,
             new AsmSClassBuilder(classLoader, instructions, superclass)

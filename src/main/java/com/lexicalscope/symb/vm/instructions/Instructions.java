@@ -24,4 +24,30 @@ public interface Instructions {
    Instruction initThread();
 
    StatementBuilder statements();
+
+   // TODO[tim]: the native method implementations should be split out
+   Instruction currentThread();
+   Instruction arrayCopy();
+   Instruction floatToRawIntBits();
+   Instruction doubleToRawLongBits();
+   Instruction getCallerClass();
+   Instruction getPrimitiveClass();
+   Instruction returnVoid();
+   Instruction return1();
+   Instruction return2();
+   Instruction newObject(String klassDesc);
+   Instruction addressToHashCode();
+   Instruction nanoTime();
+   Instruction currentTimeMillis();
+   Instruction aconst_null();
+   Instruction iconst_0();
+   Instruction fconst_0();
+   Instruction iconst(int constVal);
+   Instruction lconst(long constVal);
+   Instruction invokeInterface(String klassName, String methodName, String desc);
+   Instruction aload(int index);
+   Instruction fload(int index);
+   Instruction dload(int index);
+
+   Instruction nop();
 }

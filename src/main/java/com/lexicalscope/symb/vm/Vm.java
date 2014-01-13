@@ -69,19 +69,20 @@ public class Vm {
 
    public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
-      return new Vm(Vm.initial(classLoader, entryPoint).op(loadConstants(args)));
+      return new Vm(Vm.initial(classLoader, entryPoint, args).op(loadConstants(args)));
    }
 
-   public static State initial(final SClassLoader classLoader, final MethodInfo info) {
-      return initial(classLoader, new SMethodName(info.klass(), info.name(), info.desc()));
+   public static State initial(final SClassLoader classLoader, final MethodInfo info, final Object[] args) {
+      return initial(classLoader, new SMethodName(info.klass(), info.name(), info.desc()), args);
    }
 
-   private static State initial(final SClassLoader classLoader, final SMethodName methodName) {
+   private static State initial(final SClassLoader classLoader, final SMethodName methodName, final Object[] args) {
       final InstructionNode defineClassClass = classLoader.defineBootstrapClassesInstruction();
       final InstructionNode initThread = classLoader.initThreadInstruction();
+      final InstructionNode loadArgs = classLoader.loadArgsInstruction(args);
       final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(methodName));
 
-      defineClassClass.next(initThread).next(entryPointInstruction);
+      defineClassClass.next(initThread).next(loadArgs).next(entryPointInstruction);
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 

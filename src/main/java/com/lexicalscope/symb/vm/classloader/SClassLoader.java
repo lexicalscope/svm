@@ -22,12 +22,10 @@ public interface SClassLoader {
 
    MethodBody resolveNative(SMethodName methodName);
 
-   /**
-    * Instruction which defines the class of the class Class
-    */
    InstructionNode defineBootstrapClassesInstruction();
-
    InstructionNode initThreadInstruction();
+   InstructionNode loadArgsInstruction(Object[] args);
 
    Object init(String desc);
+
 }

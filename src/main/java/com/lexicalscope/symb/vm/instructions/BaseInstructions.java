@@ -59,6 +59,7 @@ import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NoOp;
+import com.lexicalscope.symb.vm.instructions.ops.NopOp;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Op;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
@@ -341,11 +342,11 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Store2(varInsnNode.var));
    }
 
-   Instruction iconst(final int constVal) {
+   @Override public Instruction iconst(final int constVal) {
       return nullary(instructionFactory.iconst(constVal));
    }
 
-   public Instruction lconst(final long constVal) {
+   @Override public Instruction lconst(final long constVal) {
       return nullary2(instructionFactory.lconst(constVal));
    }
 
@@ -357,15 +358,15 @@ public final class BaseInstructions implements Instructions {
       return nullary2(instructionFactory.dconst(constVal));
    }
 
-   public Instruction aconst_null() {
+   @Override public Instruction aconst_null() {
       return linearInstruction(new AConstNullOp());
    }
 
-   public Instruction iconst_0() {
+   @Override public Instruction iconst_0() {
       return iconst(0);
    }
 
-   public Instruction fconst_0() {
+   @Override public Instruction fconst_0() {
       return fconst(0);
    }
 
@@ -401,15 +402,15 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Load2(index));
    }
 
-   public Instruction aload(final int index) {
+   @Override public Instruction aload(final int index) {
       return load(index);
    }
 
-   public Instruction fload(final int index) {
+   @Override public Instruction fload(final int index) {
       return load(index);
    }
 
-   public Instruction dload(final int index) {
+   @Override public Instruction dload(final int index) {
       return load2(index);
    }
 
@@ -453,31 +454,31 @@ public final class BaseInstructions implements Instructions {
       return new StatementBuilder(this);
    }
 
-   public Instruction returnVoid() {
+   @Override public Instruction returnVoid() {
       return new ReturnInstruction(0);
    }
 
-   public Instruction return1() {
+   @Override public Instruction return1() {
       return new ReturnInstruction(1);
    }
 
-   public Instruction return2() {
+   @Override public Instruction return2() {
       return new ReturnInstruction(2);
    }
 
-   public Instruction newObject(final String klassDesc) {
+   @Override public Instruction newObject(final String klassDesc) {
       return loadingInstruction(klassDesc, newOp(klassDesc));
    }
 
-   public Instruction addressToHashCode() {
+   @Override public Instruction addressToHashCode() {
       return linearInstruction(new AddressToHashCodeOp());
    }
 
-   public Instruction nanoTime() {
+   @Override public Instruction nanoTime() {
       return linearInstruction(new NanoTimeOp());
    }
 
-   public Instruction currentTimeMillis() {
+   @Override public Instruction currentTimeMillis() {
       return linearInstruction(new CurrentTimeMillisOp());
    }
 
@@ -485,7 +486,7 @@ public final class BaseInstructions implements Instructions {
       return MethodCallInstruction.createInvokeSpecial(sMethodName);
    }
 
-   public Instruction invokeInterface(final String klassName, final String methodName, final String desc) {
+   @Override public Instruction invokeInterface(final String klassName, final String methodName, final String desc) {
       return invokeInterface(new SMethodName(klassName, methodName, desc));
    }
 
@@ -493,27 +494,27 @@ public final class BaseInstructions implements Instructions {
       return MethodCallInstruction.createInvokeInterface(sMethodName);
    }
 
-   public Instruction currentThread() {
+   @Override public Instruction currentThread() {
       return linearInstruction(new CurrentThreadOp());
    }
 
-   public Instruction arrayCopy() {
+   @Override public Instruction arrayCopy() {
       return linearInstruction(new ArrayCopyOp());
    }
 
-   public Instruction floatToRawIntBits() {
+   @Override public Instruction floatToRawIntBits() {
       return linearInstruction(new FloatToRawIntBits());
    }
 
-   public Instruction doubleToRawLongBits() {
+   @Override public Instruction doubleToRawLongBits() {
       return linearInstruction(new DoubleToRawLongBits());
    }
 
-   public Instruction getCallerClass() {
+   @Override public Instruction getCallerClass() {
       return linearInstruction(new GetCallerClass());
    }
 
-   public Instruction getPrimitiveClass() {
+   @Override public Instruction getPrimitiveClass() {
       return linearInstruction(new GetPrimitiveClass());
    }
 
@@ -576,5 +577,9 @@ public final class BaseInstructions implements Instructions {
             return (long) 0l;
       }
       throw new UnsupportedOperationException("" + atype);
+   }
+
+   public Instruction nop() {
+      return new LinearInstruction(new NopOp());
    }
 }

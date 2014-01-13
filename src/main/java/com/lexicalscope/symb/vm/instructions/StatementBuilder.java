@@ -9,14 +9,14 @@ import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.classloader.MethodBody;
 
-public class StatementBuilder {
+public final class StatementBuilder {
    private final List<Instruction> instructions = new ArrayList<>();
    private int maxStack;
    private int maxLocals;
-   private final BaseInstructions baseInstructions;
+   private final Instructions factory;
 
-   public StatementBuilder(final BaseInstructions baseInstructions) {
-      this.baseInstructions = baseInstructions;
+   public StatementBuilder(final Instructions baseInstructions) {
+      this.factory = baseInstructions;
    }
 
    public StatementBuilder maxLocals(final int maxLocals) {
@@ -30,102 +30,107 @@ public class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      add(baseInstructions.newObject(klassDesc));
+      add(factory.newObject(klassDesc));
       return this;
    }
 
    public StatementBuilder aconst_null() {
-      add(baseInstructions.aconst_null());
+      add(factory.aconst_null());
       return this;
    }
 
    public StatementBuilder iconst_0() {
-      add(baseInstructions.iconst_0());
+      add(factory.iconst_0());
       return this;
    }
 
    public StatementBuilder iconst(final int i) {
-      add(baseInstructions.iconst(i));
+      add(factory.iconst(i));
       return this;
    }
 
    public StatementBuilder lconst(final long l) {
-      add(baseInstructions.lconst(l));
+      add(factory.lconst(l));
       return this;
    }
 
    public StatementBuilder return1() {
-      add(baseInstructions.return1());
+      add(factory.return1());
       return this;
    }
 
    public StatementBuilder return2() {
-      add(baseInstructions.return2());
+      add(factory.return2());
       return this;
    }
 
    public StatementBuilder returnVoid() {
-      add(baseInstructions.returnVoid());
+      add(factory.returnVoid());
       return this;
    }
 
    public StatementBuilder addressToHashCode() {
-      add(baseInstructions.addressToHashCode());
+      add(factory.addressToHashCode());
       return this;
    }
 
    public StatementBuilder aload(final int index) {
-      add(baseInstructions.aload(index));
+      add(factory.aload(index));
       return this;
    }
 
    public StatementBuilder nanoTime() {
-      add(baseInstructions.nanoTime());
+      add(factory.nanoTime());
       return this;
    }
 
    public StatementBuilder currentTimeMillis() {
-      add(baseInstructions.currentTimeMillis());
+      add(factory.currentTimeMillis());
       return this;
    }
 
    public StatementBuilder currentThread() {
-      add(baseInstructions.currentThread());
+      add(factory.currentThread());
       return this;
    }
 
    public StatementBuilder arrayCopy() {
-      add(baseInstructions.arrayCopy());
+      add(factory.arrayCopy());
       return this;
    }
 
    public StatementBuilder floatToRawIntBits() {
-      add(baseInstructions.floatToRawIntBits());
+      add(factory.floatToRawIntBits());
       return this;
    }
 
    public StatementBuilder doubleToRawLongBits() {
-      add(baseInstructions.doubleToRawLongBits());
+      add(factory.doubleToRawLongBits());
       return this;
    }
 
    public StatementBuilder fload(final int index) {
-      add(baseInstructions.fload(index));
+      add(factory.fload(index));
       return this;
    }
 
    public StatementBuilder dload(final int index) {
-      add(baseInstructions.dload(index));
+      add(factory.dload(index));
       return this;
    }
 
    public StatementBuilder getCallerClass() {
-      add(baseInstructions.getCallerClass());
+      add(factory.getCallerClass());
       return this;
    }
 
    public StatementBuilder getPrimitiveClass() {
-      add(baseInstructions.getPrimitiveClass());
+      add(factory.getPrimitiveClass());
+      return this;
+   }
+
+   public StatementBuilder nop() {
+      add(factory.nop());
       return this;
    }
 
@@ -134,17 +139,21 @@ public class StatementBuilder {
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
-      add(baseInstructions.invokeInterface(klassName, methodName, desc));
+      add(factory.invokeInterface(klassName, methodName, desc));
       return this;
    }
 
    public MethodBody build() {
+      return new MethodBody(buildInstruction(), maxStack, maxLocals);
+   }
+
+   public InstructionInternalNode buildInstruction() {
       InstructionInternalNode next = null;
       for (final Instruction instruction : reverse(instructions)) {
          final InstructionInternalNode node = new InstructionInternalNode(instruction);
          if(next != null) {node.next(next);}
          next = node;
       }
-      return new MethodBody(next, maxStack, maxLocals);
+      return next;
    }
 }

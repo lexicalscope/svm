@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.symbolic;
 
 import static com.lexicalscope.MatchersAdditional.after;
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.*;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.stateToModel;
 import static com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers.symbolEquivalentTo;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -12,7 +12,6 @@ import org.junit.Test;
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
-import com.lexicalscope.symb.vm.matchers.StateMatchers.SimplifyingMatcherBuilder;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
@@ -21,7 +20,6 @@ import com.lexicalscope.symb.z3.FeasibilityChecker;
 public class TestCreateArrayWithSymbolicLength {
    @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
    private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
-   private final SimplifyingMatcherBuilder simpifies = resultSimplifies(feasbilityChecker);
    private final SymbInstructionFactory instructionFactory = new SymbInstructionFactory(feasbilityChecker);
 
    final MethodInfo createMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "create", "(I)[Ljava/lang/Object;");
@@ -59,21 +57,21 @@ public class TestCreateArrayWithSymbolicLength {
    }
 
    @Test public void createArrayWithSymbolicLength() throws Exception {
-      final ISymbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, createMethod, symbol1);
       vm.execute();
    }
 
    @Test public void fillArrayWithSymbolicLength() throws Exception {
-      final ISymbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, fillMethod, symbol1);
       vm.execute();
    }
 
    @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
-      final ITerminalSymbol symbol1 = instructionFactory.symbol();
+      final ITerminalSymbol symbol1 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();

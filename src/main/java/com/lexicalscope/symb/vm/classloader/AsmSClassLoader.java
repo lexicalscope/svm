@@ -13,6 +13,7 @@ import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.symb.vm.instructions.StatementBuilder;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.vm.natives.NativeMethods;
@@ -67,6 +68,13 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.addAll(DefineClassOp.primitives);
 
       return new InstructionInternalNode(instructions.defineClass(bootstrapClasses));
+   }
+
+   @Override public InstructionNode loadArgsInstruction(final Object[] args) {
+      for (final Object object : args) {
+
+      }
+      return new StatementBuilder(instructions).nop().buildInstruction();
    }
 
    @Override public InstructionNode initThreadInstruction() {

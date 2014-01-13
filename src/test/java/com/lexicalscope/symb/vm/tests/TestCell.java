@@ -24,7 +24,7 @@ public class TestCell {
    @Test
    public void symbExecuteCellNewGetSet() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final ISymbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, viaCellMethod, symbol1);
       assertThat(vm.execute(), normalTerminiationWithResult(symbol1));

@@ -24,7 +24,7 @@ public class TestInfeasibleBranch {
    @Test
    public void symbExecuteShouldSearchOnlyOneBranch() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final ISymbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, infeasibleMethod, symbol1);
       vm.execute();

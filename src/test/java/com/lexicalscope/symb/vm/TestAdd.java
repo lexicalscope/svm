@@ -23,8 +23,8 @@ public class TestAdd {
    @Test
    public void symbExecuteStaticAddMethod() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final ISymbol symbol1 = instructionFactory.symbol();
-      final ISymbol symbol2 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.isymbol();
+      final ISymbol symbol2 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, addMethod,symbol1, symbol2);
       assertThat(vm.execute(), normalTerminiationWithResult(new IAddSymbol(symbol1, symbol2)));

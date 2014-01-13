@@ -32,7 +32,7 @@ public class TestBranch {
    @Test
    public void symbExecuteBothBranches() {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final ISymbol symbol1 = instructionFactory.symbol();
+      final ISymbol symbol1 = instructionFactory.isymbol();
 
       final Vm vm = Vm.vm(instructionFactory, absMethod, symbol1);
       vm.execute();
