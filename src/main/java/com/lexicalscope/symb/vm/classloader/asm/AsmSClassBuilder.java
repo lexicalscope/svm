@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.vm.classloader.asm;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
@@ -12,20 +11,20 @@ import com.lexicalscope.symb.vm.classloader.SFieldName;
 
 public class AsmSClassBuilder {
    private final SClassLoader classLoader;
-   private final int classStartOffset;
-   final List<SField> declaredFields = new ArrayList<>();
-   final TreeMap<SFieldName, Integer> declaredFieldMap = new TreeMap<>();
+   private final DeclaredFields declaredFields;
    final TreeMap<SFieldName, Integer> declaredStaticFieldMap = new TreeMap<>();
-   final List<Object> declaredFieldInit = new ArrayList<>();
+   private final int classStartOffset;
+
 
    public AsmSClassBuilder(final SClassLoader classLoader, final AsmSClass superclass) {
       this.classLoader = classLoader;
       classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
+      declaredFields = new DeclaredFields(classStartOffset);
    }
 
    void initialiseFieldMaps(final List<FieldNode> fields) {
       for (final FieldNode fieldNode : fields) {
-         final SField field = new SField(new SFieldName(name, fieldNode.name), fieldNode);
+         final SField field = new SField(new SFieldName(name, fieldNode.name), fieldNode, classLoader.init(fieldNode.desc));
 
          withField(field);
       }
@@ -38,20 +37,21 @@ public class AsmSClassBuilder {
          declaredStaticFieldMap.put(field.name(), staticOffset);
          staticOffset++;
       } else {
-         declaredFields.add(field);
-         declaredFieldMap.put(field.name(), dynamicOffset + classStartOffset);
-         declaredFieldInit.add(classLoader.init(field.desc()));
-         dynamicOffset++;
+         declaredFields.addField(field);
       }
    }
 
    public int subclassOffset() {
-      return classStartOffset + declaredFieldMap.size();
+      return classStartOffset + declaredFields.count();
    }
 
    private String name;
    public AsmSClassBuilder withName(final String name) {
       this.name = name;
       return this;
+   }
+
+   public DeclaredFields declaredFields() {
+      return declaredFields;
    }
 }

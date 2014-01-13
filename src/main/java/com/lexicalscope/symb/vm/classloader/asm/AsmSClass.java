@@ -4,6 +4,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
@@ -30,11 +31,12 @@ public class AsmSClass implements SClass {
 
    private final Set<SClass> superTypes = new HashSet<>();
 
-   private final List<SField> declaredFields;
-   private final TreeMap<SFieldName, Integer> declaredFieldMap;
+   private final Map<SFieldName, Integer> declaredFieldMap;
    private final TreeMap<SFieldName, Integer> declaredStaticFieldMap;
 
    private final List<SField> fields;
+   private final List<SField> declaredFields;
+
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, AsmSMethod> methodMap;
@@ -46,7 +48,6 @@ public class AsmSClass implements SClass {
    final int subclassOffset;
    private final SClass superclass;
    private final SClassLoader classLoader;
-   private final ArrayList<Object> fieldInit;
 
    private final int fieldcount;
 
@@ -65,16 +66,14 @@ public class AsmSClass implements SClass {
       this.classNode = classNode;
       this.superclass = superclass;
 
-      this.declaredFields = sClassBuilder.declaredFields;
-      this.declaredFieldMap = sClassBuilder.declaredFieldMap;
+      this.declaredFieldMap = sClassBuilder.declaredFields().map();
       this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
       this.subclassOffset = sClassBuilder.subclassOffset();
-      this.fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFieldMap.size();
+      this.fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFields().count();
 
       this.staticFieldMap = new TreeMap<>();
       this.fields = new ArrayList<>();
       this.fieldMap = new TreeMap<>();
-      this.fieldInit = new ArrayList<>();
       this.methodMap = new TreeMap<>();
       this.virtuals = new TreeMap<>();
 
@@ -87,7 +86,6 @@ public class AsmSClass implements SClass {
          }
          fields.addAll(superclass.fields);
          fieldMap.putAll(superclass.fieldMap);
-         fieldInit.addAll(superclass.fieldInit);
          superTypes.addAll(superclass.superTypes);
          virtuals.putAll(superclass.virtuals);
       }
@@ -96,10 +94,12 @@ public class AsmSClass implements SClass {
          superTypes.addAll(interfac3.superTypes);
       }
 
-      fields.addAll(sClassBuilder.declaredFields);
-      fieldInit.addAll(sClassBuilder.declaredFieldInit);
-      fieldMap.putAll(sClassBuilder.declaredFieldMap);
+      declaredFields = sClassBuilder.declaredFields().fields();
+      fields.addAll(sClassBuilder.declaredFields().fields());
+      fieldMap.putAll(sClassBuilder.declaredFields().map());
+
       staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
+
 
       initialiseMethodMap();
    }
@@ -161,8 +161,18 @@ public class AsmSClass implements SClass {
       return fieldMap.containsKey(name);
    }
 
+   private ArrayList<Object> fieldInit;
    @Override
    public List<Object> fieldInit() {
+      if(fieldInit == null) {
+         fieldInit = new ArrayList<>();
+         if(superclass != null) {
+            fieldInit.addAll(superclass.fieldInit());
+         }
+         for (final SField field : declaredFields) {
+            fieldInit.add(field.init());
+         }
+      }
       return fieldInit;
    }
 
