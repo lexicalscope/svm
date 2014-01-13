@@ -7,6 +7,7 @@ import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
+import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.JavaConstants;
 
@@ -25,5 +26,10 @@ public class ClassNodeAdapter {
          return result;
       }
       return classNode.fields;
+   }
+
+   @SuppressWarnings("unchecked")
+   public List<MethodNode> methods() {
+      return classNode.methods;
    }
 }

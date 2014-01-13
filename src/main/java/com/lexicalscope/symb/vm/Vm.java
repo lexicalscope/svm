@@ -86,7 +86,7 @@ public class Vm {
       final StaticsImpl statics = new StaticsImpl(classLoader);
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, methodName.argSize()));
+      stack.push(new SnapshotableStackFrame(null, null, defineClassClass, 0, methodName.argSize()));
       return new StateImpl(statics, stack, new CheckingHeap(new FastHeap()), classLoader.initialMeta());
    }
 }

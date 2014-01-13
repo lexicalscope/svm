@@ -9,7 +9,7 @@ import com.lexicalscope.symb.vm.Vop;
 public class GetCallerClass implements Vop {
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
       // TODO[tim]: demeter
-      stackFrame.push(statics.whereMyClassAt(stack.caller().method().klass()));
+      stackFrame.push(statics.whereMyClassAt(stack.caller().receiverKlass()));
    }
 
    @Override public String toString() {

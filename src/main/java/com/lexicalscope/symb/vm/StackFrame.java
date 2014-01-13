@@ -30,4 +30,6 @@ public interface StackFrame  extends Snapshotable<StackFrame>{
    Object peek();
 
    SMethod method();
+
+   String receiverKlass();
 }

@@ -12,21 +12,25 @@ public final class SnapshotableStackFrame implements StackFrame {
    private int opTop; // pointer to top of operand stack
    private final int vars = 0; // pointer to local variables
    private final SMethod method;
+   private final String receiverKlass;
 
    public SnapshotableStackFrame(
+         final String receiverKlass,
          final SMethod method,
          final InstructionNode instruction,
          final int maxLocals,
          final int maxStack) {
-      this(method, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
+      this(receiverKlass, method, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
    }
 
    private SnapshotableStackFrame(
+         final String receiverKlass,
          final SMethod method,
          final InstructionNode instruction,
          final Object[] stack,
          final int opBot,
          final int opTop) {
+      this.receiverKlass = receiverKlass;
       this.method = method;
       this.instruction = instruction;
       this.stack = stack;
@@ -138,7 +142,7 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public SnapshotableStackFrame snapshot() {
-      return new SnapshotableStackFrame(method, instruction, copyOf(stack, stack.length), opBot, opTop);
+      return new SnapshotableStackFrame(receiverKlass, method, instruction, copyOf(stack, stack.length), opBot, opTop);
    }
 
    @Override
@@ -162,5 +166,9 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override public SMethod method() {
       return method;
+   }
+
+   @Override public String receiverKlass() {
+      return receiverKlass;
    }
 }

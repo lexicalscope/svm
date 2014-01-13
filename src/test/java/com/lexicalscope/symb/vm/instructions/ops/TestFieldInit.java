@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static com.lexicalscope.symb.vm.HeapMatchers.contains;
-import static com.lexicalscope.symb.vm.HeapMatchers.heapLocation;
+import static com.lexicalscope.symb.vm.HeapMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
@@ -33,7 +32,7 @@ public class TestFieldInit {
       assertThat(klasses, Matchers.hasSize(2));
       sClass = klasses.get(1);
 
-      newObject = new NewOp(klassName).eval(new SnapshotableStackFrame(null, null, 0, 1), null, heap, statics);
+      newObject = new NewOp(klassName).eval(new SnapshotableStackFrame(null, null, null, 0, 1), null, heap, statics);
    }
 
    @Test public void intFieldInit() {
