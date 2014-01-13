@@ -53,4 +53,8 @@ public final class Fields {
    @Override public String toString() {
       return map.toString();
    }
+
+   public int count() {
+      return fields.size();
+   }
 }

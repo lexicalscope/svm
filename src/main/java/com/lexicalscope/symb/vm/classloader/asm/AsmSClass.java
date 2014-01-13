@@ -44,9 +44,6 @@ public class AsmSClass implements SClass {
    private final SClass superclass;
    private final SClassLoader classLoader;
 
-   private final int fieldcount;
-
-
    // TODO[tim]: far too much work in this constructor
    public AsmSClass(
          final SClassLoader classLoader,
@@ -65,7 +62,6 @@ public class AsmSClass implements SClass {
       this.declaredFields = sClassBuilder.declaredFields();
       this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
       this.subclassOffset = sClassBuilder.subclassOffset();
-      this.fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFields().count();
 
       this.staticFieldMap = new TreeMap<>();
       this.methodMap = new TreeMap<>();
@@ -124,7 +120,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override public int allocateSize() {
-      return fieldcount + OBJECT_PREAMBLE;
+      return fields.count() + OBJECT_PREAMBLE;
    }
 
    @Override
