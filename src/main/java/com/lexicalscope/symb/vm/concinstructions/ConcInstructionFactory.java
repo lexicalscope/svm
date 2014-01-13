@@ -41,8 +41,10 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
 import com.lexicalscope.symb.vm.instructions.BranchInstruction;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
+import com.lexicalscope.symb.vm.instructions.LinearInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.LoadConstantArg;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
@@ -235,5 +237,9 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Vop aaLoad() {
       return ArrayLoadOp.aaLoad();
+   }
+
+   @Override public Instruction loadArg(final Object object) {
+      return new LinearInstruction(new LoadConstantArg(object));
    }
 }

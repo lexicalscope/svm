@@ -5,12 +5,13 @@ import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public final class LoadConstantArg implements Vop {
    private final Object value;
 
-   LoadConstantArg(final Object value) {
-//      assert value instanceof Integer : value.getClass();
+   public LoadConstantArg(final Object value) {
+      assert value instanceof Integer || value instanceof ISymbol : value.getClass();
       this.value = value;
    }
 

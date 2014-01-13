@@ -61,6 +61,8 @@ public interface InstructionFactory {
    Instruction branchIfACmpEq(JumpInsnNode jumpInsnNode);
    Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
 
+   Instruction loadArg(Object object);
+
    Snapshotable<?> initialMeta();
 
    // initial values for fields

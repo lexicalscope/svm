@@ -16,13 +16,16 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
 import com.lexicalscope.symb.vm.instructions.BranchInstruction;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
+import com.lexicalscope.symb.vm.instructions.LinearInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.LoadConstantArg;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
+import com.lexicalscope.symb.vm.symbinstructions.ops.LoadSymbolicObjectArg;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SArrayLoadOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SArrayStoreOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SIAddOperator;
@@ -235,5 +238,13 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Vop iaLoad() {
       return SArrayLoadOp.iaLoad(feasibilityChecker);
+   }
+
+   @Override public Instruction loadArg(final Object object) {
+      if(object instanceof OTerminalSymbol) {
+         return new LinearInstruction(new LoadSymbolicObjectArg((OTerminalSymbol)object));
+      } else {
+         return new LinearInstruction(new LoadConstantArg(object));
+      }
    }
 }
