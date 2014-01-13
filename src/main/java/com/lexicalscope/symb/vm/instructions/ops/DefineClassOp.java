@@ -13,8 +13,8 @@ import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.StaticsMarker;
-import com.lexicalscope.symb.vm.classloader.AsmSClass;
 import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public final class DefineClassOp implements Op<List<SClass>> {
    public static final List<String> primitives = Arrays.asList(

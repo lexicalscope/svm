@@ -13,6 +13,7 @@ import java.util.List;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
+import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class ResourceByteCodeReader implements ByteCodeReader {

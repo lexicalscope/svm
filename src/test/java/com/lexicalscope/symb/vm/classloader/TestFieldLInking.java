@@ -6,6 +6,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
+
 /**
  * If the compiler changes the field order then these tests will break.
  *

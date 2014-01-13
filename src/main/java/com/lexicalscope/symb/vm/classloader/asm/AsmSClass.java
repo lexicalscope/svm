@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.vm.classloader.asm;
 
 import java.net.URL;
 import java.util.ArrayList;
@@ -15,6 +15,15 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.classloader.Allocatable;
+import com.lexicalscope.symb.vm.classloader.AsmSMethod;
+import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.SClassLoader;
+import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodNotFoundException;
+import com.lexicalscope.symb.vm.classloader.SVirtualMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class AsmSClass implements SClass {
