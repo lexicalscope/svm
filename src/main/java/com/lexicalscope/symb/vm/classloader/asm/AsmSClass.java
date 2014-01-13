@@ -58,7 +58,7 @@ public class AsmSClass implements SClass {
          final ClassNode classNode,
          final AsmSClass superclass,
          final List<AsmSClass> interfaces,
-         final AsmClassBuilder sClassBuilder) {
+         final AsmSClassBuilder sClassBuilder) {
       this.classLoader = classLoader;
       this.instructions = instructions;
       this.loadedFromUrl = loadedFromUrl;
