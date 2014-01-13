@@ -31,7 +31,6 @@ public class AsmSClassBuilder {
    }
 
    int staticOffset = 0;
-   int dynamicOffset = 0;
    private void withField(final SField field) {
       if (field.isStatic()) {
          declaredStaticFieldMap.put(field.name(), staticOffset);
@@ -39,10 +38,6 @@ public class AsmSClassBuilder {
       } else {
          declaredFields.addField(field);
       }
-   }
-
-   public int subclassOffset() {
-      return classStartOffset + declaredFields.count();
    }
 
    private String name;

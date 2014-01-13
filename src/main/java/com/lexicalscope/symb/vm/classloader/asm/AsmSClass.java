@@ -61,7 +61,6 @@ public class AsmSClass implements SClass {
 
       this.declaredFields = sClassBuilder.declaredFields();
       this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
-      this.subclassOffset = sClassBuilder.subclassOffset();
 
       this.staticFieldMap = new TreeMap<>();
       this.methodMap = new TreeMap<>();
@@ -81,8 +80,9 @@ public class AsmSClass implements SClass {
 
       staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
 
-
       initialiseMethodMap(classNode);
+
+      this.subclassOffset = (superclass == null ? 0 : superclass.subclassOffset) + declaredFields.count();
    }
 
    private void initialiseMethodMap(final ClassNode classNode) {
