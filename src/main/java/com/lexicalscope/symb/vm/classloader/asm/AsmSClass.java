@@ -10,7 +10,6 @@ import java.util.TreeMap;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.JavaConstants;
@@ -18,6 +17,7 @@ import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
+import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
@@ -30,11 +30,11 @@ public class AsmSClass implements SClass {
 
    private final Set<SClass> superTypes = new HashSet<>();
 
-   private final List<FieldNode> declaredFields;
+   private final List<SField> declaredFields;
    private final TreeMap<SFieldName, Integer> declaredFieldMap;
    private final TreeMap<SFieldName, Integer> declaredStaticFieldMap;
 
-   private final List<FieldNode> fields;
+   private final List<SField> fields;
    private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, AsmSMethod> methodMap;
@@ -68,7 +68,7 @@ public class AsmSClass implements SClass {
       this.declaredFields = sClassBuilder.declaredFields;
       this.declaredFieldMap = sClassBuilder.declaredFieldMap;
       this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
-      this.subclassOffset = sClassBuilder.subclassOffset;
+      this.subclassOffset = sClassBuilder.subclassOffset();
       this.fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFieldMap.size();
 
       this.staticFieldMap = new TreeMap<>();
@@ -149,11 +149,11 @@ public class AsmSClass implements SClass {
    }
 
    @Override public String fieldDescAtIndex(final int index) {
-      return fields.get(index - OBJECT_PREAMBLE).desc;
+      return fields.get(index - OBJECT_PREAMBLE).desc();
    }
 
    @Override public String fieldNameAtIndex(final int index) {
-      return fields.get(index - OBJECT_PREAMBLE).name;
+      return fields.get(index - OBJECT_PREAMBLE).name();
    }
 
    @Override
