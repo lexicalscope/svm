@@ -64,6 +64,7 @@ import com.lexicalscope.symb.vm.instructions.ops.Nullary2Op;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.PopOp;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.ops.Store2;
@@ -579,7 +580,12 @@ public final class BaseInstructions implements Instructions {
       throw new UnsupportedOperationException("" + atype);
    }
 
+   @Override
    public Instruction nop() {
       return new LinearInstruction(new NopOp());
+   }
+
+   @Override public Instruction loadArg(final Object object) {
+      return linearInstruction(Ops.loadConstants(object));
    }
 }

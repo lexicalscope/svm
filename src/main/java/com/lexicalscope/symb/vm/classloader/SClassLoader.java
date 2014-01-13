@@ -27,5 +27,4 @@ public interface SClassLoader {
    InstructionNode loadArgsInstruction(Object[] args);
 
    Object init(String desc);
-
 }

@@ -50,4 +50,6 @@ public interface Instructions {
    Instruction dload(int index);
 
    Instruction nop();
+
+   Instruction loadArg(Object object);
 }

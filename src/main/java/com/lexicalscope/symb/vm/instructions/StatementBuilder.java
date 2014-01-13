@@ -29,6 +29,25 @@ public final class StatementBuilder {
       return this;
    }
 
+   private StatementBuilder add(final Instruction instruction) {
+      instructions.add(instruction);
+      return this;
+   }
+
+   public MethodBody build() {
+      return new MethodBody(buildInstruction(), maxStack, maxLocals);
+   }
+
+   public InstructionInternalNode buildInstruction() {
+      InstructionInternalNode next = null;
+      for (final Instruction instruction : reverse(instructions)) {
+         final InstructionInternalNode node = new InstructionInternalNode(instruction);
+         if(next != null) {node.next(next);}
+         next = node;
+      }
+      return next;
+   }
+
    public StatementBuilder newObject(final String klassDesc) {
       return add(factory.newObject(klassDesc));
    }
@@ -113,26 +132,11 @@ public final class StatementBuilder {
       return add(factory.nop());
    }
 
-   private StatementBuilder add(final Instruction instruction) {
-      instructions.add(instruction);
-      return this;
-   }
-
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
       return add(factory.invokeInterface(klassName, methodName, desc));
    }
 
-   public MethodBody build() {
-      return new MethodBody(buildInstruction(), maxStack, maxLocals);
-   }
-
-   public InstructionInternalNode buildInstruction() {
-      InstructionInternalNode next = null;
-      for (final Instruction instruction : reverse(instructions)) {
-         final InstructionInternalNode node = new InstructionInternalNode(instruction);
-         if(next != null) {node.next(next);}
-         next = node;
-      }
-      return next;
+   public StatementBuilder loadArg(final Object object) {
+      return add(factory.loadArg(object));
    }
 }

@@ -8,8 +8,8 @@ import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
 
 public final class Ops {
-   public static LoadConstants loadConstants(final Object ... values) {
-      return new LoadConstants(values);
+   public static LoadConstantArg loadConstants(final Object value) {
+      return new LoadConstantArg(value);
    }
 
    public static PopOperand popOperand() {

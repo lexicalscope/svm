@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm;
 
 import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.createInvokeStatic;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.loadConstants;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
@@ -69,7 +68,7 @@ public class Vm {
 
    public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
-      return new Vm(Vm.initial(classLoader, entryPoint, args).op(loadConstants(args)));
+      return new Vm(Vm.initial(classLoader, entryPoint, args));
    }
 
    public static State initial(final SClassLoader classLoader, final MethodInfo info, final Object[] args) {

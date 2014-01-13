@@ -71,10 +71,11 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override public InstructionNode loadArgsInstruction(final Object[] args) {
+      final StatementBuilder builder = new StatementBuilder(instructions).nop();
       for (final Object object : args) {
-
+         builder.loadArg(object);
       }
-      return new StatementBuilder(instructions).nop().buildInstruction();
+      return builder.buildInstruction();
    }
 
    @Override public InstructionNode initThreadInstruction() {
