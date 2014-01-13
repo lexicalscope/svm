@@ -13,7 +13,7 @@ public class AsmSClassFactory {
    public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final AsmSClass superclass, final List<AsmSClass> interfaces) {
       final AsmSClassBuilder sClassBuilder = new AsmSClassBuilder(classLoader, superclass);
       final ClassNodeAdapter classNodeAdapter = new ClassNodeAdapter(classNode);
-      sClassBuilder.withName(classNode.name).initialiseFieldMaps(classNodeAdapter.fields());
+      sClassBuilder.withName(classNode.name).withFields(classNodeAdapter.fields());
       return new AsmSClass(classLoader, instructions, loadedFromUrl, classNode, superclass, interfaces, sClassBuilder);
    }
 }

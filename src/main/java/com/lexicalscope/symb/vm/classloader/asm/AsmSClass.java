@@ -32,9 +32,7 @@ public class AsmSClass implements SClass {
 
    private final DeclaredFields declaredFields;
    private final Fields fields;
-   private final TreeMap<SFieldName, Integer> declaredStaticFieldMap;
 
-   private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, AsmSMethod> methodMap;
    private final TreeMap<SVirtualMethodName, AsmSMethod> virtuals;
 
@@ -59,9 +57,7 @@ public class AsmSClass implements SClass {
       this.klassName = classNode.name;
 
       this.declaredFields = sClassBuilder.declaredFields();
-      this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
 
-      this.staticFieldMap = new TreeMap<>();
       this.methodMap = new TreeMap<>();
       this.virtuals = new TreeMap<>();
 
@@ -76,8 +72,6 @@ public class AsmSClass implements SClass {
       for (final AsmSClass interfac3 : interfaces) {
          superTypes.addAll(interfac3.superTypes);
       }
-
-      staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
 
       initialiseMethodMap(classNode);
 
@@ -149,17 +143,17 @@ public class AsmSClass implements SClass {
    }
 
    public int staticFieldCount() {
-      return staticFieldMap.size();
+      return declaredFields.staticCount();
    }
 
    @Override
    public int staticFieldIndex(final SFieldName name) {
-      return staticFieldMap.get(name) + STATICS_PREAMBLE;
+      return declaredFields.staticFieldIndex(name) + STATICS_PREAMBLE;
    }
 
    @Override
    public boolean hasStaticField(final SFieldName name) {
-      return staticFieldMap.containsKey(name);
+      return declaredFields.containsStaticField(name);
    }
 
    @Override
@@ -192,7 +186,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override public String toString() {
-      return String.format("%s s<%s> <%s>", name(), staticFieldMap, fields);
+      return String.format("%s s<%s> <%s>", name(), declaredFields.staticFieldsToString(), fields);
    }
 
    @Override public boolean isArray() {

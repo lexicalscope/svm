@@ -1,23 +1,39 @@
 package com.lexicalscope.symb.vm.classloader.asm;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 import com.lexicalscope.symb.vm.classloader.SField;
+import com.lexicalscope.symb.vm.classloader.SFieldName;
 
 class DeclaredFields {
    private final List<SField> declaredFields = new ArrayList<>();
+   private final Map<SFieldName, Integer> staticFieldMap = new LinkedHashMap<>();
 
-   public void addField(final SField field) {
+   public void addDynamic(final SField field) {
       declaredFields.add(field);
    }
 
-   public int count() {
+   public void addStatic(final SField field) {
+      staticFieldMap.put(field.name(), staticFieldMap.size());
+   }
+
+   public int dynamicCount() {
       return declaredFields.size();
    }
 
-   public List<SField> fields() {
+   public List<SField> dynamicFields() {
       return declaredFields;
+   }
+
+   public int staticCount() {
+      return staticFieldMap.size();
+   }
+
+   public String staticFieldsToString() {
+      return staticFieldMap.toString();
    }
 
    public List<Object> fieldInit() {
@@ -26,5 +42,13 @@ class DeclaredFields {
          fieldInit.add(field.init());
       }
       return fieldInit;
+   }
+
+   public Integer staticFieldIndex(final SFieldName name) {
+      return staticFieldMap.get(name);
+   }
+
+   public boolean containsStaticField(final SFieldName name) {
+      return staticFieldMap.containsKey(name);
    }
 }
