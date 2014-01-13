@@ -8,7 +8,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
@@ -44,7 +43,7 @@ public class AsmSClass implements SClass {
    private final URL loadedFromUrl;
    private final ClassNode classNode;
    private final Instructions instructions;
-   private final int subclassOffset;
+   final int subclassOffset;
    private final SClass superclass;
    private final SClassLoader classLoader;
    private final ArrayList<Object> fieldInit;
@@ -59,7 +58,7 @@ public class AsmSClass implements SClass {
          final ClassNode classNode,
          final AsmSClass superclass,
          final List<AsmSClass> interfaces,
-         final SClassBuilder sClassBuilder) {
+         final AsmClassBuilder sClassBuilder) {
       this.classLoader = classLoader;
       this.instructions = instructions;
       this.loadedFromUrl = loadedFromUrl;
@@ -171,41 +170,26 @@ public class AsmSClass implements SClass {
       return staticFieldMap.size();
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#staticFieldIndex(com.lexicalscope.symb.vm.classloader.SFieldName)
-    */
    @Override
    public int staticFieldIndex(final SFieldName name) {
       return staticFieldMap.get(name) + STATICS_PREAMBLE;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#hasStaticField(com.lexicalscope.symb.vm.classloader.SFieldName)
-    */
    @Override
    public boolean hasStaticField(final SFieldName name) {
       return staticFieldMap.containsKey(name);
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#name()
-    */
    @Override
    public String name() {
       return classNode.name;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#superclass()
-    */
    @Override
    public Object superclass() {
       return superclass;
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#statics()
-    */
    @Override
    public Allocatable statics() {
       return new Allocatable() {
@@ -215,17 +199,11 @@ public class AsmSClass implements SClass {
       };
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#instanceOf(com.lexicalscope.symb.vm.classloader.SClass)
-    */
    @Override
    public boolean instanceOf(final SClass other) {
       return other == this || superTypes.contains(other);
    }
 
-   /* (non-Javadoc)
-    * @see com.lexicalscope.symb.vm.classloader.SClass#loadedFrom()
-    */
    @Override
    public URL loadedFrom() {
       return loadedFromUrl;
@@ -233,56 +211,6 @@ public class AsmSClass implements SClass {
 
    @Override public String toString() {
       return String.format("%s s<%s> <%s>", name(), staticFieldMap, fieldMap);
-   }
-
-   private static class SClassBuilder {
-      private final SClassLoader classLoader;
-      private final int classStartOffset;
-      private int subclassOffset;
-      private final List<FieldNode> declaredFields = new ArrayList<>();
-      private final TreeMap<SFieldName, Integer> declaredFieldMap = new TreeMap<>();
-      private final TreeMap<SFieldName, Integer> declaredStaticFieldMap = new TreeMap<>();
-      private final List<Object> declaredFieldInit = new ArrayList<>();
-
-      public SClassBuilder(final SClassLoader classLoader, final AsmSClass superclass) {
-         this.classLoader = classLoader;
-         classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
-      }
-
-      private void initialiseFieldMaps(final ClassNode classNode) {
-         final List<?> fields = fields(classNode);
-         int staticOffset = 0;
-         int dynamicOffset = 0;
-         for (int i = 0; i < fields.size(); i++) {
-            final FieldNode fieldNode = (FieldNode) fields.get(i);
-            final SFieldName fieldName = new SFieldName(classNode.name, fieldNode.name);
-            if ((fieldNode.access & Opcodes.ACC_STATIC) != 0) {
-               declaredStaticFieldMap.put(fieldName, staticOffset);
-               staticOffset++;
-            } else {
-               declaredFields.add(fieldNode);
-               declaredFieldMap.put(fieldName, dynamicOffset + classStartOffset);
-               declaredFieldInit.add(classLoader.init(fieldNode.desc));
-               dynamicOffset++;
-            }
-         }
-         subclassOffset = classStartOffset + declaredFieldMap.size();
-      }
-
-      private List fields(final ClassNode classNode) {
-         if(classNode.name.equals(JavaConstants.CLASS_CLASS)) {
-            final List<Object> result = new ArrayList<>(classNode.fields);
-            result.add(new FieldNode(Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL, internalClassPointer.getName(), Type.getDescriptor(Object.class), "Ljava/lang/Object;", null));
-            return result;
-         }
-         return classNode.fields;
-      }
-   }
-
-   public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final AsmSClass superclass, final List<AsmSClass> interfaces) {
-      final SClassBuilder sClassBuilder = new SClassBuilder(classLoader, superclass);
-      sClassBuilder.initialiseFieldMaps(classNode);
-      return new AsmSClass(classLoader, instructions, loadedFromUrl, classNode, superclass, interfaces, sClassBuilder);
    }
 
    @Override public boolean isArray() {

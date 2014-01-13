@@ -13,6 +13,7 @@ import java.util.List;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
+import com.lexicalscope.symb.vm.classloader.asm.AsmClassFactory;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
@@ -49,7 +50,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
             interfaces.add(classLoader.load(interfaceName, classLoaded));
          }
 
-         final AsmSClass result = AsmSClass.newSClass(classLoader, instructions, classUrl, classNode, superclass, interfaces);
+         final AsmSClass result = AsmClassFactory.newSClass(classLoader, instructions, classUrl, classNode, superclass, interfaces);
          classLoaded.loaded(result);
          return result;
       } catch (final IOException e) {
