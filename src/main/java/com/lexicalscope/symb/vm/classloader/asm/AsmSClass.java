@@ -5,24 +5,17 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
-import java.util.TreeMap;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.ClassNode;
-import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.classloader.Allocatable;
-import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 import com.lexicalscope.symb.vm.classloader.SClass;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
-import com.lexicalscope.symb.vm.classloader.SMethodNotFoundException;
-import com.lexicalscope.symb.vm.classloader.SVirtualMethodName;
-import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class AsmSClass implements SClass {
    public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");
@@ -31,84 +24,54 @@ public class AsmSClass implements SClass {
    private final Set<SClass> superTypes = new HashSet<>();
 
    private final DeclaredFields declaredFields;
+   private final DeclaredMethods declaredMethods;
    private final Fields fields;
-
-   private final TreeMap<SMethodName, AsmSMethod> methodMap;
-   private final TreeMap<SVirtualMethodName, AsmSMethod> virtuals;
+   private final Methods methods;
 
    private final URL loadedFromUrl;
-   private final Instructions instructions;
    private final SClass superclass;
-   private final SClassLoader classLoader;
+
 
    // TODO[tim]: far too much work in this constructor
    public AsmSClass(
-         final SClassLoader classLoader,
-         final Instructions instructions,
          final URL loadedFromUrl,
          final ClassNode classNode,
          final AsmSClass superclass,
          final List<AsmSClass> interfaces,
          final AsmSClassBuilder sClassBuilder) {
-      this.classLoader = classLoader;
-      this.instructions = instructions;
       this.loadedFromUrl = loadedFromUrl;
       this.superclass = superclass;
       this.klassName = classNode.name;
 
       this.declaredFields = sClassBuilder.declaredFields();
-
-      this.methodMap = new TreeMap<>();
-      this.virtuals = new TreeMap<>();
+      this.declaredMethods = sClassBuilder.declaredMethods();
+      this.fields = (superclass == null ? new Fields() : superclass.fields).extend(klassName, declaredFields);
+      this.methods = (superclass == null ? new Methods(klassName) : superclass.methods).extend(klassName, declaredMethods);
 
       superTypes.add(this);
-
-      this.fields = superclass == null ? new Fields() : superclass.fields.copy(classNode.name, declaredFields);
       if (superclass != null) {
          superTypes.addAll(superclass.superTypes);
-         virtuals.putAll(superclass.virtuals);
+
       }
 
       for (final AsmSClass interfac3 : interfaces) {
          superTypes.addAll(interfac3.superTypes);
       }
-
-      initialiseMethodMap(classNode);
-
-   }
-
-   private void initialiseMethodMap(final ClassNode classNode) {
-      for (final MethodNode method : methods(classNode)) {
-         final SMethodName methodName = new SMethodName(klassName, method.name, method.desc);
-         final AsmSMethod smethod = new AsmSMethod(classLoader, this, methodName, instructions, method);
-         methodMap.put(methodName, smethod);
-         virtuals.put(new SVirtualMethodName(method.name, method.desc), smethod);
-      }
-   }
-
-   @SuppressWarnings("unchecked") private List<MethodNode> methods(final ClassNode classNode) {
-      return classNode.methods;
    }
 
    @Override
    public SMethodName resolve(final SMethodName sMethodName) {
-      final SVirtualMethodName methodKey = new SVirtualMethodName(sMethodName.name(), sMethodName.desc());
-      assert virtuals.containsKey(methodKey) : methodKey + " not in " + virtuals;
-      return virtuals.get(methodKey).name();
+      return methods.resolve(sMethodName);
    }
 
    @Override
    public SMethod staticMethod(final String name, final String desc) {
-      final SMethod result = methodMap.get(new SMethodName(this.klassName, name, desc));
-      if (result == null) {
-         throw new SMethodNotFoundException(this, name, desc);
-      }
-      return result;
+      return methods.findStatic(new SMethodName(this.klassName, name, desc));
    }
 
    @Override
    public boolean hasStaticInitialiser() {
-      return methodMap.containsKey(new SMethodName(klassName, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
+      return methods.hasStatic(new SMethodName(klassName, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
    }
 
    @Override public int allocateSize() {

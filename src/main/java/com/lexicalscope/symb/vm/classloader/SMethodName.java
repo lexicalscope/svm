@@ -6,15 +6,13 @@ import org.objectweb.asm.Type;
 
 public final class SMethodName implements Comparable<SMethodName> {
    private final String klassName;
-   private final String desc;
-   private final String name;
+   private final SVirtualMethodName virtualName;
    private final int hashCode;
 
    public SMethodName(final String klassName, final String name, final String desc) {
       this.klassName = klassName;
-      this.name = name;
-      this.desc = desc;
-      this.hashCode = klassName.hashCode() ^ desc.hashCode() ^ name.hashCode();
+      this.virtualName = new SVirtualMethodName(name, desc);
+      this.hashCode = klassName.hashCode() ^ virtualName.hashCode();
    }
 
    public SMethodName(final Class<?> klass, final String name, final String desc) {
@@ -22,7 +20,7 @@ public final class SMethodName implements Comparable<SMethodName> {
    }
 
    public boolean isVoidMethod() {
-      return Type.getReturnType(desc).equals(Type.VOID_TYPE);
+      return Type.getReturnType(virtualName.desc()).equals(Type.VOID_TYPE);
    }
 
    @Override
@@ -31,11 +29,7 @@ public final class SMethodName implements Comparable<SMethodName> {
       if(firstCompare != 0) {
          return firstCompare;
       }
-      final int secondCompare = this.name.compareTo(o.name);
-      if(secondCompare != 0) {
-         return secondCompare;
-      }
-      return this.desc.compareTo(o.desc);
+      return this.virtualName.compareTo(o.virtualName);
    }
 
    @Override
@@ -46,7 +40,7 @@ public final class SMethodName implements Comparable<SMethodName> {
 
       if(obj != null && obj.getClass().equals(this.getClass())) {
          final SMethodName that = (SMethodName) obj;
-         return that.klassName.equals(klassName) && that.desc.equals(desc) && that.name.equals(name);
+         return that.klassName.equals(klassName) && that.virtualName.equals(virtualName);
       }
       return false;
    }
@@ -58,7 +52,7 @@ public final class SMethodName implements Comparable<SMethodName> {
 
    @Override
    public String toString() {
-      return klassName + "." + name + desc;
+      return klassName + "." + virtualName;
    }
 
    public String klassName() {
@@ -66,14 +60,18 @@ public final class SMethodName implements Comparable<SMethodName> {
    }
 
    public String name() {
-      return name;
+      return virtualName.name();
    }
 
    public String desc() {
-      return desc;
+      return virtualName.desc();
    }
 
    public int argSize() {
       return getArgumentsAndReturnSizes(desc()) >> 2;
+   }
+
+   public SVirtualMethodName virtualName() {
+      return virtualName;
    }
 }

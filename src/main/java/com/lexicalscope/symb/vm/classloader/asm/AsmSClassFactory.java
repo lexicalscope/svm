@@ -14,8 +14,6 @@ public class AsmSClassFactory {
       final ClassNodeAdapter classNodeAdapter = new ClassNodeAdapter(classNode);
 
       return new AsmSClass(
-            classLoader,
-            instructions,
             loadedFromUrl,
             classNode,
             superclass,

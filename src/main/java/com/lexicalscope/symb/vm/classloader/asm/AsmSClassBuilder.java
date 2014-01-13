@@ -5,14 +5,18 @@ import java.util.List;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class AsmSClassBuilder {
+   private String klassName;
    private final SClassLoader classLoader;
-   private final DeclaredFields declaredFields;
+   private final DeclaredFields declaredFields = new DeclaredFields();
+   private final DeclaredMethods declaredMethods = new DeclaredMethods();
    private final Instructions instructions;
 
    public AsmSClassBuilder(
@@ -21,7 +25,6 @@ public class AsmSClassBuilder {
          final AsmSClass superclass) {
       this.classLoader = classLoader;
       this.instructions = instructions;
-      declaredFields = new DeclaredFields();
    }
 
    AsmSClassBuilder withFields(final List<FieldNode> fields) {
@@ -40,16 +43,12 @@ public class AsmSClassBuilder {
    }
 
    public AsmSClassBuilder withMethods(final List<MethodNode> methods) {
-      //      for (final MethodNode method : methods) {
-      //         final SMethodName methodName = new SMethodName(klassName, method.name, method.desc);
-      //         final AsmSMethod smethod = new AsmSMethod(classLoader, this, methodName, instructions, method);
-      //         methodMap.put(methodName, smethod);
-      //         virtuals.put(new SVirtualMethodName(method.name, method.desc), smethod);
-      //      }
+      for (final MethodNode method : methods) {
+         declaredMethods.add(new AsmSMethod(classLoader, new SMethodName(klassName, method.name, method.desc), instructions, method));
+      }
       return this;
    }
 
-   private String klassName;
    public AsmSClassBuilder withName(final String name) {
       this.klassName = name;
       return this;
@@ -57,5 +56,9 @@ public class AsmSClassBuilder {
 
    public DeclaredFields declaredFields() {
       return declaredFields;
+   }
+
+   public DeclaredMethods declaredMethods() {
+      return declaredMethods;
    }
 }

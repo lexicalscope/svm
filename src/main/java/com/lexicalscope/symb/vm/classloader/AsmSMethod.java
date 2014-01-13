@@ -27,35 +27,31 @@ public class AsmSMethod implements SMethod {
    private InstructionNode entryPoint;
    private int maxLocals;
    private int maxStack;
-   private final SClass klass;
 
    public AsmSMethod(
          final SClassLoader classLoader,
-         final SClass klass,
          final SMethodName methodName,
          final Instructions instructions,
          final MethodNode method) {
       this.classLoader = classLoader;
-      this.klass = klass;
       this.methodName = methodName;
       this.instructions = instructions;
       this.method = method;
    }
 
-   public SClass klass() {
-      return klass;
-   }
-
+   @Override
    public int maxLocals() {
       link();
       return maxLocals;
    }
 
+   @Override
    public int maxStack() {
       link();
       return maxStack;
    }
 
+   @Override
    public InstructionNode entry() {
       link();
       return entryPoint;
@@ -133,10 +129,12 @@ public class AsmSMethod implements SMethod {
       return method.instructions.get(0);
    }
 
+   @Override
    public int argSize() {
       return Type.getMethodType(method.desc).getArgumentsAndReturnSizes() >> 2;
    }
 
+   @Override
    public SMethodName name() {
       return methodName;
    }

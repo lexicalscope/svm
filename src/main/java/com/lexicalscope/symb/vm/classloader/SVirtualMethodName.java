@@ -2,13 +2,19 @@ package com.lexicalscope.symb.vm.classloader;
 
 import org.objectweb.asm.Type;
 
-public class SVirtualMethodName implements Comparable<SVirtualMethodName> {
+public final class SVirtualMethodName implements Comparable<SVirtualMethodName> {
    private final String desc;
    private final String name;
+   private final int hashcode;
 
    public SVirtualMethodName(final String name, final String desc) {
       this.name = name;
       this.desc = desc;
+      this.hashcode = desc.hashCode() ^ name.hashCode();
+   }
+
+   public SVirtualMethodName(final SMethodName name) {
+      this(name.name(), name.desc());
    }
 
    public boolean isVoidMethod() {
@@ -39,7 +45,7 @@ public class SVirtualMethodName implements Comparable<SVirtualMethodName> {
 
    @Override
    public int hashCode() {
-      return desc.hashCode() ^ name.hashCode();
+      return hashcode;
    }
 
    @Override
