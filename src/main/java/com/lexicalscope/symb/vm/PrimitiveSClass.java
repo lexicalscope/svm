@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.classloader.SClass;
+import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
@@ -41,7 +42,7 @@ public final class PrimitiveSClass implements SClass {
       return null;
    }
 
-   @Override public String fieldNameAtIndex(final int index) {
+   @Override public SField fieldAtIndex(final int index) {
       return null;
    }
 

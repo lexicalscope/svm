@@ -29,8 +29,8 @@ public class SClassMatchers {
 
          @Override
          protected boolean matchesSafely(final SClass item, final Description mismatchDescription) {
-            mismatchDescription.appendText("field called ").appendValue(item.fieldNameAtIndex(index));
-            return item.fieldNameAtIndex(index).equals(withName);
+            mismatchDescription.appendText("field called ").appendValue(item.fieldAtIndex(index));
+            return item.fieldAtIndex(index).name().getName().equals(withName);
          }
       };
    }

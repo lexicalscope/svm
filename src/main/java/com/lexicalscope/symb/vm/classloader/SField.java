@@ -18,11 +18,6 @@ public final class SField {
       return fieldNode.desc;
    }
 
-   public String nameString() {
-      // TODO[tim]: get rid of raw string uses of name
-      return fieldNode.name;
-   }
-
    public SFieldName name() {
       return fieldName;
    }
@@ -33,5 +28,9 @@ public final class SField {
 
    public Object init() {
       return init;
+   }
+
+   @Override public String toString() {
+      return fieldName.toString();
    }
 }

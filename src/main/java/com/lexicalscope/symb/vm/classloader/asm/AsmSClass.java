@@ -152,8 +152,8 @@ public class AsmSClass implements SClass {
       return fields.get(index - OBJECT_PREAMBLE).desc();
    }
 
-   @Override public String fieldNameAtIndex(final int index) {
-      return fields.get(index - OBJECT_PREAMBLE).nameString();
+   @Override public SField fieldAtIndex(final int index) {
+      return fields.get(index - OBJECT_PREAMBLE);
    }
 
    @Override
