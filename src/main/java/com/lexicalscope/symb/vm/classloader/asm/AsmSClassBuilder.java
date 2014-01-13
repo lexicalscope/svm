@@ -4,14 +4,13 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.TreeMap;
 
-import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;
 
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 
-class AsmSClassBuilder {
+public class AsmSClassBuilder {
    private final SClassLoader classLoader;
    private final int classStartOffset;
    final List<SField> declaredFields = new ArrayList<>();
@@ -24,22 +23,25 @@ class AsmSClassBuilder {
       classStartOffset = superclass == null ? 0 : superclass.subclassOffset;
    }
 
-   int staticOffset = 0;
-   int dynamicOffset = 0;
    void initialiseFieldMaps(final List<FieldNode> fields) {
       for (final FieldNode fieldNode : fields) {
-         final SFieldName fieldName = new SFieldName(name, fieldNode.name);
-         final SField field = new SField(fieldName, fieldNode);
+         final SField field = new SField(new SFieldName(name, fieldNode.name), fieldNode);
 
-         if ((fieldNode.access & Opcodes.ACC_STATIC) != 0) {
-            declaredStaticFieldMap.put(fieldName, staticOffset);
-            staticOffset++;
-         } else {
-            declaredFields.add(field);
-            declaredFieldMap.put(fieldName, dynamicOffset + classStartOffset);
-            declaredFieldInit.add(classLoader.init(fieldNode.desc));
-            dynamicOffset++;
-         }
+         withField(field);
+      }
+   }
+
+   int staticOffset = 0;
+   int dynamicOffset = 0;
+   private void withField(final SField field) {
+      if (field.isStatic()) {
+         declaredStaticFieldMap.put(field.name(), staticOffset);
+         staticOffset++;
+      } else {
+         declaredFields.add(field);
+         declaredFieldMap.put(field.name(), dynamicOffset + classStartOffset);
+         declaredFieldInit.add(classLoader.init(field.desc()));
+         dynamicOffset++;
       }
    }
 

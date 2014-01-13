@@ -153,7 +153,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override public String fieldNameAtIndex(final int index) {
-      return fields.get(index - OBJECT_PREAMBLE).name();
+      return fields.get(index - OBJECT_PREAMBLE).nameString();
    }
 
    @Override

@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;
 
 public final class SField {
@@ -15,7 +16,16 @@ public final class SField {
       return fieldNode.desc;
    }
 
-   public String name() {
+   public String nameString() {
+      // TODO[tim]: get rid of raw string uses of name
       return fieldNode.name;
+   }
+
+   public SFieldName name() {
+      return fieldName;
+   }
+
+   public boolean isStatic() {
+      return (fieldNode.access & Opcodes.ACC_STATIC) != 0;
    }
 }
