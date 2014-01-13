@@ -9,8 +9,8 @@ import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 
 class DeclaredFields {
-   final List<SField> declaredFields = new ArrayList<>();
-   final Map<SFieldName, Integer> declaredFieldMap = new LinkedHashMap<>();
+   private final List<SField> declaredFields = new ArrayList<>();
+   private final Map<SFieldName, Integer> declaredFieldMap = new LinkedHashMap<>();
    private final int classStartOffset;
 
    public DeclaredFields(final int classStartOffset) {
@@ -32,5 +32,13 @@ class DeclaredFields {
 
    public List<SField> fields() {
       return declaredFields;
+   }
+
+   public List<Object> fieldInit() {
+      final List<Object> fieldInit = new ArrayList<>();
+      for (final SField field : declaredFields) {
+         fieldInit.add(field.init());
+      }
+      return fieldInit;
    }
 }

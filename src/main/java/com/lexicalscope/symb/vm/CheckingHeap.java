@@ -41,7 +41,7 @@ public class CheckingHeap implements Heap {
          if(klass == null) { return true; }
          if(klass.isArray()) {return true; /* TODO[tim]: check array element type */}
          if(klass.isKlassKlass()) {return true; /* TODO[tim]: check static fields */}
-         final Type type = Type.getType(klass.fieldDescAtIndex(offset));
+         final Type type = Type.getType(klass.fieldAtIndex(offset).desc());
          switch(type.getSort()) {
             case Type.INT:
                assert val instanceof Integer || val instanceof ISymbol;

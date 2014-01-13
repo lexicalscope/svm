@@ -38,10 +38,6 @@ public final class PrimitiveSClass implements SClass {
       return 0;
    }
 
-   @Override public String fieldDescAtIndex(final int i) {
-      return null;
-   }
-
    @Override public SField fieldAtIndex(final int index) {
       return null;
    }

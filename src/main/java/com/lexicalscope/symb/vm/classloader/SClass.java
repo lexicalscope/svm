@@ -18,7 +18,6 @@ public interface SClass extends Allocatable {
    int allocateSize();
 
    int fieldIndex(SFieldName name);
-   String fieldDescAtIndex(int index);
    SField fieldAtIndex(int index);
 
    boolean hasField(SFieldName name);

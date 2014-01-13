@@ -4,8 +4,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.TreeMap;
 
@@ -31,13 +29,11 @@ public class AsmSClass implements SClass {
 
    private final Set<SClass> superTypes = new HashSet<>();
 
-   private final Map<SFieldName, Integer> declaredFieldMap;
+   private final DeclaredFields declaredFields;
+   private final Fields fields;
    private final TreeMap<SFieldName, Integer> declaredStaticFieldMap;
 
-   private final List<SField> fields;
-   private final List<SField> declaredFields;
 
-   private final TreeMap<SFieldName, Integer> fieldMap;
    private final TreeMap<SFieldName, Integer> staticFieldMap;
    private final TreeMap<SMethodName, AsmSMethod> methodMap;
    private final TreeMap<SVirtualMethodName, AsmSMethod> virtuals;
@@ -66,26 +62,19 @@ public class AsmSClass implements SClass {
       this.classNode = classNode;
       this.superclass = superclass;
 
-      this.declaredFieldMap = sClassBuilder.declaredFields().map();
+      this.declaredFields = sClassBuilder.declaredFields();
       this.declaredStaticFieldMap = sClassBuilder.declaredStaticFieldMap;
       this.subclassOffset = sClassBuilder.subclassOffset();
       this.fieldcount = (superclass == null ? 0 : superclass.fieldcount) + sClassBuilder.declaredFields().count();
 
       this.staticFieldMap = new TreeMap<>();
-      this.fields = new ArrayList<>();
-      this.fieldMap = new TreeMap<>();
       this.methodMap = new TreeMap<>();
       this.virtuals = new TreeMap<>();
 
       superTypes.add(this);
 
+      this.fields = superclass == null ? new Fields() : superclass.fields.copy(classNode.name, declaredFields);
       if (superclass != null) {
-         for (final Entry<SFieldName, Integer> superField : superclass.fieldMap.entrySet()) {
-            // if a field is not shadowed, looking it up in this class should resolve the superclass field
-            fieldMap.put(new SFieldName(classNode.name, superField.getKey().getName()), superField.getValue());
-         }
-         fields.addAll(superclass.fields);
-         fieldMap.putAll(superclass.fieldMap);
          superTypes.addAll(superclass.superTypes);
          virtuals.putAll(superclass.virtuals);
       }
@@ -93,10 +82,6 @@ public class AsmSClass implements SClass {
       for (final AsmSClass interfac3 : interfaces) {
          superTypes.addAll(interfac3.superTypes);
       }
-
-      declaredFields = sClassBuilder.declaredFields().fields();
-      fields.addAll(sClassBuilder.declaredFields().fields());
-      fieldMap.putAll(sClassBuilder.declaredFields().map());
 
       staticFieldMap.putAll(sClassBuilder.declaredStaticFieldMap);
 
@@ -144,12 +129,7 @@ public class AsmSClass implements SClass {
 
    @Override
    public int fieldIndex(final SFieldName name) {
-      assert fieldMap.containsKey(name) : "cannot find " + name + " in " + fieldMap;
-      return fieldMap.get(name) + OBJECT_PREAMBLE;
-   }
-
-   @Override public String fieldDescAtIndex(final int index) {
-      return fields.get(index - OBJECT_PREAMBLE).desc();
+      return fields.indexOf(name) + OBJECT_PREAMBLE;
    }
 
    @Override public SField fieldAtIndex(final int index) {
@@ -158,7 +138,7 @@ public class AsmSClass implements SClass {
 
    @Override
    public boolean hasField(final SFieldName name) {
-      return fieldMap.containsKey(name);
+      return fields.contains(name);
    }
 
    private ArrayList<Object> fieldInit;
@@ -169,9 +149,7 @@ public class AsmSClass implements SClass {
          if(superclass != null) {
             fieldInit.addAll(superclass.fieldInit());
          }
-         for (final SField field : declaredFields) {
-            fieldInit.add(field.init());
-         }
+         fieldInit.addAll(declaredFields.fieldInit());
       }
       return fieldInit;
    }
@@ -220,7 +198,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override public String toString() {
-      return String.format("%s s<%s> <%s>", name(), staticFieldMap, fieldMap);
+      return String.format("%s s<%s> <%s>", name(), staticFieldMap, fields);
    }
 
    @Override public boolean isArray() {
