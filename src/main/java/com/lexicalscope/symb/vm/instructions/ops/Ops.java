@@ -37,7 +37,7 @@ public final class Ops {
    }
 
    public static Vop newOp(final String klassDesc) {
-      return new VopAdapter(new NewOp(klassDesc));
+      return new VopAdapter(new NewObjectOp(klassDesc));
    }
 
    public static DupOp dup() {

@@ -22,7 +22,7 @@ public final class PrimitiveSClass implements SClass {
       throw new UnsupportedOperationException();
    }
 
-   @Override public SMethod staticMethod(final String name, final String desc) {
+   @Override public SMethod definedMethod(final String name, final String desc) {
       throw new UnsupportedOperationException();
    }
 

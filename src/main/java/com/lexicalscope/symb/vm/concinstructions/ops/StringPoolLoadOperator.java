@@ -10,7 +10,7 @@ import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
-import com.lexicalscope.symb.vm.instructions.ops.NewOp;
+import com.lexicalscope.symb.vm.instructions.ops.NewObjectOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 
@@ -25,7 +25,7 @@ public final class StringPoolLoadOperator implements Vop {
       final SClass stringClass = statics.load(STRING_CLASS);
 
       // create new string
-      new NewOp(getInternalName(String.class)).eval(stackFrame, stack, heap, statics);
+      new NewObjectOp(getInternalName(String.class)).eval(stackFrame, stack, heap, statics);
       final Object stringAddress = stackFrame.pop();
 
       // create char array

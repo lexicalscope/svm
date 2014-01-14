@@ -9,10 +9,10 @@ import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
-public final class NewOp implements Op<Object> {
+public final class NewObjectOp implements Op<Object> {
    private final String klassDesc;
 
-   public NewOp(final String klassDesc) {
+   public NewObjectOp(final String klassDesc) {
       this.klassDesc = klassDesc;
    }
 

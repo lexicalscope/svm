@@ -96,7 +96,7 @@ public class StaticsImpl implements Statics {
       if(!isDefined(klassName)) {
          throw new MissingClassDefinitionException(klassName, defined);
       }
-      return load(klassName).staticMethod(name, desc);
+      return load(klassName).definedMethod(name, desc);
    }
 
    @Override public SMethod loadMethod(final SMethodName sMethodName) {

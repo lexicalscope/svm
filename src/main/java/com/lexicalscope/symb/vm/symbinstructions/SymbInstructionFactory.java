@@ -17,6 +17,7 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
 import com.lexicalscope.symb.vm.instructions.BranchInstruction;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.LinearInstruction;
+import com.lexicalscope.symb.vm.instructions.LoadingInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.LoadConstantArg;
@@ -242,7 +243,8 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public Instruction loadArg(final Object object) {
       if(object instanceof OTerminalSymbol) {
-         return new LinearInstruction(new LoadSymbolicObjectArg((OTerminalSymbol)object));
+         final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
+         return new LoadingInstruction(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol));
       } else {
          return new LinearInstruction(new LoadConstantArg(object));
       }

@@ -32,7 +32,7 @@ public class TestFieldInit {
       assertThat(klasses, Matchers.hasSize(2));
       sClass = klasses.get(1);
 
-      newObject = new NewOp(klassName).eval(new SnapshotableStackFrame(null, null, null, 0, 1), null, heap, statics);
+      newObject = new NewObjectOp(klassName).eval(new SnapshotableStackFrame(null, null, null, 0, 1), null, heap, statics);
    }
 
    @Test public void intFieldInit() {

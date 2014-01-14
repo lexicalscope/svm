@@ -36,7 +36,7 @@ public class Methods {
       return virtuals.get(methodKey).name();
    }
 
-   public SMethod findStatic(final SMethodName sMethodName) {
+   public SMethod findDefined(final SMethodName sMethodName) {
       assert methodMap.containsKey(sMethodName) : sMethodName + " not in " + name + " " + methodMap;
       return methodMap.get(sMethodName);
    }

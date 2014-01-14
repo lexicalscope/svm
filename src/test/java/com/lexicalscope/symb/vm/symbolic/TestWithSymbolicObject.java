@@ -19,7 +19,7 @@ public class TestWithSymbolicObject {
    private static final String expressionKlassName = Type.getInternalName(SimpleExpression.class);
    private final MethodInfo createMethod = new MethodInfo(WithSymbolicObject.class, "symbolicObject", "(L" + expressionKlassName + ";)I");
 
-   @Test public void createArrayWithSymbolicLength() throws Exception {
+   @Test public void createSymbolicObject() throws Exception {
       final OSymbol symbol1 = instructionFactory.osymbol(expressionKlassName);
 
       final Vm vm = Vm.vm(instructionFactory, createMethod, symbol1);

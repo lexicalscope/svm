@@ -62,8 +62,8 @@ public class AsmSClass implements SClass {
    }
 
    @Override
-   public SMethod staticMethod(final String name, final String desc) {
-      return methods.findStatic(new SMethodName(this.klassName, name, desc));
+   public SMethod definedMethod(final String name, final String desc) {
+      return methods.findDefined(new SMethodName(this.klassName, name, desc));
    }
 
    @Override

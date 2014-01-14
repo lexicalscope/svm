@@ -3,14 +3,12 @@ package com.lexicalscope.symb.vm.classloader;
 import java.net.URL;
 import java.util.List;
 
-public interface SClass extends Allocatable {
+public interface SClass extends Allocatable, VirtualMethodResolver {
    public static final int STATICS_PREAMBLE = 1;
    public static final int OBJECT_PREAMBLE = 1;
    public static final int OBJECT_MARKER_OFFSET = 0;
 
-   SMethodName resolve(SMethodName sMethodName);
-
-   SMethod staticMethod(String name, String desc);
+   SMethod definedMethod(String name, String desc);
 
    boolean hasStaticInitialiser();
 

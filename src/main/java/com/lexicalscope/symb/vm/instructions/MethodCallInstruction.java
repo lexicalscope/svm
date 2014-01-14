@@ -11,6 +11,7 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.VirtualMethodResolver;
 
 public class MethodCallInstruction {
    private static final class Resolution {
@@ -63,8 +64,8 @@ public class MethodCallInstruction {
    private static Resolution resolveVirtualMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
       final Object receiver = heap.get(args[0], SClass.OBJECT_MARKER_OFFSET);
       assert receiver != null : sMethodName;
-      assert receiver instanceof SClass : "no " + sMethodName + " in " + receiver;
-      final SClass receiverKlass = (SClass) receiver;
+      assert receiver instanceof VirtualMethodResolver : "no " + sMethodName + " in " + receiver;
+      final VirtualMethodResolver receiverKlass = (VirtualMethodResolver) receiver;
       return new Resolution(receiverKlass.name(), receiverKlass.resolve(sMethodName));
    }
 

@@ -75,7 +75,7 @@ public final class DefineClassOp implements Op<List<SClass>> {
 
    static void allocateClass(final Heap heap, final Statics statics, final SClass klass) {
       final SClass classClass = statics.classClass();
-      final Object classAddress = NewOp.allocateObject(heap, classClass);
+      final Object classAddress = NewObjectOp.allocateObject(heap, classClass);
       heap.put(classAddress,  classClass.fieldIndex(AsmSClass.internalClassPointer), klass);
       statics.classAt(klass, classAddress);
    }
