@@ -57,13 +57,18 @@ public class AsmSClass implements SClass {
    }
 
    @Override
-   public SMethodName resolve(final SMethodName sMethodName) {
-      return methods.resolve(sMethodName);
+   public SMethod virtualMethod(final SMethodName sMethodName) {
+      return declaredMethod(methods.resolve(sMethodName));
    }
 
    @Override
-   public SMethod definedMethod(final String name, final String desc) {
-      return methods.findDefined(new SMethodName(this.klassName, name, desc));
+   public SMethod declaredMethod(final String name, final String desc) {
+      return declaredMethod(new SMethodName(this.klassName, name, desc));
+   }
+
+   @Override
+   public SMethod declaredMethod(final SMethodName sMethodName) {
+      return methods.findDefined(sMethodName);
    }
 
    @Override

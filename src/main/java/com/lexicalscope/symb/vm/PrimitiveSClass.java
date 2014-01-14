@@ -18,11 +18,15 @@ public final class PrimitiveSClass implements SClass {
       this.klassName = klassName;
    }
 
-   @Override public SMethodName resolve(final SMethodName sMethodName) {
+   @Override public SMethod virtualMethod(final SMethodName sMethodName) {
       throw new UnsupportedOperationException();
    }
 
-   @Override public SMethod definedMethod(final String name, final String desc) {
+   @Override public SMethod declaredMethod(final String name, final String desc) {
+      throw new UnsupportedOperationException();
+   }
+
+   @Override public SMethod declaredMethod(final SMethodName sMethodName) {
       throw new UnsupportedOperationException();
    }
 

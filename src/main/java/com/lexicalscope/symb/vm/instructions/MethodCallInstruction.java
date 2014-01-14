@@ -8,22 +8,24 @@ import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.MethodResolver;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
-import com.lexicalscope.symb.vm.classloader.VirtualMethodResolver;
 
 public class MethodCallInstruction {
    private static final class Resolution {
-      public Resolution(final String receiverKlass, final SMethodName methodName) {
+      public Resolution(final String receiverKlass, final SMethod sMethod) {
          this.receiverKlass = receiverKlass;
-         this.methodName = methodName;
+         this.methodName = sMethod;
       }
-      public Resolution(final SMethodName sMethodName) {
-         this(sMethodName.klassName(), sMethodName);
+
+      public Resolution(final SMethod sMethod) {
+         this(sMethod.name().klassName(), sMethod);
       }
-      String receiverKlass;
-      SMethodName methodName;
+
+      final String receiverKlass;
+      final SMethod methodName;
    }
    private interface MethodInvokation {
       Object[] args(Statics statics, StackFrame stackFrame, SMethodName targetMethod);
@@ -62,11 +64,16 @@ public class MethodCallInstruction {
    }
 
    private static Resolution resolveVirtualMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+      final MethodResolver receiverKlass = receiver(args, sMethodName, heap);
+      return new Resolution(receiverKlass.virtualMethod(sMethodName));
+   }
+
+   private static MethodResolver receiver(final Object[] args, final SMethodName sMethodName, final Heap heap) {
       final Object receiver = heap.get(args[0], SClass.OBJECT_MARKER_OFFSET);
       assert receiver != null : sMethodName;
-      assert receiver instanceof VirtualMethodResolver : "no " + sMethodName + " in " + receiver;
-      final VirtualMethodResolver receiverKlass = (VirtualMethodResolver) receiver;
-      return new Resolution(receiverKlass.name(), receiverKlass.resolve(sMethodName));
+      assert receiver instanceof MethodResolver : "no " + sMethodName + " in " + receiver;
+      final MethodResolver receiverKlass = (MethodResolver) receiver;
+      return receiverKlass;
    }
 
    private static class SpecialMethodInvokation implements MethodInvokation {
@@ -79,7 +86,7 @@ public class MethodCallInstruction {
       }
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
-         return new Resolution(sMethodName);
+         return new Resolution(statics.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
    }
 
@@ -102,7 +109,8 @@ public class MethodCallInstruction {
       }
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
-         return new Resolution(sMethodName);
+         final MethodResolver receiver = receiver(args, sMethodName, heap);
+         return new Resolution(receiver.declaredMethod(sMethodName));
       }
    }
 
@@ -116,7 +124,7 @@ public class MethodCallInstruction {
       }
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
-         return new Resolution(sMethodName);
+         return new Resolution(statics.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
    }
 
@@ -139,8 +147,8 @@ public class MethodCallInstruction {
 
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, heap, statics);
          // TODO[tim]: virtual does not resolve overridden methods
-         final SMethodName resolvedMethod = resolution.methodName;
-         final SMethod targetMethod = statics.loadMethod(resolvedMethod);
+         final SMethod targetMethod = resolution.methodName;
+//         final SMethod targetMethod = statics.loadMethod(resolvedMethod);
 
          final StackFrame newStackFrame = new SnapshotableStackFrame(resolution.receiverKlass, targetMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
          stack.push(newStackFrame.setLocals(args));
