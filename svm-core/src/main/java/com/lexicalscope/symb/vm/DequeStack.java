@@ -9,7 +9,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
-import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.stack.trace.SStackTraceElement;
 import com.lexicalscope.symb.state.SMethodName;
@@ -51,12 +50,12 @@ public class DequeStack implements Stack {
       return stack.peek();
    }
 
-   @Override public <T> T query(final Op<T> op, final Statics statics, final Heap heap) {
-      return op.eval(stack.peek(), this, heap, statics);
+   @Override public <T> T query(final StackOp<T> op) {
+      return op.eval(stack.peek(), this);
    }
 
-   @Override public void query(final Vop op, final Statics statics, final Heap heap) {
-      op.eval(stack.peek(), this, heap, statics);
+   @Override public void query(final StackVop op) {
+      op.eval(stack.peek(), this);
    }
 
    @Override

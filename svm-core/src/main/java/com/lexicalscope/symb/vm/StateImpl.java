@@ -25,12 +25,20 @@ public class StateImpl implements State {
 
    @Override
    public <T> T op(final Op<T> op) {
-      return stack.query(op, statics, heap);
+      return stack.query(new StackOp<T>() {
+         @Override public T eval(final StackFrame top, final Stack stack) {
+            return op.eval(top, stack, heap, statics);
+         }
+      });
    }
 
    @Override
    public StateImpl op(final Vop op) {
-      stack.query(op, statics, heap);
+      stack.query(new StackVop() {
+         @Override public void eval(final StackFrame top, final Stack stack) {
+            op.eval(top, stack, heap, statics);
+         }
+      });
       return this;
    }
 
