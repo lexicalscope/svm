@@ -1,6 +1,7 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.heap;
 
-import com.lexicalscope.symb.vm.classloader.Allocatable;
+import com.lexicalscope.symb.state.Snapshotable;
+
 
 public interface Heap extends Snapshotable<Heap> {
    Object newObject(Allocatable klass);

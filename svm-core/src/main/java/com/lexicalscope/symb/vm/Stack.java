@@ -1,5 +1,9 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.state.SStackTrace;
+import com.lexicalscope.symb.state.Snapshotable;
+
 
 public interface Stack extends Snapshotable<Stack> {
    /**

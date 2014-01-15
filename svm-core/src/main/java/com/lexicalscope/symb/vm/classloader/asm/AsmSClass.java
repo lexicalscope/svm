@@ -8,9 +8,9 @@ import java.util.Set;
 
 import org.objectweb.asm.Type;
 
+import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.SMethodName;
-import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;

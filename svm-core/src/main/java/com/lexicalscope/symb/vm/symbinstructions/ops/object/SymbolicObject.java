@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops.object;
 
-import com.lexicalscope.symb.vm.SMethodName;
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.classloader.MethodResolver;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.heap.Heap;
 
 final class PrimitiveInitStrategy implements InitStrategy {
    private final Object initialValue;

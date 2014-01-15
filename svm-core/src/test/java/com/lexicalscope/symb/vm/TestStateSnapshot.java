@@ -9,6 +9,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.state.Snapshotable;
+
 public class TestStateSnapshot {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
 

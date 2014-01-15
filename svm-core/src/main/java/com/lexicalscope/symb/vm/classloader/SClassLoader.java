@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public interface SClassLoader {

@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.state;
 
 
 public class SStackTraceElement {

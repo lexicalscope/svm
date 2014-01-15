@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.symbinstructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
 import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
-import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;

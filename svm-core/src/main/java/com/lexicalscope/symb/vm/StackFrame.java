@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 
 public interface StackFrame  extends Snapshotable<StackFrame>{

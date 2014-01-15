@@ -10,7 +10,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
-import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;

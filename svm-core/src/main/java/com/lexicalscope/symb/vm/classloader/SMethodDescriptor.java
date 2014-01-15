@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import com.lexicalscope.symb.vm.SMethodName;
+import com.lexicalscope.symb.state.SMethodName;
 
 public interface SMethodDescriptor extends SMethodName {
 

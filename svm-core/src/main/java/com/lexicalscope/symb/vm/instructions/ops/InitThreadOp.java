@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;

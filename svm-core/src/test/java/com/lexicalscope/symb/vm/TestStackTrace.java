@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm;
 
 import static com.lexicalscope.MatchersAdditional.containsMatching;
-import static com.lexicalscope.symb.vm.SStackTraceMatchers.methodNamed;
+import static com.lexicalscope.symb.state.SStackTraceMatchers.methodNamed;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;
@@ -10,6 +10,7 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 
 public class TestStackTrace {

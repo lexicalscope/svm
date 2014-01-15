@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.base.Joiner;
-import com.lexicalscope.symb.vm.Snapshotable;
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 
 public class Pc implements Snapshotable<Pc> {

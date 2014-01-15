@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.state;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;

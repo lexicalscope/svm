@@ -1,5 +1,8 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.state.SStackTrace;
+import com.lexicalscope.symb.state.Snapshotable;
+
 public interface State extends Snapshotable<State>{
    State[] fork();
 

@@ -5,9 +5,9 @@ import static org.objectweb.asm.Type.getInternalName;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;

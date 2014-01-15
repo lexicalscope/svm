@@ -1,9 +1,9 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import com.lexicalscope.symb.vm.Heap;
+import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.SMethodName;
 import com.lexicalscope.symb.vm.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;

@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.concinstructions.LAndOp;

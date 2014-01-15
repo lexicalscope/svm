@@ -9,6 +9,9 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
+import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.state.SStackTrace;
+import com.lexicalscope.symb.state.SStackTraceElement;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 
 public class DequeStack implements Stack {

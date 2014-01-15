@@ -4,7 +4,8 @@ import java.net.URL;
 import java.util.Collections;
 import java.util.List;
 
-import com.lexicalscope.symb.vm.classloader.Allocatable;
+import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;

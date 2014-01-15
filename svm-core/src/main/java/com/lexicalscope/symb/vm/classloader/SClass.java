@@ -3,6 +3,8 @@ package com.lexicalscope.symb.vm.classloader;
 import java.net.URL;
 import java.util.List;
 
+import com.lexicalscope.symb.heap.Allocatable;
+
 public interface SClass extends Allocatable, MethodResolver {
    public static final int STATICS_PREAMBLE = 1;
    public static final int OBJECT_PREAMBLE = 1;

@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.concinstructions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
