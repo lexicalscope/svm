@@ -10,9 +10,9 @@ import java.util.Iterator;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.state.SStackTrace;
-import com.lexicalscope.symb.state.SStackTraceElement;
-import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.stack.trace.SStackTrace;
+import com.lexicalscope.symb.stack.trace.SStackTraceElement;
+import com.lexicalscope.symb.state.SMethodName;
 
 public class DequeStack implements Stack {
    private final Deque<StackFrame> stack;
@@ -88,9 +88,9 @@ public class DequeStack implements Stack {
    public SStackTrace trace() {
       final List<SStackTraceElement> trace = new ArrayList<>();
       for (final StackFrame stackFrame : stack) {
-         final SMethod method = stackFrame.method();
-         if(method != null) {
-            trace.add(new SStackTraceElement(method.name()));
+         final SMethodName methodName = stackFrame.methodName();
+         if(methodName != null) {
+            trace.add(new SStackTraceElement(methodName));
          }
       }
       return new SStackTrace(trace);

@@ -2,6 +2,7 @@ package com.lexicalscope.symb.vm;
 
 import static java.util.Arrays.copyOf;
 
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.Padding;
 
@@ -164,8 +165,8 @@ public final class SnapshotableStackFrame implements StackFrame {
       }
    }
 
-   @Override public SMethod method() {
-      return method;
+   @Override public SMethodName methodName() {
+      return method != null ? method.name() : null;
    }
 
    @Override public String receiverKlass() {

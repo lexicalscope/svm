@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.state;
+package com.lexicalscope.symb.stack.trace;
 
 import static com.google.common.base.Joiner.on;
 import static java.lang.String.format;

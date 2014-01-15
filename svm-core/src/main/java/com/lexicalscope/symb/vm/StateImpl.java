@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm;
 import static com.google.common.base.Objects.equal;
 
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.state.SStackTrace;
+import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
 
 public class StateImpl implements State {

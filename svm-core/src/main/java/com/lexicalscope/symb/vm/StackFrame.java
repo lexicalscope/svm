@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.classloader.SMethod;
 
 public interface StackFrame  extends Snapshotable<StackFrame>{
    StackFrame advance(InstructionNode nextInstruction);
@@ -30,7 +30,7 @@ public interface StackFrame  extends Snapshotable<StackFrame>{
 
    Object peek();
 
-   SMethod method();
+   SMethodName methodName();
 
    String receiverKlass();
 }
