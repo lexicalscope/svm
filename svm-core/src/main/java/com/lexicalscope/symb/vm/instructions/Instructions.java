@@ -5,7 +5,7 @@ import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public interface Instructions {
    public interface InstructionSink {
@@ -19,7 +19,7 @@ public interface Instructions {
 
    Instruction defineClass(List<String> klassNames);
 
-   Instruction createInvokeSpecial(SMethodName sMethodName);
+   Instruction createInvokeSpecial(SMethodDescriptor sMethodName);
 
    Instruction initThread();
 

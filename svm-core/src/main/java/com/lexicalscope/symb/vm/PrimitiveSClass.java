@@ -9,7 +9,7 @@ import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public final class PrimitiveSClass implements SClass {
    private final String klassName;
@@ -18,7 +18,7 @@ public final class PrimitiveSClass implements SClass {
       this.klassName = klassName;
    }
 
-   @Override public SMethod virtualMethod(final SMethodName sMethodName) {
+   @Override public SMethod virtualMethod(final SMethodDescriptor sMethodName) {
       throw new UnsupportedOperationException();
    }
 

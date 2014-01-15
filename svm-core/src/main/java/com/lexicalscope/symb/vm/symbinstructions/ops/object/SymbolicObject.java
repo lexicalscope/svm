@@ -1,8 +1,9 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops.object;
 
+import com.lexicalscope.symb.vm.SMethodName;
 import com.lexicalscope.symb.vm.classloader.MethodResolver;
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.OTerminalSymbol;
 
 public class SymbolicObject implements MethodResolver {
@@ -16,7 +17,7 @@ public class SymbolicObject implements MethodResolver {
       return "symbolic object " + symbol;
    }
 
-   @Override public SMethod virtualMethod(final SMethodName sMethodName) {
+   @Override public SMethod virtualMethod(final SMethodDescriptor sMethodName) {
       throw new UnsupportedOperationException();
    }
 

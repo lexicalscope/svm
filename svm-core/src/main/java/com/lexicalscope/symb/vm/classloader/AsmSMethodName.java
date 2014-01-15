@@ -4,7 +4,7 @@ import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
 import org.objectweb.asm.Type;
 
-public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethodName {
+public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethodDescriptor {
    private final String klassName;
    private final SVirtualMethodName virtualName;
    private final int hashCode;

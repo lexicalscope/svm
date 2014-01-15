@@ -9,13 +9,14 @@ import java.util.Set;
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.SMethodName;
 import com.lexicalscope.symb.vm.classloader.Allocatable;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public class AsmSClass implements SClass {
    public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");
@@ -58,7 +59,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override
-   public SMethod virtualMethod(final SMethodName sMethodName) {
+   public SMethod virtualMethod(final SMethodDescriptor sMethodName) {
       return declaredMethod(methods.resolve(sMethodName));
    }
 

@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class SStackTraceElement {
    private final SMethodName method;

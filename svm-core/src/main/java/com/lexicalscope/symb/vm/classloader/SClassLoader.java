@@ -20,7 +20,7 @@ public interface SClassLoader {
 
    Snapshotable<?> initialMeta();
 
-   MethodBody resolveNative(SMethodName methodName);
+   MethodBody resolveNative(SMethodDescriptor methodName);
 
    InstructionNode defineBootstrapClassesInstruction();
    InstructionNode initThreadInstruction();

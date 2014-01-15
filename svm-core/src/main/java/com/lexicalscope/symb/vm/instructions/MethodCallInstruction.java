@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm.instructions;
 import com.lexicalscope.symb.vm.Heap;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.SMethodName;
 import com.lexicalscope.symb.vm.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
@@ -11,7 +12,7 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.MethodResolver;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public class MethodCallInstruction {
    private static final class Resolution {
@@ -28,15 +29,15 @@ public class MethodCallInstruction {
       final SMethod methodName;
    }
    private interface MethodInvokation {
-      Object[] args(Statics statics, StackFrame stackFrame, SMethodName targetMethod);
+      Object[] args(Statics statics, StackFrame stackFrame, SMethodDescriptor targetMethod);
 
       String name();
 
-      Resolution resolveMethod(Object[] args, SMethodName sMethodName, Heap heap, Statics statics);
+      Resolution resolveMethod(Object[] args, SMethodDescriptor sMethodName, Heap heap, Statics statics);
    }
 
    private static class VirtualMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodName targetMethod) {
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodDescriptor targetMethod) {
          return stackFrame.pop(targetMethod.argSize());
       }
 
@@ -44,13 +45,13 @@ public class MethodCallInstruction {
          return "INVOKEVIRTUAL";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Heap heap, final Statics statics) {
          return resolveVirtualMethod(args, sMethodName, heap);
       }
    }
 
    private static class InterfaceMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodName targetMethod) {
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodDescriptor targetMethod) {
          return stackFrame.pop(targetMethod.argSize());
       }
 
@@ -58,12 +59,12 @@ public class MethodCallInstruction {
          return "INVOKEINTERFACE";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Heap heap, final Statics statics) {
          return resolveVirtualMethod(args, sMethodName, heap);
       }
    }
 
-   private static Resolution resolveVirtualMethod(final Object[] args, final SMethodName sMethodName, final Heap heap) {
+   private static Resolution resolveVirtualMethod(final Object[] args, final SMethodDescriptor sMethodName, final Heap heap) {
       final MethodResolver receiverKlass = receiver(args, sMethodName, heap);
       return new Resolution(receiverKlass.virtualMethod(sMethodName));
    }
@@ -77,7 +78,7 @@ public class MethodCallInstruction {
    }
 
    private static class SpecialMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodName targetMethod) {
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodDescriptor targetMethod) {
          return stackFrame.pop(targetMethod.argSize());
       }
 
@@ -85,7 +86,7 @@ public class MethodCallInstruction {
          return "INVOKESPECIAL";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Heap heap, final Statics statics) {
          return new Resolution(statics.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
    }
@@ -100,7 +101,7 @@ public class MethodCallInstruction {
       @Override public Object[] args(
             final Statics statics,
             final StackFrame stackFrame,
-            final SMethodName targetMethod) {
+            final SMethodDescriptor targetMethod) {
          return new Object[]{statics.whereMyClassAt(klassName)};
       }
 
@@ -108,14 +109,14 @@ public class MethodCallInstruction {
          return "INVOKECLASSCONSTRUCTOR";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Heap heap, final Statics statics) {
          final MethodResolver receiver = receiver(args, sMethodName, heap);
          return new Resolution(receiver.declaredMethod(sMethodName));
       }
    }
 
    private static class StaticMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodName targetMethod) {
+      @Override public Object[] args(final Statics statics, final StackFrame stackFrame, final SMethodDescriptor targetMethod) {
          return stackFrame.pop(targetMethod.argSize() - 1);
       }
 
@@ -123,16 +124,16 @@ public class MethodCallInstruction {
          return "INVOKESTATIC";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodName sMethodName, final Heap heap, final Statics statics) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Heap heap, final Statics statics) {
          return new Resolution(statics.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
    }
 
    private static final class MethodCallOp implements Vop {
       private final MethodInvokation methodInvokation;
-      private final SMethodName sMethodName;
+      private final SMethodDescriptor sMethodName;
 
-      public MethodCallOp(final SMethodName sMethodName, final MethodInvokation methodInvokation) {
+      public MethodCallOp(final SMethodDescriptor sMethodName, final MethodInvokation methodInvokation) {
          this.sMethodName = sMethodName;
          this.methodInvokation = methodInvokation;
       }
@@ -155,15 +156,15 @@ public class MethodCallInstruction {
       }
    }
 
-   public static Instruction createInvokeVirtual(final SMethodName name) {
+   public static Instruction createInvokeVirtual(final SMethodDescriptor name) {
       return new LinearInstruction(new MethodCallOp(name, new VirtualMethodInvokation()));
    }
 
-   public static Instruction createInvokeInterface(final SMethodName sMethodName) {
+   public static Instruction createInvokeInterface(final SMethodDescriptor sMethodName) {
       return new LinearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation()));
    }
 
-   public static Instruction createInvokeSpecial(final SMethodName sMethodName) {
+   public static Instruction createInvokeSpecial(final SMethodDescriptor sMethodName) {
       return new LinearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation()));
    }
 
@@ -171,7 +172,7 @@ public class MethodCallInstruction {
       return new LinearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName)));
    }
 
-   public static Instruction createInvokeStatic(final SMethodName sMethodName) {
+   public static Instruction createInvokeStatic(final SMethodDescriptor sMethodName) {
       return new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()));
    }
 }

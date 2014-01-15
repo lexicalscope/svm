@@ -11,5 +11,5 @@ public interface SMethod {
 
    int argSize();
 
-   SMethodName name();
+   SMethodDescriptor name();
 }

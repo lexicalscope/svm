@@ -11,7 +11,7 @@ import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
@@ -76,7 +76,7 @@ public class Vm {
       return initial(classLoader, new AsmSMethodName(info.klass(), info.name(), info.desc()), args);
    }
 
-   private static State initial(final SClassLoader classLoader, final SMethodName methodName, final Object[] args) {
+   private static State initial(final SClassLoader classLoader, final SMethodDescriptor methodName, final Object[] args) {
       final InstructionNode defineClassClass = classLoader.defineBootstrapClassesInstruction();
       final InstructionNode initThread = classLoader.initThreadInstruction();
       final InstructionNode loadArgs = classLoader.loadArgsInstruction(args);

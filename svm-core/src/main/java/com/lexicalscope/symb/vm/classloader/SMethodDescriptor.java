@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm.classloader;
 
-public interface SMethodName {
+import com.lexicalscope.symb.vm.SMethodName;
+
+public interface SMethodDescriptor extends SMethodName {
 
    boolean isVoidMethod();
 

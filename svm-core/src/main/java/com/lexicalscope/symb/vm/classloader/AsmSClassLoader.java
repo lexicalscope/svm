@@ -56,7 +56,7 @@ public class AsmSClassLoader implements SClassLoader {
       return instructionFactory.initialMeta();
    }
 
-   @Override public MethodBody resolveNative(final SMethodName methodName) {
+   @Override public MethodBody resolveNative(final SMethodDescriptor methodName) {
       return natives.resolveNative(instructions, methodName);
    }
 

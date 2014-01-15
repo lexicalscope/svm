@@ -11,7 +11,6 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class TestStackTrace {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

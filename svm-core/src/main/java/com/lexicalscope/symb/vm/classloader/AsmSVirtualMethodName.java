@@ -13,7 +13,7 @@ public final class AsmSVirtualMethodName implements SVirtualMethodName {
       this.hashcode = desc.hashCode() ^ name.hashCode();
    }
 
-   public AsmSVirtualMethodName(final SMethodName name) {
+   public AsmSVirtualMethodName(final SMethodDescriptor name) {
       this(name.name(), name.desc());
    }
 
