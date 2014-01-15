@@ -1,12 +1,14 @@
 package com.lexicalscope.symb.vm.instructions;
 
+import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Stack;
-import com.lexicalscope.symb.vm.StackVop;
+import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Vop;
 
 public class ReturnInstruction implements Instruction {
    private final int returnCount;
@@ -16,8 +18,8 @@ public class ReturnInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
-      state.op(new StackVop() {
-         @Override public void eval(final Stack stack, Statics statics) {
+      state.op(new Vop() {
+         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
             stack.popFrame(returnCount);
          }
       });

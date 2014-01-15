@@ -15,7 +15,8 @@ public interface Stack extends Snapshotable<Stack> {
 
    Stack push(StackFrame stackFrame);
 
-   InstructionNode instruction();
+   // TODO[tim]: does this really advance?
+   void advance(Vm vm, State state);
 
    void query(Vop op, Statics statics, Heap heap);
    <T> T query(Op<T> op, Statics statics, Heap heap);
@@ -26,5 +27,4 @@ public interface Stack extends Snapshotable<Stack> {
    Object currentThread();
 
    SStackTrace trace();
-
 }

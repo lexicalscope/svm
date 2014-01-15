@@ -9,9 +9,6 @@ public interface State extends Snapshotable<State>{
    <T> T op(Op<T> op);
    State op(Vop op);
 
-   <T> T op(StackOp<T> op);
-   State op(StackVop op);
-
    void advance(Vm vm);
 
    Object getMeta();

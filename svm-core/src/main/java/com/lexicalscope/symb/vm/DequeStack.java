@@ -43,9 +43,8 @@ public class DequeStack implements Stack {
       return this;
    }
 
-   @Override
-   public InstructionNode instruction() {
-      return head().instruction();
+   @Override public void advance(final Vm vm, final State state) {
+      head().instruction().eval(vm, state);
    }
 
    private StackFrame head() {

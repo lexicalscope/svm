@@ -35,25 +35,8 @@ public class StateImpl implements State {
    }
 
    @Override
-   public <T> T op(final StackOp<T> stackOp) {
-      return stackOp.eval(stack);
-   }
-
-   @Override
-   public State op(final StackVop op) {
-      op(new StackOp<Void>() {
-         @Override
-         public Void eval(final Stack stack) {
-            op.eval(stack, statics);
-            return null;
-         }
-      });
-      return this;
-   }
-
-   @Override
    public void advance(final Vm vm) {
-      stack.instruction().eval(vm, this);
+      stack.advance(vm, this);
    }
 
    @Override

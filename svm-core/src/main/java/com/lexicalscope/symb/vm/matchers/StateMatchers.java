@@ -15,7 +15,6 @@ import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.Stack;
 import com.lexicalscope.symb.vm.StackFrame;
-import com.lexicalscope.symb.vm.StackOp;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
@@ -105,9 +104,8 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final int actualSize = item.op(new StackOp<Integer>() {
-               @Override
-               public Integer eval(final Stack stack) {
+            final int actualSize = item.op(new Op<Integer>() {
+               @Override public Integer eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
                   return stack.size();
                }
             });
