@@ -2,13 +2,18 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.lexicalscope.symb</groupId>
 	<artifactId>svm-core</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>svm-core</name>
 	<url>http://maven.apache.org</url>
+
+	<parent>
+		<groupId>com.lexicalscope.symb</groupId>
+		<artifactId>svm-parent</artifactId>
+		<version>0.0.1-SNAPSHOT</version>
+		<relativePath>../pom.xml</relativePath>
+	</parent>
 
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
@@ -137,6 +142,11 @@
 			<groupId>com.lexicalscope.junit</groupId>
 			<artifactId>junit-autocloseable</artifactId>
 			<version>1.0</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-classloading</artifactId>
+			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hamcrest</groupId>
