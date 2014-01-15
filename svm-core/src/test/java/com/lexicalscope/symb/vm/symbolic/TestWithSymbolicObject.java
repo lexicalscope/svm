@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.symbolic;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.objectweb.asm.Type;
@@ -19,7 +20,7 @@ public class TestWithSymbolicObject {
    private static final String expressionKlassName = Type.getInternalName(SimpleExpression.class);
    private final MethodInfo createMethod = new MethodInfo(WithSymbolicObject.class, "symbolicObject", "(L" + expressionKlassName + ";)I");
 
-   @Test public void createSymbolicObject() throws Exception {
+   @Test @Ignore public void createSymbolicObject() throws Exception {
       final OSymbol symbol1 = instructionFactory.osymbol(expressionKlassName);
 
       final Vm vm = Vm.vm(instructionFactory, createMethod, symbol1);
