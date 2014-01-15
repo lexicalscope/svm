@@ -11,7 +11,7 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
 
    public AsmSMethodName(final String klassName, final String name, final String desc) {
       this.klassName = klassName;
-      this.virtualName = new SVirtualMethodName(name, desc);
+      this.virtualName = new AsmSVirtualMethodName(name, desc);
       this.hashCode = klassName.hashCode() ^ virtualName.hashCode();
    }
 

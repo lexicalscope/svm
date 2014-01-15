@@ -13,5 +13,4 @@ public interface SMethodName {
    int argSize();
 
    SVirtualMethodName virtualName();
-
 }
