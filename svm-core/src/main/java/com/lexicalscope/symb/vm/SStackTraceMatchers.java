@@ -16,7 +16,7 @@ public class SStackTraceMatchers {
 
          @Override protected boolean matchesSafely(final SStackTraceElement actual, final Description mismatchDescription) {
             mismatchDescription.appendText("trace element ").appendValue(actual.method());
-            return expected.equals(actual.method().name());
+            return expected.equals(actual.method());
          }
       };
    }

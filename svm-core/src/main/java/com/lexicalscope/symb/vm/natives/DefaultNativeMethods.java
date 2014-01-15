@@ -6,13 +6,14 @@ import java.util.List;
 import java.util.Map;
 
 import com.lexicalscope.symb.vm.classloader.MethodBody;
+import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class DefaultNativeMethods implements NativeMethods {
-   private final Map<SMethodName, NativeMethodDef> natives;
+   private final Map<AsmSMethodName, NativeMethodDef> natives;
 
-   public DefaultNativeMethods(final Map<SMethodName, NativeMethodDef> natives) {
+   public DefaultNativeMethods(final Map<AsmSMethodName, NativeMethodDef> natives) {
       this.natives = natives;
    }
 
@@ -21,9 +22,9 @@ public class DefaultNativeMethods implements NativeMethods {
       if(methodDef != null) {
          return methodDef.instructions(instructions);
       }
-      if (methodName.equals(new SMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
+      if (methodName.equals(new AsmSMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
          return instructions.statements().maxStack(1).iconst_0().return1().build();
-      } else if (methodName.equals(new SMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
+      } else if (methodName.equals(new AsmSMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
          // TODO[tim] we need to somewhere store the mapping between class
          // objects and the class they represent
          return instructions.statements().maxLocals(1).maxStack(1).getPrimitiveClass().return1().build();
@@ -55,7 +56,7 @@ public class DefaultNativeMethods implements NativeMethods {
 
 
    public static NativeMethods natives(final List<NativeMethodDef> natives) {
-      final Map<SMethodName, NativeMethodDef> nativesMap = new HashMap<>();
+      final Map<AsmSMethodName, NativeMethodDef> nativesMap = new HashMap<>();
       for (final NativeMethodDef nativeMethodDef : natives) {
          nativesMap.put(nativeMethodDef.name(), nativeMethodDef);
       }

@@ -1,15 +1,15 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class SStackTraceElement {
-   private final SMethod method;
+   private final SMethodName method;
 
-   public SStackTraceElement(final SMethod methodName) {
+   public SStackTraceElement(final SMethodName methodName) {
       this.method = methodName;
    }
 
-   public SMethod method() {
+   public SMethodName method() {
       return method;
    }
 

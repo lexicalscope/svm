@@ -80,7 +80,7 @@ public class AsmSClassLoader implements SClassLoader {
 
    @Override public InstructionNode initThreadInstruction() {
       final InstructionInternalNode firstInstruction = new InstructionInternalNode(instructions.initThread());
-      firstInstruction.next(new InstructionInternalNode(instructions.createInvokeSpecial(new SMethodName("java/lang/Thread", "<init>", "()V"))));
+      firstInstruction.next(new InstructionInternalNode(instructions.createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))));
       return firstInstruction;
    }
 

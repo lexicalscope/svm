@@ -9,7 +9,7 @@ import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
-import com.lexicalscope.symb.vm.classloader.SMethodName;
+import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class AsmSClassBuilder {
@@ -44,7 +44,7 @@ public class AsmSClassBuilder {
 
    public AsmSClassBuilder withMethods(final List<MethodNode> methods) {
       for (final MethodNode method : methods) {
-         declaredMethods.add(new AsmSMethod(classLoader, new SMethodName(klassName, method.name, method.desc), instructions, method));
+         declaredMethods.add(new AsmSMethod(classLoader, new AsmSMethodName(klassName, method.name, method.desc), instructions, method));
       }
       return this;
    }

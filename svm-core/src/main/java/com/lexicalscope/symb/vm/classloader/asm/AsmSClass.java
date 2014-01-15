@@ -14,6 +14,7 @@ import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SField;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 
 public class AsmSClass implements SClass {
@@ -63,7 +64,7 @@ public class AsmSClass implements SClass {
 
    @Override
    public SMethod declaredMethod(final String name, final String desc) {
-      return declaredMethod(new SMethodName(this.klassName, name, desc));
+      return declaredMethod(new AsmSMethodName(this.klassName, name, desc));
    }
 
    @Override
@@ -73,7 +74,7 @@ public class AsmSClass implements SClass {
 
    @Override
    public boolean hasStaticInitialiser() {
-      return methods.hasStatic(new SMethodName(klassName, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
+      return methods.hasStatic(new AsmSMethodName(klassName, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
    }
 
    @Override public int allocateSize() {

@@ -20,7 +20,7 @@ import com.lexicalscope.symb.vm.instructions.Instructions.InstructionSink;
 
 public class AsmSMethod implements SMethod {
    private final SClassLoader classLoader;
-   private final SMethodName methodName;
+   private final AsmSMethodName methodName;
    private final MethodNode method;
    private final Instructions instructions;
 
@@ -30,7 +30,7 @@ public class AsmSMethod implements SMethod {
 
    public AsmSMethod(
          final SClassLoader classLoader,
-         final SMethodName methodName,
+         final AsmSMethodName methodName,
          final Instructions instructions,
          final MethodNode method) {
       this.classLoader = classLoader;
@@ -135,7 +135,7 @@ public class AsmSMethod implements SMethod {
    }
 
    @Override
-   public SMethodName name() {
+   public AsmSMethodName name() {
       return methodName;
    }
 

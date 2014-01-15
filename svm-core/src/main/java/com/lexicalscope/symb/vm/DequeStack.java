@@ -9,6 +9,8 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
+import com.lexicalscope.symb.vm.classloader.SMethod;
+
 public class DequeStack implements Stack {
    private final Deque<StackFrame> stack;
    private Object currentThread;
@@ -83,7 +85,10 @@ public class DequeStack implements Stack {
    public SStackTrace trace() {
       final List<SStackTraceElement> trace = new ArrayList<>();
       for (final StackFrame stackFrame : stack) {
-         trace.add(new SStackTraceElement(stackFrame.method()));
+         final SMethod method = stackFrame.method();
+         if(method != null) {
+            trace.add(new SStackTraceElement(method.name()));
+         }
       }
       return new SStackTrace(trace);
    }

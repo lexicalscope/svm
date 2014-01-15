@@ -4,27 +4,28 @@ import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
 import org.objectweb.asm.Type;
 
-public final class SMethodName implements Comparable<SMethodName> {
+public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethodName {
    private final String klassName;
    private final SVirtualMethodName virtualName;
    private final int hashCode;
 
-   public SMethodName(final String klassName, final String name, final String desc) {
+   public AsmSMethodName(final String klassName, final String name, final String desc) {
       this.klassName = klassName;
       this.virtualName = new SVirtualMethodName(name, desc);
       this.hashCode = klassName.hashCode() ^ virtualName.hashCode();
    }
 
-   public SMethodName(final Class<?> klass, final String name, final String desc) {
+   public AsmSMethodName(final Class<?> klass, final String name, final String desc) {
       this(Type.getInternalName(klass), name, desc);
    }
 
+   @Override
    public boolean isVoidMethod() {
       return Type.getReturnType(virtualName.desc()).equals(Type.VOID_TYPE);
    }
 
    @Override
-   public int compareTo(final SMethodName o) {
+   public int compareTo(final AsmSMethodName o) {
       final int firstCompare = this.klassName.compareTo(o.klassName);
       if(firstCompare != 0) {
          return firstCompare;
@@ -39,7 +40,7 @@ public final class SMethodName implements Comparable<SMethodName> {
       }
 
       if(obj != null && obj.getClass().equals(this.getClass())) {
-         final SMethodName that = (SMethodName) obj;
+         final AsmSMethodName that = (AsmSMethodName) obj;
          return that.klassName.equals(klassName) && that.virtualName.equals(virtualName);
       }
       return false;
@@ -55,22 +56,27 @@ public final class SMethodName implements Comparable<SMethodName> {
       return klassName + "." + virtualName;
    }
 
+   @Override
    public String klassName() {
       return klassName;
    }
 
+   @Override
    public String name() {
       return virtualName.name();
    }
 
+   @Override
    public String desc() {
       return virtualName.desc();
    }
 
+   @Override
    public int argSize() {
       return getArgumentsAndReturnSizes(desc()) >> 2;
    }
 
+   @Override
    public SVirtualMethodName virtualName() {
       return virtualName;
    }

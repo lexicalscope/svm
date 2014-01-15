@@ -20,15 +20,18 @@ public class InstructionInternalNode implements InstructionNode {
       target = terminate;
    }
 
-   @Override public void eval(final Vm vm, final StateImpl state) {
+   @Override public void eval(final Vm vm, final State state) {
       assert next != null;
 
       instruction.eval(vm, state, this);
    }
 
    @Override public InstructionNode next(final InstructionNode instruction) {
-      if(next.equals(terminate)) return next = instruction;
-      else return next.next(instruction);
+      if(next.equals(terminate)) {
+         return next = instruction;
+      } else {
+         return next.next(instruction);
+      }
    }
 
    @Override public InstructionNode next() {

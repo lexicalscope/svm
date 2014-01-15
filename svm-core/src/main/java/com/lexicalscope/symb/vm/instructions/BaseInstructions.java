@@ -22,6 +22,7 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.concinstructions.ops.StringPoolLoadOperator;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Unconditional;
@@ -317,7 +318,7 @@ public final class BaseInstructions implements Instructions {
             break;
          case AbstractInsnNode.METHOD_INSN:
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
-            final SMethodName name = new SMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+            final SMethodName name = new AsmSMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESTATIC:
                   return createInvokeStatic(name);
@@ -487,7 +488,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public Instruction invokeInterface(final String klassName, final String methodName, final String desc) {
-      return invokeInterface(new SMethodName(klassName, methodName, desc));
+      return invokeInterface(new AsmSMethodName(klassName, methodName, desc));
    }
 
    private Instruction invokeInterface(final SMethodName sMethodName) {
