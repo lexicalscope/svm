@@ -5,15 +5,15 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lexicalscope.symb.vm.classloader.MethodBody;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
+import com.lexicalscope.symb.vm.classloader.MethodBody;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class DefaultNativeMethods implements NativeMethods {
-   private final Map<AsmSMethodName, NativeMethodDef> natives;
+   private final Map<SMethodName, NativeMethodDef> natives;
 
-   public DefaultNativeMethods(final Map<AsmSMethodName, NativeMethodDef> natives) {
+   public DefaultNativeMethods(final Map<SMethodName, NativeMethodDef> natives) {
       this.natives = natives;
    }
 
@@ -34,7 +34,6 @@ public class DefaultNativeMethods implements NativeMethods {
       return instructions.statements().returnVoid().build();
    }
    public static NativeMethods natives() {
-
       return natives(Arrays.<NativeMethodDef>asList(
             new Java_lang_class_getClassLoader0(),
             new Java_lang_system_identityHashCode(),
@@ -54,9 +53,8 @@ public class DefaultNativeMethods implements NativeMethods {
             ));
    }
 
-
    public static NativeMethods natives(final List<NativeMethodDef> natives) {
-      final Map<AsmSMethodName, NativeMethodDef> nativesMap = new HashMap<>();
+      final Map<SMethodName, NativeMethodDef> nativesMap = new HashMap<>();
       for (final NativeMethodDef nativeMethodDef : natives) {
          nativesMap.put(nativeMethodDef.name(), nativeMethodDef);
       }

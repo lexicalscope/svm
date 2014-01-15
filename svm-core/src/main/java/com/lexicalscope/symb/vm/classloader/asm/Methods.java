@@ -4,23 +4,22 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethodName;
 import com.lexicalscope.symb.vm.classloader.SVirtualMethodName;
 
 public class Methods {
-   private final Map<AsmSMethodName, SMethod> methodMap;
+   private final Map<SMethodName, SMethod> methodMap;
    private final Map<SVirtualMethodName, SMethod> virtuals;
    private final String name;
 
-   private Methods(final String name, final Map<AsmSMethodName, SMethod> methodMap, final Map<SVirtualMethodName, SMethod> virtuals) {
+   private Methods(final String name, final Map<SMethodName, SMethod> methodMap, final Map<SVirtualMethodName, SMethod> virtuals) {
       this.name = name;
       this.methodMap = methodMap;
       this.virtuals = virtuals;
    }
 
    public Methods(final String name) {
-      this(name, new LinkedHashMap<AsmSMethodName, SMethod>(), new LinkedHashMap<SVirtualMethodName, SMethod>());
+      this(name, new LinkedHashMap<SMethodName, SMethod>(), new LinkedHashMap<SVirtualMethodName, SMethod>());
    }
 
    public Methods extend(final String name, final DeclaredMethods declaredMethods) {
