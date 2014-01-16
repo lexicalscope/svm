@@ -4,7 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
-public final class Vm<S extends ExecutableState<S>> {
+public final class Vm<S extends VmVop<S>> {
    final Deque<S> pending = new ArrayDeque<>();
    final Deque<S> finished = new ArrayDeque<>();
 
@@ -15,7 +15,7 @@ public final class Vm<S extends ExecutableState<S>> {
    public S execute() {
       while (!pending.isEmpty()) {
          try {
-            pending.peek().executeNextInstruction(this);
+            pending.peek().eval(this);
          } catch (final TerminationException termination) {
             assert pending.peek() == termination.getFinalState();
             finished.push(pending.pop());
@@ -41,13 +41,5 @@ public final class Vm<S extends ExecutableState<S>> {
 
    public Collection<S> results() {
       return finished;
-   }
-
-   public <T> T op(final VmOp<T, S> op) {
-	   return op.eval(this, pending.peek());
-   }
-
-   public void op(final VmVop<S> op) {
-	   op.eval(this, pending.peek());
    }
 }
