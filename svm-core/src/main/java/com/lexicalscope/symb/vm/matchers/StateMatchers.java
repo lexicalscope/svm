@@ -11,10 +11,10 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.stack.Stack;
+import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.Stack;
-import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
@@ -83,7 +83,7 @@ public class StateMatchers {
                   .op(new Op<InstructionNode>() {
                      @Override
                      public InstructionNode eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-                        return stackFrame.instruction();
+                        return (InstructionNode) stackFrame.instruction();
                      }
                   });
             mismatchDescription.appendText("state with next instruction ")

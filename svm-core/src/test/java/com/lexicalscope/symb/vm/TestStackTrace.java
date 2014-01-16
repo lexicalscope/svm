@@ -10,9 +10,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.DequeStack;
-import com.lexicalscope.symb.vm.StackFrame;
 
 public class TestStackTrace {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

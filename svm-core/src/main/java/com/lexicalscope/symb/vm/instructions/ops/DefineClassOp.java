@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.stack.Stack;
+import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.Stack;
-import com.lexicalscope.symb.vm.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.StaticsMarker;
 import com.lexicalscope.symb.vm.classloader.SClass;

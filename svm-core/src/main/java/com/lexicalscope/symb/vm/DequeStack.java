@@ -9,6 +9,10 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
+import com.lexicalscope.symb.stack.Stack;
+import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.stack.StackOp;
+import com.lexicalscope.symb.stack.StackVop;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.stack.trace.SStackTraceElement;
 import com.lexicalscope.symb.state.SMethodName;
@@ -38,15 +42,12 @@ public class DequeStack implements Stack {
    }
 
    private Stack pushOperands(final Object[] operands) {
-      head().pushAll(operands);
+      topFrame().pushAll(operands);
       return this;
    }
 
-   @Override public void advance(final Vm vm, final State state) {
-      head().instruction().eval(vm, state);
-   }
-
-   private StackFrame head() {
+   @Override
+   public StackFrame topFrame() {
       return stack.peek();
    }
 
@@ -94,7 +95,7 @@ public class DequeStack implements Stack {
       return new SStackTrace(trace);
    }
 
-   @Override public StackFrame caller() {
+   @Override public StackFrame previousFrame() {
       final Iterator<StackFrame> iterator = stack.iterator();
       iterator.next();
       return iterator.next();

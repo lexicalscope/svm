@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.symbinstructions.ops.array;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.vm.StackFrame;
+import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.instructions.ops.array.ArrayConstructor;
 import com.lexicalscope.symb.vm.instructions.ops.array.InitStrategy;

@@ -2,13 +2,14 @@ package com.lexicalscope.symb.vm;
 
 import static java.util.Arrays.copyOf;
 
+import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethod;
 import com.lexicalscope.symb.vm.instructions.ops.Padding;
 
 public final class SnapshotableStackFrame implements StackFrame {
    private final Object[] stack;
-   private InstructionNode instruction; // PC
+   private Object instruction; // PC
    private final int opBot; // pointer to bottom of operand stack
    private int opTop; // pointer to top of operand stack
    private final int vars = 0; // pointer to local variables
@@ -18,7 +19,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    public SnapshotableStackFrame(
          final String receiverKlass,
          final SMethod method,
-         final InstructionNode instruction,
+         final Object instruction,
          final int maxLocals,
          final int maxStack) {
       this(receiverKlass, method, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
@@ -27,7 +28,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    private SnapshotableStackFrame(
          final String receiverKlass,
          final SMethod method,
-         final InstructionNode instruction,
+         final Object instruction,
          final Object[] stack,
          final int opBot,
          final int opTop) {
@@ -40,7 +41,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    }
 
    @Override
-   public StackFrame advance(final InstructionNode nextInstruction) {
+   public StackFrame advance(final Object nextInstruction) {
       instruction = nextInstruction;
       return this;
    }
@@ -88,7 +89,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    }
 
    @Override
-   public InstructionNode instruction() {
+   public Object instruction() {
       return instruction;
    }
 

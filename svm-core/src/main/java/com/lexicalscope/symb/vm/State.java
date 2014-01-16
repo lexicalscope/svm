@@ -9,7 +9,7 @@ public interface State extends Snapshotable<State>{
    <T> T op(Op<T> op);
    State op(Vop op);
 
-   void advance(Vm vm);
+   void executeNextInstruction(Vm vm);
 
    Object getMeta();
 

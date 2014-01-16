@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.state.Snapshotable;
 
 public class TestStateSnapshot {

@@ -3,6 +3,10 @@ package com.lexicalscope.symb.vm;
 import static com.google.common.base.Objects.equal;
 
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.stack.Stack;
+import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.stack.StackOp;
+import com.lexicalscope.symb.stack.StackVop;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
 
@@ -43,8 +47,8 @@ public class StateImpl implements State {
    }
 
    @Override
-   public void advance(final Vm vm) {
-      stack.advance(vm, this);
+   public void executeNextInstruction(final Vm vm) {
+      ((InstructionNode) stack.topFrame().instruction()).eval(vm, this);
    }
 
    @Override
