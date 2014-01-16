@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions;
+package com.lexicalscope.symb.vm;
 
 
 public class TerminationException extends RuntimeException {

@@ -4,9 +4,7 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
-import com.lexicalscope.symb.vm.instructions.TerminationException;
-
-public class Vm<S extends ExecutableState<S>> {
+public final class Vm<S extends ExecutableState<S>> {
    final Deque<S> pending = new ArrayDeque<>();
    final Deque<S> finished = new ArrayDeque<>();
 
@@ -43,5 +41,13 @@ public class Vm<S extends ExecutableState<S>> {
 
    public Collection<S> results() {
       return finished;
+   }
+
+   public <T> T op(final VmOp<T, S> op) {
+	   return op.eval(this, pending.peek());
+   }
+
+   public void op(final VmVop<S> op) {
+	   op.eval(this, pending.peek());
    }
 }
