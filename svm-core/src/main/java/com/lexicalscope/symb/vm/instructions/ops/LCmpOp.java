@@ -4,10 +4,11 @@ import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 
 public class LCmpOp implements Vop {
-   @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       final long value2 = (long) stackFrame.popDoubleWord();
       final long value1 = (long) stackFrame.popDoubleWord();
 

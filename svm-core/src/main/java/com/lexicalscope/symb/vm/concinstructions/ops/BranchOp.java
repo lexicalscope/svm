@@ -5,6 +5,7 @@ import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 
@@ -19,9 +20,9 @@ public final class BranchOp implements Vop {
 		this.branchPredicate = branchPredicate;
 	}
 
-   @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       final InstructionNode next;
-      if(branchPredicate.eval(stackFrame, stack, heap, statics)) {
+      if(branchPredicate.eval(null, statics, heap, stack, stackFrame)) {
          next = instruction.jmpTarget();
       } else {
          next = instruction.next();

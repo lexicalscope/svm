@@ -19,10 +19,10 @@ public class ReturnInstruction implements Instruction {
 
    @Override public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
       state.op(new Vop() {
-         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
             stack.popFrame(returnCount);
          }
-      });
+      }, null);
    }
 
    @Override public String toString() {

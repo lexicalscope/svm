@@ -22,8 +22,8 @@ public class LinearInstruction implements Instruction {
 
    public LinearInstruction(final Op<?> op) {
       this(new Vop() {
-         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-            op.eval(stackFrame, stack, heap, statics);
+         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
+            op.eval(null, statics, heap, stack, stackFrame);
          }
 
          @Override public String toString() {
@@ -34,8 +34,8 @@ public class LinearInstruction implements Instruction {
 
    @Override
    public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
-      state.op(advanceToNextInstruction(instruction));
-      state.op(op);
+      state.op(advanceToNextInstruction(instruction), null);
+      state.op(op, null);
    }
 
    @Override

@@ -7,6 +7,7 @@ import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
@@ -21,18 +22,18 @@ public final class StringPoolLoadOperator implements Vop {
       this.val = val;
    }
 
-   @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       final SClass stringClass = statics.load(STRING_CLASS);
 
       // create new string
-      new NewObjectOp(getInternalName(String.class)).eval(stackFrame, stack, heap, statics);
+      new NewObjectOp(getInternalName(String.class)).eval(null, statics, heap, stack, stackFrame);
       final Object stringAddress = stackFrame.pop();
 
       // create char array
       final char[] chars = val.toCharArray();
 
       stackFrame.push(chars.length);
-      new NewArrayOp(new NewConcArray()).eval(stackFrame, stack, heap, statics);
+      new NewArrayOp(new NewConcArray()).eval(null, statics, heap, stack, stackFrame);
       final Object valueAddress = stackFrame.pop();
 
       for (int i = 0; i < chars.length; i++) {

@@ -28,19 +28,19 @@ public class StateImpl implements State {
    }
 
    @Override
-   public <T> T op(final Op<T> op) {
+   public <T> T op(final Op<T> op, final Vm<State> vm) {
       return stack.query(new StackOp<T>() {
          @Override public T eval(final StackFrame top, final Stack stack) {
-            return op.eval(top, stack, heap, statics);
+            return op.eval(vm, statics, heap, stack, top);
          }
       });
    }
 
    @Override
-   public StateImpl op(final Vop op) {
+   public StateImpl op(final Vop op, final Vm<State> vm) {
       stack.query(new StackVop() {
          @Override public void eval(final StackFrame top, final Stack stack) {
-            op.eval(top, stack, heap, statics);
+            op.eval(vm, statics, heap, stack, top);
          }
       });
       return this;

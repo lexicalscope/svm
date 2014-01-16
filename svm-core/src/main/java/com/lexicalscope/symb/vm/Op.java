@@ -6,5 +6,5 @@ import com.lexicalscope.symb.stack.StackFrame;
 
 
 public interface Op<T> {
-   T eval(StackFrame stackFrame, Stack stack, Heap heap, Statics statics);
+   T eval(Vm<State> vm, Statics statics, Heap heap, Stack stack, StackFrame stackFrame);
 }

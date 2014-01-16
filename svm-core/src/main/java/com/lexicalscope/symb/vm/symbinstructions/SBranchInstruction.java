@@ -56,13 +56,13 @@ final class SBranchInstruction implements Instruction {
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
       final Vop jumpOp = new Vop() {
-         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
             stackFrame.advance(instruction.jmpTarget());
          }
       };
 
       final Vop nojumpOp = new Vop() {
-         @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
             stackFrame.advance(instruction.next());
          }
       };
@@ -73,17 +73,17 @@ final class SBranchInstruction implements Instruction {
 
          // jump
          ((Pc) states[0].getMeta()).and(jumpSymbol);
-         states[0].op(jumpOp);
+         states[0].op(jumpOp, null);
 
          // no jump
          ((Pc) states[1].getMeta()).and(nojumpSymbol);
-         states[1].op(nojumpOp);
+         states[1].op(nojumpOp, null);
 
          vm.fork(states);
       } else if(jumpFeasible) {
-         state.op(jumpOp);
+         state.op(jumpOp, null);
       } else if(nojumpFeasible) {
-         state.op(nojumpOp);
+         state.op(nojumpOp, null);
       } else {
          throw new RuntimeException("unable to check feasibility");
       }

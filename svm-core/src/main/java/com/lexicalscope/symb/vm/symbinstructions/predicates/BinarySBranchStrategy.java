@@ -16,8 +16,8 @@ public class BinarySBranchStrategy implements SBranchStrategy {
 
    @Override public BoolSymbol branchPredicateSymbol(final State state) {
       // TODO[tim]: efficiency of stack operations
-      final Object value2 = state.op(popOperand());
-      final Object value1 = state.op(popOperand());
+      final Object value2 = state.op(popOperand(), null);
+      final Object value1 = state.op(popOperand(), null);
       if(value1 instanceof Integer && value2 instanceof Integer) {
          return op.conditionSymbol((Integer) value1, (Integer) value2);
       } else {

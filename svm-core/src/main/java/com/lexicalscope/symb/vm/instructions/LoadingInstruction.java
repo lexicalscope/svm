@@ -7,11 +7,11 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SClass;
@@ -31,10 +31,10 @@ public class LoadingInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
-      final List<SClass> definedClasses = state.op(new DefineClassOp(klassNames));
+      final List<SClass> definedClasses = state.op(new DefineClassOp(klassNames), vm);
       if(definedClasses.isEmpty()){
-         state.op(advanceTo(instruction.next()));
-         state.op(op);
+         state.op(advanceTo(instruction.next()), null);
+         state.op(op, null);
       } else {
          InstructionNode currentInstruction = instruction;
          for (final SClass klass : Lists.reverse(definedClasses)) {
@@ -43,7 +43,7 @@ public class LoadingInstruction implements Instruction {
                currentInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(currentInstruction, klass);
             }
          }
-         state.op(advanceTo(currentInstruction));
+         state.op(advanceTo(currentInstruction), null);
       }
 
    }

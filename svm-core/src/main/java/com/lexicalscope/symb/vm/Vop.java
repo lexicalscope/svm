@@ -6,5 +6,5 @@ import com.lexicalscope.symb.stack.StackFrame;
 
 
 public interface Vop {
-   void eval(StackFrame stackFrame, Stack stack, Heap heap, Statics statics);
+   void eval(Vm vm, Statics statics, Heap heap, Stack stack, StackFrame stackFrame);
 }

@@ -6,6 +6,7 @@ import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 
 public class ArrayStoreOp implements Vop {
@@ -32,7 +33,7 @@ public class ArrayStoreOp implements Vop {
       this.valueTransform = valueTransform;
    }
 
-   @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       final Object value = stackFrame.pop();
       final int offset = (int) stackFrame.pop();
       final Object arrayref = stackFrame.pop();

@@ -22,6 +22,7 @@ import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -72,7 +73,7 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final Object operand = item.op(new PeekOperandOp());
+            final Object operand = item.op(new PeekOperandOp(), null);
             mismatchDescription.appendText("state with top of operand stack ");
             expectedMatcher.describeMismatch(operand, mismatchDescription);
             return expectedMatcher.matches(operand);
@@ -94,10 +95,10 @@ public class StateMatchers {
             final InstructionNode instruction = item
                   .op(new Op<InstructionNode>() {
                      @Override
-                     public InstructionNode eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+                     public InstructionNode eval(Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
                         return (InstructionNode) stackFrame.instruction();
                      }
-                  });
+                  }, null);
             mismatchDescription.appendText("state with next instruction ")
             .appendValue(instruction);
             return equalTo(expectedInstruction).matches(instruction);
@@ -117,10 +118,10 @@ public class StateMatchers {
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
             final int actualSize = item.op(new Op<Integer>() {
-               @Override public Integer eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+               @Override public Integer eval(Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
                   return stack.size();
                }
-            });
+            }, null);
             mismatchDescription.appendText("state with ")
             .appendValue(actualSize).appendText(" stack frames");
             return equalTo(expectedSize).matches(actualSize);

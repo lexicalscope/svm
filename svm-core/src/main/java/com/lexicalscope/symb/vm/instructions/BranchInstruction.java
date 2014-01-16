@@ -16,7 +16,7 @@ public final class BranchInstruction implements Instruction {
 
    @Override
    public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
-      state.op(new BranchOp(instruction, branchPredicate));
+      state.op(new BranchOp(instruction, branchPredicate), null);
    }
 
    @Override

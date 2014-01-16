@@ -22,7 +22,7 @@ public class ModelForStateTransform implements Transform<Symbol, State> {
    }
 
    @Override public Symbol transform(final State item, final Description mismatchDescription) {
-      final Object operand = item.op(new PeekOperandOp());
+      final Object operand = item.op(new PeekOperandOp(), null);
 
       if(operand instanceof Integer) {
          mismatchDescription.appendText("a value ").appendValue(operand);

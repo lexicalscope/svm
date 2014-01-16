@@ -5,6 +5,7 @@ import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.InstructionNode;
 
@@ -12,9 +13,9 @@ public class NextInstruction implements Transistion {
    @Override
    public void next(final State state, final InstructionNode instruction) {
       state.op(new Vop() {
-         @Override public void eval(final StackFrame stackFrame, Stack stack, final Heap heap, Statics statics) {
+         @Override public void eval(Vm vm, Statics statics, final Heap heap, Stack stack, final StackFrame stackFrame) {
             stackFrame.advance(instruction.next());
          }
-      });
+      }, null);
    }
 }

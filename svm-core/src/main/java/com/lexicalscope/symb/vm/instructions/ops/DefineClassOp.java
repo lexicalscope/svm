@@ -11,8 +11,10 @@ import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.StaticsMarker;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
@@ -45,7 +47,7 @@ public final class DefineClassOp implements Op<List<SClass>> {
       this.klassNames = klassNames;
    }
 
-   @Override public List<SClass> eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+   @Override public List<SClass> eval(Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       final List<SClass> results = new ArrayList<>();
       for (final String klassName : klassNames) {
          if (!statics.isDefined(klassName)) {

@@ -7,6 +7,7 @@ import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
@@ -24,7 +25,7 @@ public class SArrayStoreOp implements Vop {
       this.concreteArrayStore = concreteArrayStore;
    }
 
-   @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       final Object value = stackFrame.pop();
       final Object offset = stackFrame.pop();
       final Object arrayref = stackFrame.pop();
