@@ -8,7 +8,6 @@ import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.EqStrategy;
@@ -54,35 +53,23 @@ final class SBranchInstruction implements Instruction {
       final Pc nojumpPc = pc.snapshot().and(nojumpSymbol);
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
-      final Vop jumpOp = new Vop() {
-         @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode x) {
-            stackFrame.advance(instructionNode.jmpTarget());
-         }
-      };
-
-      final Vop nojumpOp = new Vop() {
-         @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode x) {
-            stackFrame.advance(instructionNode.next());
-         }
-      };
-
       if(jumpFeasible && nojumpFeasible)
       {
          final State[] states = vm.state().fork();
 
          // jump
          ((Pc) states[0].getMeta()).and(jumpSymbol);
-         states[0].op(jumpOp, null);
+         states[0].stackFrame().advance(instructionNode.jmpTarget());
 
          // no jump
          ((Pc) states[1].getMeta()).and(nojumpSymbol);
-         states[1].op(nojumpOp, null);
+         states[1].stackFrame().advance(instructionNode.next());
 
          vm.fork(states);
       } else if(jumpFeasible) {
-         jumpOp.eval(vm, statics, heap, stack, stackFrame, instructionNode);
+         stackFrame.advance(instructionNode.jmpTarget());
       } else if(nojumpFeasible) {
-         nojumpOp.eval(vm, statics, heap, stack, stackFrame, instructionNode);
+         stackFrame.advance(instructionNode.next());
       } else {
          throw new RuntimeException("unable to check feasibility");
       }

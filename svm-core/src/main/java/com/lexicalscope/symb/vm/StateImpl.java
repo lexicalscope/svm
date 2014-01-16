@@ -48,8 +48,13 @@ public class StateImpl implements State {
 
    @Override
    public void eval(final Vm<State> vm) {
-      final InstructionNode instructionNode = (InstructionNode) stack.topFrame().instruction();
-      instructionNode.eval(vm, statics, heap, stack, stack.topFrame(), instructionNode);
+      final InstructionNode instructionNode = (InstructionNode) stackFrame().instruction();
+      instructionNode.eval(vm, statics, heap, stack, stackFrame(), instructionNode);
+   }
+
+   @Override
+   public StackFrame stackFrame() {
+      return stack.topFrame();
    }
 
    @Override
