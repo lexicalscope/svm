@@ -1,39 +1,32 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.stack;
 
+import static com.lexicalscope.symb.stack.Padding.padding;
 import static java.util.Arrays.copyOf;
-
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.state.SMethodName;
-import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.instructions.ops.Padding;
 
 public final class SnapshotableStackFrame implements StackFrame {
    private final Object[] stack;
-   private Object instruction; // PC
    private final int opBot; // pointer to bottom of operand stack
    private int opTop; // pointer to top of operand stack
    private final int vars = 0; // pointer to local variables
-   private final SMethod method;
-   private final String receiverKlass;
+
+   private Object instruction; // PC
+   private final Object context;
 
    public SnapshotableStackFrame(
-         final String receiverKlass,
-         final SMethod method,
+         final Object context,
          final Object instruction,
          final int maxLocals,
          final int maxStack) {
-      this(receiverKlass, method, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
+      this(context, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
    }
 
    private SnapshotableStackFrame(
-         final String receiverKlass,
-         final SMethod method,
+         final Object context,
          final Object instruction,
          final Object[] stack,
          final int opBot,
          final int opTop) {
-      this.receiverKlass = receiverKlass;
-      this.method = method;
+      this.context = context;
       this.instruction = instruction;
       this.stack = stack;
       this.opBot = opBot;
@@ -63,7 +56,7 @@ public final class SnapshotableStackFrame implements StackFrame {
       assert val instanceof Double || val instanceof Long;
 
       pushInternal(val);
-      pushInternal(new Padding());
+      pushInternal(padding);
       return this;
    }
 
@@ -91,12 +84,6 @@ public final class SnapshotableStackFrame implements StackFrame {
    @Override
    public Object instruction() {
       return instruction;
-   }
-
-   @Override
-   public StackFrame loadConst(final Object val) {
-      push(val);
-      return this;
    }
 
    @Override
@@ -144,7 +131,7 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public SnapshotableStackFrame snapshot() {
-      return new SnapshotableStackFrame(receiverKlass, method, instruction, copyOf(stack, stack.length), opBot, opTop);
+      return new SnapshotableStackFrame(context, instruction, copyOf(stack, stack.length), opBot, opTop);
    }
 
    @Override
@@ -166,11 +153,7 @@ public final class SnapshotableStackFrame implements StackFrame {
       }
    }
 
-   @Override public SMethodName methodName() {
-      return method != null ? method.name() : null;
-   }
-
-   @Override public String receiverKlass() {
-      return receiverKlass;
+   @Override public Object context() {
+      return context;
    }
 }

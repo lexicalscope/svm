@@ -87,9 +87,9 @@ public class DequeStack implements Stack {
    public SStackTrace trace() {
       final List<SStackTraceElement> trace = new ArrayList<>();
       for (final StackFrame stackFrame : stack) {
-         final SMethodName methodName = stackFrame.methodName();
+         final Object methodName = stackFrame.context();
          if(methodName != null) {
-            trace.add(new SStackTraceElement(methodName));
+            trace.add(new SStackTraceElement((SMethodName) methodName));
          }
       }
       return new SStackTrace(trace);

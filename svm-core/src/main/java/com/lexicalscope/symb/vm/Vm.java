@@ -7,10 +7,11 @@ import java.util.Collection;
 import java.util.Deque;
 
 import com.lexicalscope.heap.FastHeap;
+import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
+import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
@@ -87,7 +88,7 @@ public class Vm {
       final StaticsImpl statics = new StaticsImpl(classLoader);
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(null, null, defineClassClass, 0, methodName.argSize()));
+      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, methodName.argSize()));
       return new StateImpl(statics, stack, new CheckingHeap(new FastHeap()), classLoader.initialMeta());
    }
 }

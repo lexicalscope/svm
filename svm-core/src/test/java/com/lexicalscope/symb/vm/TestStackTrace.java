@@ -27,9 +27,9 @@ public class TestStackTrace {
 
    @Test public void stackTraceContainsMethodsCalledInReverseOrder() {
       context.checking(new Expectations(){{
-         oneOf(stackFrame0).methodName(); will(returnValue(methodName0));
-         oneOf(stackFrame1).methodName(); will(returnValue(methodName1));
-         oneOf(stackFrame2).methodName(); will(returnValue(methodName2));
+         oneOf(stackFrame0).context(); will(returnValue(methodName0));
+         oneOf(stackFrame1).context(); will(returnValue(methodName1));
+         oneOf(stackFrame2).context(); will(returnValue(methodName2));
       }});
 
       final DequeStack stack = new DequeStack();

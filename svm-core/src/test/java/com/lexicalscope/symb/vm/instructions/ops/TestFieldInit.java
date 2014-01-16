@@ -12,7 +12,7 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.vm.SnapshotableStackFrame;
+import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.StaticsImpl;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.SClass;
@@ -32,7 +32,7 @@ public class TestFieldInit {
       assertThat(klasses, Matchers.hasSize(2));
       sClass = klasses.get(1);
 
-      newObject = new NewObjectOp(klassName).eval(new SnapshotableStackFrame(null, null, null, 0, 1), null, heap, statics);
+      newObject = new NewObjectOp(klassName).eval(new SnapshotableStackFrame(null, null, 0, 1), null, heap, statics);
    }
 
    @Test public void intFieldInit() {

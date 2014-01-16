@@ -1,12 +1,12 @@
 package com.lexicalscope.symb.vm.instructions;
 
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.MethodResolver;
@@ -18,7 +18,7 @@ public class MethodCallInstruction {
    private static final class Resolution {
       public Resolution(final String receiverKlass, final SMethod sMethod) {
          this.receiverKlass = receiverKlass;
-         this.methodName = sMethod;
+         this.method = sMethod;
       }
 
       public Resolution(final SMethod sMethod) {
@@ -26,7 +26,7 @@ public class MethodCallInstruction {
       }
 
       final String receiverKlass;
-      final SMethod methodName;
+      final SMethod method;
    }
    private interface MethodInvokation {
       Object[] args(Statics statics, StackFrame stackFrame, SMethodDescriptor targetMethod);
@@ -148,10 +148,8 @@ public class MethodCallInstruction {
 
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, heap, statics);
          // TODO[tim]: virtual does not resolve overridden methods
-         final SMethod targetMethod = resolution.methodName;
-//         final SMethod targetMethod = statics.loadMethod(resolvedMethod);
-
-         final StackFrame newStackFrame = new SnapshotableStackFrame(resolution.receiverKlass, targetMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
+         final SMethod targetMethod = resolution.method;
+         final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
          stack.push(newStackFrame.setLocals(args));
       }
    }

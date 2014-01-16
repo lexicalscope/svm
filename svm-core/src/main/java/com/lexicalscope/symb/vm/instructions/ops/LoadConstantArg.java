@@ -16,6 +16,6 @@ public final class LoadConstantArg implements Vop {
    }
 
    @Override public void eval(final StackFrame stackFrame, final Stack stack, final Heap heap, final Statics statics) {
-      stackFrame.loadConst(value);
+      stackFrame.push(value);
    }
 }
