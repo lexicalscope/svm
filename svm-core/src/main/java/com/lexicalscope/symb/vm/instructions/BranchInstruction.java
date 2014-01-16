@@ -9,7 +9,6 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
-import com.lexicalscope.symb.vm.concinstructions.ops.BranchOp;
 
 public final class BranchInstruction implements Instruction {
    private final BranchPredicate branchPredicate;
@@ -24,6 +23,12 @@ public final class BranchInstruction implements Instruction {
    }
 
    @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
-      new BranchOp(instructionNode, branchPredicate).eval(vm, statics, heap, stack, stackFrame, instructionNode);
+      final InstructionNode next;
+      if(branchPredicate.eval(null, statics, heap, stack, stackFrame)) {
+         next = instructionNode.jmpTarget();
+      } else {
+         next = instructionNode.next();
+      }
+      stackFrame.advance(next);
    }
 }
