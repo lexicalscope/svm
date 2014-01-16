@@ -12,10 +12,6 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static Vop advanceToNextInstruction(final InstructionNode instruction) {
-      return new NextInstructionOp(instruction);
-   }
-
    public static Vop advanceTo(final InstructionNode instruction) {
       return new AdvanceToInstructionOp(instruction);
    }
