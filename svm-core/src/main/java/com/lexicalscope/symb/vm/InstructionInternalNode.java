@@ -13,11 +13,11 @@ import com.lexicalscope.symb.stack.StackFrame;
 public class InstructionInternalNode implements InstructionNode {
    private static TerminateInstruction terminate = new TerminateInstruction();
 
-   private final Instruction instruction;
+   private final Vop instruction;
    private InstructionNode next;
    private InstructionNode target;
 
-   public InstructionInternalNode(final Instruction instruction) {
+   public InstructionInternalNode(final Vop instruction) {
       this.instruction = instruction;
 
       next = terminate;

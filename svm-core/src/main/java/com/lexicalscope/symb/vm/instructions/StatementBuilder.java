@@ -5,12 +5,12 @@ import static com.google.common.collect.Lists.reverse;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.MethodBody;
 
 public final class StatementBuilder {
-   private final List<Instruction> instructions = new ArrayList<>();
+   private final List<Vop> instructions = new ArrayList<>();
    private int maxStack;
    private int maxLocals;
    private final Instructions factory;
@@ -29,7 +29,7 @@ public final class StatementBuilder {
       return this;
    }
 
-   private StatementBuilder add(final Instruction instruction) {
+   private StatementBuilder add(final Vop instruction) {
       instructions.add(instruction);
       return this;
    }
@@ -40,7 +40,7 @@ public final class StatementBuilder {
 
    public InstructionInternalNode buildInstruction() {
       InstructionInternalNode next = null;
-      for (final Instruction instruction : reverse(instructions)) {
+      for (final Vop instruction : reverse(instructions)) {
          final InstructionInternalNode node = new InstructionInternalNode(instruction);
          if(next != null) {node.next(next);}
          next = node;

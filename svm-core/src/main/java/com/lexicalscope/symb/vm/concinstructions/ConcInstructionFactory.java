@@ -4,7 +4,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
@@ -101,80 +100,80 @@ public class ConcInstructionFactory implements InstructionFactory {
    }
 
    @Override
-   public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfGe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Ge());
    }
 
    @Override
-   public Instruction branchIfGt(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfGt(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Gt());
    }
 
    @Override
-   public Instruction branchIfLe(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfLe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Le());
    }
 
    @Override
-   public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfLt(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Lt());
    }
 
    @Override
-   public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfNe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Ne());
    }
 
    @Override
-   public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfEq(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Eq());
    }
 
-   @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
       return icmp(new ICmpEq());
    }
 
-   @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
       return icmp(new ICmpNe());
    }
 
-   @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
       return icmp(new ICmpLe());
    }
 
-   @Override public Instruction branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
       return icmp(new ICmpGe());
    }
 
-   @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
       return icmp(new ICmpLt());
    }
 
-   @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
       return icmp(new ICmpGt());
    }
 
-   @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfNull(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Null());
    }
 
-   @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfNonNull(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new NonNull());
    }
 
-   @Override public Instruction branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new ACmpNe());
    }
 
-   @Override public Instruction branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new ACmpEq());
    }
 
-   private Instruction icmp(final ICmpOp op) {
+   private Vop icmp(final ICmpOp op) {
       return branchInstruction(new ICmpBranchPredicate(op));
    }
 
-   private Instruction branchInstruction(final BranchPredicate branchPredicate) {
+   private Vop branchInstruction(final BranchPredicate branchPredicate) {
       return new BranchInstruction(branchPredicate);
    }
 
@@ -239,7 +238,7 @@ public class ConcInstructionFactory implements InstructionFactory {
       return ArrayLoadOp.aaLoad();
    }
 
-   @Override public Instruction loadArg(final Object object) {
+   @Override public Vop loadArg(final Object object) {
       return new LinearInstruction(new LoadConstantArg(object));
    }
 }

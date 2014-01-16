@@ -4,7 +4,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 import com.lexicalscope.symb.vm.concinstructions.LAndOp;
@@ -93,61 +92,61 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override
-   public Instruction branchIfGe(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfGe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.geInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfGt(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfGt(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.gtInstruction(feasibilityChecker);
    }
 
    @Override
-   public Instruction branchIfLe(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfLe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.leInstruction(feasibilityChecker);
    }
 
    @Override
-   public Instruction branchIfLt(final JumpInsnNode jumpInsnNode) {
+   public Vop branchIfLt(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.ltInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfNe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfNe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.neInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfEq(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfEq(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.eqInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.icmpeqInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.icmpneInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.icmpleInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.icmpgeInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.icmpltInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
       return SBranchInstruction.icmpgtInstruction(feasibilityChecker);
    }
 
-   @Override public Instruction branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
-   @Override public Instruction branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
       throw new UnsupportedOperationException("not implemented yet");
    }
 
@@ -169,15 +168,15 @@ public class SymbInstructionFactory implements InstructionFactory {
       return new Pc();
    }
 
-   @Override public Instruction branchIfNonNull(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfNonNull(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new NonNull());
    }
 
-   @Override public Instruction branchIfNull(final JumpInsnNode jumpInsnNode) {
+   @Override public Vop branchIfNull(final JumpInsnNode jumpInsnNode) {
       return branchInstruction(new Null());
    }
 
-   private Instruction branchInstruction(final BranchPredicate branchPredicate) {
+   private Vop branchInstruction(final BranchPredicate branchPredicate) {
       return new BranchInstruction(branchPredicate);
    }
 
@@ -241,7 +240,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       return SArrayLoadOp.iaLoad(feasibilityChecker);
    }
 
-   @Override public Instruction loadArg(final Object object) {
+   @Override public Vop loadArg(final Object object) {
       if(object instanceof OTerminalSymbol) {
          final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
          return new LoadingInstruction(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol));

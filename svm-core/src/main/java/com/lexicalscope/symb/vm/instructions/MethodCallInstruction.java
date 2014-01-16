@@ -5,7 +5,6 @@ import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.Statics;
@@ -145,7 +144,7 @@ public class MethodCallInstruction {
          return String.format("%s %s", methodInvokation.name(), sMethodName);
       }
 
-      @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
+      @Override public void eval(final Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
          final Object[] args = methodInvokation.args(statics, stackFrame, sMethodName);
 
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, heap, statics);
@@ -156,23 +155,23 @@ public class MethodCallInstruction {
       }
    }
 
-   public static Instruction createInvokeVirtual(final SMethodDescriptor name) {
+   public static Vop createInvokeVirtual(final SMethodDescriptor name) {
       return new LinearInstruction(new MethodCallOp(name, new VirtualMethodInvokation()));
    }
 
-   public static Instruction createInvokeInterface(final SMethodDescriptor sMethodName) {
+   public static Vop createInvokeInterface(final SMethodDescriptor sMethodName) {
       return new LinearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation()));
    }
 
-   public static Instruction createInvokeSpecial(final SMethodDescriptor sMethodName) {
+   public static Vop createInvokeSpecial(final SMethodDescriptor sMethodName) {
       return new LinearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation()));
    }
 
-   public static Instruction createClassDefaultConstructor(final String klassName) {
+   public static Vop createClassDefaultConstructor(final String klassName) {
       return new LinearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName)));
    }
 
-   public static Instruction createInvokeStatic(final SMethodDescriptor sMethodName) {
+   public static Vop createInvokeStatic(final SMethodDescriptor sMethodName) {
       return new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()));
    }
 }

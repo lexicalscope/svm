@@ -3,11 +3,11 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.EqStrategy;
@@ -29,7 +29,7 @@ import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.NotSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
-final class SBranchInstruction implements Instruction {
+final class SBranchInstruction implements Vop {
    private final FeasibilityChecker feasibilityChecker;
    private final SBranchStrategy branchStrategy;
 
@@ -80,59 +80,59 @@ final class SBranchInstruction implements Instruction {
       return branchStrategy.toString();
    }
 
-   public static Instruction geInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop geInstruction(final FeasibilityChecker feasibilityChecker) {
       return ibranchInstruction(feasibilityChecker, new GeStrategy());
    }
 
-   public static Instruction gtInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop gtInstruction(final FeasibilityChecker feasibilityChecker) {
       return ibranchInstruction(feasibilityChecker, new GtStrategy());
    }
 
-   public static Instruction leInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop leInstruction(final FeasibilityChecker feasibilityChecker) {
       return ibranchInstruction(feasibilityChecker, new LeStrategy());
    }
 
-   public static Instruction ltInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop ltInstruction(final FeasibilityChecker feasibilityChecker) {
       return ibranchInstruction(feasibilityChecker, new LtStrategy());
    }
 
-   public static Instruction neInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop neInstruction(final FeasibilityChecker feasibilityChecker) {
       return ibranchInstruction(feasibilityChecker, new NeStrategy());
    }
 
-   public static Instruction eqInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop eqInstruction(final FeasibilityChecker feasibilityChecker) {
       return ibranchInstruction(feasibilityChecker, new EqStrategy());
    }
 
-   private static Instruction ibranchInstruction(final FeasibilityChecker feasibilityChecker, final UnarySBranchOp unaryStrategy) {
+   private static Vop ibranchInstruction(final FeasibilityChecker feasibilityChecker, final UnarySBranchOp unaryStrategy) {
       return new SBranchInstruction(feasibilityChecker, new UnarySBranchStrategy(unaryStrategy));
    }
 
-   public static Instruction icmpgeInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop icmpgeInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpGeStrategy());
    }
 
-   public static Instruction icmpleInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop icmpleInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpLeStrategy());
    }
 
-   public static Instruction icmpneInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop icmpneInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpNeStrategy());
    }
 
-   public static Instruction icmpeqInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop icmpeqInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpEqStrategy());
    }
 
-   public static Instruction icmpgtInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop icmpgtInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpGtStrategy());
    }
 
-   public static Instruction icmpltInstruction(final FeasibilityChecker feasibilityChecker) {
+   public static Vop icmpltInstruction(final FeasibilityChecker feasibilityChecker) {
       return icmpInstruction(feasibilityChecker, new ICmpLtStrategy());
    }
 
-   private static Instruction icmpInstruction(final FeasibilityChecker feasibilityChecker, final BinarySBranchOp icmpStrategy) {
+   private static Vop icmpInstruction(final FeasibilityChecker feasibilityChecker, final BinarySBranchOp icmpStrategy) {
       final BinarySBranchStrategy binaryBranchStrategy = new BinarySBranchStrategy(icmpStrategy);
       return new SBranchInstruction(feasibilityChecker, binaryBranchStrategy);
    }

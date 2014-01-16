@@ -20,7 +20,6 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
@@ -97,7 +96,7 @@ public final class BaseInstructions implements Instructions {
     * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
     */
 
-   private Instruction instructionFor(final AbstractInsnNode abstractInsnNode) {
+   private Vop instructionFor(final AbstractInsnNode abstractInsnNode) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
@@ -343,39 +342,39 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Store2(varInsnNode.var));
    }
 
-   @Override public Instruction iconst(final int constVal) {
+   @Override public Vop iconst(final int constVal) {
       return nullary(instructionFactory.iconst(constVal));
    }
 
-   @Override public Instruction lconst(final long constVal) {
+   @Override public Vop lconst(final long constVal) {
       return nullary2(instructionFactory.lconst(constVal));
    }
 
-   private Instruction fconst(final float constVal) {
+   private Vop fconst(final float constVal) {
       return nullary(instructionFactory.fconst(constVal));
    }
 
-   private Instruction dconst(final double constVal) {
+   private Vop dconst(final double constVal) {
       return nullary2(instructionFactory.dconst(constVal));
    }
 
-   @Override public Instruction aconst_null() {
+   @Override public Vop aconst_null() {
       return linearInstruction(new AConstNullOp());
    }
 
-   @Override public Instruction iconst_0() {
+   @Override public Vop iconst_0() {
       return iconst(0);
    }
 
-   @Override public Instruction fconst_0() {
+   @Override public Vop fconst_0() {
       return fconst(0);
    }
 
-   private Instruction stringPoolLoad(final String constVal) {
+   private Vop stringPoolLoad(final String constVal) {
       return linearInstruction(new StringPoolLoadOperator(constVal));
    }
 
-   private Instruction objectPoolLoad(final Type constVal) {
+   private Vop objectPoolLoad(final Type constVal) {
       return linearInstruction(new ObjectPoolLoad(constVal));
    }
 
@@ -403,15 +402,15 @@ public final class BaseInstructions implements Instructions {
       return linearInstruction(new Load2(index));
    }
 
-   @Override public Instruction aload(final int index) {
+   @Override public Vop aload(final int index) {
       return load(index);
    }
 
-   @Override public Instruction fload(final int index) {
+   @Override public Vop fload(final int index) {
       return load(index);
    }
 
-   @Override public Instruction dload(final int index) {
+   @Override public Vop dload(final int index) {
       return load2(index);
    }
 
@@ -443,11 +442,11 @@ public final class BaseInstructions implements Instructions {
       return String.format("%s.%s:%s", fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
    }
 
-   @Override public Instruction defineClass(final List<String> klassNames) {
+   @Override public Vop defineClass(final List<String> klassNames) {
       return new LoadingInstruction(klassNames, new NoOp());
    }
 
-   @Override public Instruction initThread() {
+   @Override public Vop initThread() {
       return new LinearInstruction(new InitThreadOp());
    }
 
@@ -455,67 +454,67 @@ public final class BaseInstructions implements Instructions {
       return new StatementBuilder(this);
    }
 
-   @Override public Instruction returnVoid() {
+   @Override public Vop returnVoid() {
       return new ReturnInstruction(0);
    }
 
-   @Override public Instruction return1() {
+   @Override public Vop return1() {
       return new ReturnInstruction(1);
    }
 
-   @Override public Instruction return2() {
+   @Override public Vop return2() {
       return new ReturnInstruction(2);
    }
 
-   @Override public Instruction newObject(final String klassDesc) {
+   @Override public Vop newObject(final String klassDesc) {
       return loadingInstruction(klassDesc, newOp(klassDesc));
    }
 
-   @Override public Instruction addressToHashCode() {
+   @Override public Vop addressToHashCode() {
       return linearInstruction(new AddressToHashCodeOp());
    }
 
-   @Override public Instruction nanoTime() {
+   @Override public Vop nanoTime() {
       return linearInstruction(new NanoTimeOp());
    }
 
-   @Override public Instruction currentTimeMillis() {
+   @Override public Vop currentTimeMillis() {
       return linearInstruction(new CurrentTimeMillisOp());
    }
 
-   @Override public Instruction createInvokeSpecial(final SMethodDescriptor sMethodName) {
+   @Override public Vop createInvokeSpecial(final SMethodDescriptor sMethodName) {
       return MethodCallInstruction.createInvokeSpecial(sMethodName);
    }
 
-   @Override public Instruction invokeInterface(final String klassName, final String methodName, final String desc) {
+   @Override public Vop invokeInterface(final String klassName, final String methodName, final String desc) {
       return invokeInterface(new AsmSMethodName(klassName, methodName, desc));
    }
 
-   private Instruction invokeInterface(final SMethodDescriptor sMethodName) {
+   private Vop invokeInterface(final SMethodDescriptor sMethodName) {
       return MethodCallInstruction.createInvokeInterface(sMethodName);
    }
 
-   @Override public Instruction currentThread() {
+   @Override public Vop currentThread() {
       return linearInstruction(new CurrentThreadOp());
    }
 
-   @Override public Instruction arrayCopy() {
+   @Override public Vop arrayCopy() {
       return linearInstruction(new ArrayCopyOp());
    }
 
-   @Override public Instruction floatToRawIntBits() {
+   @Override public Vop floatToRawIntBits() {
       return linearInstruction(new FloatToRawIntBits());
    }
 
-   @Override public Instruction doubleToRawLongBits() {
+   @Override public Vop doubleToRawLongBits() {
       return linearInstruction(new DoubleToRawLongBits());
    }
 
-   @Override public Instruction getCallerClass() {
+   @Override public Vop getCallerClass() {
       return linearInstruction(new GetCallerClass());
    }
 
-   @Override public Instruction getPrimitiveClass() {
+   @Override public Vop getPrimitiveClass() {
       return linearInstruction(new GetPrimitiveClass());
    }
 
@@ -581,11 +580,11 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override
-   public Instruction nop() {
+   public Vop nop() {
       return new LinearInstruction(new NopOp());
    }
 
-   @Override public Instruction loadArg(final Object object) {
+   @Override public Vop loadArg(final Object object) {
       return instructionFactory.loadArg(object);
    }
 }

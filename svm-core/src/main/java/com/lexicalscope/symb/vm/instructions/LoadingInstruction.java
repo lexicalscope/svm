@@ -9,7 +9,6 @@ import com.google.common.collect.Lists;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
@@ -20,7 +19,7 @@ import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
-public class LoadingInstruction implements Instruction {
+public class LoadingInstruction implements Vop {
    private final List<String> klassNames;
    private final Vop op;
 

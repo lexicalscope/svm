@@ -4,12 +4,12 @@ import java.util.List;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
-import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public interface Instructions {
    public interface InstructionSink {
-      void nextInstruction(AbstractInsnNode asmInstruction, Instruction node);
+      void nextInstruction(AbstractInsnNode asmInstruction, Vop node);
       void noInstruction(AbstractInsnNode abstractInsnNode);
    }
 
@@ -17,39 +17,39 @@ public interface Instructions {
 
    Object initialFieldValue(String desc);
 
-   Instruction defineClass(List<String> klassNames);
+   Vop defineClass(List<String> klassNames);
 
-   Instruction createInvokeSpecial(SMethodDescriptor sMethodName);
+   Vop createInvokeSpecial(SMethodDescriptor sMethodName);
 
-   Instruction initThread();
+   Vop initThread();
 
    StatementBuilder statements();
 
    // TODO[tim]: the native method implementations should be split out
-   Instruction currentThread();
-   Instruction arrayCopy();
-   Instruction floatToRawIntBits();
-   Instruction doubleToRawLongBits();
-   Instruction getCallerClass();
-   Instruction getPrimitiveClass();
-   Instruction returnVoid();
-   Instruction return1();
-   Instruction return2();
-   Instruction newObject(String klassDesc);
-   Instruction addressToHashCode();
-   Instruction nanoTime();
-   Instruction currentTimeMillis();
-   Instruction aconst_null();
-   Instruction iconst_0();
-   Instruction fconst_0();
-   Instruction iconst(int constVal);
-   Instruction lconst(long constVal);
-   Instruction invokeInterface(String klassName, String methodName, String desc);
-   Instruction aload(int index);
-   Instruction fload(int index);
-   Instruction dload(int index);
+   Vop currentThread();
+   Vop arrayCopy();
+   Vop floatToRawIntBits();
+   Vop doubleToRawLongBits();
+   Vop getCallerClass();
+   Vop getPrimitiveClass();
+   Vop returnVoid();
+   Vop return1();
+   Vop return2();
+   Vop newObject(String klassDesc);
+   Vop addressToHashCode();
+   Vop nanoTime();
+   Vop currentTimeMillis();
+   Vop aconst_null();
+   Vop iconst_0();
+   Vop fconst_0();
+   Vop iconst(int constVal);
+   Vop lconst(long constVal);
+   Vop invokeInterface(String klassName, String methodName, String desc);
+   Vop aload(int index);
+   Vop fload(int index);
+   Vop dload(int index);
 
-   Instruction nop();
+   Vop nop();
 
-   Instruction loadArg(Object object);
+   Vop loadArg(Object object);
 }

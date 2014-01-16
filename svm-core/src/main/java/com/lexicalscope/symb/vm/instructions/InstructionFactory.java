@@ -4,7 +4,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
@@ -42,26 +41,26 @@ public interface InstructionFactory {
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
 
-   Instruction branchIfGe(JumpInsnNode jumpInsnNode);
-   Instruction branchIfGt(JumpInsnNode jumpInsnNode);
-   Instruction branchIfLe(JumpInsnNode jumpInsnNode);
-   Instruction branchIfLt(JumpInsnNode jumpInsnNode);
-   Instruction branchIfEq(JumpInsnNode jumpInsnNode);
-   Instruction branchIfNe(JumpInsnNode jumpInsnNode);
-   Instruction branchIfNull(JumpInsnNode jumpInsnNode);
-   Instruction branchIfNonNull(JumpInsnNode jumpInsnNode);
+   Vop branchIfGe(JumpInsnNode jumpInsnNode);
+   Vop branchIfGt(JumpInsnNode jumpInsnNode);
+   Vop branchIfLe(JumpInsnNode jumpInsnNode);
+   Vop branchIfLt(JumpInsnNode jumpInsnNode);
+   Vop branchIfEq(JumpInsnNode jumpInsnNode);
+   Vop branchIfNe(JumpInsnNode jumpInsnNode);
+   Vop branchIfNull(JumpInsnNode jumpInsnNode);
+   Vop branchIfNonNull(JumpInsnNode jumpInsnNode);
 
-   Instruction branchIfICmpEq(JumpInsnNode jumpInsnNode);
-   Instruction branchIfICmpNe(JumpInsnNode jumpInsnNode);
-   Instruction branchIfICmpLe(JumpInsnNode jumpInsnNode);
-   Instruction branchIfICmpGe(JumpInsnNode jumpInsnNode);
-   Instruction branchIfICmpLt(JumpInsnNode jumpInsnNode);
-   Instruction branchIfICmpGt(JumpInsnNode jumpInsnNode);
+   Vop branchIfICmpEq(JumpInsnNode jumpInsnNode);
+   Vop branchIfICmpNe(JumpInsnNode jumpInsnNode);
+   Vop branchIfICmpLe(JumpInsnNode jumpInsnNode);
+   Vop branchIfICmpGe(JumpInsnNode jumpInsnNode);
+   Vop branchIfICmpLt(JumpInsnNode jumpInsnNode);
+   Vop branchIfICmpGt(JumpInsnNode jumpInsnNode);
 
-   Instruction branchIfACmpEq(JumpInsnNode jumpInsnNode);
-   Instruction branchIfACmpNe(JumpInsnNode jumpInsnNode);
+   Vop branchIfACmpEq(JumpInsnNode jumpInsnNode);
+   Vop branchIfACmpNe(JumpInsnNode jumpInsnNode);
 
-   Instruction loadArg(Object object);
+   Vop loadArg(Object object);
 
    Snapshotable<?> initialMeta();
 
