@@ -3,11 +3,11 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
@@ -42,11 +42,10 @@ final class SBranchInstruction implements Instruction {
       this.branchStrategy = branchStrategy;
    }
 
-   @Override
-   public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
-      final Pc pc = (Pc) state.getMeta();
+   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
+      final Pc pc = (Pc) vm.state().getMeta();
 
-      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);
+      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(vm.state());
 
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
@@ -56,20 +55,20 @@ final class SBranchInstruction implements Instruction {
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
       final Vop jumpOp = new Vop() {
-         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
-            stackFrame.advance(instruction.jmpTarget());
+         @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode x) {
+            stackFrame.advance(instructionNode.jmpTarget());
          }
       };
 
       final Vop nojumpOp = new Vop() {
-         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
-            stackFrame.advance(instruction.next());
+         @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode x) {
+            stackFrame.advance(instructionNode.next());
          }
       };
 
       if(jumpFeasible && nojumpFeasible)
       {
-         final State[] states = state.fork();
+         final State[] states = vm.state().fork();
 
          // jump
          ((Pc) states[0].getMeta()).and(jumpSymbol);
@@ -81,9 +80,9 @@ final class SBranchInstruction implements Instruction {
 
          vm.fork(states);
       } else if(jumpFeasible) {
-         state.op(jumpOp, null);
+         jumpOp.eval(vm, statics, heap, stack, stackFrame, instructionNode);
       } else if(nojumpFeasible) {
-         state.op(nojumpOp, null);
+         nojumpOp.eval(vm, statics, heap, stack, stackFrame, instructionNode);
       } else {
          throw new RuntimeException("unable to check feasibility");
       }

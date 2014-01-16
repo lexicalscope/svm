@@ -3,14 +3,15 @@ package com.lexicalscope.symb.vm.instructions;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 
+// TODO[tim]: this does nothing
 public class SimpleInstruction implements Instruction {
    private final Vop op;
 
@@ -20,7 +21,7 @@ public class SimpleInstruction implements Instruction {
 
    public SimpleInstruction(final Op<?> op) {
       this(new Vop() {
-         @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
+         @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
             op.eval(null, statics, heap, stack, stackFrame);
          }
 
@@ -30,9 +31,8 @@ public class SimpleInstruction implements Instruction {
       });
    }
 
-   @Override
-   public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
-      state.op(op, null);
+   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
+      op.eval(vm, statics, heap, stack, stackFrame, instructionNode);
    }
 
    @Override

@@ -15,7 +15,7 @@ final class NextInstructionOp implements Vop {
       this.instruction = instruction;
    }
 
-   @Override public void eval(Vm vm, Statics statics, final Heap heap, Stack stack, final StackFrame stackFrame) {
-      stackFrame.advance(instruction.next());
+   @Override public void eval(Vm vm, Statics statics, final Heap heap, Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
+      stackFrame.advance(instructionNode.next());
    }
 }

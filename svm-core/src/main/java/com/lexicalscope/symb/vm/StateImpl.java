@@ -40,7 +40,7 @@ public class StateImpl implements State {
    public StateImpl op(final Vop op, final Vm<State> vm) {
       stack.query(new StackVop() {
          @Override public void eval(final StackFrame top, final Stack stack) {
-            op.eval(vm, statics, heap, stack, top);
+            op.eval(vm, statics, heap, stack, top, null);
          }
       });
       return this;
@@ -48,7 +48,8 @@ public class StateImpl implements State {
 
    @Override
    public void eval(final Vm<State> vm) {
-      ((InstructionNode) stack.topFrame().instruction()).eval(vm, this);
+      final InstructionNode instructionNode = (InstructionNode) stack.topFrame().instruction();
+      instructionNode.eval(vm, statics, heap, stack, stack.topFrame(), instructionNode);
    }
 
    @Override

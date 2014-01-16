@@ -13,8 +13,8 @@ public class NextInstruction implements Transistion {
    @Override
    public void next(final State state, final InstructionNode instruction) {
       state.op(new Vop() {
-         @Override public void eval(Vm vm, Statics statics, final Heap heap, Stack stack, final StackFrame stackFrame) {
-            stackFrame.advance(instruction.next());
+         @Override public void eval(Vm vm, Statics statics, final Heap heap, Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
+            stackFrame.advance(instructionNode.next());
          }
       }, null);
    }

@@ -6,6 +6,7 @@ import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
@@ -144,7 +145,7 @@ public class MethodCallInstruction {
          return String.format("%s %s", methodInvokation.name(), sMethodName);
       }
 
-      @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
+      @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
          final Object[] args = methodInvokation.args(statics, stackFrame, sMethodName);
 
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, heap, statics);

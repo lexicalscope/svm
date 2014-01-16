@@ -6,9 +6,7 @@ package com.lexicalscope.symb.vm;
  *
  * @author tim
  */
-public interface InstructionNode {
-   void eval(Vm<State> vm, State state);
-
+public interface InstructionNode extends Vop {
    InstructionNode next(InstructionNode instruction);
    void jmpTarget(InstructionNode instruction);
 

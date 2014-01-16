@@ -20,12 +20,12 @@ public final class BranchOp implements Vop {
 		this.branchPredicate = branchPredicate;
 	}
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
       final InstructionNode next;
       if(branchPredicate.eval(null, statics, heap, stack, stackFrame)) {
-         next = instruction.jmpTarget();
+         next = instructionNode.jmpTarget();
       } else {
-         next = instruction.next();
+         next = instructionNode.next();
       }
       stackFrame.advance(next);
    }

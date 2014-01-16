@@ -7,10 +7,14 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.stack.Stack;
+import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
@@ -30,22 +34,22 @@ public class LoadingInstruction implements Instruction {
       this(asList(klassName), op);
    }
 
-   @Override public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
-      final List<SClass> definedClasses = state.op(new DefineClassOp(klassNames), vm);
+   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
+      final List<SClass> definedClasses = new DefineClassOp(klassNames).eval(vm, statics, heap, stack, stackFrame);
       if(definedClasses.isEmpty()){
-         state.op(advanceTo(instruction.next()), null);
-         state.op(op, null);
+         // TODO[tim]: this is the same as linear instruction
+         advanceTo(instructionNode.next()).eval(vm, statics, heap, stack, stackFrame, instructionNode);
+         op.eval(vm, statics, heap, stack, stackFrame, instructionNode);
       } else {
-         InstructionNode currentInstruction = instruction;
+         InstructionNode currentInstruction = instructionNode;
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {
                currentInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(currentInstruction, klass);
             }
          }
-         state.op(advanceTo(currentInstruction), null);
+         advanceTo(currentInstruction).eval(vm, statics, heap, stack, stackFrame, instructionNode);
       }
-
    }
 
    private InstructionNode replaceCurrentInstructionWithInvocationOfStaticInitaliser(final InstructionNode currentInstruction, final SClass klass) {

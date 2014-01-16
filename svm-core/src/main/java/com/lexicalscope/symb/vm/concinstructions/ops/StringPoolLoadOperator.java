@@ -6,6 +6,7 @@ import static org.objectweb.asm.Type.getInternalName;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
@@ -22,7 +23,7 @@ public final class StringPoolLoadOperator implements Vop {
       this.val = val;
    }
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
+   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
       final SClass stringClass = statics.load(STRING_CLASS);
 
       // create new string
@@ -33,7 +34,7 @@ public final class StringPoolLoadOperator implements Vop {
       final char[] chars = val.toCharArray();
 
       stackFrame.push(chars.length);
-      new NewArrayOp(new NewConcArray()).eval(null, statics, heap, stack, stackFrame);
+      new NewArrayOp(new NewConcArray()).eval(null, statics, heap, stack, stackFrame, null);
       final Object valueAddress = stackFrame.pop();
 
       for (int i = 0; i < chars.length; i++) {
