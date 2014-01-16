@@ -47,7 +47,7 @@ public class StateImpl implements State {
    }
 
    @Override
-   public void executeNextInstruction(final Vm vm) {
+   public void executeNextInstruction(final Vm<State> vm) {
       ((InstructionNode) stack.topFrame().instruction()).eval(vm, this);
    }
 

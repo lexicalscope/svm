@@ -6,49 +6,42 @@ import java.util.Deque;
 
 import com.lexicalscope.symb.vm.instructions.TerminationException;
 
-public class Vm {
-   private final Deque<State> pending = new ArrayDeque<>();
-   private final Deque<State> finished = new ArrayDeque<>();
+public class Vm<S extends ExecutableState<S>> {
+   final Deque<S> pending = new ArrayDeque<>();
+   final Deque<S> finished = new ArrayDeque<>();
 
-   public Vm(final State state) {
+   public Vm(final S state) {
       pending.push(state);
    }
 
-   public State execute() {
+   public S execute() {
       while (!pending.isEmpty()) {
          try {
-            //System.out.println(pending.peek());
             pending.peek().executeNextInstruction(this);
          } catch (final TerminationException termination) {
             assert pending.peek() == termination.getFinalState();
             finished.push(pending.pop());
-            System.out.println("BACKTRACK");
-            System.out.println("    TERM " + finished.peek().getMeta());
-
          }
          catch (final RuntimeException e) {
-            System.out.println(pending.peek().trace());
             throw e;
          }
       }
       return result();
    }
 
-   public State result() {
-      return finished.peek();
-   }
-
-   public void fork(final State[] states) {
+   public void fork(final S[] states) {
       pending.pop();
 
-      System.out.println("FORK");
-      for (final State state : states) {
-         System.out.println("     " + state.getMeta());
+      for (final S state : states) {
          pending.push(state);
       }
    }
 
-   public Collection<State> results() {
+   public S result() {
+      return finished.peek();
+   }
+
+   public Collection<S> results() {
       return finished;
    }
 }

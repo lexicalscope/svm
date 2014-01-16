@@ -7,14 +7,14 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
+import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class LoadingInstruction implements Instruction {
@@ -30,7 +30,7 @@ public class LoadingInstruction implements Instruction {
       this(asList(klassName), op);
    }
 
-   @Override public void eval(final Vm vm, final State state, final InstructionNode instruction) {
+   @Override public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
       final List<SClass> definedClasses = state.op(new DefineClassOp(klassNames));
       if(definedClasses.isEmpty()){
          state.op(advanceTo(instruction.next()));

@@ -3,11 +3,11 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
@@ -43,7 +43,7 @@ final class SBranchInstruction implements Instruction {
    }
 
    @Override
-   public void eval(final Vm vm, final State state, final InstructionNode instruction) {
+   public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
       final Pc pc = (Pc) state.getMeta();
 
       final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(state);

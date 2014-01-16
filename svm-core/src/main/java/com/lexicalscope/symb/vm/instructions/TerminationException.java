@@ -1,16 +1,15 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import com.lexicalscope.symb.vm.State;
 
 public class TerminationException extends RuntimeException {
-   private final State state;
+   private final Object state;
 
-   public TerminationException(final State state) {
+   public TerminationException(final Object state) {
       super(state.toString());
       this.state = state;
    }
 
-   public State getFinalState() {
+   public Object getFinalState() {
       return state;
    }
 }

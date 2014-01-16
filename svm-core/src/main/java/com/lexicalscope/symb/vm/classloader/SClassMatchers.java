@@ -9,8 +9,6 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.lexicalscope.symb.vm.Vm;
-
 public class SClassMatchers {
    public static int withIndex(final int i) {
       return i;
@@ -116,7 +114,7 @@ public class SClassMatchers {
       };
    }
 
-   public static Matcher<? super SClass> loadedFromSamePlaceAs(final Class<Vm> klass) {
+   public static Matcher<? super SClass> loadedFromSamePlaceAs(final Class<?> klass) {
       final URL expectedLocation = klass.getProtectionDomain().getCodeSource().getLocation();
 
       return new TypeSafeDiagnosingMatcher<SClass>(){

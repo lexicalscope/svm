@@ -19,13 +19,13 @@ public class TestBranch {
 
    @Test
    public void concExecuteLeftBranch() {
-      final Vm vm = concreteVm(absMethod, -2);
+      final Vm<State> vm = concreteVm(absMethod, -2);
       assertThat(vm.execute(), normalTerminiationWithResult(2));
    }
 
    @Test
    public void concExecuteRightBranch() {
-      final Vm vm = concreteVm(absMethod, 2);
+      final Vm<State> vm = concreteVm(absMethod, 2);
       assertThat(vm.execute(), normalTerminiationWithResult(2));
    }
 
@@ -34,7 +34,7 @@ public class TestBranch {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = vm(instructionFactory, absMethod, symbol1);
+      final Vm<State> vm = vm(instructionFactory, absMethod, symbol1);
       vm.execute();
       assertThat(vm.results(), hasSize(2));
       assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new IConstSymbol(-1)))));

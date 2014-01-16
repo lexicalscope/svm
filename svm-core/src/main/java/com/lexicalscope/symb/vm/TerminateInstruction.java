@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm;
 import com.lexicalscope.symb.vm.instructions.TerminationException;
 
 public class TerminateInstruction implements InstructionNode {
-   @Override public void eval(final Vm vm, final State state) {
+   @Override public void eval(final Vm<State> vm, final State state) {
       throw new TerminationException(state);
    }
 

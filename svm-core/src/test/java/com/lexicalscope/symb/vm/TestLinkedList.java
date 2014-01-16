@@ -12,7 +12,7 @@ public class TestLinkedList {
    final MethodInfo linkedListAddRemove = new MethodInfo(StaticLinkedList.class, "addRemove", "(I)I");
 
    @Test public void linkedListAddThenGet() {
-      final Vm vm = concreteVm(linkedListAddRemove, 4);
+      final Vm<State> vm = concreteVm(linkedListAddRemove, 4);
       assertThat(vm.execute(), normalTerminiationWithResult(4));
    }
 }

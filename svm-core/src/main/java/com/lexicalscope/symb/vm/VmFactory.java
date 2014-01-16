@@ -20,11 +20,11 @@ public class VmFactory {
       final InstructionNode initThread = classLoader.initThreadInstruction();
       final InstructionNode loadArgs = classLoader.loadArgsInstruction(args);
       final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(methodName));
-   
+
       defineClassClass.next(initThread).next(loadArgs).next(entryPointInstruction);
-   
+
       final StaticsImpl statics = new StaticsImpl(classLoader);
-   
+
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, methodName.argSize()));
       return new StateImpl(statics, stack, new CheckingHeap(new FastHeap()), classLoader.initialMeta());
@@ -34,12 +34,12 @@ public class VmFactory {
       return initial(classLoader, new AsmSMethodName(info.klass(), info.name(), info.desc()), args);
    }
 
-   public static Vm vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
+   public static Vm<State> vm(final InstructionFactory instructionFactory, final MethodInfo entryPoint, final Object ... args) {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
-      return new Vm(initial(classLoader, entryPoint, args));
+      return new Vm<State>(initial(classLoader, entryPoint, args));
    }
 
-   public static Vm concreteVm(final MethodInfo entryPoint, final Object ... args) {
+   public static Vm<State> concreteVm(final MethodInfo entryPoint, final Object ... args) {
       return vm(new ConcInstructionFactory(), entryPoint, args);
    }
 

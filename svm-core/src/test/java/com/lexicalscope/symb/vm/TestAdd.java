@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+import static com.lexicalscope.symb.vm.VmFactory.concreteVm;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -16,7 +17,7 @@ public class TestAdd {
 
    @Test
    public void concExecuteStaticAddMethod() {
-      final Vm vm = VmFactory.concreteVm(addMethod, 1, 2);
+      final Vm<State> vm = concreteVm(addMethod, 1, 2);
       assertThat(vm.execute(), normalTerminiationWithResult(3));
    }
 
@@ -26,7 +27,7 @@ public class TestAdd {
       final ISymbol symbol1 = instructionFactory.isymbol();
       final ISymbol symbol2 = instructionFactory.isymbol();
 
-      final Vm vm = VmFactory.vm(instructionFactory, addMethod,symbol1, symbol2);
+      final Vm<State> vm = VmFactory.vm(instructionFactory, addMethod,symbol1, symbol2);
       assertThat(vm.execute(), normalTerminiationWithResult(new IAddSymbol(symbol1, symbol2)));
    }
 }

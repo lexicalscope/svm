@@ -6,6 +6,7 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
@@ -17,7 +18,7 @@ public class TestCell {
 
    @Test
    public void concExecuteCellNewGetSet() {
-      final Vm vm = concreteVm(viaCellMethod, -6);
+      final Vm<State> vm = concreteVm(viaCellMethod, -6);
       assertThat(vm.execute(), normalTerminiationWithResult(-6));
    }
 
@@ -26,7 +27,7 @@ public class TestCell {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = vm(instructionFactory, viaCellMethod, symbol1);
+      final Vm<State> vm = vm(instructionFactory, viaCellMethod, symbol1);
       assertThat(vm.execute(), normalTerminiationWithResult(symbol1));
    }
 }

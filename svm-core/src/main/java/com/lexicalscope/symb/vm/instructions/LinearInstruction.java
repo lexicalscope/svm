@@ -5,12 +5,12 @@ import static com.lexicalscope.symb.vm.instructions.ops.Ops.advanceToNextInstruc
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 
 public class LinearInstruction implements Instruction {
@@ -33,7 +33,7 @@ public class LinearInstruction implements Instruction {
    }
 
    @Override
-   public void eval(final Vm vm, final State state, final InstructionNode instruction) {
+   public void eval(final Vm<State> vm, final State state, final InstructionNode instruction) {
       state.op(advanceToNextInstruction(instruction));
       state.op(op);
    }

@@ -12,7 +12,7 @@ public class TestStaticInitialisation {
    MethodInfo returnStaticFieldValue = new MethodInfo(StaticField.class, "getX", "()I");
 
    @Test public void getStaticFieldViaStaticMethod() {
-      final Vm vm = concreteVm(returnStaticFieldValue);
+      final Vm<State> vm = concreteVm(returnStaticFieldValue);
       assertThat(vm.execute(), normalTerminiationWithResult(5));
    }
 }

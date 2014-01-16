@@ -17,7 +17,7 @@ public class TestInfeasibleBranch {
 
    @Test
    public void concExecuteLeftBranch() {
-      final Vm vm = concreteVm(infeasibleMethod, 4);
+      final Vm<State> vm = concreteVm(infeasibleMethod, 4);
       assertThat(vm.execute(), normalTerminiationWithResult(-10));
    }
 
@@ -26,7 +26,7 @@ public class TestInfeasibleBranch {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = vm(instructionFactory, infeasibleMethod, symbol1);
+      final Vm<State> vm = vm(instructionFactory, infeasibleMethod, symbol1);
       vm.execute();
       assertThat(vm.results(), hasItem(normalTerminiationWithResult(-10)));
       assertThat(vm.results(), hasSize(1));

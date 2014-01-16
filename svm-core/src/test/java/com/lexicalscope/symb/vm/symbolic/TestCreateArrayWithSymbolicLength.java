@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.VmFactory;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
@@ -74,7 +75,7 @@ public class TestCreateArrayWithSymbolicLength {
    @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
       final ITerminalSymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = VmFactory.vm(instructionFactory, reverseMethod, symbol1);
+      final Vm<State> vm = VmFactory.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
       assertThat(vm.results(), after(stateToModel(feasbilityChecker)).
