@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
 import static com.lexicalscope.symb.vm.JavaConstants.*;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.advanceTo;
 import static java.util.Arrays.asList;
 
 import java.util.List;
@@ -37,18 +36,16 @@ public class LoadingInstruction implements Instruction {
    @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
       final List<SClass> definedClasses = new DefineClassOp(klassNames).eval(vm, statics, heap, stack, stackFrame);
       if(definedClasses.isEmpty()){
-         // TODO[tim]: this is the same as linear instruction
-         advanceTo(instructionNode.next()).eval(vm, statics, heap, stack, stackFrame, instructionNode);
-         op.eval(vm, statics, heap, stack, stackFrame, instructionNode);
+         new LinearInstruction(op).eval(vm, statics, heap, stack, stackFrame, instructionNode);
       } else {
-         InstructionNode currentInstruction = instructionNode;
+         InstructionNode replacementInstruction = instructionNode;
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {
-               currentInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(currentInstruction, klass);
+               replacementInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(replacementInstruction, klass);
             }
          }
-         advanceTo(currentInstruction).eval(vm, statics, heap, stack, stackFrame, instructionNode);
+         stackFrame.advance(replacementInstruction);
       }
    }
 
