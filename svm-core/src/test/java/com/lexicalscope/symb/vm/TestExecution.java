@@ -11,7 +11,7 @@ public class TestExecution {
    private final MethodInfo entryPoint = new MethodInfo("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
 
    @Test public void executeEmptyMainMethod() {
-      final Vm vm = Vm.concreteVm(entryPoint);
+      final Vm vm = VmFactory.concreteVm(entryPoint);
 
       assertThat(vm.execute(), normalTerminiation());
    }

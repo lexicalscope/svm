@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm;
 
-import static com.lexicalscope.symb.vm.Vm.concreteVm;
+import static com.lexicalscope.symb.vm.VmFactory.*;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -26,7 +26,7 @@ public class TestInfeasibleBranch {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = Vm.vm(instructionFactory, infeasibleMethod, symbol1);
+      final Vm vm = vm(instructionFactory, infeasibleMethod, symbol1);
       vm.execute();
       assertThat(vm.results(), hasItem(normalTerminiationWithResult(-10)));
       assertThat(vm.results(), hasSize(1));

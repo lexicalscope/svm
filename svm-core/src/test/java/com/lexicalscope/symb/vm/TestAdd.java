@@ -16,7 +16,7 @@ public class TestAdd {
 
    @Test
    public void concExecuteStaticAddMethod() {
-      final Vm vm = Vm.concreteVm(addMethod, 1, 2);
+      final Vm vm = VmFactory.concreteVm(addMethod, 1, 2);
       assertThat(vm.execute(), normalTerminiationWithResult(3));
    }
 
@@ -26,7 +26,7 @@ public class TestAdd {
       final ISymbol symbol1 = instructionFactory.isymbol();
       final ISymbol symbol2 = instructionFactory.isymbol();
 
-      final Vm vm = Vm.vm(instructionFactory, addMethod,symbol1, symbol2);
+      final Vm vm = VmFactory.vm(instructionFactory, addMethod,symbol1, symbol2);
       assertThat(vm.execute(), normalTerminiationWithResult(new IAddSymbol(symbol1, symbol2)));
    }
 }
