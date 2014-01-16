@@ -11,8 +11,6 @@ public interface Stack extends Snapshotable<Stack> {
    StackFrame topFrame();
    StackFrame previousFrame();
 
-   void query(StackVop op);
-
    int size();
 
    void currentThread(Object address);

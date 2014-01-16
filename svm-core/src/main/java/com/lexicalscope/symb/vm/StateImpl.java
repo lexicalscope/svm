@@ -5,7 +5,6 @@ import static com.google.common.base.Objects.equal;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.stack.StackVop;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
 
@@ -24,16 +23,6 @@ public class StateImpl implements State {
       this.stack = stack;
       this.heap = heap;
       this.meta = meta;
-   }
-
-   @Override
-   public StateImpl op(final Vop op, final Vm<State> vm) {
-      stack().query(new StackVop() {
-         @Override public void eval(final StackFrame top, final Stack stack) {
-            op.eval(vm, statics, heap, stack, top, null);
-         }
-      });
-      return this;
    }
 
    @Override
