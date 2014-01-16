@@ -9,7 +9,6 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class TestThreadIsLoadedFromLocal {
@@ -25,6 +24,6 @@ public class TestThreadIsLoadedFromLocal {
       }});
 
       final SClass loaded = new AsmSClassLoader().load(Thread.class, classLoaded);
-      assertThat(loaded, loadedFromSamePlaceAs(Vm.class));
+      assertThat(loaded, loadedFromSamePlaceAs(AsmSClassLoader.class));
    }
 }

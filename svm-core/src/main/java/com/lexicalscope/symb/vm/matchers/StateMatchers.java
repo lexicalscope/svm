@@ -8,11 +8,15 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import com.lexicalscope.MatchersAdditional;
+import com.lexicalscope.MatchersAdditional.CollectionMatcherBuilder;
+import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
 import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.InstructionNode;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.State;
@@ -23,7 +27,7 @@ import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class StateMatchers {
-   public static Matcher<? super State> operandEqual(final Object expected) {
+   public static Matcher<State> operandEqual(final Object expected) {
       return operandMatching(equalTo(expected));
    }
 
@@ -48,7 +52,15 @@ public class StateMatchers {
       return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
    }
 
-   private static Matcher<? super State> operandMatching(final Matcher<Object> expectedMatcher) {
+   public static CollectionMatcherBuilder<Symbol, FlowNode<State>> flowNodeToModel(final FeasibilityChecker feasibilityChecker) {
+      return flowNodeToState().then(stateToModel(feasibilityChecker));
+   }
+
+   private static TransformMatcherBuilder<State, FlowNode<State>> flowNodeToState() {
+      return MatchersAdditional.after(new FlowNodeToState<State>());
+   }
+
+   private static Matcher<State> operandMatching(final Matcher<Object> expectedMatcher) {
       return new TypeSafeDiagnosingMatcher<State>(State.class) {
          @Override
          public void describeTo(final Description description) {
@@ -116,15 +128,15 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
-      return both(normalTerminiation()).and(operandEqual(result));
+   public static Matcher<? super FlowNode<State>> normalTerminiationWithResult(final Object result) {
+      return both(normalTerminiation()).and(flowNodeToState().matches(operandEqual(result)));
    }
 
    public static Matcher<? super State> normalTerminiationWithResultMatching(final Matcher<Object> matcher) {
-      return both(normalTerminiation()).and(operandMatching(matcher));
+      return both(normalTerminiation()).and(flowNodeToState().matches(operandMatching(matcher)));
    }
 
-   public static Matcher<? super State> normalTerminiation() {
-      return both(instructionEqual(new TerminateInstruction())).and(stackSize(1));
+   public static Matcher<? super FlowNode<State>> normalTerminiation() {
+      return flowNodeToState().matches(both(instructionEqual(new TerminateInstruction())).and(stackSize(1)));
    }
 }

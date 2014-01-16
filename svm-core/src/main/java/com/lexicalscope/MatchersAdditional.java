@@ -124,6 +124,10 @@ public class MatchersAdditional {
       public CollectionMatcherBuilder<T,S> has(final int count, final org.hamcrest.Matcher<? super T> itemMatcher) {
          return new CollectionMatcherBuilder<T,S>(transform).has(count, itemMatcher);
       }
+
+      public <T2> CollectionMatcherBuilder<T2,S> then(final Transform<T2, T> subsequentTransform) {
+         return new CollectionMatcherBuilder<T2,S>(new CompositeTransform<T2,T,S>(subsequentTransform, transform));
+      }
    }
 
    @SafeVarargs public static <E> CollectionMatcherBuilder<E,E> has(final org.hamcrest.Matcher<? super E>... itemMatchers) {

@@ -4,15 +4,15 @@ import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
 
-public final class Vm<S extends VmVop<S>> {
-   final Deque<S> pending = new ArrayDeque<>();
-   final Deque<S> finished = new ArrayDeque<>();
+public final class Vm<S> {
+   final Deque<FlowNode<S>> pending = new ArrayDeque<>();
+   final Deque<FlowNode<S>> finished = new ArrayDeque<>();
 
-   public Vm(final S state) {
+   public Vm(final FlowNode<S> state) {
       pending.push(state);
    }
 
-   public S execute() {
+   public FlowNode<S> execute() {
       while (!pending.isEmpty()) {
          try {
             pending.peek().eval(this);
@@ -27,19 +27,19 @@ public final class Vm<S extends VmVop<S>> {
       return result();
    }
 
-   public void fork(final S[] states) {
+   public void fork(final FlowNode<S>[] states) {
       pending.pop();
 
-      for (final S state : states) {
+      for (final FlowNode<S> state : states) {
          pending.push(state);
       }
    }
 
-   public S result() {
+   public FlowNode<S> result() {
       return finished.peek();
    }
 
-   public Collection<S> results() {
+   public Collection<FlowNode<S>> results() {
       return finished;
    }
 }

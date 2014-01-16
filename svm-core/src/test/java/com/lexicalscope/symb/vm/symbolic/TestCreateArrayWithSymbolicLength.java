@@ -1,7 +1,6 @@
 package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.MatchersAdditional.after;
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.stateToModel;
+import static com.lexicalscope.symb.vm.matchers.StateMatchers.flowNodeToModel;
 import static com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers.symbolEquivalentTo;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -78,7 +77,7 @@ public class TestCreateArrayWithSymbolicLength {
       final Vm<State> vm = VmFactory.vm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
-      assertThat(vm.results(), after(stateToModel(feasbilityChecker)).
+      assertThat(vm.results(), flowNodeToModel(feasbilityChecker).
             has(3, symbolEquivalentTo(0)).
             has(symbolEquivalentTo(1)).
             has(symbolEquivalentTo(2)).

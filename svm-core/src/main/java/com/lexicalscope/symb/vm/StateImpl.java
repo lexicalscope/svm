@@ -86,4 +86,8 @@ public class StateImpl implements State {
    public int hashCode() {
       return stack.hashCode() ^ heap.hashCode() ^ (meta == null ? 0 : meta.hashCode());
    }
+
+   @Override public State state() {
+      return this;
+   }
 }

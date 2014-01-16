@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
 
-public interface State extends Snapshotable<State>, VmVop<State> {
+public interface State extends Snapshotable<State>, FlowNode<State> {
    State[] fork();
 
    // do op on VM instead to avoid passing state around.

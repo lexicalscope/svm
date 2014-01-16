@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
-public interface VmVop<S extends VmVop<S>> {
+public interface FlowNode<S> {
+	S state();
 	void eval(Vm<S> vm);
 }
