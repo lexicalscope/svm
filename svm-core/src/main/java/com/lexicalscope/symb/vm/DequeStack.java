@@ -11,7 +11,6 @@ import java.util.List;
 
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.stack.StackOp;
 import com.lexicalscope.symb.stack.StackVop;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.stack.trace.SStackTraceElement;
@@ -49,10 +48,6 @@ public class DequeStack implements Stack {
    @Override
    public StackFrame topFrame() {
       return stack.peek();
-   }
-
-   @Override public <T> T query(final StackOp<T> op) {
-      return op.eval(stack.peek(), this);
    }
 
    @Override public void query(final StackVop op) {

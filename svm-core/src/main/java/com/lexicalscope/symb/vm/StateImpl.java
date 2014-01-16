@@ -5,7 +5,6 @@ import static com.google.common.base.Objects.equal;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.stack.StackOp;
 import com.lexicalscope.symb.stack.StackVop;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
@@ -28,17 +27,8 @@ public class StateImpl implements State {
    }
 
    @Override
-   public <T> T op(final Op<T> op, final Vm<State> vm) {
-      return stack.query(new StackOp<T>() {
-         @Override public T eval(final StackFrame top, final Stack stack) {
-            return op.eval(vm, statics, heap, stack, top);
-         }
-      });
-   }
-
-   @Override
    public StateImpl op(final Vop op, final Vm<State> vm) {
-      stack.query(new StackVop() {
+      stack().query(new StackVop() {
          @Override public void eval(final StackFrame top, final Stack stack) {
             op.eval(vm, statics, heap, stack, top, null);
          }
@@ -48,13 +38,23 @@ public class StateImpl implements State {
 
    @Override
    public void eval(final Vm<State> vm) {
-      final InstructionNode instructionNode = (InstructionNode) stackFrame().instruction();
-      instructionNode.eval(vm, statics, heap, stack, stackFrame(), instructionNode);
+      final InstructionNode instructionNode = instruction();
+      instructionNode.eval(vm, statics, heap, stack(), stackFrame(), instructionNode);
+   }
+
+   @Override
+   public InstructionNode instruction() {
+      return (InstructionNode) stackFrame().instruction();
    }
 
    @Override
    public StackFrame stackFrame() {
-      return stack.topFrame();
+      return stack().topFrame();
+   }
+
+   @Override
+   public Stack stack() {
+      return stack;
    }
 
    @Override
@@ -68,32 +68,40 @@ public class StateImpl implements State {
    }
 
    @Override public StateImpl snapshot() {
-      return new StateImpl(statics.snapshot(), stack.snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
+      return new StateImpl(statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
    @Override public SStackTrace trace() {
-      return stack.trace();
+      return stack().trace();
    }
 
    @Override
    public String toString() {
-      return String.format("stack:<%s>, heap:<%s>, meta:<%s>", stack, heap, meta);
+      return String.format("stack:<%s>, heap:<%s>, meta:<%s>", stack(), heap, meta);
    }
 
    @Override public boolean equals(final Object obj) {
       if(obj != null && obj.getClass().equals(this.getClass())) {
          final StateImpl that = (StateImpl) obj;
-         return equal(that.stack, this.stack) && equal(that.heap, this.heap) && equal(that.heap, this.heap);
+         return equal(that.stack(), this.stack()) && equal(that.heap, this.heap) && equal(that.heap, this.heap);
       }
       return false;
    }
 
    @Override
    public int hashCode() {
-      return stack.hashCode() ^ heap.hashCode() ^ (meta == null ? 0 : meta.hashCode());
+      return stack().hashCode() ^ heap.hashCode() ^ (meta == null ? 0 : meta.hashCode());
    }
 
    @Override public State state() {
       return this;
+   }
+
+   @Override public Object peekOperand() {
+      return stackFrame().peek();
+   }
+
+   @Override public Object popOperand() {
+      return stackFrame().pop();
    }
 }

@@ -13,16 +13,10 @@ import com.lexicalscope.MatchersAdditional.CollectionMatcherBuilder;
 import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
 import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Statics;
 import com.lexicalscope.symb.vm.TerminateInstruction;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -73,7 +67,7 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final Object operand = item.op(new PeekOperandOp(), null);
+            final Object operand = item.peekOperand();
             mismatchDescription.appendText("state with top of operand stack ");
             expectedMatcher.describeMismatch(operand, mismatchDescription);
             return expectedMatcher.matches(operand);
@@ -92,13 +86,7 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final InstructionNode instruction = item
-                  .op(new Op<InstructionNode>() {
-                     @Override
-                     public InstructionNode eval(Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
-                        return (InstructionNode) stackFrame.instruction();
-                     }
-                  }, null);
+            final InstructionNode instruction = item.instruction();
             mismatchDescription.appendText("state with next instruction ")
             .appendValue(instruction);
             return equalTo(expectedInstruction).matches(instruction);
@@ -117,11 +105,7 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final int actualSize = item.op(new Op<Integer>() {
-               @Override public Integer eval(Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
-                  return stack.size();
-               }
-            }, null);
+            final int actualSize = item.stack().size();
             mismatchDescription.appendText("state with ")
             .appendValue(actualSize).appendText(" stack frames");
             return equalTo(expectedSize).matches(actualSize);

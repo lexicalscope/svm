@@ -12,7 +12,6 @@ public interface Stack extends Snapshotable<Stack> {
    StackFrame previousFrame();
 
    void query(StackVop op);
-   <T> T query(StackOp<T> op);
 
    int size();
 
