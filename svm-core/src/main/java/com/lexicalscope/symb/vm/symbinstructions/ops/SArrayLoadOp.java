@@ -4,7 +4,7 @@ import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_L
 import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
@@ -22,7 +22,7 @@ public class SArrayLoadOp implements Vop {
       this.concreteArrayLoad = concreteArrayLoad;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final Object offset = (int) ctx.pop();
       final Object arrayref = ctx.pop();
 

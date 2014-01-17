@@ -21,7 +21,7 @@ public class InstructionInternalNode implements InstructionNode {
       target = terminate;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       assert next != null;
 
       instruction.eval(ctx);

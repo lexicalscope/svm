@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.StaticsMarker;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
@@ -46,7 +46,7 @@ public final class DefineClassOp implements Op<List<SClass>> {
       return primitives.contains(klassName);
    }
 
-   @Override public List<SClass> eval(final StateImpl ctx) {
+   @Override public List<SClass> eval(final State ctx) {
          final List<SClass> results = new ArrayList<>();
          for (final String klassName : klassNames) {
             if (!ctx.isDefined(klassName)) {
@@ -70,14 +70,14 @@ public final class DefineClassOp implements Op<List<SClass>> {
          return results;
    }
 
-   private static void allocateClass(final StateImpl ctx, final SClass klass) {
+   private static void allocateClass(final State ctx, final SClass klass) {
       final SClass classClass = ctx.classClass();
       final Object classAddress = NewObjectOp.allocateObject(ctx, classClass);
       ctx.put(classAddress,  classClass.fieldIndex(AsmSClass.internalClassPointer), klass);
       ctx.classAt(klass, classAddress);
    }
 
-   private static void allocateStatics(final StateImpl ctx, final StaticsMarker staticsMarker, final SClass klass) {
+   private static void allocateStatics(final State ctx, final StaticsMarker staticsMarker, final SClass klass) {
       if(klass.statics().allocateSize() > 0) {
          final Object staticsAddress = ctx.newObject(klass.statics());
          ctx.put(staticsAddress, SClass.OBJECT_MARKER_OFFSET, staticsMarker);

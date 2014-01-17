@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
 
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
@@ -31,7 +31,7 @@ public class ArrayLoadOp implements Vop {
       this.valueTransform = valueTransform;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final int offset = (int) ctx.pop();
       final Object arrayref = ctx.pop();
 

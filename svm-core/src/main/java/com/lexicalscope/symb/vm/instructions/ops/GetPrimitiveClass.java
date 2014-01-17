@@ -4,20 +4,20 @@ import static com.lexicalscope.symb.vm.instructions.ops.DefineClassOp.primitives
 
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public final class GetPrimitiveClass implements Vop {
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final Object primitiveNameRef = ctx.pop();
       final String klassName = inGameStringToRealLifeString(ctx, primitiveNameRef);
       assert primitivesContains(klassName) : klassName + " is not a primitive";
       ctx.push(ctx.whereMyClassAt(klassName));
    }
 
-   private String inGameStringToRealLifeString(final StateImpl ctx, final Object primitiveNameRef) {
+   private String inGameStringToRealLifeString(final State ctx, final Object primitiveNameRef) {
       final SClass string = ctx.load(JavaConstants.STRING_CLASS);
       final int valueFieldIndex = string.fieldIndex(JavaConstants.STRING_VALUE_FIELD);
       return new String(extractCharArray(ctx, primitiveNameRef, valueFieldIndex)).intern();

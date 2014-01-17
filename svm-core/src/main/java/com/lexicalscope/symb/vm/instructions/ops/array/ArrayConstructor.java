@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 
 public interface ArrayConstructor {
-   void newArray(StateImpl ctx, InitStrategy initStrategy);
+   void newArray(State ctx, InitStrategy initStrategy);
 }

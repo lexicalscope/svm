@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions;
 
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
@@ -36,7 +36,7 @@ final class SBranchInstruction implements Vop {
       this.branchStrategy = branchStrategy;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final Pc pc = (Pc) ctx.getMeta();
 
       final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(ctx);

@@ -85,4 +85,6 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
    Stack stack();
 
    InstructionNode instruction();
+
+   Object hashCode(Object object);
 }

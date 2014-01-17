@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 
@@ -16,7 +16,7 @@ public final class BranchInstruction implements Vop {
       return branchPredicate.toString();
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       ctx.advanceTo(branchPredicate.eval(ctx) ? ctx.instructionJmpTarget() : ctx.instructionNext());
    }
 }

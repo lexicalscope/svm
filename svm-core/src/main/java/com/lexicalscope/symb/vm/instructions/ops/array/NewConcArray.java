@@ -3,12 +3,12 @@ package com.lexicalscope.symb.vm.instructions.ops.array;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class NewConcArray implements ArrayConstructor {
    public void newConcreteArray(
-         final StateImpl ctx,
+         final State ctx,
          final int arrayLength,
          final InitStrategy initStrategy) {
       final Object initValue = initStrategy.initialValue(ctx);
@@ -27,14 +27,14 @@ public final class NewConcArray implements ArrayConstructor {
       ctx.push(arrayAddress);
    }
 
-   public static void initArrayPreamble(final StateImpl ctx, final Object arrayAddress, final Object arrayLength) {
+   public static void initArrayPreamble(final State ctx, final Object arrayAddress, final Object arrayLength) {
       // TODO - arrays can have different types
       final SClass objectArrayClass = ctx.load(getInternalName(Object[].class));
       ctx.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);
       ctx.put(arrayAddress, NewArrayOp.ARRAY_LENGTH_OFFSET, arrayLength);
    }
 
-   @Override public void newArray(final StateImpl ctx, final InitStrategy initStrategy) {
+   @Override public void newArray(final State ctx, final InitStrategy initStrategy) {
       newConcreteArray(ctx, (int) ctx.pop(), initStrategy);
    }
 }

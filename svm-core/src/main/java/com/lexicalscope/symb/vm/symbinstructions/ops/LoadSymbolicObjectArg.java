@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.symbinstructions.ops.object.SymbolicObject;
@@ -14,7 +14,7 @@ public class LoadSymbolicObjectArg implements Vop {
       this.symbol = symbol;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final Object newObject = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return 2;

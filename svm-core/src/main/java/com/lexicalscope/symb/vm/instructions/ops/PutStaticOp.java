@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
@@ -21,7 +21,7 @@ final class PutStaticOp implements Vop {
       doubleWord = sort == Type.DOUBLE || sort == Type.LONG;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final SClass klass = ctx.load(fieldInsnNode.owner);
       final Object staticsAddress = ctx.whereMyStaticsAt(klass);
       final int offset = klass.staticFieldIndex(name);

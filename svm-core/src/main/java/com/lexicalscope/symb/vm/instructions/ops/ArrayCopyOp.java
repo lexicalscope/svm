@@ -2,11 +2,11 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
 
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 
 public class ArrayCopyOp implements Vop {
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       final int length = (int) ctx.pop();
       final int destPos = (int) ctx.pop();
       final Object dest = ctx.pop();

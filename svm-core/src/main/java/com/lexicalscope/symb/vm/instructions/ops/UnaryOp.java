@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 
 public class UnaryOp implements Vop {
@@ -10,7 +10,7 @@ public class UnaryOp implements Vop {
       this.operator = operator;
    }
 
-   @Override public void eval(final StateImpl ctx) {
+   @Override public void eval(final State ctx) {
       ctx.push(operator.eval(ctx.pop()));
    }
 
