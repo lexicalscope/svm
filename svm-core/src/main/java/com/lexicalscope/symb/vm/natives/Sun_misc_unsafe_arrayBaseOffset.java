@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.natives;
 
 import com.lexicalscope.svm.j.instruction.concrete.Instructions;
 import com.lexicalscope.svm.j.instruction.concrete.MethodBody;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 
 public final class Sun_misc_unsafe_arrayBaseOffset extends AbstractNativeMethodDef implements NativeMethodDef {
    public Sun_misc_unsafe_arrayBaseOffset() {

@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions.ops.array;
+package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import static org.objectweb.asm.Type.getInternalName;
 

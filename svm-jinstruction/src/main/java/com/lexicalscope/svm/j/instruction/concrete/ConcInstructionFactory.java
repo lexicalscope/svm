@@ -3,6 +3,10 @@ package com.lexicalscope.svm.j.instruction.concrete;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpEq;
@@ -23,8 +27,6 @@ import com.lexicalscope.symb.vm.concinstructions.predicates.Lt;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Ne;
 import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 
 public class ConcInstructionFactory implements InstructionFactory {
    @Override public BinaryOperator iaddOperation() {

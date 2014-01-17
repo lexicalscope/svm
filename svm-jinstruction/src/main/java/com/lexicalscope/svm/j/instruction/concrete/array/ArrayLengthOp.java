@@ -1,8 +1,7 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public class ArrayLengthOp implements Vop {
    @Override public void eval(final State ctx) {

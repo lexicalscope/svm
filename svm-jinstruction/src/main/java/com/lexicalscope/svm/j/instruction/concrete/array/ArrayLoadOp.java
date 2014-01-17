@@ -1,11 +1,9 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
+import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.ARRAY_PREAMBLE;
 
-import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public class ArrayLoadOp implements Vop {
    public interface ValueTransform {

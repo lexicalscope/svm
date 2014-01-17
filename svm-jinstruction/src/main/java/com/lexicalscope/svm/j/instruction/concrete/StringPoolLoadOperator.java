@@ -3,12 +3,12 @@ package com.lexicalscope.svm.j.instruction.concrete;
 import static com.lexicalscope.symb.vm.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;
 
+import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 
 public final class StringPoolLoadOperator implements Vop {
    private final String val;

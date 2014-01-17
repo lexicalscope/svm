@@ -1,6 +1,6 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.*;
+import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.*;
 
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.State;

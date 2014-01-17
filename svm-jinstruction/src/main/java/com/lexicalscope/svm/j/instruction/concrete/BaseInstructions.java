@@ -15,6 +15,10 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayCopyOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLengthOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;

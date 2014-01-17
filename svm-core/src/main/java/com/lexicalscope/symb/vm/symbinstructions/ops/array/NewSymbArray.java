@@ -1,11 +1,11 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops.array;
 
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayConstructor;
+import com.lexicalscope.svm.j.instruction.concrete.array.InitStrategy;
+import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
+import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.instructions.ops.array.ArrayConstructor;
-import com.lexicalscope.symb.vm.instructions.ops.array.InitStrategy;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
-import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArrayZeroedSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
