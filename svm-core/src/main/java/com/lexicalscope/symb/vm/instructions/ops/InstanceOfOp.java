@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_MARKER_OFFSET;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
@@ -13,7 +13,7 @@ public class InstanceOfOp implements Vop {
       this.klassName = klassName;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final Object address = ctx.pop();
       if(!ctx.nullPointer().equals(address)) {
          ctx.push(1);

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class IincOp implements Vop {
@@ -12,7 +12,7 @@ public class IincOp implements Vop {
       this.incr = incr;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       ctx.local(var, (int)ctx.local(var) + incr);
    }
 

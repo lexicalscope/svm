@@ -1,12 +1,12 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
 import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public class GetCallerClass implements Vop {
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       // TODO[tim]: demeter
       final StackFrame callingFrame = ctx.previousFrame();
       final SMethodDescriptor callingFrameContext = (SMethodDescriptor) callingFrame.context();

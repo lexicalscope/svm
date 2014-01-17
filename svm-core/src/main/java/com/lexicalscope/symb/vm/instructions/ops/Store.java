@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class Store implements Vop {
@@ -15,7 +15,7 @@ public class Store implements Vop {
       return String.format("STORE %d", var);
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       ctx.local(var, ctx.pop());
    }
 }

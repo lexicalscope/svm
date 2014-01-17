@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class Binary2Op implements Vop {
@@ -10,7 +10,7 @@ public class Binary2Op implements Vop {
       this.operator = operator;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final Object right = ctx.popDoubleWord();
       final Object left = ctx.popDoubleWord();
 

@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions;
 
 import org.objectweb.asm.Type;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class ObjectPoolLoad implements Vop {
@@ -16,7 +16,7 @@ public class ObjectPoolLoad implements Vop {
       this.internalName = internalName;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       ctx.push(ctx.whereMyClassAt(internalName));
    }
 

@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 import static com.lexicalscope.symb.vm.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
@@ -18,7 +18,7 @@ public final class StringPoolLoadOperator implements Vop {
       this.val = val;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final SClass stringClass = ctx.load(STRING_CLASS);
 
       // create new string

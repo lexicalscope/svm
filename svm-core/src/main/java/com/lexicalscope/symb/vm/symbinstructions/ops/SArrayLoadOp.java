@@ -3,7 +3,8 @@ package com.lexicalscope.symb.vm.symbinstructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
 import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
@@ -21,7 +22,7 @@ public class SArrayLoadOp implements Vop {
       this.concreteArrayLoad = concreteArrayLoad;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final Object offset = (int) ctx.pop();
       final Object arrayref = ctx.pop();
 
@@ -35,7 +36,7 @@ public class SArrayLoadOp implements Vop {
       }
    }
 
-   private Object loadFromSymbolicArray(final Context ctx, final Object arrayref, final Object offset) {
+   private Object loadFromSymbolicArray(final State ctx, final Object arrayref, final Object offset) {
       return new IArraySelectSymbol(
             (IArraySymbol) ctx.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET),
             asISymbol(offset));

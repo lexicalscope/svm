@@ -5,7 +5,7 @@ import static com.lexicalscope.symb.vm.instructions.BaseInstructions.fieldKey;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
@@ -40,7 +40,7 @@ final class PutFieldOp implements Vop {
       return conversion;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       // TODO[tim]: link should remove this
       final int offset = ctx.load(fieldInsnNode.owner).fieldIndex(name);
 

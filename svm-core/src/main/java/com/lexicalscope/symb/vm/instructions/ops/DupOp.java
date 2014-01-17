@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class DupOp implements Vop {
@@ -9,7 +9,7 @@ public class DupOp implements Vop {
       return "DUP";
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       ctx.push(ctx.peek());
    }
 }

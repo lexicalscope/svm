@@ -1,9 +1,9 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.State;
 
 final class ReferenceInitStrategy implements InitStrategy {
-   @Override public Object initialValue(final Context ctx) {
+   @Override public Object initialValue(final State ctx) {
       return ctx.nullPointer();
    }
 }

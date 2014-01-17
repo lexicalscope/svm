@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class ReturnInstruction implements Vop {
@@ -10,7 +10,7 @@ public class ReturnInstruction implements Vop {
       this.returnCount = returnCount;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       ctx.popFrame(returnCount);
    }
 

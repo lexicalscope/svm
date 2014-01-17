@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class NewArrayOp implements Vop {
@@ -23,7 +23,7 @@ public class NewArrayOp implements Vop {
       this.arrayConstructor = arrayConstructor;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       arrayConstructor.newArray(ctx, initStrategy);
    }
 

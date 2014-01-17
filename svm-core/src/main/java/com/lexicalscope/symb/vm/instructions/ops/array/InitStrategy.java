@@ -1,8 +1,8 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.State;
 
 
 public interface InitStrategy {
-   Object initialValue(Context ctx);
+   Object initialValue(State ctx);
 }

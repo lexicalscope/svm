@@ -2,11 +2,15 @@ package com.lexicalscope.symb.vm;
 
 import static com.google.common.base.Objects.equal;
 
+import java.util.List;
+
+import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
+import com.lexicalscope.symb.vm.classloader.SClass;
 
 public class StateImpl implements State {
    private final Statics statics;
@@ -29,45 +33,44 @@ public class StateImpl implements State {
    }
 
    @Override
-   public void eval() {
-      instruction().eval(new Context(vm, statics, heap, stack(), meta));
+   public final void eval() {
+      instruction().eval(this);
    }
 
    @Override
-   public InstructionNode instruction() {
+   public final InstructionNode instruction() {
       return (InstructionNode) stackFrame().instruction();
    }
 
-   @Override
-   public StackFrame stackFrame() {
+   private final StackFrame stackFrame() {
       return stack().topFrame();
    }
 
    @Override
-   public Stack stack() {
+   public final Stack stack() {
       return stack;
    }
 
    @Override
-   public State[] fork(){
-      return new StateImpl[]{this.snapshot(), this.snapshot()};
+   public final State[] fork(){
+      return new State[]{this.snapshot(), this.snapshot()};
    }
 
    @Override
-   public Object getMeta() {
+   public final Object getMeta() {
       return meta;
    }
 
-   @Override public StateImpl snapshot() {
+   @Override public final StateImpl snapshot() {
       return new StateImpl(vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
-   @Override public SStackTrace trace() {
+   @Override public final SStackTrace trace() {
       return stack().trace();
    }
 
    @Override
-   public String toString() {
+   public final String toString() {
       return String.format("stack:<%s>, heap:<%s>, meta:<%s>", stack(), heap, meta);
    }
 
@@ -80,7 +83,7 @@ public class StateImpl implements State {
    }
 
    @Override
-   public int hashCode() {
+   public final int hashCode() {
       return stack().hashCode() ^ heap.hashCode() ^ (meta == null ? 0 : meta.hashCode());
    }
 
@@ -90,5 +93,168 @@ public class StateImpl implements State {
 
    @Override public Object peekOperand() {
       return stackFrame().peek();
+   }
+
+   @Override
+   public Object nullPointer() {
+      return heap.nullPointer();
+   }
+
+   @Override
+   public void push(final Object operand) {
+      stackFrame().push(operand);
+   }
+
+   @Override
+   public Object pop() {
+      return stackFrame().pop();
+   }
+
+   @Override
+   public Object[] pop(final int count) {
+      return stackFrame().pop(count);
+   }
+
+   @Override
+   public Object peek() {
+      return stackFrame().peek();
+   }
+
+   public Object hashCode(final Object address) {
+      return heap.hashCode(address);
+   }
+
+   @Override public void advanceTo(final InstructionNode instruction) {
+      stackFrame().advance(instruction);
+   }
+
+   @Override
+   public Object get(final Object address, final int offset) {
+      return heap.get(address, offset);
+   }
+
+   @Override
+   public void put(final Object address, final int offset, final Object val) {
+      heap.put(address, offset, val);
+   }
+
+   @Override
+   public Object popDoubleWord() {
+      return stackFrame().popDoubleWord();
+   }
+
+   @Override
+   public void pushDoubleWord(final Object val) {
+      stackFrame().pushDoubleWord(val);
+   }
+
+   @Override
+   public InstructionNode instructionJmpTarget() {
+      return instruction().jmpTarget();
+   }
+
+   @Override
+   public InstructionNode instructionNext() {
+      return instruction().next();
+   }
+
+   @Override
+   public void advanceToNextInstruction() {
+      advanceTo(instruction().next());
+   }
+
+   @Override
+   public SClass load(final String klassName) {
+      return statics.load(klassName);
+   }
+
+   @Override
+   public Object currentThread() {
+      return stack.currentThread();
+   }
+
+   @Override
+   public void currentThreadIs(final Object address) {
+      stack.currentThread(address);
+   }
+
+   @Override
+   public boolean isDefined(final String klass) {
+      return statics.isDefined(klass);
+   }
+
+   @Override
+   public SClass definePrimitiveClass(final String klassName) {
+      return statics.definePrimitiveClass(klassName);
+   }
+
+   @Override
+   public List<SClass> defineClass(final String klassName) {
+      return statics.defineClass(klassName);
+   }
+
+   @Override
+   public SClass classClass() {
+      return statics.classClass();
+   }
+
+   @Override
+   public void classAt(final SClass klass, final Object classAddress) {
+      statics.classAt(klass, classAddress);
+   }
+
+   @Override
+   public Object newObject(final Allocatable klass) {
+      return heap.newObject(klass);
+   }
+
+   @Override
+   public void staticsAt(final SClass klass, final Object classAddress) {
+      statics.staticsAt(klass, classAddress);
+   }
+
+   @Override
+   public StaticsMarker staticsMarker(final SClass klass) {
+      return statics.staticsMarker(klass);
+   }
+
+   @Override
+   public StackFrame previousFrame() {
+      return stack.previousFrame();
+   }
+
+   @Override
+   public Object whereMyClassAt(final String klassName) {
+      return statics.whereMyClassAt(klassName);
+   }
+
+   @Override
+   public Object whereMyStaticsAt(final SClass klass) {
+      return statics.whereMyStaticsAt(klass);
+   }
+
+   @Override
+   public void local(final int var, final Object val) {
+      stackFrame().local(var, val);
+   }
+
+   @Override
+   public void fork(final State[] states) {
+      vm.fork(states);
+   }
+
+   @Override
+   public void popFrame(final int returnCount) {
+      stack.popFrame(returnCount);
+   }
+
+   @Override
+   public Object local(final int var) {
+      return stackFrame().local(var);
+   }
+
+   @Override
+   public void pushFrame(final StackFrame stackFrame) {
+      stack.push(stackFrame);
    }
 }

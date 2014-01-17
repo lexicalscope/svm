@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.State;
 
 final class PrimitiveInitStrategy implements InitStrategy {
    private final Object initialValue;
@@ -17,7 +17,7 @@ final class PrimitiveInitStrategy implements InitStrategy {
    this.initialValue = initialValue;
    }
 
-   @Override public Object initialValue(final Context ctx) {
+   @Override public Object initialValue(final State ctx) {
       return initialValue;
    }
 }

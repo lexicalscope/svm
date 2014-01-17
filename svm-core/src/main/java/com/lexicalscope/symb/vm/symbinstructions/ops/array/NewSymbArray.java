@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops.array;
 
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.instructions.ops.array.ArrayConstructor;
 import com.lexicalscope.symb.vm.instructions.ops.array.InitStrategy;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
@@ -19,7 +19,7 @@ public class NewSymbArray implements ArrayConstructor {
       this.feasibilityChecker = feasibilityChecker;
    }
 
-   @Override public void newArray(final Context ctx, final InitStrategy initStrategy) {
+   @Override public void newArray(final StateImpl ctx, final InitStrategy initStrategy) {
       final Object top = ctx.pop();
       if(top instanceof ISymbol) {
          feasibilityChecker.simplifyBv32Expr((ISymbol) top, new ISimplificationResult(){
@@ -37,7 +37,7 @@ public class NewSymbArray implements ArrayConstructor {
       }
    }
 
-   private void newSymbolicArray(final Context ctx, final InitStrategy initStrategy, final ISymbol arrayLength) {
+   private void newSymbolicArray(final StateImpl ctx, final InitStrategy initStrategy, final ISymbol arrayLength) {
       final Object arrayAddress = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return NewArrayOp.ARRAY_PREAMBLE + 1;
@@ -49,7 +49,7 @@ public class NewSymbArray implements ArrayConstructor {
       ctx.push(arrayAddress);
    }
 
-   private void newConcreteArray(final Context ctx, final InitStrategy initStrategy, final int arrayLength) {
+   private void newConcreteArray(final StateImpl ctx, final InitStrategy initStrategy, final int arrayLength) {
       new NewConcArray().newConcreteArray(ctx, arrayLength, initStrategy);
    }
 }

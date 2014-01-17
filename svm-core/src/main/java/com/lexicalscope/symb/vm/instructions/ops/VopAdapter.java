@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class VopAdapter implements Vop {
@@ -11,7 +11,7 @@ public class VopAdapter implements Vop {
       this.op = op;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       op.eval(ctx);
    }
 

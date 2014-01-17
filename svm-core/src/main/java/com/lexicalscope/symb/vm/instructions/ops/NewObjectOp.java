@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class NewObjectOp implements Op<Object> {
@@ -14,7 +14,7 @@ public final class NewObjectOp implements Op<Object> {
       this.klassDesc = klassDesc;
    }
 
-   @Override public Object eval(final Context ctx) {
+   @Override public Object eval(final StateImpl ctx) {
       // TODO[tim]: linking should remove this
       final SClass klass = ctx.load(klassDesc);
       final Object address = allocateObject(ctx, klass);
@@ -36,7 +36,7 @@ public final class NewObjectOp implements Op<Object> {
       return address;
    }
 
-   public static Object allocateObject(final Context ctx, final SClass klass) {
+   public static Object allocateObject(final StateImpl ctx, final SClass klass) {
       final Object address = ctx.newObject(klass);
       ctx.put(address, OBJECT_MARKER_OFFSET, klass);
 

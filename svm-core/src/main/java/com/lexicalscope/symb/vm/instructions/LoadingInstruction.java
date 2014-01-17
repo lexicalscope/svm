@@ -6,9 +6,9 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SClass;
@@ -27,7 +27,7 @@ public class LoadingInstruction implements Vop {
       this(asList(klassName), op);
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final List<SClass> definedClasses = new DefineClassOp(klassNames).eval(ctx);
       if(definedClasses.isEmpty()){
          new LinearInstruction(op).eval(ctx);

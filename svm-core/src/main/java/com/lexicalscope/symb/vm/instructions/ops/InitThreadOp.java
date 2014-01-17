@@ -1,12 +1,12 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 public class InitThreadOp implements Vop {
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final SClass threadClass = ctx.load(JavaConstants.THREAD_CLASS);
       final Object address = ctx.newObject(threadClass);
       ctx.put(address, SClass.OBJECT_MARKER_OFFSET, threadClass);

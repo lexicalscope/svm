@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class LushrOp implements Vop {
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final int value2 = (int) ctx.pop();
       final long value1 = (long) ctx.popDoubleWord();
 

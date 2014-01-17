@@ -2,7 +2,8 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.*;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class ArrayStoreOp implements Vop {
@@ -29,19 +30,19 @@ public class ArrayStoreOp implements Vop {
       this.valueTransform = valueTransform;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final Object value = ctx.pop();
       final int offset = (int) ctx.pop();
       final Object arrayref = ctx.pop();
       storeInHeap(ctx, arrayref, offset, value);
    }
 
-   public void storeInHeap(final Context ctx, final Object arrayref, final int offset, final Object value) {
+   public void storeInHeap(final State ctx, final Object arrayref, final int offset, final Object value) {
       assert boundsCheck(ctx, arrayref, offset);
       ctx.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
    }
 
-   private boolean boundsCheck(final Context ctx, final Object arrayref, final int offset) {
+   private boolean boundsCheck(final State ctx, final Object arrayref, final int offset) {
       return offset < (int) ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
    }
 

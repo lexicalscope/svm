@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.predicates;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
@@ -12,7 +12,7 @@ public class BinarySBranchStrategy implements SBranchStrategy {
       this.op = op;
    }
 
-   @Override public BoolSymbol branchPredicateSymbol(final Context ctx) {
+   @Override public BoolSymbol branchPredicateSymbol(final State ctx) {
       final Object value2 = ctx.pop();
       final Object value1 = ctx.pop();
       if(value1 instanceof Integer && value2 instanceof Integer) {

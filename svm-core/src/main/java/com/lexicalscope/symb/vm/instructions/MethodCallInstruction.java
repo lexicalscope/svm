@@ -3,8 +3,9 @@ package com.lexicalscope.symb.vm.instructions;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
-import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.MethodResolver;
 import com.lexicalscope.symb.vm.classloader.SClass;
@@ -26,15 +27,15 @@ public class MethodCallInstruction {
       final SMethod method;
    }
    private interface MethodInvokation {
-      Object[] args(Context ctx, SMethodDescriptor targetMethod);
+      Object[] args(State ctx, SMethodDescriptor targetMethod);
 
       String name();
 
-      Resolution resolveMethod(Object[] args, SMethodDescriptor sMethodName, Context ctx);
+      Resolution resolveMethod(Object[] args, SMethodDescriptor sMethodName, StateImpl ctx);
    }
 
    private static class VirtualMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Context ctx, final SMethodDescriptor targetMethod) {
+      @Override public Object[] args(final State ctx, final SMethodDescriptor targetMethod) {
          return ctx.pop(targetMethod.argSize());
       }
 
@@ -42,13 +43,13 @@ public class MethodCallInstruction {
          return "INVOKEVIRTUAL";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Context ctx) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final StateImpl ctx) {
          return resolveVirtualMethod(args, sMethodName, ctx);
       }
    }
 
    private static class InterfaceMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Context ctx, final SMethodDescriptor targetMethod) {
+      @Override public Object[] args(final State ctx, final SMethodDescriptor targetMethod) {
          return ctx.pop(targetMethod.argSize());
       }
 
@@ -56,17 +57,17 @@ public class MethodCallInstruction {
          return "INVOKEINTERFACE";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Context ctx) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final StateImpl ctx) {
          return resolveVirtualMethod(args, sMethodName, ctx);
       }
    }
 
-   private static Resolution resolveVirtualMethod(final Object[] args, final SMethodDescriptor sMethodName, final Context ctx) {
+   private static Resolution resolveVirtualMethod(final Object[] args, final SMethodDescriptor sMethodName, final State ctx) {
       final MethodResolver receiverKlass = receiver(args, sMethodName, ctx);
       return new Resolution(receiverKlass.virtualMethod(sMethodName));
    }
 
-   private static MethodResolver receiver(final Object[] args, final SMethodName sMethodName, final Context ctx) {
+   private static MethodResolver receiver(final Object[] args, final SMethodName sMethodName, final State ctx) {
       final Object receiver = ctx.get(args[0], SClass.OBJECT_MARKER_OFFSET);
       assert receiver != null : sMethodName;
       assert receiver instanceof MethodResolver : "no " + sMethodName + " in " + receiver;
@@ -75,7 +76,7 @@ public class MethodCallInstruction {
    }
 
    private static class SpecialMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Context ctx, final SMethodDescriptor targetMethod) {
+      @Override public Object[] args(final State ctx, final SMethodDescriptor targetMethod) {
          return ctx.pop(targetMethod.argSize());
       }
 
@@ -83,7 +84,7 @@ public class MethodCallInstruction {
          return "INVOKESPECIAL";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Context ctx) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final StateImpl ctx) {
          return new Resolution(ctx.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
    }
@@ -96,7 +97,7 @@ public class MethodCallInstruction {
       }
 
       @Override public Object[] args(
-            final Context ctx,
+            final State ctx,
             final SMethodDescriptor targetMethod) {
          return new Object[]{ctx.whereMyClassAt(klassName)};
       }
@@ -105,14 +106,14 @@ public class MethodCallInstruction {
          return "INVOKECLASSCONSTRUCTOR";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Context ctx) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final StateImpl ctx) {
          final MethodResolver receiver = receiver(args, sMethodName, ctx);
          return new Resolution(receiver.declaredMethod(sMethodName));
       }
    }
 
    private static class StaticMethodInvokation implements MethodInvokation {
-      @Override public Object[] args(final Context ctx, final SMethodDescriptor targetMethod) {
+      @Override public Object[] args(final State ctx, final SMethodDescriptor targetMethod) {
          return ctx.pop(targetMethod.argSize() - 1);
       }
 
@@ -120,7 +121,7 @@ public class MethodCallInstruction {
          return "INVOKESTATIC";
       }
 
-      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final Context ctx) {
+      @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final StateImpl ctx) {
          return new Resolution(ctx.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
    }
@@ -139,7 +140,7 @@ public class MethodCallInstruction {
          return String.format("%s %s", methodInvokation.name(), sMethodName);
       }
 
-      @Override public void eval(final Context ctx) {
+      @Override public void eval(final StateImpl ctx) {
          final Object[] args = methodInvokation.args(ctx, sMethodName);
 
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, ctx);

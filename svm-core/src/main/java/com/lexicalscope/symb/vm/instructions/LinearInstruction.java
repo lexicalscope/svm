@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.instructions;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 
 public class LinearInstruction implements Vop {
@@ -10,7 +10,7 @@ public class LinearInstruction implements Vop {
       this.op = op;
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       ctx.advanceToNextInstruction();
       op.eval(ctx);
    }

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.concinstructions.predicates;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
 
 public class ICmpBranchPredicate implements BranchPredicate {
@@ -10,7 +10,7 @@ public class ICmpBranchPredicate implements BranchPredicate {
       this.op = op;
    }
 
-   @Override public Boolean eval(final Context ctx) {
+   @Override public Boolean eval(final StateImpl ctx) {
       final int value2 = (int) ctx.pop();
       final int value1 = (int) ctx.pop();
       return op.cmp(value1, value2);

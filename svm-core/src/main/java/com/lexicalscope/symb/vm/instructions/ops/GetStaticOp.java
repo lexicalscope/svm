@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.symb.vm.Context;
+import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
@@ -17,7 +17,7 @@ final class GetStaticOp implements Vop {
       this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
    }
 
-   @Override public void eval(final Context ctx) {
+   @Override public void eval(final StateImpl ctx) {
       final SClass klass = ctx.load(fieldInsnNode.owner);
       final Object staticsAddress = ctx.whereMyStaticsAt(klass);
       final int offset = klass.staticFieldIndex(name);
