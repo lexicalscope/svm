@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
-import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
-import com.lexicalscope.symb.vm.instructions.ops.PutFieldConversion;
+import com.lexicalscope.svm.j.instruction.concrete.FieldConversionFactory;
+import com.lexicalscope.svm.j.instruction.concrete.PutFieldConversion;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class SymbFieldConversionFactory implements FieldConversionFactory {

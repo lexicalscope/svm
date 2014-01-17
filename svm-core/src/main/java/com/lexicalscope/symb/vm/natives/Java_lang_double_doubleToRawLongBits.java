@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.natives;
 
-import com.lexicalscope.symb.vm.classloader.MethodBody;
-import com.lexicalscope.symb.vm.instructions.Instructions;
+import com.lexicalscope.svm.j.instruction.concrete.Instructions;
+import com.lexicalscope.svm.j.instruction.concrete.MethodBody;
 
 public class Java_lang_double_doubleToRawLongBits extends AbstractNativeMethodDef implements NativeMethodDef {
    public Java_lang_double_doubleToRawLongBits() {

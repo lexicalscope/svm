@@ -9,6 +9,7 @@ import org.objectweb.asm.tree.ClassNode;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import com.lexicalscope.svm.j.instruction.concrete.DefineClassOp;
 import com.lexicalscope.symb.vm.JavaConstants;
 
 public class ClassNodeAdapter {
@@ -22,7 +23,7 @@ public class ClassNodeAdapter {
    public List<FieldNode> fields() {
       if(classNode.name.equals(JavaConstants.CLASS_CLASS)) {
          final List<FieldNode> result = new ArrayList<>(classNode.fields);
-         result.add(new FieldNode(Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL, AsmSClass.internalClassPointer.getName(), Type.getDescriptor(Object.class), "Ljava/lang/Object;", null));
+         result.add(new FieldNode(Opcodes.ACC_PRIVATE | Opcodes.ACC_FINAL, DefineClassOp.internalClassPointer.getName(), Type.getDescriptor(Object.class), "Ljava/lang/Object;", null));
          return result;
       }
       return classNode.fields;

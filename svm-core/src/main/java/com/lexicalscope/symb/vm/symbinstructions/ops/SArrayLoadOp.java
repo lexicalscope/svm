@@ -3,10 +3,10 @@ package com.lexicalscope.symb.vm.symbinstructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
 import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
+import com.lexicalscope.svm.j.instruction.concrete.ArrayLoadOp;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySelectSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySymbol;

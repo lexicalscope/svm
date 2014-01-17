@@ -3,28 +3,28 @@ package com.lexicalscope.symb.vm.symbinstructions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.svm.j.instruction.concrete.Binary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.BranchInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.BranchPredicate;
 import com.lexicalscope.svm.j.instruction.concrete.DConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.FConstOperator;
+import com.lexicalscope.svm.j.instruction.concrete.GetFieldOp;
 import com.lexicalscope.svm.j.instruction.concrete.IConstOperator;
+import com.lexicalscope.svm.j.instruction.concrete.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.concrete.LAndOp;
 import com.lexicalscope.svm.j.instruction.concrete.LConstOperator;
+import com.lexicalscope.svm.j.instruction.concrete.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.LoadConstantArg;
+import com.lexicalscope.svm.j.instruction.concrete.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.NullaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.PutFieldOp;
 import com.lexicalscope.svm.j.instruction.concrete.UnaryOperator;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.concinstructions.BranchPredicate;
-import com.lexicalscope.symb.vm.concinstructions.LAndOp;
 import com.lexicalscope.symb.vm.concinstructions.predicates.NonNull;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Null;
-import com.lexicalscope.symb.vm.instructions.BranchInstruction;
-import com.lexicalscope.symb.vm.instructions.InstructionFactory;
-import com.lexicalscope.symb.vm.instructions.LinearInstruction;
-import com.lexicalscope.symb.vm.instructions.LoadingInstruction;
-import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
-import com.lexicalscope.symb.vm.instructions.ops.GetFieldOp;
-import com.lexicalscope.symb.vm.instructions.ops.LoadConstantArg;
-import com.lexicalscope.symb.vm.instructions.ops.Ops;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.LoadSymbolicObjectArg;
 import com.lexicalscope.symb.vm.symbinstructions.ops.SArrayLoadOp;
@@ -210,7 +210,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Vop putField(final FieldInsnNode fieldInsnNode) {
-      return Ops.putField(fieldInsnNode, new SymbFieldConversionFactory());
+      return new PutFieldOp(new SymbFieldConversionFactory(), fieldInsnNode);
    }
 
    @Override public Vop getField(final FieldInsnNode fieldInsnNode) {

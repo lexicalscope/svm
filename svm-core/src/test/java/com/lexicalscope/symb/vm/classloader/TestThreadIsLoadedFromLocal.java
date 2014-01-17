@@ -9,8 +9,8 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.svm.j.instruction.concrete.Instructions;
 import com.lexicalscope.symb.vm.SClass;
-import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class TestThreadIsLoadedFromLocal {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

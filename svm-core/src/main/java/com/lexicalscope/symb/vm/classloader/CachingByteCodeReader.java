@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.classloader;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.lexicalscope.svm.j.instruction.concrete.Instructions;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
-import com.lexicalscope.symb.vm.instructions.Instructions;
 
 public class CachingByteCodeReader implements ByteCodeReader {
    // TODO[tim]: should probably allow class definitions to be garbage collected using weak references

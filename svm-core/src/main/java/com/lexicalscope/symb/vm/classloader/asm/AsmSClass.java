@@ -8,6 +8,7 @@ import java.util.Set;
 
 import org.objectweb.asm.Type;
 
+import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.JavaConstants;
@@ -16,11 +17,8 @@ import com.lexicalscope.symb.vm.SField;
 import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.SMethod;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
-import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 
 public class AsmSClass implements SClass {
-   public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");
-
    private final String klassName;
    private final Set<SClass> superTypes = new HashSet<>();
 

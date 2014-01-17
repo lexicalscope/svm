@@ -11,6 +11,7 @@ import org.junit.Test;
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.heap.FastHeap;
+import com.lexicalscope.svm.j.instruction.concrete.NewObjectOp;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.DequeStack;

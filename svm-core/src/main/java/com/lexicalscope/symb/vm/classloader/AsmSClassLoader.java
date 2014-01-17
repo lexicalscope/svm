@@ -5,17 +5,19 @@ import static org.objectweb.asm.Type.getInternalName;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lexicalscope.svm.j.instruction.concrete.BaseInstructions;
+import com.lexicalscope.svm.j.instruction.concrete.ConcInstructionFactory;
+import com.lexicalscope.svm.j.instruction.concrete.DefineClassOp;
+import com.lexicalscope.svm.j.instruction.concrete.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.concrete.Instructions;
+import com.lexicalscope.svm.j.instruction.concrete.MethodBody;
+import com.lexicalscope.svm.j.instruction.concrete.StatementBuilder;
+import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.InstructionInternal;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
-import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
-import com.lexicalscope.symb.vm.instructions.BaseInstructions;
-import com.lexicalscope.symb.vm.instructions.InstructionFactory;
-import com.lexicalscope.symb.vm.instructions.Instructions;
-import com.lexicalscope.symb.vm.instructions.StatementBuilder;
-import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.vm.natives.NativeMethods;
 
