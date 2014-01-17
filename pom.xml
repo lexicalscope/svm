@@ -21,7 +21,7 @@
 		<module>svm-classloading</module>
 		<module>svm-state</module>
 		<module>svm-vm</module>
-		<module>svm-instruction</module>
+		<module>svm-jinstruction</module>
 		<module>svm-jcore</module>
 	</modules>
 	<build>
