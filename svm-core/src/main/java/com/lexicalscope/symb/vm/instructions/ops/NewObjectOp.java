@@ -5,6 +5,7 @@ import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_MARKER_OFFSET;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Op;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Statics;
@@ -19,11 +20,20 @@ public final class NewObjectOp implements Op<Object> {
    }
 
    @Override
-   public Object eval(Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
+   public Object eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame) {
       // TODO[tim]: linking should remove this
       final SClass klass = statics.load(klassDesc);
       final Object address = allocateObject(heap, klass);
       stackFrame.push(address);
+
+      return address;
+   }
+
+   @Override public Object eval(final Context ctx) {
+      // TODO[tim]: linking should remove this
+      final SClass klass = ctx.load(klassDesc);
+      final Object address = allocateObject(ctx, klass);
+      ctx.push(address);
 
       return address;
    }
@@ -36,6 +46,19 @@ public final class NewObjectOp implements Op<Object> {
       int fieldOffset = OBJECT_MARKER_OFFSET + 1;
       for (final Object initialValue : klass.fieldInit()) {
          heap.put(address, fieldOffset, initialValue == null ? nullPointer : initialValue);
+         fieldOffset++;
+      }
+      return address;
+   }
+
+   public static Object allocateObject(final Context ctx, final SClass klass) {
+      final Object address = ctx.newObject(klass);
+      ctx.put(address, OBJECT_MARKER_OFFSET, klass);
+
+      final Object nullPointer = ctx.nullPointer();
+      int fieldOffset = OBJECT_MARKER_OFFSET + 1;
+      for (final Object initialValue : klass.fieldInit()) {
+         ctx.put(address, fieldOffset, initialValue == null ? nullPointer : initialValue);
          fieldOffset++;
       }
       return address;

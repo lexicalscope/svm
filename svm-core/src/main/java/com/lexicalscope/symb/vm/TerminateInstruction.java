@@ -1,13 +1,11 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
 
 
 public class TerminateInstruction implements InstructionNode {
-   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
-      throw new TerminationException(vm.state());
+   @Override public void eval(final Context ctx) {
+      // TODO[tim]: demeter
+      throw new TerminationException(ctx.state());
    }
 
    @Override public InstructionNode next(final InstructionNode instruction) {

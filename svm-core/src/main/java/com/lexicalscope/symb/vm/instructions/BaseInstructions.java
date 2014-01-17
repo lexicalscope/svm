@@ -59,7 +59,6 @@ import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
 import com.lexicalscope.symb.vm.instructions.ops.NoOp;
-import com.lexicalscope.symb.vm.instructions.ops.NopOp;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Op;
 import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
@@ -581,7 +580,7 @@ public final class BaseInstructions implements Instructions {
 
    @Override
    public Vop nop() {
-      return new LinearInstruction(new NopOp());
+      return new LinearInstruction(new NoOp());
    }
 
    @Override public Vop loadArg(final Object object) {

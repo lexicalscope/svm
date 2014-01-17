@@ -1,9 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops.array;
 
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.instructions.ops.array.ArrayConstructor;
 import com.lexicalscope.symb.vm.instructions.ops.array.InitStrategy;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
@@ -21,37 +19,37 @@ public class NewSymbArray implements ArrayConstructor {
       this.feasibilityChecker = feasibilityChecker;
    }
 
-   @Override public void newArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy) {
-      final Object top = stackFrame.pop();
+   @Override public void newArray(final Context ctx, final InitStrategy initStrategy) {
+      final Object top = ctx.pop();
       if(top instanceof ISymbol) {
          feasibilityChecker.simplifyBv32Expr((ISymbol) top, new ISimplificationResult(){
             @Override public void simplifiedToValue(final int arrayLength) {
-               newConcreteArray(stackFrame, heap, statics, initStrategy, arrayLength);
+               newConcreteArray(ctx, initStrategy, arrayLength);
             }
 
             @Override public void simplified(final ISymbol simplification) {
-               newSymbolicArray(stackFrame, heap, statics, initStrategy, simplification);
+               newSymbolicArray(ctx, initStrategy, simplification);
             }});
       } else if (top instanceof Integer) {
-         newConcreteArray(stackFrame, heap, statics, initStrategy, (int) top);
+         newConcreteArray(ctx, initStrategy, (int) top);
       } else {
          throw new UnsupportedOperationException("array length " + top);
       }
    }
 
-   private void newSymbolicArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy, final ISymbol arrayLength) {
-      final Object arrayAddress = heap.newObject(new Allocatable() {
+   private void newSymbolicArray(final Context ctx, final InitStrategy initStrategy, final ISymbol arrayLength) {
+      final Object arrayAddress = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return NewArrayOp.ARRAY_PREAMBLE + 1;
          }
       });
-      NewConcArray.initArrayPreamble(heap, statics, arrayAddress, arrayLength);
+      NewConcArray.initArrayPreamble(ctx, arrayAddress, arrayLength);
       // TODO[tim]: support other kinds of arrays
-      heap.put(arrayAddress, ARRAY_SYMBOL_OFFSET, new IArrayZeroedSymbol());
-      stackFrame.push(arrayAddress);
+      ctx.put(arrayAddress, ARRAY_SYMBOL_OFFSET, new IArrayZeroedSymbol());
+      ctx.push(arrayAddress);
    }
 
-   private void newConcreteArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy, final int arrayLength) {
-      new NewConcArray().newConcreteArray(stackFrame, heap, statics, arrayLength, initStrategy);
+   private void newConcreteArray(final Context ctx, final InitStrategy initStrategy, final int arrayLength) {
+      new NewConcArray().newConcreteArray(ctx, arrayLength, initStrategy);
    }
 }

@@ -3,12 +3,7 @@ package com.lexicalscope.symb.vm.symbinstructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
 import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
@@ -26,24 +21,24 @@ public class SArrayStoreOp implements Vop {
       this.concreteArrayStore = concreteArrayStore;
    }
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
-      final Object value = stackFrame.pop();
-      final Object offset = stackFrame.pop();
-      final Object arrayref = stackFrame.pop();
+   @Override public void eval(final Context ctx) {
+      final Object value = ctx.pop();
+      final Object offset = ctx.pop();
+      final Object arrayref = ctx.pop();
 
-      final Object arrayLength = heap.get(arrayref, ARRAY_LENGTH_OFFSET);
+      final Object arrayLength = ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
       if(arrayLength instanceof Integer && offset instanceof Integer) {
-         concreteArrayStore.storeInHeap(heap, arrayref, (int) offset, value);
+         concreteArrayStore.storeInHeap(ctx, arrayref, (int) offset, value);
       } else if (arrayLength instanceof ISymbol) {
-         storeInSymbolicArray(heap, arrayref, offset, value);
+         storeInSymbolicArray(ctx, arrayref, offset, value);
       } else {
          throw new UnsupportedOperationException("concrete array symbolic offset");
       }
    }
 
-   private void storeInSymbolicArray(final Heap heap, final Object arrayref, final Object offset, final Object value) {
-      final IArraySymbol symbol = (IArraySymbol) heap.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET);
-      heap.put(arrayref,
+   private void storeInSymbolicArray(final Context ctx, final Object arrayref, final Object offset, final Object value) {
+      final IArraySymbol symbol = (IArraySymbol) ctx.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET);
+      ctx.put(arrayref,
             NewSymbArray.ARRAY_SYMBOL_OFFSET,
             new IArrayStoreSymbol(symbol, asISymbol(offset), asISymbol(value)));
    }

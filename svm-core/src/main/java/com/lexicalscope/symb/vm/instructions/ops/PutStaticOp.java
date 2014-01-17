@@ -3,12 +3,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
@@ -26,19 +21,18 @@ final class PutStaticOp implements Vop {
       doubleWord = sort == Type.DOUBLE || sort == Type.LONG;
    }
 
-   @Override
-   public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
-      final SClass klass = statics.load(fieldInsnNode.owner);
-      final Object staticsAddress = statics.whereMyStaticsAt(klass);
+   @Override public void eval(final Context ctx) {
+      final SClass klass = ctx.load(fieldInsnNode.owner);
+      final Object staticsAddress = ctx.whereMyStaticsAt(klass);
       final int offset = klass.staticFieldIndex(name);
 
       Object value;
       if(doubleWord) {
-         value = stackFrame.popDoubleWord();
+         value = ctx.popDoubleWord();
       } else {
-         value = stackFrame.pop();
+         value = ctx.pop();
       }
-      heap.put(staticsAddress, offset, value);
+      ctx.put(staticsAddress, offset, value);
    }
 
    @Override

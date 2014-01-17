@@ -1,7 +1,8 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.vm.Context;
+
 
 public interface InitStrategy {
-   Object initialValue(Heap heap);
+   Object initialValue(Context ctx);
 }

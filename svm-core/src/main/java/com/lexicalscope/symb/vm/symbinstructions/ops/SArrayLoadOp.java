@@ -3,12 +3,7 @@ package com.lexicalscope.symb.vm.symbinstructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
 import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.asISymbol;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.symbinstructions.ops.array.NewSymbArray;
@@ -26,23 +21,23 @@ public class SArrayLoadOp implements Vop {
       this.concreteArrayLoad = concreteArrayLoad;
    }
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
-      final Object offset = (int) stackFrame.pop();
-      final Object arrayref = stackFrame.pop();
+   @Override public void eval(final Context ctx) {
+      final Object offset = (int) ctx.pop();
+      final Object arrayref = ctx.pop();
 
-      final Object arrayLength = heap.get(arrayref, ARRAY_LENGTH_OFFSET);
+      final Object arrayLength = ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
       if(arrayLength instanceof Integer && offset instanceof Integer) {
-         stackFrame.push(concreteArrayLoad.loadFromHeap(heap, arrayref, (int) offset));
+         ctx.push(concreteArrayLoad.loadFromHeap(ctx, arrayref, (int) offset));
       } else if (arrayLength instanceof ISymbol) {
-         stackFrame.push(loadFromSymbolicArray(heap, arrayref, offset));
+         ctx.push(loadFromSymbolicArray(ctx, arrayref, offset));
       } else {
          throw new UnsupportedOperationException("concrete array symbolic offset");
       }
    }
 
-   private Object loadFromSymbolicArray(final Heap heap, final Object arrayref, final Object offset) {
+   private Object loadFromSymbolicArray(final Context ctx, final Object arrayref, final Object offset) {
       return new IArraySelectSymbol(
-            (IArraySymbol) heap.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET),
+            (IArraySymbol) ctx.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET),
             asISymbol(offset));
    }
 

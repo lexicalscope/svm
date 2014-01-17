@@ -2,12 +2,7 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.*;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Vop;
 
 public class ArrayStoreOp implements Vop {
@@ -34,20 +29,20 @@ public class ArrayStoreOp implements Vop {
       this.valueTransform = valueTransform;
    }
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
-      final Object value = stackFrame.pop();
-      final int offset = (int) stackFrame.pop();
-      final Object arrayref = stackFrame.pop();
-      storeInHeap(heap, arrayref, offset, value);
+   @Override public void eval(final Context ctx) {
+      final Object value = ctx.pop();
+      final int offset = (int) ctx.pop();
+      final Object arrayref = ctx.pop();
+      storeInHeap(ctx, arrayref, offset, value);
    }
 
-   public void storeInHeap(final Heap heap, final Object arrayref, final int offset, final Object value) {
-      assert boundsCheck(heap, arrayref, offset);
-      heap.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
+   public void storeInHeap(final Context ctx, final Object arrayref, final int offset, final Object value) {
+      assert boundsCheck(ctx, arrayref, offset);
+      ctx.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
    }
 
-   private boolean boundsCheck(final Heap heap, final Object arrayref, final int offset) {
-      return offset < (int) heap.get(arrayref, ARRAY_LENGTH_OFFSET);
+   private boolean boundsCheck(final Context ctx, final Object arrayref, final int offset) {
+      return offset < (int) ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
    }
 
    @Override public String toString() {

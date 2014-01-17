@@ -6,14 +6,9 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.InstructionInternalNode;
 import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.SClass;
@@ -32,19 +27,19 @@ public class LoadingInstruction implements Vop {
       this(asList(klassName), op);
    }
 
-   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
-      final List<SClass> definedClasses = new DefineClassOp(klassNames).eval(vm, statics, heap, stack, stackFrame);
+   @Override public void eval(final Context ctx) {
+      final List<SClass> definedClasses = new DefineClassOp(klassNames).eval(ctx);
       if(definedClasses.isEmpty()){
-         new LinearInstruction(op).eval(vm, statics, heap, stack, stackFrame, instructionNode);
+         new LinearInstruction(op).eval(ctx);
       } else {
-         InstructionNode replacementInstruction = instructionNode;
+         InstructionNode replacementInstruction = ctx.instruction();
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {
                replacementInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(replacementInstruction, klass);
             }
          }
-         stackFrame.advance(replacementInstruction);
+         ctx.advanceTo(replacementInstruction);
       }
    }
 

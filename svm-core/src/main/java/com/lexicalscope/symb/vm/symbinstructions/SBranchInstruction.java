@@ -1,12 +1,7 @@
 package com.lexicalscope.symb.vm.symbinstructions;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchOp;
 import com.lexicalscope.symb.vm.symbinstructions.predicates.BinarySBranchStrategy;
@@ -41,10 +36,10 @@ final class SBranchInstruction implements Vop {
       this.branchStrategy = branchStrategy;
    }
 
-   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
-      final Pc pc = (Pc) vm.state().getMeta();
+   @Override public void eval(final Context ctx) {
+      final Pc pc = (Pc) ctx.getMeta();
 
-      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(vm.state());
+      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(ctx.state());
 
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
@@ -55,21 +50,21 @@ final class SBranchInstruction implements Vop {
 
       if(jumpFeasible && nojumpFeasible)
       {
-         final State[] states = vm.state().fork();
+         final State[] states = ctx.state().fork();
 
          // jump
          ((Pc) states[0].getMeta()).and(jumpSymbol);
-         states[0].stackFrame().advance(instructionNode.jmpTarget());
+         states[0].stackFrame().advance(ctx.instructionJmpTarget());
 
          // no jump
          ((Pc) states[1].getMeta()).and(nojumpSymbol);
-         states[1].stackFrame().advance(instructionNode.next());
+         states[1].stackFrame().advance(ctx.instructionNext());
 
-         vm.fork(states);
+         ctx.fork(states);
       } else if(jumpFeasible) {
-         stackFrame.advance(instructionNode.jmpTarget());
+         ctx.advanceTo(ctx.instructionJmpTarget());
       } else if(nojumpFeasible) {
-         stackFrame.advance(instructionNode.next());
+         ctx.advanceTo(ctx.instructionNext());
       } else {
          throw new RuntimeException("unable to check feasibility");
       }

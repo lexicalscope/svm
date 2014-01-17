@@ -1,8 +1,5 @@
 package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
 
 
 /**
@@ -24,10 +21,10 @@ public class InstructionInternalNode implements InstructionNode {
       target = terminate;
    }
 
-   @Override public void eval(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
+   @Override public void eval(final Context ctx) {
       assert next != null;
 
-      instruction.eval(vm, statics, heap, stack, stackFrame, instructionNode);
+      instruction.eval(ctx);
    }
 
    @Override public InstructionNode next(final InstructionNode instruction) {

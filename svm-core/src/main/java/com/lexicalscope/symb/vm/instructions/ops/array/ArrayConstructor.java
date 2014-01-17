@@ -1,9 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops.array;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Context;
 
 public interface ArrayConstructor {
-   void newArray(StackFrame stackFrame, Heap heap, Statics statics, InitStrategy initStrategy);
+   void newArray(Context ctx, InitStrategy initStrategy);
 }

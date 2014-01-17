@@ -3,42 +3,38 @@ package com.lexicalscope.symb.vm.instructions.ops.array;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class NewConcArray implements ArrayConstructor {
    public void newConcreteArray(
-         final StackFrame stackFrame,
-         final Heap heap,
-         final Statics statics,
+         final Context ctx,
          final int arrayLength,
          final InitStrategy initStrategy) {
-      final Object initValue = initStrategy.initialValue(heap);
+      final Object initValue = initStrategy.initialValue(ctx);
 
-      final Object arrayAddress = heap.newObject(new Allocatable() {
+      final Object arrayAddress = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return arrayLength + NewArrayOp.ARRAY_PREAMBLE;
          }
       });
 
-      initArrayPreamble(heap, statics, arrayAddress, arrayLength);
+      initArrayPreamble(ctx, arrayAddress, arrayLength);
 
       for (int i = 0; i < arrayLength; i++) {
-         heap.put(arrayAddress, NewArrayOp.ARRAY_PREAMBLE + i, initValue);
+         ctx.put(arrayAddress, NewArrayOp.ARRAY_PREAMBLE + i, initValue);
       }
-      stackFrame.push(arrayAddress);
+      ctx.push(arrayAddress);
    }
 
-   public static void initArrayPreamble(final Heap heap, final Statics statics, final Object arrayAddress, final Object arrayLength) {
+   public static void initArrayPreamble(final Context ctx, final Object arrayAddress, final Object arrayLength) {
       // TODO - arrays can have different types
-      final SClass objectArrayClass = statics.load(getInternalName(Object[].class));
-      heap.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);
-      heap.put(arrayAddress, NewArrayOp.ARRAY_LENGTH_OFFSET, arrayLength);
+      final SClass objectArrayClass = ctx.load(getInternalName(Object[].class));
+      ctx.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);
+      ctx.put(arrayAddress, NewArrayOp.ARRAY_LENGTH_OFFSET, arrayLength);
    }
 
-   @Override public void newArray(final StackFrame stackFrame, final Heap heap, final Statics statics, final InitStrategy initStrategy) {
-      newConcreteArray(stackFrame, heap, statics, (int) stackFrame.pop(), initStrategy);
+   @Override public void newArray(final Context ctx, final InitStrategy initStrategy) {
+      newConcreteArray(ctx, (int) ctx.pop(), initStrategy);
    }
 }

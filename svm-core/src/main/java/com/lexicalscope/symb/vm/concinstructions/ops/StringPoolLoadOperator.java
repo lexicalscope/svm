@@ -3,12 +3,7 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 import static com.lexicalscope.symb.vm.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SFieldName;
@@ -23,26 +18,26 @@ public final class StringPoolLoadOperator implements Vop {
       this.val = val;
    }
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
-      final SClass stringClass = statics.load(STRING_CLASS);
+   @Override public void eval(final Context ctx) {
+      final SClass stringClass = ctx.load(STRING_CLASS);
 
       // create new string
-      new NewObjectOp(getInternalName(String.class)).eval(null, statics, heap, stack, stackFrame);
-      final Object stringAddress = stackFrame.pop();
+      new NewObjectOp(getInternalName(String.class)).eval(ctx);
+      final Object stringAddress = ctx.pop();
 
       // create char array
       final char[] chars = val.toCharArray();
 
-      stackFrame.push(chars.length);
-      new NewArrayOp(new NewConcArray()).eval(null, statics, heap, stack, stackFrame, null);
-      final Object valueAddress = stackFrame.pop();
+      ctx.push(chars.length);
+      new NewArrayOp(new NewConcArray()).eval(ctx);
+      final Object valueAddress = ctx.pop();
 
       for (int i = 0; i < chars.length; i++) {
-         heap.put(valueAddress, NewArrayOp.ARRAY_PREAMBLE + i, chars[i]);
+         ctx.put(valueAddress, NewArrayOp.ARRAY_PREAMBLE + i, chars[i]);
       }
 
-      heap.put(stringAddress, stringClass.fieldIndex(new SFieldName(STRING_CLASS, "value")), valueAddress);
-      stackFrame.push(stringAddress);
+      ctx.put(stringAddress, stringClass.fieldIndex(new SFieldName(STRING_CLASS, "value")), valueAddress);
+      ctx.push(stringAddress);
    }
 
    @Override

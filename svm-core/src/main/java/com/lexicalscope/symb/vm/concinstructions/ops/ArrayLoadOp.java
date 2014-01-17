@@ -2,12 +2,7 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 
 import static com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp.ARRAY_PREAMBLE;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.vm.InstructionNode;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
@@ -35,22 +30,23 @@ public class ArrayLoadOp implements Vop {
       this.valueTransform = valueTransform;
    }
 
-   @Override public void eval(Vm vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, InstructionNode instructionNode) {
-      final int offset = (int) stackFrame.pop();
-      final Object arrayref = stackFrame.pop();
+   @Override public void eval(final Context ctx) {
+      final int offset = (int) ctx.pop();
+      final Object arrayref = ctx.pop();
 
-      stackFrame.push(loadFromHeap(heap, arrayref, offset));
+      ctx.push(loadFromHeap(ctx, arrayref, offset));
+
    }
 
-   public Object loadFromHeap(final Heap heap, final Object arrayref, final int offset) {
+   public Object loadFromHeap(final Context ctx, final Object arrayref, final int offset) {
       // TODO[tim]: check bounds in-game
-      assert inBounds(heap, offset, arrayref) : String.format("out-of-bounds %d %s %s", offset, arrayref, heap);
+      assert inBounds(ctx, offset, arrayref) : String.format("out-of-bounds %d %s %s", offset, arrayref, ctx);
 
-      return valueTransform.transformForLoad(heap.get(arrayref, offset + ARRAY_PREAMBLE));
+      return valueTransform.transformForLoad(ctx.get(arrayref, offset + ARRAY_PREAMBLE));
    }
 
-   private boolean inBounds(final Heap heap, final int offset, final Object arrayref) {
-      return offset >= 0 && offset < (int) heap.get(arrayref, NewArrayOp.ARRAY_LENGTH_OFFSET);
+   private boolean inBounds(final Context ctx, final int offset, final Object arrayref) {
+      return offset >= 0 && offset < (int) ctx.get(arrayref, NewArrayOp.ARRAY_LENGTH_OFFSET);
    }
 
    @Override public String toString() {
