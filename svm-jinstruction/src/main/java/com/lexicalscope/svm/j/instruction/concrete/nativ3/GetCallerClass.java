@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.nativ3;
 
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.SMethodDescriptor;

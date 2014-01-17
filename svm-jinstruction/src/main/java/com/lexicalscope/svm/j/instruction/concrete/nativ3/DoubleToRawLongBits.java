@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete.d0uble;
+package com.lexicalscope.svm.j.instruction.concrete.nativ3;
 
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
