@@ -39,7 +39,7 @@ final class SBranchInstruction implements Vop {
    @Override public void eval(final Context ctx) {
       final Pc pc = (Pc) ctx.getMeta();
 
-      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(ctx.state());
+      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(ctx);
 
       final Pc jumpPc = pc.snapshot().and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
@@ -50,7 +50,7 @@ final class SBranchInstruction implements Vop {
 
       if(jumpFeasible && nojumpFeasible)
       {
-         final State[] states = ctx.state().fork();
+         final State[] states = ctx.fork();
 
          // jump
          ((Pc) states[0].getMeta()).and(jumpSymbol);

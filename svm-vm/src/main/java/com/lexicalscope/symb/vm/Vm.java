@@ -17,7 +17,6 @@ public final class Vm<S> {
 			try {
 				pending.peek().eval(this);
 			} catch (final TerminationException termination) {
-				assert pending.peek() == termination.getFinalState();
 				finished.push(pending.pop());
 			} catch (final RuntimeException e) {
 				throw e;

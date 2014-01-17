@@ -89,8 +89,4 @@ public class StateImpl implements State {
    @Override public Object peekOperand() {
       return stackFrame().peek();
    }
-
-   @Override public Object popOperand() {
-      return stackFrame().pop();
-   }
 }

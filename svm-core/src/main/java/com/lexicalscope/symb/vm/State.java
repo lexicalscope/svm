@@ -16,5 +16,5 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
    SStackTrace trace();
 
    Object peekOperand();
-   Object popOperand();
+//   Object popOperand();
 }

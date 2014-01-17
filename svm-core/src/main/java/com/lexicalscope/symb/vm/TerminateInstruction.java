@@ -5,7 +5,7 @@ package com.lexicalscope.symb.vm;
 public class TerminateInstruction implements InstructionNode {
    @Override public void eval(final Context ctx) {
       // TODO[tim]: demeter
-      throw new TerminationException(ctx.state());
+      throw new TerminationException();
    }
 
    @Override public InstructionNode next(final InstructionNode instruction) {

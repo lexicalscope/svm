@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.predicates;
 
-import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Context;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
@@ -11,8 +11,8 @@ public class UnarySBranchStrategy implements SBranchStrategy {
       this.op = op;
    }
 
-   @Override public BoolSymbol branchPredicateSymbol(final State state) {
-      final Object value = state.popOperand();
+   @Override public BoolSymbol branchPredicateSymbol(final Context ctx) {
+      final Object value = ctx.pop();
       if(value instanceof Integer) {
          return op.conditionSymbol((Integer) value);
       } else {

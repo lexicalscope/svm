@@ -17,7 +17,13 @@ public class Context {
    private final StackFrame stackFrame;
    private final InstructionNode instructionNode;
 
-   public Context(final Vm<State> vm, final Statics statics, final Heap heap, final Stack stack, final StackFrame stackFrame, final InstructionNode instructionNode) {
+   public Context(
+         final Vm<State> vm,
+         final Statics statics,
+         final Heap heap,
+         final Stack stack,
+         final StackFrame stackFrame,
+         final InstructionNode instructionNode) {
       this.vm = vm;
       this.statics = statics;
       this.heap = heap;
@@ -152,6 +158,10 @@ public class Context {
 
    public void fork(final State[] states) {
       vm.fork(states);
+   }
+
+   public State[] fork() {
+      return state().fork();
    }
 
    public void popFrame(final int returnCount) {
