@@ -15,12 +15,12 @@ import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;
 
 public class VmFactory {
    static State initial(final Vm<State> vm, final SClassLoader classLoader, final SMethodDescriptor methodName, final Object[] args) {
-      final InstructionNode defineClassClass = classLoader.defineBootstrapClassesInstruction();
-      final InstructionNode initThread = classLoader.initThreadInstruction();
-      final InstructionNode loadArgs = classLoader.loadArgsInstruction(args);
-      final InstructionNode entryPointInstruction = new InstructionInternalNode(createInvokeStatic(methodName));
+      final Instruction defineClassClass = classLoader.defineBootstrapClassesInstruction();
+      final Instruction initThread = classLoader.initThreadInstruction();
+      final Instruction loadArgs = classLoader.loadArgsInstruction(args);
+      final Instruction entryPointInstruction = new InstructionInternal(createInvokeStatic(methodName));
 
-      defineClassClass.next(initThread).next(loadArgs).next(entryPointInstruction);
+      defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(entryPointInstruction);
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 

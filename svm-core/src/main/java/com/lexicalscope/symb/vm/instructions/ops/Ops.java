@@ -2,7 +2,7 @@ package com.lexicalscope.symb.vm.instructions.ops;
 
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 import com.lexicalscope.symb.vm.stackFrameOps.PopOperand;
@@ -12,7 +12,7 @@ public final class Ops {
       return new PopOperand();
    }
 
-   public static Vop advanceTo(final InstructionNode instruction) {
+   public static Vop advanceTo(final Instruction instruction) {
       return new AdvanceToInstructionOp(instruction);
    }
 

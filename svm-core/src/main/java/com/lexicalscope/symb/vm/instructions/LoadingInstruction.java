@@ -6,8 +6,8 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.symb.vm.InstructionInternalNode;
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.InstructionInternal;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
@@ -32,7 +32,7 @@ public class LoadingInstruction implements Vop {
       if(definedClasses.isEmpty()){
          new LinearInstruction(op).eval(ctx);
       } else {
-         InstructionNode replacementInstruction = ctx.instruction();
+         Instruction replacementInstruction = ctx.instruction();
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {
@@ -43,10 +43,10 @@ public class LoadingInstruction implements Vop {
       }
    }
 
-   private InstructionNode replaceCurrentInstructionWithInvocationOfStaticInitaliser(final InstructionNode currentInstruction, final SClass klass) {
-      final InstructionInternalNode classConstructorInstruction = new InstructionInternalNode(MethodCallInstruction.createClassDefaultConstructor(klass.name()));
-      final InstructionInternalNode staticInitialiserInstruction = new InstructionInternalNode(MethodCallInstruction.createInvokeStatic(new AsmSMethodName(klass.name(), CLINIT, NOARGS_VOID_DESC)));
-      staticInitialiserInstruction.next(classConstructorInstruction).next(currentInstruction);
+   private Instruction replaceCurrentInstructionWithInvocationOfStaticInitaliser(final Instruction currentInstruction, final SClass klass) {
+      final InstructionInternal classConstructorInstruction = new InstructionInternal(MethodCallInstruction.createClassDefaultConstructor(klass.name()));
+      final InstructionInternal staticInitialiserInstruction = new InstructionInternal(MethodCallInstruction.createInvokeStatic(new AsmSMethodName(klass.name(), CLINIT, NOARGS_VOID_DESC)));
+      staticInitialiserInstruction.nextIs(classConstructorInstruction).nextIs(currentInstruction);
       return staticInitialiserInstruction;
    }
 

@@ -7,14 +7,14 @@ package com.lexicalscope.symb.vm;
  *
  * @author tim
  */
-public class InstructionInternalNode implements InstructionNode {
+public class InstructionInternal implements Instruction {
    private static TerminateInstruction terminate = new TerminateInstruction();
 
    private final Vop instruction;
-   private InstructionNode next;
-   private InstructionNode target;
+   private Instruction next;
+   private Instruction target;
 
-   public InstructionInternalNode(final Vop instruction) {
+   public InstructionInternal(final Vop instruction) {
       this.instruction = instruction;
 
       next = terminate;
@@ -27,23 +27,23 @@ public class InstructionInternalNode implements InstructionNode {
       instruction.eval(ctx);
    }
 
-   @Override public InstructionNode next(final InstructionNode instruction) {
+   @Override public Instruction nextIs(final Instruction instruction) {
       if(next.equals(terminate)) {
          return next = instruction;
       } else {
-         return next.next(instruction);
+         return next.nextIs(instruction);
       }
    }
 
-   @Override public InstructionNode next() {
+   @Override public Instruction next() {
       return next;
    }
 
-   @Override public InstructionNode jmpTarget() {
+   @Override public Instruction jmpTarget() {
       return target;
    }
 
-   @Override public void jmpTarget(final InstructionNode instruction) {
+   @Override public void jmpTarget(final Instruction instruction) {
       target = instruction;
    }
 

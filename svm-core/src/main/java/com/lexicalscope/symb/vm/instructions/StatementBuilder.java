@@ -5,7 +5,7 @@ import static com.google.common.collect.Lists.reverse;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lexicalscope.symb.vm.InstructionInternalNode;
+import com.lexicalscope.symb.vm.InstructionInternal;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.MethodBody;
 
@@ -38,11 +38,11 @@ public final class StatementBuilder {
       return new MethodBody(buildInstruction(), maxStack, maxLocals);
    }
 
-   public InstructionInternalNode buildInstruction() {
-      InstructionInternalNode next = null;
+   public InstructionInternal buildInstruction() {
+      InstructionInternal next = null;
       for (final Vop instruction : reverse(instructions)) {
-         final InstructionInternalNode node = new InstructionInternalNode(instruction);
-         if(next != null) {node.next(next);}
+         final InstructionInternal node = new InstructionInternal(instruction);
+         if(next != null) {node.nextIs(next);}
          next = node;
       }
       return next;

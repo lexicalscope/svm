@@ -6,8 +6,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.InstructionInternalNode;
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.InstructionInternal;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
@@ -60,17 +60,17 @@ public class AsmSClassLoader implements SClassLoader {
       return natives.resolveNative(instructions, methodName);
    }
 
-   @Override public InstructionNode defineBootstrapClassesInstruction() {
+   @Override public Instruction defineBootstrapClassesInstruction() {
       final List<String> bootstrapClasses = new ArrayList<>();
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
       bootstrapClasses.addAll(DefineClassOp.primitives);
 
-      return new InstructionInternalNode(instructions.defineClass(bootstrapClasses));
+      return new InstructionInternal(instructions.defineClass(bootstrapClasses));
    }
 
-   @Override public InstructionNode loadArgsInstruction(final Object[] args) {
+   @Override public Instruction loadArgsInstruction(final Object[] args) {
       final StatementBuilder builder = new StatementBuilder(instructions).nop();
       for (final Object object : args) {
          builder.loadArg(object);
@@ -78,9 +78,9 @@ public class AsmSClassLoader implements SClassLoader {
       return builder.buildInstruction();
    }
 
-   @Override public InstructionNode initThreadInstruction() {
-      final InstructionInternalNode firstInstruction = new InstructionInternalNode(instructions.initThread());
-      firstInstruction.next(new InstructionInternalNode(instructions.createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))));
+   @Override public Instruction initThreadInstruction() {
+      final InstructionInternal firstInstruction = new InstructionInternal(instructions.initThread());
+      firstInstruction.nextIs(new InstructionInternal(instructions.createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))));
       return firstInstruction;
    }
 

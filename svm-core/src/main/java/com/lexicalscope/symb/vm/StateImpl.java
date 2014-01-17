@@ -38,8 +38,8 @@ public class StateImpl implements State {
    }
 
    @Override
-   public final InstructionNode instruction() {
-      return (InstructionNode) stackFrame().instruction();
+   public final Instruction instruction() {
+      return (Instruction) stackFrame().instruction();
    }
 
    private final StackFrame stackFrame() {
@@ -124,7 +124,7 @@ public class StateImpl implements State {
       return heap.hashCode(address);
    }
 
-   @Override public void advanceTo(final InstructionNode instruction) {
+   @Override public void advanceTo(final Instruction instruction) {
       stackFrame().advance(instruction);
    }
 
@@ -149,12 +149,12 @@ public class StateImpl implements State {
    }
 
    @Override
-   public InstructionNode instructionJmpTarget() {
+   public Instruction instructionJmpTarget() {
       return instruction().jmpTarget();
    }
 
    @Override
-   public InstructionNode instructionNext() {
+   public Instruction instructionNext() {
       return instruction().next();
    }
 

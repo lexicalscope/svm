@@ -14,7 +14,7 @@ import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
 import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.symb.vm.FlowNode;
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.TerminateInstruction;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
@@ -75,7 +75,7 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> instructionEqual(final InstructionNode expectedInstruction) {
+   public static Matcher<? super State> instructionEqual(final Instruction expectedInstruction) {
       return new TypeSafeDiagnosingMatcher<State>(State.class) {
          @Override
          public void describeTo(final Description description) {
@@ -86,7 +86,7 @@ public class StateMatchers {
          @Override
          protected boolean matchesSafely(final State item,
                final Description mismatchDescription) {
-            final InstructionNode instruction = item.instruction();
+            final Instruction instruction = item.instruction();
             mismatchDescription.appendText("state with next instruction ")
             .appendValue(instruction);
             return equalTo(expectedInstruction).matches(instruction);

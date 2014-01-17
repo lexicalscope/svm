@@ -1,13 +1,13 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 
 final class AdvanceToInstructionOp implements Vop {
-   private final InstructionNode instruction;
+   private final Instruction instruction;
 
-   AdvanceToInstructionOp(final InstructionNode instruction) {
+   AdvanceToInstructionOp(final Instruction instruction) {
       this.instruction = instruction;
    }
 

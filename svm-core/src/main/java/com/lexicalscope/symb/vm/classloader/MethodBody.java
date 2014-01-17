@@ -1,13 +1,13 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Instruction;
 
 public final class MethodBody {
-   private final InstructionNode entry;
+   private final Instruction entry;
    private final int maxStack;
    private final int maxLocals;
 
-   public MethodBody(final InstructionNode entry, final int maxStack, final int maxLocals) {
+   public MethodBody(final Instruction entry, final int maxStack, final int maxLocals) {
       this.entry = entry;
       this.maxStack = maxStack;
       this.maxLocals = maxLocals;
@@ -21,7 +21,7 @@ public final class MethodBody {
       return maxStack;
    }
 
-   public InstructionNode entryPoint() {
+   public Instruction entryPoint() {
       return entry;
    }
 }

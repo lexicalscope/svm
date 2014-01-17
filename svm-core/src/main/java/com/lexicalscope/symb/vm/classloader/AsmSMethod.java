@@ -12,8 +12,8 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.symb.vm.InstructionInternalNode;
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.InstructionInternal;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 import com.lexicalscope.symb.vm.instructions.Instructions.InstructionSink;
@@ -24,7 +24,7 @@ public class AsmSMethod implements SMethod {
    private final MethodNode method;
    private final Instructions instructions;
 
-   private InstructionNode entryPoint;
+   private Instruction entryPoint;
    private int maxLocals;
    private int maxStack;
 
@@ -52,7 +52,7 @@ public class AsmSMethod implements SMethod {
    }
 
    @Override
-   public InstructionNode entry() {
+   public Instruction entry() {
       link();
       return entryPoint;
    }
@@ -79,19 +79,19 @@ public class AsmSMethod implements SMethod {
 
    private void linkJavaMethod() {
       final List<AbstractInsnNode> unlinked = new ArrayList<>();
-      final Map<AbstractInsnNode, InstructionNode> linked = new LinkedHashMap<>();
-      final InstructionNode[] prev = new InstructionNode[1];
+      final Map<AbstractInsnNode, Instruction> linked = new LinkedHashMap<>();
+      final Instruction[] prev = new Instruction[1];
 
       final InstructionSink instructionSink = new InstructionSink() {
          @Override public void nextInstruction(final AbstractInsnNode asmInstruction, final Vop instruction) {
-            final InstructionNode node = new InstructionInternalNode(instruction);
+            final Instruction node = new InstructionInternal(instruction);
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
                linked.put(unlinkedInstruction, node);
             }
             unlinked.clear();
             linked.put(asmInstruction, node);
             if(prev[0] != null) {
-               prev[0].next(node);
+               prev[0].nextIs(node);
             }
             prev[0] = node;
          }
@@ -107,11 +107,11 @@ public class AsmSMethod implements SMethod {
          asmInstruction = asmInstruction.getNext();
       }
 
-      for (final Entry<AbstractInsnNode, InstructionNode> entry : linked.entrySet()) {
+      for (final Entry<AbstractInsnNode, Instruction> entry : linked.entrySet()) {
          if(entry.getKey() instanceof JumpInsnNode) {
             final JumpInsnNode asmJumpInstruction = (JumpInsnNode) entry.getKey();
             final AbstractInsnNode asmInstructionAfterTargetLabel = asmJumpInstruction.label.getNext();
-            final InstructionNode jmpTarget = linked.get(asmInstructionAfterTargetLabel);
+            final Instruction jmpTarget = linked.get(asmInstructionAfterTargetLabel);
 
             assert asmInstructionAfterTargetLabel != null;
             assert jmpTarget != null : asmInstructionAfterTargetLabel;

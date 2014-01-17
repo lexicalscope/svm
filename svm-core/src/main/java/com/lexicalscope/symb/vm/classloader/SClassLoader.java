@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.classloader;
 
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.InstructionNode;
+import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public interface SClassLoader {
@@ -22,9 +22,9 @@ public interface SClassLoader {
 
    MethodBody resolveNative(SMethodDescriptor methodName);
 
-   InstructionNode defineBootstrapClassesInstruction();
-   InstructionNode initThreadInstruction();
-   InstructionNode loadArgsInstruction(Object[] args);
+   Instruction defineBootstrapClassesInstruction();
+   Instruction initThreadInstruction();
+   Instruction loadArgsInstruction(Object[] args);
 
    Object init(String desc);
 }

@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.vm;
 
 public class EntryPoint {
-   private final InstructionNode entryPoint;
+   private final Instruction entryPoint;
    private final int argSize;
 
-   public EntryPoint(final InstructionNode entryPoint, final int argSize) {
+   public EntryPoint(final Instruction entryPoint, final int argSize) {
       this.entryPoint = entryPoint;
       this.argSize = argSize;
    }
@@ -12,7 +12,7 @@ public class EntryPoint {
    /**
     * @return the root of the instruction graph, which will be a static method call
     */
-   public InstructionNode entryPoint() {
+   public Instruction entryPoint() {
       return entryPoint;
    }
 

@@ -2,25 +2,25 @@ package com.lexicalscope.symb.vm;
 
 
 
-public class TerminateInstruction implements InstructionNode {
+public class TerminateInstruction implements Instruction {
    @Override public void eval(final State ctx) {
       // TODO[tim]: demeter
       throw new TerminationException();
    }
 
-   @Override public InstructionNode next(final InstructionNode instruction) {
+   @Override public Instruction nextIs(final Instruction instruction) {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
-   @Override public void jmpTarget(final InstructionNode instruction) {
+   @Override public void jmpTarget(final Instruction instruction) {
       throw new UnsupportedOperationException();
    }
 
-   @Override public InstructionNode next() {
+   @Override public Instruction next() {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
-   @Override public InstructionNode jmpTarget() {
+   @Override public Instruction jmpTarget() {
       throw new UnsupportedOperationException();
    }
 

@@ -50,9 +50,9 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
 
    void advanceToNextInstruction();
 
-   InstructionNode instructionNext();
+   Instruction instructionNext();
 
-   InstructionNode instructionJmpTarget();
+   Instruction instructionJmpTarget();
 
    void pushDoubleWord(Object val);
 
@@ -62,7 +62,7 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
 
    Object get(Object address, int offset);
 
-   void advanceTo(InstructionNode instruction);
+   void advanceTo(Instruction instruction);
 
    Object peek();
 
@@ -84,7 +84,7 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
 
    Stack stack();
 
-   InstructionNode instruction();
+   Instruction instruction();
 
    Object hashCode(Object object);
 }
