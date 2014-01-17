@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.vm;
 
 public class SFieldName implements Comparable<SFieldName> {
    private final String definedIn;

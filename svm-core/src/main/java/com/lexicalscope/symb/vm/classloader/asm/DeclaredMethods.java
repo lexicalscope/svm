@@ -3,9 +3,9 @@ package com.lexicalscope.symb.vm.classloader.asm;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
+import com.lexicalscope.symb.vm.SMethod;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.classloader.AsmSMethod;
-import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public class DeclaredMethods {
    private final Map<SMethodDescriptor, SMethod> methodMap = new LinkedHashMap<>();

@@ -8,7 +8,6 @@ import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;

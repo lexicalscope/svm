@@ -14,6 +14,8 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.symb.vm.InstructionInternal;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.SMethod;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 import com.lexicalscope.symb.vm.instructions.Instructions.InstructionSink;

@@ -9,6 +9,9 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.vm.SFieldName;
+
 public class SClassMatchers {
    public static int withIndex(final int i) {
       return i;

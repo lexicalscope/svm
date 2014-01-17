@@ -5,10 +5,10 @@ import java.util.List;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
+import com.lexicalscope.symb.vm.SField;
+import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.classloader.SField;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
 import com.lexicalscope.symb.vm.instructions.Instructions;
 

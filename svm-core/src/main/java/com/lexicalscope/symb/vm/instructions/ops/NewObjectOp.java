@@ -1,11 +1,11 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
-import static com.lexicalscope.symb.vm.classloader.SClass.OBJECT_MARKER_OFFSET;
+import static com.lexicalscope.symb.vm.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class NewObjectOp implements Op<Object> {
    private final String klassDesc;

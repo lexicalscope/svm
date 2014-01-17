@@ -4,6 +4,9 @@ import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
 import org.objectweb.asm.Type;
 
+import com.lexicalscope.symb.vm.SMethodDescriptor;
+import com.lexicalscope.symb.vm.SVirtualMethodName;
+
 public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethodDescriptor {
    private final String klassName;
    private final SVirtualMethodName virtualName;

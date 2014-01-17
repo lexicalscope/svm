@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.vm;
 
 public interface SVirtualMethodName extends Comparable<SVirtualMethodName> {
    boolean isVoidMethod();

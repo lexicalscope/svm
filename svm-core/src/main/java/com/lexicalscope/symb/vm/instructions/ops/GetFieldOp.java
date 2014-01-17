@@ -3,9 +3,9 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
+import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 

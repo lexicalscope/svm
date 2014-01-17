@@ -9,6 +9,8 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.vm.SClass;
+
 public class TestInstanceOf {
    private final SClassLoader sClassLoader = new AsmSClassLoader();
 

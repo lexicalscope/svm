@@ -6,11 +6,6 @@ import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.state.SMethodName;
-import com.lexicalscope.symb.vm.classloader.SClass;
-import com.lexicalscope.symb.vm.classloader.SField;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
-import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public final class PrimitiveSClass implements SClass {
    private final String klassName;

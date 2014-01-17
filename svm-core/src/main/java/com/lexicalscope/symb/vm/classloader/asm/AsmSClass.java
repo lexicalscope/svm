@@ -11,12 +11,12 @@ import org.objectweb.asm.Type;
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.classloader.SClass;
-import com.lexicalscope.symb.vm.classloader.SField;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
-import com.lexicalscope.symb.vm.classloader.SMethod;
+import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.vm.SField;
+import com.lexicalscope.symb.vm.SFieldName;
+import com.lexicalscope.symb.vm.SMethod;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public class AsmSClass implements SClass {
    public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");

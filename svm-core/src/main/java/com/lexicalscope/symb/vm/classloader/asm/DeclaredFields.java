@@ -5,8 +5,8 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lexicalscope.symb.vm.classloader.SField;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.SField;
+import com.lexicalscope.symb.vm.SFieldName;
 
 class DeclaredFields {
    private final List<SField> declaredFields = new ArrayList<>();

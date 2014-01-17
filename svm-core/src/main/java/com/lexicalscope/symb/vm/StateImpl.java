@@ -10,7 +10,6 @@ import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.classloader.SClass;
 
 public class StateImpl implements State {
    private final Statics statics;

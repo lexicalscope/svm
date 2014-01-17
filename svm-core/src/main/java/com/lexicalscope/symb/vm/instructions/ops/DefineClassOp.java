@@ -8,9 +8,9 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.lexicalscope.symb.vm.Op;
+import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.StaticsMarker;
-import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public final class DefineClassOp implements Op<List<SClass>> {

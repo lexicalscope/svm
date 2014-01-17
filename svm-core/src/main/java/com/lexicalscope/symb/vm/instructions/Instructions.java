@@ -4,8 +4,8 @@ import java.util.List;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public interface Instructions {
    public interface InstructionSink {

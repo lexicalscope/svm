@@ -8,6 +8,7 @@ import java.util.List;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.InstructionInternal;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 import com.lexicalscope.symb.vm.concinstructions.ConcInstructionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;

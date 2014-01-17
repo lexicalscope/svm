@@ -4,9 +4,9 @@ import java.util.LinkedHashMap;
 import java.util.Map;
 
 import com.lexicalscope.symb.state.SMethodName;
-import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
-import com.lexicalscope.symb.vm.classloader.SVirtualMethodName;
+import com.lexicalscope.symb.vm.SMethod;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
+import com.lexicalscope.symb.vm.SVirtualMethodName;
 
 public class Methods {
    private final Map<SMethodDescriptor, SMethod> methodMap;

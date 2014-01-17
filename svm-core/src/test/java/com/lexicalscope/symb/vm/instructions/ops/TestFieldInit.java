@@ -14,10 +14,10 @@ import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.DequeStack;
+import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.StaticsImpl;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
-import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public class TestFieldInit {

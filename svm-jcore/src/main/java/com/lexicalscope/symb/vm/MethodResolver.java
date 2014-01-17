@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.vm;
 
 import com.lexicalscope.symb.state.SMethodName;
 

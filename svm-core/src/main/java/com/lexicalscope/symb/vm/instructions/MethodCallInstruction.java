@@ -4,13 +4,13 @@ import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.MethodResolver;
+import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.vm.SMethod;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.MethodResolver;
-import com.lexicalscope.symb.vm.classloader.SClass;
-import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
 
 public class MethodCallInstruction {
    private static final class Resolution {

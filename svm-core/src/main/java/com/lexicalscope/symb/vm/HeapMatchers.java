@@ -6,8 +6,6 @@ import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.vm.classloader.SClass;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
 
 public class HeapMatchers {
    public static final class HeapLocation {

@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.vm;
 
 import java.net.URL;
 import java.util.List;
@@ -27,8 +27,6 @@ public interface SClass extends Allocatable, MethodResolver {
    int staticFieldIndex(SFieldName name);
 
    boolean hasStaticField(SFieldName name);
-
-   String name();
 
    Object superclass();
 

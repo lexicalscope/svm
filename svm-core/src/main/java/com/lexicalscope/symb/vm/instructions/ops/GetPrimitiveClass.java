@@ -3,10 +3,10 @@ package com.lexicalscope.symb.vm.instructions.ops;
 import static com.lexicalscope.symb.vm.instructions.ops.DefineClassOp.primitivesContains;
 
 import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 
 public final class GetPrimitiveClass implements Vop {

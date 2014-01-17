@@ -116,7 +116,6 @@
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm</artifactId>
-			<version>4.2</version>
 		</dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
@@ -139,12 +138,12 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
-			<artifactId>svm-state</artifactId>
+			<artifactId>svm-vm</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
-			<artifactId>svm-vm</artifactId>
+			<artifactId>svm-jcore</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

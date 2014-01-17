@@ -2,6 +2,9 @@ package com.lexicalscope.symb.vm.classloader;
 
 import org.objectweb.asm.Type;
 
+import com.lexicalscope.symb.vm.SMethodDescriptor;
+import com.lexicalscope.symb.vm.SVirtualMethodName;
+
 public final class AsmSVirtualMethodName implements SVirtualMethodName {
    private final String desc;
    private final String name;

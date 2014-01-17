@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.instructions.ops.array;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.classloader.SClass;
 
 public final class NewConcArray implements ArrayConstructor {
    public void newConcreteArray(

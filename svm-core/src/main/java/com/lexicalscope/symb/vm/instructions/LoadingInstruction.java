@@ -8,10 +8,10 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.lexicalscope.symb.vm.InstructionInternal;
 import com.lexicalscope.symb.vm.Instruction;
+import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
-import com.lexicalscope.symb.vm.classloader.SClass;
 import com.lexicalscope.symb.vm.instructions.ops.DefineClassOp;
 
 public class LoadingInstruction implements Vop {

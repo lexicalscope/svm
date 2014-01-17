@@ -1,6 +1,5 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.Instruction;
 
 public interface SMethod {
    int maxLocals();

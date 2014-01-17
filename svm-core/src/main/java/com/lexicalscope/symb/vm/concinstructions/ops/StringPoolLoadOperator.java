@@ -3,10 +3,10 @@ package com.lexicalscope.symb.vm.concinstructions.ops;
 import static com.lexicalscope.symb.vm.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;
 
+import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.classloader.SClass;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
 import com.lexicalscope.symb.vm.instructions.ops.NewObjectOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;

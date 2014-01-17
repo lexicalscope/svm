@@ -1,9 +1,9 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops.object;
 
 import com.lexicalscope.symb.state.SMethodName;
-import com.lexicalscope.symb.vm.classloader.MethodResolver;
-import com.lexicalscope.symb.vm.classloader.SMethod;
-import com.lexicalscope.symb.vm.classloader.SMethodDescriptor;
+import com.lexicalscope.symb.vm.MethodResolver;
+import com.lexicalscope.symb.vm.SMethod;
+import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.OTerminalSymbol;
 
 public class SymbolicObject implements MethodResolver {

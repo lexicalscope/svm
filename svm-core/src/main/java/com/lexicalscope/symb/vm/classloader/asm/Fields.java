@@ -6,8 +6,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.lexicalscope.symb.vm.classloader.SField;
-import com.lexicalscope.symb.vm.classloader.SFieldName;
+import com.lexicalscope.symb.vm.SField;
+import com.lexicalscope.symb.vm.SFieldName;
 
 public final class Fields {
    private final List<SField> fields;
