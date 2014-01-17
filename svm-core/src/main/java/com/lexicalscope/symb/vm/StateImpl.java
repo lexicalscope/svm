@@ -31,7 +31,7 @@ public class StateImpl implements State {
    @Override
    public void eval() {
       final InstructionNode instructionNode = instruction();
-      instructionNode.eval(new Context(vm, statics, heap, stack(), stackFrame(), instructionNode));
+      instructionNode.eval(new Context(vm, this, statics, heap, stack(), stackFrame(), instructionNode));
    }
 
    @Override

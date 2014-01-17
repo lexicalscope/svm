@@ -45,9 +45,4 @@ public final class VmImpl<S> implements Vm<S> {
 	public Collection<FlowNode<S>> results() {
 		return finished;
 	}
-
-	@Override
-	public S state() {
-		return pending.peek().state();
-	}
 }

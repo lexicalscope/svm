@@ -16,15 +16,18 @@ public class Context {
    private final Stack stack;
    private final StackFrame stackFrame;
    private final InstructionNode instructionNode;
+   private final State state;
 
    public Context(
          final Vm<State> vm,
+         final State state,
          final Statics statics,
          final Heap heap,
          final Stack stack,
          final StackFrame stackFrame,
          final InstructionNode instructionNode) {
       this.vm = vm;
+      this.state = state;
       this.statics = statics;
       this.heap = heap;
       this.stack = stack;
@@ -133,7 +136,7 @@ public class Context {
    }
 
    public State state() {
-      return vm.state();
+      return state;
    }
 
    public StackFrame previousFrame() {
@@ -153,7 +156,7 @@ public class Context {
    }
 
    public Object getMeta() {
-      return vm.state().getMeta();
+      return state.getMeta();
    }
 
    public void fork(final State[] states) {
