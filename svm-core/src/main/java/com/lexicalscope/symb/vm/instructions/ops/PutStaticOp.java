@@ -9,12 +9,12 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 
-final class PutStaticOp implements Vop {
+public final class PutStaticOp implements Vop {
    private final FieldInsnNode fieldInsnNode;
    private final SFieldName name;
    private final boolean doubleWord;
 
-   PutStaticOp(final FieldInsnNode fieldInsnNode) {
+   public PutStaticOp(final FieldInsnNode fieldInsnNode) {
       this.fieldInsnNode = fieldInsnNode;
       this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
       final int sort = Type.getType(fieldInsnNode.desc).getSort();

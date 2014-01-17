@@ -9,7 +9,7 @@ import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.FieldConversionFactory;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 
-final class GetFieldOp implements Vop {
+public final class GetFieldOp implements Vop {
    private final FieldInsnNode fieldInsnNode;
    private final SFieldName name;
    private final PutFieldConversion conversion;

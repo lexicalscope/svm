@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions.ops;
+package com.lexicalscope.svm.j.instruction.concrete;
 
 public interface UnaryOperator {
    Object eval(Object val);

@@ -3,7 +3,6 @@ package com.lexicalscope.symb.vm.instructions;
 import static com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp.caLoad;
 import static com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp.caStore;
 import static com.lexicalscope.symb.vm.instructions.MethodCallInstruction.*;
-import static com.lexicalscope.symb.vm.instructions.ops.Ops.*;
 
 import java.util.List;
 
@@ -22,8 +21,23 @@ import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.svm.j.instruction.concrete.BinaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.I2FOp;
+import com.lexicalscope.svm.j.instruction.concrete.I2LOp;
+import com.lexicalscope.svm.j.instruction.concrete.IincOp;
+import com.lexicalscope.svm.j.instruction.concrete.IorOp;
+import com.lexicalscope.svm.j.instruction.concrete.IshlOp;
+import com.lexicalscope.svm.j.instruction.concrete.IushrOp;
+import com.lexicalscope.svm.j.instruction.concrete.IxorOp;
+import com.lexicalscope.svm.j.instruction.concrete.L2IOp;
+import com.lexicalscope.svm.j.instruction.concrete.LCmpOp;
+import com.lexicalscope.svm.j.instruction.concrete.Load;
+import com.lexicalscope.svm.j.instruction.concrete.Load2;
 import com.lexicalscope.svm.j.instruction.concrete.Nullary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.Nullary2Operator;
+import com.lexicalscope.svm.j.instruction.concrete.NullaryOp;
+import com.lexicalscope.svm.j.instruction.concrete.NullaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.UnaryOp;
+import com.lexicalscope.svm.j.instruction.concrete.UnaryOperator;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.classloader.AsmSMethodName;
@@ -39,35 +53,26 @@ import com.lexicalscope.symb.vm.instructions.ops.CheckCastOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.CurrentTimeMillisOp;
 import com.lexicalscope.symb.vm.instructions.ops.DoubleToRawLongBits;
+import com.lexicalscope.symb.vm.instructions.ops.DupOp;
+import com.lexicalscope.symb.vm.instructions.ops.Dup_X1Op;
 import com.lexicalscope.symb.vm.instructions.ops.F2IOp;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpGOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FCmpLOperator;
 import com.lexicalscope.symb.vm.instructions.ops.FloatToRawIntBits;
 import com.lexicalscope.symb.vm.instructions.ops.GetCallerClass;
 import com.lexicalscope.symb.vm.instructions.ops.GetPrimitiveClass;
-import com.lexicalscope.symb.vm.instructions.ops.I2FOp;
-import com.lexicalscope.symb.vm.instructions.ops.I2LOp;
-import com.lexicalscope.symb.vm.instructions.ops.IincOp;
+import com.lexicalscope.symb.vm.instructions.ops.GetStaticOp;
 import com.lexicalscope.symb.vm.instructions.ops.InitThreadOp;
 import com.lexicalscope.symb.vm.instructions.ops.InstanceOfOp;
-import com.lexicalscope.symb.vm.instructions.ops.IorOp;
-import com.lexicalscope.symb.vm.instructions.ops.IshlOp;
-import com.lexicalscope.symb.vm.instructions.ops.IushrOp;
-import com.lexicalscope.symb.vm.instructions.ops.IxorOp;
-import com.lexicalscope.symb.vm.instructions.ops.L2IOp;
-import com.lexicalscope.symb.vm.instructions.ops.LCmpOp;
-import com.lexicalscope.symb.vm.instructions.ops.Load;
-import com.lexicalscope.symb.vm.instructions.ops.Load2;
 import com.lexicalscope.symb.vm.instructions.ops.LushrOp;
 import com.lexicalscope.symb.vm.instructions.ops.NanoTimeOp;
+import com.lexicalscope.symb.vm.instructions.ops.NewObjectOp;
 import com.lexicalscope.symb.vm.instructions.ops.NoOp;
-import com.lexicalscope.symb.vm.instructions.ops.NullaryOp;
-import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.PopOp;
+import com.lexicalscope.symb.vm.instructions.ops.PutStaticOp;
 import com.lexicalscope.symb.vm.instructions.ops.Store;
 import com.lexicalscope.symb.vm.instructions.ops.Store2;
-import com.lexicalscope.symb.vm.instructions.ops.UnaryOp;
-import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
+import com.lexicalscope.symb.vm.instructions.ops.VopAdapter;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
@@ -122,9 +127,9 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.GETFIELD:
                   return linearInstruction(instructionFactory.getField(fieldInsnNode));
                case Opcodes.GETSTATIC:
-                  return loadingInstruction(fieldInsnNode, getStatic(fieldInsnNode));
+                  return loadingInstruction(fieldInsnNode, new GetStaticOp(fieldInsnNode));
                case Opcodes.PUTSTATIC:
-                  return loadingInstruction(fieldInsnNode, putStatic(fieldInsnNode));
+                  return loadingInstruction(fieldInsnNode, new PutStaticOp(fieldInsnNode));
             }
             break;
          case AbstractInsnNode.INSN:
@@ -159,9 +164,9 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.INEG:
                   return unaryOp(instructionFactory.inegOperation());
                case Opcodes.DUP:
-                  return linearInstruction(dup());
+                  return linearInstruction(new DupOp());
                case Opcodes.DUP_X1:
-                  return linearInstruction(dup_x1());
+                  return linearInstruction(new Dup_X1Op());
                case Opcodes.ICONST_M1:
                   return iconst(-1);
                case Opcodes.ICONST_0:
@@ -585,5 +590,9 @@ public final class BaseInstructions implements Instructions {
 
    @Override public Vop loadArg(final Object object) {
       return instructionFactory.loadArg(object);
+   }
+
+   private Vop newOp(final String klassDesc) {
+      return new VopAdapter(new NewObjectOp(klassDesc));
    }
 }

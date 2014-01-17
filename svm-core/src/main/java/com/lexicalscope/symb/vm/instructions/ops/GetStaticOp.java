@@ -8,11 +8,11 @@ import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.BaseInstructions;
 
-final class GetStaticOp implements Vop {
+public final class GetStaticOp implements Vop {
    private final FieldInsnNode fieldInsnNode;
    private final SFieldName name;
 
-   GetStaticOp(final FieldInsnNode fieldInsnNode) {
+   public GetStaticOp(final FieldInsnNode fieldInsnNode) {
       this.fieldInsnNode = fieldInsnNode;
       this.name = new SFieldName(fieldInsnNode.owner, fieldInsnNode.name);
    }

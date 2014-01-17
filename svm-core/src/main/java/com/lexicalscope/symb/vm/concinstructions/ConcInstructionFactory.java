@@ -6,22 +6,24 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.DConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.FAddOp;
+import com.lexicalscope.svm.j.instruction.concrete.FConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.FDivOp;
 import com.lexicalscope.svm.j.instruction.concrete.FMulOp;
 import com.lexicalscope.svm.j.instruction.concrete.FSubOp;
 import com.lexicalscope.svm.j.instruction.concrete.IAddOp;
+import com.lexicalscope.svm.j.instruction.concrete.IConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.IMulOp;
+import com.lexicalscope.svm.j.instruction.concrete.INegOp;
 import com.lexicalscope.svm.j.instruction.concrete.ISubOp;
 import com.lexicalscope.svm.j.instruction.concrete.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.Nullary2Operator;
+import com.lexicalscope.svm.j.instruction.concrete.NullaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.UnaryOperator;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayLoadOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ArrayStoreOp;
 import com.lexicalscope.symb.vm.concinstructions.ops.ConcFieldConversionFactory;
-import com.lexicalscope.symb.vm.concinstructions.ops.FConstOperator;
-import com.lexicalscope.symb.vm.concinstructions.ops.IConstOperator;
-import com.lexicalscope.symb.vm.concinstructions.ops.INegOp;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpEq;
 import com.lexicalscope.symb.vm.concinstructions.predicates.ACmpNe;
 import com.lexicalscope.symb.vm.concinstructions.predicates.Eq;
@@ -44,10 +46,9 @@ import com.lexicalscope.symb.vm.instructions.BranchInstruction;
 import com.lexicalscope.symb.vm.instructions.InstructionFactory;
 import com.lexicalscope.symb.vm.instructions.LinearInstruction;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
+import com.lexicalscope.symb.vm.instructions.ops.GetFieldOp;
 import com.lexicalscope.symb.vm.instructions.ops.LoadConstantArg;
-import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.Ops;
-import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewArrayOp;
 import com.lexicalscope.symb.vm.instructions.ops.array.NewConcArray;
 
@@ -211,7 +212,7 @@ public class ConcInstructionFactory implements InstructionFactory {
    }
 
    @Override public Vop getField(final FieldInsnNode fieldInsnNode) {
-      return Ops.getField(fieldInsnNode, new ConcFieldConversionFactory());
+      return new GetFieldOp(new ConcFieldConversionFactory(), fieldInsnNode);
    }
 
    @Override public NewArrayOp newArray(final Object initialFieldValue) {
