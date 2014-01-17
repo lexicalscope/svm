@@ -5,6 +5,7 @@ import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
+import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.State;

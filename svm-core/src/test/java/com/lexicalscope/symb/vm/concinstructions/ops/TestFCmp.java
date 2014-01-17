@@ -5,8 +5,8 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Test;
 
-import com.lexicalscope.svm.j.instruction.concrete.FCmpGOperator;
-import com.lexicalscope.svm.j.instruction.concrete.FCmpLOperator;
+import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpGOperator;
+import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpLOperator;
 
 public class TestFCmp {
    private static final Object ONE = 1;

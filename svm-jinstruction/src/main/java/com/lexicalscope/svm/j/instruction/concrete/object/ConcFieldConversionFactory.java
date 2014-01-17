@@ -1,13 +1,10 @@
-package com.lexicalscope.symb.vm.symbinstructions.ops;
+package com.lexicalscope.svm.j.instruction.concrete.object;
 
-import com.lexicalscope.svm.j.instruction.concrete.object.FieldConversion;
-import com.lexicalscope.svm.j.instruction.concrete.object.FieldConversionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
-public class SymbFieldConversionFactory implements FieldConversionFactory {
+public class ConcFieldConversionFactory implements FieldConversionFactory {
    private static final class IntToInt implements FieldConversion {
       @Override public Object convert(final Object val) {
-         assert val instanceof Integer || val instanceof ISymbol;
+         assert val instanceof Integer;
          return val;
       }
    }
@@ -20,18 +17,12 @@ public class SymbFieldConversionFactory implements FieldConversionFactory {
 
    private static final class IntToChar implements FieldConversion {
       @Override public Object convert(final Object val) {
-         if(val instanceof ISymbol) {
-            throw new IllegalStateException("symbolic char not supported");
-         }
          return (char)(int) val;
       }
    }
 
    private static final class CharToInt implements FieldConversion {
       @Override public Object convert(final Object val) {
-         if(val instanceof ISymbol) {
-            throw new IllegalStateException("symbolic char not supported");
-         }
          return (int)(char) val;
       }
    }
