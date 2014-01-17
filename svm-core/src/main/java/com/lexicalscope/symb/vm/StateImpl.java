@@ -13,12 +13,15 @@ public class StateImpl implements State {
    private final Stack stack;
    private final Heap heap;
    private final Snapshotable<?> meta;
+   private final Vm<State> vm;
 
    public StateImpl(
+         final Vm<State> vm,
          final Statics statics,
          final Stack stack,
          final Heap heap,
          final Snapshotable<?> meta) {
+      this.vm = vm;
       this.statics = statics;
       this.stack = stack;
       this.heap = heap;
@@ -26,7 +29,7 @@ public class StateImpl implements State {
    }
 
    @Override
-   public void eval(final Vm<State> vm) {
+   public void eval() {
       final InstructionNode instructionNode = instruction();
       instructionNode.eval(new Context(vm, statics, heap, stack(), stackFrame(), instructionNode));
    }
@@ -57,7 +60,7 @@ public class StateImpl implements State {
    }
 
    @Override public StateImpl snapshot() {
-      return new StateImpl(statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
+      return new StateImpl(vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
    @Override public SStackTrace trace() {

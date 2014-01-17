@@ -17,7 +17,10 @@ public class TestStateSnapshot {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
 
    @Test
-   public void test() {
+   public void snapshotOfStateCopiesEverythingStateful() {
+      @SuppressWarnings("unchecked")
+      final Vm<State> vm = context.mock(Vm.class, "Vm");
+
       final Statics statics = context.mock(Statics.class, "Statics");
       final Statics staticsCopy = context.mock(Statics.class, "Statics copy");
 
@@ -37,6 +40,6 @@ public class TestStateSnapshot {
          oneOf(meta).snapshot(); will(returnValue(metaCopy));
       }});
 
-      assertThat(new StateImpl(statics, stack, heap, meta).snapshot(), equalTo(new StateImpl(staticsCopy, stackCopy, heapCopy, metaCopy)));
+      assertThat(new StateImpl(vm, statics, stack, heap, meta).snapshot(), equalTo(new StateImpl(vm, staticsCopy, stackCopy, heapCopy, metaCopy)));
    }
 }
