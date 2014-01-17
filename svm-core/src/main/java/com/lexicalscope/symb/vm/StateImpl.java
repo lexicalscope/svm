@@ -30,8 +30,7 @@ public class StateImpl implements State {
 
    @Override
    public void eval() {
-      final InstructionNode instructionNode = instruction();
-      instructionNode.eval(new Context(vm, this, statics, heap, stack(), stackFrame(), instructionNode));
+      instruction().eval(new Context(vm, statics, heap, stack(), meta));
    }
 
    @Override
@@ -50,7 +49,7 @@ public class StateImpl implements State {
    }
 
    @Override
-   public StateImpl[] fork(){
+   public State[] fork(){
       return new StateImpl[]{this.snapshot(), this.snapshot()};
    }
 

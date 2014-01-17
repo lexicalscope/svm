@@ -6,33 +6,27 @@ import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.classloader.SClass;
 
 
-public class Context {
+public class Context extends StateImpl {
    private final Vm<State> vm;
    private final Statics statics;
    private final Heap heap;
    private final Stack stack;
-   private final StackFrame stackFrame;
-   private final InstructionNode instructionNode;
-   private final State state;
 
    public Context(
          final Vm<State> vm,
-         final State state,
          final Statics statics,
          final Heap heap,
          final Stack stack,
-         final StackFrame stackFrame,
-         final InstructionNode instructionNode) {
+         final Snapshotable<?> meta) {
+      super(vm, statics, stack, heap, meta);
       this.vm = vm;
-      this.state = state;
       this.statics = statics;
       this.heap = heap;
       this.stack = stack;
-      this.stackFrame = stackFrame;
-      this.instructionNode = instructionNode;
    }
 
    public Object nullPointer() {
@@ -40,19 +34,19 @@ public class Context {
    }
 
    public void push(final Object operand) {
-      stackFrame.push(operand);
+      stackFrame().push(operand);
    }
 
    public Object pop() {
-      return stackFrame.pop();
+      return stackFrame().pop();
    }
 
    public Object[] pop(final int count) {
-      return stackFrame.pop(count);
+      return stackFrame().pop(count);
    }
 
    public Object peek() {
-      return stackFrame.peek();
+      return stackFrame().peek();
    }
 
    public Object hashCode(final Object address) {
@@ -60,7 +54,7 @@ public class Context {
    }
 
    public void advanceTo(final InstructionNode instruction) {
-      stackFrame.advance(instruction);
+      stackFrame().advance(instruction);
    }
 
    public Object get(final Object address, final int offset) {
@@ -72,23 +66,23 @@ public class Context {
    }
 
    public Object popDoubleWord() {
-      return stackFrame.popDoubleWord();
+      return stackFrame().popDoubleWord();
    }
 
    public void pushDoubleWord(final Object val) {
-      stackFrame.pushDoubleWord(val);
+      stackFrame().pushDoubleWord(val);
    }
 
    public InstructionNode instructionJmpTarget() {
-      return instructionNode.jmpTarget();
+      return instruction().jmpTarget();
    }
 
    public InstructionNode instructionNext() {
-      return instructionNode.next();
+      return instruction().next();
    }
 
    public void advanceToNextInstruction() {
-      advanceTo(instructionNode.next());
+      advanceTo(instruction().next());
    }
 
    public SClass load(final String klassName) {
@@ -135,8 +129,9 @@ public class Context {
       return statics.staticsMarker(klass);
    }
 
+   @Override
    public State state() {
-      return state;
+      return this;
    }
 
    public StackFrame previousFrame() {
@@ -152,19 +147,11 @@ public class Context {
    }
 
    public void local(final int var, final Object val) {
-      stackFrame.local(var, val);
-   }
-
-   public Object getMeta() {
-      return state.getMeta();
+      stackFrame().local(var, val);
    }
 
    public void fork(final State[] states) {
       vm.fork(states);
-   }
-
-   public State[] fork() {
-      return state().fork();
    }
 
    public void popFrame(final int returnCount) {
@@ -172,11 +159,7 @@ public class Context {
    }
 
    public Object local(final int var) {
-      return stackFrame.local(var);
-   }
-
-   public InstructionNode instruction() {
-      return instructionNode;
+      return stackFrame().local(var);
    }
 
    public void pushFrame(final StackFrame stackFrame) {

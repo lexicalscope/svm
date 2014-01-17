@@ -28,6 +28,11 @@ public class DequeStack implements Stack {
       this(new ArrayDeque<StackFrame>(), null);
    }
 
+   public DequeStack(final StackFrame firstStackFrame) {
+      this();
+      push(firstStackFrame);
+   }
+
    @Override
    public Stack popFrame(final int returnCount) {
       pushOperands(stack.pop().pop(returnCount));
