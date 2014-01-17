@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm.instructions.ops;
 
+import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
+
 
 public class FCmpLOperator implements BinaryOperator {
    @Override public Object eval(final Object left, final Object right) {

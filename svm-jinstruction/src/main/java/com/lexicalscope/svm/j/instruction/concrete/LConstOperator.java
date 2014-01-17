@@ -1,6 +1,5 @@
-package com.lexicalscope.symb.vm.concinstructions.ops;
+package com.lexicalscope.svm.j.instruction.concrete;
 
-import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 
 public class LConstOperator implements Nullary2Operator {
    private final long val;

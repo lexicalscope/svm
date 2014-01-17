@@ -3,11 +3,11 @@ package com.lexicalscope.symb.vm.instructions;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.Nullary2Operator;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.instructions.ops.Binary2Operator;
-import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
-import com.lexicalscope.symb.vm.instructions.ops.Nullary2Operator;
 import com.lexicalscope.symb.vm.instructions.ops.NullaryOperator;
 import com.lexicalscope.symb.vm.instructions.ops.UnaryOperator;
 

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.concinstructions;
 
-import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
 
 public class IAndOp implements BinaryOperator {
    @Override public Object eval(final Object left, final Object right) {

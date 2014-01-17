@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbinstructions.ops;
 
-import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 

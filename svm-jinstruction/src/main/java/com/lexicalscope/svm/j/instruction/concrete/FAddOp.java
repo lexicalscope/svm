@@ -1,6 +1,5 @@
-package com.lexicalscope.symb.vm.concinstructions.ops;
+package com.lexicalscope.svm.j.instruction.concrete;
 
-import com.lexicalscope.symb.vm.instructions.ops.BinaryOperator;
 
 public class FAddOp implements BinaryOperator {
    @Override public Object eval(final Object left, final Object right) {

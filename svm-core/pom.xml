@@ -120,7 +120,6 @@
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm-tree</artifactId>
-			<version>4.2</version>
 		</dependency>
 		<dependency>
 			<groupId>com.google.guava</groupId>
@@ -143,7 +142,7 @@
 		</dependency>
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
-			<artifactId>svm-jcore</artifactId>
+			<artifactId>svm-jinstruction</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
