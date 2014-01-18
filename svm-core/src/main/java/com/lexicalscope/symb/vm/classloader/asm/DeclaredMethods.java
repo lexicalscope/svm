@@ -3,8 +3,8 @@ package com.lexicalscope.symb.vm.classloader.asm;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.lexicalscope.symb.vm.SMethod;
-import com.lexicalscope.symb.vm.SMethodDescriptor;
+import com.lexicalscope.symb.klass.SMethod;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 
 public class DeclaredMethods {

@@ -4,8 +4,8 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
-import com.lexicalscope.symb.vm.SClass;
-import com.lexicalscope.symb.vm.SFieldName;
+import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.klass.SFieldName;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 

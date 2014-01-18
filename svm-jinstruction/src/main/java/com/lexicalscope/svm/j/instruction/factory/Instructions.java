@@ -5,7 +5,7 @@ import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.vm.SMethodDescriptor;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
 
 public interface Instructions {

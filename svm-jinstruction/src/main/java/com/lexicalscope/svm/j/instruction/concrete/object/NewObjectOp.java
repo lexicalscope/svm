@@ -1,10 +1,10 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
-import static com.lexicalscope.symb.vm.SClass.OBJECT_MARKER_OFFSET;
+import static com.lexicalscope.symb.klass.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.SClass;
 import com.lexicalscope.symb.vm.State;
 
 public final class NewObjectOp implements Op<Object> {

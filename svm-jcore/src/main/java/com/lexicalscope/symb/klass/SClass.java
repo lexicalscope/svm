@@ -1,9 +1,10 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.klass;
 
 import java.net.URL;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.vm.MethodResolver;
 
 public interface SClass extends Allocatable, MethodResolver {
    public static final int STATICS_PREAMBLE = 1;
@@ -19,13 +20,12 @@ public interface SClass extends Allocatable, MethodResolver {
 
    int fieldIndex(SFieldName name);
    SField fieldAtIndex(int index);
-
    boolean hasField(SFieldName name);
+   Fields fields();
 
    List<Object> fieldInit();
 
    int staticFieldIndex(SFieldName name);
-
    boolean hasStaticField(SFieldName name);
 
    Object superclass();

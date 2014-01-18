@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.klass;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;

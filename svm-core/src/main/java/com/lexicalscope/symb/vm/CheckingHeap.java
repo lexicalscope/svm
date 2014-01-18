@@ -4,6 +4,7 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 

@@ -2,6 +2,7 @@ package com.lexicalscope.symb.vm;
 
 import java.util.List;
 
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.state.Snapshotable;
 
 

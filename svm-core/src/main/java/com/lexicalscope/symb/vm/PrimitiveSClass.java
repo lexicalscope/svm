@@ -5,6 +5,12 @@ import java.util.Collections;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.klass.Fields;
+import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.klass.SField;
+import com.lexicalscope.symb.klass.SFieldName;
+import com.lexicalscope.symb.klass.SMethod;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.state.SMethodName;
 
 public final class PrimitiveSClass implements SClass {
@@ -92,6 +98,10 @@ public final class PrimitiveSClass implements SClass {
 
    @Override public boolean isPrimitive() {
       return true;
+   }
+
+   @Override public Fields fields() {
+      return null;
    }
 
    @Override public String toString() {

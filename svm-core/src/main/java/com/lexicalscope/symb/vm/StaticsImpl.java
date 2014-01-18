@@ -7,7 +7,8 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lexicalscope.symb.vm.classloader.ClassLoaded;
+import com.lexicalscope.symb.classloading.ClassLoaded;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public class StaticsImpl implements Statics {

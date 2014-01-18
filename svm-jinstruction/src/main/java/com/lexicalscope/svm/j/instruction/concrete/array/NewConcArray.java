@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.array;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.State;
 
 public final class NewConcArray implements ArrayConstructor {

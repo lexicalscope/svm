@@ -76,7 +76,7 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.code.AsmSMethodName;
-import com.lexicalscope.symb.vm.SMethodDescriptor;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
 import com.lexicalscope.symb.vm.VopAdapter;
 

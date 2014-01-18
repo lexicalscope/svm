@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm;
 
+import com.lexicalscope.symb.klass.SClass;
+
 
 public class StaticsMarker {
    private final SClass klass;

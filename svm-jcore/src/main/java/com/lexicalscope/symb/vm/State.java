@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SStackTrace;

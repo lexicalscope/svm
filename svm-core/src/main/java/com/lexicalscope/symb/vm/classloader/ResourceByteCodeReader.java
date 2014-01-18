@@ -14,8 +14,9 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.vm.classloader.asm.AsmSClassFactory;
+import com.lexicalscope.symb.classloading.ClassLoaded;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
+import com.lexicalscope.symb.vm.classloader.asm.AsmSClassFactory;
 
 public class ResourceByteCodeReader implements ByteCodeReader {
    private final Instructions instructions;

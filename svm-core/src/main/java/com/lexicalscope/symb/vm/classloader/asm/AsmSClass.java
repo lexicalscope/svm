@@ -10,13 +10,15 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.klass.DeclaredFields;
+import com.lexicalscope.symb.klass.Fields;
+import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.klass.SField;
+import com.lexicalscope.symb.klass.SFieldName;
+import com.lexicalscope.symb.klass.SMethod;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.SClass;
-import com.lexicalscope.symb.vm.SField;
-import com.lexicalscope.symb.vm.SFieldName;
-import com.lexicalscope.symb.vm.SMethod;
-import com.lexicalscope.symb.vm.SMethodDescriptor;
 
 public class AsmSClass implements SClass {
    private final String klassName;
@@ -42,7 +44,7 @@ public class AsmSClass implements SClass {
 
       this.declaredFields = sClassBuilder.declaredFields();
       this.declaredMethods = sClassBuilder.declaredMethods();
-      this.fields = (superclass == null ? new Fields() : superclass.fields).extend(klassName, declaredFields);
+      this.fields = (superclass == null ? new Fields() : superclass.fields()).extend(klassName, declaredFields);
       this.methods = (superclass == null ? new Methods(klassName) : superclass.methods).extend(klassName, declaredMethods);
 
       superTypes.add(this);
@@ -164,5 +166,9 @@ public class AsmSClass implements SClass {
 
    @Override public boolean isPrimitive() {
       return false;
+   }
+
+   @Override public Fields fields() {
+      return fields;
    }
 }

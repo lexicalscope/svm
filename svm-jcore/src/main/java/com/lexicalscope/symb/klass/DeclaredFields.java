@@ -1,14 +1,11 @@
-package com.lexicalscope.symb.vm.classloader.asm;
+package com.lexicalscope.symb.klass;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lexicalscope.symb.vm.SField;
-import com.lexicalscope.symb.vm.SFieldName;
-
-class DeclaredFields {
+public class DeclaredFields {
    private final List<SField> declaredFields = new ArrayList<>();
    private final Map<SFieldName, Integer> staticFieldMap = new LinkedHashMap<>();
 

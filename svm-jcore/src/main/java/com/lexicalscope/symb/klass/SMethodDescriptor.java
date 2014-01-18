@@ -1,6 +1,7 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.klass;
 
 import com.lexicalscope.symb.state.SMethodName;
+import com.lexicalscope.symb.vm.SVirtualMethodName;
 
 public interface SMethodDescriptor extends SMethodName {
 

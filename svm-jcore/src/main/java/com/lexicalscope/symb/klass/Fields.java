@@ -1,13 +1,10 @@
-package com.lexicalscope.symb.vm.classloader.asm;
+package com.lexicalscope.symb.klass;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-
-import com.lexicalscope.symb.vm.SField;
-import com.lexicalscope.symb.vm.SFieldName;
 
 public final class Fields {
    private final List<SField> fields;

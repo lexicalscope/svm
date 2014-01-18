@@ -36,7 +36,7 @@
 							<artifactItems>
 								<artifactItem>
 									<groupId>com.lexicalscope.symb</groupId>
-									<artifactId>svm-lib</artifactId>
+									<artifactId>svm-jlib</artifactId>
 									<version>${project.version}</version>
 									<type>jar</type>
 								</artifactItem>

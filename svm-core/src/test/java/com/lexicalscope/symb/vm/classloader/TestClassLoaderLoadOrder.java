@@ -11,6 +11,8 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.symb.classloading.ClassLoaded;
+
 public class TestClassLoaderLoadOrder {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
    private final SClassLoader sClassLoader = new AsmSClassLoader();

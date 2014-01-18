@@ -10,7 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.classloading.ClassLoaded;
+import com.lexicalscope.symb.klass.SClass;
 
 public class TestThreadIsLoadedFromLocal {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

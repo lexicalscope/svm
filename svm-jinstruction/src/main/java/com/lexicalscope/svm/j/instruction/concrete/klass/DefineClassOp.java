@@ -8,10 +8,10 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
+import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.klass.SFieldName;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.SClass;
-import com.lexicalscope.symb.vm.SFieldName;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.StaticsMarker;
 

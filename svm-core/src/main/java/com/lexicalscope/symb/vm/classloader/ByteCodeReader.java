@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
+import com.lexicalscope.symb.classloading.ClassLoaded;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public interface ByteCodeReader {

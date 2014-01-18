@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 /**

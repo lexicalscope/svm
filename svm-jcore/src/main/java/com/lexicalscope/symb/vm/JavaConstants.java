@@ -1,6 +1,8 @@
 package com.lexicalscope.symb.vm;
 
 import com.lexicalscope.symb.code.AsmSMethodName;
+import com.lexicalscope.symb.klass.SFieldName;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 
 public class JavaConstants {
    public static final String CLINIT = "<clinit>";

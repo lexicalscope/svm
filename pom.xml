@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lexicalscope.symb</groupId>
@@ -15,16 +16,16 @@
 	</properties>
 
 	<modules>
-		<module>svm-lib</module>
+		<module>svm-jlib</module>
 		<module>svm-core</module>
 		<module>svm-classloading</module>
 		<module>svm-state</module>
 		<module>svm-vm</module>
 		<module>svm-jinstruction</module>
 		<module>svm-jcore</module>
-    <module>svm-jvm-conc</module>
-    <module>svm-jnatives</module>
-  </modules>
+		<module>svm-jvm-conc</module>
+		<module>svm-jnatives</module>
+	</modules>
 	<build>
 		<pluginManagement>
 			<plugins>

@@ -6,7 +6,7 @@ import static org.hamcrest.Matchers.sameInstance;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.SClass;
+import com.lexicalscope.symb.klass.SClass;
 
 public class TestClassLoaderCaching {
    private final SClassLoader sClassLoader = new AsmSClassLoader();

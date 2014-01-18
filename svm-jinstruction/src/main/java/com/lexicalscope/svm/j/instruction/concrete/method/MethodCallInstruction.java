@@ -2,14 +2,14 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.klass.SMethod;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.MethodResolver;
-import com.lexicalscope.symb.vm.SClass;
-import com.lexicalscope.symb.vm.SMethod;
-import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vop;
 

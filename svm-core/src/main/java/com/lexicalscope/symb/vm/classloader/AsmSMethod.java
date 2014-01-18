@@ -16,9 +16,9 @@ import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.svm.j.statementBuilder.MethodBody;
+import com.lexicalscope.symb.klass.SMethod;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.SMethod;
-import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
 
 public class AsmSMethod implements SMethod {

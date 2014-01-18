@@ -8,6 +8,7 @@ import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.code.AsmSMethodName;
+import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
