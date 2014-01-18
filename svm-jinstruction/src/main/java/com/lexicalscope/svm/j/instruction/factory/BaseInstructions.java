@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.factory;
 
 import java.util.List;
 
@@ -15,11 +15,14 @@ import org.objectweb.asm.tree.MethodInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
-import com.lexicalscope.svm.j.instruction.builder.StatementBuilder;
+import com.lexicalscope.svm.j.instruction.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.NoOp;
+import com.lexicalscope.svm.j.instruction.UnsupportedInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayCopyOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLengthOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
+import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Unconditional;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.F2IOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpGOperator;
@@ -34,6 +37,7 @@ import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.CheckCastOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
+import com.lexicalscope.svm.j.instruction.concrete.klass.InstanceOfOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.PutStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.L2IOp;
@@ -70,9 +74,11 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.PopOp;
 import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
+import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.VopAdapter;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;

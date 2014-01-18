@@ -5,8 +5,8 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
-import com.lexicalscope.svm.j.instruction.concrete.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.Instruction;

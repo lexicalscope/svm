@@ -1,12 +1,16 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.factory;
 
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
+import com.lexicalscope.svm.j.instruction.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.LoadConstantArg;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
+import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ACmpEq;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ACmpNe;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Eq;

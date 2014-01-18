@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 

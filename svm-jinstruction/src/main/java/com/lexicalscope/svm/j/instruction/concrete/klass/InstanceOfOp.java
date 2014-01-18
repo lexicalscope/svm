@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import static com.lexicalscope.symb.vm.SClass.OBJECT_MARKER_OFFSET;
 

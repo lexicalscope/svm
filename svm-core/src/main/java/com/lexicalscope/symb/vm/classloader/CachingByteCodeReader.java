@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.classloader;
 import java.util.HashMap;
 import java.util.Map;
 
-import com.lexicalscope.svm.j.instruction.concrete.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public class CachingByteCodeReader implements ByteCodeReader {

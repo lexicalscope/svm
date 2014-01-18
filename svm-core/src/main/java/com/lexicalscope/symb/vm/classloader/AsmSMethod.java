@@ -12,10 +12,10 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.svm.j.instruction.builder.MethodBody;
-import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
-import com.lexicalscope.svm.j.instruction.concrete.Instructions;
-import com.lexicalscope.svm.j.instruction.concrete.Instructions.InstructionSink;
+import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
+import com.lexicalscope.svm.j.statementBuilder.MethodBody;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.SMethod;
 import com.lexicalscope.symb.vm.SMethodDescriptor;

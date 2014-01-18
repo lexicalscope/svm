@@ -1,12 +1,12 @@
-package com.lexicalscope.svm.j.instruction.builder;
+package com.lexicalscope.svm.j.statementBuilder;
 
 import static com.google.common.collect.Lists.reverse;
 
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
-import com.lexicalscope.svm.j.instruction.concrete.Instructions;
+import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.Vop;
 
 public final class StatementBuilder {

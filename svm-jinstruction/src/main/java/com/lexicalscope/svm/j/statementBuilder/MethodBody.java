@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.builder;
+package com.lexicalscope.svm.j.statementBuilder;
 
 import com.lexicalscope.symb.vm.Instruction;
 

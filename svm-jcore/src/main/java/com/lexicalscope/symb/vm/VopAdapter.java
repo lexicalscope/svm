@@ -1,8 +1,5 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
 
 public class VopAdapter implements Vop {
    private final Op<?> op;

@@ -1,10 +1,10 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.factory;
 
 import java.util.List;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
-import com.lexicalscope.svm.j.instruction.builder.StatementBuilder;
+import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Vop;
 

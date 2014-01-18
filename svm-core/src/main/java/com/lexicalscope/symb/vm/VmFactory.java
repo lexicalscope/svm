@@ -3,9 +3,9 @@ package com.lexicalscope.symb.vm;
 import static com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction.createInvokeStatic;
 
 import com.lexicalscope.heap.FastHeap;
-import com.lexicalscope.svm.j.instruction.concrete.ConcInstructionFactory;
-import com.lexicalscope.svm.j.instruction.concrete.InstructionFactory;
-import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
+import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;

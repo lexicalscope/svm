@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import com.lexicalscope.svm.j.instruction.builder.MethodBody;
+import com.lexicalscope.svm.j.statementBuilder.MethodBody;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.SClass;

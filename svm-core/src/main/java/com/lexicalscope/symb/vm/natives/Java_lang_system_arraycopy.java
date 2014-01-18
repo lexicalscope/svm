@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.natives;
 
-import com.lexicalscope.svm.j.instruction.builder.MethodBody;
-import com.lexicalscope.svm.j.instruction.concrete.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.statementBuilder.MethodBody;
 
 public class Java_lang_system_arraycopy extends AbstractNativeMethodDef implements NativeMethodDef {
    public Java_lang_system_arraycopy() {

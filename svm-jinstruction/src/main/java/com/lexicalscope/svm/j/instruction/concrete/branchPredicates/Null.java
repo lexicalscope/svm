@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.branchPredicates;
 
-import com.lexicalscope.svm.j.instruction.concrete.BranchPredicate;
+import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
 import com.lexicalscope.symb.vm.State;
 
 public class Null implements BranchPredicate {
