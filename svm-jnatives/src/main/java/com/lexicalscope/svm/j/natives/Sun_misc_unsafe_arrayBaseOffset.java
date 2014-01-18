@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.natives;
+package com.lexicalscope.svm.j.natives;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;

@@ -6,12 +6,12 @@ import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
+import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
-import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;
 
 public class VmFactory {
    static State initial(final Vm<State> vm, final SClassLoader classLoader, final SMethodDescriptor methodName, final Object[] args) {

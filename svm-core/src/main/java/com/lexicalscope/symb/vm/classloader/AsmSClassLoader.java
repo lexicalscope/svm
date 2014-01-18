@@ -11,6 +11,8 @@ import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
+import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.MethodBody;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.code.AsmSMethodName;
@@ -18,8 +20,6 @@ import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
-import com.lexicalscope.symb.vm.natives.DefaultNativeMethods;
-import com.lexicalscope.symb.vm.natives.NativeMethods;
 
 public class AsmSClassLoader implements SClassLoader {
    private final Instructions instructions;

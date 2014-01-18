@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.natives;
+package com.lexicalscope.svm.j.natives;
 
 import java.util.Arrays;
 import java.util.HashMap;

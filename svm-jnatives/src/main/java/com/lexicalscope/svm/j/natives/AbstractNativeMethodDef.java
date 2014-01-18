@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.natives;
+package com.lexicalscope.svm.j.natives;
 
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.SMethodDescriptor;
