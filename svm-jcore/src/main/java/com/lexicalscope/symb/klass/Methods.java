@@ -1,14 +1,12 @@
-package com.lexicalscope.symb.vm.classloader.asm;
+package com.lexicalscope.symb.klass;
 
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.lexicalscope.symb.klass.SMethod;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.state.SMethodName;
 import com.lexicalscope.symb.vm.SVirtualMethodName;
 
-public class Methods {
+public final class Methods {
    private final Map<SMethodDescriptor, SMethod> methodMap;
    private final Map<SVirtualMethodName, SMethod> virtuals;
    private final String name;

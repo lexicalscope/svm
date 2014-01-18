@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.klass.Fields;
+import com.lexicalscope.symb.klass.Methods;
 import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.klass.SField;
 import com.lexicalscope.symb.klass.SFieldName;
@@ -68,7 +69,7 @@ public final class PrimitiveSClass implements SClass {
       return klassName;
    }
 
-   @Override public Object superclass() {
+   @Override public SClass superclass() {
       return null;
    }
 
@@ -106,5 +107,13 @@ public final class PrimitiveSClass implements SClass {
 
    @Override public String toString() {
       return "class: " + name();
+   }
+
+   @Override public List<SClass> superTypes() {
+      return null;
+   }
+
+   @Override public Methods methods() {
+      return null;
    }
 }

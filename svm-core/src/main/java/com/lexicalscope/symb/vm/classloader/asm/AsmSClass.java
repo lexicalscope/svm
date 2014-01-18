@@ -2,6 +2,7 @@ package com.lexicalscope.symb.vm.classloader.asm;
 
 import java.net.URL;
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
@@ -11,7 +12,9 @@ import org.objectweb.asm.Type;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.klass.DeclaredFields;
+import com.lexicalscope.symb.klass.DeclaredMethods;
 import com.lexicalscope.symb.klass.Fields;
+import com.lexicalscope.symb.klass.Methods;
 import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.klass.SField;
 import com.lexicalscope.symb.klass.SFieldName;
@@ -35,7 +38,7 @@ public class AsmSClass implements SClass {
    public AsmSClass(
          final URL loadedFromUrl,
          final String klassName,
-         final AsmSClass superclass,
+         final SClass superclass,
          final List<AsmSClass> interfaces,
          final AsmSClassBuilder sClassBuilder) {
       this.loadedFromUrl = loadedFromUrl;
@@ -45,11 +48,11 @@ public class AsmSClass implements SClass {
       this.declaredFields = sClassBuilder.declaredFields();
       this.declaredMethods = sClassBuilder.declaredMethods();
       this.fields = (superclass == null ? new Fields() : superclass.fields()).extend(klassName, declaredFields);
-      this.methods = (superclass == null ? new Methods(klassName) : superclass.methods).extend(klassName, declaredMethods);
+      this.methods = (superclass == null ? new Methods(klassName) : superclass.methods()).extend(klassName, declaredMethods);
 
       superTypes.add(this);
       if (superclass != null) {
-         superTypes.addAll(superclass.superTypes);
+         superTypes.addAll(superclass.superTypes());
 
       }
 
@@ -129,7 +132,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override
-   public Object superclass() {
+   public SClass superclass() {
       return superclass;
    }
 
@@ -170,5 +173,13 @@ public class AsmSClass implements SClass {
 
    @Override public Fields fields() {
       return fields;
+   }
+
+   @Override public Collection<SClass> superTypes() {
+      return superTypes;
+   }
+
+   @Override public Methods methods() {
+      return methods;
    }
 }

@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.klass;
 
 import java.net.URL;
+import java.util.Collection;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
@@ -11,12 +12,12 @@ public interface SClass extends Allocatable, MethodResolver {
    public static final int OBJECT_PREAMBLE = 1;
    public static final int OBJECT_MARKER_OFFSET = 0;
 
-   SMethod declaredMethod(String name, String desc);
+   SClass superclass();
 
    boolean hasStaticInitialiser();
+   Allocatable statics();
 
-   @Override
-   int allocateSize();
+   SMethod declaredMethod(String name, String desc);
 
    int fieldIndex(SFieldName name);
    SField fieldAtIndex(int index);
@@ -28,15 +29,13 @@ public interface SClass extends Allocatable, MethodResolver {
    int staticFieldIndex(SFieldName name);
    boolean hasStaticField(SFieldName name);
 
-   Object superclass();
-
-   Allocatable statics();
-
    boolean instanceOf(SClass other);
-
-   URL loadedFrom();
-
    boolean isArray();
    boolean isPrimitive();
    boolean isKlassKlass();
+
+   URL loadedFrom();
+
+   Collection<SClass> superTypes();
+   Methods methods();
 }
