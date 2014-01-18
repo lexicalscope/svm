@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.integer;
 
-import com.lexicalscope.svm.j.instruction.concrete.NullaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 
 
 public class IConstM1Operator implements NullaryOperator {

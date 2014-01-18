@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.l0ng;
 
-import com.lexicalscope.svm.j.instruction.concrete.Binary2Operator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Operator;
 
 
 public class LAndOp implements Binary2Operator {

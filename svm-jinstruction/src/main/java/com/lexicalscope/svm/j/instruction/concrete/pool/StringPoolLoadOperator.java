@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.pool;
 
 import static com.lexicalscope.symb.vm.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;

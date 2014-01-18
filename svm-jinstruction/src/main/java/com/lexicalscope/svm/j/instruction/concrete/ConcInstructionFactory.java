@@ -42,6 +42,11 @@ import com.lexicalscope.svm.j.instruction.concrete.l0ng.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.object.ConcFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.concrete.object.GetFieldOp;
 import com.lexicalscope.svm.j.instruction.concrete.object.PutFieldOp;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Operator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vop;
 

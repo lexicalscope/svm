@@ -7,7 +7,7 @@ import java.util.List;
 import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.concrete.LinearInstruction;
-import com.lexicalscope.svm.j.instruction.concrete.MethodCallInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.JavaConstants;

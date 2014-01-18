@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.integer;
 
-import com.lexicalscope.svm.j.instruction.concrete.UnaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 
 
 

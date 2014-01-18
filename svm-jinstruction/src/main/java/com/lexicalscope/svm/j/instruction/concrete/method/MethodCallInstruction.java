@@ -1,5 +1,6 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.method;
 
+import com.lexicalscope.svm.j.instruction.concrete.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;

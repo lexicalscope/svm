@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.l0ng;
 
-import com.lexicalscope.svm.j.instruction.concrete.Nullary2Operator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 
 
 public class LConstOperator implements Nullary2Operator {

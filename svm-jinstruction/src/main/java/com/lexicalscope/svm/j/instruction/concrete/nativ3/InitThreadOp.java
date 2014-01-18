@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.nativ3;
 
 import com.lexicalscope.symb.vm.JavaConstants;
 import com.lexicalscope.symb.vm.SClass;

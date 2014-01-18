@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.natives;
 
+import com.lexicalscope.svm.j.instruction.builder.MethodBody;
 import com.lexicalscope.svm.j.instruction.concrete.Instructions;
-import com.lexicalscope.svm.j.instruction.concrete.MethodBody;
 
 public class Java_security_accessController_doPrivileged extends AbstractNativeMethodDef implements NativeMethodDef {
    public Java_security_accessController_doPrivileged() {

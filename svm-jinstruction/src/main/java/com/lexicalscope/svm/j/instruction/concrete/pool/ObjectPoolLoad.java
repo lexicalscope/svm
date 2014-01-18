@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.concrete;
+package com.lexicalscope.svm.j.instruction.concrete.pool;
 
 import org.objectweb.asm.Type;
 

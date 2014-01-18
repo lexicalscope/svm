@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.fl0at;
 
-import com.lexicalscope.svm.j.instruction.concrete.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 
 
 

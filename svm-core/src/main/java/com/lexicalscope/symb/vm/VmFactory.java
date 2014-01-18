@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm;
 
-import static com.lexicalscope.svm.j.instruction.concrete.MethodCallInstruction.createInvokeStatic;
+import static com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction.createInvokeStatic;
 
 import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.svm.j.instruction.concrete.ConcInstructionFactory;

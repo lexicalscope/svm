@@ -5,13 +5,13 @@ import static org.objectweb.asm.Type.getInternalName;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.lexicalscope.svm.j.instruction.builder.MethodBody;
+import com.lexicalscope.svm.j.instruction.builder.StatementBuilder;
 import com.lexicalscope.svm.j.instruction.concrete.BaseInstructions;
 import com.lexicalscope.svm.j.instruction.concrete.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.concrete.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.concrete.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.concrete.Instructions;
-import com.lexicalscope.svm.j.instruction.concrete.MethodBody;
-import com.lexicalscope.svm.j.instruction.concrete.StatementBuilder;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.state.Snapshotable;
