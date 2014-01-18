@@ -39,7 +39,7 @@ public class AsmSClass implements SClass {
          final URL loadedFromUrl,
          final String klassName,
          final SClass superclass,
-         final List<AsmSClass> interfaces,
+         final List<SClass> interfaces,
          final AsmSClassBuilder sClassBuilder) {
       this.loadedFromUrl = loadedFromUrl;
       this.superclass = superclass;
@@ -56,8 +56,8 @@ public class AsmSClass implements SClass {
 
       }
 
-      for (final AsmSClass interfac3 : interfaces) {
-         superTypes.addAll(interfac3.superTypes);
+      for (final SClass interfac3 : interfaces) {
+         superTypes.addAll(interfac3.superTypes());
       }
    }
 
@@ -112,7 +112,7 @@ public class AsmSClass implements SClass {
       return fieldInit;
    }
 
-   public int staticFieldCount() {
+   @Override public int staticFieldCount() {
       return declaredFields.staticCount();
    }
 

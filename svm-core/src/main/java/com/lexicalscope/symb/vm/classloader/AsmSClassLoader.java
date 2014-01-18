@@ -17,10 +17,10 @@ import com.lexicalscope.svm.j.statementBuilder.MethodBody;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.classloading.ClassLoaded;
 import com.lexicalscope.symb.code.AsmSMethodName;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public class AsmSClassLoader implements SClassLoader {
    private final Instructions instructions;
@@ -39,15 +39,15 @@ public class AsmSClassLoader implements SClassLoader {
       this(new ConcInstructionFactory(), DefaultNativeMethods.natives());
    }
 
-   @Override public AsmSClass load(final String name, final ClassLoaded classLoaded) {
+   @Override public SClass load(final String name, final ClassLoaded classLoaded) {
       return byteCodeReader.load(this, name, classLoaded);
    }
 
-   @Override public AsmSClass load(final Class<?> klass, final ClassLoaded classLoaded) {
+   @Override public SClass load(final Class<?> klass, final ClassLoaded classLoaded) {
       return load(getInternalName(klass), classLoaded);
    }
 
-   @Override public AsmSClass load(final Class<?> klass) {
+   @Override public SClass load(final Class<?> klass) {
       return load(klass, new NullClassLoaded());
    }
 

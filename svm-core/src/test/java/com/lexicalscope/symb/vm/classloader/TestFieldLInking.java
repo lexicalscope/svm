@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.equalTo;
 import org.junit.Test;
 
 import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 /**
  * If the compiler changes the field order then these tests will break.
@@ -16,11 +15,11 @@ import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
  */
 public class TestFieldLInking {
    private final SClassLoader sClassLoader = new AsmSClassLoader();
-   private final AsmSClass classWithFiveFields = sClassLoader.load(ClassWith5Fields.class);
-   private final AsmSClass subClassWithThreeFields = sClassLoader.load(SubClassWithAdditionalFields.class);
-   private final AsmSClass subClassWithOverloadedField = sClassLoader.load(SubClassWithOverloadedField.class);
-   private final AsmSClass classWith4StaticFields = sClassLoader.load(ClassWith5StaticFields.class);
-   private final AsmSClass classWith4StaticFieldsAnd2DynamicFields = sClassLoader.load(ClassWith4StaticFieldsAnd2DynamicFields.class);
+   private final SClass classWithFiveFields = sClassLoader.load(ClassWith5Fields.class);
+   private final SClass subClassWithThreeFields = sClassLoader.load(SubClassWithAdditionalFields.class);
+   private final SClass subClassWithOverloadedField = sClassLoader.load(SubClassWithOverloadedField.class);
+   private final SClass classWith4StaticFields = sClassLoader.load(ClassWith5StaticFields.class);
+   private final SClass classWith4StaticFieldsAnd2DynamicFields = sClassLoader.load(ClassWith4StaticFieldsAnd2DynamicFields.class);
 
    @Test public void classWithNoSuperClassCountsFieldsFromPreamble() {
       assertThat(classWithFiveFields.allocateSize(), equalTo(6));

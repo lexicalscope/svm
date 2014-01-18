@@ -116,4 +116,8 @@ public final class PrimitiveSClass implements SClass {
    @Override public Methods methods() {
       return null;
    }
+
+   @Override public int staticFieldCount() {
+      return 0;
+   }
 }

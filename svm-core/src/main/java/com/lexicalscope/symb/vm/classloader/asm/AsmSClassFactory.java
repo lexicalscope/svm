@@ -6,11 +6,12 @@ import java.util.List;
 import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public class AsmSClassFactory {
 
-   public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final AsmSClass superclass, final List<AsmSClass> interfaces) {
+   public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final SClass superclass, final List<SClass> interfaces) {
       final ClassNodeAdapter classNodeAdapter = new ClassNodeAdapter(classNode);
 
       return new AsmSClass(

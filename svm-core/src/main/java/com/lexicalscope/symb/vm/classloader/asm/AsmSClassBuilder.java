@@ -9,6 +9,7 @@ import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.klass.DeclaredFields;
 import com.lexicalscope.symb.klass.DeclaredMethods;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.klass.SField;
 import com.lexicalscope.symb.klass.SFieldName;
 import com.lexicalscope.symb.vm.classloader.AsmSMethod;
@@ -24,7 +25,7 @@ public class AsmSClassBuilder {
    public AsmSClassBuilder(
          final SClassLoader classLoader,
          final Instructions instructions,
-         final AsmSClass superclass) {
+         final SClass superclass) {
       this.classLoader = classLoader;
       this.instructions = instructions;
    }

@@ -15,6 +15,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.classloading.ClassLoaded;
+import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClassFactory;
 
@@ -42,11 +43,11 @@ public class ResourceByteCodeReader implements ByteCodeReader {
          }
 
          final ClassNode classNode = loadClassBytecodeFromUrl(classUrl);
-         final AsmSClass superclass = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
+         final SClass superclass = classNode.superName != null ? classLoader.load(classNode.superName, classLoaded) : null;
 
          @SuppressWarnings("unchecked")
          final List<String> interfaceNames = classNode.interfaces;
-         final List<AsmSClass> interfaces = new ArrayList<>();
+         final List<SClass> interfaces = new ArrayList<>();
          for (final String interfaceName : interfaceNames) {
             interfaces.add(classLoader.load(interfaceName, classLoaded));
          }

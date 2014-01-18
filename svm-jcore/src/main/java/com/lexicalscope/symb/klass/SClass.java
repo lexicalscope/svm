@@ -28,6 +28,7 @@ public interface SClass extends Allocatable, MethodResolver {
 
    int staticFieldIndex(SFieldName name);
    boolean hasStaticField(SFieldName name);
+   int staticFieldCount();
 
    boolean instanceOf(SClass other);
    boolean isArray();
