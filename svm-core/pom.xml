@@ -27,7 +27,7 @@
 				<version>2.8</version>
 				<executions>
 					<execution>
-						<id>unpack</id>
+						<id>unpack-jlib</id>
 						<phase>process-resources</phase>
 						<goals>
 							<goal>unpack</goal>
@@ -46,6 +46,26 @@
 							<overWriteSnapshots>true</overWriteSnapshots>
 						</configuration>
 					</execution>
+					<execution>
+						<id>unpack-z3</id>
+						<phase>process-resources</phase>
+						<goals>
+							<goal>unpack</goal>
+						</goals>
+						<configuration>
+							<artifactItems>
+								<artifactItem>
+									<groupId>com.lexicalscope.symb</groupId>
+									<artifactId>svm-smt-z3</artifactId>
+									<version>${project.version}</version>
+									<type>jar</type>
+								</artifactItem>
+							</artifactItems>
+							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
+							<overWriteReleases>false</overWriteReleases>
+							<overWriteSnapshots>true</overWriteSnapshots>
+						</configuration>
+					</execution>
 				</executions>
 			</plugin>
 			<plugin>
@@ -54,7 +74,7 @@
 				<version>2.16</version>
 				<configuration>
 					<environmentVariables>
-					<LD_LIBRARY_PATH>${basedir}</LD_LIBRARY_PATH>
+					<LD_LIBRARY_PATH>${project.build.outputDirectory}</LD_LIBRARY_PATH>
 					</environmentVariables>
 				</configuration>
 			</plugin>
@@ -158,6 +178,7 @@
 			<groupId>com.microsoft</groupId>
 			<artifactId>z3</artifactId>
 			<version>1.61385c8</version>
+			<scope>provided</scope>
 		</dependency>
 	</dependencies>
 </project>
