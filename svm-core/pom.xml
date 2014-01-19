@@ -174,11 +174,5 @@
 			<groupId>org.hamcrest</groupId>
 			<artifactId>hamcrest-all</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>com.microsoft</groupId>
-			<artifactId>z3</artifactId>
-			<version>1.61385c8</version>
-			<scope>provided</scope>
-		</dependency>
 	</dependencies>
 </project>
