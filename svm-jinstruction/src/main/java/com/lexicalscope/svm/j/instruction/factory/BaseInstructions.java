@@ -32,6 +32,7 @@ import com.lexicalscope.svm.j.instruction.concrete.integer.I2LOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IincOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IorOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IshlOp;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IshrOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IushrOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.CheckCastOp;
@@ -209,6 +210,8 @@ public final class BaseInstructions implements Instructions {
                   return linearInstruction(new ArrayLengthOp());
                case Opcodes.ISHL:
                   return linearInstruction(new IshlOp());
+               case Opcodes.ISHR:
+                   return linearInstruction(new IshrOp());
                case Opcodes.IUSHR:
                   return linearInstruction(new IushrOp());
                case Opcodes.IOR:
