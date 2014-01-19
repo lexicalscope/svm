@@ -22,7 +22,7 @@ public final class PrimitiveSClass implements SClass {
    }
 
    @Override public SMethod virtualMethod(final SMethodDescriptor sMethodName) {
-      throw new UnsupportedOperationException();
+      throw new UnsupportedOperationException(klassName + " has no methods! " + sMethodName );
    }
 
    @Override public SMethod declaredMethod(final String name, final String desc) {
