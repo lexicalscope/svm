@@ -147,7 +147,7 @@ public class MethodCallInstruction {
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, ctx);
          // TODO[tim]: virtual does not resolve overridden methods
          final SMethod targetMethod = resolution.method;
-         final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod, targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
+         final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod.name(), targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
          ctx.pushFrame(newStackFrame.setLocals(args));
       }
    }

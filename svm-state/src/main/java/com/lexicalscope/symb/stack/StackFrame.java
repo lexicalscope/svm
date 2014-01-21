@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.stack;
 
+import com.lexicalscope.symb.stack.trace.SMethodName;
 import com.lexicalscope.symb.state.Snapshotable;
 
 public interface StackFrame extends Snapshotable<StackFrame> {
@@ -20,5 +21,5 @@ public interface StackFrame extends Snapshotable<StackFrame> {
    Object local(int var);
    void local(int var, Object val);
 
-   Object context();
+   SMethodName context();
 }

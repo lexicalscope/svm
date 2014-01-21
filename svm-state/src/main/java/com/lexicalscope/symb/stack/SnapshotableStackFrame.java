@@ -3,6 +3,8 @@ package com.lexicalscope.symb.stack;
 import static com.lexicalscope.symb.stack.Padding.padding;
 import static java.util.Arrays.copyOf;
 
+import com.lexicalscope.symb.stack.trace.SMethodName;
+
 public final class SnapshotableStackFrame implements StackFrame {
    private final Object[] stack;
    private final int opBot; // pointer to bottom of operand stack
@@ -10,10 +12,10 @@ public final class SnapshotableStackFrame implements StackFrame {
    private final int vars = 0; // pointer to local variables
 
    private Object instruction; // PC
-   private final Object context;
+   private final SMethodName context;
 
    public SnapshotableStackFrame(
-         final Object context,
+         final SMethodName context,
          final Object instruction,
          final int maxLocals,
          final int maxStack) {
@@ -21,7 +23,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    }
 
    private SnapshotableStackFrame(
-         final Object context,
+         final SMethodName context,
          final Object instruction,
          final Object[] stack,
          final int opBot,
@@ -153,7 +155,7 @@ public final class SnapshotableStackFrame implements StackFrame {
       }
    }
 
-   @Override public Object context() {
+   @Override public SMethodName context() {
       return context;
    }
 }
