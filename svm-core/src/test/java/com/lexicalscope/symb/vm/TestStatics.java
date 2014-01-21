@@ -8,8 +8,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
-import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 
 public class TestStatics {
    @Rule public ExpectedException exception = ExpectedException.none();

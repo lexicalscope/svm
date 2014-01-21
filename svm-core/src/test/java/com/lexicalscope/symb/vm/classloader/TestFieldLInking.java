@@ -1,11 +1,12 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.*;
+import static com.lexicalscope.symb.klass.SClassMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.klass.SClass;
 

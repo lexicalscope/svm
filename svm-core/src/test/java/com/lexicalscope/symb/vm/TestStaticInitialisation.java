@@ -6,8 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.classloader.MethodInfo;
-
 public class TestStaticInitialisation {
    MethodInfo returnStaticFieldValue = new MethodInfo(StaticField.class, "getX", "()I");
 

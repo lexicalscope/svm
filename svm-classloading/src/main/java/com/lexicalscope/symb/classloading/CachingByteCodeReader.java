@@ -1,11 +1,9 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.classloading;
 
 import java.util.HashMap;
 import java.util.Map;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.classloading.ClassLoaded;
-import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.vm.classloader.asm.AsmSClass;
 
 public class CachingByteCodeReader implements ByteCodeReader {

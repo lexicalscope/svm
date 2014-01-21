@@ -4,7 +4,7 @@ import static org.junit.Assert.assertNotNull;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
+import com.lexicalscope.symb.classloading.AsmSClassLoader;
 
 public class TestClassLoading {
    @Test public void loadAClass()  {

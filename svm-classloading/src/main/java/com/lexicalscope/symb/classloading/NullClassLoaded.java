@@ -1,6 +1,5 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.classloading;
 
-import com.lexicalscope.symb.classloading.ClassLoaded;
 import com.lexicalscope.symb.klass.SClass;
 
 class NullClassLoaded implements ClassLoaded {

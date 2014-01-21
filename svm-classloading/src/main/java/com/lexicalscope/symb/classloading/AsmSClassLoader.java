@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.classloading;
 
 import static org.objectweb.asm.Type.getInternalName;
 
@@ -14,8 +14,6 @@ import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.classloading.ClassLoaded;
-import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.klass.SMethodDescriptor;

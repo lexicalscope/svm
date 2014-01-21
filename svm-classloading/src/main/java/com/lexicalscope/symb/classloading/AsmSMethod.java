@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.classloading;
 
 import java.util.ArrayList;
 import java.util.LinkedHashMap;
@@ -15,7 +15,6 @@ import org.objectweb.asm.tree.MethodNode;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
-import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.klass.SMethod;
 import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.vm.Instruction;

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.nameIs;
+import static com.lexicalscope.symb.klass.SClassMatchers.nameIs;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;
@@ -11,6 +11,7 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.ClassLoaded;
 import com.lexicalscope.symb.classloading.SClassLoader;
 

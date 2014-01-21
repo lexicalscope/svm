@@ -6,8 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.classloader.MethodInfo;
-
 public class TestArrayList {
    final MethodInfo arrayListAddRemove = new MethodInfo(StaticArrayList.class, "addRemove", "(I)I");
 

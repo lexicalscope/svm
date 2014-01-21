@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.classloader;
 
-import static com.lexicalscope.symb.vm.classloader.SClassMatchers.isInstanceOf;
+import static com.lexicalscope.symb.klass.SClassMatchers.isInstanceOf;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.klass.SClass;
 

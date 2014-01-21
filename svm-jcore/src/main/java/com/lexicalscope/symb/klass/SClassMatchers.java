@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.klass;
 
 import static org.hamcrest.Matchers.equalTo;
 import static org.objectweb.asm.Type.getInternalName;
@@ -8,9 +8,6 @@ import java.net.URL;
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.klass.SFieldName;
 
 public class SClassMatchers {
    public static int withIndex(final int i) {

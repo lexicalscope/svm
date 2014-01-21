@@ -6,6 +6,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.symb.classloading.AsmSMethod;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.klass.DeclaredFields;
@@ -13,7 +14,6 @@ import com.lexicalscope.symb.klass.DeclaredMethods;
 import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.klass.SField;
 import com.lexicalscope.symb.klass.SFieldName;
-import com.lexicalscope.symb.vm.classloader.AsmSMethod;
 
 public class AsmSClassBuilder {
    private String klassName;
