@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.concinstructions.ops;
+package com.lexicalscope.svm.j.instruction.concrete.fl0at;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
