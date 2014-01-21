@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.vm.conc;
 
 public class MethodInfo {
    private final String klass;

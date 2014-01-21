@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.classloading;
 
 import static org.objectweb.asm.Type.getInternalName;
 
@@ -7,9 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lexicalscope.symb.classloading.ClassLoaded;
-import com.lexicalscope.symb.classloading.SClassLoader;
+import com.lexicalscope.symb.klass.PrimitiveSClass;
 import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.vm.Statics;
+import com.lexicalscope.symb.vm.StaticsMarker;
 
 public class StaticsImpl implements Statics {
    // TODO[tim]: need fast-clone version

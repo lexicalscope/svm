@@ -9,10 +9,10 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.symb.vm.MethodInfo;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.VmFactory;
+import com.lexicalscope.symb.vm.conc.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
@@ -60,21 +60,21 @@ public class TestCreateArrayWithSymbolicLength {
    @Test public void createArrayWithSymbolicLength() throws Exception {
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = VmFactory.symbolicVm(instructionFactory, createMethod, symbol1);
+      final Vm vm = SymbVmFactory.symbolicVm(instructionFactory, createMethod, symbol1);
       vm.execute();
    }
 
    @Test public void fillArrayWithSymbolicLength() throws Exception {
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = VmFactory.symbolicVm(instructionFactory, fillMethod, symbol1);
+      final Vm vm = SymbVmFactory.symbolicVm(instructionFactory, fillMethod, symbol1);
       vm.execute();
    }
 
    @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
       final ITerminalSymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm<State> vm = VmFactory.symbolicVm(instructionFactory, reverseMethod, symbol1);
+      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
       assertThat(vm.results(), flowNodeToModel(feasbilityChecker).

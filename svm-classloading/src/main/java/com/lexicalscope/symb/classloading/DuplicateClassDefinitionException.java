@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.classloading;
 
 import com.lexicalscope.symb.klass.SClass;
 

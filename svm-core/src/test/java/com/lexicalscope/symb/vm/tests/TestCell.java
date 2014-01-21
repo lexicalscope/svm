@@ -1,14 +1,15 @@
 package com.lexicalscope.symb.vm.tests;
 
-import static com.lexicalscope.symb.vm.VmFactory.*;
+import static com.lexicalscope.symb.vm.conc.VmFactory.*;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.MethodInfo;
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.conc.MethodInfo;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
@@ -27,7 +28,7 @@ public class TestCell {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm<State> vm = symbolicVm(instructionFactory, viaCellMethod, symbol1);
+      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, viaCellMethod, symbol1);
       assertThat(vm.execute(), normalTerminiationWithResult(symbol1));
    }
 }
