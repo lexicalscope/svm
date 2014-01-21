@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.symb.vm.MethodBody;
 import com.lexicalscope.symb.vm.Vop;
 
 public final class StatementBuilder {

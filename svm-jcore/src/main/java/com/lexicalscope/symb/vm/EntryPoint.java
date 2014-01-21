@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm;
 
+
 public class EntryPoint {
    private final Instruction entryPoint;
    private final int argSize;

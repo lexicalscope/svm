@@ -1,6 +1,5 @@
-package com.lexicalscope.svm.j.statementBuilder;
+package com.lexicalscope.symb.vm;
 
-import com.lexicalscope.symb.vm.Instruction;
 
 public final class MethodBody {
    private final Instruction entry;

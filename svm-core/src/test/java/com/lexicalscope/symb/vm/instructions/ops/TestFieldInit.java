@@ -11,15 +11,15 @@ import org.junit.Test;
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
+import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.stack.DequeStack;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
-import com.lexicalscope.symb.vm.DequeStack;
 import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.StaticsImpl;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 
 public class TestFieldInit {
    private final SClassLoader classLoader = new AsmSClassLoader();

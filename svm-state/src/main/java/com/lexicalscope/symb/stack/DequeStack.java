@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.stack;
 
 import static com.google.common.collect.Iterables.elementsEqual;
 import static java.util.Objects.hash;
@@ -9,8 +9,6 @@ import java.util.Deque;
 import java.util.Iterator;
 import java.util.List;
 
-import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SMethodName;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.stack.trace.SStackTraceElement;

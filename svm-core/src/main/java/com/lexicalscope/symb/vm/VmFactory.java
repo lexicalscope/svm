@@ -6,13 +6,14 @@ import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
+import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.heap.HeapFactory;
 import com.lexicalscope.symb.klass.SMethodDescriptor;
+import com.lexicalscope.symb.stack.DequeStack;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.classloader.AsmSClassLoader;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
-import com.lexicalscope.symb.vm.classloader.SClassLoader;
 import com.lexicalscope.symb.vm.conc.checkingheap.CheckingHeapFactory;
 import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
 

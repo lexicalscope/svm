@@ -9,6 +9,7 @@ import java.util.List;
 
 import org.junit.Test;
 
+import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.klass.SClass;
 
 public class TestInstanceOf {

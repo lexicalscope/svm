@@ -12,6 +12,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.symb.classloading.ClassLoaded;
+import com.lexicalscope.symb.classloading.SClassLoader;
 
 public class TestClassLoaderLoadOrder {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
