@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.stack.trace;
 
-import com.lexicalscope.symb.state.SMethodName;
 
 
 public class SStackTraceElement {

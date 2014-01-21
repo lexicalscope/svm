@@ -61,6 +61,7 @@
 									<type>jar</type>
 								</artifactItem>
 							</artifactItems>
+							<includes>**/*.so</includes>	
 							<outputDirectory>${project.build.outputDirectory}</outputDirectory>
 							<overWriteReleases>false</overWriteReleases>
 							<overWriteSnapshots>true</overWriteSnapshots>
@@ -168,6 +169,11 @@
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
 			<artifactId>svm-jinstruction</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-jinstruction-symb</artifactId>
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>

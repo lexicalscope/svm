@@ -11,9 +11,9 @@ import java.util.List;
 
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
+import com.lexicalscope.symb.stack.trace.SMethodName;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.stack.trace.SStackTraceElement;
-import com.lexicalscope.symb.state.SMethodName;
 
 public class DequeStack implements Stack {
    private final Deque<StackFrame> stack;

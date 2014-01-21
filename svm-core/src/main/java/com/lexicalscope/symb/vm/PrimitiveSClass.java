@@ -12,7 +12,7 @@ import com.lexicalscope.symb.klass.SField;
 import com.lexicalscope.symb.klass.SFieldName;
 import com.lexicalscope.symb.klass.SMethod;
 import com.lexicalscope.symb.klass.SMethodDescriptor;
-import com.lexicalscope.symb.state.SMethodName;
+import com.lexicalscope.symb.stack.trace.SMethodName;
 
 public final class PrimitiveSClass implements SClass {
    private final String klassName;

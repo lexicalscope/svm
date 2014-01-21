@@ -25,7 +25,8 @@
 		<module>svm-jcore</module>
 		<module>svm-jvm-conc</module>
 		<module>svm-jnatives</module>
-  </modules>
+		<module>svm-jinstruction-symb</module>
+	</modules>
 	<build>
 		<pluginManagement>
 			<plugins>

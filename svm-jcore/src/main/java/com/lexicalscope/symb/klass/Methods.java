@@ -3,7 +3,7 @@ package com.lexicalscope.symb.klass;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
-import com.lexicalscope.symb.state.SMethodName;
+import com.lexicalscope.symb.stack.trace.SMethodName;
 import com.lexicalscope.symb.vm.SVirtualMethodName;
 
 public final class Methods {
