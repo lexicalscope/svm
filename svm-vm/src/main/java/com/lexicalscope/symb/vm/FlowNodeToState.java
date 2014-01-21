@@ -1,9 +1,8 @@
-package com.lexicalscope.symb.vm.matchers;
+package com.lexicalscope.symb.vm;
 
 import org.hamcrest.Description;
 
 import com.lexicalscope.Transform;
-import com.lexicalscope.symb.vm.FlowNode;
 
 public class FlowNodeToState<S> implements Transform<S, FlowNode<S>> {
    @Override public void describeTo(final Description description) {

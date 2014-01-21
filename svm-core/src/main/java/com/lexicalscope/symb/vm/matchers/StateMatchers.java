@@ -15,6 +15,7 @@ import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.svm.j.instruction.TerminateInstruction;
 import com.lexicalscope.symb.vm.FlowNode;
+import com.lexicalscope.symb.vm.FlowNodeToState;
 import com.lexicalscope.symb.vm.Instruction;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;

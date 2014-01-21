@@ -8,22 +8,25 @@
 		<artifactId>svm-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>svm-vm</artifactId>
-	<name>svm-vm</name>
+	<artifactId>matchers-additional</artifactId>
+	<name>matchers-additional</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
 	<dependencies>
 		<dependency>
+			<groupId>org.hamcrest</groupId>
+			<artifactId>hamcrest-all</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>com.lexicalscope.symb</groupId>
-			<artifactId>matchers-additional</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>
