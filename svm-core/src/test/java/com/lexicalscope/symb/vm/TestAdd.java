@@ -27,7 +27,7 @@ public class TestAdd {
       final ISymbol symbol1 = instructionFactory.isymbol();
       final ISymbol symbol2 = instructionFactory.isymbol();
 
-      final Vm<State> vm = VmFactory.vm(instructionFactory, addMethod,symbol1, symbol2);
+      final Vm<State> vm = VmFactory.vm(instructionFactory, new CheckingSymbolicHeapFactory(), addMethod,symbol1, symbol2);
       assertThat(vm.execute(), normalTerminiationWithResult(new IAddSymbol(symbol1, symbol2)));
    }
 }

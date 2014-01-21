@@ -1,23 +1,25 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.vm.conc.checkingheap;
 
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
+import com.lexicalscope.symb.vm.StaticsMarker;
 
 
 public class CheckingHeap implements Heap {
    private final Heap heap;
+   private final HeapCheck heapCheck;
 
-   public CheckingHeap(final Heap heap) {
+   public CheckingHeap(final Heap heap, final HeapCheck heapCheck) {
       this.heap = heap;
+      this.heapCheck = heapCheck;
    }
 
    @Override
    public Heap snapshot() {
-      return new CheckingHeap(heap.snapshot());
+      return new CheckingHeap(heap.snapshot(), heapCheck);
    }
 
    @Override
@@ -45,7 +47,7 @@ public class CheckingHeap implements Heap {
          final Type type = Type.getType(klass.fieldAtIndex(offset).desc());
          switch(type.getSort()) {
             case Type.INT:
-               assert val instanceof Integer || val instanceof ISymbol;
+               assert heapCheck.allowedInIntField(val);
                break;
          }
          return true;

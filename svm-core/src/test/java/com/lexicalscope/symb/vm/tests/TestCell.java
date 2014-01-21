@@ -27,7 +27,7 @@ public class TestCell {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm<State> vm = vm(instructionFactory, viaCellMethod, symbol1);
+      final Vm<State> vm = symbolicVm(instructionFactory, viaCellMethod, symbol1);
       assertThat(vm.execute(), normalTerminiationWithResult(symbol1));
    }
 }

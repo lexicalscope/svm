@@ -60,21 +60,21 @@ public class TestCreateArrayWithSymbolicLength {
    @Test public void createArrayWithSymbolicLength() throws Exception {
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = VmFactory.vm(instructionFactory, createMethod, symbol1);
+      final Vm vm = VmFactory.symbolicVm(instructionFactory, createMethod, symbol1);
       vm.execute();
    }
 
    @Test public void fillArrayWithSymbolicLength() throws Exception {
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm vm = VmFactory.vm(instructionFactory, fillMethod, symbol1);
+      final Vm vm = VmFactory.symbolicVm(instructionFactory, fillMethod, symbol1);
       vm.execute();
    }
 
    @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
       final ITerminalSymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm<State> vm = VmFactory.vm(instructionFactory, reverseMethod, symbol1);
+      final Vm<State> vm = VmFactory.symbolicVm(instructionFactory, reverseMethod, symbol1);
       vm.execute();
 
       assertThat(vm.results(), flowNodeToModel(feasbilityChecker).

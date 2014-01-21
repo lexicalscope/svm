@@ -26,7 +26,7 @@ public class TestInfeasibleBranch {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm<State> vm = vm(instructionFactory, infeasibleMethod, symbol1);
+      final Vm<State> vm = symbolicVm(instructionFactory, infeasibleMethod, symbol1);
       vm.execute();
       assertThat(vm.results(), hasItem(normalTerminiationWithResult(-10)));
       assertThat(vm.results(), hasSize(1));

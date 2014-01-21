@@ -34,7 +34,7 @@ public class TestBranch {
       final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
       final ISymbol symbol1 = instructionFactory.isymbol();
 
-      final Vm<State> vm = vm(instructionFactory, absMethod, symbol1);
+      final Vm<State> vm = symbolicVm(instructionFactory, absMethod, symbol1);
       vm.execute();
       assertThat(vm.results(), hasSize(2));
       assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new IConstSymbol(-1)))));

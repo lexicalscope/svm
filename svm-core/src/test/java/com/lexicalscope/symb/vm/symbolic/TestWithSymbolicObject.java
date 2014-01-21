@@ -6,6 +6,7 @@ import org.junit.Test;
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
+import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.VmFactory;
 import com.lexicalscope.symb.vm.classloader.MethodInfo;
@@ -24,7 +25,7 @@ public class TestWithSymbolicObject {
    @Test @Ignore public void createSymbolicObject() throws Exception {
       final OSymbol symbol1 = instructionFactory.osymbol(expressionKlassName);
 
-      final Vm vm = VmFactory.vm(instructionFactory, createMethod, symbol1);
+      final Vm<State> vm = VmFactory.symbolicVm(instructionFactory, createMethod, symbol1);
       vm.execute();
    }
 }

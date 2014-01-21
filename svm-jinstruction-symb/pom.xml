@@ -24,6 +24,11 @@
 		<artifactId>svm-smt-z3</artifactId>
 		<version>${project.version}</version>
 	</dependency>
+	<dependency>
+		<groupId>com.lexicalscope.symb</groupId>
+		<artifactId>svm-jvm-conc</artifactId>
+		<version>${project.version}</version>
+	</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>
