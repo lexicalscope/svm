@@ -8,27 +8,21 @@
 		<artifactId>svm-parent</artifactId>
 		<version>0.0.1-SNAPSHOT</version>
 	</parent>
-	<artifactId>svm-smt-z3</artifactId>
-	<name>svm-smt-z3</name>
+	<artifactId>svm-trie</artifactId>
+	<name>svm-trie</name>
 	<url>http://maven.apache.org</url>
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-	<build>
-		<resources>
-			<resource>
-			    <directory>src/main/resources</directory>
-			</resource>
-			<resource>
-				<directory>src/main/binaries</directory>
-			</resource>
-		</resources>
-	</build>
 	<dependencies>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.google.guava</groupId>
+			<artifactId>guava</artifactId>
 		</dependency>
 	</dependencies>
 </project>

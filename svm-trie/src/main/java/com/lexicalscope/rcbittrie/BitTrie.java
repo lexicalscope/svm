@@ -1,4 +1,4 @@
-package com.lexicalscope.heap;
+package com.lexicalscope.rcbittrie;
 
 import java.util.ConcurrentModificationException;
 import java.util.Iterator;
@@ -20,7 +20,7 @@ import com.google.common.base.Joiner;
  *
  * @author tim
  */
-final class BitTrie implements Iterable<Object>{
+public final class BitTrie implements Iterable<Object>{
    //  8    7    6    5   4    3     2    1
    // 000-0000-0000-0000-0000-0000-0000-00000
 

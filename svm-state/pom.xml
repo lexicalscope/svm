@@ -10,6 +10,11 @@
 
 	<dependencies>
 		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-trie</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<scope>test</scope>

@@ -10,8 +10,8 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Type;
 
-import com.lexicalscope.heap.FastHeap;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
+import com.lexicalscope.symb.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;

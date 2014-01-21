@@ -26,6 +26,7 @@
 		<module>svm-jvm-conc</module>
 		<module>svm-jnatives</module>
 		<module>svm-jinstruction-symb</module>
+		<module>svm-trie</module>
 	</modules>
 	<build>
 		<pluginManagement>

@@ -6,6 +6,8 @@ import static org.junit.Assert.fail;
 
 import org.junit.Test;
 
+import com.lexicalscope.rcbittrie.BitTrie;
+
 public class TestBitTrie {
    private final Object value = new Object();
    private final Object value1 = new Object() {@Override public String toString() {return "value1";}};

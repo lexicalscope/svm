@@ -1,13 +1,14 @@
 package com.lexicalscope.heap;
 
 import static org.hamcrest.Matchers.*;
-
 import static org.junit.Assert.assertThat;
 
 import java.util.*;
 
 import org.junit.*;
 import org.junit.rules.ExpectedException;
+
+import com.lexicalscope.rcbittrie.BitTrie;
 
 public class TestBitTrieToString {
    private final Object value1 = new Object() {@Override public String toString() {return "value1";}};

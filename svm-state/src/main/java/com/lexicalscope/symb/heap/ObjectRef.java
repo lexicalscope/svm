@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.heap;
 
 public final class ObjectRef {
    private final int address;

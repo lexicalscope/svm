@@ -1,8 +1,7 @@
-package com.lexicalscope.heap;
+package com.lexicalscope.symb.heap;
 
-import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.vm.ObjectRef;
+import com.lexicalscope.rcbittrie.BitTrie;
+
 
 public class FastHeap implements Heap {
    private final BitTrie trie;
