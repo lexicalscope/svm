@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions.ops;
+package com.lexicalscope.symb.classloading;
 
 public class ClassWithAllTypesOfFields {
    int intField;

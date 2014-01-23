@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.stack.trace;
 
 import static com.lexicalscope.MatchersAdditional.containsMatching;
 import static com.lexicalscope.symb.stack.trace.SStackTraceMatchers.methodNamed;

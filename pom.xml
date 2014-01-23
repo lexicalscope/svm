@@ -125,6 +125,16 @@
                     </exclusion>
 				</exclusions>
 			</dependency>
+	      <dependency>
+	         <groupId>com.lexicalscope.symb</groupId>
+	         <artifactId>matchers-additional</artifactId>
+	         <version>${project.version}</version>
+	      </dependency>
+	      <dependency>
+	         <groupId>com.lexicalscope.junit</groupId>
+	         <artifactId>junit-autocloseable</artifactId>
+	         <version>1.0</version>
+	      </dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

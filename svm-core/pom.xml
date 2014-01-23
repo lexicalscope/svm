@@ -72,6 +72,11 @@
 			<artifactId>jmock-junit4</artifactId>
 			<scope>test</scope>
 		</dependency>
+      <dependency>
+         <groupId>com.lexicalscope.junit</groupId>
+         <artifactId>junit-autocloseable</artifactId>
+         <scope>test</scope>
+      </dependency>
 		<dependency>
 			<groupId>org.ow2.asm</groupId>
 			<artifactId>asm</artifactId>

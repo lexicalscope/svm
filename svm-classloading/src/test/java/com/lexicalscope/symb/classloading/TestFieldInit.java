@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.instructions.ops;
+package com.lexicalscope.symb.classloading;
 
 import static com.lexicalscope.symb.vm.HeapMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
