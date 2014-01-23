@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader.asm;
+package com.lexicalscope.symb.classloading.asm;
 
 import java.net.URL;
 import java.util.ArrayList;

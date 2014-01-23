@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.classloading;
 
 public class ClassWith4StaticFieldsAnd2DynamicFields {
    static int a,b,c,d;

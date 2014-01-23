@@ -99,10 +99,10 @@
 			<artifactId>svm-vm</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-		<dependency>
-			<groupId>com.lexicalscope.symb</groupId>
-			<artifactId>svm-jinstruction-symb</artifactId>
-			<version>${project.version}</version>
-		</dependency>
+      <dependency>
+         <groupId>com.lexicalscope.symb</groupId>
+         <artifactId>svm-jvm-symb</artifactId>
+         <version>${project.version}</version>
+      </dependency>
 	</dependencies>
 </project>

@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.classloader;
+package com.lexicalscope.symb.classloading;
 
 import static com.lexicalscope.symb.klass.SClassMatchers.hasSuperclass;
 import static org.hamcrest.MatcherAssert.assertThat;
