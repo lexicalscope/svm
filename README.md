@@ -1,4 +1,4 @@
-Java Bytecode Snapshot Vm and Symbolic Executor
+Java Bytecode Snapshot Vm and Symbolic Executor [![Build Status](https://travis-ci.org/lexicalscope/svm.png?branch=master)](https://travis-ci.org/lexicalscope/svm)
 =========================================
 
 If you would like to help out, please contact me or just fork and get going.
