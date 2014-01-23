@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.symbolic;
+package com.lexicalscope.symb.vm.symb;
 
 import static com.lexicalscope.symb.vm.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -8,9 +8,9 @@ import org.junit.Test;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
+import com.lexicalscope.symb.vm.symb.SymbVmFactory;
 
 public class TestCell {
    public static class Cell {

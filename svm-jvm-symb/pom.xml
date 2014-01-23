@@ -62,6 +62,12 @@
 			<artifactId>junit</artifactId>
 			<scope>test</scope>
 		</dependency>
+      <dependency>
+         <groupId>com.lexicalscope.junit</groupId>
+         <artifactId>junit-autocloseable</artifactId>
+         <version>1.0</version>
+         <scope>test</scope>
+      </dependency>
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
 			<artifactId>svm-jinstruction-symb</artifactId>

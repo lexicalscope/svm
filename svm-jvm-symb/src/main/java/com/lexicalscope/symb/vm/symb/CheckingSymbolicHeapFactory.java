@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.vm.symb;
 
 import com.lexicalscope.symb.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;

@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm;
+package com.lexicalscope.symb.vm.symb;
 
 import static com.lexicalscope.symb.vm.StateMatchers.normalTerminiationWithResult;
 import static com.lexicalscope.symb.vm.conc.VmFactory.concreteVm;
@@ -9,7 +9,10 @@ import org.junit.Test;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IAddSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
+import com.lexicalscope.symb.vm.symb.SymbVmFactory;
 
 public class TestAdd {
    private final MethodInfo addMethod = new MethodInfo(StaticAddMethod.class, "add", "(II)I");

@@ -12,6 +12,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.MulSymbol;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
+import com.lexicalscope.symb.vm.symb.SymbVmFactory;
 
 public class TestBranch {
    private final MethodInfo absMethod = new MethodInfo(StaticAbsMethod.class, "abs", "(I)I");

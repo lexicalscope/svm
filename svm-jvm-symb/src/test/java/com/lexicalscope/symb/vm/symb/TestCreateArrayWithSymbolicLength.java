@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.symbolic;
+package com.lexicalscope.symb.vm.symb;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers.symbolEquivalentTo;
 import static java.lang.Math.min;
@@ -12,10 +12,10 @@ import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.matchers.SymbStateMatchers;
+import com.lexicalscope.symb.vm.symb.SymbVmFactory;
+import com.lexicalscope.symb.vm.symb.matchers.SymbStateMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestCreateArrayWithSymbolicLength {

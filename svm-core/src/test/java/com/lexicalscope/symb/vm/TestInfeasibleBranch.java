@@ -10,6 +10,7 @@ import org.junit.Test;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
+import com.lexicalscope.symb.vm.symb.SymbVmFactory;
 
 public class TestInfeasibleBranch {
    private final MethodInfo infeasibleMethod = new MethodInfo(StaticInfeasibleBranchMethod.class, "infeasible", "(I)I");
