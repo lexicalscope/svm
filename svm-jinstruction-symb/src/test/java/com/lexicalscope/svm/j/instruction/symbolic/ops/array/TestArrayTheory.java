@@ -1,4 +1,5 @@
-package com.lexicalscope.symb.z3;
+package com.lexicalscope.svm.j.instruction.symbolic.ops.array;
+
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.icmpEq;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -14,6 +15,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.StateBuilder;
+import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestArrayTheory {
    @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
