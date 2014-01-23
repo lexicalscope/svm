@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.z3;
 
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolVisitor;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolVisitor;
 
 /**
  * A symbol that was simplified by the solver. Will have to be cast depending on the solver.

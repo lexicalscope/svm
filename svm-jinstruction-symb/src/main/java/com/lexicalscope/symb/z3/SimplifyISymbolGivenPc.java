@@ -1,11 +1,11 @@
 package com.lexicalscope.symb.z3;
 
-import com.lexicalscope.symb.vm.symbinstructions.Pc;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ICmpEqSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpEqSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 
 public class SimplifyISymbolGivenPc implements Simplification {

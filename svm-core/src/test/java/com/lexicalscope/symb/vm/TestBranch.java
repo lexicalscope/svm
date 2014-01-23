@@ -7,11 +7,11 @@ import static org.hamcrest.Matchers.*;
 
 import org.junit.Test;
 
+import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.MulSymbol;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.MulSymbol;
 
 public class TestBranch {
    MethodInfo absMethod = new MethodInfo(

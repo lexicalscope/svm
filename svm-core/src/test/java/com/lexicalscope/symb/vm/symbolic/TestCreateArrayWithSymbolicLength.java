@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers.symbolEquivalentTo;
+import static com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers.symbolEquivalentTo;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -8,14 +8,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
+import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
 import com.lexicalscope.symb.vm.matchers.SymbStateMatchers;
-import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestCreateArrayWithSymbolicLength {

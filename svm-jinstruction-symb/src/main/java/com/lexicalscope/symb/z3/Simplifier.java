@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.z3;
 
-import com.lexicalscope.symb.vm.symbinstructions.Pc;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.microsoft.z3.ApplyResult;
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;

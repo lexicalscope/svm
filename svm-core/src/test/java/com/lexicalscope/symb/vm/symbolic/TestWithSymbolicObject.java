@@ -6,12 +6,12 @@ import org.junit.Test;
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
+import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.OSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestWithSymbolicObject {

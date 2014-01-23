@@ -1,8 +1,8 @@
 package com.lexicalscope.symb.z3;
 
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;

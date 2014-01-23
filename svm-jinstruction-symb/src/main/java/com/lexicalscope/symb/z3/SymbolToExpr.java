@@ -1,9 +1,9 @@
 package com.lexicalscope.symb.z3;
 
-import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolVisitor;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolVisitor;
 import com.microsoft.z3.ArrayExpr;
 import com.microsoft.z3.BitVecExpr;
 import com.microsoft.z3.BitVecSort;

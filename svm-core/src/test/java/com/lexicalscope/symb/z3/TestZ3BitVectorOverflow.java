@@ -10,8 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IAddSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IAddSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 import com.microsoft.z3.Z3Exception;
 

@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.z3;
 
-import static com.lexicalscope.symb.vm.symbinstructions.PcBuilder.icmpEq;
+import static com.lexicalscope.svm.j.instruction.symbolic.PcBuilder.icmpEq;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
@@ -8,12 +8,12 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.symb.vm.symbinstructions.Pc;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IArraySymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IConstSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ITerminalSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.StateBuilder;
+import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.StateBuilder;
 
 public class TestArrayTheory {
    @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();

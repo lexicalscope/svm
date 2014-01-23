@@ -6,10 +6,10 @@ import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
+import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IAddSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.IAddSymbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class TestAdd {
    MethodInfo addMethod = new MethodInfo(

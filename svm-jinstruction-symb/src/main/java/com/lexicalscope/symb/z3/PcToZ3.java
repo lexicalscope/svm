@@ -2,8 +2,8 @@ package com.lexicalscope.symb.z3;
 
 import java.util.List;
 
-import com.lexicalscope.symb.vm.symbinstructions.PcVisitor;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.PcVisitor;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Z3Exception;
