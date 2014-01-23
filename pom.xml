@@ -32,6 +32,8 @@
 		<module>svm-jsymbols</module>
 		<module>svm-jinstruction-symb</module>
 		<module>svm-jvm-symb</module>
+		<module>svm-examples-one</module>
+		<module>svm-examples-two</module>
 	</modules>
 	<build>
 		<pluginManagement>

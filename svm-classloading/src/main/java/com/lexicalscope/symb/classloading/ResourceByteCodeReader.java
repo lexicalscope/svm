@@ -21,9 +21,11 @@ import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class ResourceByteCodeReader implements ByteCodeReader {
 	private final Instructions instructions;
+   private final ClassSource classRepository;
 
-	public ResourceByteCodeReader(final Instructions instructions) {
+	public ResourceByteCodeReader(final Instructions instructions, final ClassSource classSource) {
 		this.instructions = instructions;
+      this.classRepository = classSource;
 	}
 
 	@Override
@@ -38,7 +40,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 				|| name.equals("java/lang/Integer$IntegerCache")) {
 			classUrl = loadLocalVersion(name);
 		} else {
-			classUrl = classUrlFromClassPath(name);
+			classUrl = classRepository.loadFromRepository(name);
 		}
 
 		try {
@@ -83,12 +85,6 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 		} catch (final URISyntaxException e) {
 		   throw new SClassLoadingFailException(name, e);
       }
-	}
-
-	private URL classUrlFromClassPath(final String name) {
-		final URL classUrl = this.getClass().getClassLoader()
-				.getResource(name.replace(".", File.separator) + ".class");
-		return classUrl;
 	}
 
 	private ClassNode loadClassBytecodeFromUrl(final URL classUrl)
