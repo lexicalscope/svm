@@ -1,7 +1,7 @@
-package com.lexicalscope.symb.vm.tests;
+package com.lexicalscope.symb.vm.conc;
 
+import static com.lexicalscope.symb.vm.StateMatchers.normalTerminiationWithResult;
 import static com.lexicalscope.symb.vm.conc.VmFactory.concreteVm;
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;

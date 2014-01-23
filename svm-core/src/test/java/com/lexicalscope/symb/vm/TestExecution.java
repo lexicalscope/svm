@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm;
 
-import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiation;
+import static com.lexicalscope.symb.vm.StateMatchers.normalTerminiation;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;

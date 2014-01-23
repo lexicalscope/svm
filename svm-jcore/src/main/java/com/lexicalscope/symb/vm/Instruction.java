@@ -10,6 +10,7 @@ public interface Instruction extends Vop {
    Instruction nextIs(Instruction instruction);
    void jmpTarget(Instruction instruction);
 
+   boolean hasNext();
    Instruction next();
    Instruction jmpTarget();
 }

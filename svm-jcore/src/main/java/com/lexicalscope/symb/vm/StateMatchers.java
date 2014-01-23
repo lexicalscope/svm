@@ -1,6 +1,5 @@
-package com.lexicalscope.symb.vm.matchers;
+package com.lexicalscope.symb.vm;
 
-import static com.lexicalscope.MatchersAdditional.after;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.CombinableMatcher.both;
 
@@ -9,50 +8,14 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.MatchersAdditional;
-import com.lexicalscope.MatchersAdditional.CollectionMatcherBuilder;
 import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
-import com.lexicalscope.MemoizeTransform;
-import com.lexicalscope.Transform;
-import com.lexicalscope.svm.j.instruction.TerminateInstruction;
-import com.lexicalscope.symb.vm.FlowNode;
-import com.lexicalscope.symb.vm.FlowNodeToState;
-import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.Symbol;
-import com.lexicalscope.symb.vm.symbinstructions.symbols.SymbolMatchers;
-import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class StateMatchers {
    public static Matcher<State> operandEqual(final Object expected) {
       return operandMatching(equalTo(expected));
    }
 
-   public static class SimplifyingMatcherBuilder {
-      private final FeasibilityChecker feasibilityChecker;
-
-      public SimplifyingMatcherBuilder(final FeasibilityChecker feasibilityChecker) {
-         this.feasibilityChecker = feasibilityChecker;
-      }
-
-      public Matcher<? super State> toInt(final int expectedValue) {
-         return after(stateToModel(feasibilityChecker)).matches(SymbolMatchers.symbolEquivalentTo(expectedValue));
-      }
-   }
-
-   public static SimplifyingMatcherBuilder resultSimplifies(
-         final FeasibilityChecker feasibilityChecker) {
-      return new SimplifyingMatcherBuilder(feasibilityChecker);
-   }
-
-   public static Transform<Symbol,State> stateToModel(final FeasibilityChecker feasibilityChecker) {
-      return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
-   }
-
-   public static CollectionMatcherBuilder<Symbol, FlowNode<State>> flowNodeToModel(final FeasibilityChecker feasibilityChecker) {
-      return flowNodeToState().then(stateToModel(feasibilityChecker));
-   }
-
-   private static TransformMatcherBuilder<State, FlowNode<State>> flowNodeToState() {
+   public static TransformMatcherBuilder<State, FlowNode<State>> flowNodeToState() {
       return MatchersAdditional.after(new FlowNodeToState<State>());
    }
 
@@ -95,6 +58,24 @@ public class StateMatchers {
       };
    }
 
+   public static Matcher<? super State> terminalInstruction() {
+      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+         @Override
+         public void describeTo(final Description description) {
+            description.appendText("instruction with no successor");
+         }
+
+         @Override
+         protected boolean matchesSafely(final State item,
+               final Description mismatchDescription) {
+            final Instruction instruction = item.instruction();
+            mismatchDescription.appendText("instruction with successor ")
+            .appendValue(instruction);
+            return !instruction.hasNext();
+         }
+      };
+   }
+
    public static Matcher<? super State> stackSize(final int expectedSize) {
       return new TypeSafeDiagnosingMatcher<State>(State.class) {
          @Override
@@ -123,6 +104,6 @@ public class StateMatchers {
    }
 
    public static Matcher<? super FlowNode<State>> normalTerminiation() {
-      return flowNodeToState().matches(both(instructionEqual(new TerminateInstruction())).and(stackSize(1)));
+      return flowNodeToState().matches(both(terminalInstruction()).and(stackSize(1)));
    }
 }

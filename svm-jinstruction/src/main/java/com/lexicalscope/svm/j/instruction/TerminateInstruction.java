@@ -20,6 +20,10 @@ public class TerminateInstruction implements Instruction {
       throw new UnsupportedOperationException();
    }
 
+   @Override public boolean hasNext() {
+		return false;
+   }
+
    @Override public Instruction next() {
       throw new IllegalStateException("TERMINATE has no successor");
    }

@@ -43,6 +43,11 @@ public class InstructionInternal implements Instruction {
       return next;
    }
 
+   @Override public boolean hasNext() {
+      assert next != null;
+      return next != null;
+   }
+
    @Override public Instruction jmpTarget() {
       return target;
    }
