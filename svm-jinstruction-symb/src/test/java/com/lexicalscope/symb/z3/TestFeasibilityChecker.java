@@ -6,6 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
+import com.lexicalscope.symb.z3.FeasibilityChecker;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.BitVecSort;
 import com.microsoft.z3.BoolExpr;

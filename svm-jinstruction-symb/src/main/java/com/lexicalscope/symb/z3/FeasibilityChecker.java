@@ -96,7 +96,6 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       void simplified(ISymbol simplification);
    }
 
-
    public void modelForBv32Expr(final ISymbol symbol, final Pc pc, final ISimplificationResult result) {
       new SimplifyISymbolGivenPc(symbol, pc, result).eval(new Simplifier(ctx));
    }

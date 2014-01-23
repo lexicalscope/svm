@@ -16,23 +16,22 @@
 	</properties>
 
 	<modules>
+		<module>matchers-additional</module>
+		<module>svm-snapshot</module>
+		<module>svm-state</module>
+		<module>svm-trie</module>
+		<module>svm-vm</module>
+		<module>svm-jlib</module>
+		<module>svm-classloading</module>
+		<module>svm-jnatives</module>
+		<module>svm-jcore</module>
+		<module>svm-jinstruction</module>
+		<module>svm-jvm-conc</module>
 		<module>svm-smt-z3</module>
 		<module>svm-z3-plugin</module>
-		<module>svm-jlib</module>
-		<module>svm-core</module>
-		<module>svm-classloading</module>
-		<module>svm-state</module>
-		<module>svm-vm</module>
-		<module>svm-jinstruction</module>
-		<module>svm-jcore</module>
-		<module>svm-jvm-conc</module>
-		<module>svm-jnatives</module>
-		<module>svm-jinstruction-symb</module>
-		<module>svm-trie</module>
-		<module>matchers-additional</module>
-		<module>svm-jvm-symb</module>
 		<module>svm-jsymbols</module>
-		<module>svm-snapshot</module>
+		<module>svm-jinstruction-symb</module>
+		<module>svm-jvm-symb</module>
 	</modules>
 	<build>
 		<pluginManagement>
