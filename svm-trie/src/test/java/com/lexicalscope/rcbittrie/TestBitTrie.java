@@ -1,4 +1,4 @@
-package com.lexicalscope.heap;
+package com.lexicalscope.rcbittrie;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
