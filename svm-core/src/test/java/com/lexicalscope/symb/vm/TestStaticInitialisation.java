@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
 
 public class TestStaticInitialisation {
-   MethodInfo returnStaticFieldValue = new MethodInfo(StaticField.class, "getX", "()I");
+   private final MethodInfo returnStaticFieldValue = new MethodInfo(StaticField.class, "getX", "()I");
 
    @Test public void getStaticFieldViaStaticMethod() {
       final Vm<State> vm = concreteVm(returnStaticFieldValue);

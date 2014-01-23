@@ -12,13 +12,17 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
 
 public class TestAdd {
-   MethodInfo addMethod = new MethodInfo(
-         "com/lexicalscope/symb/vm/StaticAddMethod", "add", "(II)I");
+   private final MethodInfo addMethod = new MethodInfo(StaticAddMethod.class, "add", "(II)I");
+
+   public static class StaticAddMethod {
+      public static int add(final int x, final int y) {
+         return x + y;
+      }
+   }
 
    @Test
    public void concExecuteStaticAddMethod() {
-      final Vm<State> vm = concreteVm(addMethod, 1, 2);
-      assertThat(vm.execute(), normalTerminiationWithResult(3));
+      assertThat(concreteVm(addMethod, 1, 2).execute(), normalTerminiationWithResult(3));
    }
 
    @Test

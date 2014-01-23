@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm;
 
 import static com.lexicalscope.symb.vm.StateMatchers.normalTerminiationWithResult;
-import static com.lexicalscope.symb.vm.conc.VmFactory.*;
+import static com.lexicalscope.symb.vm.conc.VmFactory.concreteVm;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -12,8 +12,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
 
 public class TestInfeasibleBranch {
-   MethodInfo infeasibleMethod = new MethodInfo(
-         "com/lexicalscope/symb/vm/StaticInfeasibleBranchMethod", "infeasible", "(I)I");
+   private final MethodInfo infeasibleMethod = new MethodInfo(StaticInfeasibleBranchMethod.class, "infeasible", "(I)I");
 
    @Test
    public void concExecuteLeftBranch() {

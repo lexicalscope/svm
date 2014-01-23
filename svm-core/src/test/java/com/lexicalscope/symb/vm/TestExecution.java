@@ -9,7 +9,7 @@ import com.lexicalscope.symb.vm.conc.MethodInfo;
 import com.lexicalscope.symb.vm.conc.VmFactory;
 
 public class TestExecution {
-   private final MethodInfo entryPoint = new MethodInfo("com/lexicalscope/symb/vm/EmptyStaticMethod", "main", "()V");
+   private final MethodInfo entryPoint = new MethodInfo(EmptyStaticMethod.class, "main", "()V");
 
    @Test public void executeEmptyMainMethod() {
       final Vm<State> vm = VmFactory.concreteVm(entryPoint);

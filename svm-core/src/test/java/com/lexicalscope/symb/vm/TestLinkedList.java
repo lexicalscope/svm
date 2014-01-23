@@ -9,7 +9,7 @@ import org.junit.Test;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
 
 public class TestLinkedList {
-   final MethodInfo linkedListAddRemove = new MethodInfo(StaticLinkedList.class, "addRemove", "(I)I");
+   private final MethodInfo linkedListAddRemove = new MethodInfo(StaticLinkedList.class, "addRemove", "(I)I");
 
    @Test public void linkedListAddThenGet() {
       final Vm<State> vm = concreteVm(linkedListAddRemove, 4);
