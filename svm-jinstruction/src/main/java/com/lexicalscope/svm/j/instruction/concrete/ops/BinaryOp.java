@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.ops;
 
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public class BinaryOp implements Vop {
    private final BinaryOperator operator;

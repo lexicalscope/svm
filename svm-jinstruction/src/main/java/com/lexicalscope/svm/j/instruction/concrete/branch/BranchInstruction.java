@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.branch;
 
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public final class BranchInstruction implements Vop {
    private final BranchPredicate branchPredicate;

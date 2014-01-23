@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.code.AsmSMethodName;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
-import com.lexicalscope.symb.vm.MethodBody;
+import com.lexicalscope.symb.vm.j.MethodBody;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class DefaultNativeMethods implements NativeMethods {
    private final Map<SMethodDescriptor, NativeMethodDef> natives;

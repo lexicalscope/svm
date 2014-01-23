@@ -52,7 +52,7 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public class ConcInstructionFactory implements InstructionFactory {
    @Override public BinaryOperator iaddOperation() {

@@ -7,10 +7,10 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.lexicalscope.symb.klass.PrimitiveSClass;
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.vm.Statics;
-import com.lexicalscope.symb.vm.StaticsMarker;
+import com.lexicalscope.symb.vm.j.Statics;
+import com.lexicalscope.symb.vm.j.StaticsMarker;
+import com.lexicalscope.symb.vm.j.j.klass.PrimitiveSClass;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class StaticsImpl implements Statics {
    // TODO[tim]: need fast-clone version

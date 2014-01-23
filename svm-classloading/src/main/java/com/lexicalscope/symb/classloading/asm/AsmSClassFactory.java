@@ -7,7 +7,7 @@ import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.classloading.SClassLoader;
-import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class AsmSClassFactory {
 

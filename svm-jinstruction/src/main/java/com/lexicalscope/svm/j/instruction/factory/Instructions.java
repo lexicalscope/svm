@@ -5,8 +5,8 @@ import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface Instructions {
    public interface InstructionSink {

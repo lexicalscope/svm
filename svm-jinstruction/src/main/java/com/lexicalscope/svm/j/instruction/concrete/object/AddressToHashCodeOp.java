@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public class AddressToHashCodeOp implements Vop {
    @Override public void eval(final State ctx) {

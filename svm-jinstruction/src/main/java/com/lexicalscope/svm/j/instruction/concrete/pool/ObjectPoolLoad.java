@@ -2,8 +2,8 @@ package com.lexicalscope.svm.j.instruction.concrete.pool;
 
 import org.objectweb.asm.Type;
 
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public class ObjectPoolLoad implements Vop {
    private final String internalName;

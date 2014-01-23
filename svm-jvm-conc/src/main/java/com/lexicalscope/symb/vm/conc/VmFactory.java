@@ -9,17 +9,17 @@ import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.classloading.StaticsImpl;
-import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.heap.HeapFactory;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.stack.DequeStack;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
-import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StateImpl;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.VmImpl;
 import com.lexicalscope.symb.vm.conc.checkingheap.CheckingHeapFactory;
+import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.StateImpl;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class VmFactory {
    private static State initial(

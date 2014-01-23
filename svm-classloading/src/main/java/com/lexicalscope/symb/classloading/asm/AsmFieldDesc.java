@@ -3,7 +3,7 @@ package com.lexicalscope.symb.classloading.asm;
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.tree.FieldNode;
 
-import com.lexicalscope.symb.klass.FieldDesc;
+import com.lexicalscope.symb.vm.j.j.klass.FieldDesc;
 
 public final class AsmFieldDesc implements FieldDesc {
    private final FieldNode fieldNode;

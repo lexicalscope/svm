@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.symbolic.predicates;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.j.State;
 
 public class BinarySBranchStrategy implements SBranchStrategy {
    private final BinarySBranchOp op;

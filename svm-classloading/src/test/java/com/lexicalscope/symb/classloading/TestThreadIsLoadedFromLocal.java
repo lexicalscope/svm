@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.classloading;
 
-import static com.lexicalscope.symb.klass.SClassMatchers.*;
+import static com.lexicalscope.symb.vm.j.j.klass.SClassMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;
@@ -10,7 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class TestThreadIsLoadedFromLocal {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();

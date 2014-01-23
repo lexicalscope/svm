@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.classloading;
 
-import static com.lexicalscope.symb.vm.HeapMatchers.*;
+import static com.lexicalscope.symb.vm.j.HeapMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import java.util.List;
@@ -16,10 +16,10 @@ import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.classloading.StaticsImpl;
 import com.lexicalscope.symb.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.klass.SClass;
 import com.lexicalscope.symb.stack.DequeStack;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
-import com.lexicalscope.symb.vm.StateImpl;
+import com.lexicalscope.symb.vm.j.StateImpl;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class TestFieldInit {
    private final SClassLoader classLoader = new AsmSClassLoader();

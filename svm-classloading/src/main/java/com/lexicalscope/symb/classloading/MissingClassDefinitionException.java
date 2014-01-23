@@ -2,7 +2,7 @@ package com.lexicalscope.symb.classloading;
 
 import java.util.Map;
 
-import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class MissingClassDefinitionException extends RuntimeException {
    public MissingClassDefinitionException(final String klassName, final Map<String, SClass> defined) {

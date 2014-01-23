@@ -1,9 +1,9 @@
 package com.lexicalscope.svm.j.instruction.concrete.nativ3;
 
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.JavaConstants;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class InitThreadOp implements Vop {
    @Override public void eval(final State ctx) {

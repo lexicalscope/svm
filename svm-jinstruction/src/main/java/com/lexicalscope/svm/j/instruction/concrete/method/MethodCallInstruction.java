@@ -2,16 +2,16 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.klass.SMethod;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SMethodName;
-import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.MethodResolver;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.JavaConstants;
+import com.lexicalscope.symb.vm.j.MethodResolver;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SMethod;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class MethodCallInstruction {
    private static final class Resolution {

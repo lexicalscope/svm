@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.classloading;
 
-import static com.lexicalscope.symb.klass.SClassMatchers.nameIs;
+import static com.lexicalscope.symb.vm.j.j.klass.SClassMatchers.nameIs;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;

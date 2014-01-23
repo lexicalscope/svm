@@ -1,10 +1,10 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops.object;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
-import com.lexicalscope.symb.klass.SMethod;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.stack.trace.SMethodName;
-import com.lexicalscope.symb.vm.MethodResolver;
+import com.lexicalscope.symb.vm.j.MethodResolver;
+import com.lexicalscope.symb.vm.j.j.klass.SMethod;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class SymbolicObject implements MethodResolver {
    private final OTerminalSymbol symbol;

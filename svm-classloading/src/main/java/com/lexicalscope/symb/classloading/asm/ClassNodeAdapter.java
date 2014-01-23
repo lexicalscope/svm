@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
-import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.j.JavaConstants;
 
 public class ClassNodeAdapter {
    private final ClassNode classNode;

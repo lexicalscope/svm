@@ -8,12 +8,12 @@ import java.util.List;
 
 import com.google.common.collect.ImmutableList;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.klass.SFieldName;
-import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.Op;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StaticsMarker;
+import com.lexicalscope.symb.vm.j.JavaConstants;
+import com.lexicalscope.symb.vm.j.Op;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.StaticsMarker;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
 
 public final class DefineClassOp implements Op<List<SClass>> {
    public static final List<String> primitives = Arrays.asList(

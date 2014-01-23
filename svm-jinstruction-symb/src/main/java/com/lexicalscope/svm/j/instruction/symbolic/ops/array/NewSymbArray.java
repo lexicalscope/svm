@@ -7,7 +7,7 @@ import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayZeroedSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
 

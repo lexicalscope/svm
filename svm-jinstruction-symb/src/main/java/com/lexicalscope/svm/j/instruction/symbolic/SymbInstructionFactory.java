@@ -39,7 +39,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 /**

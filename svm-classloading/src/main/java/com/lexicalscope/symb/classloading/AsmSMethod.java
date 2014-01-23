@@ -15,11 +15,11 @@ import org.objectweb.asm.tree.MethodNode;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
-import com.lexicalscope.symb.klass.SMethod;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
-import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.MethodBody;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.MethodBody;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SMethod;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class AsmSMethod implements SMethod {
    private final SClassLoader classLoader;

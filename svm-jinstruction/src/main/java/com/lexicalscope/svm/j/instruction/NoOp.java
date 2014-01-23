@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction;
 
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public class NoOp implements Vop {
    @Override public void eval(final State ctx) {

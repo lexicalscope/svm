@@ -1,10 +1,10 @@
 package com.lexicalscope.symb.classloading;
 
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.state.Snapshotable;
-import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.MethodBody;
+import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.MethodBody;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface SClassLoader {
    /**

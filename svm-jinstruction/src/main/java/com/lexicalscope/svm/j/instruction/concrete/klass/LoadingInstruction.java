@@ -8,12 +8,12 @@ import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
-import com.lexicalscope.symb.code.AsmSMethodName;
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.JavaConstants;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.JavaConstants;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class LoadingInstruction implements Vop {
    private final List<String> klassNames;

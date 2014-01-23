@@ -1,14 +1,14 @@
 package com.lexicalscope.symb.vm.conc;
 
-import static com.lexicalscope.symb.vm.StateMatchers.normalTerminiation;
+import static com.lexicalscope.symb.vm.j.StateMatchers.normalTerminiation;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
 import com.lexicalscope.symb.vm.conc.VmFactory;
+import com.lexicalscope.symb.vm.j.State;
 
 public class TestExecution {
    private final MethodInfo entryPoint = new MethodInfo(EmptyStaticMethod.class, "main", "()V");

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.ops;
 
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 public class Nullary2Op implements Vop {
    private final Nullary2Operator operator;

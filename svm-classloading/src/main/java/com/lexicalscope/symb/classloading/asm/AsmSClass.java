@@ -9,19 +9,19 @@ import java.util.Set;
 
 import org.objectweb.asm.Type;
 
-import com.lexicalscope.symb.code.AsmSMethodName;
 import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.klass.DeclaredFields;
-import com.lexicalscope.symb.klass.DeclaredMethods;
-import com.lexicalscope.symb.klass.Fields;
-import com.lexicalscope.symb.klass.Methods;
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.klass.SField;
-import com.lexicalscope.symb.klass.SFieldName;
-import com.lexicalscope.symb.klass.SMethod;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
 import com.lexicalscope.symb.stack.trace.SMethodName;
-import com.lexicalscope.symb.vm.JavaConstants;
+import com.lexicalscope.symb.vm.j.JavaConstants;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
+import com.lexicalscope.symb.vm.j.j.klass.DeclaredFields;
+import com.lexicalscope.symb.vm.j.j.klass.DeclaredMethods;
+import com.lexicalscope.symb.vm.j.j.klass.Fields;
+import com.lexicalscope.symb.vm.j.j.klass.Methods;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SField;
+import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
+import com.lexicalscope.symb.vm.j.j.klass.SMethod;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class AsmSClass implements SClass {
    private final String klassName;

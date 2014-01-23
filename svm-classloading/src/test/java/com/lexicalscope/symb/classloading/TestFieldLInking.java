@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.classloading;
 
-import static com.lexicalscope.symb.klass.SClassMatchers.*;
+import static com.lexicalscope.symb.vm.j.j.klass.SClassMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -8,7 +8,7 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
-import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 /**
  * If the compiler changes the field order then these tests will break.

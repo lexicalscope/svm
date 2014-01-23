@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.classloading;
 
-import com.lexicalscope.symb.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 
 public class DuplicateClassDefinitionException extends RuntimeException {

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.vm.MethodBody;
+import com.lexicalscope.symb.vm.j.MethodBody;
 
 public final class Sun_misc_unsafe_addressSize extends AbstractNativeMethodDef {
    public Sun_misc_unsafe_addressSize() {

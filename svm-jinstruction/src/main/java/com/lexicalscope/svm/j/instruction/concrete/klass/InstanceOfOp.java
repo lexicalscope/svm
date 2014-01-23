@@ -1,10 +1,10 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
-import static com.lexicalscope.symb.klass.SClass.OBJECT_MARKER_OFFSET;
+import static com.lexicalscope.symb.vm.j.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
-import com.lexicalscope.symb.klass.SClass;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.Vop;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class InstanceOfOp implements Vop {
    private final String klassName;

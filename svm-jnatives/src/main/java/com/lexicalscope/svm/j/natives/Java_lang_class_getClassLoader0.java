@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.symb.vm.MethodBody;
+import com.lexicalscope.symb.vm.j.MethodBody;
 
 public final class Java_lang_class_getClassLoader0 extends AbstractNativeMethodDef {
    public Java_lang_class_getClassLoader0() {

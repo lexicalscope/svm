@@ -1,8 +1,8 @@
 package com.lexicalscope.svm.j.instruction;
 
-import com.lexicalscope.symb.vm.Instruction;
-import com.lexicalscope.symb.vm.State;
 import com.lexicalscope.symb.vm.TerminationException;
+import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.State;
 
 
 

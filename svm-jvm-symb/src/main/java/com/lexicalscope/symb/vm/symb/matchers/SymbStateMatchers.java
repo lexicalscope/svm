@@ -10,8 +10,8 @@ import com.lexicalscope.Transform;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers;
 import com.lexicalscope.symb.vm.FlowNode;
-import com.lexicalscope.symb.vm.State;
-import com.lexicalscope.symb.vm.StateMatchers;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.StateMatchers;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class SymbStateMatchers {

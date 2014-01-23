@@ -76,10 +76,10 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.code.AsmSMethodName;
-import com.lexicalscope.symb.klass.SMethodDescriptor;
-import com.lexicalscope.symb.vm.Vop;
-import com.lexicalscope.symb.vm.VopAdapter;
+import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.VopAdapter;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
