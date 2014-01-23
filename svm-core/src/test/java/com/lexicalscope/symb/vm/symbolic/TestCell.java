@@ -1,14 +1,16 @@
-package com.lexicalscope.symb.vm.tests;
+package com.lexicalscope.symb.vm.symbolic;
 
-import static com.lexicalscope.symb.vm.conc.VmFactory.concreteVm;
 import static com.lexicalscope.symb.vm.matchers.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.State;
+import com.lexicalscope.symb.vm.SymbVmFactory;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
+import com.lexicalscope.symb.vm.symbinstructions.SymbInstructionFactory;
+import com.lexicalscope.symb.vm.symbinstructions.symbols.ISymbol;
 
 public class TestCell {
    public static class Cell {
@@ -32,8 +34,11 @@ public class TestCell {
    private final MethodInfo viaCellMethod = new MethodInfo(Cell.class, "viaCell", "(I)I");
 
    @Test
-   public void concExecuteCellNewGetSet() {
-      final Vm<State> vm = concreteVm(viaCellMethod, -6);
-      assertThat(vm.execute(), normalTerminiationWithResult(-6));
+   public void symbExecuteCellNewGetSet() {
+      final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
+      final ISymbol symbol1 = instructionFactory.isymbol();
+
+      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, viaCellMethod, symbol1);
+      assertThat(vm.execute(), normalTerminiationWithResult(symbol1));
    }
 }
