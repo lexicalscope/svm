@@ -7,33 +7,13 @@
     <artifactId>svm-parent</artifactId>
     <version>0.0.1-SNAPSHOT</version>
   </parent>
-  <artifactId>svm-jinstruction-symb</artifactId>
-  <name>svm-jinstruction-symb</name>
+  <artifactId>svm-snapshot</artifactId>
+  <name>svm-snapshot</name>
   <url>http://maven.apache.org</url>
   <properties>
     <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
   </properties>
   <dependencies>
-	<dependency>
-		<groupId>com.lexicalscope.symb</groupId>
-		<artifactId>svm-jinstruction</artifactId>
-		<version>${project.version}</version>
-	</dependency>
-   <dependency>
-      <groupId>com.lexicalscope.symb</groupId>
-      <artifactId>svm-jsymbols</artifactId>
-      <version>${project.version}</version>
-   </dependency>
-	<dependency>
-		<groupId>com.lexicalscope.symb</groupId>
-		<artifactId>svm-smt-z3</artifactId>
-		<version>${project.version}</version>
-	</dependency>
-	<dependency>
-		<groupId>com.lexicalscope.symb</groupId>
-		<artifactId>svm-jvm-conc</artifactId>
-		<version>${project.version}</version>
-	</dependency>
     <dependency>
       <groupId>junit</groupId>
       <artifactId>junit</artifactId>

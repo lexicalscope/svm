@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops;
 
 import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
-import static com.lexicalscope.svm.j.instruction.symbolic.PcBuilder.asISymbol;
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.asISymbol;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;

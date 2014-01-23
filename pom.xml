@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
 	<groupId>com.lexicalscope.symb</groupId>
@@ -28,8 +29,10 @@
 		<module>svm-jinstruction-symb</module>
 		<module>svm-trie</module>
 		<module>matchers-additional</module>
-    <module>svm-jvm-symb</module>
-  </modules>
+		<module>svm-jvm-symb</module>
+		<module>svm-jsymbols</module>
+		<module>svm-snapshot</module>
+	</modules>
 	<build>
 		<pluginManagement>
 			<plugins>
@@ -67,7 +70,7 @@
 										</goals>
 									</pluginExecutionFilter>
 									<action>
-										<ignore/>
+										<ignore />
 									</action>
 								</pluginExecution>
 							</pluginExecutions>
@@ -120,21 +123,26 @@
 						<artifactId>hamcrest-library</artifactId>
 					</exclusion>
 					<exclusion>
-                        <groupId>junit</groupId>
-                        <artifactId>junit-dep</artifactId>
-                    </exclusion>
+						<groupId>junit</groupId>
+						<artifactId>junit-dep</artifactId>
+					</exclusion>
 				</exclusions>
 			</dependency>
-	      <dependency>
-	         <groupId>com.lexicalscope.symb</groupId>
-	         <artifactId>matchers-additional</artifactId>
-	         <version>${project.version}</version>
-	      </dependency>
-	      <dependency>
-	         <groupId>com.lexicalscope.junit</groupId>
-	         <artifactId>junit-autocloseable</artifactId>
-	         <version>1.0</version>
-	      </dependency>
+			<dependency>
+				<groupId>com.lexicalscope.symb</groupId>
+				<artifactId>matchers-additional</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lexicalscope.symb</groupId>
+				<artifactId>svm-snapshot</artifactId>
+				<version>${project.version}</version>
+			</dependency>
+			<dependency>
+				<groupId>com.lexicalscope.junit</groupId>
+				<artifactId>junit-autocloseable</artifactId>
+				<version>1.0</version>
+			</dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>

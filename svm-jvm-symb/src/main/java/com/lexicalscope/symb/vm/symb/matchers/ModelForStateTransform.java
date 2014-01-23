@@ -3,7 +3,7 @@ package com.lexicalscope.symb.vm.symb.matchers;
 import org.hamcrest.Description;
 
 import com.lexicalscope.Transform;
-import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;

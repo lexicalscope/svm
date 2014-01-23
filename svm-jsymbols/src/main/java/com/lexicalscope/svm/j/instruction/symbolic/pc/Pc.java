@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.symbolic;
+package com.lexicalscope.svm.j.instruction.symbolic.pc;
 
 import java.util.ArrayList;
 import java.util.List;

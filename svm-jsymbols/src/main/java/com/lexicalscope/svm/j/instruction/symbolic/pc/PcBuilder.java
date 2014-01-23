@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.symbolic;
+package com.lexicalscope.svm.j.instruction.symbolic.pc;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpEqSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;

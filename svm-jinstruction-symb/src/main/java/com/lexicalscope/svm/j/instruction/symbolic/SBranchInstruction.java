@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic;
 
+import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.BinarySBranchOp;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.BinarySBranchStrategy;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.EqStrategy;

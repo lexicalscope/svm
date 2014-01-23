@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.z3;
 
-import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.microsoft.z3.ApplyResult;
 import com.microsoft.z3.BoolExpr;

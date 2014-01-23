@@ -35,6 +35,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.SIMulOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SISubOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SymbFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
+import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;

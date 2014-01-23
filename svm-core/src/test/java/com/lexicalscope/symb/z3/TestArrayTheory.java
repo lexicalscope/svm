@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.z3;
 
-import static com.lexicalscope.svm.j.instruction.symbolic.PcBuilder.icmpEq;
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.icmpEq;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
@@ -8,7 +8,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.svm.j.instruction.symbolic.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
