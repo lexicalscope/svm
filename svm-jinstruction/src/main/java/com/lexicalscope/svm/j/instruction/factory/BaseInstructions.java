@@ -130,13 +130,13 @@ public final class BaseInstructions implements Instructions {
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return linearInstruction(instructionFactory.putField(fieldInsnNode));
+                  return putField(fieldInsnNode);
                case Opcodes.GETFIELD:
-                  return linearInstruction(instructionFactory.getField(fieldInsnNode));
+                  return getField(fieldInsnNode);
                case Opcodes.GETSTATIC:
-                  return loadingInstruction(fieldInsnNode, new GetStaticOp(fieldInsnNode));
+                  return getStaticField(fieldInsnNode);
                case Opcodes.PUTSTATIC:
-                  return loadingInstruction(fieldInsnNode, new PutStaticOp(fieldInsnNode));
+                  return putStaticField(fieldInsnNode);
             }
             break;
          case AbstractInsnNode.INSN:
@@ -155,87 +155,87 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.ARETURN:
                   return return1();
                case Opcodes.IAND:
-                  return binaryOp(instructionFactory.iandOperation());
+                  return iand();
                case Opcodes.LAND:
-                  return binary2Op(instructionFactory.landOperation());
+                  return land();
                case Opcodes.IADD:
-                  return binaryOp(instructionFactory.iaddOperation());
+                  return iadd();
                case Opcodes.IMUL:
-                  return binaryOp(instructionFactory.imulOperation());
+                  return imul();
                case Opcodes.FMUL:
-                  return binaryOp(instructionFactory.fmulOperation());
+                  return fmul();
                case Opcodes.FDIV:
-                  return binaryOp(instructionFactory.fdivOperation());
+                  return fdiv();
                case Opcodes.ISUB:
-                  return binaryOp(instructionFactory.isubOperation());
+                  return isub();
                case Opcodes.INEG:
-                  return unaryOp(instructionFactory.inegOperation());
+                  return ineg();
                case Opcodes.DUP:
-                  return linearInstruction(new DupOp());
+                  return dup();
                case Opcodes.DUP_X1:
-                  return linearInstruction(new Dup_X1Op());
+                  return dup_x1();
                case Opcodes.ICONST_M1:
-                  return iconst(-1);
+                  return iconst_m1();
                case Opcodes.ICONST_0:
                   return iconst_0();
                case Opcodes.ICONST_1:
-                  return iconst(1);
+                  return iconst_1();
                case Opcodes.ICONST_2:
-                  return iconst(2);
+                  return iconst_2();
                case Opcodes.ICONST_3:
-                  return iconst(3);
+                  return iconst_3();
                case Opcodes.ICONST_4:
-                  return iconst(4);
+                  return iconst_4();
                case Opcodes.ICONST_5:
-                  return iconst(5);
+                  return iconst_5();
                case Opcodes.LCONST_0:
-                  return lconst(0);
+                  return lconst_0();
                case Opcodes.LCONST_1:
-                  return lconst(1);
+                  return lconst_1();
                case Opcodes.FCONST_0:
                   return fconst_0();
                case Opcodes.CASTORE:
-                  return linearInstruction(ArrayStoreOp.caStore());
+                  return caStore();
                case Opcodes.IASTORE:
-                  return linearInstruction(instructionFactory.iaStore());
+                  return iaStore();
                case Opcodes.AASTORE:
-                  return linearInstruction(instructionFactory.aaStore());
+                  return aaStore();
                case Opcodes.CALOAD:
-                  return linearInstruction(ArrayLoadOp.caLoad());
+                  return caload();
                case Opcodes.IALOAD:
-                  return linearInstruction(instructionFactory.iaLoad());
+                  return iaload();
                case Opcodes.AALOAD:
-                  return linearInstruction(instructionFactory.aaLoad());
+                  return aaload();
                case Opcodes.ARRAYLENGTH:
-                  return linearInstruction(new ArrayLengthOp());
+                  return arrayLength();
                case Opcodes.ISHL:
-                  return linearInstruction(new IshlOp());
+                  return ishl();
                case Opcodes.ISHR:
-                   return linearInstruction(new IshrOp());
+                   return ishr();
                case Opcodes.IUSHR:
-                  return linearInstruction(new IushrOp());
+                  return iushr();
                case Opcodes.IOR:
-                  return linearInstruction(new IorOp());
+                  return ior();
                case Opcodes.IXOR:
-                  return linearInstruction(new IxorOp());
+                  return ixor();
                case Opcodes.LUSHR:
-                  return linearInstruction(new LushrOp());
+                  return lushr();
                case Opcodes.I2L:
-                  return linearInstruction(new I2LOp());
+                  return i2l();
                case Opcodes.L2I:
-                  return linearInstruction(new L2IOp());
+                  return l2i();
                case Opcodes.I2F:
-                  return linearInstruction(new I2FOp());
+                  return i2f();
                case Opcodes.F2I:
-                  return linearInstruction(new F2IOp());
+                  return f2i();
                case Opcodes.FCMPG:
-                  return binaryOp(new FCmpGOperator());
+                  return fcmpg();
                case Opcodes.FCMPL:
-                  return binaryOp(new FCmpLOperator());
+                  return fcmpl();
                case Opcodes.LCMP:
-                  return linearInstruction(new LCmpOp());
+                  return lcmp();
                case Opcodes.POP:
-                  return linearInstruction(new PopOp());
+                  return pop();
             }
             break;
          case AbstractInsnNode.LDC_INSN:
@@ -243,13 +243,13 @@ public final class BaseInstructions implements Instructions {
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.LDC:
                   if(ldcInsnNode.cst instanceof Integer) {
-                     return iconst((int) ldcInsnNode.cst);
+                     return ldcInt((int) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Long) {
-                     return lconst((long) ldcInsnNode.cst);
+                     return ldcLong((long) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Float) {
-                     return fconst((float) ldcInsnNode.cst);
+                     return ldcFloat((float) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Double) {
-                     return dconst((double) ldcInsnNode.cst);
+                     return ldcDouble((double) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof String) {
                      return stringPoolLoad((String) ldcInsnNode.cst);
                   } else if(ldcInsnNode.cst instanceof Type) {
@@ -263,19 +263,21 @@ public final class BaseInstructions implements Instructions {
             break;
          case AbstractInsnNode.INT_INSN:
             final IntInsnNode intInsnNode = (IntInsnNode) abstractInsnNode;
+            final int val = intInsnNode.operand;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.SIPUSH:
+                  return sipush(val);
                case Opcodes.BIPUSH:
-                  return iconst(intInsnNode.operand);
+                  return bipush(val);
                case Opcodes.NEWARRAY:
-                  return linearInstruction(instructionFactory.newArray(initialFieldValue(intInsnNode.operand)));
+                  return newarray(val);
             }
             break;
          case AbstractInsnNode.IINC_INSN:
             final IincInsnNode iincInsnNode = (IincInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.IINC:
-                  return linearInstruction(new IincOp(iincInsnNode.var, iincInsnNode.incr));
+                  return iinc(iincInsnNode);
             }
             break;
          case AbstractInsnNode.TYPE_INSN:
@@ -284,48 +286,48 @@ public final class BaseInstructions implements Instructions {
                case Opcodes.NEW:
                   return newObject(typeInsnNode.desc);
                case Opcodes.ANEWARRAY:
-                  return linearInstruction(instructionFactory.aNewArray());
+                  return anewarray();
                case Opcodes.INSTANCEOF:
-                  return linearInstruction(new InstanceOfOp(typeInsnNode.desc));
+                  return instance0f(typeInsnNode);
                case Opcodes.CHECKCAST:
-                  return linearInstruction(new CheckCastOp(typeInsnNode.desc));
+                  return checkcast(typeInsnNode);
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
             final JumpInsnNode jumpInsnNode = (JumpInsnNode) abstractInsnNode;
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
-                  return instructionFactory.branchIfGe(jumpInsnNode);
+                  return ifge(jumpInsnNode);
                case Opcodes.IFGT:
-                  return instructionFactory.branchIfGt(jumpInsnNode);
+                  return ifgt(jumpInsnNode);
                case Opcodes.IFLE:
-                  return instructionFactory.branchIfLe(jumpInsnNode);
+                  return ifle(jumpInsnNode);
                case Opcodes.IFLT:
-                  return instructionFactory.branchIfLt(jumpInsnNode);
+                  return iflt(jumpInsnNode);
                case Opcodes.IFEQ:
-                  return instructionFactory.branchIfEq(jumpInsnNode);
+                  return ifeq(jumpInsnNode);
                case Opcodes.IFNE:
-                  return instructionFactory.branchIfNe(jumpInsnNode);
+                  return ifne(jumpInsnNode);
                case Opcodes.IFNULL:
-                  return instructionFactory.branchIfNull(jumpInsnNode);
+                  return ifnull(jumpInsnNode);
                case Opcodes.IFNONNULL:
-                  return instructionFactory.branchIfNonNull(jumpInsnNode);
+                  return ifnonnull(jumpInsnNode);
                case Opcodes.IF_ICMPEQ:
-                  return instructionFactory.branchIfICmpEq(jumpInsnNode);
+                  return ificmpeq(jumpInsnNode);
                case Opcodes.IF_ICMPNE:
-                  return instructionFactory.branchIfICmpNe(jumpInsnNode);
+                  return ificmpne(jumpInsnNode);
                case Opcodes.IF_ICMPLE:
-                  return instructionFactory.branchIfICmpLe(jumpInsnNode);
+                  return ificmple(jumpInsnNode);
                case Opcodes.IF_ICMPLT:
-                  return instructionFactory.branchIfICmpLt(jumpInsnNode);
+                  return ificmplt(jumpInsnNode);
                case Opcodes.IF_ICMPGT:
-                  return instructionFactory.branchIfICmpGt(jumpInsnNode);
+                  return ificmpgt(jumpInsnNode);
                case Opcodes.IF_ICMPGE:
-                  return instructionFactory.branchIfICmpGe(jumpInsnNode);
+                  return ificmpge(jumpInsnNode);
                case Opcodes.IF_ACMPNE:
-                  return instructionFactory.branchIfACmpNe(jumpInsnNode);
+                  return ifacmpne(jumpInsnNode);
                case Opcodes.GOTO:
-                  return new BranchInstruction(new Unconditional());
+                  return got0();
             }
             break;
          case AbstractInsnNode.METHOD_INSN:
@@ -333,18 +335,314 @@ public final class BaseInstructions implements Instructions {
             final SMethodDescriptor name = new AsmSMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESTATIC:
-                  return MethodCallInstruction.createInvokeStatic(name);
+                  return invokestatic(name);
                case Opcodes.INVOKESPECIAL:
-                  return MethodCallInstruction.createInvokeSpecial(name);
+                  return invokespecial(name);
                case Opcodes.INVOKEINTERFACE:
-                  return MethodCallInstruction.createInvokeInterface(name);
+                  return invokeinterface(name);
                case Opcodes.INVOKEVIRTUAL:
-                  return MethodCallInstruction.createInvokeVirtual(name);
+                  return invokevirtual(name);
             }
             break;
       }
 
       return new UnsupportedInstruction(abstractInsnNode);
+   }
+
+   public Vop invokevirtual(final SMethodDescriptor name) {
+      return MethodCallInstruction.createInvokeVirtual(name);
+   }
+
+   public Vop invokeinterface(final SMethodDescriptor name) {
+      return MethodCallInstruction.createInvokeInterface(name);
+   }
+
+   public Vop invokespecial(final SMethodDescriptor name) {
+      return MethodCallInstruction.createInvokeSpecial(name);
+   }
+
+   public Vop invokestatic(final SMethodDescriptor name) {
+      return MethodCallInstruction.createInvokeStatic(name);
+   }
+
+   public BranchInstruction got0() {
+      return new BranchInstruction(new Unconditional());
+   }
+
+   public Vop ifacmpne(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfACmpNe(jumpInsnNode);
+   }
+
+   public Vop ificmpge(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfICmpGe(jumpInsnNode);
+   }
+
+   public Vop ificmpgt(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfICmpGt(jumpInsnNode);
+   }
+
+   public Vop ificmplt(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfICmpLt(jumpInsnNode);
+   }
+
+   public Vop ificmple(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfICmpLe(jumpInsnNode);
+   }
+
+   public Vop ificmpne(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfICmpNe(jumpInsnNode);
+   }
+
+   public Vop ificmpeq(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfICmpEq(jumpInsnNode);
+   }
+
+   public Vop ifnonnull(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfNonNull(jumpInsnNode);
+   }
+
+   public Vop ifnull(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfNull(jumpInsnNode);
+   }
+
+   public Vop ifne(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfNe(jumpInsnNode);
+   }
+
+   public Vop ifeq(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfEq(jumpInsnNode);
+   }
+
+   public Vop iflt(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfLt(jumpInsnNode);
+   }
+
+   public Vop ifle(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfLe(jumpInsnNode);
+   }
+
+   public Vop ifgt(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfGt(jumpInsnNode);
+   }
+
+   public Vop ifge(final JumpInsnNode jumpInsnNode) {
+      return instructionFactory.branchIfGe(jumpInsnNode);
+   }
+
+   public LinearInstruction checkcast(final TypeInsnNode typeInsnNode) {
+      return linearInstruction(new CheckCastOp(typeInsnNode.desc));
+   }
+
+   public LinearInstruction instance0f(final TypeInsnNode typeInsnNode) {
+      return linearInstruction(new InstanceOfOp(typeInsnNode.desc));
+   }
+
+   public LinearInstruction anewarray() {
+      return linearInstruction(instructionFactory.aNewArray());
+   }
+
+   public LinearInstruction iinc(final IincInsnNode iincInsnNode) {
+      return linearInstruction(new IincOp(iincInsnNode.var, iincInsnNode.incr));
+   }
+
+   public LinearInstruction newarray(final int val) {
+      return linearInstruction(instructionFactory.newArray(initialFieldValue(val)));
+   }
+
+   public Vop bipush(final int val) {
+      return iconst(val);
+   }
+
+   public Vop sipush(final int val) {
+      return iconst(val);
+   }
+
+   public Vop ldcDouble(final double val) {
+      return dconst(val);
+   }
+
+   public Vop ldcFloat(final float val) {
+      return fconst(val);
+   }
+
+   public Vop ldcLong(final long val) {
+      return lconst(val);
+   }
+
+   public Vop ldcInt(final int val) {
+      return iconst(val);
+   }
+
+   public LinearInstruction pop() {
+      return linearInstruction(new PopOp());
+   }
+
+   public LinearInstruction lcmp() {
+      return linearInstruction(new LCmpOp());
+   }
+
+   public LinearInstruction fcmpl() {
+      return binaryOp(new FCmpLOperator());
+   }
+
+   public LinearInstruction fcmpg() {
+      return binaryOp(new FCmpGOperator());
+   }
+
+   public LinearInstruction f2i() {
+      return linearInstruction(new F2IOp());
+   }
+
+   public LinearInstruction i2f() {
+      return linearInstruction(new I2FOp());
+   }
+
+   public LinearInstruction l2i() {
+      return linearInstruction(new L2IOp());
+   }
+
+   public LinearInstruction i2l() {
+      return linearInstruction(new I2LOp());
+   }
+
+   public LinearInstruction lushr() {
+      return linearInstruction(new LushrOp());
+   }
+
+   public LinearInstruction ixor() {
+      return linearInstruction(new IxorOp());
+   }
+
+   public LinearInstruction ior() {
+      return linearInstruction(new IorOp());
+   }
+
+   public LinearInstruction iushr() {
+      return linearInstruction(new IushrOp());
+   }
+
+   public LinearInstruction ishr() {
+      return linearInstruction(new IshrOp());
+   }
+
+   public LinearInstruction ishl() {
+      return linearInstruction(new IshlOp());
+   }
+
+   public LinearInstruction arrayLength() {
+      return linearInstruction(new ArrayLengthOp());
+   }
+
+   public LinearInstruction aaload() {
+      return linearInstruction(instructionFactory.aaLoad());
+   }
+
+   public LinearInstruction iaload() {
+      return linearInstruction(instructionFactory.iaLoad());
+   }
+
+   public LinearInstruction caload() {
+      return linearInstruction(ArrayLoadOp.caLoad());
+   }
+
+   public LinearInstruction aaStore() {
+      return linearInstruction(instructionFactory.aaStore());
+   }
+
+   public LinearInstruction iaStore() {
+      return linearInstruction(instructionFactory.iaStore());
+   }
+
+   public LinearInstruction caStore() {
+      return linearInstruction(ArrayStoreOp.caStore());
+   }
+
+   public Vop lconst_1() {
+      return lconst(1);
+   }
+
+   public Vop lconst_0() {
+      return lconst(0);
+   }
+
+   public Vop iconst_5() {
+      return iconst(5);
+   }
+
+   public Vop iconst_4() {
+      return iconst(4);
+   }
+
+   public Vop iconst_3() {
+      return iconst(3);
+   }
+
+   public Vop iconst_2() {
+      return iconst(2);
+   }
+
+   public Vop iconst_1() {
+      return iconst(1);
+   }
+
+   public Vop iconst_m1() {
+      return iconst(-1);
+   }
+
+   public LinearInstruction dup_x1() {
+      return linearInstruction(new Dup_X1Op());
+   }
+
+   public LinearInstruction dup() {
+      return linearInstruction(new DupOp());
+   }
+
+   public LinearInstruction ineg() {
+      return unaryOp(instructionFactory.inegOperation());
+   }
+
+   public LinearInstruction isub() {
+      return binaryOp(instructionFactory.isubOperation());
+   }
+
+   public LinearInstruction fdiv() {
+      return binaryOp(instructionFactory.fdivOperation());
+   }
+
+   public LinearInstruction fmul() {
+      return binaryOp(instructionFactory.fmulOperation());
+   }
+
+   public LinearInstruction imul() {
+      return binaryOp(instructionFactory.imulOperation());
+   }
+
+   public LinearInstruction iadd() {
+      return binaryOp(instructionFactory.iaddOperation());
+   }
+
+   public LinearInstruction land() {
+      return binary2Op(instructionFactory.landOperation());
+   }
+
+   public LinearInstruction iand() {
+      return binaryOp(instructionFactory.iandOperation());
+   }
+
+   public LoadingInstruction putStaticField(final FieldInsnNode fieldInsnNode) {
+      return loadingInstruction(fieldInsnNode, new PutStaticOp(fieldInsnNode));
+   }
+
+   public LoadingInstruction getStaticField(final FieldInsnNode fieldInsnNode) {
+      return loadingInstruction(fieldInsnNode, new GetStaticOp(fieldInsnNode));
+   }
+
+   public LinearInstruction getField(final FieldInsnNode fieldInsnNode) {
+      return linearInstruction(instructionFactory.getField(fieldInsnNode));
+   }
+
+   public LinearInstruction putField(final FieldInsnNode fieldInsnNode) {
+      return linearInstruction(instructionFactory.putField(fieldInsnNode));
    }
 
    private LinearInstruction store(final VarInsnNode varInsnNode) {
@@ -496,7 +794,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public Vop createInvokeSpecial(final SMethodDescriptor sMethodName) {
-      return MethodCallInstruction.createInvokeSpecial(sMethodName);
+      return invokespecial(sMethodName);
    }
 
    @Override public Vop invokeInterface(final String klassName, final String methodName, final String desc) {
@@ -504,7 +802,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    private Vop invokeInterface(final SMethodDescriptor sMethodName) {
-      return MethodCallInstruction.createInvokeInterface(sMethodName);
+      return invokeinterface(sMethodName);
    }
 
    @Override public Vop currentThread() {
