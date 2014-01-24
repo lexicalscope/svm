@@ -11,8 +11,11 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface InstructionSource {
    InstructionSource load(int var, InstructionSink sink);
-   InstructionSource store(int var, InstructionSink sink);
    InstructionSource load2(int var, InstructionSink sink);
+   InstructionSource aload(int index, InstructionSink sink);
+   InstructionSource fload(int index, InstructionSink sink);
+   InstructionSource dload(int index, InstructionSink sink);
+   InstructionSource store(int var, InstructionSink sink);
    InstructionSource store2(int var, InstructionSink sink);
 
    InstructionSource putField(FieldInsnNode fieldInsnNode, InstructionSink sink);

@@ -21,8 +21,6 @@ public interface Instructions {
 
    Vop defineClass(List<String> klassNames);
 
-   void invokespecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
-   void invokestatic(SMethodDescriptor sMethodName, InstructionSink sink);
    void classDefaultConstructor(String klassName, InstructionSink sink);
 
    void initThread(InstructionSink sink);
@@ -43,22 +41,10 @@ public interface Instructions {
    void iconst(int constVal, InstructionSink sink);
    void lconst(long constVal, InstructionSink sink);
    void invokeInterface(SMethodDescriptor sMethodName, InstructionSink sink);
-   void aload(int index, InstructionSink sink);
-   void fload(int index, InstructionSink sink);
-   void dload(int index, InstructionSink sink);
 
    void nop(InstructionSink sink);
 
    void loadArg(Object object, InstructionSink sink);
 
-   void newObject(String klassDesc, InstructionSink sink);
-
-   void aconst_null(InstructionSink sink);
-
-   void iconst_0(InstructionSink sink);
-
-   void return1(InstructionSink sink);
-   void return2(InstructionSink sink);
-   void returnVoid(InstructionSink sink);
-
+   InstructionSource source();
 }

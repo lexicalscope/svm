@@ -40,11 +40,6 @@ public final class StatementBuilder {
       return this;
    }
 
-   private StatementBuilder add(final Vop instruction) {
-      instructions.add(instruction);
-      return this;
-   }
-
    public MethodBody build() {
       return new MethodBody(buildInstruction(), maxStack, maxLocals);
    }
@@ -60,17 +55,17 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      factory.newObject(klassDesc, sink);
+      factory.source().newObject(klassDesc, sink);
       return this;
    }
 
    public StatementBuilder aconst_null() {
-      factory.aconst_null(sink);
+      factory.source().aconst_null(sink);
       return this;
    }
 
    public StatementBuilder iconst_0() {
-      factory.iconst_0(sink);
+      factory.source().iconst_0(sink);
       return this;
    }
 
@@ -85,17 +80,17 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder return1() {
-      factory.return1(sink);
+      factory.source().return1(sink);
       return this;
    }
 
    public StatementBuilder return2() {
-      factory.return2(sink);
+      factory.source().return2(sink);
       return this;
    }
 
    public StatementBuilder returnVoid() {
-      factory.returnVoid(sink);
+      factory.source().returnVoid(sink);
       return this;
    }
 
@@ -105,7 +100,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder aload(final int index) {
-      factory.aload(index, sink);
+      factory.source().aload(index, sink);
       return this;
    }
 
@@ -140,12 +135,12 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder fload(final int index) {
-      factory.fload(index, sink);
+      factory.source().fload(index, sink);
       return this;
    }
 
    public StatementBuilder dload(final int index) {
-      factory.dload(index, sink);
+      factory.source().dload(index, sink);
       return this;
    }
 
@@ -180,12 +175,12 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder createInvokeSpecial(final SMethodDescriptor sMethodName) {
-      factory.invokespecial(sMethodName, sink);
+      factory.source().invokespecial(sMethodName, sink);
       return this;
    }
 
    public StatementBuilder createInvokeStatic(final SMethodDescriptor sMethodName) {
-      factory.invokestatic(sMethodName, sink);
+      factory.source().invokestatic(sMethodName, sink);
       return this;
    }
 

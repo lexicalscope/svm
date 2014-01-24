@@ -511,4 +511,16 @@ public class BaseInstructionSource implements InstructionSource {
       sink.nextInstruction(instructionHelper.loadingInstruction(klassDesc, op, instructions));
       return this;
    }
+
+   @Override public InstructionSource aload(final int index, final InstructionSink sink) {
+      return load(index, sink);
+   }
+
+   @Override public InstructionSource fload(final int index, final InstructionSink sink) {
+      return load(index, sink);
+   }
+
+   @Override public InstructionSource dload(final int index, final InstructionSink sink) {
+      return load2(index, sink);
+   }
 }

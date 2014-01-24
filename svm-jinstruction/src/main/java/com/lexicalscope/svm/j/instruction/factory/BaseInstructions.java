@@ -46,24 +46,12 @@ public final class BaseInstructions implements Instructions {
             return;
       }
 
-      new InstructionSwitch(instructionSource).instructionFor(abstractInsnNode, sink);
+      new InstructionSwitch(source()).instructionFor(abstractInsnNode, sink);
    }
 
    /*
     * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
     */
-
-   @Override public void aload(final int index, final InstructionSink sink) {
-      instructionSource.load(index, sink);
-   }
-
-   @Override public void fload(final int index, final InstructionSink sink) {
-      instructionSource.load(index, sink);
-   }
-
-   @Override public void dload(final int index, final InstructionSink sink) {
-      instructionSource.load2(index, sink);
-   }
 
    public static String fieldKey(final FieldInsnNode fieldInsnNode) {
       return String.format("%s.%s:%s", fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
@@ -93,20 +81,12 @@ public final class BaseInstructions implements Instructions {
       sink.linearInstruction(new CurrentTimeMillisOp());
    }
 
-   @Override public void invokespecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      instructionSource.invokespecial(sMethodName, sink);
-   }
-
-   @Override public void invokestatic(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      instructionSource.invokestatic(sMethodName, sink);
-   }
-
    @Override public void classDefaultConstructor(final String klassName, final InstructionSink sink) {
       MethodCallInstruction.createClassDefaultConstructor(klassName, sink);
    }
 
    @Override public void invokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      instructionSource.invokeinterface(sMethodName, sink);
+      source().invokeinterface(sMethodName, sink);
    }
 
    @Override public void currentThread(final InstructionSink sink) {
@@ -178,27 +158,7 @@ public final class BaseInstructions implements Instructions {
       sink.linearInstruction(instructionHelper.lconst(constVal));
    }
 
-   @Override public void newObject(final String klassDesc, final InstructionSink sink) {
-      instructionSource.newObject(klassDesc, sink);
-   }
-
-   @Override public void aconst_null(final InstructionSink sink) {
-      instructionSource.aconst_null(sink);
-   }
-
-   @Override public void iconst_0(final InstructionSink sink) {
-      instructionSource.iconst_0(sink);
-   }
-
-   @Override public void return1(final InstructionSink sink) {
-      instructionSource.return1(sink);
-   }
-
-   @Override public void return2(final InstructionSink sink) {
-      instructionSource.return2(sink);
-   }
-
-   @Override public void returnVoid(final InstructionSink sink) {
-      instructionSource.returnVoid(sink);
+   @Override public InstructionSource source() {
+      return instructionSource;
    }
 }
