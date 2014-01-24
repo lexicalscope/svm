@@ -70,7 +70,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder iconst(final int i) {
-      factory.iconst(i, sink);
+      factory.source().iconst(i, sink);
       return this;
    }
 

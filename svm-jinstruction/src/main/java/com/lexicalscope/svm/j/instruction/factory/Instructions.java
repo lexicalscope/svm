@@ -38,7 +38,6 @@ public interface Instructions {
    void nanoTime(InstructionSink sink);
    void currentTimeMillis(InstructionSink sink);
 
-   void iconst(int constVal, InstructionSink sink);
    void lconst(long constVal, InstructionSink sink);
    void invokeInterface(SMethodDescriptor sMethodName, InstructionSink sink);
 

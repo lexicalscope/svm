@@ -1,16 +1,9 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
-import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Op;
-import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
-import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOp;
-import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
-import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOp;
-import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.VopAdapter;
 
@@ -21,37 +14,14 @@ final class InstructionHelper {
       this.instructionFactory = instructionFactory;
    }
 
-   Binary2Op binary2Op(final Binary2Operator operation) {
-      return new Binary2Op(operation);
-   }
-
-   UnaryOp unaryOp(final UnaryOperator operation) {
-      return new UnaryOp(operation);
-   }
-
-   LinearInstruction linearInstruction(final Vop op) {
-      return new LinearInstruction(op);
-   }
-
-   NullaryOp fconst(final float constVal) {
-      return nullary(instructionFactory.fconst(constVal));
-   }
-
    Vop dconst(final double constVal) {
       return nullary2(instructionFactory.dconst(constVal));
-   }
-
-   NullaryOp nullary(final NullaryOperator nullary) {
-      return new NullaryOp(nullary);
    }
 
    Nullary2Op nullary2(final Nullary2Operator nullary) {
       return new Nullary2Op(nullary);
    }
 
-   Vop iconst(final int constVal) {
-      return nullary(instructionFactory.iconst(constVal));
-   }
 
    Object initialFieldValue(final int atype) {
       /*

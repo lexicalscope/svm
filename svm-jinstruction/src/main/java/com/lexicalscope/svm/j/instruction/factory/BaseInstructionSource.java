@@ -31,8 +31,12 @@ import com.lexicalscope.svm.j.instruction.concrete.l0ng.LCmpOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LushrOp;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.object.AConstNullOp;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOp;
+import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.pool.ObjectPoolLoad;
 import com.lexicalscope.svm.j.instruction.concrete.pool.StringPoolLoadOperator;
 import com.lexicalscope.svm.j.instruction.concrete.stack.DupOp;
@@ -197,12 +201,12 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource bipush(final int val, final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(val), sink);
+      return iconst(val, sink);
    }
 
    @Override
    public InstructionSource sipush(final int val, final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(val), sink);
+      return iconst(val, sink);
    }
 
    @Override
@@ -212,7 +216,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource ldcFloat(final float val, final InstructionSink sink) {
-      return linearInstruction(instructionHelper.fconst(val), sink);
+      return linearInstruction(fconst(val), sink);
    }
 
    @Override
@@ -222,7 +226,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource ldcInt(final int val, final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(val), sink);
+      return iconst(val, sink);
    }
 
    @Override
@@ -342,32 +346,32 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource iconst_5(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(5), sink);
+      return iconst(5, sink);
    }
 
    @Override
    public InstructionSource iconst_4(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(4), sink);
+      return iconst(4, sink);
    }
 
    @Override
    public InstructionSource iconst_3(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(3), sink);
+      return iconst(3, sink);
    }
 
    @Override
    public InstructionSource iconst_2(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(2), sink);
+      return iconst(2, sink);
    }
 
    @Override
    public InstructionSource iconst_1(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(1), sink);
+      return iconst(1, sink);
    }
 
    @Override
    public InstructionSource iconst_m1(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(-1), sink);
+      return iconst(-1, sink);
    }
 
    @Override
@@ -382,7 +386,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource ineg(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.unaryOp(instructionFactory.inegOperation()), sink);
+      return linearInstruction(new UnaryOp(instructionFactory.inegOperation()), sink);
    }
 
    @Override
@@ -412,7 +416,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource land(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.binary2Op(instructionFactory.landOperation()), sink);
+      return linearInstruction(new Binary2Op(instructionFactory.landOperation()), sink);
    }
 
    @Override
@@ -454,12 +458,15 @@ public class BaseInstructionSource implements InstructionSource {
       return linearInstruction(new AConstNullOp(), sink);
    }
 
-   @Override public InstructionSource iconst_0(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.iconst(0), sink);
+   @Override public InstructionSource iconst(final int val, final InstructionSink sink) {
+      return linearInstruction(nullary(instructionFactory.iconst(val)), sink);
    }
 
+   @Override public InstructionSource iconst_0(final InstructionSink sink) {
+      return iconst(0, sink);
+   }
    @Override public InstructionSource fconst_0(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.fconst(0), sink);
+      return linearInstruction(fconst(0), sink);
    }
 
    @Override public InstructionSource stringPoolLoad(final String constVal, final InstructionSink sink) {
@@ -522,5 +529,13 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override public InstructionSource dload(final int index, final InstructionSink sink) {
       return load2(index, sink);
+   }
+
+   private NullaryOp fconst(final float constVal) {
+      return nullary(instructionFactory.fconst(constVal));
+   }
+
+   private NullaryOp nullary(final NullaryOperator nullary) {
+      return new NullaryOp(nullary);
    }
 }

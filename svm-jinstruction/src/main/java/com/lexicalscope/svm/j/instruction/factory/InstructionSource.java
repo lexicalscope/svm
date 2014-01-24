@@ -43,6 +43,7 @@ public interface InstructionSource {
    InstructionSource iinc(IincInsnNode iincInsnNode, InstructionSink sink);
    InstructionSource i2l(InstructionSink sink);
    InstructionSource i2f(InstructionSink sink);
+   InstructionSource iconst(int val, InstructionSink sink);
    InstructionSource iconst_m1(InstructionSink sink);
    InstructionSource iconst_0(InstructionSink sink);
    InstructionSource iconst_1(InstructionSink sink);
@@ -111,5 +112,5 @@ public interface InstructionSource {
    InstructionSource invokeinterface(SMethodDescriptor name, InstructionSink sink);
    InstructionSource invokevirtual(SMethodDescriptor name, InstructionSink sink);
 
-   InstructionSource got0(InstructionSink sink);
+   InstructionSource got0(InstructionSink sink);;
 }

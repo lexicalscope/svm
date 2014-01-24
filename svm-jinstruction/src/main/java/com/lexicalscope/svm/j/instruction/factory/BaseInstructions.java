@@ -150,10 +150,6 @@ public final class BaseInstructions implements Instructions {
       sink.nextInstruction(instructionFactory.loadArg(object, this));
    }
 
-   @Override public void iconst(final int constVal, final InstructionSink sink) {
-      sink.linearInstruction(instructionHelper.iconst(constVal));
-   }
-
    @Override public void lconst(final long constVal, final InstructionSink sink) {
       sink.linearInstruction(instructionHelper.lconst(constVal));
    }
