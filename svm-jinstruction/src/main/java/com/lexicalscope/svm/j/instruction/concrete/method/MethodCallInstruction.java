@@ -154,11 +154,11 @@ public class MethodCallInstruction {
       }
    }
 
-   public static void createInvokeVirtual(final SMethodDescriptor name, final InstructionSink sink) {
+   public static void invokevirtual(final SMethodDescriptor name, final InstructionSink sink) {
       sink.nextInstruction(new LinearInstruction(new MethodCallOp(name, new VirtualMethodInvokation())));
    }
 
-   public static void createInvokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+   public static void invokeinterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
       sink.nextInstruction(new LinearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation())));
    }
 

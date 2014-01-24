@@ -22,7 +22,6 @@ import com.lexicalscope.svm.j.instruction.concrete.nativ3.NanoTimeOp;
 import com.lexicalscope.svm.j.instruction.concrete.object.AddressToHashCodeOp;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class BaseInstructions implements Instructions {
@@ -95,23 +94,19 @@ public final class BaseInstructions implements Instructions {
       return instructionHelper.linearInstruction(new CurrentTimeMillisOp());
    }
 
-   @Override public void createInvokeSpecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+   @Override public void invokespecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
       instructionSource.invokespecial(sMethodName, sink);
    }
 
-   @Override public void createInvokeStatic(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+   @Override public void invokestatic(final SMethodDescriptor sMethodName, final InstructionSink sink) {
       instructionSource.invokestatic(sMethodName, sink);
    }
 
-   @Override public void createClassDefaultConstructor(final String klassName, final InstructionSink sink) {
+   @Override public void classDefaultConstructor(final String klassName, final InstructionSink sink) {
       MethodCallInstruction.createClassDefaultConstructor(klassName, sink);
    }
 
-   @Override public void invokeInterface(final String klassName, final String methodName, final String desc, final InstructionSink sink) {
-      invokeInterface(new AsmSMethodName(klassName, methodName, desc), sink);
-   }
-
-   private void invokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+   @Override public void invokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
       instructionSource.invokeinterface(sMethodName, sink);
    }
 

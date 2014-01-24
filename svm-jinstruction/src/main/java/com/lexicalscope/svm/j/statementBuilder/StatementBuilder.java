@@ -10,6 +10,7 @@ import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class StatementBuilder {
@@ -153,7 +154,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
-      factory.invokeInterface(klassName, methodName, desc, sink);
+      factory.invokeInterface(new AsmSMethodName(klassName, methodName, desc), sink);
       return this;
    }
 
@@ -166,17 +167,17 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder createInvokeSpecial(final SMethodDescriptor sMethodName) {
-      factory.createInvokeSpecial(sMethodName, sink);
+      factory.invokespecial(sMethodName, sink);
       return this;
    }
 
    public StatementBuilder createInvokeStatic(final SMethodDescriptor sMethodName) {
-      factory.createInvokeStatic(sMethodName, sink);
+      factory.invokestatic(sMethodName, sink);
       return this;
    }
 
    public StatementBuilder createClassDefaultConstructor(final String klassName) {
-      factory.createClassDefaultConstructor(klassName, sink);
+      factory.classDefaultConstructor(klassName, sink);
       return this;
    }
 }

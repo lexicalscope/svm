@@ -20,9 +20,9 @@ public interface Instructions {
 
    Vop defineClass(List<String> klassNames);
 
-   void createInvokeSpecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
-   void createInvokeStatic(SMethodDescriptor sMethodName, InstructionSink sink);
-   void createClassDefaultConstructor(String klassName, InstructionSink sink);
+   void invokespecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
+   void invokestatic(SMethodDescriptor sMethodName, InstructionSink sink);
+   void classDefaultConstructor(String klassName, InstructionSink sink);
 
    Vop initThread(InstructionSink sink);
 
@@ -40,7 +40,7 @@ public interface Instructions {
    Vop currentTimeMillis(InstructionSink sink);
    Vop iconst(int constVal, InstructionSink sink);
    Vop lconst(long constVal, InstructionSink sink);
-   void invokeInterface(String klassName, String methodName, String desc, InstructionSink sink);
+   void invokeInterface(SMethodDescriptor sMethodName, InstructionSink sink);
    void aload(int index, InstructionSink sink);
    void fload(int index, InstructionSink sink);
    void dload(int index, InstructionSink sink);

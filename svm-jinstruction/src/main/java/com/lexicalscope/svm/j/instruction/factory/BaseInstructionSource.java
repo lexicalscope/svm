@@ -62,13 +62,13 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource invokevirtual(final SMethodDescriptor name, final InstructionSink sink) {
-      MethodCallInstruction.createInvokeVirtual(name, sink);
+      MethodCallInstruction.invokevirtual(name, sink);
       return this;
    }
 
    @Override
    public InstructionSource invokeinterface(final SMethodDescriptor name, final InstructionSink sink) {
-      MethodCallInstruction.createInvokeInterface(name, sink);
+      MethodCallInstruction.invokeinterface(name, sink);
       return this;
    }
 
