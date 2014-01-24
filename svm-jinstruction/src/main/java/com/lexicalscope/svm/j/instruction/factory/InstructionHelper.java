@@ -96,8 +96,8 @@ final class InstructionHelper {
       return new VopAdapter(new NewObjectOp(klassDesc));
    }
 
-   LoadingInstruction loadingInstruction(final String klassDesc, final Vop op) {
-      return new LoadingInstruction(klassDesc, op);
+   LoadingInstruction loadingInstruction(final String klassDesc, final Vop op, final Instructions instructions) {
+      return new LoadingInstruction(klassDesc, op, instructions);
    }
 
    Vop lconst(final long constVal) {

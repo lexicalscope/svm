@@ -24,6 +24,7 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.LoadSymbolicObjectArg;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SArrayStoreOp;
@@ -242,10 +243,10 @@ public class SymbInstructionFactory implements InstructionFactory {
       return SArrayLoadOp.iaLoad(feasibilityChecker);
    }
 
-   @Override public Vop loadArg(final Object object) {
+   @Override public Vop loadArg(final Object object, final Instructions instructions) {
       if(object instanceof OTerminalSymbol) {
          final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
-         return new LoadingInstruction(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol));
+         return new LoadingInstruction(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
       } else {
          return new LinearInstruction(new LoadConstantArg(object));
       }

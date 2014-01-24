@@ -49,10 +49,13 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 public class BaseInstructionSource implements InstructionSource {
    private final InstructionFactory instructionFactory;
    private final InstructionHelper instructionHelper;
+   private final Instructions instructions;
 
    public BaseInstructionSource(
+         final Instructions instructions,
          final InstructionFactory instructionFactory,
          final InstructionHelper instructionHelper) {
+      this.instructions = instructions;
       this.instructionFactory = instructionFactory;
       this.instructionHelper = instructionHelper;
    }
@@ -77,7 +80,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource invokestatic(final SMethodDescriptor name, final InstructionSink sink) {
-      MethodCallInstruction.createInvokeStatic(name, sink);
+      MethodCallInstruction.createInvokeStatic(name, sink, instructions);
       return this;
    }
 
@@ -504,7 +507,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionSink sink) {
-      sink.nextInstruction(instructionHelper.loadingInstruction(klassDesc, op));
+      sink.nextInstruction(instructionHelper.loadingInstruction(klassDesc, op, instructions));
       return this;
    }
 }

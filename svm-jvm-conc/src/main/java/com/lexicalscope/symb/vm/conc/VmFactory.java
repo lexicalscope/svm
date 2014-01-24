@@ -3,8 +3,10 @@ package com.lexicalscope.symb.vm.conc;
 import static com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction.createInvokeStatic;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
@@ -28,6 +30,7 @@ public class VmFactory {
          final Vm<State> vm,
          final HeapFactory heapFactory,
          final SClassLoader classLoader,
+         final Instructions instructions,
          final SMethodDescriptor methodName,
          final Object[] args) {
       final Instruction defineClassClass = classLoader.defineBootstrapClassesInstruction();
@@ -42,7 +45,7 @@ public class VmFactory {
          @Override public void noInstruction() {
             // TODO Auto-generated method stub
 
-         }});
+         }}, instructions);
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 
@@ -55,9 +58,10 @@ public class VmFactory {
          final Vm<State> vm,
          final HeapFactory heapFactory,
          final SClassLoader classLoader,
+         final Instructions instructions,
          final MethodInfo info,
          final Object[] args) {
-      return initial(vm, heapFactory, classLoader, new AsmSMethodName(info.klass(), info.name(), info.desc()), args);
+      return initial(vm, heapFactory, classLoader, instructions, new AsmSMethodName(info.klass(), info.name(), info.desc()), args);
    }
 
    private static Vm<State> vm(
@@ -68,7 +72,7 @@ public class VmFactory {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
 
       final Vm<State> vm = new VmImpl<State>();
-      vm.initial(initial(vm, heapFactory, classLoader, entryPoint, args));
+      vm.initial(initial(vm, heapFactory, classLoader, new BaseInstructions(instructionFactory), entryPoint, args));
       return vm;
    }
 

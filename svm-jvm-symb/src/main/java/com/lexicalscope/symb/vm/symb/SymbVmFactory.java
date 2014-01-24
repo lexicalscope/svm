@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.symb;
 
+import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
@@ -17,9 +18,9 @@ public class SymbVmFactory {
          final MethodInfo entryPoint,
          final Object ... args) {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
-   
+
       final Vm<State> vm = new VmImpl<State>();
-      vm.initial(VmFactory.initial(vm, new CheckingSymbolicHeapFactory(), classLoader, entryPoint, args));
+      vm.initial(VmFactory.initial(vm, new CheckingSymbolicHeapFactory(), classLoader, new BaseInstructions(instructionFactory), entryPoint, args));
       return vm;
    }
 

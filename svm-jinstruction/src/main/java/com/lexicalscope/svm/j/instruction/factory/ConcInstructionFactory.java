@@ -241,7 +241,7 @@ public class ConcInstructionFactory implements InstructionFactory {
       return ArrayLoadOp.aaLoad();
    }
 
-   @Override public Vop loadArg(final Object object) {
+   @Override public Vop loadArg(final Object object, final Instructions instructions) {
       return new LinearInstruction(new LoadConstantArg(object));
    }
 }

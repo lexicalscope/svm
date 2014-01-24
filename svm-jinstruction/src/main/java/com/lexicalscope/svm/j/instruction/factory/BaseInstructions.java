@@ -32,7 +32,7 @@ public final class BaseInstructions implements Instructions {
    public BaseInstructions(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
       this.instructionHelper = new InstructionHelper(instructionFactory);
-      this.instructionSource = new BaseInstructionSource(instructionFactory, instructionHelper);
+      this.instructionSource = new BaseInstructionSource(this, instructionFactory, instructionHelper);
    }
 
    @Override public void instructionFor(
@@ -71,7 +71,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public Vop defineClass(final List<String> klassNames) {
-      return new LoadingInstruction(klassNames, new NoOp());
+      return new LoadingInstruction(klassNames, new NoOp(), this);
    }
 
    @Override public Vop initThread(final InstructionSink sink) {
@@ -164,7 +164,7 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public Vop loadArg(final Object object, final InstructionSink sink) {
-      return instructionFactory.loadArg(object);
+      return instructionFactory.loadArg(object, this);
    }
 
    @Override public Vop iconst(final int constVal, final InstructionSink sink) {

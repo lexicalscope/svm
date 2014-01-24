@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
@@ -169,7 +170,7 @@ public class MethodCallInstruction {
       sink.nextInstruction(new LinearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName))));
    }
 
-   public static void createInvokeStatic(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      sink.nextInstruction(new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation())));
+   public static void createInvokeStatic(final SMethodDescriptor sMethodName, final InstructionSink sink, final Instructions instructions) {
+      sink.nextInstruction(new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()), instructions));
    }
 }
