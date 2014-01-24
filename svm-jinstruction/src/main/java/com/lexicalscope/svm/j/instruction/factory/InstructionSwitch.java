@@ -14,6 +14,7 @@ import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.svm.j.instruction.UnsupportedInstruction;
+import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -25,135 +26,135 @@ public class InstructionSwitch {
       this.s = s;
    }
 
-   public Vop instructionFor(final AbstractInsnNode abstractInsnNode) {
+   public Vop instructionFor(final AbstractInsnNode abstractInsnNode, final InstructionSink sink) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.LLOAD:
                case Opcodes.DLOAD:
-                  return s.load2(varInsnNode.var);
+                  return s.load2(varInsnNode.var, sink);
                case Opcodes.ILOAD:
                case Opcodes.ALOAD:
                case Opcodes.FLOAD:
-                  return s.load(varInsnNode.var);
+                  return s.load(varInsnNode.var, sink);
                case Opcodes.LSTORE:
-                  return s.store2(varInsnNode.var);
+                  return s.store2(varInsnNode.var, sink);
                case Opcodes.ISTORE:
                case Opcodes.ASTORE:
-                  return s.store(varInsnNode.var);
+                  return s.store(varInsnNode.var, sink);
             }
             break;
          case AbstractInsnNode.FIELD_INSN:
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return s.putField(fieldInsnNode);
+                  return s.putField(fieldInsnNode, sink);
                case Opcodes.GETFIELD:
-                  return s.getField(fieldInsnNode);
+                  return s.getField(fieldInsnNode, sink);
                case Opcodes.GETSTATIC:
-                  return s.getStaticField(fieldInsnNode);
+                  return s.getStaticField(fieldInsnNode, sink);
                case Opcodes.PUTSTATIC:
-                  return s.putStaticField(fieldInsnNode);
+                  return s.putStaticField(fieldInsnNode, sink);
             }
             break;
          case AbstractInsnNode.INSN:
             final InsnNode insnNode = (InsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.ACONST_NULL:
-                  return s.aconst_null();
+                  return s.aconst_null(sink);
                case Opcodes.RETURN:
-                  return s.returnVoid();
+                  return s.returnVoid(sink);
                case Opcodes.IRETURN:
-                  return s.return1();
+                  return s.return1(sink);
                case Opcodes.FRETURN:
-                  return s.return1();
+                  return s.return1(sink);
                case Opcodes.LRETURN:
-                  return s.return2();
+                  return s.return2(sink);
                case Opcodes.ARETURN:
-                  return s.return1();
+                  return s.return1(sink);
                case Opcodes.IAND:
-                  return s.iand();
+                  return s.iand(sink);
                case Opcodes.LAND:
-                  return s.land();
+                  return s.land(sink);
                case Opcodes.IADD:
-                  return s.iadd();
+                  return s.iadd(sink);
                case Opcodes.IMUL:
-                  return s.imul();
+                  return s.imul(sink);
                case Opcodes.FMUL:
-                  return s.fmul();
+                  return s.fmul(sink);
                case Opcodes.FDIV:
-                  return s.fdiv();
+                  return s.fdiv(sink);
                case Opcodes.ISUB:
-                  return s.isub();
+                  return s.isub(sink);
                case Opcodes.INEG:
-                  return s.ineg();
+                  return s.ineg(sink);
                case Opcodes.DUP:
-                  return s.dup();
+                  return s.dup(sink);
                case Opcodes.DUP_X1:
-                  return s.dup_x1();
+                  return s.dup_x1(sink);
                case Opcodes.ICONST_M1:
-                  return s.iconst_m1();
+                  return s.iconst_m1(sink);
                case Opcodes.ICONST_0:
-                  return s.iconst_0();
+                  return s.iconst_0(sink);
                case Opcodes.ICONST_1:
-                  return s.iconst_1();
+                  return s.iconst_1(sink);
                case Opcodes.ICONST_2:
-                  return s.iconst_2();
+                  return s.iconst_2(sink);
                case Opcodes.ICONST_3:
-                  return s.iconst_3();
+                  return s.iconst_3(sink);
                case Opcodes.ICONST_4:
-                  return s.iconst_4();
+                  return s.iconst_4(sink);
                case Opcodes.ICONST_5:
-                  return s.iconst_5();
+                  return s.iconst_5(sink);
                case Opcodes.LCONST_0:
-                  return s.lconst_0();
+                  return s.lconst_0(sink);
                case Opcodes.LCONST_1:
-                  return s.lconst_1();
+                  return s.lconst_1(sink);
                case Opcodes.FCONST_0:
-                  return s.fconst_0();
+                  return s.fconst_0(sink);
                case Opcodes.CASTORE:
-                  return s.caStore();
+                  return s.caStore(sink);
                case Opcodes.IASTORE:
-                  return s.iaStore();
+                  return s.iaStore(sink);
                case Opcodes.AASTORE:
-                  return s.aaStore();
+                  return s.aaStore(sink);
                case Opcodes.CALOAD:
-                  return s.caload();
+                  return s.caload(sink);
                case Opcodes.IALOAD:
-                  return s.iaload();
+                  return s.iaload(sink);
                case Opcodes.AALOAD:
-                  return s.aaload();
+                  return s.aaload(sink);
                case Opcodes.ARRAYLENGTH:
-                  return s.arrayLength();
+                  return s.arrayLength(sink);
                case Opcodes.ISHL:
-                  return s.ishl();
+                  return s.ishl(sink);
                case Opcodes.ISHR:
-                   return s.ishr();
+                   return s.ishr(sink);
                case Opcodes.IUSHR:
-                  return s.iushr();
+                  return s.iushr(sink);
                case Opcodes.IOR:
-                  return s.ior();
+                  return s.ior(sink);
                case Opcodes.IXOR:
-                  return s.ixor();
+                  return s.ixor(sink);
                case Opcodes.LUSHR:
-                  return s.lushr();
+                  return s.lushr(sink);
                case Opcodes.I2L:
-                  return s.i2l();
+                  return s.i2l(sink);
                case Opcodes.L2I:
-                  return s.l2i();
+                  return s.l2i(sink);
                case Opcodes.I2F:
-                  return s.i2f();
+                  return s.i2f(sink);
                case Opcodes.F2I:
-                  return s.f2i();
+                  return s.f2i(sink);
                case Opcodes.FCMPG:
-                  return s.fcmpg();
+                  return s.fcmpg(sink);
                case Opcodes.FCMPL:
-                  return s.fcmpl();
+                  return s.fcmpl(sink);
                case Opcodes.LCMP:
-                  return s.lcmp();
+                  return s.lcmp(sink);
                case Opcodes.POP:
-                  return s.pop();
+                  return s.pop(sink);
             }
             break;
          case AbstractInsnNode.LDC_INSN:
@@ -161,19 +162,19 @@ public class InstructionSwitch {
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.LDC:
                   if(ldcInsnNode.cst instanceof Integer) {
-                     return s.ldcInt((int) ldcInsnNode.cst);
+                     return s.ldcInt((int) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Long) {
-                     return s.ldcLong((long) ldcInsnNode.cst);
+                     return s.ldcLong((long) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Float) {
-                     return s.ldcFloat((float) ldcInsnNode.cst);
+                     return s.ldcFloat((float) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Double) {
-                     return s.ldcDouble((double) ldcInsnNode.cst);
+                     return s.ldcDouble((double) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof String) {
-                     return s.stringPoolLoad((String) ldcInsnNode.cst);
+                     return s.stringPoolLoad((String) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Type) {
                      final Type toLoad = (Type) ldcInsnNode.cst;
                      if(toLoad.getSort() == Type.OBJECT || toLoad.getSort() == Type.ARRAY) {
-                        return s.objectPoolLoad(toLoad);
+                        return s.objectPoolLoad(toLoad,  sink);
                      }
                   }
                   // System.out.println("!!!!!!!! " + ldcInsnNode.cst + " " + ldcInsnNode.cst.getClass());
@@ -184,68 +185,68 @@ public class InstructionSwitch {
             final int val = intInsnNode.operand;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.SIPUSH:
-                  return s.sipush(val);
+                  return s.sipush(val, sink);
                case Opcodes.BIPUSH:
-                  return s.bipush(val);
+                  return s.bipush(val, sink);
                case Opcodes.NEWARRAY:
-                  return s.newarray(val);
+                  return s.newarray(val, sink);
             }
             break;
          case AbstractInsnNode.IINC_INSN:
             final IincInsnNode iincInsnNode = (IincInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.IINC:
-                  return s.iinc(iincInsnNode);
+                  return s.iinc(iincInsnNode, sink);
             }
             break;
          case AbstractInsnNode.TYPE_INSN:
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return s.newObject(typeInsnNode.desc);
+                  return s.newObject(typeInsnNode.desc, sink);
                case Opcodes.ANEWARRAY:
-                  return s.anewarray();
+                  return s.anewarray(sink);
                case Opcodes.INSTANCEOF:
-                  return s.instance0f(typeInsnNode);
+                  return s.instance0f(typeInsnNode, sink);
                case Opcodes.CHECKCAST:
-                  return s.checkcast(typeInsnNode);
+                  return s.checkcast(typeInsnNode, sink);
             }
             break;
          case AbstractInsnNode.JUMP_INSN:
             final JumpInsnNode jumpInsnNode = (JumpInsnNode) abstractInsnNode;
             switch (jumpInsnNode.getOpcode()) {
                case Opcodes.IFGE:
-                  return s.ifge(jumpInsnNode);
+                  return s.ifge(jumpInsnNode, sink);
                case Opcodes.IFGT:
-                  return s.ifgt(jumpInsnNode);
+                  return s.ifgt(jumpInsnNode, sink);
                case Opcodes.IFLE:
-                  return s.ifle(jumpInsnNode);
+                  return s.ifle(jumpInsnNode, sink);
                case Opcodes.IFLT:
-                  return s.iflt(jumpInsnNode);
+                  return s.iflt(jumpInsnNode, sink);
                case Opcodes.IFEQ:
-                  return s.ifeq(jumpInsnNode);
+                  return s.ifeq(jumpInsnNode, sink);
                case Opcodes.IFNE:
-                  return s.ifne(jumpInsnNode);
+                  return s.ifne(jumpInsnNode, sink);
                case Opcodes.IFNULL:
-                  return s.ifnull(jumpInsnNode);
+                  return s.ifnull(jumpInsnNode, sink);
                case Opcodes.IFNONNULL:
-                  return s.ifnonnull(jumpInsnNode);
+                  return s.ifnonnull(jumpInsnNode, sink);
                case Opcodes.IF_ICMPEQ:
-                  return s.ificmpeq(jumpInsnNode);
+                  return s.ificmpeq(jumpInsnNode, sink);
                case Opcodes.IF_ICMPNE:
-                  return s.ificmpne(jumpInsnNode);
+                  return s.ificmpne(jumpInsnNode, sink);
                case Opcodes.IF_ICMPLE:
-                  return s.ificmple(jumpInsnNode);
+                  return s.ificmple(jumpInsnNode, sink);
                case Opcodes.IF_ICMPLT:
-                  return s.ificmplt(jumpInsnNode);
+                  return s.ificmplt(jumpInsnNode, sink);
                case Opcodes.IF_ICMPGT:
-                  return s.ificmpgt(jumpInsnNode);
+                  return s.ificmpgt(jumpInsnNode, sink);
                case Opcodes.IF_ICMPGE:
-                  return s.ificmpge(jumpInsnNode);
+                  return s.ificmpge(jumpInsnNode, sink);
                case Opcodes.IF_ACMPNE:
-                  return s.ifacmpne(jumpInsnNode);
+                  return s.ifacmpne(jumpInsnNode, sink);
                case Opcodes.GOTO:
-                  return s.got0();
+                  return s.got0(sink);
             }
             break;
          case AbstractInsnNode.METHOD_INSN:
@@ -253,13 +254,13 @@ public class InstructionSwitch {
             final SMethodDescriptor name = new AsmSMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESTATIC:
-                  return s.invokestatic(name);
+                  return s.invokestatic(name, sink);
                case Opcodes.INVOKESPECIAL:
-                  return s.invokespecial(name);
+                  return s.invokespecial(name, sink);
                case Opcodes.INVOKEINTERFACE:
-                  return s.invokeinterface(name);
+                  return s.invokeinterface(name, sink);
                case Opcodes.INVOKEVIRTUAL:
-                  return s.invokevirtual(name);
+                  return s.invokevirtual(name, sink);
             }
             break;
       }

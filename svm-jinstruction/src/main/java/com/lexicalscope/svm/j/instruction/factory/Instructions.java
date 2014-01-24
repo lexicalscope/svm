@@ -20,40 +20,40 @@ public interface Instructions {
 
    Vop defineClass(List<String> klassNames);
 
-   Vop createInvokeSpecial(SMethodDescriptor sMethodName);
+   Vop createInvokeSpecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
 
-   Vop initThread();
+   Vop initThread(InstructionSink sink);
 
    StatementBuilder statements();
 
    // TODO[tim]: the native method implementations should be split out
-   Vop currentThread();
-   Vop arrayCopy();
-   Vop floatToRawIntBits();
-   Vop doubleToRawLongBits();
-   Vop getCallerClass();
-   Vop getPrimitiveClass();
-   Vop addressToHashCode();
-   Vop nanoTime();
-   Vop currentTimeMillis();
-   Vop iconst(int constVal);
-   Vop lconst(long constVal);
-   Vop invokeInterface(String klassName, String methodName, String desc);
-   Vop aload(int index);
-   Vop fload(int index);
-   Vop dload(int index);
+   Vop currentThread(InstructionSink sink);
+   Vop arrayCopy(InstructionSink sink);
+   Vop floatToRawIntBits(InstructionSink sink);
+   Vop doubleToRawLongBits(InstructionSink sink);
+   Vop getCallerClass(InstructionSink sink);
+   Vop getPrimitiveClass(InstructionSink sink);
+   Vop addressToHashCode(InstructionSink sink);
+   Vop nanoTime(InstructionSink sink);
+   Vop currentTimeMillis(InstructionSink sink);
+   Vop iconst(int constVal, InstructionSink sink);
+   Vop lconst(long constVal, InstructionSink sink);
+   Vop invokeInterface(String klassName, String methodName, String desc, InstructionSink sink);
+   Vop aload(int index, InstructionSink sink);
+   Vop fload(int index, InstructionSink sink);
+   Vop dload(int index, InstructionSink sink);
 
-   Vop nop();
+   Vop nop(InstructionSink sink);
 
-   Vop loadArg(Object object);
+   Vop loadArg(Object object, InstructionSink sink);
 
-   Vop newObject(String klassDesc);
+   Vop newObject(String klassDesc, InstructionSink sink);
 
-   Vop aconst_null();
+   Vop aconst_null(InstructionSink sink);
 
-   Vop iconst_0();
+   Vop iconst_0(InstructionSink sink);
 
-   Vop return1();
-   Vop return2();
-   Vop returnVoid();
+   Vop return1(InstructionSink sink);
+   Vop return2(InstructionSink sink);
+   Vop returnVoid(InstructionSink sink);
 }

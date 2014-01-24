@@ -82,9 +82,12 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override public Instruction initThreadInstruction() {
-      final InstructionInternal firstInstruction = new InstructionInternal(instructions.initThread());
-      firstInstruction.nextIs(new InstructionInternal(instructions.createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))));
-      return firstInstruction;
+      final StatementBuilder builder = new StatementBuilder(instructions).nop();
+      builder.initThread().createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"));
+
+//      final InstructionInternal firstInstruction = new InstructionInternal(instructions.initThread());
+//      firstInstruction.nextIs(new InstructionInternal(instructions.createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))));
+      return builder.buildInstruction();
    }
 
    @Override public Object init(final String desc) {
