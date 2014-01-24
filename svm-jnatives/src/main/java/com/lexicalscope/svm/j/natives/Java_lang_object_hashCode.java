@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.natives;
 
+import com.lexicalscope.svm.j.instruction.concrete.object.AddressToHashCodeOp;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.j.MethodBody;
 
@@ -8,6 +9,6 @@ public class Java_lang_object_hashCode extends AbstractNativeMethodDef {
       super("java/lang/Object", "hashCode", "()I");
    }
    @Override public MethodBody instructions(final Instructions instructions) {
-      return instructions.statements().maxStack(1).maxLocals(1).aload(0).addressToHashCode().return1().build();
+      return instructions.statements().maxStack(1).maxLocals(1).aload(0).linear(new AddressToHashCodeOp()).return1().build();
    }
 }

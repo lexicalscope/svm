@@ -94,11 +94,6 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder addressToHashCode() {
-      factory.addressToHashCode(sink);
-      return this;
-   }
-
    public StatementBuilder aload(final int index) {
       factory.source().aload(index, sink);
       return this;
@@ -111,11 +106,6 @@ public final class StatementBuilder {
 
    public StatementBuilder currentThread() {
       factory.currentThread(sink);
-      return this;
-   }
-
-   public StatementBuilder arrayCopy() {
-      factory.arrayCopy(sink);
       return this;
    }
 

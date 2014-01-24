@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.natives;
 
+import com.lexicalscope.svm.j.instruction.concrete.array.ArrayCopyOp;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.j.MethodBody;
 
@@ -9,6 +10,6 @@ public class Java_lang_system_arraycopy extends AbstractNativeMethodDef implemen
    }
 
    @Override public MethodBody instructions(final Instructions instructions) {
-      return instructions.statements().maxLocals(5).arrayCopy().returnVoid().build();
+      return instructions.statements().maxLocals(5).linear(new ArrayCopyOp()).returnVoid().build();
    }
 }
