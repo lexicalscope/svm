@@ -10,8 +10,8 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface Instructions {
    public interface InstructionSink {
-      void nextInstruction(AbstractInsnNode asmInstruction, Vop node);
-      void noInstruction(AbstractInsnNode abstractInsnNode);
+      void nextInstruction(Vop node);
+      void noInstruction();
    }
 
    void instructionFor(AbstractInsnNode abstractInsnNode, InstructionSink instructionSink);

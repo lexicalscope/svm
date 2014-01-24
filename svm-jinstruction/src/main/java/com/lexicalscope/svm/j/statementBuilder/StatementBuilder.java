@@ -5,8 +5,6 @@ import static com.google.common.collect.Lists.reverse;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.objectweb.asm.tree.AbstractInsnNode;
-
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
@@ -21,11 +19,9 @@ public final class StatementBuilder {
    private final Instructions factory;
 
    private final InstructionSink sink = new InstructionSink() {
-      @Override public void noInstruction(final AbstractInsnNode abstractInsnNode) {
+      @Override public void noInstruction() { }
 
-      }
-
-      @Override public void nextInstruction(final AbstractInsnNode asmInstruction, final Vop node) {
+      @Override public void nextInstruction(final Vop node) {
          instructions.add(node);
       }
    };

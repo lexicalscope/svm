@@ -43,11 +43,11 @@ public final class BaseInstructions implements Instructions {
          case AbstractInsnNode.LINE:
          case AbstractInsnNode.FRAME:
          case AbstractInsnNode.LABEL:
-            sink.noInstruction(abstractInsnNode);
+            sink.noInstruction();
             return;
       }
 
-      sink.nextInstruction(abstractInsnNode, new InstructionSwitch(instructionSource).instructionFor(abstractInsnNode, sink));
+      sink.nextInstruction(new InstructionSwitch(instructionSource).instructionFor(abstractInsnNode, sink));
    }
 
    /*

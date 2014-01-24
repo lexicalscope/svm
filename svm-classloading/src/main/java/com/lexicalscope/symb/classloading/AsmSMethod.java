@@ -85,29 +85,29 @@ public class AsmSMethod implements SMethod {
       final Map<AbstractInsnNode, Instruction> linked = new LinkedHashMap<>();
       final Instruction[] prev = new Instruction[1];
 
+      final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
       final InstructionSink instructionSink = new InstructionSink() {
-         @Override public void nextInstruction(final AbstractInsnNode asmInstruction, final Vop instruction) {
+         @Override public void nextInstruction(final Vop instruction) {
             final Instruction node = new InstructionInternal(instruction);
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
                linked.put(unlinkedInstruction, node);
             }
             unlinked.clear();
-            linked.put(asmInstruction, node);
+            linked.put(asmInstruction[0], node);
             if(prev[0] != null) {
                prev[0].nextIs(node);
             }
             prev[0] = node;
          }
 
-         @Override public void noInstruction(final AbstractInsnNode abstractInsnNode) {
-            unlinked.add(abstractInsnNode);
+         @Override public void noInstruction() {
+            unlinked.add(asmInstruction[0]);
          }
       };
 
-      AbstractInsnNode asmInstruction = getEntryPoint();
-      while(asmInstruction != null) {
-         instructions.instructionFor(asmInstruction, instructionSink);
-         asmInstruction = asmInstruction.getNext();
+      while(asmInstruction[0] != null) {
+         instructions.instructionFor(asmInstruction[0], instructionSink);
+         asmInstruction[0] = asmInstruction[0].getNext();
       }
 
       for (final Entry<AbstractInsnNode, Instruction> entry : linked.entrySet()) {
