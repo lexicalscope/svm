@@ -75,7 +75,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder lconst(final long l) {
-      factory.lconst(l, sink);
+      factory.source().lconst(l, sink);
       return this;
    }
 
@@ -106,11 +106,6 @@ public final class StatementBuilder {
 
    public StatementBuilder nanoTime() {
       factory.nanoTime(sink);
-      return this;
-   }
-
-   public StatementBuilder currentTimeMillis() {
-      factory.currentTimeMillis(sink);
       return this;
    }
 
@@ -160,7 +155,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
-      factory.invokeInterface(new AsmSMethodName(klassName, methodName, desc), sink);
+      factory.source().invokeinterface(new AsmSMethodName(klassName, methodName, desc), sink);
       return this;
    }
 
@@ -186,6 +181,11 @@ public final class StatementBuilder {
 
    public StatementBuilder createClassDefaultConstructor(final String klassName) {
       factory.classDefaultConstructor(klassName, sink);
+      return this;
+   }
+
+   public StatementBuilder linear(final Vop op) {
+      sink.linearInstruction(op);
       return this;
    }
 }

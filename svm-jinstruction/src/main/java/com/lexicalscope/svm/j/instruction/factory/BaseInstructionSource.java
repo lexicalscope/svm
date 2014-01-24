@@ -25,15 +25,19 @@ import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.CheckCastOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.InstanceOfOp;
+import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.PutStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.L2IOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LCmpOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LushrOp;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.object.AConstNullOp;
+import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Op;
+import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOp;
@@ -49,20 +53,18 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.VopAdapter;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class BaseInstructionSource implements InstructionSource {
    private final InstructionFactory instructionFactory;
-   private final InstructionHelper instructionHelper;
    private final Instructions instructions;
 
    public BaseInstructionSource(
          final Instructions instructions,
-         final InstructionFactory instructionFactory,
-         final InstructionHelper instructionHelper) {
+         final InstructionFactory instructionFactory) {
       this.instructions = instructions;
       this.instructionFactory = instructionFactory;
-      this.instructionHelper = instructionHelper;
    }
 
    @Override
@@ -196,7 +198,40 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource newarray(final int val, final InstructionSink sink) {
-      return linearInstruction(instructionFactory.newArray(instructionHelper.initialFieldValue(val)), sink);
+      return linearInstruction(instructionFactory.newArray(initialFieldValue(val)), sink);
+   }
+
+   private Object initialFieldValue(final int atype) {
+      /*
+       * Array Type  atype
+       * T_BOOLEAN    4
+       * T_CHAR       5
+       * T_FLOAT      6
+       * T_DOUBLE     7
+       * T_BYTE       8
+       * T_SHORT      9
+       * T_INT       10
+       * T_LONG      11
+       */
+      switch (atype) {
+         case 4:
+            return false;
+         case 5:
+            return (char) '\u0000';
+         case 6:
+            return (float) 0f;
+         case 7:
+            return (double) 0d;
+         case 8:
+            return (byte) 0;
+         case 9:
+            return (short) 0;
+         case 10:
+            return instructionFactory.initInt();
+         case 11:
+            return (long) 0l;
+      }
+      throw new UnsupportedOperationException("" + atype);
    }
 
    @Override
@@ -211,7 +246,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource ldcDouble(final double val, final InstructionSink sink) {
-      return linearInstruction(instructionHelper.dconst(val), sink);
+      return linearInstruction(nullary2(instructionFactory.dconst(val)), sink);
    }
 
    @Override
@@ -221,7 +256,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource ldcLong(final long val, final InstructionSink sink) {
-      return linearInstruction(instructionHelper.lconst(val), sink);
+      return lconst(val, sink);
    }
 
    @Override
@@ -334,14 +369,18 @@ public class BaseInstructionSource implements InstructionSource {
       return linearInstruction(ArrayStoreOp.caStore(), sink);
    }
 
+   @Override public InstructionSource lconst(final long val, final InstructionSink sink) {
+      return linearInstruction(nullary2(instructionFactory.lconst(val)), sink);
+   }
+
    @Override
    public InstructionSource lconst_1(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.lconst(1), sink);
+      return lconst(1, sink);
    }
 
    @Override
    public InstructionSource lconst_0(final InstructionSink sink) {
-      return linearInstruction(instructionHelper.lconst(0), sink);
+      return lconst(0, sink);
    }
 
    @Override
@@ -501,7 +540,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource newObject(final String klassDesc, final InstructionSink sink) {
-      return loadingInstruction(klassDesc, instructionHelper.newOp(klassDesc), sink);
+      return loadingInstruction(klassDesc, new VopAdapter(new NewObjectOp(klassDesc)), sink);
    }
 
    private InstructionSource binaryOp(final BinaryOperator operation, final InstructionSink sink) {
@@ -515,7 +554,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionSink sink) {
-      sink.nextInstruction(instructionHelper.loadingInstruction(klassDesc, op, instructions));
+      sink.nextInstruction(new LoadingInstruction(klassDesc, op, instructions));
       return this;
    }
 
@@ -537,5 +576,9 @@ public class BaseInstructionSource implements InstructionSource {
 
    private NullaryOp nullary(final NullaryOperator nullary) {
       return new NullaryOp(nullary);
+   }
+
+   private Nullary2Op nullary2(final Nullary2Operator nullary) {
+      return new Nullary2Op(nullary);
    }
 }

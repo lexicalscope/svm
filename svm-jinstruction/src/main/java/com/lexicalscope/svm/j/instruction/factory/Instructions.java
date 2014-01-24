@@ -6,7 +6,6 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface Instructions {
    public interface InstructionSink {
@@ -36,10 +35,6 @@ public interface Instructions {
    void getPrimitiveClass(InstructionSink sink);
    void addressToHashCode(InstructionSink sink);
    void nanoTime(InstructionSink sink);
-   void currentTimeMillis(InstructionSink sink);
-
-   void lconst(long constVal, InstructionSink sink);
-   void invokeInterface(SMethodDescriptor sMethodName, InstructionSink sink);
 
    void nop(InstructionSink sink);
 

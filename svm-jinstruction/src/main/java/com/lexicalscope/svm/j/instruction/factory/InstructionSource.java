@@ -72,6 +72,7 @@ public interface InstructionSource {
    InstructionSource fconst_0(InstructionSink sink);
 
    InstructionSource land(InstructionSink sink);
+   InstructionSource lconst(long val, InstructionSink sink);
    InstructionSource lconst_0(InstructionSink sink);
    InstructionSource lconst_1(InstructionSink sink);
    InstructionSource l2i(InstructionSink sink);
@@ -112,5 +113,5 @@ public interface InstructionSource {
    InstructionSource invokeinterface(SMethodDescriptor name, InstructionSink sink);
    InstructionSource invokevirtual(SMethodDescriptor name, InstructionSink sink);
 
-   InstructionSource got0(InstructionSink sink);;
+   InstructionSource got0(InstructionSink sink);
 }

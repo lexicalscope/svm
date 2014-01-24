@@ -12,7 +12,6 @@ import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.CurrentThreadOp;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.CurrentTimeMillisOp;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.DoubleToRawLongBits;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.FloatToRawIntBits;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.GetCallerClass;
@@ -21,17 +20,14 @@ import com.lexicalscope.svm.j.instruction.concrete.nativ3.NanoTimeOp;
 import com.lexicalscope.svm.j.instruction.concrete.object.AddressToHashCodeOp;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class BaseInstructions implements Instructions {
    private final InstructionFactory instructionFactory;
    private final InstructionSource instructionSource;
-   private final InstructionHelper instructionHelper;
 
    public BaseInstructions(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
-      this.instructionHelper = new InstructionHelper(instructionFactory);
-      this.instructionSource = new BaseInstructionSource(this, instructionFactory, instructionHelper);
+      this.instructionSource = new BaseInstructionSource(this, instructionFactory);
    }
 
    @Override public void instructionFor(
@@ -77,16 +73,8 @@ public final class BaseInstructions implements Instructions {
       sink.linearInstruction(new NanoTimeOp());
    }
 
-   @Override public void currentTimeMillis(final InstructionSink sink) {
-      sink.linearInstruction(new CurrentTimeMillisOp());
-   }
-
    @Override public void classDefaultConstructor(final String klassName, final InstructionSink sink) {
       MethodCallInstruction.createClassDefaultConstructor(klassName, sink);
-   }
-
-   @Override public void invokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      source().invokeinterface(sMethodName, sink);
    }
 
    @Override public void currentThread(final InstructionSink sink) {
@@ -148,10 +136,6 @@ public final class BaseInstructions implements Instructions {
 
    @Override public void loadArg(final Object object, final InstructionSink sink) {
       sink.nextInstruction(instructionFactory.loadArg(object, this));
-   }
-
-   @Override public void lconst(final long constVal, final InstructionSink sink) {
-      sink.linearInstruction(instructionHelper.lconst(constVal));
    }
 
    @Override public InstructionSource source() {
