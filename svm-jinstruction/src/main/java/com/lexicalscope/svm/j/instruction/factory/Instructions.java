@@ -33,16 +33,9 @@ public interface Instructions {
    Vop doubleToRawLongBits();
    Vop getCallerClass();
    Vop getPrimitiveClass();
-   Vop returnVoid();
-   Vop return1();
-   Vop return2();
-   Vop newObject(String klassDesc);
    Vop addressToHashCode();
    Vop nanoTime();
    Vop currentTimeMillis();
-   Vop aconst_null();
-   Vop iconst_0();
-   Vop fconst_0();
    Vop iconst(int constVal);
    Vop lconst(long constVal);
    Vop invokeInterface(String klassName, String methodName, String desc);
@@ -53,4 +46,14 @@ public interface Instructions {
    Vop nop();
 
    Vop loadArg(Object object);
+
+   Vop newObject(String klassDesc);
+
+   Vop aconst_null();
+
+   Vop iconst_0();
+
+   Vop return1();
+   Vop return2();
+   Vop returnVoid();
 }
