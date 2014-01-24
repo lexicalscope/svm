@@ -25,30 +25,31 @@ public interface Instructions {
    void invokestatic(SMethodDescriptor sMethodName, InstructionSink sink);
    void classDefaultConstructor(String klassName, InstructionSink sink);
 
-   Vop initThread(InstructionSink sink);
+   void initThread(InstructionSink sink);
 
    StatementBuilder statements();
 
    // TODO[tim]: the native method implementations should be split out
-   Vop currentThread(InstructionSink sink);
-   Vop arrayCopy(InstructionSink sink);
-   Vop floatToRawIntBits(InstructionSink sink);
-   Vop doubleToRawLongBits(InstructionSink sink);
-   Vop getCallerClass(InstructionSink sink);
-   Vop getPrimitiveClass(InstructionSink sink);
-   Vop addressToHashCode(InstructionSink sink);
-   Vop nanoTime(InstructionSink sink);
-   Vop currentTimeMillis(InstructionSink sink);
-   Vop iconst(int constVal, InstructionSink sink);
-   Vop lconst(long constVal, InstructionSink sink);
+   void currentThread(InstructionSink sink);
+   void arrayCopy(InstructionSink sink);
+   void floatToRawIntBits(InstructionSink sink);
+   void doubleToRawLongBits(InstructionSink sink);
+   void getCallerClass(InstructionSink sink);
+   void getPrimitiveClass(InstructionSink sink);
+   void addressToHashCode(InstructionSink sink);
+   void nanoTime(InstructionSink sink);
+   void currentTimeMillis(InstructionSink sink);
+
+   void iconst(int constVal, InstructionSink sink);
+   void lconst(long constVal, InstructionSink sink);
    void invokeInterface(SMethodDescriptor sMethodName, InstructionSink sink);
    void aload(int index, InstructionSink sink);
    void fload(int index, InstructionSink sink);
    void dload(int index, InstructionSink sink);
 
-   Vop nop(InstructionSink sink);
+   void nop(InstructionSink sink);
 
-   Vop loadArg(Object object, InstructionSink sink);
+   void loadArg(Object object, InstructionSink sink);
 
    void newObject(String klassDesc, InstructionSink sink);
 

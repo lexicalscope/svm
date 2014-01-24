@@ -6,7 +6,6 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayCopyOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
@@ -74,24 +73,24 @@ public final class BaseInstructions implements Instructions {
       return new LoadingInstruction(klassNames, new NoOp(), this);
    }
 
-   @Override public Vop initThread(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new InitThreadOp());
+   @Override public void initThread(final InstructionSink sink) {
+      sink.linearInstruction(new InitThreadOp());
    }
 
    @Override public StatementBuilder statements() {
       return new StatementBuilder(this);
    }
 
-   @Override public Vop addressToHashCode(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new AddressToHashCodeOp());
+   @Override public void addressToHashCode(final InstructionSink sink) {
+      sink.linearInstruction(new AddressToHashCodeOp());
    }
 
-   @Override public Vop nanoTime(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new NanoTimeOp());
+   @Override public void nanoTime(final InstructionSink sink) {
+      sink.linearInstruction(new NanoTimeOp());
    }
 
-   @Override public Vop currentTimeMillis(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new CurrentTimeMillisOp());
+   @Override public void currentTimeMillis(final InstructionSink sink) {
+      sink.linearInstruction(new CurrentTimeMillisOp());
    }
 
    @Override public void invokespecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
@@ -110,28 +109,28 @@ public final class BaseInstructions implements Instructions {
       instructionSource.invokeinterface(sMethodName, sink);
    }
 
-   @Override public Vop currentThread(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new CurrentThreadOp());
+   @Override public void currentThread(final InstructionSink sink) {
+      sink.linearInstruction(new CurrentThreadOp());
    }
 
-   @Override public Vop arrayCopy(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new ArrayCopyOp());
+   @Override public void arrayCopy(final InstructionSink sink) {
+      sink.linearInstruction(new ArrayCopyOp());
    }
 
-   @Override public Vop floatToRawIntBits(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new FloatToRawIntBits());
+   @Override public void floatToRawIntBits(final InstructionSink sink) {
+      sink.linearInstruction(new FloatToRawIntBits());
    }
 
-   @Override public Vop doubleToRawLongBits(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new DoubleToRawLongBits());
+   @Override public void doubleToRawLongBits(final InstructionSink sink) {
+      sink.linearInstruction(new DoubleToRawLongBits());
    }
 
-   @Override public Vop getCallerClass(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new GetCallerClass());
+   @Override public void getCallerClass(final InstructionSink sink) {
+      sink.linearInstruction(new GetCallerClass());
    }
 
-   @Override public Vop getPrimitiveClass(final InstructionSink sink) {
-      return instructionHelper.linearInstruction(new GetPrimitiveClass());
+   @Override public void getPrimitiveClass(final InstructionSink sink) {
+      sink.linearInstruction(new GetPrimitiveClass());
    }
 
    @Override public Object initialFieldValue(final String desc) {
@@ -163,20 +162,20 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override
-   public Vop nop(final InstructionSink sink) {
-      return new LinearInstruction(new NoOp());
+   public void nop(final InstructionSink sink) {
+      sink.linearInstruction(new NoOp());
    }
 
-   @Override public Vop loadArg(final Object object, final InstructionSink sink) {
-      return instructionFactory.loadArg(object, this);
+   @Override public void loadArg(final Object object, final InstructionSink sink) {
+      sink.nextInstruction(instructionFactory.loadArg(object, this));
    }
 
-   @Override public Vop iconst(final int constVal, final InstructionSink sink) {
-      return new LinearInstruction(instructionHelper.iconst(constVal));
+   @Override public void iconst(final int constVal, final InstructionSink sink) {
+      sink.linearInstruction(instructionHelper.iconst(constVal));
    }
 
-   @Override public Vop lconst(final long constVal, final InstructionSink sink) {
-      return new LinearInstruction(instructionHelper.lconst(constVal));
+   @Override public void lconst(final long constVal, final InstructionSink sink) {
+      sink.linearInstruction(instructionHelper.lconst(constVal));
    }
 
    @Override public void newObject(final String klassDesc, final InstructionSink sink) {

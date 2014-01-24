@@ -75,11 +75,13 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder iconst(final int i) {
-      return add(factory.iconst(i, sink));
+      factory.iconst(i, sink);
+      return this;
    }
 
    public StatementBuilder lconst(final long l) {
-      return add(factory.lconst(l, sink));
+      factory.lconst(l, sink);
+      return this;
    }
 
    public StatementBuilder return1() {
@@ -98,7 +100,8 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder addressToHashCode() {
-      return add(factory.addressToHashCode(sink));
+      factory.addressToHashCode(sink);
+      return this;
    }
 
    public StatementBuilder aload(final int index) {
@@ -107,27 +110,33 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder nanoTime() {
-      return add(factory.nanoTime(sink));
+      factory.nanoTime(sink);
+      return this;
    }
 
    public StatementBuilder currentTimeMillis() {
-      return add(factory.currentTimeMillis(sink));
+      factory.currentTimeMillis(sink);
+      return this;
    }
 
    public StatementBuilder currentThread() {
-      return add(factory.currentThread(sink));
+      factory.currentThread(sink);
+      return this;
    }
 
    public StatementBuilder arrayCopy() {
-      return add(factory.arrayCopy(sink));
+      factory.arrayCopy(sink);
+      return this;
    }
 
    public StatementBuilder floatToRawIntBits() {
-      return add(factory.floatToRawIntBits(sink));
+      factory.floatToRawIntBits(sink);
+      return this;
    }
 
    public StatementBuilder doubleToRawLongBits() {
-      return add(factory.doubleToRawLongBits(sink));
+      factory.doubleToRawLongBits(sink);
+      return this;
    }
 
    public StatementBuilder fload(final int index) {
@@ -141,15 +150,18 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder getCallerClass() {
-      return add(factory.getCallerClass(sink));
+      factory.getCallerClass(sink);
+      return this;
    }
 
    public StatementBuilder getPrimitiveClass() {
-      return add(factory.getPrimitiveClass(sink));
+      factory.getPrimitiveClass(sink);
+      return this;
    }
 
    public StatementBuilder nop() {
-      return add(factory.nop(sink));
+      factory.nop(sink);
+      return this;
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
@@ -158,11 +170,13 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder loadArg(final Object object) {
-      return add(factory.loadArg(object, sink));
+      factory.loadArg(object, sink);
+      return this;
    }
 
    public StatementBuilder initThread() {
-      return add(factory.initThread(sink));
+      factory.initThread(sink);
+      return this;
    }
 
    public StatementBuilder createInvokeSpecial(final SMethodDescriptor sMethodName) {
