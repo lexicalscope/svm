@@ -11,6 +11,7 @@ import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayCopyOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.CurrentThreadOp;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.CurrentTimeMillisOp;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.DoubleToRawLongBits;
@@ -96,6 +97,14 @@ public final class BaseInstructions implements Instructions {
 
    @Override public void createInvokeSpecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
       instructionSource.invokespecial(sMethodName, sink);
+   }
+
+   @Override public void createInvokeStatic(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+      instructionSource.invokestatic(sMethodName, sink);
+   }
+
+   @Override public void createClassDefaultConstructor(final String klassName, final InstructionSink sink) {
+      MethodCallInstruction.createClassDefaultConstructor(klassName, sink);
    }
 
    @Override public void invokeInterface(final String klassName, final String methodName, final String desc, final InstructionSink sink) {

@@ -2,15 +2,13 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import static java.util.Arrays.asList;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
-import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
+import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.State;
@@ -50,19 +48,13 @@ public class LoadingInstruction implements Vop {
    }
 
    private Instruction replaceCurrentInstructionWithInvocationOfStaticInitaliser(final Instruction currentInstruction, final SClass klass) {
-      final List<InstructionInternal> instructionsx = new ArrayList<>();
-      final InstructionSink sink = new InstructionSink() {
-         @Override public void noInstruction() { }
+      final InstructionInternal result = new StatementBuilder(instructions)
+         .createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC))
+         .createClassDefaultConstructor(klass.name())
+         .buildInstruction();
+      result.nextIs(currentInstruction);
 
-         @Override public void nextInstruction(final Vop node) {
-            instructionsx.add(new InstructionInternal(node));
-         }
-      };
-      MethodCallInstruction.createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC), sink, instructions);
-      MethodCallInstruction.createClassDefaultConstructor(klass.name(), sink);
-
-      instructionsx.get(0).nextIs(instructionsx.get(1)).nextIs(currentInstruction);
-      return instructionsx.get(0);
+      return result;
    }
 
    @Override public String toString() {

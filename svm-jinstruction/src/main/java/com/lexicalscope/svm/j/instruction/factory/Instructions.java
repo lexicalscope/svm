@@ -21,6 +21,8 @@ public interface Instructions {
    Vop defineClass(List<String> klassNames);
 
    void createInvokeSpecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
+   void createInvokeStatic(SMethodDescriptor sMethodName, InstructionSink sink);
+   void createClassDefaultConstructor(String klassName, InstructionSink sink);
 
    Vop initThread(InstructionSink sink);
 
@@ -56,4 +58,5 @@ public interface Instructions {
    void return1(InstructionSink sink);
    void return2(InstructionSink sink);
    void returnVoid(InstructionSink sink);
+
 }

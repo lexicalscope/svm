@@ -169,4 +169,14 @@ public final class StatementBuilder {
       factory.createInvokeSpecial(sMethodName, sink);
       return this;
    }
+
+   public StatementBuilder createInvokeStatic(final SMethodDescriptor sMethodName) {
+      factory.createInvokeStatic(sMethodName, sink);
+      return this;
+   }
+
+   public StatementBuilder createClassDefaultConstructor(final String klassName) {
+      factory.createClassDefaultConstructor(klassName, sink);
+      return this;
+   }
 }
