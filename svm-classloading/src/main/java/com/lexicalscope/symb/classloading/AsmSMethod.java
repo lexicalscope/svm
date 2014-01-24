@@ -13,6 +13,7 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.Instruction;
@@ -86,7 +87,7 @@ public class AsmSMethod implements SMethod {
       final Instruction[] prev = new Instruction[1];
 
       final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
-      final InstructionSink instructionSink = new InstructionSink() {
+      final InstructionSink instructionSink = new AbstractInstructionSink() {
          @Override public void nextInstruction(final Vop instruction) {
             final Instruction node = new InstructionInternal(instruction);
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {

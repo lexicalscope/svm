@@ -31,6 +31,7 @@ import com.lexicalscope.svm.j.instruction.concrete.l0ng.LCmpOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LushrOp;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.object.AConstNullOp;
+import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.pool.ObjectPoolLoad;
 import com.lexicalscope.svm.j.instruction.concrete.pool.StringPoolLoadOperator;
@@ -497,12 +498,12 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource binaryOp(final BinaryOperator operation, final InstructionSink sink) {
-      sink.nextInstruction(instructionHelper.binaryOp(operation));
+      sink.linearInstruction(new BinaryOp(operation));
       return this;
    }
 
    private InstructionSource linearInstruction(final Vop op, final InstructionSink sink) {
-      sink.nextInstruction(instructionHelper.linearInstruction(op));
+      sink.linearInstruction(op);
       return this;
    }
 

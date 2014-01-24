@@ -1,6 +1,5 @@
 package com.lexicalscope.svm.j.instruction.concrete.method;
 
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
@@ -155,19 +154,19 @@ public class MethodCallInstruction {
    }
 
    public static void invokevirtual(final SMethodDescriptor name, final InstructionSink sink) {
-      sink.nextInstruction(new LinearInstruction(new MethodCallOp(name, new VirtualMethodInvokation())));
+      sink.linearInstruction(new MethodCallOp(name, new VirtualMethodInvokation()));
    }
 
    public static void invokeinterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      sink.nextInstruction(new LinearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation())));
+      sink.linearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation()));
    }
 
    public static void createInvokeSpecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      sink.nextInstruction(new LinearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation())));
+      sink.linearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation()));
    }
 
    public static void createClassDefaultConstructor(final String klassName, final InstructionSink sink) {
-      sink.nextInstruction(new LinearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName))));
+      sink.linearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName)));
    }
 
    public static void createInvokeStatic(final SMethodDescriptor sMethodName, final InstructionSink sink, final Instructions instructions) {

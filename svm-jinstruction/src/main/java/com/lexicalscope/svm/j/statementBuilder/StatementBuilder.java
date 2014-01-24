@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.MethodBody;
@@ -19,9 +20,7 @@ public final class StatementBuilder {
    private int maxLocals;
    private final Instructions factory;
 
-   private final InstructionSink sink = new InstructionSink() {
-      @Override public void noInstruction() { }
-
+   private final InstructionSink sink = new AbstractInstructionSink() {
       @Override public void nextInstruction(final Vop node) {
          instructions.add(node);
       }

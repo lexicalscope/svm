@@ -5,8 +5,6 @@ import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Operator;
-import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOp;
-import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOp;
@@ -21,10 +19,6 @@ final class InstructionHelper {
 
    public InstructionHelper(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
-   }
-
-   LinearInstruction binaryOp(final BinaryOperator operation) {
-      return linearInstruction(new BinaryOp(operation));
    }
 
    Binary2Op binary2Op(final Binary2Operator operation) {
