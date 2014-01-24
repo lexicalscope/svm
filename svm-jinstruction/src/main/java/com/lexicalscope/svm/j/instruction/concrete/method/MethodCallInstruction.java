@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SMethodName;
@@ -152,23 +153,23 @@ public class MethodCallInstruction {
       }
    }
 
-   public static Vop createInvokeVirtual(final SMethodDescriptor name) {
-      return new LinearInstruction(new MethodCallOp(name, new VirtualMethodInvokation()));
+   public static void createInvokeVirtual(final SMethodDescriptor name, final InstructionSink sink) {
+      sink.nextInstruction(new LinearInstruction(new MethodCallOp(name, new VirtualMethodInvokation())));
    }
 
-   public static Vop createInvokeInterface(final SMethodDescriptor sMethodName) {
-      return new LinearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation()));
+   public static void createInvokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+      sink.nextInstruction(new LinearInstruction(new MethodCallOp(sMethodName, new InterfaceMethodInvokation())));
    }
 
-   public static Vop createInvokeSpecial(final SMethodDescriptor sMethodName) {
-      return new LinearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation()));
+   public static void createInvokeSpecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+      sink.nextInstruction(new LinearInstruction(new MethodCallOp(sMethodName, new SpecialMethodInvokation())));
    }
 
-   public static Vop createClassDefaultConstructor(final String klassName) {
-      return new LinearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName)));
+   public static void createClassDefaultConstructor(final String klassName, final InstructionSink sink) {
+      sink.nextInstruction(new LinearInstruction(new MethodCallOp(JavaConstants.CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName))));
    }
 
-   public static Vop createInvokeStatic(final SMethodDescriptor sMethodName) {
-      return new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()));
+   public static void createInvokeStatic(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+      sink.nextInstruction(new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation())));
    }
 }

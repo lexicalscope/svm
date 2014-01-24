@@ -5,6 +5,7 @@ import static com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstr
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
@@ -18,6 +19,7 @@ import com.lexicalscope.symb.vm.conc.checkingheap.CheckingHeapFactory;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.StateImpl;
+import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -31,9 +33,16 @@ public class VmFactory {
       final Instruction defineClassClass = classLoader.defineBootstrapClassesInstruction();
       final Instruction initThread = classLoader.initThreadInstruction();
       final Instruction loadArgs = classLoader.loadArgsInstruction(args);
-      final Instruction entryPointInstruction = new InstructionInternal(createInvokeStatic(methodName));
 
-      defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(entryPointInstruction);
+      createInvokeStatic(methodName, new InstructionSink(){
+         @Override public void nextInstruction(final Vop node) {
+            defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(new InstructionInternal(node));
+         }
+
+         @Override public void noInstruction() {
+            // TODO Auto-generated method stub
+
+         }});
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 

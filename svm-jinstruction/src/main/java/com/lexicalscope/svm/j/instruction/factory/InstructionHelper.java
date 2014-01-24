@@ -27,19 +27,19 @@ final class InstructionHelper {
       return linearInstruction(new BinaryOp(operation));
    }
 
-   LinearInstruction binary2Op(final Binary2Operator operation) {
-      return linearInstruction(new Binary2Op(operation));
+   Binary2Op binary2Op(final Binary2Operator operation) {
+      return new Binary2Op(operation);
    }
 
-   LinearInstruction unaryOp(final UnaryOperator operation) {
-      return linearInstruction(new UnaryOp(operation));
+   UnaryOp unaryOp(final UnaryOperator operation) {
+      return new UnaryOp(operation);
    }
 
    LinearInstruction linearInstruction(final Vop op) {
       return new LinearInstruction(op);
    }
 
-   Vop fconst(final float constVal) {
+   NullaryOp fconst(final float constVal) {
       return nullary(instructionFactory.fconst(constVal));
    }
 
@@ -47,12 +47,12 @@ final class InstructionHelper {
       return nullary2(instructionFactory.dconst(constVal));
    }
 
-   LinearInstruction nullary(final NullaryOperator nullary) {
-      return linearInstruction(new NullaryOp(nullary));
+   NullaryOp nullary(final NullaryOperator nullary) {
+      return new NullaryOp(nullary);
    }
 
-   LinearInstruction nullary2(final Nullary2Operator nullary) {
-      return linearInstruction(new Nullary2Op(nullary));
+   Nullary2Op nullary2(final Nullary2Operator nullary) {
+      return new Nullary2Op(nullary);
    }
 
    Vop iconst(final int constVal) {

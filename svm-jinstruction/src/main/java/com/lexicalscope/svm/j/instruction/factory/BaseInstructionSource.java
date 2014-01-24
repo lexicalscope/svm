@@ -6,7 +6,6 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLengthOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
@@ -26,7 +25,6 @@ import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.CheckCastOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.InstanceOfOp;
-import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.PutStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.L2IOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LCmpOp;
@@ -60,438 +58,453 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override
-   public Vop invokevirtual(final SMethodDescriptor name, final InstructionSink sink) {
-      return MethodCallInstruction.createInvokeVirtual(name);
+   public InstructionSource invokevirtual(final SMethodDescriptor name, final InstructionSink sink) {
+      MethodCallInstruction.createInvokeVirtual(name, sink);
+      return this;
    }
 
    @Override
-   public Vop invokeinterface(final SMethodDescriptor name, final InstructionSink sink) {
-      return MethodCallInstruction.createInvokeInterface(name);
+   public InstructionSource invokeinterface(final SMethodDescriptor name, final InstructionSink sink) {
+      MethodCallInstruction.createInvokeInterface(name, sink);
+      return this;
    }
 
    @Override
-   public Vop invokespecial(final SMethodDescriptor name, final InstructionSink sink) {
-      return MethodCallInstruction.createInvokeSpecial(name);
+   public InstructionSource invokespecial(final SMethodDescriptor name, final InstructionSink sink) {
+      MethodCallInstruction.createInvokeSpecial(name, sink);
+      return this;
    }
 
    @Override
-   public Vop invokestatic(final SMethodDescriptor name, final InstructionSink sink) {
-      return MethodCallInstruction.createInvokeStatic(name);
+   public InstructionSource invokestatic(final SMethodDescriptor name, final InstructionSink sink) {
+      MethodCallInstruction.createInvokeStatic(name, sink);
+      return this;
    }
 
    @Override
-   public BranchInstruction got0(final InstructionSink sink) {
-      return new BranchInstruction(new Unconditional());
+   public InstructionSource got0(final InstructionSink sink) {
+      return sink(new BranchInstruction(new Unconditional()), sink);
    }
 
    @Override
-   public Vop ifacmpne(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfACmpNe(jumpInsnNode);
+   public InstructionSource ifacmpne(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfACmpNe(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ificmpge(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfICmpGe(jumpInsnNode);
+   public InstructionSource ificmpge(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfICmpGe(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ificmpgt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfICmpGt(jumpInsnNode);
+   public InstructionSource ificmpgt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfICmpGt(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ificmplt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfICmpLt(jumpInsnNode);
+   public InstructionSource ificmplt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfICmpLt(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ificmple(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfICmpLe(jumpInsnNode);
+   public InstructionSource ificmple(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfICmpLe(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ificmpne(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfICmpNe(jumpInsnNode);
+   public InstructionSource ificmpne(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfICmpNe(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ificmpeq(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfICmpEq(jumpInsnNode);
+   public InstructionSource ificmpeq(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfICmpEq(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifnonnull(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfNonNull(jumpInsnNode);
+   public InstructionSource ifnonnull(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfNonNull(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifnull(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfNull(jumpInsnNode);
+   public InstructionSource ifnull(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfNull(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifne(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfNe(jumpInsnNode);
+   public InstructionSource ifne(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfNe(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifeq(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfEq(jumpInsnNode);
+   public InstructionSource ifeq(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfEq(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop iflt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfLt(jumpInsnNode);
+   public InstructionSource iflt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfLt(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifle(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfLe(jumpInsnNode);
+   public InstructionSource ifle(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfLe(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifgt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfGt(jumpInsnNode);
+   public InstructionSource ifgt(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfGt(jumpInsnNode), sink);
    }
 
    @Override
-   public Vop ifge(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
-      return instructionFactory.branchIfGe(jumpInsnNode);
+   public InstructionSource ifge(final JumpInsnNode jumpInsnNode, final InstructionSink sink) {
+      return sink(instructionFactory.branchIfGe(jumpInsnNode), sink);
+   }
+
+   private InstructionSource sink(final Vop op, final InstructionSink sink) {
+      sink.nextInstruction(op);
+      return this;
    }
 
    @Override
-   public LinearInstruction checkcast(final TypeInsnNode typeInsnNode, final InstructionSink sink) {
+   public InstructionSource checkcast(final TypeInsnNode typeInsnNode, final InstructionSink sink) {
       return linearInstruction(new CheckCastOp(typeInsnNode.desc), sink);
    }
 
    @Override
-   public LinearInstruction instance0f(final TypeInsnNode typeInsnNode, final InstructionSink sink) {
+   public InstructionSource instance0f(final TypeInsnNode typeInsnNode, final InstructionSink sink) {
       return linearInstruction(new InstanceOfOp(typeInsnNode.desc), sink);
    }
 
    @Override
-   public LinearInstruction anewarray(final InstructionSink sink) {
+   public InstructionSource anewarray(final InstructionSink sink) {
       return linearInstruction(instructionFactory.aNewArray(), sink);
    }
 
    @Override
-   public LinearInstruction iinc(final IincInsnNode iincInsnNode, final InstructionSink sink) {
+   public InstructionSource iinc(final IincInsnNode iincInsnNode, final InstructionSink sink) {
       return linearInstruction(new IincOp(iincInsnNode.var, iincInsnNode.incr), sink);
    }
 
    @Override
-   public LinearInstruction newarray(final int val, final InstructionSink sink) {
+   public InstructionSource newarray(final int val, final InstructionSink sink) {
       return linearInstruction(instructionFactory.newArray(instructionHelper.initialFieldValue(val)), sink);
    }
 
    @Override
-   public Vop bipush(final int val, final InstructionSink sink) {
-      return instructionHelper.iconst(val);
+   public InstructionSource bipush(final int val, final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(val), sink);
    }
 
    @Override
-   public Vop sipush(final int val, final InstructionSink sink) {
-      return instructionHelper.iconst(val);
+   public InstructionSource sipush(final int val, final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(val), sink);
    }
 
    @Override
-   public Vop ldcDouble(final double val, final InstructionSink sink) {
-      return instructionHelper.dconst(val);
+   public InstructionSource ldcDouble(final double val, final InstructionSink sink) {
+      return linearInstruction(instructionHelper.dconst(val), sink);
    }
 
    @Override
-   public Vop ldcFloat(final float val, final InstructionSink sink) {
-      return instructionHelper.fconst(val);
+   public InstructionSource ldcFloat(final float val, final InstructionSink sink) {
+      return linearInstruction(instructionHelper.fconst(val), sink);
    }
 
    @Override
-   public Vop ldcLong(final long val, final InstructionSink sink) {
-      return instructionHelper.lconst(val);
+   public InstructionSource ldcLong(final long val, final InstructionSink sink) {
+      return linearInstruction(instructionHelper.lconst(val), sink);
    }
 
    @Override
-   public Vop ldcInt(final int val, final InstructionSink sink) {
-      return instructionHelper.iconst(val);
+   public InstructionSource ldcInt(final int val, final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(val), sink);
    }
 
    @Override
-   public LinearInstruction pop(final InstructionSink sink) {
+   public InstructionSource pop(final InstructionSink sink) {
       return linearInstruction(new PopOp(), sink);
    }
 
    @Override
-   public LinearInstruction lcmp(final InstructionSink sink) {
+   public InstructionSource lcmp(final InstructionSink sink) {
       return linearInstruction(new LCmpOp(), sink);
    }
 
    @Override
-   public LinearInstruction fcmpl(final InstructionSink sink) {
+   public InstructionSource fcmpl(final InstructionSink sink) {
       return binaryOp(new FCmpLOperator(), sink);
    }
 
    @Override
-   public LinearInstruction fcmpg(final InstructionSink sink) {
+   public InstructionSource fcmpg(final InstructionSink sink) {
       return binaryOp(new FCmpGOperator(), sink);
    }
 
    @Override
-   public LinearInstruction f2i(final InstructionSink sink) {
+   public InstructionSource f2i(final InstructionSink sink) {
       return linearInstruction(new F2IOp(), sink);
    }
 
    @Override
-   public LinearInstruction i2f(final InstructionSink sink) {
+   public InstructionSource i2f(final InstructionSink sink) {
       return linearInstruction(new I2FOp(), sink);
    }
 
    @Override
-   public LinearInstruction l2i(final InstructionSink sink) {
+   public InstructionSource l2i(final InstructionSink sink) {
       return linearInstruction(new L2IOp(), sink);
    }
 
    @Override
-   public LinearInstruction i2l(final InstructionSink sink) {
+   public InstructionSource i2l(final InstructionSink sink) {
       return linearInstruction(new I2LOp(), sink);
    }
 
    @Override
-   public LinearInstruction lushr(final InstructionSink sink) {
+   public InstructionSource lushr(final InstructionSink sink) {
       return linearInstruction(new LushrOp(), sink);
    }
 
    @Override
-   public LinearInstruction ixor(final InstructionSink sink) {
+   public InstructionSource ixor(final InstructionSink sink) {
       return linearInstruction(new IxorOp(), sink);
    }
 
    @Override
-   public LinearInstruction ior(final InstructionSink sink) {
+   public InstructionSource ior(final InstructionSink sink) {
       return linearInstruction(new IorOp(), sink);
    }
 
    @Override
-   public LinearInstruction iushr(final InstructionSink sink) {
+   public InstructionSource iushr(final InstructionSink sink) {
       return linearInstruction(new IushrOp(), sink);
    }
 
    @Override
-   public LinearInstruction ishr(final InstructionSink sink) {
+   public InstructionSource ishr(final InstructionSink sink) {
       return linearInstruction(new IshrOp(), sink);
    }
 
    @Override
-   public LinearInstruction ishl(final InstructionSink sink) {
+   public InstructionSource ishl(final InstructionSink sink) {
       return linearInstruction(new IshlOp(), sink);
    }
 
    @Override
-   public LinearInstruction arrayLength(final InstructionSink sink) {
+   public InstructionSource arrayLength(final InstructionSink sink) {
       return linearInstruction(new ArrayLengthOp(), sink);
    }
 
    @Override
-   public LinearInstruction aaload(final InstructionSink sink) {
+   public InstructionSource aaload(final InstructionSink sink) {
       return linearInstruction(instructionFactory.aaLoad(), sink);
    }
 
    @Override
-   public LinearInstruction iaload(final InstructionSink sink) {
+   public InstructionSource iaload(final InstructionSink sink) {
       return linearInstruction(instructionFactory.iaLoad(), sink);
    }
 
    @Override
-   public LinearInstruction caload(final InstructionSink sink) {
+   public InstructionSource caload(final InstructionSink sink) {
       return linearInstruction(ArrayLoadOp.caLoad(), sink);
    }
 
    @Override
-   public LinearInstruction aaStore(final InstructionSink sink) {
+   public InstructionSource aaStore(final InstructionSink sink) {
       return linearInstruction(instructionFactory.aaStore(), sink);
    }
 
    @Override
-   public LinearInstruction iaStore(final InstructionSink sink) {
+   public InstructionSource iaStore(final InstructionSink sink) {
       return linearInstruction(instructionFactory.iaStore(), sink);
    }
 
    @Override
-   public LinearInstruction caStore(final InstructionSink sink) {
+   public InstructionSource caStore(final InstructionSink sink) {
       return linearInstruction(ArrayStoreOp.caStore(), sink);
    }
 
    @Override
-   public Vop lconst_1(final InstructionSink sink) {
-      return instructionHelper.lconst(1);
+   public InstructionSource lconst_1(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.lconst(1), sink);
    }
 
    @Override
-   public Vop lconst_0(final InstructionSink sink) {
-      return instructionHelper.lconst(0);
+   public InstructionSource lconst_0(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.lconst(0), sink);
    }
 
    @Override
-   public Vop iconst_5(final InstructionSink sink) {
-      return instructionHelper.iconst(5);
+   public InstructionSource iconst_5(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(5), sink);
    }
 
    @Override
-   public Vop iconst_4(final InstructionSink sink) {
-      return instructionHelper.iconst(4);
+   public InstructionSource iconst_4(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(4), sink);
    }
 
    @Override
-   public Vop iconst_3(final InstructionSink sink) {
-      return instructionHelper.iconst(3);
+   public InstructionSource iconst_3(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(3), sink);
    }
 
    @Override
-   public Vop iconst_2(final InstructionSink sink) {
-      return instructionHelper.iconst(2);
+   public InstructionSource iconst_2(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(2), sink);
    }
 
    @Override
-   public Vop iconst_1(final InstructionSink sink) {
-      return instructionHelper.iconst(1);
+   public InstructionSource iconst_1(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(1), sink);
    }
 
    @Override
-   public Vop iconst_m1(final InstructionSink sink) {
-      return instructionHelper.iconst(-1);
+   public InstructionSource iconst_m1(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(-1), sink);
    }
 
    @Override
-   public LinearInstruction dup_x1(final InstructionSink sink) {
+   public InstructionSource dup_x1(final InstructionSink sink) {
       return linearInstruction(new Dup_X1Op(), sink);
    }
 
    @Override
-   public LinearInstruction dup(final InstructionSink sink) {
+   public InstructionSource dup(final InstructionSink sink) {
       return linearInstruction(new DupOp(), sink);
    }
 
    @Override
-   public LinearInstruction ineg(final InstructionSink sink) {
-      return instructionHelper.unaryOp(instructionFactory.inegOperation());
+   public InstructionSource ineg(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.unaryOp(instructionFactory.inegOperation()), sink);
    }
 
    @Override
-   public LinearInstruction isub(final InstructionSink sink) {
+   public InstructionSource isub(final InstructionSink sink) {
       return binaryOp(instructionFactory.isubOperation(), sink);
    }
 
    @Override
-   public LinearInstruction fdiv(final InstructionSink sink) {
+   public InstructionSource fdiv(final InstructionSink sink) {
       return binaryOp(instructionFactory.fdivOperation(), sink);
    }
 
    @Override
-   public LinearInstruction fmul(final InstructionSink sink) {
+   public InstructionSource fmul(final InstructionSink sink) {
       return binaryOp(instructionFactory.fmulOperation(), sink);
    }
 
    @Override
-   public LinearInstruction imul(final InstructionSink sink) {
+   public InstructionSource imul(final InstructionSink sink) {
       return binaryOp(instructionFactory.imulOperation(), sink);
    }
 
    @Override
-   public LinearInstruction iadd(final InstructionSink sink) {
+   public InstructionSource iadd(final InstructionSink sink) {
       return binaryOp(instructionFactory.iaddOperation(), sink);
    }
 
    @Override
-   public LinearInstruction land(final InstructionSink sink) {
-      return instructionHelper.binary2Op(instructionFactory.landOperation());
+   public InstructionSource land(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.binary2Op(instructionFactory.landOperation()), sink);
    }
 
    @Override
-   public LinearInstruction iand(final InstructionSink sink) {
+   public InstructionSource iand(final InstructionSink sink) {
       return binaryOp(instructionFactory.iandOperation(), sink);
    }
 
    @Override
-   public LoadingInstruction putStaticField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
+   public InstructionSource putStaticField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
       return loadingInstruction(fieldInsnNode.owner, new PutStaticOp(fieldInsnNode), sink);
    }
 
    @Override
-   public LoadingInstruction getStaticField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
+   public InstructionSource getStaticField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
       return loadingInstruction(fieldInsnNode.owner, new GetStaticOp(fieldInsnNode), sink);
    }
 
    @Override
-   public LinearInstruction getField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
+   public InstructionSource getField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
       return linearInstruction(instructionFactory.getField(fieldInsnNode), sink);
    }
 
    @Override
-   public LinearInstruction putField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
+   public InstructionSource putField(final FieldInsnNode fieldInsnNode, final InstructionSink sink) {
       return linearInstruction(instructionFactory.putField(fieldInsnNode), sink);
    }
 
    @Override
-   public LinearInstruction store(final int var, final InstructionSink sink) {
+   public InstructionSource store(final int var, final InstructionSink sink) {
       return linearInstruction(new Store(var), sink);
    }
 
    @Override
-   public LinearInstruction store2(final int var, final InstructionSink sink) {
+   public InstructionSource store2(final int var, final InstructionSink sink) {
       return linearInstruction(new Store2(var), sink);
    }
 
-   @Override public Vop aconst_null(final InstructionSink sink) {
+   @Override public InstructionSource aconst_null(final InstructionSink sink) {
       return linearInstruction(new AConstNullOp(), sink);
    }
 
-   @Override public Vop iconst_0(final InstructionSink sink) {
-      return instructionHelper.iconst(0);
+   @Override public InstructionSource iconst_0(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.iconst(0), sink);
    }
 
-   @Override public Vop fconst_0(final InstructionSink sink) {
-      return instructionHelper.fconst(0);
+   @Override public InstructionSource fconst_0(final InstructionSink sink) {
+      return linearInstruction(instructionHelper.fconst(0), sink);
    }
 
-   @Override public Vop stringPoolLoad(final String constVal, final InstructionSink sink) {
+   @Override public InstructionSource stringPoolLoad(final String constVal, final InstructionSink sink) {
       return linearInstruction(new StringPoolLoadOperator(constVal), sink);
    }
 
-   @Override public Vop objectPoolLoad(final Type constVal, final InstructionSink sink) {
+   @Override public InstructionSource objectPoolLoad(final Type constVal, final InstructionSink sink) {
       return linearInstruction(new ObjectPoolLoad(constVal), sink);
    }
 
-   @Override public LinearInstruction load(final int index, final InstructionSink sink) {
+   @Override public InstructionSource load(final int index, final InstructionSink sink) {
       return linearInstruction(new Load(index), sink);
    }
 
-   @Override public LinearInstruction load2(final int index, final InstructionSink sink) {
+   @Override public InstructionSource load2(final int index, final InstructionSink sink) {
       return linearInstruction(new Load2(index), sink);
    }
 
-   @Override public Vop returnVoid(final InstructionSink sink) {
-      return new ReturnInstruction(0);
+   @Override public InstructionSource returnVoid(final InstructionSink sink) {
+      sink.nextInstruction(new ReturnInstruction(0));
+      return this;
    }
 
-   @Override public Vop return1(final InstructionSink sink) {
-      return new ReturnInstruction(1);
+   @Override public InstructionSource return1(final InstructionSink sink) {
+      sink.nextInstruction(new ReturnInstruction(1));
+      return this;
    }
 
-   @Override public Vop return2(final InstructionSink sink) {
-      return new ReturnInstruction(2);
+   @Override public InstructionSource return2(final InstructionSink sink) {
+      sink.nextInstruction(new ReturnInstruction(2));
+      return this;
    }
 
-   @Override public Vop newObject(final String klassDesc, final InstructionSink sink) {
+   @Override public InstructionSource newObject(final String klassDesc, final InstructionSink sink) {
       return loadingInstruction(klassDesc, instructionHelper.newOp(klassDesc), sink);
    }
 
-   private LinearInstruction binaryOp(final BinaryOperator operation, final InstructionSink sink) {
-      return instructionHelper.binaryOp(operation);
+   private InstructionSource binaryOp(final BinaryOperator operation, final InstructionSink sink) {
+      sink.nextInstruction(instructionHelper.binaryOp(operation));
+      return this;
    }
 
-   private LinearInstruction linearInstruction(final Vop op, final InstructionSink sink) {
-      return instructionHelper.linearInstruction(op);
+   private InstructionSource linearInstruction(final Vop op, final InstructionSink sink) {
+      sink.nextInstruction(instructionHelper.linearInstruction(op));
+      return this;
    }
 
-   private LoadingInstruction loadingInstruction(final String klassDesc, final Vop op, final InstructionSink sink) {
-      return instructionHelper.loadingInstruction(klassDesc, op);
+   private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionSink sink) {
+      sink.nextInstruction(instructionHelper.loadingInstruction(klassDesc, op));
+      return this;
    }
 }

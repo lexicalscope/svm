@@ -47,23 +47,23 @@ public final class BaseInstructions implements Instructions {
             return;
       }
 
-      sink.nextInstruction(new InstructionSwitch(instructionSource).instructionFor(abstractInsnNode, sink));
+      new InstructionSwitch(instructionSource).instructionFor(abstractInsnNode, sink);
    }
 
    /*
     * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
     */
 
-   @Override public Vop aload(final int index, final InstructionSink sink) {
-      return instructionSource.load(index, sink);
+   @Override public void aload(final int index, final InstructionSink sink) {
+      instructionSource.load(index, sink);
    }
 
-   @Override public Vop fload(final int index, final InstructionSink sink) {
-      return instructionSource.load(index, sink);
+   @Override public void fload(final int index, final InstructionSink sink) {
+      instructionSource.load(index, sink);
    }
 
-   @Override public Vop dload(final int index, final InstructionSink sink) {
-      return instructionSource.load2(index, sink);
+   @Override public void dload(final int index, final InstructionSink sink) {
+      instructionSource.load2(index, sink);
    }
 
    public static String fieldKey(final FieldInsnNode fieldInsnNode) {
@@ -94,16 +94,16 @@ public final class BaseInstructions implements Instructions {
       return instructionHelper.linearInstruction(new CurrentTimeMillisOp());
    }
 
-   @Override public Vop createInvokeSpecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      return instructionSource.invokespecial(sMethodName, sink);
+   @Override public void createInvokeSpecial(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+      instructionSource.invokespecial(sMethodName, sink);
    }
 
-   @Override public Vop invokeInterface(final String klassName, final String methodName, final String desc, final InstructionSink sink) {
-      return invokeInterface(new AsmSMethodName(klassName, methodName, desc), sink);
+   @Override public void invokeInterface(final String klassName, final String methodName, final String desc, final InstructionSink sink) {
+      invokeInterface(new AsmSMethodName(klassName, methodName, desc), sink);
    }
 
-   private Vop invokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
-      return instructionSource.invokeinterface(sMethodName, sink);
+   private void invokeInterface(final SMethodDescriptor sMethodName, final InstructionSink sink) {
+      instructionSource.invokeinterface(sMethodName, sink);
    }
 
    @Override public Vop currentThread(final InstructionSink sink) {
@@ -168,34 +168,34 @@ public final class BaseInstructions implements Instructions {
    }
 
    @Override public Vop iconst(final int constVal, final InstructionSink sink) {
-      return instructionHelper.iconst(constVal);
+      return new LinearInstruction(instructionHelper.iconst(constVal));
    }
 
    @Override public Vop lconst(final long constVal, final InstructionSink sink) {
-      return instructionHelper.lconst(constVal);
+      return new LinearInstruction(instructionHelper.lconst(constVal));
    }
 
-   @Override public Vop newObject(final String klassDesc, final InstructionSink sink) {
-      return instructionSource.newObject(klassDesc, sink);
+   @Override public void newObject(final String klassDesc, final InstructionSink sink) {
+      instructionSource.newObject(klassDesc, sink);
    }
 
-   @Override public Vop aconst_null(final InstructionSink sink) {
-      return instructionSource.aconst_null(sink);
+   @Override public void aconst_null(final InstructionSink sink) {
+      instructionSource.aconst_null(sink);
    }
 
-   @Override public Vop iconst_0(final InstructionSink sink) {
-      return instructionSource.iconst_0(sink);
+   @Override public void iconst_0(final InstructionSink sink) {
+      instructionSource.iconst_0(sink);
    }
 
-   @Override public Vop return1(final InstructionSink sink) {
-      return instructionSource.return1(sink);
+   @Override public void return1(final InstructionSink sink) {
+      instructionSource.return1(sink);
    }
 
-   @Override public Vop return2(final InstructionSink sink) {
-      return instructionSource.return2(sink);
+   @Override public void return2(final InstructionSink sink) {
+      instructionSource.return2(sink);
    }
 
-   @Override public Vop returnVoid(final InstructionSink sink) {
-      return instructionSource.returnVoid(sink);
+   @Override public void returnVoid(final InstructionSink sink) {
+      instructionSource.returnVoid(sink);
    }
 }

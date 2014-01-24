@@ -2,12 +2,14 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import static java.util.Arrays.asList;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
+import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.State;
@@ -45,10 +47,19 @@ public class LoadingInstruction implements Vop {
    }
 
    private Instruction replaceCurrentInstructionWithInvocationOfStaticInitaliser(final Instruction currentInstruction, final SClass klass) {
-      final InstructionInternal classConstructorInstruction = new InstructionInternal(MethodCallInstruction.createClassDefaultConstructor(klass.name()));
-      final InstructionInternal staticInitialiserInstruction = new InstructionInternal(MethodCallInstruction.createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC)));
-      staticInitialiserInstruction.nextIs(classConstructorInstruction).nextIs(currentInstruction);
-      return staticInitialiserInstruction;
+      final List<InstructionInternal> instructions = new ArrayList<>();
+      final InstructionSink sink = new InstructionSink() {
+         @Override public void noInstruction() { }
+
+         @Override public void nextInstruction(final Vop node) {
+            instructions.add(new InstructionInternal(node));
+         }
+      };
+      MethodCallInstruction.createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC), sink);
+      MethodCallInstruction.createClassDefaultConstructor(klass.name(), sink);
+
+      instructions.get(0).nextIs(instructions.get(1)).nextIs(currentInstruction);
+      return instructions.get(0);
    }
 
    @Override public String toString() {

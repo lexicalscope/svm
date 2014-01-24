@@ -20,7 +20,7 @@ public interface Instructions {
 
    Vop defineClass(List<String> klassNames);
 
-   Vop createInvokeSpecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
+   void createInvokeSpecial(SMethodDescriptor sMethodName, InstructionSink instructionSink);
 
    Vop initThread(InstructionSink sink);
 
@@ -38,22 +38,22 @@ public interface Instructions {
    Vop currentTimeMillis(InstructionSink sink);
    Vop iconst(int constVal, InstructionSink sink);
    Vop lconst(long constVal, InstructionSink sink);
-   Vop invokeInterface(String klassName, String methodName, String desc, InstructionSink sink);
-   Vop aload(int index, InstructionSink sink);
-   Vop fload(int index, InstructionSink sink);
-   Vop dload(int index, InstructionSink sink);
+   void invokeInterface(String klassName, String methodName, String desc, InstructionSink sink);
+   void aload(int index, InstructionSink sink);
+   void fload(int index, InstructionSink sink);
+   void dload(int index, InstructionSink sink);
 
    Vop nop(InstructionSink sink);
 
    Vop loadArg(Object object, InstructionSink sink);
 
-   Vop newObject(String klassDesc, InstructionSink sink);
+   void newObject(String klassDesc, InstructionSink sink);
 
-   Vop aconst_null(InstructionSink sink);
+   void aconst_null(InstructionSink sink);
 
-   Vop iconst_0(InstructionSink sink);
+   void iconst_0(InstructionSink sink);
 
-   Vop return1(InstructionSink sink);
-   Vop return2(InstructionSink sink);
-   Vop returnVoid(InstructionSink sink);
+   void return1(InstructionSink sink);
+   void return2(InstructionSink sink);
+   void returnVoid(InstructionSink sink);
 }

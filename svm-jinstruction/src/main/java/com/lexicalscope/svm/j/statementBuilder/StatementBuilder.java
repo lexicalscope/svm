@@ -60,15 +60,18 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      return add(factory.newObject(klassDesc, sink));
+      factory.newObject(klassDesc, sink);
+      return this;
    }
 
    public StatementBuilder aconst_null() {
-      return add(factory.aconst_null(sink));
+      factory.aconst_null(sink);
+      return this;
    }
 
    public StatementBuilder iconst_0() {
-      return add(factory.iconst_0(sink));
+      factory.iconst_0(sink);
+      return this;
    }
 
    public StatementBuilder iconst(final int i) {
@@ -80,15 +83,18 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder return1() {
-      return add(factory.return1(sink));
+      factory.return1(sink);
+      return this;
    }
 
    public StatementBuilder return2() {
-      return add(factory.return2(sink));
+      factory.return2(sink);
+      return this;
    }
 
    public StatementBuilder returnVoid() {
-      return add(factory.returnVoid(sink));
+      factory.returnVoid(sink);
+      return this;
    }
 
    public StatementBuilder addressToHashCode() {
@@ -96,7 +102,8 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder aload(final int index) {
-      return add(factory.aload(index, sink));
+      factory.aload(index, sink);
+      return this;
    }
 
    public StatementBuilder nanoTime() {
@@ -124,11 +131,13 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder fload(final int index) {
-      return add(factory.fload(index, sink));
+      factory.fload(index, sink);
+      return this;
    }
 
    public StatementBuilder dload(final int index) {
-      return add(factory.dload(index, sink));
+      factory.dload(index, sink);
+      return this;
    }
 
    public StatementBuilder getCallerClass() {
@@ -144,7 +153,8 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
-      return add(factory.invokeInterface(klassName, methodName, desc, sink));
+      factory.invokeInterface(klassName, methodName, desc, sink);
+      return this;
    }
 
    public StatementBuilder loadArg(final Object object) {
@@ -156,6 +166,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder createInvokeSpecial(final SMethodDescriptor sMethodName) {
-      return add(factory.createInvokeSpecial(sMethodName, sink));
+      factory.createInvokeSpecial(sMethodName, sink);
+      return this;
    }
 }
