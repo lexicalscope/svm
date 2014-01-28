@@ -24,7 +24,6 @@ public final class DefineClassOp implements Op<List<SClass>> {
    }
 
    @Override public List<SClass> eval(final State ctx) {
-         System.out.println("!!!! defining classes");
          final List<SClass> results = new ArrayList<>();
          for (final String klassName : klassNames) {
             if (!ctx.isDefined(klassName)) {

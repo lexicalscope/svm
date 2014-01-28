@@ -10,12 +10,14 @@ import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class StatementBuilder {
+   private final Instruction insertBeforeInstruction;
    private final List<Vop> instructions = new ArrayList<>();
    private int maxStack;
    private int maxLocals;
@@ -28,7 +30,12 @@ public final class StatementBuilder {
    };
 
    public StatementBuilder(final Instructions baseInstructions) {
+      this(baseInstructions, null);
+   }
+
+   public StatementBuilder(final Instructions baseInstructions, final Instruction nextInstruction) {
       this.factory = baseInstructions;
+      this.insertBeforeInstruction = nextInstruction;
    }
 
    public StatementBuilder maxLocals(final int maxLocals) {
@@ -52,6 +59,7 @@ public final class StatementBuilder {
          if(next != null) {node.nextIs(next);}
          next = node;
       }
+      if(insertBeforeInstruction != null) { next.nextIs(insertBeforeInstruction); }
       return next;
    }
 

@@ -35,7 +35,6 @@ public class StateImpl implements State {
 
    @Override
    public final void eval() {
-      System.out.println(instruction());
       instruction().eval(this);
    }
 

@@ -38,9 +38,7 @@ public final class DefinePrimitiveClassesOp implements Op<List<SClass>> {
    }
 
    @Override public List<SClass> eval(final State ctx) {
-      System.out.println("!!!! defining primitives");
       final List<SClass> result = op.eval(ctx);
-      System.out.println("!!!! asadsd");
       for (final Entry<String, String> primitive : primitivesMap.entrySet()) {
          final String primitiveName = primitive.getKey();
          final String primitiveArrayName = primitive.getValue();

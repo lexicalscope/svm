@@ -5,7 +5,6 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
@@ -46,7 +45,7 @@ public class LoadingInstruction implements Vop {
       if(definedClasses.isEmpty()){
          new LinearInstruction(op).eval(ctx);
       } else {
-         final StatementBuilder replacementInstruction = instructions.statements();
+         final StatementBuilder replacementInstruction = instructions.before(ctx.instructionNext());
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {
@@ -55,9 +54,7 @@ public class LoadingInstruction implements Vop {
                   .createClassDefaultConstructor(klass.name());
             }
          }
-         final InstructionInternal replacement = replacementInstruction.linear(op).buildInstruction();
-         replacement.nextIs(ctx.instructionNext());
-         ctx.advanceTo(replacement);
+         ctx.advanceTo(replacementInstruction.linear(op).buildInstruction());
       }
    }
 

@@ -5,6 +5,7 @@ import java.util.List;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 
 public interface Instructions {
@@ -24,8 +25,10 @@ public interface Instructions {
    void classDefaultConstructor(String klassName, InstructionSink sink);
 
    StatementBuilder statements();
+   StatementBuilder before(Instruction nextInstruction);
 
    void loadArg(Object object, InstructionSink sink);
 
    InstructionSource source();
+
 }

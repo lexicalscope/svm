@@ -10,6 +10,7 @@ import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 
 public final class BaseInstructions implements Instructions {
@@ -50,6 +51,10 @@ public final class BaseInstructions implements Instructions {
 
    @Override public StatementBuilder statements() {
       return new StatementBuilder(this);
+   }
+
+   @Override public StatementBuilder before(final Instruction nextInstruction) {
+      return new StatementBuilder(this, nextInstruction);
    }
 
    @Override public void classDefaultConstructor(final String klassName, final InstructionSink sink) {
