@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
+import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
@@ -82,12 +83,10 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    @Override public Instruction initThreadInstruction() {
-      final StatementBuilder builder = new StatementBuilder(instructions).nop();
-      builder.initThread().createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"));
-
-//      final InstructionInternal firstInstruction = new InstructionInternal(instructions.initThread());
-//      firstInstruction.nextIs(new InstructionInternal(instructions.createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))));
-      return builder.buildInstruction();
+      return new StatementBuilder(instructions)
+         .linear(new InitThreadOp())
+         .createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))
+         .buildInstruction();
    }
 
    @Override public Object init(final String desc) {

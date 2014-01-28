@@ -6,6 +6,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
@@ -110,7 +111,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder nop() {
-      factory.nop(sink);
+      sink.linearInstruction(new NoOp());
       return this;
    }
 
@@ -121,11 +122,6 @@ public final class StatementBuilder {
 
    public StatementBuilder loadArg(final Object object) {
       factory.loadArg(object, sink);
-      return this;
-   }
-
-   public StatementBuilder initThread() {
-      factory.initThread(sink);
       return this;
    }
 

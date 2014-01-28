@@ -9,7 +9,6 @@ import org.objectweb.asm.tree.FieldInsnNode;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -49,10 +48,6 @@ public final class BaseInstructions implements Instructions {
       return new LoadingInstruction(klassNames, new NoOp(), this);
    }
 
-   @Override public void initThread(final InstructionSink sink) {
-      sink.linearInstruction(new InitThreadOp());
-   }
-
    @Override public StatementBuilder statements() {
       return new StatementBuilder(this);
    }
@@ -87,11 +82,6 @@ public final class BaseInstructions implements Instructions {
             return false;
       }
       throw new UnsupportedOperationException("" + sort);
-   }
-
-   @Override
-   public void nop(final InstructionSink sink) {
-      sink.linearInstruction(new NoOp());
    }
 
    @Override public void loadArg(final Object object, final InstructionSink sink) {

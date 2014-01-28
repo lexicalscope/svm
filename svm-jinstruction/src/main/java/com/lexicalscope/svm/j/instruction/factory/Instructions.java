@@ -22,11 +22,7 @@ public interface Instructions {
 
    void classDefaultConstructor(String klassName, InstructionSink sink);
 
-   void initThread(InstructionSink sink);
-
    StatementBuilder statements();
-
-   void nop(InstructionSink sink);
 
    void loadArg(Object object, InstructionSink sink);
 
