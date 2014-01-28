@@ -99,26 +99,6 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder nanoTime() {
-      factory.nanoTime(sink);
-      return this;
-   }
-
-   public StatementBuilder currentThread() {
-      factory.currentThread(sink);
-      return this;
-   }
-
-   public StatementBuilder floatToRawIntBits() {
-      factory.floatToRawIntBits(sink);
-      return this;
-   }
-
-   public StatementBuilder doubleToRawLongBits() {
-      factory.doubleToRawLongBits(sink);
-      return this;
-   }
-
    public StatementBuilder fload(final int index) {
       factory.source().fload(index, sink);
       return this;
@@ -126,16 +106,6 @@ public final class StatementBuilder {
 
    public StatementBuilder dload(final int index) {
       factory.source().dload(index, sink);
-      return this;
-   }
-
-   public StatementBuilder getCallerClass() {
-      factory.getCallerClass(sink);
-      return this;
-   }
-
-   public StatementBuilder getPrimitiveClass() {
-      factory.getPrimitiveClass(sink);
       return this;
    }
 

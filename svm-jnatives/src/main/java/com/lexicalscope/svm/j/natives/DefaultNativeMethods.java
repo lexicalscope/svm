@@ -5,6 +5,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
@@ -27,7 +28,12 @@ public class DefaultNativeMethods implements NativeMethods {
       } else if (methodName.equals(new AsmSMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
          // TODO[tim] we need to somewhere store the mapping between class
          // objects and the class they represent
-         return instructions.statements().maxLocals(1).maxStack(1).getPrimitiveClass().return1().build();
+         return instructions.statements()
+               .maxLocals(1)
+               .maxStack(1)
+               .linear(new GetPrimitiveClass())
+               .return1()
+               .build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }

@@ -26,14 +26,6 @@ public interface Instructions {
 
    StatementBuilder statements();
 
-   // TODO[tim]: the native method implementations should be split out
-   void currentThread(InstructionSink sink);
-   void floatToRawIntBits(InstructionSink sink);
-   void doubleToRawLongBits(InstructionSink sink);
-   void getCallerClass(InstructionSink sink);
-   void getPrimitiveClass(InstructionSink sink);
-   void nanoTime(InstructionSink sink);
-
    void nop(InstructionSink sink);
 
    void loadArg(Object object, InstructionSink sink);

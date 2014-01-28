@@ -7,15 +7,9 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.svm.j.instruction.NoOp;
-import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.CurrentThreadOp;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.DoubleToRawLongBits;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.FloatToRawIntBits;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.GetCallerClass;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
-import com.lexicalscope.svm.j.instruction.concrete.nativ3.NanoTimeOp;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -63,32 +57,8 @@ public final class BaseInstructions implements Instructions {
       return new StatementBuilder(this);
    }
 
-   @Override public void nanoTime(final InstructionSink sink) {
-      sink.linearInstruction(new NanoTimeOp());
-   }
-
    @Override public void classDefaultConstructor(final String klassName, final InstructionSink sink) {
       MethodCallInstruction.createClassDefaultConstructor(klassName, sink);
-   }
-
-   @Override public void currentThread(final InstructionSink sink) {
-      sink.linearInstruction(new CurrentThreadOp());
-   }
-
-   @Override public void floatToRawIntBits(final InstructionSink sink) {
-      sink.linearInstruction(new FloatToRawIntBits());
-   }
-
-   @Override public void doubleToRawLongBits(final InstructionSink sink) {
-      sink.linearInstruction(new DoubleToRawLongBits());
-   }
-
-   @Override public void getCallerClass(final InstructionSink sink) {
-      sink.linearInstruction(new GetCallerClass());
-   }
-
-   @Override public void getPrimitiveClass(final InstructionSink sink) {
-      sink.linearInstruction(new GetPrimitiveClass());
    }
 
    @Override public Object initialFieldValue(final String desc) {
