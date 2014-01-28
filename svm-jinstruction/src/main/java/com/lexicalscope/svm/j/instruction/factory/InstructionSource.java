@@ -87,6 +87,7 @@ public interface InstructionSource {
 
    InstructionSource newarray(int val, InstructionSink sink);
    InstructionSource anewarray(InstructionSink sink);
+   InstructionSource reflectionnewarray(InstructionSink sink);
    InstructionSource caStore(InstructionSink sink);
    InstructionSource iaStore(InstructionSink sink);
    InstructionSource aaStore(InstructionSink sink);

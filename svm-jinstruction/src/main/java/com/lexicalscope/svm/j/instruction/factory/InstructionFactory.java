@@ -32,6 +32,7 @@ public interface InstructionFactory {
 
    Vop newArray(Object initialFieldValue);
    Vop aNewArray();
+   Vop reflectionNewArray();
    Vop aaStore();
    Vop iaStore();
 

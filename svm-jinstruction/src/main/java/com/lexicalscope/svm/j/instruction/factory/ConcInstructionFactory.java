@@ -225,6 +225,11 @@ public class ConcInstructionFactory implements InstructionFactory {
       return new NewArrayOp(new NewConcArray());
    }
 
+   @Override public Vop reflectionNewArray() {
+      // TODO[tim]: take into account array type
+      return aNewArray();
+   }
+
    @Override public Vop aaStore() {
       return ArrayStoreOp.aaStore();
    }

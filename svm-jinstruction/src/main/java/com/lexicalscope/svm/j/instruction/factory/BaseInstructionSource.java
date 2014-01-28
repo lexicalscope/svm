@@ -192,6 +192,11 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override
+   public InstructionSource reflectionnewarray(final InstructionSink sink) {
+      return linearInstruction(instructionFactory.reflectionNewArray(), sink);
+   }
+
+   @Override
    public InstructionSource iinc(final IincInsnNode iincInsnNode, final InstructionSink sink) {
       return linearInstruction(new IincOp(iincInsnNode.var, iincInsnNode.incr), sink);
    }

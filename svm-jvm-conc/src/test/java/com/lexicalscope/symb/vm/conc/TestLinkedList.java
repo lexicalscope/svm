@@ -8,7 +8,6 @@ import java.util.ArrayList;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.j.State;
 
@@ -25,11 +24,6 @@ public class TestLinkedList {
 
    @Test public void linkedListAddThenGet() {
       final Vm<State> vm = concreteVm(linkedListAddRemove, 4);
-      try {
-         final FlowNode<State> result = vm.execute();
-         assertThat(result, normalTerminiationWithResult(4));
-      } finally {
-         System.out.println(vm.pending().state().stack().trace());
-      }
+      assertThat(vm.execute(), normalTerminiationWithResult(4));
    }
 }

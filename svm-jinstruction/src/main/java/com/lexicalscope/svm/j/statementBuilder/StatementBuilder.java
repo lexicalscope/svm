@@ -162,4 +162,9 @@ public final class StatementBuilder {
       sink.loadingInstruction(classes, op, factory);
       return this;
    }
+
+   public StatementBuilder reflectionnewarray() {
+      factory.source().reflectionnewarray(sink);
+      return this;
+   }
 }
