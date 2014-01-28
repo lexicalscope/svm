@@ -14,14 +14,17 @@ public class AsmSClassFactory {
    public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final SClass superclass, final List<SClass> interfaces) {
       final ClassNodeAdapter classNodeAdapter = new ClassNodeAdapter(classNode);
 
+      final AsmSClassBuilder asmSClassBuilder = new AsmSClassBuilder(classLoader, instructions, superclass)
+            .withName(classNode.name)
+            .withFields(classNodeAdapter.fields())
+            .withMethods(classNodeAdapter.methods());
+
       return new AsmSClass(
             loadedFromUrl,
             classNode.name,
             superclass,
             interfaces,
-            new AsmSClassBuilder(classLoader, instructions, superclass)
-            .withName(classNode.name)
-            .withFields(classNodeAdapter.fields())
-            .withMethods(classNodeAdapter.methods()));
+            asmSClassBuilder.declaredFields(),
+            asmSClassBuilder.declaredMethods());
    }
 }

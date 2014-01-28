@@ -32,7 +32,6 @@ public interface SClass extends Allocatable, MethodResolver {
 
    boolean instanceOf(SClass other);
    boolean isArray();
-   boolean isPrimitive();
    boolean isKlassKlass();
 
    URL loadedFrom();

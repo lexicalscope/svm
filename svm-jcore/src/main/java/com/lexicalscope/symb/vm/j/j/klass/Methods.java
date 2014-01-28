@@ -29,14 +29,14 @@ public final class Methods {
       return new Methods(name, declaredMethods.methods(), virtualsCopy);
    }
 
-   public SMethodName resolve(final SMethodDescriptor sMethodName) {
+   public SMethod resolve(final SMethodDescriptor sMethodName) {
       final SVirtualMethodName methodKey = sMethodName.virtualName();
       assert virtuals.containsKey(methodKey) : methodKey + " not in " + name + " " + virtuals;
-      return virtuals.get(methodKey).name();
+      return virtuals.get(methodKey);
    }
 
    public SMethod findDefined(final SMethodName sMethodName) {
-      assert methodMap.containsKey(sMethodName) : sMethodName + " not in " + name + " " + methodMap;
+      assert methodMap.containsKey(sMethodName) : sMethodName + " not in " + name + " " + methodMap + " virtuals: " + virtuals;
       return methodMap.get(sMethodName);
    }
 

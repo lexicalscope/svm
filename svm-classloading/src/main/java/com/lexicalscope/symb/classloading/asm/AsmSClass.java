@@ -40,13 +40,14 @@ public class AsmSClass implements SClass {
          final String klassName,
          final SClass superclass,
          final List<SClass> interfaces,
-         final AsmSClassBuilder sClassBuilder) {
+         final DeclaredFields declaredFields,
+         final DeclaredMethods declaredMethods) {
       this.loadedFromUrl = loadedFromUrl;
       this.superclass = superclass;
       this.klassName = klassName;
 
-      this.declaredFields = sClassBuilder.declaredFields();
-      this.declaredMethods = sClassBuilder.declaredMethods();
+      this.declaredFields = declaredFields;
+      this.declaredMethods = declaredMethods;
       this.fields = (superclass == null ? new Fields() : superclass.fields()).extend(klassName, declaredFields);
       this.methods = (superclass == null ? new Methods(klassName) : superclass.methods()).extend(klassName, declaredMethods);
 
@@ -63,7 +64,7 @@ public class AsmSClass implements SClass {
 
    @Override
    public SMethod virtualMethod(final SMethodDescriptor sMethodName) {
-      return declaredMethod(methods.resolve(sMethodName));
+      return methods.resolve(sMethodName);
    }
 
    @Override
@@ -160,15 +161,11 @@ public class AsmSClass implements SClass {
    }
 
    @Override public boolean isArray() {
-      return false;
+      return klassName.startsWith("[");
    }
 
    @Override public boolean isKlassKlass() {
       return name().equals(Type.getInternalName(Class.class));
-   }
-
-   @Override public boolean isPrimitive() {
-      return false;
    }
 
    @Override public Fields fields() {

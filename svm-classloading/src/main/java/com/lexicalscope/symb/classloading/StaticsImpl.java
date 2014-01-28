@@ -3,13 +3,17 @@ package com.lexicalscope.symb.classloading;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.lexicalscope.symb.classloading.asm.AsmSClass;
+import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.Statics;
 import com.lexicalscope.symb.vm.j.StaticsMarker;
-import com.lexicalscope.symb.vm.j.j.klass.PrimitiveSClass;
+import com.lexicalscope.symb.vm.j.j.klass.DeclaredFields;
+import com.lexicalscope.symb.vm.j.j.klass.DeclaredMethods;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class StaticsImpl implements Statics {
@@ -70,7 +74,14 @@ public class StaticsImpl implements Statics {
          throw new DuplicateClassDefinitionException(defined.get(klassName));
       }
 
-      final PrimitiveSClass result = new PrimitiveSClass(klassName);
+      final AsmSClass result =
+            new AsmSClass(
+                  null,
+                  klassName,
+                  load(JavaConstants.OBJECT_CLASS),
+                  Collections.<SClass>emptyList(),
+                  new DeclaredFields(),
+                  new DeclaredMethods());
       cache(klassName, result);
       return result;
    }

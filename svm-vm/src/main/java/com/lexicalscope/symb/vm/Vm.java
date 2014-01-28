@@ -13,4 +13,6 @@ public interface Vm<S> {
 	FlowNode<S> result();
 
 	Collection<FlowNode<S>> results();
+
+   FlowNode<S> pending();
 }
