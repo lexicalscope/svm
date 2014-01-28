@@ -24,8 +24,4 @@ public class SymbolicObject implements MethodResolver {
    @Override public SMethod declaredMethod(final SMethodName sMethodName) {
       throw new UnsupportedOperationException();
    }
-
-   @Override public String name() {
-      return symbol.klass();
-   }
 }

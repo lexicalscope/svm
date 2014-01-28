@@ -31,6 +31,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 	@Override
 	public AsmSClass load(final SClassLoader classLoader, final String name,
 			final ClassLoaded classLoaded) {
+	   assert !name.startsWith("[");
 		if (name == null) {
 			return null;
 		}
@@ -60,7 +61,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 			}
 
 			final AsmSClass result = AsmSClassFactory.newSClass(classLoader,
-					instructions, classUrl, classNode, superclass, interfaces);
+					instructions, classUrl, classNode, superclass, interfaces, null);
 			classLoaded.loaded(result);
 			return result;
 		} catch (final IOException e) {

@@ -5,7 +5,6 @@ import static org.objectweb.asm.Type.getInternalName;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
@@ -69,9 +68,10 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
-      bootstrapClasses.addAll(DefineClassOp.primitives);
+      bootstrapClasses.addAll(DefineClassOp.primitiveClasses);
+      bootstrapClasses.addAll(DefineClassOp.primitiveArrays);
 
-      return new InstructionInternal(instructions.defineClass(bootstrapClasses));
+      return instructions.statements().linear(instructions.defineClass(bootstrapClasses)).buildInstruction();
    }
 
    @Override public Instruction loadArgsInstruction(final Object[] args) {

@@ -11,7 +11,14 @@ import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class AsmSClassFactory {
 
-   public static AsmSClass newSClass(final SClassLoader classLoader, final Instructions instructions, final URL loadedFromUrl, final ClassNode classNode, final SClass superclass, final List<SClass> interfaces) {
+   public static AsmSClass newSClass(
+         final SClassLoader classLoader,
+         final Instructions instructions,
+         final URL loadedFromUrl,
+         final ClassNode classNode,
+         final SClass superclass,
+         final List<SClass> interfaces,
+         final SClass componentType) {
       final ClassNodeAdapter classNodeAdapter = new ClassNodeAdapter(classNode);
 
       final AsmSClassBuilder asmSClassBuilder = new AsmSClassBuilder(classLoader, instructions, superclass)
@@ -25,6 +32,7 @@ public class AsmSClassFactory {
             superclass,
             interfaces,
             asmSClassBuilder.declaredFields(),
-            asmSClassBuilder.declaredMethods());
+            asmSClassBuilder.declaredMethods(),
+            componentType);
    }
 }

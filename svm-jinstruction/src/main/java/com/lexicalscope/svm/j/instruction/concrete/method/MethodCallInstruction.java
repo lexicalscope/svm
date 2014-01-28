@@ -73,8 +73,7 @@ public class MethodCallInstruction {
       final Object receiver = ctx.get(args[0], SClass.OBJECT_MARKER_OFFSET);
       assert receiver != null : sMethodName;
       assert receiver instanceof MethodResolver : "no " + sMethodName + " in " + receiver;
-      final MethodResolver receiverKlass = (MethodResolver) receiver;
-      return receiverKlass;
+      return (MethodResolver) receiver;
    }
 
    private static class SpecialMethodInvokation implements MethodInvokation {

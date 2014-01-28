@@ -16,7 +16,7 @@ import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
 
 public final class DefineClassOp implements Op<List<SClass>> {
-   public static final List<String> primitives = Arrays.asList(
+   public static final List<String> primitiveClasses = Arrays.asList(
          getInternalName(boolean.class),
          getInternalName(char.class),
          getInternalName(byte.class),
@@ -24,7 +24,9 @@ public final class DefineClassOp implements Op<List<SClass>> {
          getInternalName(int.class),
          getInternalName(long.class),
          getInternalName(float.class),
-         getInternalName(double.class),
+         getInternalName(double.class));
+
+   public static final List<String> primitiveArrays = Arrays.asList(
          getInternalName(boolean[].class),
          getInternalName(char[].class),
          getInternalName(byte[].class),
@@ -34,6 +36,11 @@ public final class DefineClassOp implements Op<List<SClass>> {
          getInternalName(float[].class),
          getInternalName(double[].class),
          getInternalName(Object[].class));
+
+   public static final List<String> primitives = new ArrayList<String>(){{
+         addAll(primitiveClasses);
+         addAll(primitiveArrays);
+   }};
    private final List<String> klassNames;
 
    public DefineClassOp(final String klassName) {

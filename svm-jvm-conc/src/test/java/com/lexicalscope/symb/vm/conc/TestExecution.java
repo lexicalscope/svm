@@ -6,8 +6,6 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.conc.VmFactory;
 import com.lexicalscope.symb.vm.j.State;
 
 public class TestExecution {

@@ -74,6 +74,8 @@ public class StaticsImpl implements Statics {
          throw new DuplicateClassDefinitionException(defined.get(klassName));
       }
 
+      final SClass componentType = klassName.startsWith("[") ? load(toClassName(klassName.substring(1))) : null;
+
       final AsmSClass result =
             new AsmSClass(
                   null,
@@ -81,9 +83,34 @@ public class StaticsImpl implements Statics {
                   load(JavaConstants.OBJECT_CLASS),
                   Collections.<SClass>emptyList(),
                   new DeclaredFields(),
-                  new DeclaredMethods());
+                  new DeclaredMethods(),
+                  componentType);
       cache(klassName, result);
       return result;
+   }
+
+   private String toClassName(final String substring) {
+      switch (substring) {
+         case "Z":
+            return "boolean";
+         case "C":
+            return "char";
+         case "B":
+            return "byte";
+         case "S":
+            return "short";
+         case "I":
+            return "int";
+         case "J":
+            return "long";
+         case "F":
+            return "float";
+         case "D":
+            return "double";
+         case "Ljava/lang/Object;":
+            return "java/lang/Object";
+      }
+      return substring;
    }
 
    private SClass cache(final String klassName, final SClass result) {
@@ -138,6 +165,6 @@ public class StaticsImpl implements Statics {
    }
 
    @Override public StaticsMarker staticsMarker(final SClass klass) {
-      return new StaticsMarker(klass);
+      return new StaticsMarker(classClass(), klass);
    }
 }

@@ -34,6 +34,7 @@ public class AsmSClass implements SClass {
 
    private final URL loadedFromUrl;
    private final SClass superclass;
+   private final SClass componentType;
 
    public AsmSClass(
          final URL loadedFromUrl,
@@ -41,13 +42,15 @@ public class AsmSClass implements SClass {
          final SClass superclass,
          final List<SClass> interfaces,
          final DeclaredFields declaredFields,
-         final DeclaredMethods declaredMethods) {
+         final DeclaredMethods declaredMethods,
+         final SClass componentType) {
       this.loadedFromUrl = loadedFromUrl;
       this.superclass = superclass;
       this.klassName = klassName;
 
       this.declaredFields = declaredFields;
       this.declaredMethods = declaredMethods;
+      this.componentType = componentType;
       this.fields = (superclass == null ? new Fields() : superclass.fields()).extend(klassName, declaredFields);
       this.methods = (superclass == null ? new Methods(klassName) : superclass.methods()).extend(klassName, declaredMethods);
 
@@ -161,7 +164,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override public boolean isArray() {
-      return klassName.startsWith("[");
+      return componentType != null;
    }
 
    @Override public boolean isKlassKlass() {
@@ -178,5 +181,9 @@ public class AsmSClass implements SClass {
 
    @Override public Methods methods() {
       return methods;
+   }
+
+   @Override public SClass componentType() {
+      return componentType;
    }
 }

@@ -7,5 +7,4 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 public interface MethodResolver {
    SMethod virtualMethod(SMethodDescriptor sMethodName);
    SMethod declaredMethod(SMethodName sMethodName);
-   String name();
 }

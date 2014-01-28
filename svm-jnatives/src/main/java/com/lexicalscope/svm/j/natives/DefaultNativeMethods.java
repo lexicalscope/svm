@@ -26,8 +26,6 @@ public class DefaultNativeMethods implements NativeMethods {
       if (methodName.equals(new AsmSMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
          return instructions.statements().maxStack(1).iconst_0().return1().build();
       } else if (methodName.equals(new AsmSMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
-         // TODO[tim] we need to somewhere store the mapping between class
-         // objects and the class they represent
          return instructions.statements()
                .maxLocals(1)
                .maxStack(1)
@@ -41,6 +39,8 @@ public class DefaultNativeMethods implements NativeMethods {
    }
    public static NativeMethods natives() {
       return natives(Arrays.<NativeMethodDef>asList(
+            new Java_lang_object_getClass(),
+            new Java_lang_class_getComponentType(),
             new Java_lang_class_getClassLoader0(),
             new Java_lang_system_identityHashCode(),
             new Java_lang_system_nanoTime(),
