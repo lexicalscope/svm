@@ -144,4 +144,14 @@ public final class StatementBuilder {
       sink.linearInstruction(op);
       return this;
    }
+
+   public StatementBuilder instruction(final Vop op) {
+      sink.nextInstruction(op);
+      return this;
+   }
+
+   public StatementBuilder loading(final List<String> classes, final Vop op) {
+      sink.loadingInstruction(classes, op, factory);
+      return this;
+   }
 }

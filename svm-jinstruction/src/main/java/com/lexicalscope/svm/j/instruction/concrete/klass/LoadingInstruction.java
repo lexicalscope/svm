@@ -9,20 +9,30 @@ import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.JavaConstants;
+import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class LoadingInstruction implements Vop {
-   private final List<String> klassNames;
+   private final Op<List<SClass>> loader;
    private final Vop op;
    private final Instructions instructions;
 
-   public LoadingInstruction(final List<String> klassNames, final Vop op, final Instructions instructions) {
-      this.klassNames = klassNames;
+   public LoadingInstruction(
+         final List<String> klassNames,
+         final Vop op,
+         final Instructions instructions) {
+      this(new DefineClassOp(klassNames), op, instructions);
+   }
+
+   public LoadingInstruction(
+         final Op<List<SClass>> loader,
+         final Vop op,
+         final Instructions instructions) {
+      this.loader = loader;
       this.op = op;
       this.instructions = instructions;
    }
@@ -32,32 +42,26 @@ public class LoadingInstruction implements Vop {
    }
 
    @Override public void eval(final State ctx) {
-      final List<SClass> definedClasses = new DefineClassOp(klassNames).eval(ctx);
+      final List<SClass> definedClasses = loader.eval(ctx);
       if(definedClasses.isEmpty()){
          new LinearInstruction(op).eval(ctx);
       } else {
-         Instruction replacementInstruction = ctx.instruction();
+         final StatementBuilder replacementInstruction = instructions.statements();
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {
-               replacementInstruction = replaceCurrentInstructionWithInvocationOfStaticInitaliser(replacementInstruction, klass);
+               replacementInstruction
+                  .createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC))
+                  .createClassDefaultConstructor(klass.name());
             }
          }
-         ctx.advanceTo(replacementInstruction);
+         final InstructionInternal replacement = replacementInstruction.linear(op).buildInstruction();
+         replacement.nextIs(ctx.instructionNext());
+         ctx.advanceTo(replacement);
       }
    }
 
-   private Instruction replaceCurrentInstructionWithInvocationOfStaticInitaliser(final Instruction currentInstruction, final SClass klass) {
-      final InstructionInternal result = new StatementBuilder(instructions)
-         .createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC))
-         .createClassDefaultConstructor(klass.name())
-         .buildInstruction();
-      result.nextIs(currentInstruction);
-
-      return result;
-   }
-
    @Override public String toString() {
-      return "(loading " + klassNames + ") " + op.toString();
+      return "(loading " + loader + ") " + op.toString();
    }
 }

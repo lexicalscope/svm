@@ -35,6 +35,7 @@ public class StateImpl implements State {
 
    @Override
    public final void eval() {
+      System.out.println(instruction());
       instruction().eval(this);
    }
 
@@ -121,6 +122,7 @@ public class StateImpl implements State {
       return stackFrame().peek();
    }
 
+   @Override
    public Object hashCode(final Object address) {
       return heap.hashCode(address);
    }

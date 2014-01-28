@@ -1,12 +1,9 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
-import static org.objectweb.asm.Type.getInternalName;
-
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import com.google.common.collect.ImmutableList;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.Op;
@@ -16,31 +13,6 @@ import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
 
 public final class DefineClassOp implements Op<List<SClass>> {
-   public static final List<String> primitiveClasses = Arrays.asList(
-         getInternalName(boolean.class),
-         getInternalName(char.class),
-         getInternalName(byte.class),
-         getInternalName(short.class),
-         getInternalName(int.class),
-         getInternalName(long.class),
-         getInternalName(float.class),
-         getInternalName(double.class));
-
-   public static final List<String> primitiveArrays = Arrays.asList(
-         getInternalName(boolean[].class),
-         getInternalName(char[].class),
-         getInternalName(byte[].class),
-         getInternalName(short[].class),
-         getInternalName(int[].class),
-         getInternalName(long[].class),
-         getInternalName(float[].class),
-         getInternalName(double[].class),
-         getInternalName(Object[].class));
-
-   public static final List<String> primitives = new ArrayList<String>(){{
-         addAll(primitiveClasses);
-         addAll(primitiveArrays);
-   }};
    private final List<String> klassNames;
 
    public DefineClassOp(final String klassName) {
@@ -51,43 +23,32 @@ public final class DefineClassOp implements Op<List<SClass>> {
       this.klassNames = klassNames;
    }
 
-   private boolean isPrimitive(final String klassName) {
-      return primitives.contains(klassName);
-   }
-
    @Override public List<SClass> eval(final State ctx) {
+         System.out.println("!!!! defining classes");
          final List<SClass> results = new ArrayList<>();
          for (final String klassName : klassNames) {
             if (!ctx.isDefined(klassName)) {
-               final List<SClass> klasses;
-               if(isPrimitive(klassName)) {
-                  klasses = ImmutableList.of(ctx.definePrimitiveClass(klassName));
-                  // primitive classes do not need initialisation
-               }
-               else
-               {
-                  klasses = ctx.defineClass(klassName);
-                  results.addAll(klasses);
-               }
+               final List<SClass> klasses = ctx.defineClass(klassName);
 
                for (final SClass klass : klasses) {
-                  allocateClass(ctx, klass);
-                  allocateStatics(ctx, ctx.staticsMarker(klass), klass);
+                  allocate(ctx, klass);
                }
+
+               results.addAll(klasses);
             }
          }
          return results;
    }
 
    public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");
-   private static void allocateClass(final State ctx, final SClass klass) {
+   static void allocateClass(final State ctx, final SClass klass) {
       final SClass classClass = ctx.classClass();
       final Object classAddress = NewObjectOp.allocateObject(ctx, classClass);
       ctx.put(classAddress,  classClass.fieldIndex(internalClassPointer), klass);
       ctx.classAt(klass, classAddress);
    }
 
-   private static void allocateStatics(final State ctx, final StaticsMarker staticsMarker, final SClass klass) {
+   static void allocateStatics(final State ctx, final StaticsMarker staticsMarker, final SClass klass) {
       if(klass.statics().allocateSize() > 0) {
          final Object staticsAddress = ctx.newObject(klass.statics());
          ctx.put(staticsAddress, SClass.OBJECT_MARKER_OFFSET, staticsMarker);
@@ -95,11 +56,12 @@ public final class DefineClassOp implements Op<List<SClass>> {
       }
    }
 
-   @Override public String toString() {
-      return "Define Classes " + klassNames;
+   static void allocate(final State ctx, final SClass klass) {
+      DefineClassOp.allocateClass(ctx, klass);
+      DefineClassOp.allocateStatics(ctx, ctx.staticsMarker(klass), klass);
    }
 
-   public static boolean primitivesContains(final String klassName) {
-      return primitives.contains(klassName);
+   @Override public String toString() {
+      return "Define Classes " + klassNames;
    }
 }

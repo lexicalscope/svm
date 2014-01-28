@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
-import static com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp.primitivesContains;
+import static com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp.primitivesContains;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.symb.vm.j.JavaConstants;

@@ -10,6 +10,7 @@ import com.lexicalscope.symb.vm.j.Vop;
 public interface Instructions {
    public interface InstructionSink {
       void linearInstruction(Vop node);
+      void loadingInstruction(List<String> classes, Vop op, Instructions factory);
       void nextInstruction(Vop node);
       void noInstruction();
    }
