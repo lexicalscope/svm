@@ -59,10 +59,6 @@ public final class BaseInstructions implements Instructions {
       throw new UnsupportedOperationException("" + sort);
    }
 
-   @Override public void loadArg(final Object object, final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(instructionFactory.loadArg(object, this));
-   }
-
    @Override public InstructionSource source() {
       return instructionSource;
    }

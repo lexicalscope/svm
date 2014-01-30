@@ -9,7 +9,5 @@ public interface Instructions {
    StatementBuilder statements();
    StatementBuilder before(Instruction nextInstruction);
 
-   void loadArg(Object object, InstructionSource.InstructionSink sink);
-
    InstructionSource source();
 }

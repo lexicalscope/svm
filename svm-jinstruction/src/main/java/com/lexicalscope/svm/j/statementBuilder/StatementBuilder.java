@@ -9,7 +9,6 @@ import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
@@ -65,57 +64,57 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      factory.source().newObject(klassDesc, sink);
+      source().newObject(klassDesc, sink);
       return this;
    }
 
    public StatementBuilder aconst_null() {
-      factory.source().aconst_null(sink);
+      source().aconst_null(sink);
       return this;
    }
 
    public StatementBuilder iconst_0() {
-      factory.source().iconst_0(sink);
+      source().iconst_0(sink);
       return this;
    }
 
    public StatementBuilder iconst(final int i) {
-      factory.source().iconst(i, sink);
+      source().iconst(i, sink);
       return this;
    }
 
    public StatementBuilder lconst(final long l) {
-      factory.source().lconst(l, sink);
+      source().lconst(l, sink);
       return this;
    }
 
    public StatementBuilder return1() {
-      factory.source().return1(sink);
+      source().return1(sink);
       return this;
    }
 
    public StatementBuilder return2() {
-      factory.source().return2(sink);
+      source().return2(sink);
       return this;
    }
 
    public StatementBuilder returnVoid() {
-      factory.source().returnVoid(sink);
+      source().returnVoid(sink);
       return this;
    }
 
    public StatementBuilder aload(final int index) {
-      factory.source().aload(index, sink);
+      source().aload(index, sink);
       return this;
    }
 
    public StatementBuilder fload(final int index) {
-      factory.source().fload(index, sink);
+      source().fload(index, sink);
       return this;
    }
 
    public StatementBuilder dload(final int index) {
-      factory.source().dload(index, sink);
+      source().dload(index, sink);
       return this;
    }
 
@@ -125,27 +124,27 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
-      factory.source().invokeinterface(new AsmSMethodName(klassName, methodName, desc), sink);
+      source().invokeinterface(new AsmSMethodName(klassName, methodName, desc), sink);
       return this;
    }
 
    public StatementBuilder loadArg(final Object object) {
-      factory.loadArg(object, sink);
+      source().loadArg(object, sink);
       return this;
    }
 
    public StatementBuilder createInvokeSpecial(final SMethodDescriptor sMethodName) {
-      factory.source().invokespecial(sMethodName, sink);
+      source().invokespecial(sMethodName, sink);
       return this;
    }
 
    public StatementBuilder createInvokeStatic(final SMethodDescriptor sMethodName) {
-      factory.source().invokestatic(sMethodName, sink);
+      source().invokestatic(sMethodName, sink);
       return this;
    }
 
    public StatementBuilder invokeConstructorOfClassObjects(final String klassName) {
-      factory.source().invokeConstructorOfClassObjects(klassName, sink);
+      source().invokeConstructorOfClassObjects(klassName, sink);
       return this;
    }
 
@@ -165,7 +164,11 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder reflectionnewarray() {
-      factory.source().reflectionnewarray(sink);
+      source().reflectionnewarray(sink);
       return this;
+   }
+
+   private InstructionSource source() {
+      return factory.source();
    }
 }

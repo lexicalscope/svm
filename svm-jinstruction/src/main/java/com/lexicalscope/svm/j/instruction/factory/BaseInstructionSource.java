@@ -51,7 +51,6 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.PopOp;
 import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.VopAdapter;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -590,5 +589,10 @@ public class BaseInstructionSource implements InstructionSource {
 
    private Nullary2Op nullary2(final Nullary2Operator nullary) {
       return new Nullary2Op(nullary);
+   }
+
+   @Override public InstructionSource loadArg(final Object object, final InstructionSink sink) {
+      sink.nextInstruction(instructionFactory.loadArg(object, instructions));
+      return this;
    }
 }

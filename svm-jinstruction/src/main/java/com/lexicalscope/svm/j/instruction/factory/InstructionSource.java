@@ -8,7 +8,6 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -128,6 +127,11 @@ public interface InstructionSource {
     * class of other objects).
     */
    InstructionSource invokeConstructorOfClassObjects(String klassName, InstructionSource.InstructionSink sink);
+
+   /**
+    * Instruction for loading the initial arguments that we will pass to the entry point
+    */
+   InstructionSource loadArg(Object object, InstructionSink sink);
 
    InstructionSource got0(InstructionSource.InstructionSink sink);
 }
