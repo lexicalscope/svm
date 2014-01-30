@@ -95,8 +95,4 @@ public class AsmSClassLoader implements SClassLoader {
          .createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))
          .buildInstruction();
    }
-
-   @Override public Object init(final String desc) {
-      return instructions.initialFieldValue(desc);
-   }
 }

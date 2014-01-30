@@ -32,7 +32,7 @@ public class AsmSClassBuilder {
 
    AsmSClassBuilder withFields(final List<FieldNode> fields) {
       for (final FieldNode fieldNode : fields) {
-         withField(new SField(new SFieldName(klassName, fieldNode.name), new AsmFieldDesc(fieldNode), classLoader.init(fieldNode.desc)));
+         withField(new SField(new SFieldName(klassName, fieldNode.name), new AsmFieldDesc(fieldNode), instructions.initialFieldValue(fieldNode.desc)));
       }
       return this;
    }

@@ -14,6 +14,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSwitch;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.Instruction;
@@ -107,7 +108,7 @@ public class AsmSMethod implements SMethod {
       };
 
       while(asmInstruction[0] != null) {
-         instructions.instructionFor(asmInstruction[0], instructionSink);
+         instructionFor(asmInstruction[0], instructionSink);
          asmInstruction[0] = asmInstruction[0].getNext();
       }
 
@@ -127,6 +128,21 @@ public class AsmSMethod implements SMethod {
       maxLocals = method.maxLocals;
       maxStack = method.maxStack;
       entryPoint = linked.values().iterator().next();
+   }
+
+   private void instructionFor(
+         final AbstractInsnNode abstractInsnNode,
+         final InstructionSink sink) {
+
+      switch (abstractInsnNode.getType()) {
+         case AbstractInsnNode.LINE:
+         case AbstractInsnNode.FRAME:
+         case AbstractInsnNode.LABEL:
+            sink.noInstruction();
+            return;
+      }
+
+      new InstructionSwitch(instructions.source()).instructionFor(abstractInsnNode, sink);
    }
 
    private AbstractInsnNode getEntryPoint() {

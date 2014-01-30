@@ -3,7 +3,6 @@ package com.lexicalscope.svm.j.instruction.factory;
 import java.util.List;
 
 import org.objectweb.asm.Type;
-import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.svm.j.instruction.NoOp;
@@ -20,21 +19,6 @@ public final class BaseInstructions implements Instructions {
    public BaseInstructions(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
       this.instructionSource = new BaseInstructionSource(this, instructionFactory);
-   }
-
-   @Override public void instructionFor(
-         final AbstractInsnNode abstractInsnNode,
-         final InstructionSink sink) {
-
-      switch (abstractInsnNode.getType()) {
-         case AbstractInsnNode.LINE:
-         case AbstractInsnNode.FRAME:
-         case AbstractInsnNode.LABEL:
-            sink.noInstruction();
-            return;
-      }
-
-      new InstructionSwitch(source()).instructionFor(abstractInsnNode, sink);
    }
 
    /*

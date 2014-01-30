@@ -27,6 +27,4 @@ public interface SClassLoader {
    Instruction defineBootstrapClassesInstruction();
    Instruction initThreadInstruction();
    Instruction loadArgsInstruction(Object[] args);
-
-   Object init(String desc);
 }
