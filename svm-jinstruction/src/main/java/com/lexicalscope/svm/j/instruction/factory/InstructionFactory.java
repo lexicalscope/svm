@@ -61,7 +61,7 @@ public interface InstructionFactory {
    Vop branchIfACmpEq(JumpInsnNode jumpInsnNode);
    Vop branchIfACmpNe(JumpInsnNode jumpInsnNode);
 
-   Vop loadArg(Object object, Instructions instructions);
+   Vop loadArg(Object object, InstructionSource instructions);
 
    Snapshotable<?> initialMeta();
 

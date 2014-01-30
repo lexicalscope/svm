@@ -2,7 +2,6 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -27,6 +26,10 @@ public final class GetStaticOp implements Vop {
 
    @Override
    public String toString() {
-      return "GETSTATIC " + BaseInstructions.fieldKey(fieldInsnNode);
+      return "GETSTATIC " + GetStaticOp.fieldKey(fieldInsnNode);
+   }
+
+   public static String fieldKey(final FieldInsnNode fieldInsnNode) {
+      return String.format("%s.%s:%s", fieldInsnNode.owner, fieldInsnNode.name, fieldInsnNode.desc);
    }
 }

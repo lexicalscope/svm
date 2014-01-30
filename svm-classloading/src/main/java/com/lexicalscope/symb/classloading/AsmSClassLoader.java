@@ -70,17 +70,17 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
 
-      return instructions.statements()
+      return instructions.source().statements()
             .instruction(
                   new LoadingInstruction(
                         new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)),
                            new NoOp(),
-                              instructions))
+                              instructions.source()))
             .buildInstruction();
    }
 
    @Override public Instruction loadArgsInstruction(final Object[] args) {
-      final StatementBuilder builder = new StatementBuilder(instructions).nop();
+      final StatementBuilder builder = new StatementBuilder(instructions.source()).nop();
       for (final Object object : args) {
          builder.loadArg(object);
       }

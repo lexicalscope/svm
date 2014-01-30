@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.object;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
+import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
@@ -50,6 +50,6 @@ public final class PutFieldOp implements Vop {
 
    @Override
    public String toString() {
-      return "PUTFIELD " + BaseInstructions.fieldKey(fieldInsnNode);
+      return "PUTFIELD " + GetStaticOp.fieldKey(fieldInsnNode);
    }
 }

@@ -6,7 +6,7 @@ import java.util.List;
 
 import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.Op;
@@ -15,28 +15,31 @@ import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
+/*
+ * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
+ */
 public class LoadingInstruction implements Vop {
    private final Op<List<SClass>> loader;
    private final Vop op;
-   private final Instructions instructions;
+   private final InstructionSource instructions;
 
    public LoadingInstruction(
          final List<String> klassNames,
          final Vop op,
-         final Instructions instructions) {
+         final InstructionSource instructions) {
       this(new DefineClassOp(klassNames), op, instructions);
    }
 
    public LoadingInstruction(
          final Op<List<SClass>> loader,
          final Vop op,
-         final Instructions instructions) {
+         final InstructionSource instructions) {
       this.loader = loader;
       this.op = op;
       this.instructions = instructions;
    }
 
-   public LoadingInstruction(final String klassName, final Vop op, final Instructions instructions) {
+   public LoadingInstruction(final String klassName, final Vop op, final InstructionSource instructions) {
       this(asList(klassName), op, instructions);
    }
 

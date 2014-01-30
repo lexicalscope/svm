@@ -51,18 +51,16 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.PopOp;
 import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
+import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.VopAdapter;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class BaseInstructionSource implements InstructionSource {
    private final InstructionFactory instructionFactory;
-   private final Instructions instructions;
 
-   public BaseInstructionSource(
-         final Instructions instructions,
-         final InstructionFactory instructionFactory) {
-      this.instructions = instructions;
+   public BaseInstructionSource(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
    }
 
@@ -86,7 +84,7 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource invokestatic(final SMethodDescriptor name, final InstructionSource.InstructionSink sink) {
-      MethodCallInstruction.invokeStatic(name, sink, instructions);
+      MethodCallInstruction.invokeStatic(name, sink, this);
       return this;
    }
 
@@ -563,7 +561,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(new LoadingInstruction(klassDesc, op, instructions));
+      sink.nextInstruction(new LoadingInstruction(klassDesc, op, this));
       return this;
    }
 
@@ -592,7 +590,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource loadArg(final Object object, final InstructionSink sink) {
-      sink.nextInstruction(instructionFactory.loadArg(object, instructions));
+      sink.nextInstruction(instructionFactory.loadArg(object, this));
       return this;
    }
 
@@ -622,5 +620,13 @@ public class BaseInstructionSource implements InstructionSource {
             return false;
       }
       throw new UnsupportedOperationException("" + sort);
+   }
+
+   @Override public StatementBuilder statements() {
+      return new StatementBuilder(this);
+   }
+
+   @Override public StatementBuilder before(final Instruction nextInstruction) {
+      return new StatementBuilder(this, nextInstruction);
    }
 }

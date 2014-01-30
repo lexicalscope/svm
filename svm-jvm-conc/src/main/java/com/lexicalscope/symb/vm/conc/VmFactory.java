@@ -41,7 +41,7 @@ public class VmFactory {
       invokeStatic(methodName, new AbstractInstructionSink(){
          @Override public void nextInstruction(final Vop node) {
             defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(new InstructionInternal(node));
-         }}, instructions);
+         }}, instructions.source());
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 

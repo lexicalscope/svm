@@ -22,7 +22,7 @@ public class InitThreadOp implements Vop {
    }
 
    public static Instruction initThreadInstruction(final Instructions instructions) {
-      return instructions.statements()
+      return instructions.source().statements()
          .linear(new InitThreadOp())
          .createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))
          .buildInstruction();

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.NanoTimeOp;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
 
 public class Java_lang_system_nanoTime extends AbstractNativeMethodDef implements NativeMethodDef {
@@ -9,7 +9,7 @@ public class Java_lang_system_nanoTime extends AbstractNativeMethodDef implement
       super("java/lang/System", "nanoTime", "()J");
    }
 
-   @Override public MethodBody instructions(final Instructions instructions) {
+   @Override public MethodBody instructions(final InstructionSource instructions) {
       return instructions.statements().maxStack(2).linear(new NanoTimeOp()).return2().build();
    }
 }

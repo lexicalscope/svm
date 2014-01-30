@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
 import com.lexicalscope.svm.j.instruction.concrete.object.AddressToHashCodeOp;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
 
 public class Java_lang_system_identityHashCode extends AbstractNativeMethodDef implements NativeMethodDef {
@@ -9,7 +9,7 @@ public class Java_lang_system_identityHashCode extends AbstractNativeMethodDef i
       super("java/lang/System", "identityHashCode", "(Ljava/lang/Object;)I");
    }
 
-   @Override public MethodBody instructions(final Instructions instructions) {
+   @Override public MethodBody instructions(final InstructionSource instructions) {
       return instructions.statements().maxStack(1).maxLocals(1).aload(0).linear(new AddressToHashCodeOp()).return1().build();
    }
 }

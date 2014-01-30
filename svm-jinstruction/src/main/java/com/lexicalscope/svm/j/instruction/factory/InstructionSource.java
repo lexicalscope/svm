@@ -8,13 +8,15 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
+import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface InstructionSource {
    public interface InstructionSink {
       void linearInstruction(Vop node);
-      void loadingInstruction(List<String> classes, Vop op, Instructions factory);
+      void loadingInstruction(List<String> classes, Vop op, InstructionSource factory);
       void nextInstruction(Vop node);
       void noInstruction();
    }
@@ -140,4 +142,7 @@ public interface InstructionSource {
     * The initial value of fields of the given type
     */
    Object initialFieldValue(String desc);
+
+   StatementBuilder statements();
+   StatementBuilder before(Instruction nextInstruction);
 }

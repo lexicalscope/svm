@@ -9,7 +9,6 @@ import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -21,7 +20,7 @@ public final class StatementBuilder {
    private final List<Vop> instructions = new ArrayList<>();
    private int maxStack;
    private int maxLocals;
-   private final Instructions factory;
+   private final InstructionSource source;
 
    private final InstructionSource.InstructionSink sink = new AbstractInstructionSink() {
       @Override public void nextInstruction(final Vop node) {
@@ -29,12 +28,12 @@ public final class StatementBuilder {
       }
    };
 
-   public StatementBuilder(final Instructions baseInstructions) {
-      this(baseInstructions, null);
+   public StatementBuilder(final InstructionSource source) {
+      this(source, null);
    }
 
-   public StatementBuilder(final Instructions baseInstructions, final Instruction nextInstruction) {
-      this.factory = baseInstructions;
+   public StatementBuilder(final InstructionSource source, final Instruction nextInstruction) {
+      this.source = source;
       this.insertBeforeInstruction = nextInstruction;
    }
 
@@ -159,7 +158,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder loading(final List<String> classes, final Vop op) {
-      sink.loadingInstruction(classes, op, factory);
+      sink.loadingInstruction(classes, op, source);
       return this;
    }
 
@@ -169,6 +168,6 @@ public final class StatementBuilder {
    }
 
    private InstructionSource source() {
-      return factory.source();
+      return source;
    }
 }
