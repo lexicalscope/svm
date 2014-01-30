@@ -595,4 +595,32 @@ public class BaseInstructionSource implements InstructionSource {
       sink.nextInstruction(instructionFactory.loadArg(object, instructions));
       return this;
    }
+
+   @Override public Object initialFieldValue(final String desc) {
+      final Type type = Type.getType(desc);
+      final int sort = type.getSort();
+      switch (sort) {
+         case Type.OBJECT:
+            return null;
+         case Type.ARRAY:
+            return null;
+         case Type.CHAR:
+            return (char) '\u0000';
+         case Type.BYTE:
+            return (byte) 0;
+         case Type.SHORT:
+            return (short) 0;
+         case Type.INT:
+            return instructionFactory.initInt();
+         case Type.LONG:
+            return 0L;
+         case Type.FLOAT:
+            return 0f;
+         case Type.DOUBLE:
+            return 0d;
+         case Type.BOOLEAN:
+            return false;
+      }
+      throw new UnsupportedOperationException("" + sort);
+   }
 }

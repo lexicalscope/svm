@@ -32,7 +32,11 @@ public class AsmSClassBuilder {
 
    AsmSClassBuilder withFields(final List<FieldNode> fields) {
       for (final FieldNode fieldNode : fields) {
-         withField(new SField(new SFieldName(klassName, fieldNode.name), new AsmFieldDesc(fieldNode), instructions.initialFieldValue(fieldNode.desc)));
+         withField(
+               new SField(
+                     new SFieldName(klassName, fieldNode.name),
+                     new AsmFieldDesc(fieldNode),
+                     instructions.source().initialFieldValue(fieldNode.desc)));
       }
       return this;
    }
@@ -47,7 +51,12 @@ public class AsmSClassBuilder {
 
    public AsmSClassBuilder withMethods(final List<MethodNode> methods) {
       for (final MethodNode method : methods) {
-         declaredMethods.add(new AsmSMethod(classLoader, new AsmSMethodName(klassName, method.name, method.desc), instructions, method));
+         declaredMethods.add(
+               new AsmSMethod(
+                     classLoader,
+                     new AsmSMethodName(klassName, method.name, method.desc),
+                     instructions,
+                     method));
       }
       return this;
    }

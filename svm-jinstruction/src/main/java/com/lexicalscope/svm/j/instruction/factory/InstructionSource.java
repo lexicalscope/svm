@@ -122,6 +122,9 @@ public interface InstructionSource {
    InstructionSource invokespecial(SMethodDescriptor name, InstructionSource.InstructionSink sink);
    InstructionSource invokeinterface(SMethodDescriptor name, InstructionSource.InstructionSink sink);
    InstructionSource invokevirtual(SMethodDescriptor name, InstructionSource.InstructionSink sink);
+
+   InstructionSource got0(InstructionSource.InstructionSink sink);
+
    /**
     * The JVM is responsible for creating class objects (that is objects that represent the
     * class of other objects).
@@ -133,5 +136,8 @@ public interface InstructionSource {
     */
    InstructionSource loadArg(Object object, InstructionSink sink);
 
-   InstructionSource got0(InstructionSource.InstructionSink sink);
+   /**
+    * The initial value of fields of the given type
+    */
+   Object initialFieldValue(String desc);
 }
