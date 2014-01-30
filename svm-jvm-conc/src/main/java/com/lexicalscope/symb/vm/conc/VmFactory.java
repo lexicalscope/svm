@@ -1,8 +1,9 @@
 package com.lexicalscope.symb.vm.conc;
 
-import static com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction.createInvokeStatic;
+import static com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction.invokeStatic;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
+import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
@@ -34,15 +35,13 @@ public class VmFactory {
          final SMethodDescriptor methodName,
          final Object[] args) {
       final Instruction defineClassClass = classLoader.defineBootstrapClassesInstruction();
-      final Instruction initThread = classLoader.initThreadInstruction();
+      final Instruction initThread = InitThreadOp.initThreadInstruction(instructions);
       final Instruction loadArgs = classLoader.loadArgsInstruction(args);
 
-      createInvokeStatic(methodName, new AbstractInstructionSink(){
+      invokeStatic(methodName, new AbstractInstructionSink(){
          @Override public void nextInstruction(final Vop node) {
             defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(new InstructionInternal(node));
-         }
-
-         }, instructions);
+         }}, instructions);
 
       final StaticsImpl statics = new StaticsImpl(classLoader);
 

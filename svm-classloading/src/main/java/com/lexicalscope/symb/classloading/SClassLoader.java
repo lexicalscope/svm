@@ -25,6 +25,5 @@ public interface SClassLoader {
    MethodBody resolveNative(SMethodDescriptor methodName);
 
    Instruction defineBootstrapClassesInstruction();
-   Instruction initThreadInstruction();
    Instruction loadArgsInstruction(Object[] args);
 }

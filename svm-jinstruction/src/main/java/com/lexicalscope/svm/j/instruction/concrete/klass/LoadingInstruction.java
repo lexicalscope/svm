@@ -51,7 +51,7 @@ public class LoadingInstruction implements Vop {
             {
                replacementInstruction
                   .createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC))
-                  .createClassDefaultConstructor(klass.name());
+                  .invokeConstructorOfClassObjects(klass.name());
             }
          }
          ctx.advanceTo(replacementInstruction.linear(op).buildInstruction());

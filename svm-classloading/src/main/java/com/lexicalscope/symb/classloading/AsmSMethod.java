@@ -14,9 +14,10 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSwitch;
 import com.lexicalscope.svm.j.instruction.factory.Instructions;
-import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -88,7 +89,7 @@ public class AsmSMethod implements SMethod {
       final Instruction[] prev = new Instruction[1];
 
       final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
-      final InstructionSink instructionSink = new AbstractInstructionSink() {
+      final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink() {
          @Override public void nextInstruction(final Vop instruction) {
             final Instruction node = new InstructionInternal(instruction);
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
@@ -132,7 +133,7 @@ public class AsmSMethod implements SMethod {
 
    private void instructionFor(
          final AbstractInsnNode abstractInsnNode,
-         final InstructionSink sink) {
+         final InstructionSource.InstructionSink sink) {
 
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.LINE:

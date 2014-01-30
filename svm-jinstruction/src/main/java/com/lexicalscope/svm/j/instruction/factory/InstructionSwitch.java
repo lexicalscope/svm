@@ -14,7 +14,7 @@ import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.svm.j.instruction.UnsupportedInstruction;
-import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -25,7 +25,7 @@ public class InstructionSwitch {
       this.s = s;
    }
 
-   public InstructionSource instructionFor(final AbstractInsnNode abstractInsnNode, final InstructionSink sink) {
+   public InstructionSource instructionFor(final AbstractInsnNode abstractInsnNode, final InstructionSource.InstructionSink sink) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;

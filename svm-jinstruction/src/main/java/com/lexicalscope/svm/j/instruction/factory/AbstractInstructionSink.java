@@ -4,10 +4,10 @@ import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
-import com.lexicalscope.svm.j.instruction.factory.Instructions.InstructionSink;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.symb.vm.j.Vop;
 
-public abstract class AbstractInstructionSink implements InstructionSink {
+public abstract class AbstractInstructionSink implements InstructionSource.InstructionSink {
    @Override public final void linearInstruction(final Vop node) {
       assert !(node instanceof LinearInstruction);
       nextInstruction(new LinearInstruction(node));
