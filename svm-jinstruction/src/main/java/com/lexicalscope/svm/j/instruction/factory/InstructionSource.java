@@ -15,10 +15,11 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface InstructionSource {
    public interface InstructionSink {
-      void linearInstruction(Vop node);
-      void loadingInstruction(List<String> classes, Vop op, InstructionSource factory);
-      void nextInstruction(Vop node);
-      void noInstruction();
+      void nextInstruction(Instruction node);
+      void linearOp(Vop op);
+      void loadingOp(List<String> classes, Vop op, InstructionSource factory);
+      void nextOp(Vop op);
+      void noOp();
    }
 
    InstructionSource load(int var, InstructionSource.InstructionSink sink);

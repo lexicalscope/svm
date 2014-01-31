@@ -2,7 +2,6 @@ package com.lexicalscope.svm.j.statementBuilder;
 
 import java.util.List;
 
-import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
@@ -18,12 +17,11 @@ public final class StatementBuilder {
    private int maxLocals;
    private final InstructionSource source;
 
-   private InstructionInternal first;
-   private InstructionInternal next;
+   private Instruction first;
+   private Instruction next;
 
    private final InstructionSource.InstructionSink sink = new AbstractInstructionSink() {
-      @Override public void nextInstruction(final Vop instruction) {
-         final InstructionInternal node = new InstructionInternal(instruction);
+      @Override public void nextInstruction(final Instruction node) {
          if(next != null) {next.nextIs(node); next = node;}
          if(first == null) {first = next = node;}
       }
@@ -52,7 +50,7 @@ public final class StatementBuilder {
       return new MethodBody(buildInstruction(), maxStack, maxLocals);
    }
 
-   public InstructionInternal buildInstruction() {
+   public Instruction buildInstruction() {
       if(insertBeforeInstruction != null) { next.nextIs(insertBeforeInstruction); }
       return first;
    }
@@ -113,7 +111,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder nop() {
-      sink.linearInstruction(new NoOp());
+      sink.linearOp(new NoOp());
       return this;
    }
 
@@ -143,18 +141,23 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder linear(final Vop op) {
-      sink.linearInstruction(op);
+      sink.linearOp(op);
       return this;
    }
 
    public StatementBuilder instruction(final Vop op) {
       assert !(op instanceof Instruction);
-      sink.nextInstruction(op);
+      sink.nextOp(op);
+      return this;
+   }
+
+   public StatementBuilder instructionNode(final Instruction node) {
+      sink.nextInstruction(node);
       return this;
    }
 
    public StatementBuilder loading(final List<String> classes, final Vop op) {
-      sink.loadingInstruction(classes, op, source);
+      sink.loadingOp(classes, op, source);
       return this;
    }
 

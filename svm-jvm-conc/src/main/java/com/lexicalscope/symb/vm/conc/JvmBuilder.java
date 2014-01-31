@@ -1,9 +1,6 @@
 package com.lexicalscope.symb.vm.conc;
 
-import com.lexicalscope.svm.j.instruction.InstructionInternal;
-import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
-import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
@@ -21,7 +18,6 @@ import com.lexicalscope.symb.vm.conc.checkingheap.CheckingHeapFactory;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.StateImpl;
-import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -61,22 +57,11 @@ public final class JvmBuilder {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, natives());
       final BaseInstructionSource instructionSource = instructionSource();
 
-//      final Instruction initialInstruction = instructionSource.statements()
-//         .instruction(classLoader.defineBootstrapClassesInstruction())
-//         .instruction(InitThreadOp.initThreadInstruction(instructionSource))
-//         .instruction(classLoader.loadArgsInstruction(args))
-//         .createInvokeStatic(entryPointName).buildInstruction();
-
-      final Instruction defineClassClass = classLoader.defineBootstrapClassesInstruction();
-      final Instruction initThread = InitThreadOp.initThreadInstruction(instructionSource());
-      final Instruction loadArgs = classLoader.loadArgsInstruction(args);
-
-      MethodCallInstruction.invokeStatic(entryPointName, new AbstractInstructionSink(){
-         @Override public void nextInstruction(final Vop node) {
-            defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(new InstructionInternal(node));
-         }}, instructionSource());
-
-      final Instruction initialInstruction = defineClassClass;
+      final Instruction initialInstruction = instructionSource.statements()
+         .instructionNode(classLoader.defineBootstrapClassesInstruction())
+         .instructionNode(InitThreadOp.initThreadInstruction(instructionSource))
+         .instructionNode(classLoader.loadArgsInstruction(args))
+         .createInvokeStatic(entryPointName).buildInstruction();
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(null, initialInstruction, 0, entryPointName.argSize()));

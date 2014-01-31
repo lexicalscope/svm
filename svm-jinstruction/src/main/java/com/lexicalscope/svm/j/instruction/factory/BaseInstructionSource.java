@@ -174,7 +174,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource sink(final Vop op, final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(op);
+      sink.nextOp(op);
       return this;
    }
 
@@ -532,17 +532,17 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource returnVoid(final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(new ReturnInstruction(0));
+      sink.nextOp(new ReturnInstruction(0));
       return this;
    }
 
    @Override public InstructionSource return1(final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(new ReturnInstruction(1));
+      sink.nextOp(new ReturnInstruction(1));
       return this;
    }
 
    @Override public InstructionSource return2(final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(new ReturnInstruction(2));
+      sink.nextOp(new ReturnInstruction(2));
       return this;
    }
 
@@ -551,17 +551,17 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource binaryOp(final BinaryOperator operation, final InstructionSource.InstructionSink sink) {
-      sink.linearInstruction(new BinaryOp(operation));
+      sink.linearOp(new BinaryOp(operation));
       return this;
    }
 
    private InstructionSource linearInstruction(final Vop op, final InstructionSource.InstructionSink sink) {
-      sink.linearInstruction(op);
+      sink.linearOp(op);
       return this;
    }
 
    private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionSource.InstructionSink sink) {
-      sink.nextInstruction(new LoadingInstruction(klassDesc, op, this));
+      sink.nextOp(new LoadingInstruction(klassDesc, op, this));
       return this;
    }
 
@@ -590,7 +590,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource loadArg(final Object object, final InstructionSink sink) {
-      sink.nextInstruction(instructionFactory.loadArg(object, this));
+      sink.nextOp(instructionFactory.loadArg(object, this));
       return this;
    }
 

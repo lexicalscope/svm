@@ -12,13 +12,11 @@ import org.objectweb.asm.tree.AbstractInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSwitch;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
-import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethod;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -88,8 +86,7 @@ public class AsmSMethod implements SMethod {
 
       final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
       final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink() {
-         @Override public void nextInstruction(final Vop instruction) {
-            final Instruction node = new InstructionInternal(instruction);
+         @Override public void nextInstruction(final Instruction node) {
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
                linked.put(unlinkedInstruction, node);
             }
@@ -101,7 +98,7 @@ public class AsmSMethod implements SMethod {
             prev[0] = node;
          }
 
-         @Override public void noInstruction() {
+         @Override public void noOp() {
             unlinked.add(asmInstruction[0]);
          }
       };
@@ -137,7 +134,7 @@ public class AsmSMethod implements SMethod {
          case AbstractInsnNode.LINE:
          case AbstractInsnNode.FRAME:
          case AbstractInsnNode.LABEL:
-            sink.noInstruction();
+            sink.noOp();
             return;
       }
 

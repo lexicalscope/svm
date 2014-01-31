@@ -264,7 +264,7 @@ public class InstructionSwitch {
             break;
       }
 
-      sink.nextInstruction(new UnsupportedInstruction(abstractInsnNode));
+      sink.nextOp(new UnsupportedInstruction(abstractInsnNode));
       return s;
    }
 }
