@@ -7,8 +7,8 @@ import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.VmImpl;
+import com.lexicalscope.symb.vm.conc.JvmBuilder;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.conc.VmFactory;
 import com.lexicalscope.symb.vm.j.State;
 
 public class SymbVmFactory {
@@ -20,7 +20,7 @@ public class SymbVmFactory {
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, DefaultNativeMethods.natives());
 
       final Vm<State> vm = new VmImpl<State>();
-      vm.initial(VmFactory.initial(vm, new CheckingSymbolicHeapFactory(), classLoader, new BaseInstructionSource(instructionFactory), entryPoint, args));
+      vm.initial(JvmBuilder.initial(vm, new CheckingSymbolicHeapFactory(), classLoader, new BaseInstructionSource(instructionFactory), entryPoint, args));
       return vm;
    }
 
