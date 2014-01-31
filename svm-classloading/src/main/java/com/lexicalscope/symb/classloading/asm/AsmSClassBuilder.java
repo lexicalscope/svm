@@ -5,7 +5,7 @@ import java.util.List;
 import org.objectweb.asm.tree.FieldNode;
 import org.objectweb.asm.tree.MethodNode;
 
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.classloading.AsmSMethod;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
@@ -20,11 +20,11 @@ public class AsmSClassBuilder {
    private final SClassLoader classLoader;
    private final DeclaredFields declaredFields = new DeclaredFields();
    private final DeclaredMethods declaredMethods = new DeclaredMethods();
-   private final Instructions instructions;
+   private final InstructionSource instructions;
 
    public AsmSClassBuilder(
          final SClassLoader classLoader,
-         final Instructions instructions,
+         final InstructionSource instructions,
          final SClass superclass) {
       this.classLoader = classLoader;
       this.instructions = instructions;
@@ -36,7 +36,7 @@ public class AsmSClassBuilder {
                new SField(
                      new SFieldName(klassName, fieldNode.name),
                      new AsmFieldDesc(fieldNode),
-                     instructions.source().initialFieldValue(fieldNode.desc)));
+                     instructions.initialFieldValue(fieldNode.desc)));
       }
       return this;
    }

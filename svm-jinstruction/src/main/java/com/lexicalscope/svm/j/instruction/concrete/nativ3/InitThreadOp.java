@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.nativ3;
 
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.State;
@@ -21,8 +21,8 @@ public class InitThreadOp implements Vop {
       return "INIT_THREAD";
    }
 
-   public static Instruction initThreadInstruction(final Instructions instructions) {
-      return instructions.source().statements()
+   public static Instruction initThreadInstruction(final InstructionSource instructions) {
+      return instructions.statements()
          .linear(new InitThreadOp())
          .createInvokeSpecial(new AsmSMethodName("java/lang/Thread", "<init>", "()V"))
          .buildInstruction();

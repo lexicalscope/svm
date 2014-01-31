@@ -5,7 +5,7 @@ import java.util.List;
 
 import org.objectweb.asm.tree.ClassNode;
 
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
@@ -13,7 +13,7 @@ public class AsmSClassFactory {
 
    public static AsmSClass newSClass(
          final SClassLoader classLoader,
-         final Instructions instructions,
+         final InstructionSource instructions,
          final URL loadedFromUrl,
          final ClassNode classNode,
          final SClass superclass,

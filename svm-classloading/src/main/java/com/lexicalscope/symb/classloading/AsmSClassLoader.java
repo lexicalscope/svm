@@ -9,10 +9,10 @@ import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
-import com.lexicalscope.svm.j.instruction.factory.BaseInstructions;
+import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
@@ -23,7 +23,7 @@ import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class AsmSClassLoader implements SClassLoader {
-   private final Instructions instructions;
+   private final InstructionSource instructions;
    private final InstructionFactory instructionFactory;
    private final ByteCodeReader byteCodeReader;
    private final NativeMethods natives;
@@ -31,7 +31,7 @@ public class AsmSClassLoader implements SClassLoader {
    public AsmSClassLoader(final InstructionFactory instructionFactory, final NativeMethods natives) {
       this.instructionFactory = instructionFactory;
       this.natives = natives;
-      this.instructions = new BaseInstructions(instructionFactory);
+      this.instructions = new BaseInstructionSource(instructionFactory);
       this.byteCodeReader = new CachingByteCodeReader(instructions);
    }
 
@@ -70,17 +70,18 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
 
-      return instructions.source().statements()
+      return instructions.statements()
             .instruction(
                   new LoadingInstruction(
-                        new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)),
+                        new DefinePrimitiveClassesOp(
+                           new DefineClassOp(bootstrapClasses)),
                            new NoOp(),
-                              instructions.source()))
+                           instructions))
             .buildInstruction();
    }
 
    @Override public Instruction loadArgsInstruction(final Object[] args) {
-      final StatementBuilder builder = new StatementBuilder(instructions.source()).nop();
+      final StatementBuilder builder = new StatementBuilder(instructions).nop();
       for (final Object object : args) {
          builder.loadArg(object);
       }

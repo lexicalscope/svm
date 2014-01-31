@@ -15,9 +15,7 @@ import org.objectweb.asm.tree.MethodNode;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSwitch;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -28,7 +26,7 @@ public class AsmSMethod implements SMethod {
    private final SClassLoader classLoader;
    private final SMethodDescriptor methodName;
    private final MethodNode method;
-   private final Instructions instructions;
+   private final InstructionSource instructions;
 
    private Instruction entryPoint;
    private int maxLocals;
@@ -37,7 +35,7 @@ public class AsmSMethod implements SMethod {
    public AsmSMethod(
          final SClassLoader classLoader,
          final SMethodDescriptor methodName,
-         final Instructions instructions,
+         final InstructionSource instructions,
          final MethodNode method) {
       this.classLoader = classLoader;
       this.methodName = methodName;
@@ -143,7 +141,7 @@ public class AsmSMethod implements SMethod {
             return;
       }
 
-      new InstructionSwitch(instructions.source()).instructionFor(abstractInsnNode, sink);
+      new InstructionSwitch(instructions).instructionFor(abstractInsnNode, sink);
    }
 
    private AbstractInsnNode getEntryPoint() {

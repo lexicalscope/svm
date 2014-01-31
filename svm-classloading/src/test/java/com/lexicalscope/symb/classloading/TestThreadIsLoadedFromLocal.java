@@ -9,12 +9,12 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class TestThreadIsLoadedFromLocal {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock private Instructions instructions;
+   @Mock private InstructionSource instructions;
    @Mock private ClassLoaded classLoaded;
 
    @Test public void javaLangThreadLocalVersionIsLoaded() {

@@ -6,7 +6,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetPrimitiveClass;
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -18,15 +18,15 @@ public class DefaultNativeMethods implements NativeMethods {
       this.natives = natives;
    }
 
-   @Override public MethodBody resolveNative(final Instructions instructions, final SMethodDescriptor methodName) {
+   @Override public MethodBody resolveNative(final InstructionSource instructions, final SMethodDescriptor methodName) {
       final NativeMethodDef methodDef = natives.get(methodName);
       if(methodDef != null) {
-         return methodDef.instructions(instructions.source());
+         return methodDef.instructions(instructions);
       }
       if (methodName.equals(new AsmSMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
-         return instructions.source().statements().maxStack(1).iconst_0().return1().build();
+         return instructions.statements().maxStack(1).iconst_0().return1().build();
       } else if (methodName.equals(new AsmSMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
-         return instructions.source().statements()
+         return instructions.statements()
                .maxLocals(1)
                .maxStack(1)
                .linear(new GetPrimitiveClass())
@@ -35,7 +35,7 @@ public class DefaultNativeMethods implements NativeMethods {
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
-      return instructions.source().statements().returnVoid().build();
+      return instructions.statements().returnVoid().build();
    }
    public static NativeMethods natives() {
       return natives(Arrays.<NativeMethodDef>asList(

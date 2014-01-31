@@ -14,16 +14,16 @@ import java.util.List;
 import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
-import com.lexicalscope.svm.j.instruction.factory.Instructions;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.classloading.asm.AsmSClass;
 import com.lexicalscope.symb.classloading.asm.AsmSClassFactory;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class ResourceByteCodeReader implements ByteCodeReader {
-	private final Instructions instructions;
+	private final InstructionSource instructions;
    private final ClassSource classRepository;
 
-	public ResourceByteCodeReader(final Instructions instructions, final ClassSource classSource) {
+	public ResourceByteCodeReader(final InstructionSource instructions, final ClassSource classSource) {
 		this.instructions = instructions;
       this.classRepository = classSource;
 	}
