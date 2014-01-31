@@ -8,7 +8,6 @@ import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
@@ -59,41 +58,25 @@ public final class JvmBuilder {
    }
 
    public Vm<State> build(final MethodInfo entryPoint, final Object... args) {
+      return build(new AsmSMethodName(entryPoint.klass(), entryPoint.name(), entryPoint.desc()), args);
+   }
+
+   public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
       final Vm<State> vm = new VmImpl<State>();
-      vm.initial(initial(vm, heapFactory(), classLoader(), instructionSource(), entryPoint, args));
-      return vm;
-   }
-
-   private State initial(
-         final Vm<State> vm,
-         final HeapFactory heapFactory,
-         final SClassLoader classLoader,
-         final InstructionSource instructions,
-         final MethodInfo info,
-         final Object[] args) {
-      return initial(vm, heapFactory, classLoader, instructions, new AsmSMethodName(info.klass(), info.name(), info.desc()), args);
-   }
-
-   private State initial(
-         final Vm<State> vm,
-         final HeapFactory heapFactory,
-         final SClassLoader classLoader,
-         final InstructionSource instructions,
-         final SMethodDescriptor methodName,
-         final Object[] args) {
+      final SClassLoader classLoader = classLoader();
       final Instruction defineClassClass = classLoader.defineBootstrapClassesInstruction();
-      final Instruction initThread = InitThreadOp.initThreadInstruction(instructions);
+      final Instruction initThread = InitThreadOp.initThreadInstruction(instructionSource());
       final Instruction loadArgs = classLoader.loadArgsInstruction(args);
 
-      invokeStatic(methodName, new AbstractInstructionSink(){
+      invokeStatic(entryPointName, new AbstractInstructionSink(){
          @Override public void nextInstruction(final Vop node) {
             defineClassClass.nextIs(initThread).nextIs(loadArgs).nextIs(new InstructionInternal(node));
-         }}, instructions);
-
-      final StaticsImpl statics = new StaticsImpl(classLoader);
+         }}, instructionSource());
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, methodName.argSize()));
-      return new StateImpl(vm, statics, stack, heapFactory.heap(), classLoader.initialMeta());
+      stack.push(new SnapshotableStackFrame(null, defineClassClass, 0, entryPointName.argSize()));
+      final State state = new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), classLoader.initialMeta());
+      vm.initial(state);
+      return vm;
    }
 }
