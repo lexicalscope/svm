@@ -32,10 +32,6 @@ public final class JvmBuilder {
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
 
-   public Vm<State> build() {
-      return new VmImpl<State>();
-   }
-
    public JvmBuilder instructionFactory(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
       return this;
@@ -62,29 +58,13 @@ public final class JvmBuilder {
       return this;
    }
 
-   private State initial(final MethodInfo entryPoint, final Vm<State> vm, final Object... args) {
-      return initial(vm, heapFactory(), classLoader(), instructionSource(), entryPoint, args);
-   }
-
    public Vm<State> build(final MethodInfo entryPoint, final Object... args) {
-      final Vm<State> vm = build();
-      vm.initial(initial(entryPoint, vm, args));
+      final Vm<State> vm = new VmImpl<State>();
+      vm.initial(initial(vm, heapFactory(), classLoader(), instructionSource(), entryPoint, args));
       return vm;
    }
 
-   public Vm<State> build2(final MethodInfo entryPoint, final Object... args) {
-      final Vm<State> vm = build();
-      vm.initial(initial(
-            vm,
-            heapFactory(),
-            classLoader(),
-            instructionSource(),
-            entryPoint,
-            args));
-      return vm;
-   }
-
-   public static State initial(
+   private State initial(
          final Vm<State> vm,
          final HeapFactory heapFactory,
          final SClassLoader classLoader,
@@ -94,7 +74,7 @@ public final class JvmBuilder {
       return initial(vm, heapFactory, classLoader, instructions, new AsmSMethodName(info.klass(), info.name(), info.desc()), args);
    }
 
-   static State initial(
+   private State initial(
          final Vm<State> vm,
          final HeapFactory heapFactory,
          final SClassLoader classLoader,

@@ -12,8 +12,7 @@ public class SymbVmFactory {
          final MethodInfo entryPoint,
          final Object ... args) {
       return new JvmBuilder()
-         .instructionFactory(instructionFactory)
-         .heapFactory(new CheckingSymbolicHeapFactory())
-         .build2(entryPoint, args);
+      .instructionFactory(instructionFactory)
+      .heapFactory(new CheckingSymbolicHeapFactory()).build(entryPoint, args);
    }
 }
