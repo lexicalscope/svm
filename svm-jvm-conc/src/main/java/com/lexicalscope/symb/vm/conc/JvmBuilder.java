@@ -36,8 +36,9 @@ public final class JvmBuilder {
       return new VmImpl<State>();
    }
 
-   public void instructionFactory(final InstructionFactory instructionFactory) {
+   public JvmBuilder instructionFactory(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
+      return this;
    }
 
    public SClassLoader classLoader() {
@@ -56,8 +57,9 @@ public final class JvmBuilder {
       return heapFactory;
    }
 
-   public void heapFactory(final HeapFactory heapFactory) {
+   public JvmBuilder heapFactory(final HeapFactory heapFactory) {
       this.heapFactory = heapFactory;
+      return this;
    }
 
    private State initial(final MethodInfo entryPoint, final Vm<State> vm, final Object... args) {
@@ -67,6 +69,18 @@ public final class JvmBuilder {
    public Vm<State> build(final MethodInfo entryPoint, final Object... args) {
       final Vm<State> vm = build();
       vm.initial(initial(entryPoint, vm, args));
+      return vm;
+   }
+
+   public Vm<State> build2(final MethodInfo entryPoint, final Object... args) {
+      final Vm<State> vm = build();
+      vm.initial(initial(
+            vm,
+            heapFactory(),
+            classLoader(),
+            instructionSource(),
+            entryPoint,
+            args));
       return vm;
    }
 
