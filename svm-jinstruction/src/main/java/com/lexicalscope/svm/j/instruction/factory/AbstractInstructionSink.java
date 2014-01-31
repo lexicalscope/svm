@@ -5,11 +5,13 @@ import java.util.List;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 
 public abstract class AbstractInstructionSink implements InstructionSource.InstructionSink {
-   @Override public void nextOp(final Vop instruction) {
-      nextInstruction(new InstructionInternal(instruction));
+   @Override public void nextOp(final Vop op) {
+      assert !(op instanceof Instruction);
+      nextInstruction(new InstructionInternal(op));
    }
 
    @Override public final void linearOp(final Vop node) {

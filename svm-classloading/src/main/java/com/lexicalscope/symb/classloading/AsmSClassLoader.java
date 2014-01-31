@@ -71,7 +71,7 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.add(getInternalName(Thread.class));
 
       return instructions.statements()
-            .instruction(
+            .op(
                   new LoadingInstruction(
                         new DefinePrimitiveClassesOp(
                            new DefineClassOp(bootstrapClasses)),

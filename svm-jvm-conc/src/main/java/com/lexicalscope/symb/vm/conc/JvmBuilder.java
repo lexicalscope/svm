@@ -26,6 +26,14 @@ public final class JvmBuilder {
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
 
+   public JvmBuilder() {
+      if(getClass().desiredAssertionStatus()) {
+         heapFactory = new CheckingHeapFactory();
+      } else {
+         heapFactory = new FastHeapFactory();
+      }
+   }
+
    public JvmBuilder instructionFactory(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
       return this;
@@ -33,10 +41,6 @@ public final class JvmBuilder {
 
    public NativeMethods natives() {
       return natives;
-   }
-
-   public BaseInstructionSource instructionSource() {
-      return new BaseInstructionSource(instructionFactory);
    }
 
    public HeapFactory heapFactory() {
@@ -55,18 +59,17 @@ public final class JvmBuilder {
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
       final Vm<State> vm = new VmImpl<State>();
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, natives());
-      final BaseInstructionSource instructionSource = instructionSource();
+      final BaseInstructionSource instructionSource = new BaseInstructionSource(instructionFactory);
 
       final Instruction initialInstruction = instructionSource.statements()
-         .instructionNode(classLoader.defineBootstrapClassesInstruction())
-         .instructionNode(InitThreadOp.initThreadInstruction(instructionSource))
-         .instructionNode(classLoader.loadArgsInstruction(args))
+         .instruction(classLoader.defineBootstrapClassesInstruction())
+         .instruction(InitThreadOp.initThreadInstruction(instructionSource))
+         .instruction(classLoader.loadArgsInstruction(args))
          .createInvokeStatic(entryPointName).buildInstruction();
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(null, initialInstruction, 0, entryPointName.argSize()));
-      final State state = new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), classLoader.initialMeta());
-      vm.initial(state);
+      vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), classLoader.initialMeta()));
       return vm;
    }
 }

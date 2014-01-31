@@ -3,6 +3,7 @@ package java.lang;
 public class Integer {
    public Integer(final int i) { }
 
+   @SuppressWarnings("unused")
    private static class IntegerCache {
       static final int low = -128;
       static final int high;

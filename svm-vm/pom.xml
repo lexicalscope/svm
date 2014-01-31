@@ -23,7 +23,6 @@
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
 			<artifactId>matchers-additional</artifactId>
-			<version>${project.version}</version>
 		</dependency>
 	</dependencies>
 </project>

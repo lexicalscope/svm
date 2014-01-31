@@ -145,13 +145,13 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder instruction(final Vop op) {
+   public StatementBuilder op(final Vop op) {
       assert !(op instanceof Instruction);
       sink.nextOp(op);
       return this;
    }
 
-   public StatementBuilder instructionNode(final Instruction node) {
+   public StatementBuilder instruction(final Instruction node) {
       sink.nextInstruction(node);
       return this;
    }
