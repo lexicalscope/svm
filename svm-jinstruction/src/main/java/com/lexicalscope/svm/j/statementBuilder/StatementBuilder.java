@@ -1,8 +1,5 @@
 package com.lexicalscope.svm.j.statementBuilder;
 
-import static com.google.common.collect.Lists.reverse;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
@@ -17,14 +14,18 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class StatementBuilder {
    private final Instruction insertBeforeInstruction;
-   private final List<Vop> instructions = new ArrayList<>();
    private int maxStack;
    private int maxLocals;
    private final InstructionSource source;
 
+   private InstructionInternal first;
+   private InstructionInternal next;
+
    private final InstructionSource.InstructionSink sink = new AbstractInstructionSink() {
-      @Override public void nextInstruction(final Vop node) {
-         instructions.add(node);
+      @Override public void nextInstruction(final Vop instruction) {
+         final InstructionInternal node = new InstructionInternal(instruction);
+         if(next != null) {next.nextIs(node); next = node;}
+         if(first == null) {first = next = node;}
       }
    };
 
@@ -52,14 +53,8 @@ public final class StatementBuilder {
    }
 
    public InstructionInternal buildInstruction() {
-      InstructionInternal next = null;
-      for (final Vop instruction : reverse(instructions)) {
-         final InstructionInternal node = new InstructionInternal(instruction);
-         if(next != null) {node.nextIs(next);}
-         next = node;
-      }
       if(insertBeforeInstruction != null) { next.nextIs(insertBeforeInstruction); }
-      return next;
+      return first;
    }
 
    public StatementBuilder newObject(final String klassDesc) {
@@ -153,6 +148,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder instruction(final Vop op) {
+      assert !(op instanceof Instruction);
       sink.nextInstruction(op);
       return this;
    }
