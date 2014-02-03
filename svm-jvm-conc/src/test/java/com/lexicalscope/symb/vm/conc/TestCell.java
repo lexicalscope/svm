@@ -1,24 +1,17 @@
 package com.lexicalscope.symb.vm.conc;
 
-import static com.lexicalscope.symb.vm.conc.VmFactory.concreteVm;
 import static com.lexicalscope.symb.vm.j.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.symb.vm.conc.junit.VmRule;
 
 public class TestCell {
    public static class Cell {
       private int val;
-
-      public static int viaCell(final int x) {
-         final Cell cell = new Cell();
-         cell.set(x);
-         return cell.get();
-      }
 
       public int get() {
          return val;
@@ -29,11 +22,16 @@ public class TestCell {
       }
    }
 
-   private final MethodInfo viaCellMethod = new MethodInfo(Cell.class, "viaCell", "(I)I");
+   @TestEntryPoint public static int viaCell(final int x) {
+      final Cell cell = new Cell();
+      cell.set(x);
+      return cell.get();
+   }
+
+   @Rule public final VmRule vm = new VmRule();
 
    @Test
    public void concExecuteCellNewGetSet() {
-      final Vm<State> vm = concreteVm(viaCellMethod, -6);
-      assertThat(vm.execute(), normalTerminiationWithResult(-6));
+      assertThat(vm.execute(-6), normalTerminiationWithResult(-6));
    }
 }
