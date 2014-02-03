@@ -34,12 +34,16 @@ public class VmRule implements MethodRule {
       this.jvmBuilder = jvmBuilder;
    }
 
-   @Override public Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
+   @Override public final Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
       return new Statement() {
-
          @Override public void evaluate() throws Throwable {
             final FluentObject<Object> object = object(target);
+            findEntryPoint(object);
+            configureTarget(object);
+            base.evaluate();
+         }
 
+         public void findEntryPoint(final FluentObject<Object> object) {
             if(!object.fields(annotatedWithTestPointEntry).isEmpty()) {
                entryPoint = object.field(annotatedWithTestPointEntry).call().as(MethodInfo.class);
             } else {
@@ -50,21 +54,24 @@ public class VmRule implements MethodRule {
                      entryPointMethod.name(),
                      getMethodDescriptor(entryPointMethod.member()));
             }
-            base.evaluate();
          }
       };
    }
 
-   public FlowNode<State> execute(final Object ... args) {
+   protected void configureTarget(final FluentObject<Object> object) {
+      // can be overridden
+   }
+
+   public final FlowNode<State> execute(final Object ... args) {
       vm = jvmBuilder.build(entryPoint, args);
       return vm.execute();
    }
 
-   public FlowNode<State> result() {
+   public final FlowNode<State> result() {
       return vm.result();
    }
 
-   public Collection<FlowNode<State>> results() {
+   public final Collection<FlowNode<State>> results() {
       return vm.results();
    }
 }

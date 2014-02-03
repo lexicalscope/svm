@@ -1,5 +1,9 @@
 package com.lexicalscope.symb.vm.symb.junit;
 
+import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
+
+import com.lexicalscope.fluentreflection.FluentField;
+import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.conc.junit.VmRule;
@@ -18,5 +22,11 @@ public class SymbVmRule extends VmRule {
 
    public ISymbol isymbol() {
       return symbInstructionFactory.isymbol();
+   }
+
+   @Override protected void configureTarget(final FluentObject<Object> object) {
+      for (final FluentField field : object.fields(annotatedWith(Fresh.class))) {
+         field.call(symbInstructionFactory.isymbol());
+      }
    }
 }

@@ -9,10 +9,14 @@ import org.junit.Test;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IAddSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.symb.vm.symb.junit.Fresh;
 import com.lexicalscope.symb.vm.symb.junit.SymbVmRule;
 
 public class TestAdd {
    @Rule public SymbVmRule vm = new SymbVmRule();
+
+   private @Fresh ISymbol symbol1;
+   private @Fresh ISymbol symbol2;
 
    @TestEntryPoint public static int add(final int x, final int y) {
       return x + y;
@@ -25,9 +29,6 @@ public class TestAdd {
 
    @Test
    public void symbExecuteStaticAddMethod() {
-      final ISymbol symbol1 = vm.isymbol();
-      final ISymbol symbol2 = vm.isymbol();
-
       assertThat(vm.execute(symbol1, symbol2), normalTerminiationWithResult(new IAddSymbol(symbol1, symbol2)));
    }
 }
