@@ -1,17 +1,16 @@
 package com.lexicalscope.symb.vm.conc;
 
-import static com.lexicalscope.symb.vm.conc.VmFactory.concreteVm;
 import static com.lexicalscope.symb.vm.j.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.symb.vm.conc.junit.VmRule;
 
 public class TestStaticInitialisation {
-   private final MethodInfo returnStaticFieldValue = new MethodInfo(StaticField.class, "getX", "()I");
+   @Rule public final VmRule vm = new VmRule();
 
    public static class StaticField {
       public static int x = 5;
@@ -25,8 +24,11 @@ public class TestStaticInitialisation {
       }
    }
 
+   @TestEntryPoint public static int getStaticField() {
+      return StaticField.getX();
+   }
+
    @Test public void getStaticFieldViaStaticMethod() {
-      final Vm<State> vm = concreteVm(returnStaticFieldValue);
       assertThat(vm.execute(), normalTerminiationWithResult(5));
    }
 }

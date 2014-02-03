@@ -3,7 +3,6 @@ package com.lexicalscope.symb.vm;
 import java.util.Collection;
 
 public interface Vm<S> {
-
 	FlowNode<S> execute();
 
 	void initial(FlowNode<S> state);
