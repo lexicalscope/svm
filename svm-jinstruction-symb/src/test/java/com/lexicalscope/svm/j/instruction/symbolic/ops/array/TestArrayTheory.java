@@ -28,9 +28,10 @@ public class TestArrayTheory {
       final ITerminalSymbol indexSymbol = state.intSymbol();
       final IConstSymbol valueSymbol = state.intConst(7);
       final IArraySymbol storedArraySymbol = state.arrayStore(state.iarrayZeroed(), indexSymbol, valueSymbol);
-      pc.and(icmpEq(valueSymbol, state.arraySelect(storedArraySymbol, indexSymbol)));
 
-      assertThat(pc, feasbilityChecker);
+      assertThat(
+            pc.and(icmpEq(valueSymbol, state.arraySelect(storedArraySymbol, indexSymbol))),
+            feasbilityChecker);
    }
 
    @Test public void storeAndSelectAtPossiblyDifferentSymbolicIndex() throws Exception {
@@ -38,9 +39,10 @@ public class TestArrayTheory {
       final ITerminalSymbol selectIndexSymbol = state.intSymbol();
       final IConstSymbol valueSymbol = state.intConst(7);
       final IArraySymbol storedArraySymbol = state.arrayStore(state.iarrayZeroed(), storeIndexSymbol, valueSymbol);
-      pc.and(icmpEq(valueSymbol, state.arraySelect(storedArraySymbol, selectIndexSymbol)));
 
-      assertThat(pc, feasbilityChecker);
+      assertThat(
+            pc.and(icmpEq(valueSymbol, state.arraySelect(storedArraySymbol, selectIndexSymbol))),
+            feasbilityChecker);
    }
 
    @Test public void storeAndSelectAtDefinitelyDifferentSymbolicIndex() throws Exception {
@@ -48,8 +50,9 @@ public class TestArrayTheory {
       final ISymbol selectIndexSymbol = state.iadd(storeIndexSymbol, state.intConst(1));
       final IConstSymbol valueSymbol = state.intConst(7);
       final IArraySymbol storedArraySymbol = state.arrayStore(state.iarrayZeroed(), storeIndexSymbol, valueSymbol);
-      pc.and(icmpEq(valueSymbol, state.arraySelect(storedArraySymbol, selectIndexSymbol)));
 
-      assertThat(pc, not(feasbilityChecker));
+      assertThat(
+            pc.and(icmpEq(valueSymbol, state.arraySelect(storedArraySymbol, selectIndexSymbol))),
+            not(feasbilityChecker));
    }
 }

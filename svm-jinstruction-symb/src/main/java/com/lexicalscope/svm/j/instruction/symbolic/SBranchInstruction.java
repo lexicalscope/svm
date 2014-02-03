@@ -43,11 +43,11 @@ final class SBranchInstruction implements Vop {
 
       final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(ctx);
 
-      final Pc jumpPc = pc.snapshot().and(jumpSymbol);
+      final Pc jumpPc = pc.and(jumpSymbol);
       final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
 
       final NotSymbol nojumpSymbol = new NotSymbol(jumpSymbol);
-      final Pc nojumpPc = pc.snapshot().and(nojumpSymbol);
+      final Pc nojumpPc = pc.and(nojumpSymbol);
       final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
 
       if(jumpFeasible && nojumpFeasible)
