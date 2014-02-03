@@ -5,6 +5,8 @@ import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith
 import static org.objectweb.asm.Type.getMethodDescriptor;
 
 import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
@@ -13,6 +15,7 @@ import org.junit.runners.model.Statement;
 import com.lexicalscope.fluentreflection.FluentAnnotated;
 import com.lexicalscope.fluentreflection.FluentMethod;
 import com.lexicalscope.fluentreflection.FluentObject;
+import com.lexicalscope.fluentreflection.FluentReflection;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.Vm;
@@ -23,6 +26,7 @@ import com.lexicalscope.symb.vm.j.State;
 public class VmRule implements MethodRule {
    private final ReflectionMatcher<FluentAnnotated> annotatedWithTestPointEntry = annotatedWith(TestEntryPoint.class);
    private final JvmBuilder jvmBuilder;
+   private final Map<String, MethodInfo> entryPoints = new HashMap<>();
    private MethodInfo entryPoint;
    private Vm<State> vm;
 
@@ -36,24 +40,36 @@ public class VmRule implements MethodRule {
 
    @Override public final Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
       return new Statement() {
+
          @Override public void evaluate() throws Throwable {
             final FluentObject<Object> object = object(target);
+            findEntryPoints(object);
             findEntryPoint(object);
             configureTarget(object);
+
             base.evaluate();
             cleanup();
          }
 
-         public void findEntryPoint(final FluentObject<Object> object) {
-            if(!object.fields(annotatedWithTestPointEntry).isEmpty()) {
-               entryPoint = object.field(annotatedWithTestPointEntry).call().as(MethodInfo.class);
-            } else {
-               final FluentMethod entryPointMethod =
-                     object.reflectedClass().method(annotatedWithTestPointEntry);
-               entryPoint = new MethodInfo(
+         private void findEntryPoint(final FluentObject<Object> object) {
+            final FluentMethod targetMethod = FluentReflection.method(method.getMethod());
+            if(targetMethod.annotatedWith(WithEntryPoint.class)) {
+               final String requiredEntryPoint = targetMethod.annotation(WithEntryPoint.class).value();
+               entryPoint = entryPoints.get(requiredEntryPoint);
+            } else if(entryPoints.size() == 1) {
+               entryPoint = entryPoints.values().iterator().next();
+            }
+            if(entryPoint == null) {
+               throw new AssertionError("no entry point found");
+            }
+         }
+
+         public void findEntryPoints(final FluentObject<Object> object) {
+            for (final FluentMethod entryPointMethod : object.reflectedClass().methods(annotatedWithTestPointEntry)) {
+               entryPoints.put(entryPointMethod.name(), new MethodInfo(
                      object.classUnderReflection(),
                      entryPointMethod.name(),
-                     getMethodDescriptor(entryPointMethod.member()));
+                     getMethodDescriptor(entryPointMethod.member())));
             }
          }
       };

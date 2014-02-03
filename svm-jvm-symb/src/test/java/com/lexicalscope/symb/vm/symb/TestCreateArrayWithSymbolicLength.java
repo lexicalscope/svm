@@ -7,31 +7,22 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
-import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.symb.SymbVmFactory;
+import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.symb.vm.conc.junit.WithEntryPoint;
+import com.lexicalscope.symb.vm.symb.junit.Fresh;
+import com.lexicalscope.symb.vm.symb.junit.SymbVmRule;
 import com.lexicalscope.symb.vm.symb.matchers.SymbStateMatchers;
-import com.lexicalscope.symb.z3.FeasibilityChecker;
 
 public class TestCreateArrayWithSymbolicLength {
-   @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();
-   private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
-   private final SymbInstructionFactory instructionFactory = new SymbInstructionFactory(feasbilityChecker);
+   @Rule public final SymbVmRule vm = new SymbVmRule();
+   private @Fresh ISymbol symbol1;
 
-   final MethodInfo createMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "create", "(I)[Ljava/lang/Object;");
-   final MethodInfo fillMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "fillArrayWithSymbolicLength", "(I)[I");
-   final MethodInfo reverseMethod = new MethodInfo(TestCreateArrayWithSymbolicLength.class, "reverseArrayWithSymbolicLength", "(I)I");
-
-   public static Object[] create(final int length) {
+   @TestEntryPoint public static Object[] create(final int length) {
       return new Object[length];
    }
 
-   public static int[] fillArrayWithSymbolicLength(final int length) {
+   @TestEntryPoint public static int[] fillArrayWithSymbolicLength(final int length) {
       final int[] array = new int[length];
       for (int i = 0; i < min(4, array.length); i++) {
          array[i] = i;
@@ -39,7 +30,7 @@ public class TestCreateArrayWithSymbolicLength {
       return array;
    }
 
-   public static int reverseArrayWithSymbolicLength(final int length) {
+   @TestEntryPoint public static int reverseArrayWithSymbolicLength(final int length) {
       if(length <= 0) {
          return 0;
       }
@@ -57,27 +48,18 @@ public class TestCreateArrayWithSymbolicLength {
       return result[0];
    }
 
-   @Test public void createArrayWithSymbolicLength() throws Exception {
-      final ISymbol symbol1 = instructionFactory.isymbol();
-
-      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, createMethod, symbol1);
-      vm.execute();
+   @Test @WithEntryPoint("create") public void createArrayWithSymbolicLength() throws Exception {
+      vm.execute(symbol1);
    }
 
-   @Test public void fillArrayWithSymbolicLength() throws Exception {
-      final ISymbol symbol1 = instructionFactory.isymbol();
-
-      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, fillMethod, symbol1);
-      vm.execute();
+   @Test @WithEntryPoint("fillArrayWithSymbolicLength") public void fillArrayWithSymbolicLength() throws Exception {
+      vm.execute(symbol1);
    }
 
-   @Test public void copyBetweenArraysWithSymbolicLength() throws Exception {
-      final ITerminalSymbol symbol1 = instructionFactory.isymbol();
+   @Test @WithEntryPoint("reverseArrayWithSymbolicLength") public void copyBetweenArraysWithSymbolicLength() throws Exception {
+      vm.execute(symbol1);
 
-      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, reverseMethod, symbol1);
-      vm.execute();
-
-      assertThat(vm.results(), SymbStateMatchers.flowNodeToModel(feasbilityChecker).
+      assertThat(vm.results(), SymbStateMatchers.flowNodeToModel(vm.feasbilityChecker()).
             has(3, symbolEquivalentTo(0)).
             has(symbolEquivalentTo(1)).
             has(symbolEquivalentTo(2)).

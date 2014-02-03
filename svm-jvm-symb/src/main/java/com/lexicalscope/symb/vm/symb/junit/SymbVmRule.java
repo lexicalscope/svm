@@ -36,4 +36,8 @@ public class SymbVmRule extends VmRule {
    @Override protected void cleanup() {
       feasibilityChecker.close();
    }
+
+   public FeasibilityChecker feasbilityChecker() {
+      return feasibilityChecker;
+   }
 }
