@@ -6,6 +6,9 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.symb.vm.conc.junit.VmRule;
+
 public class TestExecution {
    @Rule public final VmRule vm = new VmRule();
 

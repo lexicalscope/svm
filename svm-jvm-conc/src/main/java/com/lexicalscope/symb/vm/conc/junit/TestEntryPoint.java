@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.conc;
+package com.lexicalscope.symb.vm.conc.junit;
 
 import java.lang.annotation.Retention;
 import java.lang.annotation.RetentionPolicy;

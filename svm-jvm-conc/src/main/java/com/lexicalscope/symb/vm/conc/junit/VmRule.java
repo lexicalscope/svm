@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.conc;
+package com.lexicalscope.symb.vm.conc.junit;
 
 import static com.lexicalscope.fluentreflection.FluentReflection.*;
 import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
@@ -16,6 +16,8 @@ import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.conc.MethodInfo;
+import com.lexicalscope.symb.vm.conc.VmFactory;
 import com.lexicalscope.symb.vm.j.State;
 
 public class VmRule implements MethodRule, Vm<State> {
