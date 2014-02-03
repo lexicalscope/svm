@@ -7,8 +7,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 public class TestExecution {
-   @TestEntryPoint private final MethodInfo entryPoint = new MethodInfo(EmptyStaticMethod.class, "main", "()V");
    @Rule public final VmRule vm = new VmRule();
+
+   @TestEntryPoint public static void main() {
+      return;
+   }
 
    @Test public void executeEmptyMainMethod() {
       assertThat(vm.execute(), normalTerminiation());
