@@ -5,5 +5,7 @@ import java.lang.annotation.RetentionPolicy;
 
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Fresh {
+   static class Default {}
 
+   Class<?> type() default Default.class;
 }
