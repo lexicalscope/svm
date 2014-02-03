@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
 
-import static com.lexicalscope.svm.j.instruction.factory.InstrumentationBuilder.instrumentation;
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
 
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
@@ -10,6 +10,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
+import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentingInstructionSourceFactory;
 
 public class TestInstrumentingInstructionSource {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();

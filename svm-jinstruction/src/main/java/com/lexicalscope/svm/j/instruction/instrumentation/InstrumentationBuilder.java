@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.factory;
+package com.lexicalscope.svm.j.instruction.instrumentation;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -17,5 +17,9 @@ public class InstrumentationBuilder {
 
    public Map<String, Instrumentation> map() {
       return instrumentationMap;
+   }
+
+   public static Instrumentation traceMethodCalls() {
+      return new TraceMethodCalls();
    }
 }

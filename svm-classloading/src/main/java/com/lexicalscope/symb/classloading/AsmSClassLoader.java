@@ -28,15 +28,22 @@ public class AsmSClassLoader implements SClassLoader {
    private final ByteCodeReader byteCodeReader;
    private final NativeMethods natives;
 
-   public AsmSClassLoader(final InstructionFactory instructionFactory, final NativeMethods natives) {
+   public AsmSClassLoader(
+         final InstructionFactory instructionFactory,
+         final InstructionSource instructionSource,
+         final NativeMethods natives) {
       this.instructionFactory = instructionFactory;
       this.natives = natives;
-      this.instructions = new BaseInstructionSource(instructionFactory);
+      this.instructions = instructionSource;
       this.byteCodeReader = new CachingByteCodeReader(instructions);
    }
 
    public AsmSClassLoader() {
-      this(new ConcInstructionFactory(), DefaultNativeMethods.natives());
+      this(new ConcInstructionFactory());
+   }
+
+   private AsmSClassLoader(final InstructionFactory instructionFactory) {
+      this(instructionFactory, new BaseInstructionSource(instructionFactory), DefaultNativeMethods.natives());
    }
 
    @Override public SClass load(final String name, final ClassLoaded classLoaded) {

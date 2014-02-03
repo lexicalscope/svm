@@ -1,11 +1,16 @@
 package com.lexicalscope.symb.vm.conc;
 
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
+
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
+import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentingInstructionSourceFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
@@ -28,6 +33,7 @@ public final class JvmBuilder {
    private InstructionSourceFactory instructionSourceFactory = new BaseInstructionSourceFactory();
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
+   private InstrumentationBuilder instrumentationBuilder;
 
    public JvmBuilder() {
       if(getClass().desiredAssertionStatus()) {
@@ -44,6 +50,14 @@ public final class JvmBuilder {
 
    public JvmBuilder instructionSourceFactory(final InstructionSourceFactory instructionSourceFactory) {
       this.instructionSourceFactory = instructionSourceFactory;
+      return this;
+   }
+
+   public JvmBuilder instrument(final String instruction, final Instrumentation instrumentation) {
+      if(instrumentationBuilder == null) {
+         instrumentationBuilder = instrumentation();
+      }
+      instrumentationBuilder.instrument(instruction, instrumentation);
       return this;
    }
 
@@ -66,8 +80,14 @@ public final class JvmBuilder {
 
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
       final Vm<State> vm = new VmImpl<State>();
-      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, natives());
-      final InstructionSource instructionSource = instructionSourceFactory.instructionSource(instructionFactory);
+
+      final InstructionSource instructionSource =
+            (instrumentationBuilder == null
+                  ? instructionSourceFactory
+                  : new InstrumentingInstructionSourceFactory(instructionSourceFactory, instrumentationBuilder.map()))
+            .instructionSource(instructionFactory);
+
+      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, instructionSource, natives());
 
       final Instruction initialInstruction = instructionSource.statements()
          .instruction(classLoader.defineBootstrapClassesInstruction())

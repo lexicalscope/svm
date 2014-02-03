@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.factory;
+package com.lexicalscope.svm.j.instruction.instrumentation;
 
 import static com.lexicalscope.fluentreflection.dynamicproxy.FluentProxy.dynamicProxy;
 import static org.hamcrest.Matchers.anything;
@@ -7,6 +7,9 @@ import java.util.Map;
 
 import com.lexicalscope.fluentreflection.dynamicproxy.Implementing;
 import com.lexicalscope.fluentreflection.dynamicproxy.MethodBody;
+import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 
 public class InstrumentingInstructionSourceFactory implements InstructionSourceFactory {
@@ -24,7 +27,8 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
          whenProxying(anything()).execute(new MethodBody() {
 
             @Override public void body() throws Throwable {
-               final Instrumentation instrumentation = map.get(methodName());
+               final String methodName = methodName();
+               final Instrumentation instrumentation = map.get(methodName);
                if(instrumentation != null) {
                   instrumentation.before(arg(InstructionSink.class));
                }
