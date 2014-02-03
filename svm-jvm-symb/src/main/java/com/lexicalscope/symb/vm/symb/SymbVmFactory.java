@@ -13,7 +13,10 @@ public class SymbVmFactory {
          final SymbInstructionFactory instructionFactory,
          final MethodInfo entryPoint,
          final Object ... args) {
+      return symbolicVmBuilder(instructionFactory).build(entryPoint, args);
+   }
 
+   public static JvmBuilder symbolicVmBuilder(final SymbInstructionFactory instructionFactory) {
       final HeapFactory heapFactory;
       if(JvmBuilder.class.desiredAssertionStatus()) {
          heapFactory = new CheckingSymbolicHeapFactory();
@@ -21,8 +24,9 @@ public class SymbVmFactory {
          heapFactory = new FastHeapFactory();
       }
 
-      return new JvmBuilder()
+      final JvmBuilder vmBuilder = new JvmBuilder()
          .instructionFactory(instructionFactory)
-         .heapFactory(heapFactory).build(entryPoint, args);
+         .heapFactory(heapFactory);
+      return vmBuilder;
    }
 }

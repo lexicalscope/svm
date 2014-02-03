@@ -16,14 +16,23 @@ import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.Vm;
+import com.lexicalscope.symb.vm.conc.JvmBuilder;
 import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.conc.VmFactory;
 import com.lexicalscope.symb.vm.j.State;
 
 public class VmRule implements MethodRule {
    private final ReflectionMatcher<FluentAnnotated> annotatedWithTestPointEntry = annotatedWith(TestEntryPoint.class);
+   private final JvmBuilder jvmBuilder;
    private MethodInfo entryPoint;
    private Vm<State> vm;
+
+   public VmRule() {
+      this(new JvmBuilder());
+   }
+
+   public VmRule(final JvmBuilder jvmBuilder) {
+      this.jvmBuilder = jvmBuilder;
+   }
 
    @Override public Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
       return new Statement() {
@@ -47,7 +56,7 @@ public class VmRule implements MethodRule {
    }
 
    public FlowNode<State> execute(final Object ... args) {
-      vm = VmFactory.concreteVm(entryPoint, args);
+      vm = jvmBuilder.build(entryPoint, args);
       return vm.execute();
    }
 
