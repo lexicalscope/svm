@@ -25,7 +25,7 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class JvmBuilder {
    private InstructionFactory instructionFactory = new ConcInstructionFactory();
-   private final InstructionSourceFactory instructionSourceFactory = new BaseInstructionSourceFactory();
+   private InstructionSourceFactory instructionSourceFactory = new BaseInstructionSourceFactory();
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
 
@@ -39,6 +39,11 @@ public final class JvmBuilder {
 
    public JvmBuilder instructionFactory(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
+      return this;
+   }
+
+   public JvmBuilder instructionSourceFactory(final InstructionSourceFactory instructionSourceFactory) {
+      this.instructionSourceFactory = instructionSourceFactory;
       return this;
    }
 

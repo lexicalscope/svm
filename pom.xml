@@ -156,6 +156,12 @@
 				<artifactId>junit-autocloseable</artifactId>
 				<version>1.0</version>
 			</dependency>
+	      <dependency>
+	         <groupId>com.lexicalscope.fluent-reflection</groupId>
+	         <artifactId>fluent-reflection</artifactId>
+	         <version>0.1.4</version>
+	         <type>jar</type>
+	      </dependency>
 		</dependencies>
 	</dependencyManagement>
 </project>
