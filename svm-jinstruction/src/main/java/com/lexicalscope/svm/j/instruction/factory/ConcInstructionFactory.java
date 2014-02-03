@@ -51,7 +51,6 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
-import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.j.Vop;
 
 public class ConcInstructionFactory implements InstructionFactory {
@@ -198,11 +197,6 @@ public class ConcInstructionFactory implements InstructionFactory {
    @Override
    public Nullary2Operator dconst(final double val) {
       return new DConstOperator(val);
-   }
-
-   @Override
-   public Snapshotable<?> initialMeta() {
-      return null;
    }
 
    @Override public Object initInt() {

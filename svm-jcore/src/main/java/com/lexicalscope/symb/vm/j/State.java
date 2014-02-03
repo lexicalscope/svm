@@ -9,6 +9,8 @@ import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.metastate.MetaKey;
+import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public interface State extends Snapshotable<State>, FlowNode<State> {
    void pushFrame(StackFrame stackFrame);
@@ -79,7 +81,9 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
 
    SStackTrace trace();
 
-   Object getMeta();
+   MetaState getMeta();
+   <T> T getMeta(MetaKey<T> key);
+   <T> void setMeta(MetaKey<T> key, T value);
 
    State[] fork();
 

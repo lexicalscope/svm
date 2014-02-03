@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.vm.symb.matchers;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
+
 import org.hamcrest.Description;
 
 import com.lexicalscope.Transform;
@@ -29,7 +31,7 @@ public class ModelForStateTransform implements Transform<Symbol, State> {
          return new IConstSymbol((int) operand);
       }
 
-      final Pc pc = (Pc) item.getMeta();
+      final Pc pc = item.getMeta(PC);
       final Symbol modelForBv32Expr = feasibilityChecker.modelForBv32Expr((ISymbol) operand, pc);
       mismatchDescription
       .appendText("simplification ")

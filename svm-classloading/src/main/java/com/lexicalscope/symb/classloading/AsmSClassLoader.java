@@ -16,7 +16,6 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -60,11 +59,6 @@ public class AsmSClassLoader implements SClassLoader {
 
    public Object load(final String string) {
       return load(string, new NullClassLoaded());
-   }
-
-   // TODO[tim]: this method is in the !wrong! place
-   @Override public Snapshotable<?> initialMeta() {
-      return instructionFactory.initialMeta();
    }
 
    @Override public MethodBody resolveNative(final SMethodDescriptor methodName) {

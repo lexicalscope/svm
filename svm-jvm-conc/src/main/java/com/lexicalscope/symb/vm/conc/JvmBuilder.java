@@ -27,6 +27,9 @@ import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.StateImpl;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
+import com.lexicalscope.symb.vm.j.metastate.HashMetaState;
+import com.lexicalscope.symb.vm.j.metastate.MetaKey;
+import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public final class JvmBuilder {
    private InstructionFactory instructionFactory = new ConcInstructionFactory();
@@ -34,6 +37,7 @@ public final class JvmBuilder {
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
    private InstrumentationBuilder instrumentationBuilder;
+   private final MetaState metaState = new HashMetaState();
 
    public JvmBuilder() {
       if(getClass().desiredAssertionStatus()) {
@@ -97,7 +101,12 @@ public final class JvmBuilder {
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(null, initialInstruction, 0, entryPointName.argSize()));
-      vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), classLoader.initialMeta()));
+      vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState));
       return vm;
+   }
+
+   public <T> JvmBuilder meta(final MetaKey<T> key, final T initialMeta) {
+      metaState.set(key, initialMeta);
+      return this;
    }
 }

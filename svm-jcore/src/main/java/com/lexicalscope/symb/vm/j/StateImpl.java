@@ -9,15 +9,16 @@ import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
-import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.metastate.MetaKey;
+import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public class StateImpl implements State {
    private final Statics statics;
    private final Stack stack;
    private final Heap heap;
-   private final Snapshotable<?> meta;
+   private final MetaState meta;
    private final Vm<State> vm;
 
    public StateImpl(
@@ -25,7 +26,7 @@ public class StateImpl implements State {
          final Statics statics,
          final Stack stack,
          final Heap heap,
-         final Snapshotable<?> meta) {
+         final MetaState meta) {
       this.vm = vm;
       this.statics = statics;
       this.stack = stack;
@@ -58,8 +59,18 @@ public class StateImpl implements State {
    }
 
    @Override
-   public final Object getMeta() {
+   public final MetaState getMeta() {
       return meta;
+   }
+
+   @Override
+   public final <T> T getMeta(final MetaKey<T> key) {
+      return meta.get(key);
+   }
+
+   @Override
+   public final <T> void setMeta(final MetaKey<T> key, final T value) {
+      meta.set(key, value);
    }
 
    @Override public final StateImpl snapshot() {

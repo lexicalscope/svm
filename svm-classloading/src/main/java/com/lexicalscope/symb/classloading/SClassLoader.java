@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.classloading;
 
-import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -19,8 +18,6 @@ public interface SClassLoader {
     */
    SClass load(Class<?> klass, ClassLoaded classLoaded);
    SClass load(Class<?> klass);
-
-   Snapshotable<?> initialMeta();
 
    MethodBody resolveNative(SMethodDescriptor methodName);
 

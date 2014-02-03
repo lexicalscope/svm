@@ -40,7 +40,6 @@ import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
-import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
 
@@ -166,8 +165,7 @@ public class SymbInstructionFactory implements InstructionFactory {
       return new FConstOperator(val);
    }
 
-   @Override
-   public Snapshotable<?> initialMeta() {
+   public Pc initialMeta() {
       return new Pc();
    }
 

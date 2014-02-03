@@ -11,11 +11,8 @@ import org.junit.Test;
 
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.Stack;
-import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.StateImpl;
-import com.lexicalscope.symb.vm.j.Statics;
+import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public class TestStateSnapshot {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
@@ -34,8 +31,8 @@ public class TestStateSnapshot {
       final Heap heap = context.mock(Heap.class, "Heap");
       final Heap heapCopy = context.mock(Heap.class, "Heap copy");
 
-      final Snapshotable<?> meta = context.mock(Snapshotable.class, "Meta");
-      final Snapshotable<?> metaCopy = context.mock(Snapshotable.class, "Meta copy");
+      final MetaState meta = context.mock(MetaState.class, "Meta");
+      final MetaState metaCopy = context.mock(MetaState.class, "Meta copy");
 
       context.checking(new Expectations(){{
          oneOf(statics).snapshot(); will(returnValue(staticsCopy));
