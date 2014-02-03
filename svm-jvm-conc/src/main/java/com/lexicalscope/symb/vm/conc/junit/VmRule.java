@@ -41,6 +41,7 @@ public class VmRule implements MethodRule {
             findEntryPoint(object);
             configureTarget(object);
             base.evaluate();
+            cleanup();
          }
 
          public void findEntryPoint(final FluentObject<Object> object) {
@@ -56,6 +57,10 @@ public class VmRule implements MethodRule {
             }
          }
       };
+   }
+
+   protected void cleanup() {
+      // can be overridden
    }
 
    protected void configureTarget(final FluentObject<Object> object) {

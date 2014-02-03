@@ -13,7 +13,7 @@ import com.lexicalscope.symb.vm.symb.junit.Fresh;
 import com.lexicalscope.symb.vm.symb.junit.SymbVmRule;
 
 public class TestAdd {
-   @Rule public SymbVmRule vm = new SymbVmRule();
+   @Rule public final SymbVmRule vm = new SymbVmRule();
 
    private @Fresh ISymbol symbol1;
    private @Fresh ISymbol symbol2;

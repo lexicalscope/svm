@@ -3,24 +3,17 @@ package com.lexicalscope.symb.vm.symb;
 import static com.lexicalscope.symb.vm.j.StateMatchers.normalTerminiationWithResult;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.conc.MethodInfo;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.symb.SymbVmFactory;
+import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.symb.vm.symb.junit.Fresh;
+import com.lexicalscope.symb.vm.symb.junit.SymbVmRule;
 
 public class TestCell {
    public static class Cell {
       private int val;
-
-      public static int viaCell(final int x) {
-         final Cell cell = new Cell();
-         cell.set(x);
-         return cell.get();
-      }
 
       public int get() {
          return val;
@@ -31,14 +24,17 @@ public class TestCell {
       }
    }
 
-   private final MethodInfo viaCellMethod = new MethodInfo(Cell.class, "viaCell", "(I)I");
+   @TestEntryPoint public static int viaCell(final int x) {
+      final Cell cell = new Cell();
+      cell.set(x);
+      return cell.get();
+   }
+
+   @Rule public final SymbVmRule vm = new SymbVmRule();
+   private @Fresh ISymbol symbol1;
 
    @Test
    public void symbExecuteCellNewGetSet() {
-      final SymbInstructionFactory instructionFactory = new SymbInstructionFactory();
-      final ISymbol symbol1 = instructionFactory.isymbol();
-
-      final Vm<State> vm = SymbVmFactory.symbolicVm(instructionFactory, viaCellMethod, symbol1);
-      assertThat(vm.execute(), normalTerminiationWithResult(symbol1));
+      assertThat(vm.execute(symbol1), normalTerminiationWithResult(symbol1));
    }
 }
