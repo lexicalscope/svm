@@ -1,9 +1,11 @@
 package com.lexicalscope.symb.vm.conc;
 
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
-import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
@@ -23,6 +25,7 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class JvmBuilder {
    private InstructionFactory instructionFactory = new ConcInstructionFactory();
+   private final InstructionSourceFactory instructionSourceFactory = new BaseInstructionSourceFactory();
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
 
@@ -59,7 +62,7 @@ public final class JvmBuilder {
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
       final Vm<State> vm = new VmImpl<State>();
       final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, natives());
-      final BaseInstructionSource instructionSource = new BaseInstructionSource(instructionFactory);
+      final InstructionSource instructionSource = instructionSourceFactory.instructionSource(instructionFactory);
 
       final Instruction initialInstruction = instructionSource.statements()
          .instruction(classLoader.defineBootstrapClassesInstruction())
