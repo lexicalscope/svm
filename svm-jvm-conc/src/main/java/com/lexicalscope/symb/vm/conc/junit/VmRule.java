@@ -1,6 +1,6 @@
 package com.lexicalscope.symb.vm.conc.junit;
 
-import static com.lexicalscope.fluentreflection.FluentReflection.*;
+import static com.lexicalscope.fluentreflection.FluentReflection.object;
 import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
 import static org.objectweb.asm.Type.getMethodDescriptor;
 
@@ -35,7 +35,7 @@ public class VmRule implements MethodRule {
                entryPoint = object.field(annotatedWithTestPointEntry).call().as(MethodInfo.class);
             } else {
                final FluentMethod entryPointMethod =
-                     type(object.classUnderReflection()).method(annotatedWithTestPointEntry);
+                     object.reflectedClass().method(annotatedWithTestPointEntry);
                entryPoint = new MethodInfo(
                      object.classUnderReflection(),
                      entryPointMethod.name(),
