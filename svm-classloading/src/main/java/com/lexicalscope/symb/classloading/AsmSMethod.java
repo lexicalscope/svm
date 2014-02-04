@@ -105,7 +105,7 @@ public class AsmSMethod implements SMethod {
          }
       };
 
-      instructions.methodentry(instructionSink);
+      instructions.methodentry(methodName, instructionSink);
       while(asmInstruction[0] != null) {
          instructionFor(asmInstruction[0], instructionSink);
          asmInstruction[0] = asmInstruction[0].getNext();
@@ -128,7 +128,6 @@ public class AsmSMethod implements SMethod {
       maxLocals = method.maxLocals;
       maxStack = method.maxStack;
       entryPoint = linked.values().iterator().next();
-      System.out.println(linked.values());
    }
 
    private void instructionFor(

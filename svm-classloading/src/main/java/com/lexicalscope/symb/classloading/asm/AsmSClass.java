@@ -71,11 +71,6 @@ public class AsmSClass implements SClass {
    }
 
    @Override
-   public SMethod declaredMethod(final String name, final String desc) {
-      return declaredMethod(new AsmSMethodName(this.klassName, name, desc));
-   }
-
-   @Override
    public SMethod declaredMethod(final SMethodName sMethodName) {
       return methods.findDefined(sMethodName);
    }

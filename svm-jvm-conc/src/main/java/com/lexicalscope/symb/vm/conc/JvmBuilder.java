@@ -23,6 +23,7 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.VmImpl;
 import com.lexicalscope.symb.vm.conc.checkingheap.CheckingHeapFactory;
 import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.StateImpl;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
@@ -100,7 +101,7 @@ public final class JvmBuilder {
          .createInvokeStatic(entryPointName).buildInstruction();
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(null, initialInstruction, 0, entryPointName.argSize()));
+      stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, initialInstruction, 0, entryPointName.argSize()));
       vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState));
       return vm;
    }

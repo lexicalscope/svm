@@ -25,7 +25,7 @@ public interface InstructionSource {
    /**
     * useful for instrumentation of method entries
     */
-   InstructionSource methodentry(InstructionSink sink);
+   InstructionSource methodentry(SMethodDescriptor methodName, InstructionSink sink);
 
    InstructionSource load(int var, InstructionSink sink);
    InstructionSource load2(int var, InstructionSink sink);

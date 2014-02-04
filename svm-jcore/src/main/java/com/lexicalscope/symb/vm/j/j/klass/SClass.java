@@ -18,8 +18,6 @@ public interface SClass extends Allocatable, MethodResolver {
    boolean hasStaticInitialiser();
    Allocatable statics();
 
-   SMethod declaredMethod(String name, String desc);
-
    int fieldIndex(SFieldName name);
    SField fieldAtIndex(int index);
    boolean hasField(SFieldName name);

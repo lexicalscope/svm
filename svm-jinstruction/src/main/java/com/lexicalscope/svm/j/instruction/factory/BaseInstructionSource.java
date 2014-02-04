@@ -64,7 +64,7 @@ public class BaseInstructionSource implements InstructionSource {
       this.instructionFactory = instructionFactory;
    }
 
-   @Override public InstructionSource methodentry(final InstructionSink sink) {
+   @Override public InstructionSource methodentry(final SMethodDescriptor methodName, final InstructionSink sink) {
       // nothing by default, instrumented instruction sets may use this hook
       return this;
    }

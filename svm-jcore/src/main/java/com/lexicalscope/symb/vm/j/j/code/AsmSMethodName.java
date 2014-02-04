@@ -12,13 +12,21 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    private final SVirtualMethodName virtualName;
    private final int hashCode;
 
-   public AsmSMethodName(final String klassName, final String name, final String desc) {
+   public AsmSMethodName(
+         final String klassName,
+         final String name,
+         final String desc//, final Staticness staticness
+         ) {
       this.klassName = klassName;
       this.virtualName = new AsmSVirtualMethodName(name, desc);
       this.hashCode = klassName.hashCode() ^ virtualName.hashCode();
    }
 
-   public AsmSMethodName(final Class<?> klass, final String name, final String desc) {
+   public AsmSMethodName(
+         final Class<?> klass,
+         final String name,
+         final String desc// , final Staticness staticness
+         ) {
       this(Type.getInternalName(klass), name, desc);
    }
 
@@ -82,5 +90,10 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    @Override
    public SVirtualMethodName virtualName() {
       return virtualName;
+   }
+
+   @Override public boolean isDynamic() {
+      // TODO Auto-generated method stub
+      return false;
    }
 }
