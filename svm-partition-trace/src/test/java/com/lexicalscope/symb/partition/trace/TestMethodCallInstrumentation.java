@@ -4,9 +4,9 @@ import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.symb.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.symb.partition.trace.TraceMatchers.methodCallOf;
 import static com.lexicalscope.symb.partition.trace.TraceMetaKey.TRACE;
+import static com.lexicalscope.symb.vm.j.JavaConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -28,15 +28,22 @@ public class TestMethodCallInstrumentation {
       @Override public void myVirtualMethod(){}
    }
 
-   @TestEntryPoint public static void callSomeMethods() {
-      new ClassWithVirtualMethod().myVirtualMethod();
+   public static class ClassOutSidePartition {
+      public void entry() {
+         new ClassWithVirtualMethod().myVirtualMethod();
+      }
    }
 
-   @Test @Ignore public void collectVirtualMethodInTrace() throws Exception {
+   @TestEntryPoint public static void callSomeMethods() {
+      new ClassOutSidePartition().entry();
+   }
+
+   @Test public void collectVirtualMethodInTrace() throws Exception {
       vm.execute();
 
       assertThat(
             vm.result().state().getMeta(TRACE),
-            has(methodCallOf(new AsmSMethodName(WithVirtualMethod.class, "myVirtualMethod", "()V"))).only().inOrder());
+            has(methodCallOf(new AsmSMethodName(ClassWithVirtualMethod.class, INIT, NOARGS_VOID_DESC)),
+                methodCallOf(new AsmSMethodName(ClassWithVirtualMethod.class, "myVirtualMethod", "()V"))).only().inOrder());
    }
 }

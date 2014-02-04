@@ -11,6 +11,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class PartitionBuilder {
@@ -33,9 +34,18 @@ public class PartitionBuilder {
          }
 
          @Override protected boolean matchesSafely(final State item, final Description mismatchDescription) {
-            final String callerKlass = methodName(item.previousFrame()).klassName();
-            final String receiverKlass = methodName(item.currentFrame()).klassName();
-            return klasses.contains(callerKlass) ^ klasses.contains(receiverKlass);
+            final StackFrame previousFrame = item.previousFrame();
+            final StackFrame currentFrame = item.currentFrame();
+            if(previousFrame.isDynamic() && currentFrame.isDynamic()) {
+               final SClass callerKlass = frameReceiver(item, previousFrame);
+               final SClass receiverKlass = frameReceiver(item, currentFrame);
+               return klasses.contains(callerKlass.name()) ^ klasses.contains(receiverKlass.name());
+            }
+            return false;
+         }
+
+         public SClass frameReceiver(final State item, final StackFrame previousFrame) {
+            return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
          }
 
          public SMethodDescriptor methodName(final StackFrame stackFrame) {

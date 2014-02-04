@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.symb.stack.MethodScope;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SMethodName;
@@ -33,6 +34,8 @@ public class MethodCallInstruction {
       String name();
 
       Resolution resolveMethod(Object[] args, SMethodDescriptor sMethodName, State ctx);
+
+      MethodScope scope();
    }
 
    private static class VirtualMethodInvokation implements MethodInvokation {
@@ -47,6 +50,10 @@ public class MethodCallInstruction {
       @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final State ctx) {
          return resolveVirtualMethod(args, sMethodName, ctx);
       }
+
+      @Override public MethodScope scope() {
+         return MethodScope.DYNAMIC;
+      }
    }
 
    private static class InterfaceMethodInvokation implements MethodInvokation {
@@ -60,6 +67,10 @@ public class MethodCallInstruction {
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final State ctx) {
          return resolveVirtualMethod(args, sMethodName, ctx);
+      }
+
+      @Override public MethodScope scope() {
+         return MethodScope.DYNAMIC;
       }
    }
 
@@ -87,6 +98,10 @@ public class MethodCallInstruction {
       @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final State ctx) {
          return new Resolution(ctx.load(sMethodName.klassName()).declaredMethod(sMethodName));
       }
+
+      @Override public MethodScope scope() {
+         return MethodScope.DYNAMIC;
+      }
    }
 
    private static class ClassDefaultConstructorMethodInvokation implements MethodInvokation {
@@ -110,6 +125,10 @@ public class MethodCallInstruction {
          final MethodResolver receiver = receiver(args, sMethodName, ctx);
          return new Resolution(receiver.declaredMethod(sMethodName));
       }
+
+      @Override public MethodScope scope() {
+         return MethodScope.DYNAMIC;
+      }
    }
 
    private static class StaticMethodInvokation implements MethodInvokation {
@@ -123,6 +142,10 @@ public class MethodCallInstruction {
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final State ctx) {
          return new Resolution(ctx.load(sMethodName.klassName()).declaredMethod(sMethodName));
+      }
+
+      @Override public MethodScope scope() {
+         return MethodScope.STATIC;
       }
    }
 
@@ -146,7 +169,7 @@ public class MethodCallInstruction {
          final Resolution resolution = methodInvokation.resolveMethod(args, sMethodName, ctx);
          // TODO[tim]: virtual does not resolve overridden methods
          final SMethod targetMethod = resolution.method;
-         final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod.name(), targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
+         final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod.name(), methodInvokation.scope(), targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
          ctx.pushFrame(newStackFrame.setLocals(args));
       }
    }

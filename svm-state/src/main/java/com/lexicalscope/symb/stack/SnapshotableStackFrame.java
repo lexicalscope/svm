@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.stack;
 
+import static com.lexicalscope.symb.stack.MethodScope.DYNAMIC;
 import static com.lexicalscope.symb.stack.Padding.padding;
 import static java.util.Arrays.copyOf;
 
@@ -13,22 +14,26 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    private Object instruction; // PC
    private final SMethodName context;
+   private final MethodScope scope;
 
    public SnapshotableStackFrame(
          final SMethodName context,
+         final MethodScope scope,
          final Object instruction,
          final int maxLocals,
          final int maxStack) {
-      this(context, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
+      this(context, scope, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
    }
 
    private SnapshotableStackFrame(
          final SMethodName context,
+         final MethodScope scope,
          final Object instruction,
          final Object[] stack,
          final int opBot,
          final int opTop) {
       this.context = context;
+      this.scope = scope;
       this.instruction = instruction;
       this.stack = stack;
       this.opBot = opBot;
@@ -133,7 +138,7 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public SnapshotableStackFrame snapshot() {
-      return new SnapshotableStackFrame(context, instruction, copyOf(stack, stack.length), opBot, opTop);
+      return new SnapshotableStackFrame(context, scope, instruction, copyOf(stack, stack.length), opBot, opTop);
    }
 
    @Override
@@ -157,5 +162,9 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override public SMethodName context() {
       return context;
+   }
+
+   @Override public boolean isDynamic() {
+      return scope.equals(DYNAMIC);
    }
 }

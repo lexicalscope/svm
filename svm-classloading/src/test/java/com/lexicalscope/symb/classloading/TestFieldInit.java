@@ -11,9 +11,6 @@ import org.junit.Test;
 import org.objectweb.asm.Type;
 
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
-import com.lexicalscope.symb.classloading.AsmSClassLoader;
-import com.lexicalscope.symb.classloading.SClassLoader;
-import com.lexicalscope.symb.classloading.StaticsImpl;
 import com.lexicalscope.symb.heap.FastHeap;
 import com.lexicalscope.symb.heap.Heap;
 import com.lexicalscope.symb.stack.DequeStack;
@@ -35,7 +32,7 @@ public class TestFieldInit {
       assertThat(klasses, Matchers.hasSize(2));
       sClass = klasses.get(1);
 
-      newObject = new NewObjectOp(klassName).eval(new StateImpl(null, statics, new DequeStack(new SnapshotableStackFrame(null, null, 0, 1)), heap, null));
+      newObject = new NewObjectOp(klassName).eval(new StateImpl(null, statics, new DequeStack(new SnapshotableStackFrame(null, null, null, 0, 1)), heap, null));
    }
 
    @Test public void intFieldInit() {

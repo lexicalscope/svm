@@ -4,7 +4,6 @@ import com.lexicalscope.symb.stack.trace.SMethodName;
 import com.lexicalscope.symb.vm.j.SVirtualMethodName;
 
 public interface SMethodDescriptor extends SMethodName {
-   boolean isDynamic();
    boolean isVoidMethod();
 
    String klassName();

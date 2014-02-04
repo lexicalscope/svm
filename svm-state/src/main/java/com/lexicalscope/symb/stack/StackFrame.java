@@ -22,4 +22,5 @@ public interface StackFrame extends Snapshotable<StackFrame> {
    void local(int var, Object val);
 
    SMethodName context();
+   boolean isDynamic();
 }

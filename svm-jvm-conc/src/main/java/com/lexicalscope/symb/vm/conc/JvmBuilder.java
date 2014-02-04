@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.conc;
 
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
+import static com.lexicalscope.symb.stack.MethodScope.STATIC;
 
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSourceFactory;
@@ -101,7 +102,7 @@ public final class JvmBuilder {
          .createInvokeStatic(entryPointName).buildInstruction();
 
       final DequeStack stack = new DequeStack();
-      stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, initialInstruction, 0, entryPointName.argSize()));
+      stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
       vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState));
       return vm;
    }
