@@ -85,7 +85,7 @@ public class AsmSMethod implements SMethod {
       final Instruction[] prev = new Instruction[1];
 
       final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
-      final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink() {
+      final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink(instructions) {
          @Override public void nextInstruction(final Instruction node) {
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
                assert unlinkedInstruction != null;

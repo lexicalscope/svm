@@ -16,7 +16,7 @@ public interface InstructionSource {
    public interface InstructionSink {
       void nextInstruction(Instruction node);
       void linearOp(Vop op);
-      void loadingOp(List<String> classes, Vop op, InstructionSource factory);
+      void loadingOp(List<String> classes, Vop op);
       void nextOp(Vop op);
       void noOp();
    }
