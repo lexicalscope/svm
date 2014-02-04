@@ -10,16 +10,12 @@ public class InstrumentationBuilder {
       return new InstrumentationBuilder();
    }
 
-   public InstrumentationBuilder instrument(final String string, final Instrumentation instrumentation) {
-      instrumentationMap.put(string, instrumentation);
+   public InstrumentationBuilder instrument(final String instruction, final Instrumentation instrumentation) {
+      instrumentationMap.put(instruction, instrumentation);
       return this;
    }
 
    public Map<String, Instrumentation> map() {
       return instrumentationMap;
-   }
-
-   public static Instrumentation traceMethodCalls() {
-      return new TraceMethodCalls();
    }
 }

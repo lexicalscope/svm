@@ -22,6 +22,11 @@ public interface InstructionSource {
       void noOp();
    }
 
+   /**
+    * useful for instrumentation of method entries
+    */
+   InstructionSource methodentry(InstructionSink sink);
+
    InstructionSource load(int var, InstructionSink sink);
    InstructionSource load2(int var, InstructionSink sink);
    InstructionSource aload(int index, InstructionSink sink);
@@ -144,6 +149,7 @@ public interface InstructionSource {
     */
    Object initialFieldValue(String desc);
 
+   // TODO[tim]: these methods are too hard to wrap
    StatementBuilder statements();
    StatementBuilder before(Instruction nextInstruction);
 }

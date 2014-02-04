@@ -27,7 +27,6 @@ public class InstructionInternal implements Instruction {
 
    @Override public void eval(final State ctx) {
       assert next != null;
-
       instruction.eval(ctx);
    }
 

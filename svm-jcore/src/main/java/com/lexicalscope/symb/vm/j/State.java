@@ -13,83 +13,57 @@ import com.lexicalscope.symb.vm.j.metastate.MetaKey;
 import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public interface State extends Snapshotable<State>, FlowNode<State> {
+   Stack stack();
    void pushFrame(StackFrame stackFrame);
+   void popFrame(int returnCount);
+   StackFrame previousFrame();
+   StackFrame currentFrame();
+
+   void advanceToNextInstruction();
+   void advanceTo(Instruction instruction);
+   Instruction instructionNext();
+   Instruction instructionJmpTarget();
+   Instruction instruction();
 
    Object local(int var);
-
-   void popFrame(int returnCount);
-
-   void fork(State[] states);
-
    void local(int var, Object val);
 
+   void fork(State[] states);
+   State[] fork();
+
    Object whereMyStaticsAt(SClass klass);
-
+   void staticsAt(SClass klass, Object classAddress);
    Object whereMyClassAt(String klassName);
-
-   StackFrame previousFrame();
+   void classAt(SClass klass, Object classAddress);
 
    StaticsMarker staticsMarker(SClass klass);
-
-   void staticsAt(SClass klass, Object classAddress);
+   List<SClass> defineClass(String klassName);
+   SClass definePrimitiveClass(String klassName);
+   boolean isDefined(String klass);
+   SClass load(String klassName);
 
    Object newObject(Allocatable klass);
-
-   void classAt(SClass klass, Object classAddress);
+   Object hashCode(Object object);
+   Object nullPointer();
+   void put(Object address, int offset, Object val);
+   Object get(Object address, int offset);
 
    SClass classClass();
 
-   List<SClass> defineClass(String klassName);
-
-   SClass definePrimitiveClass(String klassName);
-
-   boolean isDefined(String klass);
-
    void currentThreadIs(Object address);
-
    Object currentThread();
 
-   SClass load(String klassName);
-
-   void advanceToNextInstruction();
-
-   Instruction instructionNext();
-
-   Instruction instructionJmpTarget();
-
-   void pushDoubleWord(Object val);
-
-   Object popDoubleWord();
-
-   void put(Object address, int offset, Object val);
-
-   Object get(Object address, int offset);
-
-   void advanceTo(Instruction instruction);
-
-   Object peek();
-
-   Object[] pop(int count);
-
-   Object pop();
-
    void push(Object operand);
-
-   Object nullPointer();
-
+   Object peek();
+   Object[] pop(int count);
+   Object pop();
+   void pushDoubleWord(Object val);
+   Object popDoubleWord();
    Object peekOperand();
-
-   SStackTrace trace();
 
    MetaState getMeta();
    <T> T getMeta(MetaKey<T> key);
    <T> void setMeta(MetaKey<T> key, T value);
 
-   State[] fork();
-
-   Stack stack();
-
-   Instruction instruction();
-
-   Object hashCode(Object object);
+   SStackTrace trace();
 }

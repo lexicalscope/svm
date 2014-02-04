@@ -2,6 +2,8 @@ package com.lexicalscope.svm.j.instruction.factory;
 
 
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.sameInstance;
 
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
@@ -38,7 +40,7 @@ public class TestInstrumentingInstructionSource {
          allowing(delegateInstructionSourceFactory).instructionSource(null); will(returnValue(delegateInstructionSource));
 
          oneOf(instrumentation).before(sink);
-         oneOf(delegateInstructionSource).invokevirtual(null, sink);
+         oneOf(delegateInstructionSource).invokevirtual(null, sink); will(returnValue(delegateInstructionSource));
          oneOf(instrumentation).after(sink);
       }});
 
@@ -46,6 +48,6 @@ public class TestInstrumentingInstructionSource {
             new InstrumentingInstructionSourceFactory(delegateInstructionSourceFactory, instrumentation().instrument("invokevirtual", instrumentation).map()).
                instructionSource(null);
 
-      instructionSource.invokevirtual(null, sink);
+      assertThat(instructionSource.invokevirtual(null, sink), sameInstance(instructionSource));
    }
 }

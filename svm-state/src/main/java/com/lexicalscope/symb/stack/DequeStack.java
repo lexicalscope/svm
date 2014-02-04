@@ -94,6 +94,10 @@ public class DequeStack implements Stack {
       return iterator.next();
    };
 
+   @Override public StackFrame currentFrame() {
+      return stack.iterator().next();
+   };
+
    @Override
    public boolean equals(final Object obj) {
       if (obj != null && obj.getClass().equals(this.getClass())) {

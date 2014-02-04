@@ -64,6 +64,11 @@ public class BaseInstructionSource implements InstructionSource {
       this.instructionFactory = instructionFactory;
    }
 
+   @Override public InstructionSource methodentry(final InstructionSink sink) {
+      // nothing by default, instrumented instruction sets may use this hook
+      return this;
+   }
+
    @Override
    public InstructionSource invokevirtual(final SMethodDescriptor name, final InstructionSource.InstructionSink sink) {
       MethodCallInstruction.invokevirtual(name, sink);

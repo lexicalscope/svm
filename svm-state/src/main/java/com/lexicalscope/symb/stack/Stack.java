@@ -10,6 +10,7 @@ public interface Stack extends Snapshotable<Stack> {
 
    StackFrame topFrame();
    StackFrame previousFrame();
+   StackFrame currentFrame();
 
    int size();
 

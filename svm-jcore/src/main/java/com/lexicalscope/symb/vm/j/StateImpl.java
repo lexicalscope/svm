@@ -236,6 +236,10 @@ public class StateImpl implements State {
       return stack.previousFrame();
    }
 
+   @Override public StackFrame currentFrame() {
+      return stack.currentFrame();
+   }
+
    @Override
    public Object whereMyClassAt(final String klassName) {
       return statics.whereMyClassAt(klassName);

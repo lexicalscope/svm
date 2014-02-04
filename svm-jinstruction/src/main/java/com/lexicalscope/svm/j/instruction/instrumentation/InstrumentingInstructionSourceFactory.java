@@ -9,20 +9,20 @@ import com.lexicalscope.fluentreflection.dynamicproxy.Implementing;
 import com.lexicalscope.fluentreflection.dynamicproxy.MethodBody;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 
 public class InstrumentingInstructionSourceFactory implements InstructionSourceFactory {
-   private final InstructionSourceFactory delegate;
+   private final InstructionSourceFactory delegateFactory;
    private final Map<String, Instrumentation> map;
 
    public InstrumentingInstructionSourceFactory(final InstructionSourceFactory delegate, final Map<String, Instrumentation> map) {
-      this.delegate = delegate;
+      this.delegateFactory = delegate;
       this.map = map;
    }
 
    @Override public InstructionSource instructionSource(final InstructionFactory instructionFactory) {
-      final InstructionSource instructionSource = delegate.instructionSource(instructionFactory);
+      final InstructionSource delegate = delegateFactory.instructionSource(instructionFactory);
       return dynamicProxy(new Implementing<InstructionSource>(InstructionSource.class) {{
          whenProxying(anything()).execute(new MethodBody() {
 
@@ -32,7 +32,12 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
                if(instrumentation != null) {
                   instrumentation.before(arg(InstructionSink.class));
                }
-               returnValue(method().rebind(instructionSource).call(args()).value());
+               final Object result = method().rebind(delegate).call(args()).value();
+               if(result == delegate) {
+                  returnValue(proxy());
+               } else {
+                  returnValue(result);
+               }
                if(instrumentation != null) {
                   instrumentation.after(arg(InstructionSink.class));
                }
