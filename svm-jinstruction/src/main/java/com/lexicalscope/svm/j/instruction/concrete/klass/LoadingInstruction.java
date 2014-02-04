@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
+import static com.lexicalscope.symb.vm.j.j.code.AsmSMethodName.staticInitialiser;
 import static java.util.Arrays.asList;
 
 import java.util.List;
@@ -8,11 +9,9 @@ import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 /*
@@ -53,7 +52,7 @@ public class LoadingInstruction implements Vop {
             if(klass.hasStaticInitialiser())
             {
                replacementInstruction
-                  .createInvokeStatic(new AsmSMethodName(klass.name(), JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC))
+                  .createInvokeStatic(staticInitialiser(klass.name()))
                   .invokeConstructorOfClassObjects(klass.name());
             }
          }

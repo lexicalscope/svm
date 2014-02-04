@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.classloading.asm;
 
+import static com.lexicalscope.symb.vm.j.j.code.AsmSMethodName.staticInitialiser;
+
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
@@ -11,8 +13,6 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.stack.trace.SMethodName;
-import com.lexicalscope.symb.vm.j.JavaConstants;
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.DeclaredFields;
 import com.lexicalscope.symb.vm.j.j.klass.DeclaredMethods;
 import com.lexicalscope.symb.vm.j.j.klass.Fields;
@@ -77,7 +77,7 @@ public class AsmSClass implements SClass {
 
    @Override
    public boolean hasStaticInitialiser() {
-      return methods.hasStatic(new AsmSMethodName(klassName, JavaConstants.CLINIT, JavaConstants.NOARGS_VOID_DESC));
+      return methods.hasStatic(staticInitialiser(klassName));
    }
 
    @Override public int allocateSize() {

@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.j.j.code;
 
+import static com.lexicalscope.symb.vm.j.JavaConstants.*;
 import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
 
 import org.objectweb.asm.Type;
@@ -95,5 +96,13 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    @Override public boolean isDynamic() {
       // TODO Auto-generated method stub
       return false;
+   }
+
+   public static SMethodDescriptor staticInitialiser(final String klassName) {
+      return new AsmSMethodName(klassName, CLINIT, NOARGS_VOID_DESC);
+   }
+
+   public static SMethodDescriptor defaultConstructor(final String klassName) {
+      return new AsmSMethodName(klassName, INIT, NOARGS_VOID_DESC);
    }
 }
