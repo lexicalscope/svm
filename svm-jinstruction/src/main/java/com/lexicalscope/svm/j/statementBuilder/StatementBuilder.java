@@ -12,10 +12,10 @@ import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public final class StatementBuilder {
-   private final Instruction insertBeforeInstruction;
+   private final InstructionSource source;
+   private Instruction insertBeforeInstruction;
    private int maxStack;
    private int maxLocals;
-   private final InstructionSource source;
 
    private Instruction first;
    private Instruction next;
@@ -28,12 +28,12 @@ public final class StatementBuilder {
    };
 
    public StatementBuilder(final InstructionSource source) {
-      this(source, null);
+      this.source = source;
    }
 
-   public StatementBuilder(final InstructionSource source, final Instruction nextInstruction) {
-      this.source = source;
+   public StatementBuilder before(final Instruction nextInstruction) {
       this.insertBeforeInstruction = nextInstruction;
+      return this;
    }
 
    public StatementBuilder maxLocals(final int maxLocals) {
@@ -168,5 +168,9 @@ public final class StatementBuilder {
 
    private InstructionSource source() {
       return source;
+   }
+
+   public static StatementBuilder statements(final InstructionSource instructions) {
+      return new StatementBuilder(instructions);
    }
 }

@@ -51,8 +51,6 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.PopOp;
 import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
-import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.VopAdapter;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -625,13 +623,5 @@ public class BaseInstructionSource implements InstructionSource {
             return false;
       }
       throw new UnsupportedOperationException("" + sort);
-   }
-
-   @Override public StatementBuilder statements() {
-      return new StatementBuilder(this);
-   }
-
-   @Override public StatementBuilder before(final Instruction nextInstruction) {
-      return new StatementBuilder(this, nextInstruction);
    }
 }

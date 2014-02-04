@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.conc;
 
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.symb.stack.MethodScope.STATIC;
 
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
@@ -87,17 +88,17 @@ public final class JvmBuilder {
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
       final Vm<State> vm = new VmImpl<State>();
 
-      final InstructionSource instructionSource =
+      final InstructionSource instructions =
             (instrumentationBuilder == null
                   ? instructionSourceFactory
                   : new InstrumentingInstructionSourceFactory(instructionSourceFactory, instrumentationBuilder.map()))
             .instructionSource(instructionFactory);
 
-      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, instructionSource, natives());
+      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, instructions, natives());
 
-      final Instruction initialInstruction = instructionSource.statements()
+      final Instruction initialInstruction = statements(instructions)
          .instruction(classLoader.defineBootstrapClassesInstruction())
-         .instruction(InitThreadOp.initThreadInstruction(instructionSource))
+         .instruction(InitThreadOp.initThreadInstruction(instructions))
          .instruction(classLoader.loadArgsInstruction(args))
          .createInvokeStatic(entryPointName).buildInstruction();
 

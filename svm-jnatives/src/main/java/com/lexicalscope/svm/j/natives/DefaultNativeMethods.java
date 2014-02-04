@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -24,9 +26,9 @@ public class DefaultNativeMethods implements NativeMethods {
          return methodDef.instructions(instructions);
       }
       if (methodName.equals(new AsmSMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
-         return instructions.statements().maxStack(1).iconst_0().return1().build();
+         return statements(instructions).maxStack(1).iconst_0().return1().build();
       } else if (methodName.equals(new AsmSMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
-         return instructions.statements()
+         return statements(instructions)
                .maxLocals(1)
                .maxStack(1)
                .linear(new GetPrimitiveClass())
@@ -35,7 +37,7 @@ public class DefaultNativeMethods implements NativeMethods {
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
-      return instructions.statements().returnVoid().build();
+      return statements(instructions).returnVoid().build();
    }
    public static NativeMethods natives() {
       return natives(Arrays.<NativeMethodDef>asList(

@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.classloading;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.ArrayList;
@@ -71,7 +72,7 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
 
-      return instructions.statements()
+      return statements(instructions)
             .op(
                   new LoadingInstruction(
                         new DefinePrimitiveClassesOp(

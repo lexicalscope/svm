@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.symb.vm.j.j.code.AsmSMethodName.staticInitialiser;
 import static java.util.Arrays.asList;
 
@@ -47,7 +48,7 @@ public class LoadingInstruction implements Vop {
       if(definedClasses.isEmpty()){
          new LinearInstruction(op).eval(ctx);
       } else {
-         final StatementBuilder replacementInstruction = instructions.before(ctx.instructionNext());
+         final StatementBuilder replacementInstruction = statements(instructions).before(ctx.instructionNext());
          for (final SClass klass : Lists.reverse(definedClasses)) {
             if(klass.hasStaticInitialiser())
             {

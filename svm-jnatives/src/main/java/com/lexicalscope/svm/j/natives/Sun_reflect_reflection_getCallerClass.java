@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.GetCallerClass;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
@@ -10,6 +12,6 @@ public final class Sun_reflect_reflection_getCallerClass extends AbstractNativeM
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return instructions.statements().maxStack(1).maxLocals(1).linear(new GetCallerClass()).return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).linear(new GetCallerClass()).return1().build();
    }
 }

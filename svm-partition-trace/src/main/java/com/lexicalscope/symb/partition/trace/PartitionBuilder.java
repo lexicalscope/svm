@@ -12,7 +12,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class PartitionBuilder {
    private final Set<String> klasses = new HashSet<>();
@@ -41,15 +40,12 @@ public class PartitionBuilder {
                final SClass receiverKlass = frameReceiver(item, currentFrame);
                return klasses.contains(callerKlass.name()) ^ klasses.contains(receiverKlass.name());
             }
+            // TODO[tim]: need a strategy for static methods
             return false;
          }
 
-         public SClass frameReceiver(final State item, final StackFrame previousFrame) {
+         private SClass frameReceiver(final State item, final StackFrame previousFrame) {
             return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
-         }
-
-         public SMethodDescriptor methodName(final StackFrame stackFrame) {
-            return (SMethodDescriptor) stackFrame.context();
          }
       };
    }

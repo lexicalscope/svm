@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
 
@@ -9,6 +11,6 @@ public final class Java_lang_reflect_array_newArray extends AbstractNativeMethod
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return instructions.statements().maxLocals(2).maxStack(2).aload(1).reflectionnewarray().return1().build();
+      return statements(instructions).maxLocals(2).maxStack(2).aload(1).reflectionnewarray().return1().build();
    }
 }

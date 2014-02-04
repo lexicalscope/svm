@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
@@ -10,6 +12,6 @@ public final class Sun_misc_unsafe_arrayBaseOffset extends AbstractNativeMethodD
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return instructions.statements().maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1().build();
    }
 }

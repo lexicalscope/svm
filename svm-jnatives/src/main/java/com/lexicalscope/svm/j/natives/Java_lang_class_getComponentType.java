@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.concrete.object.GetComponentClassOp;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
@@ -9,8 +11,7 @@ public class Java_lang_class_getComponentType extends AbstractNativeMethodDef {
       super("java/lang/Class", "getComponentType", "()Ljava/lang/Class;");
    }
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return instructions
-               .statements()
+      return statements(instructions)
                .maxStack(1)
                .maxLocals(1)
                .aload(0)

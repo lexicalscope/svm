@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.CurrentThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
@@ -10,6 +12,6 @@ public class Java_lang_thread_currentThread extends AbstractNativeMethodDef impl
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return instructions.statements().maxStack(1).linear(new CurrentThreadOp()).return1().build();
+      return statements(instructions).maxStack(1).linear(new CurrentThreadOp()).return1().build();
    }
 }

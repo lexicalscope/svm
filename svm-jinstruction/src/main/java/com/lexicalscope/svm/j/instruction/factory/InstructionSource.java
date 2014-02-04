@@ -8,7 +8,6 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -148,8 +147,4 @@ public interface InstructionSource {
     * The initial value of fields of the given type
     */
    Object initialFieldValue(String desc);
-
-   // TODO[tim]: these methods are too hard to wrap
-   StatementBuilder statements();
-   StatementBuilder before(Instruction nextInstruction);
 }

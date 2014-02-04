@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.vm.j.MethodBody;
 
@@ -9,6 +11,6 @@ public class Java_lang_runtime_freeMemory extends AbstractNativeMethodDef implem
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return instructions.statements().maxStack(2).lconst(4294967296L).return2().build();
+      return statements(instructions).maxStack(2).lconst(4294967296L).return2().build();
    }
 }
