@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.statementBuilder;
 
 import java.util.List;
 
+import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
@@ -26,7 +27,7 @@ public final class StatementBuilder {
    public StatementBuilder(final InstructionSource source) {
       this.source = source;
       sink = new AbstractInstructionSink(source) {
-         @Override public void nextInstruction(final Instruction node) {
+         @Override public void nextInstruction(final InstructionInternal node) {
             if(next != null) {next.nextIs(node); next = node;}
             if(first == null) {first = next = node;}
          }

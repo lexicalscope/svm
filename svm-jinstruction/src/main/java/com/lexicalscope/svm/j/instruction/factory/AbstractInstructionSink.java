@@ -38,5 +38,5 @@ public abstract class AbstractInstructionSink implements InstructionSource.Instr
    @Override public void noOp() { }
 
 
-   protected abstract void nextInstruction(Instruction node);
+   protected abstract void nextInstruction(InstructionInternal node);
 }

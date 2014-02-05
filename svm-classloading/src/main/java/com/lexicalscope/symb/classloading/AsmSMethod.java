@@ -12,6 +12,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
+import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSwitch;
@@ -86,7 +87,7 @@ public class AsmSMethod implements SMethod {
 
       final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
       final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink(instructions) {
-         @Override public void nextInstruction(final Instruction node) {
+         @Override public void nextInstruction(final InstructionInternal node) {
             for (final AbstractInsnNode unlinkedInstruction : unlinked) {
                assert unlinkedInstruction != null;
                linked.put(unlinkedInstruction, node);
