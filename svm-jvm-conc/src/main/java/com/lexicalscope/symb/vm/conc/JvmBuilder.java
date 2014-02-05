@@ -102,8 +102,9 @@ public final class JvmBuilder {
 
       final StatementBuilder statements = statements(instructions);
       classLoader.defineBootstrapClassesInstruction(statements.sink());
+      InitThreadOp.initThreadInstruction(statements);
+
       final Instruction initialInstruction = statements
-         .instruction(InitThreadOp.initThreadInstruction(instructions))
          .instruction(classLoader.loadArgsInstruction(args))
          .createInvokeStatic(entryPointName).buildInstruction();
 

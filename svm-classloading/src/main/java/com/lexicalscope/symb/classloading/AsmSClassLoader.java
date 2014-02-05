@@ -67,7 +67,6 @@ public class AsmSClassLoader implements SClassLoader {
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
-
       sink.loadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp());
    }
 
