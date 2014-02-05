@@ -57,7 +57,7 @@ public class LoadingInstruction implements Vop {
                   .invokeConstructorOfClassObjects(klass.name());
             }
          }
-         ctx.advanceTo(replacementInstruction.linear(op).buildInstruction());
+         ctx.advanceTo(replacementInstruction.linearOp(op).buildInstruction());
       }
    }
 

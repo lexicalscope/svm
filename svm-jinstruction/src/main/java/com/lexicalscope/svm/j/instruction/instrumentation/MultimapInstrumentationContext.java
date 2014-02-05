@@ -1,27 +1,32 @@
 package com.lexicalscope.svm.j.instruction.instrumentation;
 
+import java.util.Map.Entry;
+
+import org.hamcrest.Matcher;
+
 import com.google.common.collect.ListMultimap;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
-import com.lexicalscope.symb.vm.j.InstructionCode;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
-public class MultimapInstrumentationContext implements InstrumentationContext {
-   private final ListMultimap<InstructionCode, Instrumentation> instrumentation;
+public class MultimapInstrumentationContext implements Instrumentation2 {
+   private final ListMultimap<Matcher<? super SMethodDescriptor>, Instrumentation> instrumentation;
+   private final InstructionSource instructions;
 
-   public MultimapInstrumentationContext(final ListMultimap<InstructionCode, Instrumentation> instrumentationMap) {
-      instrumentation = instrumentationMap;
+   public MultimapInstrumentationContext(
+         final InstructionSource instructions,
+         final ListMultimap<Matcher<? super SMethodDescriptor>, Instrumentation> instrumentation) {
+      this.instructions = instructions;
+      this.instrumentation = instrumentation;
    }
 
-   @Override
-   public void before(final InstructionCode code, final InstructionSink sink) {
-      for(final Instrumentation instrument : instrumentation.get(code)) {
-         instrument.before(code, this, sink);
+   @Override public Instruction instrument(final SMethodDescriptor method, final Instruction methodEntry) {
+      Instruction replacementMethodEntry = methodEntry;
+      for (final Entry<Matcher<? super SMethodDescriptor>, Instrumentation> entry : instrumentation.entries()) {
+         if(entry.getKey().matches(method)) {
+            replacementMethodEntry = entry.getValue().instrument(instructions, replacementMethodEntry);
+         }
       }
-   }
-
-   @Override
-   public void after(final InstructionCode code, final InstructionSink sink) {
-      for(final Instrumentation instrument : instrumentation.get(code)) {
-         instrument.after(code, this, sink);
-      }
+      return replacementMethodEntry;
    }
 }

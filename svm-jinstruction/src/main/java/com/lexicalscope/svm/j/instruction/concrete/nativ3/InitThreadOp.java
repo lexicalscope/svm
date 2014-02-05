@@ -23,7 +23,7 @@ public class InitThreadOp implements Vop {
 
    public static void initThreadInstruction(final StatementBuilder statements) {
       statements
-         .linear(new InitThreadOp())
+         .linearOp(new InitThreadOp())
          .createInvokeSpecial(defaultConstructor("java/lang/Thread"));
    }
 }

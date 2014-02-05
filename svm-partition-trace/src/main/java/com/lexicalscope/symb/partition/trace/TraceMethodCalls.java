@@ -1,13 +1,12 @@
 package com.lexicalscope.symb.partition.trace;
 
-import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 
 import org.hamcrest.Matcher;
 
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
-import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationContext;
-import com.lexicalscope.symb.vm.j.InstructionCode;
+import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.State;
 
 public class TraceMethodCalls implements Instrumentation {
@@ -17,19 +16,14 @@ public class TraceMethodCalls implements Instrumentation {
       this.matcher = matcher;
    }
 
-   public static TraceMethodCalls methodCallsAt(final Matcher<? super State> matcher) {
+   public static TraceMethodCalls methodCallsAndReturnsThatCross(final Matcher<? super State> matcher) {
       return new TraceMethodCalls(matcher);
    }
 
-   @Override public void before(
-         final InstructionCode code,
-         final InstrumentationContext context,
-         final InstructionSink sink) { }
-
-   @Override public void after(
-         final InstructionCode code,
-         final InstrumentationContext context,
-         final InstructionSink sink) {
-      sink.linearOp(new TraceMethodCallOp(matcher), synthetic);
+   @Override public Instruction instrument(final InstructionSource instructions, final Instruction methodEntry) {
+      return statements(instructions).
+            before(methodEntry).
+            linearOp(new TraceMethodCallOp(matcher)).
+            buildInstruction();
    }
 }

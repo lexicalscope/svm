@@ -12,6 +12,6 @@ public class Java_lang_system_arraycopy extends AbstractNativeMethodDef implemen
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxLocals(5).linear(new ArrayCopyOp()).returnVoid().build();
+      return statements(instructions).maxLocals(5).linearOp(new ArrayCopyOp()).returnVoid().build();
    }
 }

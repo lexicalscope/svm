@@ -16,7 +16,7 @@ public class Java_lang_float_floatToRawIntBits extends AbstractNativeMethodDef i
             .maxStack(1)
             .maxLocals(1)
             .fload(0)
-            .linear(new FloatToRawIntBits())
+            .linearOp(new FloatToRawIntBits())
             .return1()
             .build();
    }

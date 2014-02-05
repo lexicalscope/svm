@@ -12,6 +12,6 @@ public class Java_lang_double_doubleToRawLongBits extends AbstractNativeMethodDe
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(2).maxLocals(1).dload(0).linear(new DoubleToRawLongBits()).return2().build();
+      return statements(instructions).maxStack(2).maxLocals(1).dload(0).linearOp(new DoubleToRawLongBits()).return2().build();
    }
 }

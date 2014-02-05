@@ -12,6 +12,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class PartitionBuilder {
    private final Set<String> klasses = new HashSet<>();
@@ -25,11 +26,10 @@ public class PartitionBuilder {
       return this;
    }
 
-   public Matcher<? super State> build() {
+   public Matcher<? super State> dynamicExactMatcher() {
       return new TypeSafeDiagnosingMatcher<State>() {
-
          @Override public void describeTo(final Description description) {
-            description.appendText("class in ").appendValue(klasses);
+            description.appendText("(receiver in) xor (caller in) : ").appendValue(klasses);
          }
 
          @Override protected boolean matchesSafely(final State item, final Description mismatchDescription) {
@@ -46,6 +46,18 @@ public class PartitionBuilder {
 
          private SClass frameReceiver(final State item, final StackFrame previousFrame) {
             return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
+         }
+      };
+   }
+
+   public Matcher<? super SMethodDescriptor> staticOverApproximateMatcher() {
+      return new TypeSafeDiagnosingMatcher<SMethodDescriptor>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("class in: ").appendValue(klasses);
+         }
+
+         @Override protected boolean matchesSafely(final SMethodDescriptor item, final Description mismatchDescription) {
+            return klasses.contains(item.klassName());
          }
       };
    }

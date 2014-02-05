@@ -1,9 +1,8 @@
 package com.lexicalscope.svm.j.instruction.instrumentation;
 
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
-import com.lexicalscope.symb.vm.j.InstructionCode;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.symb.vm.j.Instruction;
 
 public interface Instrumentation {
-   void before(InstructionCode code, InstrumentationContext context, InstructionSink sink);
-   void after(InstructionCode code, InstrumentationContext context, InstructionSink sink);
+   Instruction instrument(InstructionSource instructions, Instruction methodEntry);
 }

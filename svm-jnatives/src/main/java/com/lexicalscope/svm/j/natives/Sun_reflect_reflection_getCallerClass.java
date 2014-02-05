@@ -12,6 +12,6 @@ public final class Sun_reflect_reflection_getCallerClass extends AbstractNativeM
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).maxLocals(1).linear(new GetCallerClass()).return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).linearOp(new GetCallerClass()).return1().build();
    }
 }

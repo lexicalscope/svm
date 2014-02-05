@@ -31,7 +31,7 @@ public class DefaultNativeMethods implements NativeMethods {
          return statements(instructions)
                .maxLocals(1)
                .maxStack(1)
-               .linear(new GetPrimitiveClass())
+               .linearOp(new GetPrimitiveClass())
                .return1()
                .build();
       }

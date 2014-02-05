@@ -15,7 +15,7 @@ public class Java_lang_class_getComponentType extends AbstractNativeMethodDef {
                .maxStack(1)
                .maxLocals(1)
                .aload(0)
-               .linear(new GetComponentClassOp())
+               .linearOp(new GetComponentClassOp())
                .return1().build();
    }
 }

@@ -1,11 +1,12 @@
 package com.lexicalscope.svm.j.statementBuilder;
 
+import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
+
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.symb.vm.j.Instruction;
-import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
@@ -136,8 +137,8 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder linear(final Vop op) {
-      sink.linearOp(op, InstructionCode.synthetic);
+   public StatementBuilder linearOp(final Vop op) {
+      sink.linearOp(op, synthetic);
       return this;
    }
 

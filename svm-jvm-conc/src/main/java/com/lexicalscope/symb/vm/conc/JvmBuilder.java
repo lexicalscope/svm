@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.vm.conc;
 
-import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.symb.stack.MethodScope.STATIC;
 import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
@@ -8,6 +7,8 @@ import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
@@ -22,7 +23,6 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionS
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder;
-import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentingInstructionSourceFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
@@ -36,7 +36,6 @@ import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.VmImpl;
 import com.lexicalscope.symb.vm.conc.checkingheap.CheckingHeapFactory;
 import com.lexicalscope.symb.vm.j.Instruction;
-import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.StateImpl;
@@ -51,7 +50,7 @@ public final class JvmBuilder {
    private InstructionSourceFactory instructionSourceFactory = new BaseInstructionSourceFactory();
    private HeapFactory heapFactory = new CheckingHeapFactory();
    private final NativeMethods natives = DefaultNativeMethods.natives();
-   private InstrumentationBuilder instrumentationBuilder = new InstrumentationBuilder();
+   private final InstrumentationBuilder instrumentationBuilder = new InstrumentationBuilder();
    private final MetaState metaState = new HashMetaState();
 
    public JvmBuilder() {
@@ -74,11 +73,8 @@ public final class JvmBuilder {
       return this;
    }
 
-   public JvmBuilder instrument(final InstructionCode instruction, final Instrumentation instrumentation) {
-      if(instrumentationBuilder == null) {
-         instrumentationBuilder = instrumentation();
-      }
-      instrumentationBuilder.instrument(instruction, instrumentation);
+   public JvmBuilder instrument(final Matcher<? super SMethodDescriptor> methodMatcher, final Instrumentation instrumentation) {
+      instrumentationBuilder.instrument(methodMatcher, instrumentation);
       return this;
    }
 
@@ -102,13 +98,8 @@ public final class JvmBuilder {
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
       final Vm<State> vm = new VmImpl<State>();
 
-      final InstructionSource instructions =
-            (instrumentationBuilder == null
-                  ? instructionSourceFactory
-                  : new InstrumentingInstructionSourceFactory(instructionSourceFactory, instrumentationBuilder.map()))
-            .instructionSource(instructionFactory);
-
-      final SClassLoader classLoader = new AsmSClassLoader(instructions, instrumentationBuilder.instrumentation2(), natives());
+      final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
+      final SClassLoader classLoader = new AsmSClassLoader(instructions, instrumentationBuilder.instrumentation2(instructions), natives());
 
       final StatementBuilder statements = statements(instructions);
       defineBootstrapClassesInstruction(statements.sink(), instructions);
