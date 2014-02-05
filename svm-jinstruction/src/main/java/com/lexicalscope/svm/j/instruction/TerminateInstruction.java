@@ -2,12 +2,12 @@ package com.lexicalscope.svm.j.instruction;
 
 import static com.lexicalscope.symb.vm.j.InstructionCode.methodexit;
 
+import java.util.Collection;
+
 import com.lexicalscope.symb.vm.TerminationException;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.State;
-
-
 
 public class TerminateInstruction implements Instruction {
    private Instruction prev;
@@ -17,7 +17,19 @@ public class TerminateInstruction implements Instruction {
       throw new TerminationException();
    }
 
-   @Override public Instruction nextIs(final Instruction instruction) {
+   @Override public Collection<Instruction> targetOf() {
+      throw new IllegalStateException("TERMINATE may not be the target of JMPs");
+   }
+
+   @Override public void targetOf(final Instruction instruction) {
+      throw new IllegalStateException("TERMINATE may not be the target of JMPs");
+   }
+
+   @Override public Instruction append(final Instruction instruction) {
+      throw new IllegalStateException("TERMINATE has no successor");
+   }
+
+   @Override public void insertNext(final Instruction nodeE) {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
@@ -59,5 +71,17 @@ public class TerminateInstruction implements Instruction {
    @Override public void prevIs(final Instruction instruction) {
       assert prev == null;
       this.prev = instruction;
+   }
+
+   @Override public Instruction prev() {
+      return prev;
+   }
+
+   @Override public void insertHere(final Instruction node) {
+      if(prev != null) {
+         prev.insertNext(node);
+      } else {
+         node.append(this);
+      }
    }
 }

@@ -1,5 +1,9 @@
 package com.lexicalscope.svm.j.instruction;
 
+import java.util.Collection;
+import java.util.LinkedList;
+import java.util.List;
+
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.State;
@@ -22,6 +26,7 @@ public class InstructionInternal implements Instruction {
 
    private final InstructionCode code;
 
+   private final List<Instruction> targetOf = new LinkedList<>();
 
    public InstructionInternal(final Vop instruction, final InstructionCode code) {
       this.instruction = instruction;
@@ -36,13 +41,14 @@ public class InstructionInternal implements Instruction {
       instruction.eval(ctx);
    }
 
-   @Override public Instruction nextIs(final Instruction instruction) {
+   @Override public Instruction append(final Instruction instruction) {
       if(next.equals(terminate)) {
          instruction.prevIs(this);
-         return next = instruction;
+         next = instruction;
       } else {
-         return next.nextIs(instruction);
+         next.append(instruction);
       }
+      return this;
    }
 
    @Override public Instruction next() {
@@ -60,6 +66,7 @@ public class InstructionInternal implements Instruction {
 
    @Override public void jmpTarget(final Instruction instruction) {
       target = instruction;
+      instruction.targetOf(this);
    }
 
    @Override public String toString() {
@@ -73,5 +80,35 @@ public class InstructionInternal implements Instruction {
    @Override public void prevIs(final Instruction instruction) {
       assert prev == null;
       prev = instruction;
+   }
+
+   @Override public void insertNext(final Instruction node) {
+      node.append(next);
+      next = node;
+      node.prevIs(this);
+   }
+
+   @Override public void insertHere(final Instruction node) {
+      if(prev != null) {
+         prev.insertNext(node);
+      } else {
+         node.append(this);
+      }
+      for (final Instruction comeFrom : targetOf) {
+         comeFrom.jmpTarget(node);
+      }
+      targetOf.clear();
+   }
+
+   @Override public Instruction prev() {
+      return prev;
+   }
+
+   @Override public Collection<Instruction> targetOf() {
+      return targetOf;
+   }
+
+   @Override public void targetOf(final Instruction instruction) {
+      targetOf.add(instruction);
    }
 }

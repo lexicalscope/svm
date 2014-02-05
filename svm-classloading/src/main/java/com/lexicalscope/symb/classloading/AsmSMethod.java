@@ -98,7 +98,7 @@ public class AsmSMethod implements SMethod {
                assert asmInstruction != null;
                linked.put(asmInstruction, node);
                if(prev[0] != null) {
-                  prev[0].nextIs(node);
+                  prev[0].append(node);
                }
                prev[0] = node;
             }

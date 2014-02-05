@@ -27,7 +27,7 @@ public final class StatementBuilder {
       this.source = source;
       sink = new AbstractInstructionSink(source) {
          @Override public void nextInstruction(final InstructionInternal node) {
-            if(next != null) {next.nextIs(node); next = node;}
+            if(next != null) {next.append(node); next = node;}
             if(first == null) {first = next = node;}
          }
       };
@@ -53,7 +53,7 @@ public final class StatementBuilder {
    }
 
    public Instruction buildInstruction() {
-      if(insertBeforeInstruction != null) { next.nextIs(insertBeforeInstruction); }
+      if(insertBeforeInstruction != null) { next.append(insertBeforeInstruction); }
       return first;
    }
 
