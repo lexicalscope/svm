@@ -36,7 +36,7 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
                final InstructionCode code = InstructionCode.valueOf(methodName());
                final Instrumentation instrumentation = map.get(code);
                if(instrumentation != null) {
-                  instrumentation.before(arg(InstructionSink.class));
+                  instrumentation.before(code, arg(InstructionSink.class));
                }
 
                final Object result = method().rebind(delegate).call(args()).value();
@@ -44,7 +44,7 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
                returnValue(proxy());
 
                if(instrumentation != null) {
-                  instrumentation.after(arg(InstructionSink.class));
+                  instrumentation.after(code, arg(InstructionSink.class));
                }
             }
          });

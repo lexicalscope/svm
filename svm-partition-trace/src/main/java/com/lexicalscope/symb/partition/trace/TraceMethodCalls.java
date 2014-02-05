@@ -3,6 +3,7 @@ package com.lexicalscope.symb.partition.trace;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
 import com.lexicalscope.symb.vm.j.State;
 
@@ -17,9 +18,9 @@ public class TraceMethodCalls implements Instrumentation {
       return new TraceMethodCalls(matcher);
    }
 
-   @Override public void before(final InstructionSink sink) { }
+   @Override public void before(final InstructionCode code, final InstructionSink sink) { }
 
-   @Override public void after(final InstructionSink sink) {
+   @Override public void after(final InstructionCode code, final InstructionSink sink) {
       sink.linearOp(new TraceMethodCallOp(matcher));
    }
 }

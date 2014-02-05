@@ -40,9 +40,9 @@ public class TestInstrumentingInstructionSource {
       context.checking(new Expectations(){{
          allowing(delegateInstructionSourceFactory).instructionSource(null); will(returnValue(delegateInstructionSource));
 
-         oneOf(instrumentation).before(sink);
+         oneOf(instrumentation).before(invokevirtual, sink);
          oneOf(delegateInstructionSource).invokevirtual(null, sink); will(returnValue(delegateInstructionSource));
-         oneOf(instrumentation).after(sink);
+         oneOf(instrumentation).after(invokevirtual, sink);
       }});
 
       final InstructionSource instructionSource =
