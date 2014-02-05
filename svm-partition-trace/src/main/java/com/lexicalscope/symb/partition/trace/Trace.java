@@ -56,9 +56,13 @@ public class Trace implements Iterable<Trace> {
       if(previous == null) {
          return "";
       } else if (previous.previous != null) {
-         return String.format("%s, %s", previous, method);
+         return String.format("%s, %s", previous, describe());
       } else {
-         return String.format("%s", method);
+         return describe();
       }
+   }
+
+   private String describe() {
+      return String.format("[%s]%s", callReturn, method);
    }
 }

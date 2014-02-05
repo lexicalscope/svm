@@ -78,7 +78,6 @@ public class InstructionInternal implements Instruction {
    }
 
    @Override public void prevIs(final Instruction instruction) {
-      assert prev == null;
       prev = instruction;
    }
 

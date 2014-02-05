@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.partition.trace;
 
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+import static com.lexicalscope.symb.partition.trace.Trace.CallReturn.*;
 
 import org.hamcrest.Matcher;
 
@@ -24,21 +25,24 @@ public class TraceMethodCalls implements Instrumentor {
       return instrumentMethodReturn(instructions, instrumentMethodCall(instructions, methodEntry));
    }
 
+   private Instruction instrumentMethodCall(final InstructionSource instructions, final Instruction methodEntry) {
+      return statements(instructions).
+            before(methodEntry).
+            linearOp(new TraceMethodCallOp(matcher, CALL)).
+            buildInstruction();
+   }
+
    private Instruction instrumentMethodReturn(final InstructionSource instructions, final Instruction methodEntry) {
       Instruction cur = methodEntry;
       while(!cur.code().isMethodExit()) {
          if(cur.code().isReturn()) {
-            // TODO
+            cur.insertHere(
+                  statements(instructions).
+                  linearOp(new TraceMethodCallOp(matcher, RETURN)).
+                  buildInstruction());
          }
          cur = cur.next();
       }
       return methodEntry;
-   }
-
-   private Instruction instrumentMethodCall(final InstructionSource instructions, final Instruction methodEntry) {
-      return statements(instructions).
-            before(methodEntry).
-            linearOp(new TraceMethodCallOp(matcher)).
-            buildInstruction();
    }
 }

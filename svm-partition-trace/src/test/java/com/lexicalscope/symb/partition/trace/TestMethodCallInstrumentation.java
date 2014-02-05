@@ -9,7 +9,6 @@ import static com.lexicalscope.symb.vm.conc.JvmBuilder.jvm;
 import static com.lexicalscope.symb.vm.j.JavaConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -40,7 +39,7 @@ public class TestMethodCallInstrumentation {
       new ClassOutSidePartition().entry();
    }
 
-   @Test @Ignore public void collectVirtualMethodInTrace() throws Exception {
+   @Test public void collectVirtualMethodInTrace() throws Exception {
       vm.execute();
 
       assertThat(
