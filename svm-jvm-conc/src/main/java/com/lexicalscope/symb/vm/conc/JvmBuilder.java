@@ -11,6 +11,7 @@ import java.util.List;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp;
+import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
@@ -109,7 +110,7 @@ public final class JvmBuilder {
       final SClassLoader classLoader = new AsmSClassLoader(instructions, natives());
 
       final StatementBuilder statements = statements(instructions);
-      defineBootstrapClassesInstruction(statements.sink());
+      defineBootstrapClassesInstruction(statements.sink(), instructions);
       InitThreadOp.initThreadInstruction(statements);
       loadArgsInstruction(statements, args);
 
@@ -127,12 +128,12 @@ public final class JvmBuilder {
       }
    }
 
-   private void defineBootstrapClassesInstruction(final InstructionSink sink) {
+   private void defineBootstrapClassesInstruction(final InstructionSink sink, final InstructionSource instructions) {
       final List<String> bootstrapClasses = new ArrayList<>();
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
-      sink.loadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp());
+      sink.nextOp(new LoadingInstruction(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp(), instructions));
    }
 
    public <T> JvmBuilder meta(final MetaKey<T> key, final T initialMeta) {

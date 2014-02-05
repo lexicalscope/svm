@@ -1,7 +1,5 @@
 package com.lexicalscope.svm.j.statementBuilder;
 
-import java.util.List;
-
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
@@ -151,11 +149,6 @@ public final class StatementBuilder {
    public StatementBuilder op(final Vop op) {
       assert !(op instanceof Instruction);
       sink.nextOp(op);
-      return this;
-   }
-
-   public StatementBuilder loading(final List<String> classes, final Vop op) {
-      sink.loadingOp(classes, op);
       return this;
    }
 
