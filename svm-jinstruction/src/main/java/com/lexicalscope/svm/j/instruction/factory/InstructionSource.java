@@ -6,13 +6,14 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
+import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface InstructionSource {
    public interface InstructionSink {
-      void linearOp(Vop op);
-      void nextOp(Vop op);
+      void linearOp(Vop op, InstructionCode code);
+      void nextOp(Vop op, InstructionCode code);
       void noOp();
    }
 

@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.synthetic;
+
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.AbstractInsnNode;
@@ -263,7 +265,7 @@ public class InstructionSwitch {
             break;
       }
 
-      sink.nextOp(new UnsupportedInstruction(abstractInsnNode));
+      sink.nextOp(new UnsupportedInstruction(abstractInsnNode), synthetic);
       return s;
    }
 }

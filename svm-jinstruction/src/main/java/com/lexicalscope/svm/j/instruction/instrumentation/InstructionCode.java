@@ -7,6 +7,7 @@ import java.util.Set;
 
 public enum InstructionCode {
    methodentry,
+   synthetic,
 
    load,
    load2,

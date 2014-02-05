@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.vm.conc;
 
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.synthetic;
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.symb.stack.MethodScope.STATIC;
@@ -133,7 +134,7 @@ public final class JvmBuilder {
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
-      sink.nextOp(new LoadingInstruction(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp(), instructions));
+      sink.nextOp(new LoadingInstruction(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp(), instructions), synthetic);
    }
 
    public <T> JvmBuilder meta(final MetaKey<T> key, final T initialMeta) {

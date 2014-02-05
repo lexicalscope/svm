@@ -1,5 +1,7 @@
 package com.lexicalscope.symb.partition.trace;
 
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.synthetic;
+
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
@@ -28,6 +30,6 @@ public class TraceMethodCalls implements Instrumentation {
          final InstructionCode code,
          final InstrumentationContext context,
          final InstructionSink sink) {
-      sink.linearOp(new TraceMethodCallOp(matcher));
+      sink.linearOp(new TraceMethodCallOp(matcher), synthetic);
    }
 }

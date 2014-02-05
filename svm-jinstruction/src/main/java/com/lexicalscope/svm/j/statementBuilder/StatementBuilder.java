@@ -1,10 +1,10 @@
 package com.lexicalscope.svm.j.statementBuilder;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
-import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -111,11 +111,6 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder nop() {
-      sink.linearOp(new NoOp());
-      return this;
-   }
-
    public StatementBuilder invokeInterface(final String klassName, final String methodName, final String desc) {
       source.invokeinterface(new AsmSMethodName(klassName, methodName, desc), sink);
       return this;
@@ -142,13 +137,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder linear(final Vop op) {
-      sink.linearOp(op);
-      return this;
-   }
-
-   public StatementBuilder op(final Vop op) {
-      assert !(op instanceof Instruction);
-      sink.nextOp(op);
+      sink.linearOp(op, InstructionCode.synthetic);
       return this;
    }
 
