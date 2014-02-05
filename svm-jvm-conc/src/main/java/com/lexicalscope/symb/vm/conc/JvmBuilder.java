@@ -10,6 +10,7 @@ import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentingInstructionSourceFactory;
@@ -62,7 +63,7 @@ public final class JvmBuilder {
       return this;
    }
 
-   public JvmBuilder instrument(final String instruction, final Instrumentation instrumentation) {
+   public JvmBuilder instrument(final InstructionCode instruction, final Instrumentation instrumentation) {
       if(instrumentationBuilder == null) {
          instrumentationBuilder = instrumentation();
       }

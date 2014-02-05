@@ -34,14 +34,14 @@ public interface InstructionSource {
    InstructionSource store(int var, InstructionSink sink);
    InstructionSource store2(int var, InstructionSink sink);
 
-   InstructionSource putField(FieldInsnNode fieldInsnNode, InstructionSink sink);
-   InstructionSource getField(FieldInsnNode fieldInsnNode, InstructionSink sink);
-   InstructionSource getStaticField(FieldInsnNode fieldInsnNode, InstructionSink sink);
-   InstructionSource putStaticField(FieldInsnNode fieldInsnNode, InstructionSink sink);
+   InstructionSource putfield(FieldInsnNode fieldInsnNode, InstructionSink sink);
+   InstructionSource getfield(FieldInsnNode fieldInsnNode, InstructionSink sink);
+   InstructionSource getstaticfield(FieldInsnNode fieldInsnNode, InstructionSink sink);
+   InstructionSource putstaticfield(FieldInsnNode fieldInsnNode, InstructionSink sink);
 
    InstructionSource aconst_null(InstructionSink sink);
 
-   InstructionSource returnVoid(InstructionSink sink);
+   InstructionSource returnvoid(InstructionSink sink);
    InstructionSource return1(InstructionSink sink);
    InstructionSource return2(InstructionSink sink);
 
@@ -104,22 +104,22 @@ public interface InstructionSource {
    InstructionSource newarray(int val, InstructionSink sink);
    InstructionSource anewarray(InstructionSink sink);
    InstructionSource reflectionnewarray(InstructionSink sink);
-   InstructionSource caStore(InstructionSink sink);
-   InstructionSource iaStore(InstructionSink sink);
-   InstructionSource aaStore(InstructionSink sink);
+   InstructionSource castore(InstructionSink sink);
+   InstructionSource iastore(InstructionSink sink);
+   InstructionSource aastore(InstructionSink sink);
    InstructionSource caload(InstructionSink sink);
    InstructionSource iaload(InstructionSink sink);
    InstructionSource aaload(InstructionSink sink);
-   InstructionSource arrayLength(InstructionSink sink);
+   InstructionSource arraylength(InstructionSink sink);
 
-   InstructionSource ldcInt(int cst, InstructionSink sink);
-   InstructionSource ldcLong(long cst, InstructionSink sink);
-   InstructionSource ldcFloat(float cst, InstructionSink sink);
-   InstructionSource ldcDouble(double cst, InstructionSink sink);
-   InstructionSource stringPoolLoad(String cst, InstructionSink sink);
-   InstructionSource objectPoolLoad(Type toLoad, InstructionSink sink);
+   InstructionSource ldcint(int cst, InstructionSink sink);
+   InstructionSource ldclong(long cst, InstructionSink sink);
+   InstructionSource ldcfloat(float cst, InstructionSink sink);
+   InstructionSource ldcdouble(double cst, InstructionSink sink);
+   InstructionSource stringpoolload(String cst, InstructionSink sink);
+   InstructionSource objectpoolload(Type toLoad, InstructionSink sink);
 
-   InstructionSource newObject(String desc, InstructionSink sink);
+   InstructionSource newobject(String desc, InstructionSink sink);
    InstructionSource instance0f(TypeInsnNode typeInsnNode, InstructionSink sink);
    InstructionSource checkcast(TypeInsnNode typeInsnNode, InstructionSink sink);
    InstructionSource ifnull(JumpInsnNode jumpInsnNode, InstructionSink sink);
@@ -136,12 +136,12 @@ public interface InstructionSource {
     * The JVM is responsible for creating class objects (that is objects that represent the
     * class of other objects).
     */
-   InstructionSource invokeConstructorOfClassObjects(String klassName, InstructionSink sink);
+   InstructionSource invokeconstructorofclassobjects(String klassName, InstructionSink sink);
 
    /**
     * Instruction for loading the initial arguments that we will pass to the entry point
     */
-   InstructionSource loadArg(Object object, InstructionSink sink);
+   InstructionSource loadarg(Object object, InstructionSink sink);
 
    /**
     * The initial value of fields of the given type

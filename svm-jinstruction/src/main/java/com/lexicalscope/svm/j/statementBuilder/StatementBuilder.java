@@ -57,7 +57,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder newObject(final String klassDesc) {
-      source.newObject(klassDesc, sink);
+      source.newobject(klassDesc, sink);
       return this;
    }
 
@@ -92,7 +92,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder returnVoid() {
-      source.returnVoid(sink);
+      source.returnvoid(sink);
       return this;
    }
 
@@ -122,7 +122,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder loadArg(final Object object) {
-      source.loadArg(object, sink);
+      source.loadarg(object, sink);
       return this;
    }
 
@@ -137,7 +137,7 @@ public final class StatementBuilder {
    }
 
    public StatementBuilder invokeConstructorOfClassObjects(final String klassName) {
-      source.invokeConstructorOfClassObjects(klassName, sink);
+      source.invokeconstructorofclassobjects(klassName, sink);
       return this;
    }
 

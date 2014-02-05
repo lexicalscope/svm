@@ -47,13 +47,13 @@ public class InstructionSwitch {
             final FieldInsnNode fieldInsnNode = (FieldInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.PUTFIELD:
-                  return s.putField(fieldInsnNode, sink);
+                  return s.putfield(fieldInsnNode, sink);
                case Opcodes.GETFIELD:
-                  return s.getField(fieldInsnNode, sink);
+                  return s.getfield(fieldInsnNode, sink);
                case Opcodes.GETSTATIC:
-                  return s.getStaticField(fieldInsnNode, sink);
+                  return s.getstaticfield(fieldInsnNode, sink);
                case Opcodes.PUTSTATIC:
-                  return s.putStaticField(fieldInsnNode, sink);
+                  return s.putstaticfield(fieldInsnNode, sink);
             }
             break;
          case AbstractInsnNode.INSN:
@@ -62,7 +62,7 @@ public class InstructionSwitch {
                case Opcodes.ACONST_NULL:
                   return s.aconst_null(sink);
                case Opcodes.RETURN:
-                  return s.returnVoid(sink);
+                  return s.returnvoid(sink);
                case Opcodes.IRETURN:
                   return s.return1(sink);
                case Opcodes.FRETURN:
@@ -112,11 +112,11 @@ public class InstructionSwitch {
                case Opcodes.FCONST_0:
                   return s.fconst_0(sink);
                case Opcodes.CASTORE:
-                  return s.caStore(sink);
+                  return s.castore(sink);
                case Opcodes.IASTORE:
-                  return s.iaStore(sink);
+                  return s.iastore(sink);
                case Opcodes.AASTORE:
-                  return s.aaStore(sink);
+                  return s.aastore(sink);
                case Opcodes.CALOAD:
                   return s.caload(sink);
                case Opcodes.IALOAD:
@@ -124,7 +124,7 @@ public class InstructionSwitch {
                case Opcodes.AALOAD:
                   return s.aaload(sink);
                case Opcodes.ARRAYLENGTH:
-                  return s.arrayLength(sink);
+                  return s.arraylength(sink);
                case Opcodes.ISHL:
                   return s.ishl(sink);
                case Opcodes.ISHR:
@@ -160,19 +160,19 @@ public class InstructionSwitch {
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.LDC:
                   if(ldcInsnNode.cst instanceof Integer) {
-                     return s.ldcInt((int) ldcInsnNode.cst, sink);
+                     return s.ldcint((int) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Long) {
-                     return s.ldcLong((long) ldcInsnNode.cst, sink);
+                     return s.ldclong((long) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Float) {
-                     return s.ldcFloat((float) ldcInsnNode.cst, sink);
+                     return s.ldcfloat((float) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Double) {
-                     return s.ldcDouble((double) ldcInsnNode.cst, sink);
+                     return s.ldcdouble((double) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof String) {
-                     return s.stringPoolLoad((String) ldcInsnNode.cst, sink);
+                     return s.stringpoolload((String) ldcInsnNode.cst, sink);
                   } else if(ldcInsnNode.cst instanceof Type) {
                      final Type toLoad = (Type) ldcInsnNode.cst;
                      if(toLoad.getSort() == Type.OBJECT || toLoad.getSort() == Type.ARRAY) {
-                        return s.objectPoolLoad(toLoad,  sink);
+                        return s.objectpoolload(toLoad,  sink);
                      }
                   }
                   // System.out.println("!!!!!!!! " + ldcInsnNode.cst + " " + ldcInsnNode.cst.getClass());
@@ -201,7 +201,7 @@ public class InstructionSwitch {
             final TypeInsnNode typeInsnNode = (TypeInsnNode) abstractInsnNode;
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.NEW:
-                  return s.newObject(typeInsnNode.desc, sink);
+                  return s.newobject(typeInsnNode.desc, sink);
                case Opcodes.ANEWARRAY:
                   return s.anewarray(sink);
                case Opcodes.INSTANCEOF:

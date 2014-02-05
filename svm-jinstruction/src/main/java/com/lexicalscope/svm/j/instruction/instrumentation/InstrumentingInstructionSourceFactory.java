@@ -14,9 +14,9 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 
 public class InstrumentingInstructionSourceFactory implements InstructionSourceFactory {
    private final InstructionSourceFactory delegateFactory;
-   private final Map<String, Instrumentation> map;
+   private final Map<InstructionCode, Instrumentation> map;
 
-   public InstrumentingInstructionSourceFactory(final InstructionSourceFactory delegate, final Map<String, Instrumentation> map) {
+   public InstrumentingInstructionSourceFactory(final InstructionSourceFactory delegate, final Map<InstructionCode, Instrumentation> map) {
       this.delegateFactory = delegate;
       this.map = map;
    }
@@ -27,17 +27,22 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
          whenProxying(anything()).execute(new MethodBody() {
 
             @Override public void body() throws Throwable {
-               final String methodName = methodName();
-               final Instrumentation instrumentation = map.get(methodName);
+               switch (methodName()) {
+                  case "initialFieldValue":
+                     returnValue(method().rebind(delegate).call(args()).value());
+                     return;
+               }
+
+               final InstructionCode code = InstructionCode.valueOf(methodName());
+               final Instrumentation instrumentation = map.get(code);
                if(instrumentation != null) {
                   instrumentation.before(arg(InstructionSink.class));
                }
+
                final Object result = method().rebind(delegate).call(args()).value();
-               if(result == delegate) {
-                  returnValue(proxy());
-               } else {
-                  returnValue(result);
-               }
+               assert result == delegate;
+               returnValue(proxy());
+
                if(instrumentation != null) {
                   instrumentation.after(arg(InstructionSink.class));
                }

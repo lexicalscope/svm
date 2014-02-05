@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.partition.trace;
 
 import static com.lexicalscope.MatchersAdditional.has;
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.methodentry;
 import static com.lexicalscope.symb.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.symb.partition.trace.TraceMatchers.methodCallOf;
 import static com.lexicalscope.symb.partition.trace.TraceMetaKey.TRACE;
@@ -18,7 +19,7 @@ import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 
 public class TestMethodCallInstrumentation {
    @Rule public final VmRule vm = new VmRule(
-         jvm().instrument("methodentry",
+         jvm().instrument(methodentry,
                   methodCallsAt(
                         partition().ofClass(ClassWithVirtualMethod.class).build())).
                 //followedBy(Matchers.startsWith("return"), methodReturn()).

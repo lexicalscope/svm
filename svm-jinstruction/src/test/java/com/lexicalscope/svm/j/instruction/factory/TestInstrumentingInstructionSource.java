@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
 
+import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.invokevirtual;
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.sameInstance;
@@ -45,7 +46,7 @@ public class TestInstrumentingInstructionSource {
       }});
 
       final InstructionSource instructionSource =
-            new InstrumentingInstructionSourceFactory(delegateInstructionSourceFactory, instrumentation().instrument("invokevirtual", instrumentation).map()).
+            new InstrumentingInstructionSourceFactory(delegateInstructionSourceFactory, instrumentation().instrument(invokevirtual, instrumentation).map()).
                instructionSource(null);
 
       assertThat(instructionSource.invokevirtual(null, sink), sameInstance(instructionSource));

@@ -90,7 +90,7 @@ public class BaseInstructionSource implements InstructionSource {
       return this;
    }
 
-   @Override public InstructionSource invokeConstructorOfClassObjects(final String klassName, final InstructionSource.InstructionSink sink) {
+   @Override public InstructionSource invokeconstructorofclassobjects(final String klassName, final InstructionSource.InstructionSink sink) {
       MethodCallInstruction.invokeConstructorOfClassObjects(klassName, sink);
       return this;
    }
@@ -254,22 +254,22 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override
-   public InstructionSource ldcDouble(final double val, final InstructionSource.InstructionSink sink) {
+   public InstructionSource ldcdouble(final double val, final InstructionSource.InstructionSink sink) {
       return linearInstruction(nullary2(instructionFactory.dconst(val)), sink);
    }
 
    @Override
-   public InstructionSource ldcFloat(final float val, final InstructionSource.InstructionSink sink) {
+   public InstructionSource ldcfloat(final float val, final InstructionSource.InstructionSink sink) {
       return linearInstruction(fconst(val), sink);
    }
 
    @Override
-   public InstructionSource ldcLong(final long val, final InstructionSource.InstructionSink sink) {
+   public InstructionSource ldclong(final long val, final InstructionSource.InstructionSink sink) {
       return lconst(val, sink);
    }
 
    @Override
-   public InstructionSource ldcInt(final int val, final InstructionSource.InstructionSink sink) {
+   public InstructionSource ldcint(final int val, final InstructionSource.InstructionSink sink) {
       return iconst(val, sink);
    }
 
@@ -344,7 +344,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override
-   public InstructionSource arrayLength(final InstructionSource.InstructionSink sink) {
+   public InstructionSource arraylength(final InstructionSource.InstructionSink sink) {
       return linearInstruction(new ArrayLengthOp(), sink);
    }
 
@@ -364,17 +364,17 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override
-   public InstructionSource aaStore(final InstructionSource.InstructionSink sink) {
+   public InstructionSource aastore(final InstructionSource.InstructionSink sink) {
       return linearInstruction(instructionFactory.aaStore(), sink);
    }
 
    @Override
-   public InstructionSource iaStore(final InstructionSource.InstructionSink sink) {
+   public InstructionSource iastore(final InstructionSource.InstructionSink sink) {
       return linearInstruction(instructionFactory.iaStore(), sink);
    }
 
    @Override
-   public InstructionSource caStore(final InstructionSource.InstructionSink sink) {
+   public InstructionSource castore(final InstructionSource.InstructionSink sink) {
       return linearInstruction(ArrayStoreOp.caStore(), sink);
    }
 
@@ -473,22 +473,22 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override
-   public InstructionSource putStaticField(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
+   public InstructionSource putstaticfield(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
       return loadingInstruction(fieldInsnNode.owner, new PutStaticOp(fieldInsnNode), sink);
    }
 
    @Override
-   public InstructionSource getStaticField(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
+   public InstructionSource getstaticfield(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
       return loadingInstruction(fieldInsnNode.owner, new GetStaticOp(fieldInsnNode), sink);
    }
 
    @Override
-   public InstructionSource getField(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
+   public InstructionSource getfield(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
       return linearInstruction(instructionFactory.getField(fieldInsnNode), sink);
    }
 
    @Override
-   public InstructionSource putField(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
+   public InstructionSource putfield(final FieldInsnNode fieldInsnNode, final InstructionSource.InstructionSink sink) {
       return linearInstruction(instructionFactory.putField(fieldInsnNode), sink);
    }
 
@@ -517,11 +517,11 @@ public class BaseInstructionSource implements InstructionSource {
       return linearInstruction(fconst(0), sink);
    }
 
-   @Override public InstructionSource stringPoolLoad(final String constVal, final InstructionSource.InstructionSink sink) {
+   @Override public InstructionSource stringpoolload(final String constVal, final InstructionSource.InstructionSink sink) {
       return linearInstruction(new StringPoolLoadOperator(constVal), sink);
    }
 
-   @Override public InstructionSource objectPoolLoad(final Type constVal, final InstructionSource.InstructionSink sink) {
+   @Override public InstructionSource objectpoolload(final Type constVal, final InstructionSource.InstructionSink sink) {
       return linearInstruction(new ObjectPoolLoad(constVal), sink);
    }
 
@@ -533,7 +533,7 @@ public class BaseInstructionSource implements InstructionSource {
       return linearInstruction(new Load2(index), sink);
    }
 
-   @Override public InstructionSource returnVoid(final InstructionSource.InstructionSink sink) {
+   @Override public InstructionSource returnvoid(final InstructionSource.InstructionSink sink) {
       sink.nextOp(new ReturnInstruction(0));
       return this;
    }
@@ -548,7 +548,7 @@ public class BaseInstructionSource implements InstructionSource {
       return this;
    }
 
-   @Override public InstructionSource newObject(final String klassDesc, final InstructionSource.InstructionSink sink) {
+   @Override public InstructionSource newobject(final String klassDesc, final InstructionSource.InstructionSink sink) {
       return loadingInstruction(klassDesc, new VopAdapter(new NewObjectOp(klassDesc)), sink);
    }
 
@@ -591,7 +591,7 @@ public class BaseInstructionSource implements InstructionSource {
       return new Nullary2Op(nullary);
    }
 
-   @Override public InstructionSource loadArg(final Object object, final InstructionSink sink) {
+   @Override public InstructionSource loadarg(final Object object, final InstructionSink sink) {
       sink.nextOp(instructionFactory.loadArg(object, this));
       return this;
    }
