@@ -16,10 +16,12 @@ public class InstructionInternal implements Instruction {
    private static TerminateInstruction terminate = new TerminateInstruction();
 
    private final Vop instruction;
+   private Instruction prev;
    private Instruction next;
    private Instruction target;
 
    private final InstructionCode code;
+
 
    public InstructionInternal(final Vop instruction, final InstructionCode code) {
       this.instruction = instruction;
@@ -36,6 +38,7 @@ public class InstructionInternal implements Instruction {
 
    @Override public Instruction nextIs(final Instruction instruction) {
       if(next.equals(terminate)) {
+         instruction.prevIs(this);
          return next = instruction;
       } else {
          return next.nextIs(instruction);
@@ -65,5 +68,10 @@ public class InstructionInternal implements Instruction {
 
    @Override public InstructionCode code() {
       return code;
+   }
+
+   @Override public void prevIs(final Instruction instruction) {
+      assert prev == null;
+      prev = instruction;
    }
 }

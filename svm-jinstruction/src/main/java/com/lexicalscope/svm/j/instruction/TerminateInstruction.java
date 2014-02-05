@@ -10,6 +10,8 @@ import com.lexicalscope.symb.vm.j.State;
 
 
 public class TerminateInstruction implements Instruction {
+   private Instruction prev;
+
    @Override public void eval(final State ctx) {
       // TODO[tim]: demeter
       throw new TerminationException();
@@ -52,5 +54,10 @@ public class TerminateInstruction implements Instruction {
 
    @Override public InstructionCode code() {
       return methodexit;
+   }
+
+   @Override public void prevIs(final Instruction instruction) {
+      assert prev == null;
+      this.prev = instruction;
    }
 }

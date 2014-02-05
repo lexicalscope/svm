@@ -21,7 +21,7 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
-import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
+import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
@@ -73,7 +73,7 @@ public final class JvmBuilder {
       return this;
    }
 
-   public JvmBuilder instrument(final Matcher<? super SMethodDescriptor> methodMatcher, final Instrumentation instrumentation) {
+   public JvmBuilder instrument(final Matcher<? super SMethodDescriptor> methodMatcher, final Instrumentor instrumentation) {
       instrumentationBuilder.instrument(methodMatcher, instrumentation);
       return this;
    }
@@ -99,7 +99,7 @@ public final class JvmBuilder {
       final Vm<State> vm = new VmImpl<State>();
 
       final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
-      final SClassLoader classLoader = new AsmSClassLoader(instructions, instrumentationBuilder.instrumentation2(instructions), natives());
+      final SClassLoader classLoader = new AsmSClassLoader(instructions, instrumentationBuilder.instrumentation(instructions), natives());
 
       final StatementBuilder statements = statements(instructions);
       defineBootstrapClassesInstruction(statements.sink(), instructions);

@@ -122,4 +122,7 @@ public enum InstructionCode {
    loadarg;
 
    public static final Set<InstructionCode> returns = EnumSet.of(return1, return2, returnvoid);
+
+   public boolean isReturn() { return returns.contains(this); }
+   public boolean isMethodExit() { return this.equals(methodexit); }
 }

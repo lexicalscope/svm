@@ -11,10 +11,12 @@ public interface Instruction {
 
    Instruction nextIs(Instruction instruction);
    void jmpTarget(Instruction instruction);
+   void prevIs(Instruction instruction);
 
    boolean hasNext();
    Instruction next();
    Instruction jmpTarget();
 
    InstructionCode code();
+
 }

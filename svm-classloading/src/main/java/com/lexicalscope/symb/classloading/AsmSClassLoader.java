@@ -6,7 +6,7 @@ import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation2;
+import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
 import com.lexicalscope.svm.j.instruction.instrumentation.NullInstrumentation2;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
@@ -19,11 +19,11 @@ public class AsmSClassLoader implements SClassLoader {
    private final InstructionSource instructions;
    private final ByteCodeReader byteCodeReader;
    private final NativeMethods natives;
-   private final Instrumentation2 instrumentation;
+   private final Instrumentation instrumentation;
 
    public AsmSClassLoader(
          final InstructionSource instructionSource,
-         final Instrumentation2 instrumentation,
+         final Instrumentation instrumentation,
          final NativeMethods natives) {
       this.instrumentation = instrumentation;
       this.natives = natives;
