@@ -1,7 +1,5 @@
 package com.lexicalscope.symb.classloading;
 
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
-import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -21,7 +19,4 @@ public interface SClassLoader {
    SClass load(Class<?> klass);
 
    MethodBody resolveNative(SMethodDescriptor methodName);
-
-   void defineBootstrapClassesInstruction(InstructionSink sink);
-   Instruction loadArgsInstruction(Object[] args);
 }

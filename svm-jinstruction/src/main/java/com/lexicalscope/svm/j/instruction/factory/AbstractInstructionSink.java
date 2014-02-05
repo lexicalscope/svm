@@ -17,7 +17,7 @@ public abstract class AbstractInstructionSink implements InstructionSource.Instr
       this.source = source;
    }
 
-   @Override public void nextOp(final Vop op) {
+   @Override public final void nextOp(final Vop op) {
       assert !(op instanceof Instruction);
       nextInstruction(new InstructionInternal(op));
    }
@@ -27,13 +27,16 @@ public abstract class AbstractInstructionSink implements InstructionSource.Instr
       nextOp(new LinearInstruction(node));
    }
 
-   @Override public void loadingOp(final List<String> classes, final Vop op) {
+   @Override public final void loadingOp(final List<String> classes, final Vop op) {
       nextOp(new LoadingInstruction(classes, op, source));
    }
 
-   @Override public void loadingOp(final Op<List<SClass>> loader, final Vop op) {
+   @Override public final void loadingOp(final Op<List<SClass>> loader, final Vop op) {
       nextOp(new LoadingInstruction(loader, op, source));
    }
 
    @Override public void noOp() { }
+
+
+   protected abstract void nextInstruction(Instruction node);
 }

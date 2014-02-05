@@ -153,11 +153,6 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder instruction(final Instruction node) {
-      sink.nextInstruction(node);
-      return this;
-   }
-
    public StatementBuilder loading(final List<String> classes, final Vop op) {
       sink.loadingOp(classes, op);
       return this;

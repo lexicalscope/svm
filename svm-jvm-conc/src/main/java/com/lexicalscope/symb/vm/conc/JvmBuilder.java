@@ -3,12 +3,20 @@ package com.lexicalscope.symb.vm.conc;
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.symb.stack.MethodScope.STATIC;
+import static org.objectweb.asm.Type.getInternalName;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import com.lexicalscope.svm.j.instruction.NoOp;
+import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
+import com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp;
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.InitThreadOp;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
@@ -101,17 +109,30 @@ public final class JvmBuilder {
       final SClassLoader classLoader = new AsmSClassLoader(instructions, natives());
 
       final StatementBuilder statements = statements(instructions);
-      classLoader.defineBootstrapClassesInstruction(statements.sink());
+      defineBootstrapClassesInstruction(statements.sink());
       InitThreadOp.initThreadInstruction(statements);
+      loadArgsInstruction(statements, args);
 
-      final Instruction initialInstruction = statements
-         .instruction(classLoader.loadArgsInstruction(args))
-         .createInvokeStatic(entryPointName).buildInstruction();
+      final Instruction initialInstruction = statements.createInvokeStatic(entryPointName).buildInstruction();
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
       vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState));
       return vm;
+   }
+
+   private void loadArgsInstruction(final StatementBuilder statements, final Object[] args) {
+      for (final Object object : args) {
+         statements.loadArg(object);
+      }
+   }
+
+   private void defineBootstrapClassesInstruction(final InstructionSink sink) {
+      final List<String> bootstrapClasses = new ArrayList<>();
+      bootstrapClasses.add(getInternalName(Class.class));
+      bootstrapClasses.add(getInternalName(String.class));
+      bootstrapClasses.add(getInternalName(Thread.class));
+      sink.loadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp());
    }
 
    public <T> JvmBuilder meta(final MetaKey<T> key, final T initialMeta) {
