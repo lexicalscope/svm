@@ -17,11 +17,11 @@ import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpLOperator;
 import com.lexicalscope.svm.j.instruction.concrete.integer.I2FOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.I2LOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IincOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IorOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IshlOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IshrOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IushrOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOp;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IorOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IshlOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IshrOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IushrOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOperator;
 import com.lexicalscope.svm.j.instruction.concrete.klass.CheckCastOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.InstanceOfOp;
@@ -52,7 +52,6 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
 import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.VopAdapter;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class BaseInstructionSource implements InstructionSource {
@@ -321,27 +320,27 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource ixor(final InstructionSource.InstructionSink sink) {
-      return linearInstruction(new IxorOp(), sink);
+      return binaryOp(new IxorOperator(), sink);
    }
 
    @Override
    public InstructionSource ior(final InstructionSource.InstructionSink sink) {
-      return linearInstruction(new IorOp(), sink);
+      return binaryOp(new IorOperator(), sink);
    }
 
    @Override
    public InstructionSource iushr(final InstructionSource.InstructionSink sink) {
-      return linearInstruction(new IushrOp(), sink);
+      return binaryOp(new IushrOperator(), sink);
    }
 
    @Override
    public InstructionSource ishr(final InstructionSource.InstructionSink sink) {
-      return linearInstruction(new IshrOp(), sink);
+      return binaryOp(new IshrOperator(), sink);
    }
 
    @Override
    public InstructionSource ishl(final InstructionSource.InstructionSink sink) {
-      return linearInstruction(new IshlOp(), sink);
+      return binaryOp(new IshlOperator(), sink);
    }
 
    @Override

@@ -35,12 +35,12 @@ import com.lexicalscope.svm.j.instruction.concrete.fl0at.FConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FDivOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FMulOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FSubOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IAddOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IAndOp;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IAddOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IAndOperator;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IConstOperator;
-import com.lexicalscope.svm.j.instruction.concrete.integer.IMulOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.INegOp;
-import com.lexicalscope.svm.j.instruction.concrete.integer.ISubOp;
+import com.lexicalscope.svm.j.instruction.concrete.integer.IMulOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.INegOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.ISubOperator;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LAndOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.object.ConcFieldConversionFactory;
@@ -55,12 +55,12 @@ import com.lexicalscope.symb.vm.j.Vop;
 
 public class ConcInstructionFactory implements InstructionFactory {
    @Override public BinaryOperator iaddOperation() {
-      return new IAddOp();
+      return new IAddOperator();
    }
 
    @Override
    public BinaryOperator imulOperation() {
-      return new IMulOp();
+      return new IMulOperator();
    }
 
    @Override
@@ -85,16 +85,16 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override
    public BinaryOperator isubOperation() {
-      return new ISubOp();
+      return new ISubOperator();
    }
 
    @Override
    public UnaryOperator inegOperation() {
-      return new INegOp();
+      return new INegOperator();
    }
 
    @Override public BinaryOperator iandOperation() {
-      return new IAndOp();
+      return new IAndOperator();
    }
 
    @Override public Binary2Operator landOperation() {

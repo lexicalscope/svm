@@ -1,4 +1,8 @@
-package com.lexicalscope.symb.vm.j;
+package com.lexicalscope.svm.j.instruction.factory;
+
+import com.lexicalscope.symb.vm.j.Op;
+import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.Vop;
 
 
 public class VopAdapter implements Vop {

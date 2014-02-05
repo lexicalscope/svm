@@ -4,7 +4,7 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 
 
 
-public class INegOp implements UnaryOperator {
+public class INegOperator implements UnaryOperator {
    @Override
    public Object eval(final Object val) {
       return -1 * (int) val;
