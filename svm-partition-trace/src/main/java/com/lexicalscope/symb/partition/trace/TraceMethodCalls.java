@@ -13,6 +13,10 @@ public class TraceMethodCalls implements Instrumentation {
       this.matcher = matcher;
    }
 
+   public static TraceMethodCalls methodCallsAt(final Matcher<? super State> matcher) {
+      return new TraceMethodCalls(matcher);
+   }
+
    @Override public void before(final InstructionSink sink) { }
 
    @Override public void after(final InstructionSink sink) {

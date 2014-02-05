@@ -50,6 +50,8 @@ public final class JvmBuilder {
       }
    }
 
+   public static JvmBuilder jvm() { return new JvmBuilder(); }
+
    public JvmBuilder instructionFactory(final InstructionFactory instructionFactory) {
       this.instructionFactory = instructionFactory;
       return this;
