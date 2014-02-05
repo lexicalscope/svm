@@ -1,6 +1,5 @@
 package com.lexicalscope.symb.classloading;
 
-import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.ArrayList;
@@ -9,11 +8,11 @@ import java.util.List;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp;
-import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.factory.BaseInstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
@@ -24,15 +23,12 @@ import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class AsmSClassLoader implements SClassLoader {
    private final InstructionSource instructions;
-   private final InstructionFactory instructionFactory;
    private final ByteCodeReader byteCodeReader;
    private final NativeMethods natives;
 
    public AsmSClassLoader(
-         final InstructionFactory instructionFactory,
          final InstructionSource instructionSource,
          final NativeMethods natives) {
-      this.instructionFactory = instructionFactory;
       this.natives = natives;
       this.instructions = instructionSource;
       this.byteCodeReader = new CachingByteCodeReader(instructions);
@@ -43,7 +39,7 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    private AsmSClassLoader(final InstructionFactory instructionFactory) {
-      this(instructionFactory, new BaseInstructionSource(instructionFactory), DefaultNativeMethods.natives());
+      this(new BaseInstructionSource(instructionFactory), DefaultNativeMethods.natives());
    }
 
    @Override public SClass load(final String name, final ClassLoaded classLoaded) {
@@ -66,20 +62,13 @@ public class AsmSClassLoader implements SClassLoader {
       return natives.resolveNative(instructions, methodName);
    }
 
-   @Override public Instruction defineBootstrapClassesInstruction() {
+   @Override public void defineBootstrapClassesInstruction(final InstructionSink sink) {
       final List<String> bootstrapClasses = new ArrayList<>();
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
 
-      return statements(instructions)
-            .op(
-                  new LoadingInstruction(
-                        new DefinePrimitiveClassesOp(
-                           new DefineClassOp(bootstrapClasses)),
-                           new NoOp(),
-                           instructions))
-            .buildInstruction();
+      sink.loadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp());
    }
 
    @Override public Instruction loadArgsInstruction(final Object[] args) {

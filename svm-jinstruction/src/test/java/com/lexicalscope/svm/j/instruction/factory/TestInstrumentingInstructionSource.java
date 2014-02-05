@@ -4,7 +4,7 @@ package com.lexicalscope.svm.j.instruction.factory;
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.invokevirtual;
 import static com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder.instrumentation;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.sameInstance;
+import static org.hamcrest.Matchers.*;
 
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
@@ -14,6 +14,7 @@ import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
+import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationContext;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentingInstructionSourceFactory;
 
 public class TestInstrumentingInstructionSource {
@@ -40,9 +41,9 @@ public class TestInstrumentingInstructionSource {
       context.checking(new Expectations(){{
          allowing(delegateInstructionSourceFactory).instructionSource(null); will(returnValue(delegateInstructionSource));
 
-         oneOf(instrumentation).before(invokevirtual, sink);
+         oneOf(instrumentation).before(with(invokevirtual), with(isA(InstrumentationContext.class)), with(sink));
          oneOf(delegateInstructionSource).invokevirtual(null, sink); will(returnValue(delegateInstructionSource));
-         oneOf(instrumentation).after(invokevirtual, sink);
+         oneOf(instrumentation).after(with(invokevirtual), with(isA(InstrumentationContext.class)), with(sink));
       }});
 
       final InstructionSource instructionSource =

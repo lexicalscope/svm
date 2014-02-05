@@ -3,8 +3,6 @@ package com.lexicalscope.svm.j.instruction.instrumentation;
 import static com.lexicalscope.fluentreflection.dynamicproxy.FluentProxy.dynamicProxy;
 import static org.hamcrest.Matchers.anything;
 
-import java.util.Map;
-
 import com.lexicalscope.fluentreflection.dynamicproxy.Implementing;
 import com.lexicalscope.fluentreflection.dynamicproxy.MethodBody;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
@@ -14,18 +12,17 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 
 public class InstrumentingInstructionSourceFactory implements InstructionSourceFactory {
    private final InstructionSourceFactory delegateFactory;
-   private final Map<InstructionCode, Instrumentation> map;
+   private final MultimapInstrumentationContext context;
 
-   public InstrumentingInstructionSourceFactory(final InstructionSourceFactory delegate, final Map<InstructionCode, Instrumentation> map) {
+   public InstrumentingInstructionSourceFactory(final InstructionSourceFactory delegate, final MultimapInstrumentationContext context) {
       this.delegateFactory = delegate;
-      this.map = map;
+      this.context = context;
    }
 
    @Override public InstructionSource instructionSource(final InstructionFactory instructionFactory) {
       final InstructionSource delegate = delegateFactory.instructionSource(instructionFactory);
       return dynamicProxy(new Implementing<InstructionSource>(InstructionSource.class) {{
          whenProxying(anything()).execute(new MethodBody() {
-
             @Override public void body() throws Throwable {
                switch (methodName()) {
                   case "initialFieldValue":
@@ -34,18 +31,14 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
                }
 
                final InstructionCode code = InstructionCode.valueOf(methodName());
-               final Instrumentation instrumentation = map.get(code);
-               if(instrumentation != null) {
-                  instrumentation.before(code, arg(InstructionSink.class));
-               }
+
+               context.before(code, arg(InstructionSink.class));
 
                final Object result = method().rebind(delegate).call(args()).value();
                assert result == delegate;
                returnValue(proxy());
 
-               if(instrumentation != null) {
-                  instrumentation.after(code, arg(InstructionSink.class));
-               }
+               context.after(code, arg(InstructionSink.class));
             }
          });
       }});

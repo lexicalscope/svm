@@ -1,5 +1,8 @@
 package com.lexicalscope.svm.j.instruction.instrumentation;
 
+import java.util.EnumSet;
+import java.util.Set;
+
 
 
 public enum InstructionCode {
@@ -113,5 +116,7 @@ public enum InstructionCode {
 
    invokeconstructorofclassobjects,
 
-   loadarg,
+   loadarg;
+
+   public static final Set<InstructionCode> returns = EnumSet.of(return1, return2, returnvoid);
 }

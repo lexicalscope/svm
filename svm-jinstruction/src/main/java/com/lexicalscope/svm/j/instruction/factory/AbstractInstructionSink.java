@@ -6,7 +6,9 @@ import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public abstract class AbstractInstructionSink implements InstructionSource.InstructionSink {
    private final InstructionSource source;
@@ -27,6 +29,10 @@ public abstract class AbstractInstructionSink implements InstructionSource.Instr
 
    @Override public void loadingOp(final List<String> classes, final Vop op) {
       nextOp(new LoadingInstruction(classes, op, source));
+   }
+
+   @Override public void loadingOp(final Op<List<SClass>> loader, final Vop op) {
+      nextOp(new LoadingInstruction(loader, op, source));
    }
 
    @Override public void noOp() { }

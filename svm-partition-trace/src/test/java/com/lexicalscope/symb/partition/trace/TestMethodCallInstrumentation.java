@@ -22,7 +22,7 @@ public class TestMethodCallInstrumentation {
          jvm().instrument(methodentry,
                   methodCallsAt(
                         partition().ofClass(ClassWithVirtualMethod.class).build())).
-                //followedBy(Matchers.startsWith("return"), methodReturn()).
+                //followedBy(InstructionCode.returns, TraceMethodReturn.methodReturn()).
                 meta(TRACE, new Trace()));
 
    public interface WithVirtualMethod { void myVirtualMethod(); }

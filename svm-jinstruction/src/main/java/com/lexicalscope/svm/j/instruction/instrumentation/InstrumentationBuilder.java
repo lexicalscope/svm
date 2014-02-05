@@ -1,10 +1,10 @@
 package com.lexicalscope.svm.j.instruction.instrumentation;
 
-import java.util.HashMap;
-import java.util.Map;
+import com.google.common.collect.LinkedListMultimap;
+import com.google.common.collect.ListMultimap;
 
 public class InstrumentationBuilder {
-   private final Map<InstructionCode, Instrumentation> instrumentationMap = new HashMap<>();
+   private final ListMultimap<InstructionCode, Instrumentation> instrumentationMap = LinkedListMultimap.create();
 
    public static InstrumentationBuilder instrumentation() {
       return new InstrumentationBuilder();
@@ -15,7 +15,7 @@ public class InstrumentationBuilder {
       return this;
    }
 
-   public Map<InstructionCode, Instrumentation> map() {
-      return instrumentationMap;
+   public MultimapInstrumentationContext map() {
+      return new MultimapInstrumentationContext(instrumentationMap);
    }
 }

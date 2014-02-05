@@ -5,6 +5,7 @@ import java.util.List;
 import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
+import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.MethodBody;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -169,5 +170,9 @@ public final class StatementBuilder {
 
    public static StatementBuilder statements(final InstructionSource instructions) {
       return new StatementBuilder(instructions);
+   }
+
+   public InstructionSink sink() {
+      return sink;
    }
 }

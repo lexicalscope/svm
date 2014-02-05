@@ -9,7 +9,9 @@ import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public interface InstructionSource {
@@ -17,6 +19,7 @@ public interface InstructionSource {
       void nextInstruction(Instruction node);
       void linearOp(Vop op);
       void loadingOp(List<String> classes, Vop op);
+      void loadingOp(Op<List<SClass>> loader, Vop op);
       void nextOp(Vop op);
       void noOp();
    }

@@ -16,6 +16,7 @@ import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentingInstructionSourceFactory;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
+import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.classloading.StaticsImpl;
@@ -97,10 +98,11 @@ public final class JvmBuilder {
                   : new InstrumentingInstructionSourceFactory(instructionSourceFactory, instrumentationBuilder.map()))
             .instructionSource(instructionFactory);
 
-      final SClassLoader classLoader = new AsmSClassLoader(instructionFactory, instructions, natives());
+      final SClassLoader classLoader = new AsmSClassLoader(instructions, natives());
 
-      final Instruction initialInstruction = statements(instructions)
-         .instruction(classLoader.defineBootstrapClassesInstruction())
+      final StatementBuilder statements = statements(instructions);
+      classLoader.defineBootstrapClassesInstruction(statements.sink());
+      final Instruction initialInstruction = statements
          .instruction(InitThreadOp.initThreadInstruction(instructions))
          .instruction(classLoader.loadArgsInstruction(args))
          .createInvokeStatic(entryPointName).buildInstruction();
