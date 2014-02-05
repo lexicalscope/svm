@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.j.instruction;
 
 import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -18,8 +19,11 @@ public class InstructionInternal implements Instruction {
    private Instruction next;
    private Instruction target;
 
-   public InstructionInternal(final Vop instruction) {
+   private final InstructionCode code;
+
+   public InstructionInternal(final Vop instruction, final InstructionCode code) {
       this.instruction = instruction;
+      this.code = code;
 
       next = terminate;
       target = terminate;
@@ -57,5 +61,9 @@ public class InstructionInternal implements Instruction {
 
    @Override public String toString() {
       return String.format("%s", instruction.toString(), next);
+   }
+
+   @Override public InstructionCode code() {
+      return code;
    }
 }

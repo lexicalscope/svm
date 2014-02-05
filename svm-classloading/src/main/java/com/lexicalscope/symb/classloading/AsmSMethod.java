@@ -68,7 +68,7 @@ public class AsmSMethod implements SMethod {
       if((method.access & Opcodes.ACC_NATIVE) != 0) {
          linkNativeMethod();
       } else {
-         linkJavaMethod();
+         new MethodLinker().linkJavaMethod();
       }
    }
 
@@ -80,55 +80,58 @@ public class AsmSMethod implements SMethod {
       entryPoint = resolved.entryPoint();
    }
 
-   private void linkJavaMethod() {
-      final List<AbstractInsnNode> unlinked = new ArrayList<>();
-      final Multimap<AbstractInsnNode, Instruction> linked = LinkedListMultimap.<AbstractInsnNode, Instruction>create();
-      final Instruction[] prev = new Instruction[1];
+   private class MethodLinker {
+      private final Multimap<AbstractInsnNode, Instruction> linked = LinkedListMultimap.create();
+      private AbstractInsnNode asmInstruction = getEntryPoint();
 
-      final AbstractInsnNode[] asmInstruction = new AbstractInsnNode[]{getEntryPoint()};
-      final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink(instructions) {
-         @Override public void nextInstruction(final InstructionInternal node) {
-            for (final AbstractInsnNode unlinkedInstruction : unlinked) {
-               assert unlinkedInstruction != null;
-               linked.put(unlinkedInstruction, node);
+      private void linkJavaMethod() {
+         final List<AbstractInsnNode> unlinked = new ArrayList<>();
+         final Instruction[] prev = new Instruction[1];
+
+         final InstructionSource.InstructionSink instructionSink = new AbstractInstructionSink(instructions) {
+            @Override public void nextInstruction(final InstructionInternal node) {
+               for (final AbstractInsnNode unlinkedInstruction : unlinked) {
+                  assert unlinkedInstruction != null;
+                  linked.put(unlinkedInstruction, node);
+               }
+               unlinked.clear();
+               assert asmInstruction != null;
+               linked.put(asmInstruction, node);
+               if(prev[0] != null) {
+                  prev[0].nextIs(node);
+               }
+               prev[0] = node;
             }
-            unlinked.clear();
-            assert asmInstruction[0] != null;
-            linked.put(asmInstruction[0], node);
-            if(prev[0] != null) {
-               prev[0].nextIs(node);
+
+            @Override public void noOp() {
+               unlinked.add(asmInstruction);
             }
-            prev[0] = node;
+         };
+
+         instructions.methodentry(methodName, instructionSink);
+         while(asmInstruction != null) {
+            instructionFor(asmInstruction, instructionSink);
+            asmInstruction = asmInstruction.getNext();
          }
 
-         @Override public void noOp() {
-            unlinked.add(asmInstruction[0]);
-         }
-      };
+         for (final Entry<AbstractInsnNode, Instruction> entry : linked.entries()) {
+            if(entry.getKey() instanceof JumpInsnNode) {
+               final JumpInsnNode asmJumpInstruction = (JumpInsnNode) entry.getKey();
+               final AbstractInsnNode asmInstructionAfterTargetLabel = asmJumpInstruction.label.getNext();
+               assert linked.get(asmInstructionAfterTargetLabel).size() == 1;
+               final Instruction jmpTarget = linked.get(asmInstructionAfterTargetLabel).iterator().next();
 
-      instructions.methodentry(methodName, instructionSink);
-      while(asmInstruction[0] != null) {
-         instructionFor(asmInstruction[0], instructionSink);
-         asmInstruction[0] = asmInstruction[0].getNext();
+               assert asmInstructionAfterTargetLabel != null;
+               assert jmpTarget != null : asmInstructionAfterTargetLabel;
+
+               entry.getValue().jmpTarget(jmpTarget);
+            }
+         }
+
+         maxLocals = method.maxLocals;
+         maxStack = method.maxStack;
+         entryPoint = classLoader.instrument(name(), linked.values().iterator().next());
       }
-
-      for (final Entry<AbstractInsnNode, Instruction> entry : linked.entries()) {
-         if(entry.getKey() instanceof JumpInsnNode) {
-            final JumpInsnNode asmJumpInstruction = (JumpInsnNode) entry.getKey();
-            final AbstractInsnNode asmInstructionAfterTargetLabel = asmJumpInstruction.label.getNext();
-            assert linked.get(asmInstructionAfterTargetLabel).size() == 1;
-            final Instruction jmpTarget = linked.get(asmInstructionAfterTargetLabel).iterator().next();
-
-            assert asmInstructionAfterTargetLabel != null;
-            assert jmpTarget != null : asmInstructionAfterTargetLabel;
-
-            entry.getValue().jmpTarget(jmpTarget);
-         }
-      }
-
-      maxLocals = method.maxLocals;
-      maxStack = method.maxStack;
-      entryPoint = linked.values().iterator().next();
    }
 
    private void instructionFor(

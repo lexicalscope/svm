@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.method;
 
-import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.*;
+import static com.lexicalscope.symb.vm.j.InstructionCode.*;
 
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;

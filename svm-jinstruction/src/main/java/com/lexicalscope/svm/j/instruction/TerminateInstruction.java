@@ -1,7 +1,10 @@
 package com.lexicalscope.svm.j.instruction;
 
+import static com.lexicalscope.symb.vm.j.InstructionCode.methodexit;
+
 import com.lexicalscope.symb.vm.TerminationException;
 import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.State;
 
 
@@ -45,5 +48,9 @@ public class TerminateInstruction implements Instruction {
    @Override
    public String toString() {
       return "TERMINATE";
+   }
+
+   @Override public InstructionCode code() {
+      return methodexit;
    }
 }

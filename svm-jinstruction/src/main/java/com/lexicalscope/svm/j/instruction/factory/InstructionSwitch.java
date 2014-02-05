@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
-import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.synthetic;
+import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -35,9 +35,11 @@ public class InstructionSwitch {
                case Opcodes.DLOAD:
                   return s.load2(varInsnNode.var, sink);
                case Opcodes.ILOAD:
+                  return s.iload(varInsnNode.var, sink);
                case Opcodes.ALOAD:
+                  return s.aload(varInsnNode.var, sink);
                case Opcodes.FLOAD:
-                  return s.load(varInsnNode.var, sink);
+                  return s.fload(varInsnNode.var, sink);
                case Opcodes.LSTORE:
                   return s.store2(varInsnNode.var, sink);
                case Opcodes.ISTORE:

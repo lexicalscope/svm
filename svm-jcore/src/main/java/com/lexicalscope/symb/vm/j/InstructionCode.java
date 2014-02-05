@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.j.instruction.instrumentation;
+package com.lexicalscope.symb.vm.j;
 
 import java.util.EnumSet;
 import java.util.Set;
@@ -8,10 +8,12 @@ import java.util.Set;
 public enum InstructionCode {
    methodentry,
    synthetic,
+   methodexit,
 
    load,
    load2,
    aload,
+   iload,
    fload,
    dload,
    store,

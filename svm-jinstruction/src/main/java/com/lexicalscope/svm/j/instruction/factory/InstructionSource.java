@@ -6,7 +6,7 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
-import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
+import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -25,6 +25,7 @@ public interface InstructionSource {
    InstructionSource load(int var, InstructionSink sink);
    InstructionSource load2(int var, InstructionSink sink);
    InstructionSource aload(int index, InstructionSink sink);
+   InstructionSource iload(int index, InstructionSink sink);
    InstructionSource fload(int index, InstructionSink sink);
    InstructionSource dload(int index, InstructionSink sink);
    InstructionSource store(int var, InstructionSink sink);
@@ -143,4 +144,5 @@ public interface InstructionSource {
     * The initial value of fields of the given type
     */
    Object initialFieldValue(String desc);
+
 }

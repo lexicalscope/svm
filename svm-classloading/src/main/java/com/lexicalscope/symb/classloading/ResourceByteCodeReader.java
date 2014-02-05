@@ -23,7 +23,9 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 	private final InstructionSource instructions;
    private final ClassSource classRepository;
 
-	public ResourceByteCodeReader(final InstructionSource instructions, final ClassSource classSource) {
+	public ResourceByteCodeReader(
+	      final InstructionSource instructions,
+	      final ClassSource classSource) {
 		this.instructions = instructions;
       this.classRepository = classSource;
 	}

@@ -7,7 +7,6 @@ import com.lexicalscope.fluentreflection.dynamicproxy.Implementing;
 import com.lexicalscope.fluentreflection.dynamicproxy.MethodBody;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 
 public class InstrumentingInstructionSourceFactory implements InstructionSourceFactory {
@@ -30,15 +29,15 @@ public class InstrumentingInstructionSourceFactory implements InstructionSourceF
                      return;
                }
 
-               final InstructionCode code = InstructionCode.valueOf(methodName());
-
-               context.before(code, arg(InstructionSink.class));
+//               final InstructionCode code = InstructionCode.valueOf(methodName());
+//
+//               context.before(code, arg(InstructionSink.class));
 
                final Object result = method().rebind(delegate).call(args()).value();
                assert result == delegate;
                returnValue(proxy());
 
-               context.after(code, arg(InstructionSink.class));
+//               context.after(code, arg(InstructionSink.class));
             }
          });
       }});

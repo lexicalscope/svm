@@ -10,7 +10,6 @@ import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 
 public class AsmSClassFactory {
-
    public static AsmSClass newSClass(
          final SClassLoader classLoader,
          final InstructionSource instructions,

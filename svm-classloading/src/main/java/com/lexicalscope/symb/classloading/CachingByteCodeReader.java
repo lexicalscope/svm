@@ -11,7 +11,8 @@ public class CachingByteCodeReader implements ByteCodeReader {
    private final Map<String, AsmSClass> classCache = new HashMap<>();
    private final ResourceByteCodeReader byteCodeReader;
 
-   public CachingByteCodeReader(final InstructionSource instructions) {
+   public CachingByteCodeReader(
+         final InstructionSource instructions) {
       byteCodeReader = new ResourceByteCodeReader(instructions, new ClasspathClassRepository());
    }
 

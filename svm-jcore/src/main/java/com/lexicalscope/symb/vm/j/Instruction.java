@@ -15,4 +15,6 @@ public interface Instruction {
    boolean hasNext();
    Instruction next();
    Instruction jmpTarget();
+
+   InstructionCode code();
 }

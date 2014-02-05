@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.instrumentation;
 
 import com.google.common.collect.ListMultimap;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
+import com.lexicalscope.symb.vm.j.InstructionCode;
 
 public class MultimapInstrumentationContext implements InstrumentationContext {
    private final ListMultimap<InstructionCode, Instrumentation> instrumentation;

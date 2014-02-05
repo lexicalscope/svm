@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
-import static com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode.*;
+import static com.lexicalscope.symb.vm.j.InstructionCode.*;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -53,7 +53,7 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.PopOp;
 import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
-import com.lexicalscope.svm.j.instruction.instrumentation.InstructionCode;
+import com.lexicalscope.symb.vm.j.InstructionCode;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
@@ -537,7 +537,11 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource load(final int index, final InstructionSource.InstructionSink sink) {
-      return linearInstruction(new Load(index), load, sink);
+      return load(index, load, sink);
+   }
+
+   private InstructionSource load(final int index, final InstructionCode code, final InstructionSource.InstructionSink sink) {
+      return linearInstruction(new Load(index), code, sink);
    }
 
    @Override public InstructionSource load2(final int index, final InstructionSource.InstructionSink sink) {
@@ -579,11 +583,15 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource aload(final int index, final InstructionSource.InstructionSink sink) {
-      return load(index, sink);
+      return load(index, aload, sink);
    }
 
    @Override public InstructionSource fload(final int index, final InstructionSource.InstructionSink sink) {
-      return load(index, sink);
+      return load(index, fload, sink);
+   }
+
+   @Override public InstructionSource iload(final int index, final InstructionSource.InstructionSink sink) {
+      return load(index, iload, sink);
    }
 
    @Override public InstructionSource dload(final int index, final InstructionSource.InstructionSink sink) {

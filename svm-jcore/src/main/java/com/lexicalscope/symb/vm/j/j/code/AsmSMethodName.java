@@ -16,7 +16,7 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    public AsmSMethodName(
          final String klassName,
          final String name,
-         final String desc//, final Staticness staticness
+         final String desc
          ) {
       this.klassName = klassName;
       this.virtualName = new AsmSVirtualMethodName(name, desc);
@@ -26,7 +26,7 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    public AsmSMethodName(
          final Class<?> klass,
          final String name,
-         final String desc// , final Staticness staticness
+         final String desc
          ) {
       this(Type.getInternalName(klass), name, desc);
    }
