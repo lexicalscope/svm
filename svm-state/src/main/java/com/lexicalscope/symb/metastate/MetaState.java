@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.j.metastate;
+package com.lexicalscope.symb.metastate;
 
 import com.lexicalscope.symb.state.Snapshotable;
 

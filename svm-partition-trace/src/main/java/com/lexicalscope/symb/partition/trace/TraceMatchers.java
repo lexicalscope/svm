@@ -7,10 +7,19 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.symb.stack.trace.SMethodName;
+import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 
 public class TraceMatchers {
+   public static Matcher<Trace> methodCallOf(final Class<?> klass, final String methodName, final String desc) {
+      return methodCallOf(new AsmSMethodName(klass, methodName, desc));
+   }
+
    public static Matcher<Trace> methodCallOf(final SMethodName methodName) {
       return both(traceWithName(methodName)).and(traceIsCall());
+   }
+
+   public static Matcher<Trace> methodReturnOf(final Class<?> klass, final String methodName, final String desc) {
+      return methodReturnOf(new AsmSMethodName(klass, methodName, desc));
    }
 
    public static Matcher<Trace> methodReturnOf(final SMethodName methodName) {

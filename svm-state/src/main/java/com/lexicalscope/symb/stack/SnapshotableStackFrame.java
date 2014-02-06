@@ -4,6 +4,9 @@ import static com.lexicalscope.symb.stack.MethodScope.DYNAMIC;
 import static com.lexicalscope.symb.stack.Padding.padding;
 import static java.util.Arrays.copyOf;
 
+import com.lexicalscope.symb.metastate.HashMetaState;
+import com.lexicalscope.symb.metastate.MetaKey;
+import com.lexicalscope.symb.metastate.MetaState;
 import com.lexicalscope.symb.stack.trace.SMethodName;
 
 public final class SnapshotableStackFrame implements StackFrame {
@@ -15,6 +18,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    private Object instruction; // PC
    private final SMethodName context;
    private final MethodScope scope;
+   private final MetaState meta;
 
    public SnapshotableStackFrame(
          final SMethodName context,
@@ -22,7 +26,13 @@ public final class SnapshotableStackFrame implements StackFrame {
          final Object instruction,
          final int maxLocals,
          final int maxStack) {
-      this(context, scope, instruction, new Object[maxLocals + maxStack], maxLocals - 1, maxLocals - 1);
+      this(context,
+           scope,
+           instruction,
+           new Object[maxLocals + maxStack],
+           maxLocals - 1,
+           maxLocals - 1,
+           new HashMetaState());
    }
 
    private SnapshotableStackFrame(
@@ -31,13 +41,15 @@ public final class SnapshotableStackFrame implements StackFrame {
          final Object instruction,
          final Object[] stack,
          final int opBot,
-         final int opTop) {
+         final int opTop,
+         final MetaState meta) {
       this.context = context;
       this.scope = scope;
       this.instruction = instruction;
       this.stack = stack;
       this.opBot = opBot;
       this.opTop = opTop;
+      this.meta = meta;
    }
 
    @Override
@@ -138,7 +150,14 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public SnapshotableStackFrame snapshot() {
-      return new SnapshotableStackFrame(context, scope, instruction, copyOf(stack, stack.length), opBot, opTop);
+      return new SnapshotableStackFrame(
+            context,
+            scope,
+            instruction,
+            copyOf(stack, stack.length),
+            opBot,
+            opTop,
+            meta.snapshot());
    }
 
    @Override
@@ -166,5 +185,15 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override public boolean isDynamic() {
       return scope.equals(DYNAMIC);
+   }
+
+   @Override
+   public final <T> T getMeta(final MetaKey<T> key) {
+      return meta.get(key);
+   }
+
+   @Override
+   public final <T> void setMeta(final MetaKey<T> key, final T value) {
+      meta.set(key, value);
    }
 }

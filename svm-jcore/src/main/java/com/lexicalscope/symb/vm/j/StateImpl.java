@@ -6,13 +6,13 @@ import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.metastate.MetaKey;
+import com.lexicalscope.symb.metastate.MetaState;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.vm.Vm;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
-import com.lexicalscope.symb.vm.j.metastate.MetaKey;
-import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public class StateImpl implements State {
    private final Statics statics;
@@ -56,11 +56,6 @@ public class StateImpl implements State {
    @Override
    public final State[] fork(){
       return new State[]{this.snapshot(), this.snapshot()};
-   }
-
-   @Override
-   public final MetaState getMeta() {
-      return meta;
    }
 
    @Override

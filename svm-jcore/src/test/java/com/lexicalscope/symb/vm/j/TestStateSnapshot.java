@@ -10,9 +10,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.metastate.MetaState;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.vm.Vm;
-import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public class TestStateSnapshot {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

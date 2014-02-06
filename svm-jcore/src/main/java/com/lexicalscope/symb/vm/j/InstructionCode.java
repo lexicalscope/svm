@@ -121,8 +121,11 @@ public enum InstructionCode {
 
    loadarg;
 
+   public static final Set<InstructionCode> calls = EnumSet.of(
+         invokeinterface, invokespecial, invokevirtual, invokestatic);
    public static final Set<InstructionCode> returns = EnumSet.of(return1, return2, returnvoid);
 
    public boolean isReturn() { return returns.contains(this); }
    public boolean isMethodExit() { return this.equals(methodexit); }
+   public boolean isMethodCall() { return calls.contains(this); }
 }

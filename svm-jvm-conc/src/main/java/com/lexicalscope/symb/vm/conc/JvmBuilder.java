@@ -30,6 +30,9 @@ import com.lexicalscope.symb.classloading.AsmSClassLoader;
 import com.lexicalscope.symb.classloading.SClassLoader;
 import com.lexicalscope.symb.classloading.StaticsImpl;
 import com.lexicalscope.symb.heap.HeapFactory;
+import com.lexicalscope.symb.metastate.HashMetaState;
+import com.lexicalscope.symb.metastate.MetaKey;
+import com.lexicalscope.symb.metastate.MetaState;
 import com.lexicalscope.symb.stack.DequeStack;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.vm.Vm;
@@ -41,9 +44,6 @@ import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.StateImpl;
 import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
-import com.lexicalscope.symb.vm.j.metastate.HashMetaState;
-import com.lexicalscope.symb.vm.j.metastate.MetaKey;
-import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public final class JvmBuilder {
    private InstructionFactory instructionFactory = new ConcInstructionFactory();

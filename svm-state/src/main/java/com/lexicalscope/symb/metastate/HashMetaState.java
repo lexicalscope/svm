@@ -1,4 +1,4 @@
-package com.lexicalscope.symb.vm.j.metastate;
+package com.lexicalscope.symb.metastate;
 
 import java.util.HashMap;
 import java.util.Map;

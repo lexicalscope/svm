@@ -45,4 +45,26 @@ public class TraceMethodCalls implements Instrumentor {
       }
       return methodEntry;
    }
+
+   private Instruction instrumentCallBacks(
+         final InstructionSource instructions,
+         final Instruction methodEntry) {
+      Instruction cur = methodEntry;
+      while(!cur.code().isMethodExit()) {
+         if(cur.code().isMethodCall()) {
+            /*
+            cur.insertHere(
+                  statements(instructions).
+                  linearOp(new TraceCallbackCallOp(matcher, RETURN)).
+                  buildInstruction());
+            cur.insertNext(
+                  statements(instructions).
+                  linearOp(new TraceCallbackReturnOp(matcher, RETURN)).
+                  buildInstruction());
+            */
+         }
+         cur = cur.next();
+      }
+      return methodEntry;
+   }
 }

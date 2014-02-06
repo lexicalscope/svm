@@ -3,14 +3,13 @@ package com.lexicalscope.symb.vm.j;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.metastate.MetaKey;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SStackTrace;
 import com.lexicalscope.symb.state.Snapshotable;
 import com.lexicalscope.symb.vm.FlowNode;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
-import com.lexicalscope.symb.vm.j.metastate.MetaKey;
-import com.lexicalscope.symb.vm.j.metastate.MetaState;
 
 public interface State extends Snapshotable<State>, FlowNode<State> {
    Stack stack();
@@ -61,7 +60,6 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
    Object popDoubleWord();
    Object peekOperand();
 
-   MetaState getMeta();
    <T> T getMeta(MetaKey<T> key);
    <T> void setMeta(MetaKey<T> key, T value);
 
