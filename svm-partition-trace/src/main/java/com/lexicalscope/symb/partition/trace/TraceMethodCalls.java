@@ -9,6 +9,7 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
 
 public class TraceMethodCalls implements Instrumentor {
    private final Matcher<? super State> callinMatcher;
@@ -34,9 +35,8 @@ public class TraceMethodCalls implements Instrumentor {
    }
 
    @Override public Instruction instrument(final InstructionSource instructions, final Instruction methodEntry) {
-      return instrumentCallBacks(instructions,
-               instrumentMethodReturn(instructions,
-                     instrumentMethodCall(instructions, methodEntry)));
+      return instrumentMethodCallsAndReturns(instructions,
+                     instrumentMethodCall(instructions, methodEntry));
    }
 
    private Instruction instrumentMethodCall(final InstructionSource instructions, final Instruction methodEntry) {
@@ -46,36 +46,44 @@ public class TraceMethodCalls implements Instrumentor {
             buildInstruction();
    }
 
-   private Instruction instrumentMethodReturn(final InstructionSource instructions, final Instruction methodEntry) {
-      Instruction cur = methodEntry;
-      while(!cur.code().isMethodExit()) {
-         if(cur.code().isReturn()) {
-            cur.insertHere(
-                  statements(instructions).
-                  linearOp(new TraceMethodCallOp(callinMatcher, RETURN)).
-                  buildInstruction());
-         }
-         cur = cur.next();
-      }
-      return methodEntry;
-   }
+   private Instruction instrumentMethodCallsAndReturns(final InstructionSource instructions, final Instruction methodEntry) {
+      for (final Instruction instruction : methodEntry) {
+         instruction.query(new InstructionQueryAdapter<Void>(){
+            @Override public Void r3turn(final int returnCount) {
+               instruction.insertHere(
+                     statements(instructions).
+                     linearOp(new TraceMethodCallOp(callinMatcher, RETURN)).
+                     buildInstruction());
+               return super.r3turn(returnCount);
+            }
 
-   private Instruction instrumentCallBacks(
-         final InstructionSource instructions,
-         final Instruction methodEntry) {
-      Instruction cur = methodEntry;
-      while(!cur.code().isMethodExit()) {
-         if(cur.code().isMethodCall()) {
-            cur.insertHere(
-                  statements(instructions).
-                  linearOp(new TraceCallbackCallOp(cur, callbackMatcher)).
-                  buildInstruction());
+            private void instrumentMethodCall(final SMethodDescriptor methodName) {
+               instruction.insertHere(
+                     statements(instructions).
+                     linearOp(new TraceCallbackCallOp(methodName, callbackMatcher)).
+                     buildInstruction());
+
 //            cur.insertNext(
 //                  statements(instructions).
 //                  linearOp(new TraceCallbackReturnOp(matcher, RETURN)).
 //                  buildInstruction());
-         }
-         cur = cur.next();
+            }
+
+            @Override public Void invokeinterface(final SMethodDescriptor methodName) {
+               instrumentMethodCall(methodName);
+               return super.invokeinterface(methodName);
+            }
+
+            @Override public Void invokespecial(final SMethodDescriptor methodName) {
+               instrumentMethodCall(methodName);
+               return super.invokespecial(methodName);
+            }
+
+            @Override public Void invokevirtual(final SMethodDescriptor methodName) {
+               instrumentMethodCall(methodName);
+               return super.invokevirtual(methodName);
+            }
+         });
       }
       return methodEntry;
    }

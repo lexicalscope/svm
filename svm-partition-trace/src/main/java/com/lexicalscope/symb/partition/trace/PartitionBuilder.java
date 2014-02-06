@@ -87,7 +87,7 @@ public class PartitionBuilder {
 
             return dynamicExactMatcher.matches(new MethodCallContext() {
                @Override public boolean receivingContextIsDynamic() {
-                  return item.instructionIsDynamicCall();
+                  return true;
                }
 
                @Override public SClass receiverKlass() {

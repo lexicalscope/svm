@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction;
 import static com.lexicalscope.symb.vm.j.InstructionCode.methodexit;
 
 import java.util.Collection;
+import java.util.Iterator;
 
 import com.lexicalscope.symb.vm.TerminationException;
 import com.lexicalscope.symb.vm.j.Instruction;
@@ -88,5 +89,24 @@ public class TerminateInstruction implements Instruction {
 
    @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
       return instructionQuery.methodexit();
+   }
+
+   @Override public Iterator<Instruction> iterator() {
+      return new Iterator<Instruction>() {
+         boolean exhausted;
+
+         @Override public boolean hasNext() {
+            return !exhausted;
+         }
+
+         @Override public Instruction next() {
+            exhausted = true;
+            return TerminateInstruction.this;
+         }
+
+         @Override public void remove() {
+            throw new UnsupportedOperationException();
+         }
+      };
    }
 }

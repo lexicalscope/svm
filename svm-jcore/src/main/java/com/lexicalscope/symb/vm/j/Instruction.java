@@ -8,7 +8,7 @@ import java.util.Collection;
  *
  * @author tim
  */
-public interface Instruction {
+public interface Instruction extends Iterable<Instruction> {
    void eval(State ctx);
 
    Instruction append(Instruction instruction);

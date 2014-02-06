@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.j.instruction;
 
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
@@ -114,5 +115,22 @@ public class InstructionInternal implements Instruction {
 
    @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
       return op.query(instructionQuery);
+   }
+
+   @Override public Iterator<Instruction> iterator() {
+      return new Iterator<Instruction>() {
+         Instruction cur = InstructionInternal.this;
+         @Override public boolean hasNext() {
+            return cur.hasNext();
+         }
+
+         @Override public Instruction next() {
+            return cur = cur.next();
+         }
+
+         @Override public void remove() {
+            throw new UnsupportedOperationException();
+         }
+      };
    }
 }
