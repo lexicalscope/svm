@@ -5,6 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
@@ -58,6 +59,10 @@ public final class DefineClassOp implements Op<List<SClass>> {
    static void allocate(final State ctx, final SClass klass) {
       DefineClassOp.allocateClass(ctx, klass);
       DefineClassOp.allocateStatics(ctx, ctx.staticsMarker(klass), klass);
+   }
+
+   @Override public <S> S query(final InstructionQuery<S> instructionQuery) {
+      return instructionQuery.synthetic();
    }
 
    @Override public String toString() {

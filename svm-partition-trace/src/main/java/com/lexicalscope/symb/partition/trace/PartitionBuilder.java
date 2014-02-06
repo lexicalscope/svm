@@ -26,28 +26,89 @@ public class PartitionBuilder {
       return this;
    }
 
-   public Matcher<? super State> dynamicExactMatcher() {
-      return new TypeSafeDiagnosingMatcher<State>() {
+   private Matcher<? super MethodCallContext> dynamicExactMatcher() {
+      return new TypeSafeDiagnosingMatcher<MethodCallContext>() {
          @Override public void describeTo(final Description description) {
             description.appendText("(receiver in) xor (caller in) : ").appendValue(klasses);
+         }
+
+         @Override protected boolean matchesSafely(final MethodCallContext item, final Description mismatchDescription) {
+            if(item.callingContextIsDynamic() && item.receivingContextIsDynamic()) {
+               return klasses.contains(item.callerKlass().name())
+                    ^ klasses.contains(item.receiverKlass().name());
+            }
+            // TODO[tim]: need a strategy for static methods
+            return false;
+         }
+      };
+   }
+
+   public Matcher<? super State> dynamicExactCallinMatcher() {
+      final Matcher<? super MethodCallContext> dynamicExactMatcher = dynamicExactMatcher();
+      return new TypeSafeDiagnosingMatcher<State>() {
+         @Override public void describeTo(final Description description) {
+            description.appendDescriptionOf(dynamicExactMatcher);
          }
 
          @Override protected boolean matchesSafely(final State item, final Description mismatchDescription) {
             final StackFrame previousFrame = item.previousFrame();
             final StackFrame currentFrame = item.currentFrame();
-            if(previousFrame.isDynamic() && currentFrame.isDynamic()) {
-               final SClass callerKlass = frameReceiver(item, previousFrame);
-               final SClass receiverKlass = frameReceiver(item, currentFrame);
-               return klasses.contains(callerKlass.name()) ^ klasses.contains(receiverKlass.name());
-            }
-            // TODO[tim]: need a strategy for static methods
-            return false;
-         }
 
-         private SClass frameReceiver(final State item, final StackFrame previousFrame) {
-            return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
+            return dynamicExactMatcher.matches(new MethodCallContext() {
+               @Override public boolean receivingContextIsDynamic() {
+                  return currentFrame.isDynamic();
+               }
+
+               @Override public SClass receiverKlass() {
+                  return frameReceiver(item, currentFrame);
+               }
+
+               @Override public boolean callingContextIsDynamic() {
+                  return previousFrame.isDynamic();
+               }
+
+               @Override public SClass callerKlass() {
+                  return frameReceiver(item, previousFrame);
+               }
+            });
          }
       };
+   }
+
+   public Matcher<? super InstrumentationContext> dynamicExactCallbackMatcher() {
+      final Matcher<? super MethodCallContext> dynamicExactMatcher = dynamicExactMatcher();
+      return new TypeSafeDiagnosingMatcher<InstrumentationContext>() {
+         @Override public void describeTo(final Description description) {
+            description.appendDescriptionOf(dynamicExactMatcher);
+         }
+
+         @Override protected boolean matchesSafely(final InstrumentationContext item, final Description mismatchDescription) {
+            final StackFrame previousFrame = item.currentFrame();
+
+            return dynamicExactMatcher.matches(new MethodCallContext() {
+               @Override public boolean receivingContextIsDynamic() {
+                  return item.instructionIsDynamicCall();
+               }
+
+               @Override public SClass receiverKlass() {
+                  return item.receiverKlass();
+               }
+
+               @Override public boolean callingContextIsDynamic() {
+                  return previousFrame.isDynamic();
+               }
+
+               @Override public SClass callerKlass() {
+                  return frameReceiver(item.state(), previousFrame);
+               }
+
+            });
+         }
+      };
+   }
+
+   private SClass frameReceiver(final State item, final StackFrame previousFrame) {
+      return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
    }
 
    public Matcher<? super SMethodDescriptor> staticOverApproximateMatcher() {

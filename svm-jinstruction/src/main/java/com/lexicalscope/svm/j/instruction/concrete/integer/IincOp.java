@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.integer;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -18,5 +19,9 @@ public class IincOp implements Vop {
 
    @Override public String toString() {
       return String.format("IINC %d %d", var, incr);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.iinc();
    }
 }

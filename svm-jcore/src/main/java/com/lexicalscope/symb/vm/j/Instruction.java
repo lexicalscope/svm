@@ -30,4 +30,6 @@ public interface Instruction {
    Collection<Instruction> targetOf();
 
    InstructionCode code();
+
+   <T> T query(InstructionQuery<T> instructionQuery);
 }

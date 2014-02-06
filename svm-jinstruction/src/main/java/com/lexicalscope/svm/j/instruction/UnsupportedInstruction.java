@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -19,5 +20,9 @@ public class UnsupportedInstruction implements Vop {
 
    @Override public void eval(final State ctx) {
       throw new UnsupportedInstructionException(abstractInsnNode);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.synthetic();
    }
 }

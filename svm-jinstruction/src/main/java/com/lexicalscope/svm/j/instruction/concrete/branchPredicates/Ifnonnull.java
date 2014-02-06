@@ -4,24 +4,16 @@ import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
 import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 
-public class ICmpBranchPredicate implements BranchPredicate {
-   private final ICmpOp op;
-
-   public ICmpBranchPredicate(final ICmpOp op) {
-      this.op = op;
-   }
-
+public class Ifnonnull implements BranchPredicate {
    @Override public Boolean eval(final State ctx) {
-      final int value2 = (int) ctx.pop();
-      final int value1 = (int) ctx.pop();
-      return op.cmp(value1, value2);
+      return !ctx.pop().equals(ctx.nullPointer());
    }
 
    @Override public String toString() {
-      return op.toString();
+      return "NONNULL";
    }
 
    @Override public <S> S query(final InstructionQuery<S> instructionQuery) {
-      return instructionQuery.icmp();
+      return instructionQuery.ifnonnull();
    }
 }

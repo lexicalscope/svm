@@ -247,6 +247,8 @@ public class InstructionSwitch {
                   return s.ificmpge(jumpInsnNode, sink);
                case Opcodes.IF_ACMPNE:
                   return s.ifacmpne(jumpInsnNode, sink);
+               case Opcodes.IF_ACMPEQ:
+                  return s.ifacmpeq(jumpInsnNode, sink);
                case Opcodes.GOTO:
                   return s.got0(sink);
             }

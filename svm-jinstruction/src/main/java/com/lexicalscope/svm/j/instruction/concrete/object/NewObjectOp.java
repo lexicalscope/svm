@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.object;
 import static com.lexicalscope.symb.vm.j.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -52,5 +53,9 @@ public final class NewObjectOp implements Op<Object> {
    @Override
    public String toString() {
       return String.format("NEW %s", klassDesc);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.newobject(klassDesc);
    }
 }

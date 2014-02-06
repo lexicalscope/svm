@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.*;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -47,6 +48,10 @@ public class ArrayStoreOp implements Vop {
 
    @Override public String toString() {
       return "ARRAYSTORE";
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.arraystore();
    }
 
    public static Vop caStore() {

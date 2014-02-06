@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.InstructionCode;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -19,7 +20,7 @@ import com.lexicalscope.symb.vm.j.Vop;
 public class InstructionInternal implements Instruction {
    private static TerminateInstruction terminate = new TerminateInstruction();
 
-   private final Vop instruction;
+   private final Vop op;
    private Instruction prev;
    private Instruction next;
    private Instruction target;
@@ -29,7 +30,7 @@ public class InstructionInternal implements Instruction {
    private final List<Instruction> targetOf = new LinkedList<>();
 
    public InstructionInternal(final Vop instruction, final InstructionCode code) {
-      this.instruction = instruction;
+      this.op = instruction;
       this.code = code;
 
       next = terminate;
@@ -38,7 +39,7 @@ public class InstructionInternal implements Instruction {
 
    @Override public void eval(final State ctx) {
       assert next != null;
-      instruction.eval(ctx);
+      op.eval(ctx);
    }
 
    @Override public Instruction append(final Instruction instruction) {
@@ -70,7 +71,7 @@ public class InstructionInternal implements Instruction {
    }
 
    @Override public String toString() {
-      return String.format("%s", instruction.toString(), next);
+      return String.format("%s", op.toString(), next);
    }
 
    @Override public InstructionCode code() {
@@ -109,5 +110,9 @@ public class InstructionInternal implements Instruction {
 
    @Override public void targetOf(final Instruction instruction) {
       targetOf.add(instruction);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return op.query(instructionQuery);
    }
 }

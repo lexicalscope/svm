@@ -11,24 +11,38 @@ import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.State;
 
 public class TraceMethodCalls implements Instrumentor {
-   private final Matcher<? super State> matcher;
+   private final Matcher<? super State> callinMatcher;
+   private final Matcher<? super InstrumentationContext> callbackMatcher;
 
-   public TraceMethodCalls(final Matcher<? super State> matcher) {
-      this.matcher = matcher;
+   public TraceMethodCalls(
+         final Matcher<? super State> callinMatcher,
+         final Matcher<? super InstrumentationContext> callbackMatcher) {
+      this.callinMatcher = callinMatcher;
+      this.callbackMatcher = callbackMatcher;
    }
 
-   public static TraceMethodCalls methodCallsAndReturnsThatCross(final Matcher<? super State> matcher) {
-      return new TraceMethodCalls(matcher);
+   public static Instrumentor methodCallsAndReturnsThatCross(final PartitionBuilder partition) {
+      return methodCallsAndReturnsThatCross(
+            partition.dynamicExactCallinMatcher(),
+            partition.dynamicExactCallbackMatcher());
+   }
+
+   private static Instrumentor methodCallsAndReturnsThatCross(
+         final Matcher<? super State> dynamicExactCallinMatcher,
+         final Matcher<? super InstrumentationContext> dynamicExactCallbackMatcher) {
+      return new TraceMethodCalls(dynamicExactCallinMatcher, dynamicExactCallbackMatcher);
    }
 
    @Override public Instruction instrument(final InstructionSource instructions, final Instruction methodEntry) {
-      return instrumentMethodReturn(instructions, instrumentMethodCall(instructions, methodEntry));
+      return instrumentCallBacks(instructions,
+               instrumentMethodReturn(instructions,
+                     instrumentMethodCall(instructions, methodEntry)));
    }
 
    private Instruction instrumentMethodCall(final InstructionSource instructions, final Instruction methodEntry) {
       return statements(instructions).
             before(methodEntry).
-            linearOp(new TraceMethodCallOp(matcher, CALL)).
+            linearOp(new TraceMethodCallOp(callinMatcher, CALL)).
             buildInstruction();
    }
 
@@ -38,7 +52,7 @@ public class TraceMethodCalls implements Instrumentor {
          if(cur.code().isReturn()) {
             cur.insertHere(
                   statements(instructions).
-                  linearOp(new TraceMethodCallOp(matcher, RETURN)).
+                  linearOp(new TraceMethodCallOp(callinMatcher, RETURN)).
                   buildInstruction());
          }
          cur = cur.next();
@@ -52,16 +66,14 @@ public class TraceMethodCalls implements Instrumentor {
       Instruction cur = methodEntry;
       while(!cur.code().isMethodExit()) {
          if(cur.code().isMethodCall()) {
-            /*
             cur.insertHere(
                   statements(instructions).
-                  linearOp(new TraceCallbackCallOp(matcher, RETURN)).
+                  linearOp(new TraceCallbackCallOp(cur, callbackMatcher)).
                   buildInstruction());
-            cur.insertNext(
-                  statements(instructions).
-                  linearOp(new TraceCallbackReturnOp(matcher, RETURN)).
-                  buildInstruction());
-            */
+//            cur.insertNext(
+//                  statements(instructions).
+//                  linearOp(new TraceCallbackReturnOp(matcher, RETURN)).
+//                  buildInstruction());
          }
          cur = cur.next();
       }

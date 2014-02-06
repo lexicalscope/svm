@@ -8,6 +8,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayStoreSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -53,5 +54,9 @@ public class SArrayStoreOp implements Vop {
 
    public static Vop iaStore(final FeasibilityChecker feasibilityChecker) {
       return new SArrayStoreOp(feasibilityChecker, ArrayStoreOp.iaStore());
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.arraystore();
    }
 }

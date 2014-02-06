@@ -4,7 +4,6 @@ import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.symb.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.symb.partition.trace.TraceMatchers.*;
 import static com.lexicalscope.symb.partition.trace.TraceMetaKey.TRACE;
-import static com.lexicalscope.symb.partition.trace.TraceMethodCalls.methodCallsAndReturnsThatCross;
 import static com.lexicalscope.symb.vm.conc.JvmBuilder.jvm;
 import static com.lexicalscope.symb.vm.j.JavaConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
@@ -22,7 +21,7 @@ public class TestMethodCallBackInstrumentation {
 
    @Rule public final VmRule vm = new VmRule(
          jvm().instrument(partition.staticOverApproximateMatcher(),
-                          methodCallsAndReturnsThatCross(partition.dynamicExactMatcher())).
+                          TraceMethodCalls.methodCallsAndReturnsThatCross(partition)).
                 meta(TRACE, new Trace()));
 
    public static class ClassInsidePartiton {
@@ -45,7 +44,7 @@ public class TestMethodCallBackInstrumentation {
       new ClassOutSidePartition().entry();
    }
 
-   @Test @Ignore public void collectVirtualMethodInTrace() throws Exception {
+   @Test @Ignore public void collectCallbackInTrace() throws Exception {
       vm.execute();
 
       assertThat(

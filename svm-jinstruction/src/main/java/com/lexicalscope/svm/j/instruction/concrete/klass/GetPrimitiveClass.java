@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 import static com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp.primitivesContains;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -43,5 +44,9 @@ public final class GetPrimitiveClass implements Vop {
          result[i] = (char) array[i];
       }
       return result;
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.nativ3();
    }
 }

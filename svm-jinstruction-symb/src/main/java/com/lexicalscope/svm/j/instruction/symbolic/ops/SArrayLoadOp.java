@@ -8,6 +8,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySelectSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -51,5 +52,9 @@ public class SArrayLoadOp implements Vop {
 
    public static Vop aaLoad(final FeasibilityChecker feasibilityChecker) {
       return new SArrayLoadOp(feasibilityChecker, ArrayLoadOp.aaLoad());
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.arrayload();
    }
 }

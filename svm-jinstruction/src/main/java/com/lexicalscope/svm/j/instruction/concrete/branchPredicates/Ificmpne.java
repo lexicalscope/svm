@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.branchPredicates;
 
 
-public class ICmpNe implements ICmpOp {
+public class Ificmpne implements ICmpOp {
    @Override public String toString() {
       return "IF_ICMPNE";
    }

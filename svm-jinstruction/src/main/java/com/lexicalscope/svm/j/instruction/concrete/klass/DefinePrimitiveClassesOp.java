@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -56,6 +57,10 @@ public final class DefinePrimitiveClassesOp implements Op<List<SClass>> {
 
    @Override public String toString() {
       return "Define Primitives";
+   }
+
+   @Override public <S> S query(final InstructionQuery<S> instructionQuery) {
+      return instructionQuery.synthetic();
    }
 
    public static boolean primitivesContains(final String klassName) {

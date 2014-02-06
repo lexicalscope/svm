@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -20,5 +21,9 @@ public class ArrayCopyOp implements Vop {
 
    @Override public String toString() {
       return "ARRAYCOPY";
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.arraycopy();
    }
 }

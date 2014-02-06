@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -37,5 +38,9 @@ public final class PutStaticOp implements Vop {
    @Override
    public String toString() {
       return "PUTSTATIC " + GetStaticOp.fieldKey(fieldInsnNode);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.putstatic();
    }
 }

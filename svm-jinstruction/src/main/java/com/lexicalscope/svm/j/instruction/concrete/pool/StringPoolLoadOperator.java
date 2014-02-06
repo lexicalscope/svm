@@ -6,6 +6,7 @@ import static org.objectweb.asm.Type.getInternalName;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -43,5 +44,9 @@ public final class StringPoolLoadOperator implements Vop {
    @Override
    public String toString() {
       return "LDC string: " + new String(val);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.stringpoolload();
    }
 }

@@ -122,6 +122,7 @@ public interface InstructionSource {
    InstructionSource ifnull(JumpInsnNode jumpInsnNode, InstructionSink sink);
    InstructionSource ifnonnull(JumpInsnNode jumpInsnNode, InstructionSink sink);
    InstructionSource ifacmpne(JumpInsnNode jumpInsnNode, InstructionSink sink);
+   InstructionSource ifacmpeq(JumpInsnNode jumpInsnNode, InstructionSink sink);
    InstructionSource invokestatic(SMethodDescriptor name, InstructionSink sink);
    InstructionSource invokespecial(SMethodDescriptor name, InstructionSink sink);
    InstructionSource invokeinterface(SMethodDescriptor name, InstructionSink sink);

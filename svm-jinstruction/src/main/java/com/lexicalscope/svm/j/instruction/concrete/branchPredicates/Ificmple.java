@@ -1,12 +1,12 @@
 package com.lexicalscope.svm.j.instruction.concrete.branchPredicates;
 
 
-public class ICmpLt implements ICmpOp {
+public class Ificmple implements ICmpOp {
    @Override public String toString() {
-      return "ICMPLT";
+      return "IF_ICMPLE";
    }
 
    @Override public Boolean cmp(final int value1, final int value2) {
-      return value1 < value2;
+      return value1 <= value2;
    }
 }

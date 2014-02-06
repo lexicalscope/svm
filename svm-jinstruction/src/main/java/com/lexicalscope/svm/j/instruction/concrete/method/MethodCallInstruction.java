@@ -2,16 +2,17 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import static com.lexicalscope.symb.vm.j.InstructionCode.*;
 
+import com.lexicalscope.svm.j.instruction.MethodCallVop;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.symb.stack.MethodScope;
 import com.lexicalscope.symb.stack.SnapshotableStackFrame;
 import com.lexicalscope.symb.stack.StackFrame;
 import com.lexicalscope.symb.stack.trace.SMethodName;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.JavaConstants;
 import com.lexicalscope.symb.vm.j.MethodResolver;
 import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
 import com.lexicalscope.symb.vm.j.j.klass.SMethod;
 import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
@@ -30,6 +31,7 @@ public class MethodCallInstruction {
       final String receiverKlass;
       final SMethod method;
    }
+
    private interface MethodInvokation {
       Object[] args(State ctx, SMethodDescriptor targetMethod);
 
@@ -38,6 +40,8 @@ public class MethodCallInstruction {
       Resolution resolveMethod(Object[] args, SMethodDescriptor sMethodName, State ctx);
 
       MethodScope scope();
+
+      <T> T query(SMethodDescriptor methodName, InstructionQuery<T> instructionQuery);
    }
 
    private static class VirtualMethodInvokation implements MethodInvokation {
@@ -56,6 +60,10 @@ public class MethodCallInstruction {
       @Override public MethodScope scope() {
          return MethodScope.DYNAMIC;
       }
+
+      @Override public <T> T query(final SMethodDescriptor methodName, final InstructionQuery<T> instructionQuery) {
+         return instructionQuery.invokevirtual(methodName);
+      }
    }
 
    private static class InterfaceMethodInvokation implements MethodInvokation {
@@ -73,6 +81,10 @@ public class MethodCallInstruction {
 
       @Override public MethodScope scope() {
          return MethodScope.DYNAMIC;
+      }
+
+      @Override public <T> T query(final SMethodDescriptor methodName, final InstructionQuery<T> instructionQuery) {
+         return instructionQuery.invokeinterface(methodName);
       }
    }
 
@@ -104,6 +116,10 @@ public class MethodCallInstruction {
       @Override public MethodScope scope() {
          return MethodScope.DYNAMIC;
       }
+
+      @Override public <T> T query(final SMethodDescriptor methodName, final InstructionQuery<T> instructionQuery) {
+         return instructionQuery.invokespecial(methodName);
+      }
    }
 
    private static class ClassDefaultConstructorMethodInvokation implements MethodInvokation {
@@ -131,6 +147,10 @@ public class MethodCallInstruction {
       @Override public MethodScope scope() {
          return MethodScope.DYNAMIC;
       }
+
+      @Override public <T> T query(final SMethodDescriptor methodName, final InstructionQuery<T> instructionQuery) {
+         return instructionQuery.synthetic();
+      }
    }
 
    private static class StaticMethodInvokation implements MethodInvokation {
@@ -149,15 +169,23 @@ public class MethodCallInstruction {
       @Override public MethodScope scope() {
          return MethodScope.STATIC;
       }
+
+      @Override public <T> T query(final SMethodDescriptor methodName, final InstructionQuery<T> instructionQuery) {
+         return instructionQuery.invokestatic(methodName);
+      }
    }
 
-   private static final class MethodCallOp implements Vop {
+   private static final class MethodCallOp  implements MethodCallVop {
       private final MethodInvokation methodInvokation;
       private final SMethodDescriptor sMethodName;
 
       public MethodCallOp(final SMethodDescriptor sMethodName, final MethodInvokation methodInvokation) {
          this.sMethodName = sMethodName;
          this.methodInvokation = methodInvokation;
+      }
+
+      @Override public SMethodDescriptor getMethodName() {
+         return sMethodName;
       }
 
       @Override
@@ -173,6 +201,10 @@ public class MethodCallInstruction {
          final SMethod targetMethod = resolution.method;
          final StackFrame newStackFrame = new SnapshotableStackFrame(targetMethod.name(), methodInvokation.scope(), targetMethod.entry(), targetMethod.maxLocals(), targetMethod.maxStack());
          ctx.pushFrame(newStackFrame.setLocals(args));
+      }
+
+      @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+         return methodInvokation.query(sMethodName, instructionQuery);
       }
    }
 

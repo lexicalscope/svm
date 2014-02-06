@@ -109,6 +109,7 @@ public enum InstructionCode {
    checkcast,
    ifnull,
    ifnonnull,
+   ifacmpeq,
    ifacmpne,
    invokestatic,
    invokespecial,
@@ -123,9 +124,12 @@ public enum InstructionCode {
 
    public static final Set<InstructionCode> calls = EnumSet.of(
          invokeinterface, invokespecial, invokevirtual, invokestatic);
+   public static final Set<InstructionCode> dynamicCalls = EnumSet.of(
+         invokeinterface, invokespecial, invokevirtual);
    public static final Set<InstructionCode> returns = EnumSet.of(return1, return2, returnvoid);
 
    public boolean isReturn() { return returns.contains(this); }
    public boolean isMethodExit() { return this.equals(methodexit); }
    public boolean isMethodCall() { return calls.contains(this); }
+   public boolean isDynamicMethodCall() { return dynamicCalls.contains(this); }
 }

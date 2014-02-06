@@ -41,24 +41,24 @@ public interface InstructionFactory {
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
 
-   Vop branchIfGe(JumpInsnNode jumpInsnNode);
-   Vop branchIfGt(JumpInsnNode jumpInsnNode);
-   Vop branchIfLe(JumpInsnNode jumpInsnNode);
-   Vop branchIfLt(JumpInsnNode jumpInsnNode);
-   Vop branchIfEq(JumpInsnNode jumpInsnNode);
-   Vop branchIfNe(JumpInsnNode jumpInsnNode);
-   Vop branchIfNull(JumpInsnNode jumpInsnNode);
-   Vop branchIfNonNull(JumpInsnNode jumpInsnNode);
+   Vop ifge(JumpInsnNode jumpInsnNode);
+   Vop ifgt(JumpInsnNode jumpInsnNode);
+   Vop ifle(JumpInsnNode jumpInsnNode);
+   Vop iflt(JumpInsnNode jumpInsnNode);
+   Vop ifeq(JumpInsnNode jumpInsnNode);
+   Vop ifne(JumpInsnNode jumpInsnNode);
+   Vop ifnull(JumpInsnNode jumpInsnNode);
+   Vop ifnonnull(JumpInsnNode jumpInsnNode);
 
-   Vop branchIfICmpEq(JumpInsnNode jumpInsnNode);
-   Vop branchIfICmpNe(JumpInsnNode jumpInsnNode);
-   Vop branchIfICmpLe(JumpInsnNode jumpInsnNode);
-   Vop branchIfICmpGe(JumpInsnNode jumpInsnNode);
-   Vop branchIfICmpLt(JumpInsnNode jumpInsnNode);
-   Vop branchIfICmpGt(JumpInsnNode jumpInsnNode);
+   Vop ificmpeq(JumpInsnNode jumpInsnNode);
+   Vop ificmpne(JumpInsnNode jumpInsnNode);
+   Vop ificmple(JumpInsnNode jumpInsnNode);
+   Vop ificmpge(JumpInsnNode jumpInsnNode);
+   Vop ificmplt(JumpInsnNode jumpInsnNode);
+   Vop ificmpgt(JumpInsnNode jumpInsnNode);
 
-   Vop branchIfACmpEq(JumpInsnNode jumpInsnNode);
-   Vop branchIfACmpNe(JumpInsnNode jumpInsnNode);
+   Vop ifacmpeq(JumpInsnNode jumpInsnNode);
+   Vop ifacmpne(JumpInsnNode jumpInsnNode);
 
    Vop loadArg(Object object, InstructionSource instructions);
 

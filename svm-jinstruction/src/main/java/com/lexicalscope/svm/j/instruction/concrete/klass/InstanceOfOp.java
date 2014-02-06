@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import static com.lexicalscope.symb.vm.j.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.vm.j.j.klass.SClass;
@@ -32,5 +33,9 @@ public class InstanceOfOp implements Vop {
 
    @Override public String toString() {
       return "INSTANCEOF";
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.instance0f();
    }
 }

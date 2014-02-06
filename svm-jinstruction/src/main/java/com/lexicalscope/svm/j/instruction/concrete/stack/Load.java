@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.stack;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -17,5 +18,9 @@ public class Load implements Vop {
 
    @Override public void eval(final State ctx) {
       ctx.push(ctx.local(var));
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.load(var);
    }
 }

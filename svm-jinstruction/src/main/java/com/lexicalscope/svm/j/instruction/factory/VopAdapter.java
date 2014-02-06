@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -18,5 +19,9 @@ public class VopAdapter implements Vop {
 
    @Override public String toString() {
       return op.toString();
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return op.query(instructionQuery);
    }
 }

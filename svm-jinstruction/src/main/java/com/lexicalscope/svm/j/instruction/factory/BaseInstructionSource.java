@@ -12,7 +12,7 @@ import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLengthOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Unconditional;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Got0;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.F2IOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpGOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpLOperator;
@@ -100,82 +100,87 @@ public class BaseInstructionSource implements InstructionSource {
 
    @Override
    public InstructionSource got0(final InstructionSource.InstructionSink sink) {
-      return sink(new BranchInstruction(new Unconditional()), got0, sink);
+      return sink(new BranchInstruction(new Got0()), got0, sink);
    }
 
    @Override
    public InstructionSource ifacmpne(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfACmpNe(jumpInsnNode), ifacmpne, sink);
+      return sink(instructionFactory.ifacmpne(jumpInsnNode), ifacmpne, sink);
+   }
+
+   @Override
+   public InstructionSource ifacmpeq(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
+      return sink(instructionFactory.ifacmpeq(jumpInsnNode), ifacmpeq, sink);
    }
 
    @Override
    public InstructionSource ificmpge(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfICmpGe(jumpInsnNode), ificmpge, sink);
+      return sink(instructionFactory.ificmpge(jumpInsnNode), ificmpge, sink);
    }
 
    @Override
    public InstructionSource ificmpgt(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfICmpGt(jumpInsnNode), ificmpgt, sink);
+      return sink(instructionFactory.ificmpgt(jumpInsnNode), ificmpgt, sink);
    }
 
    @Override
    public InstructionSource ificmplt(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfICmpLt(jumpInsnNode), ificmplt, sink);
+      return sink(instructionFactory.ificmplt(jumpInsnNode), ificmplt, sink);
    }
 
    @Override
    public InstructionSource ificmple(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfICmpLe(jumpInsnNode), ificmple, sink);
+      return sink(instructionFactory.ificmple(jumpInsnNode), ificmple, sink);
    }
 
    @Override
    public InstructionSource ificmpne(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfICmpNe(jumpInsnNode), ificmpne, sink);
+      return sink(instructionFactory.ificmpne(jumpInsnNode), ificmpne, sink);
    }
 
    @Override
    public InstructionSource ificmpeq(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfICmpEq(jumpInsnNode), ificmpeq, sink);
+      return sink(instructionFactory.ificmpeq(jumpInsnNode), ificmpeq, sink);
    }
 
    @Override
    public InstructionSource ifnonnull(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfNonNull(jumpInsnNode), ifnonnull, sink);
+      return sink(instructionFactory.ifnonnull(jumpInsnNode), ifnonnull, sink);
    }
 
    @Override
    public InstructionSource ifnull(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfNull(jumpInsnNode), ifnull, sink);
+      return sink(instructionFactory.ifnull(jumpInsnNode), ifnull, sink);
    }
 
    @Override
    public InstructionSource ifne(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfNe(jumpInsnNode), ifeq, sink);
+      return sink(instructionFactory.ifne(jumpInsnNode), ifne, sink);
    }
 
    @Override
    public InstructionSource ifeq(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfEq(jumpInsnNode), ifeq, sink);
+      return sink(instructionFactory.ifeq(jumpInsnNode), ifeq, sink);
    }
 
    @Override
    public InstructionSource iflt(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfLt(jumpInsnNode), iflt, sink);
+      return sink(instructionFactory.iflt(jumpInsnNode), iflt, sink);
    }
 
    @Override
    public InstructionSource ifle(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfLe(jumpInsnNode), ifle, sink);
+      return sink(instructionFactory.ifle(jumpInsnNode), ifle, sink);
    }
 
    @Override
    public InstructionSource ifgt(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfGt(jumpInsnNode), ifgt, sink);
+      return sink(instructionFactory.ifgt(jumpInsnNode), ifgt, sink);
    }
 
    @Override
    public InstructionSource ifge(final JumpInsnNode jumpInsnNode, final InstructionSource.InstructionSink sink) {
-      return sink(instructionFactory.branchIfGe(jumpInsnNode), ifge, sink);
+      return sink(instructionFactory.ifge(jumpInsnNode), ifge, sink);
    }
 
    private InstructionSource sink(final Vop op, final InstructionCode code, final InstructionSource.InstructionSink sink) {

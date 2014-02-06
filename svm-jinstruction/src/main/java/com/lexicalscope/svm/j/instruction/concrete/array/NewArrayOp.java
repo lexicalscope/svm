@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 
@@ -29,5 +30,9 @@ public class NewArrayOp implements Vop {
 
    @Override public String toString() {
       return "NEWARRAY";
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.newarray();
    }
 }

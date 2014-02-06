@@ -11,24 +11,24 @@ import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ACmpEq;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ACmpNe;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Eq;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ge;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Gt;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifeq;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifge;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifgt;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpBranchPredicate;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpEq;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpGe;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpGt;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpLe;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpLt;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpNe;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpeq;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmple;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpne;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpOp;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Le;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Lt;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ne;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.NonNull;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Null;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifacmpeq;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifacmpne;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpge;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpgt;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmplt;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnonnull;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnull;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifle;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Iflt;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifne;
 import com.lexicalscope.svm.j.instruction.concrete.d0uble.DConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FAddOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FConstOperator;
@@ -102,73 +102,73 @@ public class ConcInstructionFactory implements InstructionFactory {
    }
 
    @Override
-   public Vop branchIfGe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Ge());
+   public Vop ifge(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifge());
    }
 
    @Override
-   public Vop branchIfGt(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Gt());
+   public Vop ifgt(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifgt());
    }
 
    @Override
-   public Vop branchIfLe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Le());
+   public Vop ifle(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifle());
    }
 
    @Override
-   public Vop branchIfLt(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Lt());
+   public Vop iflt(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Iflt());
    }
 
    @Override
-   public Vop branchIfNe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Ne());
+   public Vop ifne(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifne());
    }
 
    @Override
-   public Vop branchIfEq(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Eq());
+   public Vop ifeq(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifeq());
    }
 
-   @Override public Vop branchIfICmpEq(final JumpInsnNode jumpInsnNode) {
-      return icmp(new ICmpEq());
+   @Override public Vop ificmpeq(final JumpInsnNode jumpInsnNode) {
+      return icmp(new Ificmpeq());
    }
 
-   @Override public Vop branchIfICmpNe(final JumpInsnNode jumpInsnNode) {
-      return icmp(new ICmpNe());
+   @Override public Vop ificmpne(final JumpInsnNode jumpInsnNode) {
+      return icmp(new Ificmpne());
    }
 
-   @Override public Vop branchIfICmpLe(final JumpInsnNode jumpInsnNode) {
-      return icmp(new ICmpLe());
+   @Override public Vop ificmple(final JumpInsnNode jumpInsnNode) {
+      return icmp(new Ificmple());
    }
 
-   @Override public Vop branchIfICmpGe(final JumpInsnNode jumpInsnNode) {
-      return icmp(new ICmpGe());
+   @Override public Vop ificmpge(final JumpInsnNode jumpInsnNode) {
+      return icmp(new Ificmpge());
    }
 
-   @Override public Vop branchIfICmpLt(final JumpInsnNode jumpInsnNode) {
-      return icmp(new ICmpLt());
+   @Override public Vop ificmplt(final JumpInsnNode jumpInsnNode) {
+      return icmp(new Ificmplt());
    }
 
-   @Override public Vop branchIfICmpGt(final JumpInsnNode jumpInsnNode) {
-      return icmp(new ICmpGt());
+   @Override public Vop ificmpgt(final JumpInsnNode jumpInsnNode) {
+      return icmp(new Ificmpgt());
    }
 
-   @Override public Vop branchIfNull(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new Null());
+   @Override public Vop ifnull(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifnull());
    }
 
-   @Override public Vop branchIfNonNull(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new NonNull());
+   @Override public Vop ifnonnull(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifnonnull());
    }
 
-   @Override public Vop branchIfACmpNe(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new ACmpNe());
+   @Override public Vop ifacmpne(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifacmpne());
    }
 
-   @Override public Vop branchIfACmpEq(final JumpInsnNode jumpInsnNode) {
-      return branchInstruction(new ACmpEq());
+   @Override public Vop ifacmpeq(final JumpInsnNode jumpInsnNode) {
+      return branchInstruction(new Ifacmpeq());
    }
 
    private Vop icmp(final ICmpOp op) {

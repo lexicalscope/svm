@@ -22,6 +22,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchOp;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchStrategy;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.NotSymbol;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
 import com.lexicalscope.symb.z3.FeasibilityChecker;
@@ -132,5 +133,9 @@ final class SBranchInstruction implements Vop {
    private static Vop icmpInstruction(final FeasibilityChecker feasibilityChecker, final BinarySBranchOp icmpStrategy) {
       final BinarySBranchStrategy binaryBranchStrategy = new BinarySBranchStrategy(icmpStrategy);
       return new SBranchInstruction(feasibilityChecker, binaryBranchStrategy);
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.branch();
    }
 }

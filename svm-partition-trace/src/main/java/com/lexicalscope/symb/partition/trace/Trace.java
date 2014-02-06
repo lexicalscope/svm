@@ -26,7 +26,11 @@ public class Trace implements Iterable<Trace> {
    }
 
    public Trace extend(final StackFrame currentFrame, final CallReturn callReturn) {
-      return new Trace(this, currentFrame.context(), callReturn);
+      return extend(currentFrame.context(), callReturn);
+   }
+
+   public Trace extend(final SMethodName methodCalled, final CallReturn callReturn) {
+      return new Trace(this, methodCalled, callReturn);
    }
 
    public List<Trace> asList() {

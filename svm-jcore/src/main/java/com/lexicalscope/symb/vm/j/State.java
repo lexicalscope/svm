@@ -53,6 +53,7 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
    Object currentThread();
 
    void push(Object operand);
+   Object[] peek(int count);
    Object peek();
    Object[] pop(int count);
    Object pop();

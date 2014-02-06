@@ -7,6 +7,7 @@ import java.util.Collection;
 import com.lexicalscope.symb.vm.TerminationException;
 import com.lexicalscope.symb.vm.j.Instruction;
 import com.lexicalscope.symb.vm.j.InstructionCode;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 
 public class TerminateInstruction implements Instruction {
@@ -83,5 +84,9 @@ public class TerminateInstruction implements Instruction {
       } else {
          node.append(this);
       }
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return instructionQuery.methodexit();
    }
 }

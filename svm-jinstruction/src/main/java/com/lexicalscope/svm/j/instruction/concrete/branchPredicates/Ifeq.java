@@ -1,9 +1,10 @@
 package com.lexicalscope.svm.j.instruction.concrete.branchPredicates;
 
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 
-public class Eq implements BranchPredicate {
+public final class Ifeq implements BranchPredicate {
 	@Override public Boolean eval(final State ctx) {
 	   return (int) ctx.pop() == 0;
 	}
@@ -11,4 +12,8 @@ public class Eq implements BranchPredicate {
 	@Override public String toString() {
 	   return "EQ";
 	}
+
+   @Override public <S> S query(final InstructionQuery<S> instructionQuery) {
+      return instructionQuery.ifeq();
+   }
 }

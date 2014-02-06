@@ -10,6 +10,7 @@ import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
+import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.Op;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -59,6 +60,10 @@ public class LoadingInstruction implements Vop {
          }
          ctx.advanceTo(replacementInstruction.linearOp(op).buildInstruction());
       }
+   }
+
+   @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
+      return op.query(instructionQuery);
    }
 
    @Override public String toString() {
