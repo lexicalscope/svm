@@ -27,4 +27,12 @@ public class HashMetaState implements MetaState {
    @Override public <T> void set(final MetaKey<T> key, final T value) {
       meta.put(key, value);
    }
+
+   @Override public boolean contains(final MetaKey<?> key) {
+      return meta.containsKey(key);
+   }
+
+   @Override public void remove(final MetaKey<?> key) {
+      meta.remove(key);
+   }
 }

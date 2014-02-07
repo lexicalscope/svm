@@ -63,10 +63,9 @@ public class TraceMethodCalls implements Instrumentor {
                      linearOp(new TraceCallbackCallOp(methodName, callbackMatcher)).
                      buildInstruction());
 
-//            cur.insertNext(
-//                  statements(instructions).
-//                  linearOp(new TraceCallbackReturnOp(matcher, RETURN)).
-//                  buildInstruction());
+               instruction.insertNext(statements(instructions).
+                     linearOp(new TraceCallbackReturnOp(methodName)).
+                     buildInstruction());
             }
 
             @Override public Void invokeinterface(final SMethodDescriptor methodName) {

@@ -196,4 +196,12 @@ public final class SnapshotableStackFrame implements StackFrame {
    public final <T> void setMeta(final MetaKey<T> key, final T value) {
       meta.set(key, value);
    }
+
+   @Override public boolean containsMeta(final MetaKey<?> key) {
+      return meta.contains(key);
+   }
+
+   @Override public void removeMeta(final MetaKey<?> key) {
+      meta.remove(key);
+   }
 }

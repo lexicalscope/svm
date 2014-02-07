@@ -1,5 +1,6 @@
 package com.lexicalscope.symb.partition.trace;
 
+import static com.lexicalscope.symb.partition.trace.CrossingCallMetaKey.CROSSINGCALL;
 import static com.lexicalscope.symb.partition.trace.TraceMetaKey.TRACE;
 
 import org.hamcrest.Matcher;
@@ -22,8 +23,8 @@ public class TraceCallbackCallOp implements Vop {
    @Override public void eval(final State ctx) {
       final InstrumentationContext instrumentationContext = new InstrumentationContext(methodName, ctx);
       if(callbackMatcher.matches(instrumentationContext)) {
-         final Trace trace = ctx.getMeta(TRACE);
-         ctx.setMeta(TRACE, trace.extend(methodName, CallReturn.CALL));
+         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, CallReturn.CALL));
+         ctx.currentFrame().setMeta(CROSSINGCALL, true);
       }
    }
 

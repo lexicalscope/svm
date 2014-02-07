@@ -27,4 +27,6 @@ public interface StackFrame extends Snapshotable<StackFrame> {
 
    <T> T getMeta(MetaKey<T> key);
    <T> void setMeta(MetaKey<T> key, T value);
+   boolean containsMeta(MetaKey<?> key);
+   void removeMeta(MetaKey<?> key);
 }

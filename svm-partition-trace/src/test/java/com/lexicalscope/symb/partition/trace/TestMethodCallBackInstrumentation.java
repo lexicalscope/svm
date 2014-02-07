@@ -4,12 +4,12 @@ import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.symb.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.symb.partition.trace.TraceMatchers.*;
 import static com.lexicalscope.symb.partition.trace.TraceMetaKey.TRACE;
+import static com.lexicalscope.symb.partition.trace.TraceMethodCalls.methodCallsAndReturnsThatCross;
 import static com.lexicalscope.symb.vm.conc.JvmBuilder.jvm;
 import static com.lexicalscope.symb.vm.j.JavaConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.objectweb.asm.Type.getInternalName;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ public class TestMethodCallBackInstrumentation {
 
    @Rule public final VmRule vm = new VmRule(
          jvm().instrument(partition.staticOverApproximateMatcher(),
-                          TraceMethodCalls.methodCallsAndReturnsThatCross(partition)).
+                          methodCallsAndReturnsThatCross(partition)).
                 meta(TRACE, new Trace()));
 
    public static class ClassInsidePartiton {
@@ -44,16 +44,16 @@ public class TestMethodCallBackInstrumentation {
       new ClassOutSidePartition().entry();
    }
 
-   @Test @Ignore public void collectCallbackInTrace() throws Exception {
+   @Test public void collectCallbackInTrace() throws Exception {
       vm.execute();
 
       assertThat(
             vm.result().state().getMeta(TRACE),
             has(methodCallOf(ClassInsidePartiton.class, INIT, NOARGS_VOID_DESC),
                 methodReturnOf(ClassInsidePartiton.class, INIT, NOARGS_VOID_DESC),
-                methodCallOf(ClassInsidePartiton.class, "myVirtualMethod", "(L"+ getInternalName(ClassOutSidePartition.class)  +";)V"),
+                methodCallOf(ClassInsidePartiton.class, "myMethod", "(L"+ getInternalName(ClassOutSidePartition.class)  +";)V"),
                 methodCallOf(ClassOutSidePartition.class, "callingBack", NOARGS_VOID_DESC),
                 methodReturnOf(ClassOutSidePartition.class, "callingBack", NOARGS_VOID_DESC),
-                methodReturnOf(ClassInsidePartiton.class, "myVirtualMethod", "()V")).only().inOrder());
+                methodReturnOf(ClassInsidePartiton.class, "myMethod", "(L"+ getInternalName(ClassOutSidePartition.class)  +";)V")).only().inOrder());
    }
 }
