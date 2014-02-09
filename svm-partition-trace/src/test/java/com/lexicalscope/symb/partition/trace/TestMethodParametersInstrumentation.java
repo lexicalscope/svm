@@ -8,45 +8,44 @@ import static com.lexicalscope.symb.partition.trace.TraceMethodCalls.methodCalls
 import static com.lexicalscope.symb.vm.conc.JvmBuilder.jvm;
 import static com.lexicalscope.symb.vm.j.JavaConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.*;
 
 import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.symb.vm.conc.junit.VmRule;
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
 
-public class TestMethodCallInstrumentation {
-   private final PartitionBuilder partition = partition().ofClass(ClassWithVirtualMethod.class);
+public class TestMethodParametersInstrumentation {
+   private final PartitionBuilder partition = partition().ofClass(ClassInsidePartition.class);
 
    @Rule public final VmRule vm = new VmRule(
          jvm().instrument(partition.staticOverApproximateMatcher(),
                           methodCallsAndReturnsThatCross(partition)).
                 meta(TRACE, new Trace()));
 
-   public interface WithVirtualMethod { void myVirtualMethod(); }
-   public static class ClassWithVirtualMethod implements WithVirtualMethod {
-      @Override public void myVirtualMethod(){}
+   public static class ClassInsidePartition {
+      public int myMethod(final int x){ return x*2; }
    }
 
    public static class ClassOutSidePartition {
-      public void entry() {
-         new ClassWithVirtualMethod().myVirtualMethod();
+      public int entry(final int x) {
+         return new ClassInsidePartition().myMethod(x);
       }
    }
 
    @TestEntryPoint public static void callSomeMethods() {
-      new ClassOutSidePartition().entry();
+      new ClassOutSidePartition().entry(5);
    }
 
-   @Test public void collectVirtualMethodInTrace() throws Exception {
+   @Test public void collectArgumentsInTrace() throws Exception {
       vm.execute();
 
       assertThat(
             vm.result().state().getMeta(TRACE),
-            has(methodCallOf(ClassWithVirtualMethod.class, INIT, NOARGS_VOID_DESC),
-                methodReturnOf(ClassWithVirtualMethod.class, INIT, NOARGS_VOID_DESC),
-                methodCallOf(ClassWithVirtualMethod.class, "myVirtualMethod", "()V"),
-                methodReturnOf(new AsmSMethodName(ClassWithVirtualMethod.class, "myVirtualMethod", "()V"))).only().inOrder());
+            has(methodCallOf(ClassInsidePartition.class, INIT, NOARGS_VOID_DESC),
+                methodReturnOf(ClassInsidePartition.class, INIT, NOARGS_VOID_DESC),
+                methodCallOf(ClassInsidePartition.class, "myMethod", "(I)I", any(Object.class), equalTo((Object) 5)),
+                methodReturnOf(ClassInsidePartition.class, "myMethod", "(I)I", equalTo((Object) 10))).only().inOrder());
    }
 }

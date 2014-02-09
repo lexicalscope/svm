@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.vm.j.j.code;
 
 import static com.lexicalscope.symb.vm.j.JavaConstants.*;
-import static org.objectweb.asm.Type.getArgumentsAndReturnSizes;
+import static org.objectweb.asm.Type.*;
 
 import org.objectweb.asm.Type;
 
@@ -89,6 +89,11 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    }
 
    @Override
+   public int returnCount() {
+      return getArgumentsAndReturnSizes(desc()) & 0x03;
+   }
+
+   @Override
    public SVirtualMethodName virtualName() {
       return virtualName;
    }
@@ -99,5 +104,9 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
 
    public static SMethodDescriptor defaultConstructor(final String klassName) {
       return new AsmSMethodName(klassName, INIT, NOARGS_VOID_DESC);
+   }
+
+   public static SMethodDescriptor defaultConstructor(final Class<?> klass) {
+      return defaultConstructor(getInternalName(klass));
    }
 }

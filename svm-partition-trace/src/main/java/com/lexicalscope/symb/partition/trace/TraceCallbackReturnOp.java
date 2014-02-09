@@ -19,7 +19,7 @@ public class TraceCallbackReturnOp implements Vop {
    @Override public void eval(final State ctx) {
       if(ctx.currentFrame().containsMeta(CROSSINGCALL)) {
          ctx.currentFrame().removeMeta(CROSSINGCALL);
-         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, RETURN));
+         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, RETURN, ctx.peek(methodName.returnCount())));
       }
    }
 

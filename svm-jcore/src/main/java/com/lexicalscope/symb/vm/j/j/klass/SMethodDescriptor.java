@@ -13,6 +13,7 @@ public interface SMethodDescriptor extends SMethodName {
    String desc();
 
    int argSize();
+   int returnCount();
 
    SVirtualMethodName virtualName();
 }

@@ -148,6 +148,12 @@ public final class SnapshotableStackFrame implements StackFrame {
       return stack[opTop];
    }
 
+   @Override public Object[] locals(final int count) {
+      final Object[] result = new Object[count];
+      System.arraycopy(stack, vars, result, 0, count);
+      return result;
+   }
+
    @Override
    public SnapshotableStackFrame snapshot() {
       return new SnapshotableStackFrame(

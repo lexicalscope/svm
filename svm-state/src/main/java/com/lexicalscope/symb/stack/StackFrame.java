@@ -17,6 +17,7 @@ public interface StackFrame extends Snapshotable<StackFrame> {
    Object[] pop(int argCount);
    Object[] peek(int argCount);
    Object peek();
+   Object[] locals(int count);
 
    StackFrame setLocals(Object[] args);
    Object local(int var);

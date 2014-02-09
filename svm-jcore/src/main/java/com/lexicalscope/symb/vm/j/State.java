@@ -57,6 +57,7 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
    Object peek();
    Object[] pop(int count);
    Object pop();
+   Object[] locals(int count);
    void pushDoubleWord(Object val);
    Object popDoubleWord();
    Object peekOperand();

@@ -6,31 +6,29 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
-import com.lexicalscope.symb.stack.StackFrame;
+import com.google.common.base.Joiner;
 import com.lexicalscope.symb.stack.trace.SMethodName;
 
 public class Trace implements Iterable<Trace> {
    private final Trace previous;
    private final SMethodName method;
    private final CallReturn callReturn;
+   private final Object[] args;
    public enum CallReturn { CALL, RETURN }
 
    public Trace() {
-      this(null, null, null);
+      this(null, null, null, null);
    }
 
-   private Trace(final Trace trace, final SMethodName method, final CallReturn callReturn) {
+   private Trace(final Trace trace, final SMethodName method, final CallReturn callReturn, final Object[] args) {
       this.previous = trace;
       this.method = method;
       this.callReturn = callReturn;
+      this.args = args;
    }
 
-   public Trace extend(final StackFrame currentFrame, final CallReturn callReturn) {
-      return extend(currentFrame.context(), callReturn);
-   }
-
-   public Trace extend(final SMethodName methodCalled, final CallReturn callReturn) {
-      return new Trace(this, methodCalled, callReturn);
+   public Trace extend(final SMethodName methodCalled, final CallReturn callReturn, final Object ... args) {
+      return new Trace(this, methodCalled, callReturn, args);
    }
 
    public List<Trace> asList() {
@@ -67,7 +65,11 @@ public class Trace implements Iterable<Trace> {
       }
    }
 
+   public Object[] args() {
+      return args;
+   }
+
    private String describe() {
-      return String.format("[%s]%s", callReturn, method);
+      return String.format("[%s]%s - (%s)", callReturn, method, Joiner.on(", ").join(args));
    }
 }

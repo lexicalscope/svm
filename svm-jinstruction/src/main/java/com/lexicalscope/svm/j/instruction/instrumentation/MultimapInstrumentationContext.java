@@ -24,7 +24,7 @@ public class MultimapInstrumentationContext implements Instrumentation {
       Instruction replacementMethodEntry = methodEntry;
       for (final Entry<Matcher<? super SMethodDescriptor>, Instrumentor> entry : instrumentation.entries()) {
          if(entry.getKey().matches(method)) {
-            replacementMethodEntry = entry.getValue().instrument(instructions, replacementMethodEntry);
+            replacementMethodEntry = entry.getValue().instrument(instructions, method, replacementMethodEntry);
          }
       }
       return replacementMethodEntry;

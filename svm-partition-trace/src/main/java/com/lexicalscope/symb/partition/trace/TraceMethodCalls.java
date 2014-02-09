@@ -34,25 +34,34 @@ public class TraceMethodCalls implements Instrumentor {
       return new TraceMethodCalls(dynamicExactCallinMatcher, dynamicExactCallbackMatcher);
    }
 
-   @Override public Instruction instrument(final InstructionSource instructions, final Instruction methodEntry) {
-      return instrumentMethodCallsAndReturns(instructions,
-                     instrumentMethodCall(instructions, methodEntry));
+   @Override public Instruction instrument(
+         final InstructionSource instructions,
+         final SMethodDescriptor method,
+         final Instruction methodEntry) {
+      return instrumentMethodCallsAndReturns(instructions, method,
+                     instrumentMethodCall(instructions, method, methodEntry));
    }
 
-   private Instruction instrumentMethodCall(final InstructionSource instructions, final Instruction methodEntry) {
+   private Instruction instrumentMethodCall(
+         final InstructionSource instructions,
+         final SMethodDescriptor methodName,
+         final Instruction methodEntry) {
       return statements(instructions).
             before(methodEntry).
-            linearOp(new TraceMethodCallOp(callinMatcher, CALL)).
+            linearOp(new TraceMethodCallOp(callinMatcher, methodName, CALL)).
             buildInstruction();
    }
 
-   private Instruction instrumentMethodCallsAndReturns(final InstructionSource instructions, final Instruction methodEntry) {
+   private Instruction instrumentMethodCallsAndReturns(
+         final InstructionSource instructions,
+         final SMethodDescriptor methodName,
+         final Instruction methodEntry) {
       for (final Instruction instruction : methodEntry) {
          instruction.query(new InstructionQueryAdapter<Void>(){
             @Override public Void r3turn(final int returnCount) {
                instruction.insertHere(
                      statements(instructions).
-                     linearOp(new TraceMethodCallOp(callinMatcher, RETURN)).
+                     linearOp(new TraceMethodCallOp(callinMatcher, methodName, RETURN)).
                      buildInstruction());
                return super.r3turn(returnCount);
             }

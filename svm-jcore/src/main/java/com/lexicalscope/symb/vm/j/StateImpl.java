@@ -131,6 +131,10 @@ public class StateImpl implements State {
       return stackFrame().peek(count);
    }
 
+   @Override public Object[] locals(final int count) {
+      return stackFrame().locals(count);
+   }
+
    @Override
    public Object hashCode(final Object address) {
       return heap.hashCode(address);

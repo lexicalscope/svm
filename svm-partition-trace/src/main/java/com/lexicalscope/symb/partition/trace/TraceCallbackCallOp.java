@@ -23,7 +23,7 @@ public class TraceCallbackCallOp implements Vop {
    @Override public void eval(final State ctx) {
       final InstrumentationContext instrumentationContext = new InstrumentationContext(methodName, ctx);
       if(callbackMatcher.matches(instrumentationContext)) {
-         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, CallReturn.CALL));
+         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, CallReturn.CALL, ctx.peek(methodName.argSize())));
          ctx.currentFrame().setMeta(CROSSINGCALL, true);
       }
    }
