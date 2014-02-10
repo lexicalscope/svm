@@ -17,7 +17,6 @@ import com.microsoft.z3.BoolExpr;
 import com.microsoft.z3.Context;
 import com.microsoft.z3.Expr;
 import com.microsoft.z3.IntExpr;
-import com.microsoft.z3.Solver;
 import com.microsoft.z3.Status;
 import com.microsoft.z3.Z3Exception;
 
@@ -56,21 +55,23 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
 
       final BoolExpr q = ctx.mkAnd(c1, c2);
 
-      return check(q);
+      return checkSat(q);
    }
 
-   boolean check(final BoolExpr expr) {
-      try {
-         final Solver s = ctx.mkSolver();
-         try {
-            s.add(expr);
-            return s.check().equals(Status.SATISFIABLE);
-         } finally {
-            s.dispose();
-         }
-      } catch (final Z3Exception e) {
-         throw new RuntimeException("unable to check satisfiablility", e);
+   boolean checkSat(final BoolExpr expr) {
+      final Status status = new Simplifier(ctx).check(expr);
+      if(status.equals(Status.UNKNOWN)) {
+         throw new RuntimeException("unknown satisfiability " + expr);
       }
+      return status.equals(Status.SATISFIABLE);
+   }
+
+   boolean checkUnsat(final BoolExpr expr) {
+      final Status status = new Simplifier(ctx).check(expr);
+      if(status.equals(Status.UNKNOWN)) {
+         throw new RuntimeException("unknown satisfiability " + expr);
+      }
+      return status.equals(Status.UNSATISFIABLE);
    }
 
    public boolean check(final Pc pc) {
@@ -80,7 +81,17 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not map PC to Z3: " + pc, e);
       }
-      return check(expr);
+      return checkSat(expr);
+   }
+
+   public boolean equivalent(final Symbol left, final Symbol right) {
+      try {
+         final Expr leftExpr = left.accept(new SymbolToExpr(ctx));
+         final Expr rightExpr = right.accept(new SymbolToExpr(ctx));
+         return checkUnsat(ctx.mkNot(ctx.mkEq(leftExpr, rightExpr)));
+      } catch (final Z3Exception e) {
+         throw new RuntimeException("could not check equivlence of: " + left + " vs " + right, e);
+      }
    }
 
    /**

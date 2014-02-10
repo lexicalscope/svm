@@ -2,6 +2,7 @@ package com.lexicalscope.svm.partition.trace;
 
 import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.CALL;
 
+import java.util.Arrays;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
@@ -17,10 +18,11 @@ public class Trace implements Iterable<Trace> {
    public enum CallReturn { CALL, RETURN }
 
    public Trace() {
-      this(null, null, null, null);
+      this(null, null, null, new Object[0]);
    }
 
    private Trace(final Trace trace, final SMethodName method, final CallReturn callReturn, final Object[] args) {
+      assert !Arrays.asList(args).contains(null);
       this.previous = trace;
       this.method = method;
       this.callReturn = callReturn;

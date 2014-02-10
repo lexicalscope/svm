@@ -9,7 +9,7 @@ import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.MulSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IMulSymbol;
 import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
@@ -39,7 +39,7 @@ public class TestBranch {
    public void symbExecuteBothBranches() {
       vm.execute(symbol1);
       assertThat(vm.results(), hasSize(2));
-      assertThat(vm.results(), hasItem(normalTerminiationWithResult(new MulSymbol(symbol1, new IConstSymbol(-1)))));
+      assertThat(vm.results(), hasItem(normalTerminiationWithResult(new IMulSymbol(symbol1, new IConstSymbol(-1)))));
       assertThat(vm.results(), hasItem(normalTerminiationWithResult(symbol1)));
    }
 }

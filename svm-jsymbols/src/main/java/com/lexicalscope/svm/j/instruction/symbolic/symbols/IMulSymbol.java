@@ -2,11 +2,11 @@ package com.lexicalscope.svm.j.instruction.symbolic.symbols;
 
 
 
-public class MulSymbol implements ISymbol {
+public class IMulSymbol implements ISymbol {
 	private final ISymbol left;
 	private final ISymbol right;
 
-	public MulSymbol(final ISymbol left, final ISymbol right) {
+	public IMulSymbol(final ISymbol left, final ISymbol right) {
 		this.left = left;
 		this.right = right;
 	}
@@ -19,7 +19,7 @@ public class MulSymbol implements ISymbol {
 	@Override
 	public boolean equals(final Object obj) {
 		if (obj != null && obj.getClass().equals(this.getClass())) {
-			final MulSymbol that = (MulSymbol) obj;
+			final IMulSymbol that = (IMulSymbol) obj;
 			return that.left.equals(this.left) && that.right.equals(this.right);
 		}
 		return false;

@@ -14,7 +14,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.MulSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IMulSymbol;
 import com.lexicalscope.svm.partition.trace.PartitionBuilder;
 import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
@@ -55,6 +55,6 @@ public class TestSymbolicTraceCapture {
             has(methodCallOf(InsidePartition.class, INIT, NOARGS_VOID_DESC),
                 methodReturnOf(InsidePartition.class, INIT, NOARGS_VOID_DESC),
                 methodCallOf(InsidePartition.class, "multiply", "(II)I", any(Object.class), equalTo(symbol1), equalTo(symbol2)),
-                methodReturnOf(InsidePartition.class, "multiply", "(II)I", equalTo(new MulSymbol(symbol1, symbol2)))).only().inOrder());
+                methodReturnOf(InsidePartition.class, "multiply", "(II)I", equalTo(new IMulSymbol(symbol1, symbol2)))).only().inOrder());
    }
 }

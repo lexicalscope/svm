@@ -6,7 +6,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.svm.z3.FeasibilityChecker;
+import com.microsoft.z3.BitVecExpr;
 import com.microsoft.z3.BitVecNum;
 import com.microsoft.z3.BitVecSort;
 import com.microsoft.z3.BoolExpr;
@@ -33,7 +33,7 @@ public class TestFeasibilityChecker {
 
       final BitVecSort sort = ctx.mkBitVecSort(32);
       final BoolExpr expression = ctx.mkEq(zero, ctx.mkSelect(ctx.mkStore(ctx.mkConstArray(sort, zero), one, two), zero));
-      assertThat(expression.toString(), feasbilityChecker.check(expression));
+      assertThat(expression.toString(), feasbilityChecker.checkSat(expression));
    }
 
    @Test
@@ -45,6 +45,28 @@ public class TestFeasibilityChecker {
 
       final Sort sort = zero.getSort();
       final BoolExpr expression = ctx.mkEq(zero, ctx.mkSelect(ctx.mkStore(ctx.mkConstArray(sort, zero), one, two), zero));
-      assertThat(expression.toString(), feasbilityChecker.check(expression));
+      assertThat(expression.toString(), feasbilityChecker.checkSat(expression));
+   }
+
+   @Test
+   public void doubleByAddEquivalentToDoubleByMul() throws Z3Exception {
+      final Context ctx = feasbilityChecker.ctx();
+      final BitVecNum two = ctx.mkBV(2, 32);
+      final BitVecExpr val = ctx.mkBVConst("val", 32);
+
+      final BoolExpr expression =
+            ctx.mkNot(ctx.mkEq(ctx.mkBVMul(val, two), ctx.mkBVAdd(val, val)));
+      assertThat(expression.toString(), feasbilityChecker.checkUnsat(expression));
+   }
+
+   @Test
+   public void doubleByAddNotEquivalentToTrebleByMul() throws Z3Exception {
+      final Context ctx = feasbilityChecker.ctx();
+      final BitVecNum three = ctx.mkBV(3, 32);
+      final BitVecExpr val = ctx.mkBVConst("val", 32);
+
+      final BoolExpr expression =
+            ctx.mkNot(ctx.mkEq(ctx.mkBVMul(val, three), ctx.mkBVAdd(val, val)));
+      assertThat(expression.toString(), !feasbilityChecker.checkUnsat(expression));
    }
 }
