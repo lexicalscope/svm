@@ -14,6 +14,22 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
+   <build>
+      <plugins>
+         <plugin>
+            <groupId>com.lexicalscope.symb</groupId>
+            <artifactId>svm-z3-plugin</artifactId>
+            <version>${project.version}</version>
+            <executions>
+               <execution>
+                  <goals>
+                     <goal>install-z3</goal>
+                  </goals>
+               </execution>
+            </executions>
+         </plugin>
+      </plugins>
+   </build>
 	<dependencies>
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>

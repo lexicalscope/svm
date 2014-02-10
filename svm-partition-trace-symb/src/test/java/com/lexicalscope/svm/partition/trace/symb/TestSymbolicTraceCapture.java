@@ -3,9 +3,9 @@ package com.lexicalscope.svm.partition.trace.symb;
 
 import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
+import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 import static com.lexicalscope.svm.partition.trace.TraceMatchers.*;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
-import static com.lexicalscope.svm.partition.trace.TraceMethodCalls.methodCallsAndReturnsThatCross;
 import static com.lexicalscope.svm.vm.j.JavaConstants.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
@@ -16,7 +16,6 @@ import org.junit.Test;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.MulSymbol;
 import com.lexicalscope.svm.partition.trace.PartitionBuilder;
-import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
@@ -26,10 +25,8 @@ public class TestSymbolicTraceCapture {
 
    @Rule public final SymbVmRule vm = new SymbVmRule();
    {
-      vm.builder().instrument(partition.staticOverApproximateMatcher(),
-            methodCallsAndReturnsThatCross(partition)).
-            meta(TRACE, new Trace());
-   };
+      instrumentPartition(partition, vm);
+   }
 
    private @Fresh ISymbol symbol1;
    private @Fresh ISymbol symbol2;
