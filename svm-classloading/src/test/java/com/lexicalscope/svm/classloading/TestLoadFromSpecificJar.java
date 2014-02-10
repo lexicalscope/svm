@@ -14,14 +14,14 @@ public class TestLoadFromSpecificJar {
    @Test public void loadsFromExamplesOne() {
       assertThat(
             classpathClassRepostory(ExamplesOneMarker.class)
-               .loadFromRepository("com/lexicalscope/symb/examples/ExamplesMarker"),
+               .loadFromRepository("com/lexicalscope/svm/examples/ExamplesMarker"),
             both(urlHasProtocolFile()).and(urlPathContains("svm-examples-one")));
    }
 
    @Test public void loadsFromExamplesTwo() {
       assertThat(
             classpathClassRepostory(ExamplesTwoMarker.class)
-               .loadFromRepository("com/lexicalscope/symb/examples/ExamplesMarker"),
+               .loadFromRepository("com/lexicalscope/svm/examples/ExamplesMarker"),
             both(urlHasProtocolFile()).and(urlPathContains("svm-examples-two")));
    }
 }
