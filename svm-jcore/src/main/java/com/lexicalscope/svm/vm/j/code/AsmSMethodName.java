@@ -3,8 +3,12 @@ package com.lexicalscope.svm.vm.j.code;
 import static com.lexicalscope.svm.vm.j.JavaConstants.*;
 import static org.objectweb.asm.Type.*;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.objectweb.asm.Type;
 
+import com.google.common.primitives.Ints;
 import com.lexicalscope.svm.vm.j.SVirtualMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -12,6 +16,8 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    private final String klassName;
    private final SVirtualMethodName virtualName;
    private final int hashCode;
+   private final int[] objectArgIndexes;
+   private final boolean returnTypeIsObject;
 
    public AsmSMethodName(
          final String klassName,
@@ -21,6 +27,23 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
       this.klassName = klassName;
       this.virtualName = new AsmSVirtualMethodName(name, desc);
       this.hashCode = klassName.hashCode() ^ virtualName.hashCode();
+      this.objectArgIndexes = indexesOfObjectArgs(desc);
+      this.returnTypeIsObject = getReturnType(desc).getSort() == Type.OBJECT;
+   }
+
+   private static int[] indexesOfObjectArgs(final String desc) {
+      final List<Integer> result = new ArrayList<>();
+      final Type[] argumentTypes = Type.getArgumentTypes(desc);
+      for (int j = 0; j < argumentTypes.length; j++) {
+         if(argumentTypes[j].getSort() == Type.OBJECT) {
+            result.add(j);
+         }
+      }
+      return Ints.toArray(result);
+   }
+
+   @Override public boolean returnIsObject() {
+      return returnTypeIsObject;
    }
 
    public AsmSMethodName(
@@ -86,6 +109,10 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    @Override
    public int argSize() {
       return getArgumentsAndReturnSizes(desc()) >> 2;
+   }
+
+   @Override public int[] objectArgIndexes() {
+      return objectArgIndexes;
    }
 
    @Override

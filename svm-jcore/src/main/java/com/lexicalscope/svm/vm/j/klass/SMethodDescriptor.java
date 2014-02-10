@@ -12,6 +12,8 @@ public interface SMethodDescriptor extends SMethodName {
 
    String desc();
 
+   int[] objectArgIndexes();
+   boolean returnIsObject();
    int argSize();
    int returnCount();
 
