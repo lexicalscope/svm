@@ -1,7 +1,6 @@
 package com.lexicalscope.svm.partition.trace;
 
 import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.CALL;
-import static java.util.Arrays.copyOf;
 
 import java.util.Arrays;
 import java.util.HashMap;
@@ -44,38 +43,16 @@ public class Trace implements Iterable<Trace> {
    }
 
    public Trace extend(final SMethodDescriptor methodCalled, final CallReturn callReturn, final Object ... args) {
-      final Object[] normalisedArgs = copyOf(args, args.length);
-      int newNextAlias = nextAlias;
-      Map<Object, Alias> newMap = map;
+      final TraceExtender traceExtender = new TraceExtender(args, map, nextAlias);
 
-      if(callReturn.equals(CallReturn.CALL)) {
-         for (final int i : methodCalled.objectArgIndexes()) {
-            Alias alias;
-            if(null == (alias = newMap.get(args[i + 1]))) {
-               // TODO[tim] do COW here
-               if(map == newMap) {
-                  newMap = new HashMap<>(map);
-               }
-               alias = new Alias(newNextAlias++);
-               newMap.put(args[i + 1], alias);
-            }
-            normalisedArgs[i + 1] = alias;
-         }
+      if(callReturn.equals(CALL)) {
+         traceExtender.aliasesForCallArguments(methodCalled.objectArgIndexes());
       }
-      if(callReturn.equals(CallReturn.CALL) || methodCalled.returnIsObject()) {
-         Alias alias;
-         if(null == (alias = newMap.get(args[0]))) {
-            // TODO[tim] do COW here
-            if(map == newMap) {
-               newMap = new HashMap<>(map);
-            }
-            alias = new Alias(newNextAlias++);
-            newMap.put(args[0], alias);
-         }
-         normalisedArgs[0] = alias;
+      if(callReturn.equals(CALL) || methodCalled.returnIsObject()) {
+         traceExtender.aliasesForZerothArguments();
       }
 
-      return new Trace(this, newMap, newNextAlias, methodCalled, callReturn, normalisedArgs);
+      return new Trace(this, traceExtender.newMap(), traceExtender.newNextAlias(), methodCalled, callReturn, traceExtender.normalisedArgs());
    }
 
    public List<Trace> asList() {
