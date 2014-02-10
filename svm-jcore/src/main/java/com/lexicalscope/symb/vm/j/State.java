@@ -3,6 +3,7 @@ package com.lexicalscope.symb.vm.j;
 import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
+import com.lexicalscope.symb.metastate.MetaFactory;
 import com.lexicalscope.symb.metastate.MetaKey;
 import com.lexicalscope.symb.stack.Stack;
 import com.lexicalscope.symb.stack.StackFrame;
@@ -64,6 +65,7 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
 
    <T> T getMeta(MetaKey<T> key);
    <T> void setMeta(MetaKey<T> key, T value);
+   <T> void replaceMeta(MetaKey<T> key, MetaFactory<T> metaFactory);
 
    SStackTrace trace();
 }

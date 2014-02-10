@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lexicalscope.symb.heap.Allocatable;
 import com.lexicalscope.symb.heap.Heap;
+import com.lexicalscope.symb.metastate.MetaFactory;
 import com.lexicalscope.symb.metastate.MetaKey;
 import com.lexicalscope.symb.metastate.MetaState;
 import com.lexicalscope.symb.stack.Stack;
@@ -66,6 +67,10 @@ public class StateImpl implements State {
    @Override
    public final <T> void setMeta(final MetaKey<T> key, final T value) {
       meta.set(key, value);
+   }
+
+   @Override public <T> void replaceMeta(final MetaKey<T> key, final MetaFactory<T> metaFactory) {
+      meta.set(key, metaFactory.replacement(meta.get(key)));
    }
 
    @Override public final StateImpl snapshot() {

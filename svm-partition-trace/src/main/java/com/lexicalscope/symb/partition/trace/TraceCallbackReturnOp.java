@@ -4,6 +4,7 @@ import static com.lexicalscope.symb.partition.trace.CrossingCallMetaKey.CROSSING
 import static com.lexicalscope.symb.partition.trace.Trace.CallReturn.RETURN;
 import static com.lexicalscope.symb.partition.trace.TraceMetaKey.TRACE;
 
+import com.lexicalscope.symb.metastate.MetaFactory;
 import com.lexicalscope.symb.vm.j.InstructionQuery;
 import com.lexicalscope.symb.vm.j.State;
 import com.lexicalscope.symb.vm.j.Vop;
@@ -19,7 +20,12 @@ public class TraceCallbackReturnOp implements Vop {
    @Override public void eval(final State ctx) {
       if(ctx.currentFrame().containsMeta(CROSSINGCALL)) {
          ctx.currentFrame().removeMeta(CROSSINGCALL);
-         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, RETURN, ctx.peek(methodName.returnCount())));
+//         ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, RETURN, ctx.peek(methodName.returnCount())));
+         ctx.replaceMeta(TRACE, new MetaFactory<Trace>(){
+            @Override public Trace replacement(final Trace original) {
+               return original.extend(methodName, RETURN, ctx.peek(methodName.returnCount()));
+            }
+         });
       }
    }
 

@@ -71,7 +71,6 @@ public class TerminateInstruction implements Instruction {
    }
 
    @Override public void prevIs(final Instruction instruction) {
-      assert prev == null;
       this.prev = instruction;
    }
 
