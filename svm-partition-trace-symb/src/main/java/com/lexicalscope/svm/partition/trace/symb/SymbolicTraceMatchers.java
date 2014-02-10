@@ -73,7 +73,7 @@ public class SymbolicTraceMatchers {
             // when comparing traces we truncate the longest trace to the
             // length of the shortest trace
 
-            // TODO[tim]: take into account program terination in the trace
+            // TODO[tim]: take into account program termination in the trace
             return true;
          }
       };
