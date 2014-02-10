@@ -4,7 +4,7 @@ import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statement
 
 import com.lexicalscope.svm.j.instruction.concrete.nativ3.GetCallerClass;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.symb.vm.j.MethodBody;
+import com.lexicalscope.svm.vm.j.MethodBody;
 
 public final class Sun_reflect_reflection_getCallerClass extends AbstractNativeMethodDef {
    public Sun_reflect_reflection_getCallerClass() {

@@ -8,11 +8,11 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
-import com.lexicalscope.symb.vm.conc.junit.WithEntryPoint;
-import com.lexicalscope.symb.vm.symb.junit.Fresh;
-import com.lexicalscope.symb.vm.symb.junit.SymbVmRule;
-import com.lexicalscope.symb.vm.symb.matchers.SymbStateMatchers;
+import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.svm.vm.conc.junit.WithEntryPoint;
+import com.lexicalscope.svm.vm.symb.junit.Fresh;
+import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
+import com.lexicalscope.svm.vm.symb.matchers.SymbStateMatchers;
 
 public class TestCreateArrayWithSymbolicLength {
    @Rule public final SymbVmRule vm = new SymbVmRule();

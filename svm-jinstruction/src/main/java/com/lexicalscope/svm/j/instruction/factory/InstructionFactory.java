@@ -8,7 +8,7 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
-import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.Vop;
 
 public interface InstructionFactory {
    BinaryOperator iaddOperation();

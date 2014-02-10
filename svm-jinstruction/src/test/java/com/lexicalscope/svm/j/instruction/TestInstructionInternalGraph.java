@@ -1,13 +1,13 @@
 package com.lexicalscope.svm.j.instruction;
 
 import static com.lexicalscope.MatchersAdditional.has;
-import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
+import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
 import org.junit.Test;
 
-import com.lexicalscope.symb.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.Instruction;
 
 public class TestInstructionInternalGraph {
    final Instruction node1 = new InstructionInternal(new NoOp("1"), synthetic);

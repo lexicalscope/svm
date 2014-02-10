@@ -1,8 +1,8 @@
 package com.lexicalscope.svm.j.instruction;
 
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
 
 public class LinearInstruction implements Vop {
    private final Vop op;

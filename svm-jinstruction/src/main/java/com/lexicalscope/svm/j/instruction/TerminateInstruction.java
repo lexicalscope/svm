@@ -1,15 +1,15 @@
 package com.lexicalscope.svm.j.instruction;
 
-import static com.lexicalscope.symb.vm.j.InstructionCode.methodexit;
+import static com.lexicalscope.svm.vm.j.InstructionCode.methodexit;
 
 import java.util.Collection;
 import java.util.Iterator;
 
-import com.lexicalscope.symb.vm.TerminationException;
-import com.lexicalscope.symb.vm.j.Instruction;
-import com.lexicalscope.symb.vm.j.InstructionCode;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
+import com.lexicalscope.svm.vm.TerminationException;
+import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.InstructionCode;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
 
 public class TerminateInstruction implements Instruction {
    private Instruction prev;

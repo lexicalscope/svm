@@ -40,8 +40,8 @@ import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.z3.FeasibilityChecker;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 /**
  * @author tim

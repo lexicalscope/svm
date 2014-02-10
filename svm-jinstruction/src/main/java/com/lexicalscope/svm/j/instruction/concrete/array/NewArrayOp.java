@@ -1,8 +1,8 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
 
 public class NewArrayOp implements Vop {
    public static final int ARRAY_CLASS_OFFSET = 0;

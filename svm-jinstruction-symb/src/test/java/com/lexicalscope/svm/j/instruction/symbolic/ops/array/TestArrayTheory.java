@@ -15,7 +15,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.StateBuilder;
-import com.lexicalscope.symb.z3.FeasibilityChecker;
+import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class TestArrayTheory {
    @Rule public AutoCloseRule autoCloseRule = new AutoCloseRule();

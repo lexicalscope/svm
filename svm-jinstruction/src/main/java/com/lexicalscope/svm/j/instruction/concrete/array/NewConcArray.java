@@ -2,9 +2,9 @@ package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import static org.objectweb.asm.Type.getInternalName;
 
-import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.svm.heap.Allocatable;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class NewConcArray implements ArrayConstructor {
    public void newConcreteArray(

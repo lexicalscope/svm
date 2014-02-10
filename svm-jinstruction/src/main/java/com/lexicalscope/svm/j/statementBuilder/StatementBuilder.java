@@ -1,16 +1,16 @@
 package com.lexicalscope.svm.j.statementBuilder;
 
-import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
+import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
-import com.lexicalscope.symb.vm.j.Instruction;
-import com.lexicalscope.symb.vm.j.MethodBody;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
+import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.MethodBody;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
+import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public final class StatementBuilder {
    private final InstructionSource source;

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.natives;
 
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
+import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
+import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public abstract class AbstractNativeMethodDef implements NativeMethodDef {
    private final SMethodDescriptor name;

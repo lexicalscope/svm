@@ -1,15 +1,15 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops.array;
 
+import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayConstructor;
 import com.lexicalscope.svm.j.instruction.concrete.array.InitStrategy;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayZeroedSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.z3.FeasibilityChecker;
-import com.lexicalscope.symb.z3.FeasibilityChecker.ISimplificationResult;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.z3.FeasibilityChecker;
+import com.lexicalscope.svm.z3.FeasibilityChecker.ISimplificationResult;
 
 public class NewSymbArray implements ArrayConstructor {
    public static final int ARRAY_SYMBOL_OFFSET = NewArrayOp.ARRAY_PREAMBLE + 0;

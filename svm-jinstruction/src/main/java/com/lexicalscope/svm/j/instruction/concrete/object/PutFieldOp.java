@@ -4,10 +4,10 @@ import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
 public final class PutFieldOp implements Vop {
    private final FieldInsnNode fieldInsnNode;

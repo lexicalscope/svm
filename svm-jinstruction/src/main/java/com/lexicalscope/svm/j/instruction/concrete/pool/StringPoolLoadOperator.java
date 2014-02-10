@@ -1,16 +1,16 @@
 package com.lexicalscope.svm.j.instruction.concrete.pool;
 
-import static com.lexicalscope.symb.vm.j.JavaConstants.STRING_CLASS;
+import static com.lexicalscope.svm.vm.j.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
-import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
 public final class StringPoolLoadOperator implements Vop {
    private final String val;

@@ -1,8 +1,8 @@
 package com.lexicalscope.svm.j.instruction.concrete.stack;
 
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
 
 public class Load2 implements Vop {
    private final int var;

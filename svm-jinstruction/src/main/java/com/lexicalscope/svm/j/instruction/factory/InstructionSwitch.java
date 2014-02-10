@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
-import static com.lexicalscope.symb.vm.j.InstructionCode.synthetic;
+import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
 
 import org.objectweb.asm.Opcodes;
 import org.objectweb.asm.Type;
@@ -16,8 +16,8 @@ import org.objectweb.asm.tree.TypeInsnNode;
 import org.objectweb.asm.tree.VarInsnNode;
 
 import com.lexicalscope.svm.j.instruction.UnsupportedInstruction;
-import com.lexicalscope.symb.vm.j.j.code.AsmSMethodName;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
+import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
+import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class InstructionSwitch {
    private final InstructionSource s;

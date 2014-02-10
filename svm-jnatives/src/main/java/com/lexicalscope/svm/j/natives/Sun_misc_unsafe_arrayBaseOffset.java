@@ -4,7 +4,7 @@ import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statement
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.symb.vm.j.MethodBody;
+import com.lexicalscope.svm.vm.j.MethodBody;
 
 public final class Sun_misc_unsafe_arrayBaseOffset extends AbstractNativeMethodDef implements NativeMethodDef {
    public Sun_misc_unsafe_arrayBaseOffset() {

@@ -1,12 +1,12 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops;
 
+import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.object.SymbolicObject;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
-import com.lexicalscope.symb.heap.Allocatable;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class LoadSymbolicObjectArg implements Vop {
    private final OTerminalSymbol symbol;

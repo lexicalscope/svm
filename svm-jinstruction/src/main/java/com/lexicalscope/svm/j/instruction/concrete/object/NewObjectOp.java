@@ -1,12 +1,12 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
-import static com.lexicalscope.symb.vm.j.j.klass.SClass.OBJECT_MARKER_OFFSET;
+import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
-import com.lexicalscope.symb.heap.Heap;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.Op;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.svm.heap.Heap;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.Op;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class NewObjectOp implements Op<Object> {
    private final String klassDesc;

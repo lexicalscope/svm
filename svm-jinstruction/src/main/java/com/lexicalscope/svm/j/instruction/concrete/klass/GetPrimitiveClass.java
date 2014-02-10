@@ -3,11 +3,11 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 import static com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp.primitivesContains;
 
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.JavaConstants;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.JavaConstants;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class GetPrimitiveClass implements Vop {
    @Override public void eval(final State ctx) {

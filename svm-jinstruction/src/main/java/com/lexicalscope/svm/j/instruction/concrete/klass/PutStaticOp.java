@@ -3,11 +3,11 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
-import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
 public final class PutStaticOp implements Vop {
    private final FieldInsnNode fieldInsnNode;

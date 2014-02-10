@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
-import static com.lexicalscope.symb.vm.j.InstructionCode.*;
+import static com.lexicalscope.svm.vm.j.InstructionCode.*;
 
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
@@ -53,9 +53,9 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.PopOp;
 import com.lexicalscope.svm.j.instruction.concrete.stack.ReturnInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store;
 import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
-import com.lexicalscope.symb.vm.j.InstructionCode;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SMethodDescriptor;
+import com.lexicalscope.svm.vm.j.InstructionCode;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class BaseInstructionSource implements InstructionSource {
    private final InstructionFactory instructionFactory;

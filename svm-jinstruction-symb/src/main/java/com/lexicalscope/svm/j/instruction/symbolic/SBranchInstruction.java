@@ -22,10 +22,10 @@ import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchOp;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchStrategy;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.NotSymbol;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.z3.FeasibilityChecker;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 final class SBranchInstruction implements Vop {
    private final FeasibilityChecker feasibilityChecker;

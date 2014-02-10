@@ -9,10 +9,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.Op;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.Op;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class DefinePrimitiveClassesOp implements Op<List<SClass>> {
    public static final Map<String, String> primitivesMap = new LinkedHashMap<String, String>(){{

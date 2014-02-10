@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.natives;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.symb.vm.j.MethodBody;
+import com.lexicalscope.svm.vm.j.MethodBody;
 
 public final class Java_lang_class_getClassLoader0 extends AbstractNativeMethodDef {
    public Java_lang_class_getClassLoader0() {

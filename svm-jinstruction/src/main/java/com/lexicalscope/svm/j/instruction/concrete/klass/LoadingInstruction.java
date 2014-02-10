@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
-import static com.lexicalscope.symb.vm.j.j.code.AsmSMethodName.staticInitialiser;
+import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.staticInitialiser;
 import static java.util.Arrays.asList;
 
 import java.util.List;
@@ -10,11 +10,11 @@ import com.google.common.collect.Lists;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.Op;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.Op;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 /*
  * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.

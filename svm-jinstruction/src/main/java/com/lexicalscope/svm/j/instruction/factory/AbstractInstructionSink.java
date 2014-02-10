@@ -2,9 +2,9 @@ package com.lexicalscope.svm.j.instruction.factory;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.LinearInstruction;
-import com.lexicalscope.symb.vm.j.Instruction;
-import com.lexicalscope.symb.vm.j.InstructionCode;
-import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.InstructionCode;
+import com.lexicalscope.svm.vm.j.Vop;
 
 public abstract class AbstractInstructionSink implements InstructionSource.InstructionSink {
    private final InstructionSource source;

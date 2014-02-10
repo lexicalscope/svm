@@ -34,6 +34,7 @@
 		<module>svm-examples-one</module>
 		<module>svm-examples-two</module>
     <module>svm-partition-trace</module>
+    <module>svm-partition-trace-symb</module>
   </modules>
 	<build>
 		<pluginManagement>

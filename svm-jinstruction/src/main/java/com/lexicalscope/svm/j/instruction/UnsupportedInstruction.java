@@ -2,9 +2,9 @@ package com.lexicalscope.svm.j.instruction;
 
 import org.objectweb.asm.tree.AbstractInsnNode;
 
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.Vop;
 
 public class UnsupportedInstruction implements Vop {
    private final AbstractInsnNode abstractInsnNode;

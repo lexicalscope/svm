@@ -1,7 +1,7 @@
 package com.lexicalscope.symb.stack.trace;
 
 import static com.lexicalscope.MatchersAdditional.containsMatching;
-import static com.lexicalscope.symb.stack.trace.SStackTraceMatchers.methodNamed;
+import static com.lexicalscope.svm.stack.trace.SStackTraceMatchers.methodNamed;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.jmock.Expectations;
@@ -10,9 +10,9 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.symb.stack.DequeStack;
-import com.lexicalscope.symb.stack.StackFrame;
-import com.lexicalscope.symb.stack.trace.SMethodName;
+import com.lexicalscope.svm.stack.DequeStack;
+import com.lexicalscope.svm.stack.StackFrame;
+import com.lexicalscope.svm.stack.trace.SMethodName;
 
 public class TestStackTrace {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

@@ -5,9 +5,9 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
-import com.lexicalscope.symb.vm.conc.junit.TestEntryPoint;
-import com.lexicalscope.symb.vm.symb.junit.Fresh;
-import com.lexicalscope.symb.vm.symb.junit.SymbVmRule;
+import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
+import com.lexicalscope.svm.vm.symb.junit.Fresh;
+import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
 public class TestWithSymbolicObject {
    @Rule public final SymbVmRule vm = new SymbVmRule();

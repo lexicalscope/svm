@@ -5,13 +5,13 @@ import java.util.Arrays;
 import java.util.List;
 
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
-import com.lexicalscope.symb.vm.j.InstructionQuery;
-import com.lexicalscope.symb.vm.j.JavaConstants;
-import com.lexicalscope.symb.vm.j.Op;
-import com.lexicalscope.symb.vm.j.State;
-import com.lexicalscope.symb.vm.j.StaticsMarker;
-import com.lexicalscope.symb.vm.j.j.klass.SClass;
-import com.lexicalscope.symb.vm.j.j.klass.SFieldName;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.JavaConstants;
+import com.lexicalscope.svm.vm.j.Op;
+import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.StaticsMarker;
+import com.lexicalscope.svm.vm.j.klass.SClass;
+import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
 public final class DefineClassOp implements Op<List<SClass>> {
    private final List<String> klassNames;
