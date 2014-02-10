@@ -38,6 +38,10 @@ public class VmRule implements MethodRule {
       this.jvmBuilder = jvmBuilder;
    }
 
+   public JvmBuilder builder() {
+      return jvmBuilder;
+   }
+
    @Override public final Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
       return new Statement() {
 

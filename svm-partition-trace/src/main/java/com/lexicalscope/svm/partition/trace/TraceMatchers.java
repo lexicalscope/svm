@@ -25,7 +25,7 @@ public class TraceMatchers {
          final Class<?> klass,
          final String methodName,
          final String desc,
-         final Matcher<Object>... matchers) {
+         final Matcher<?>... matchers) {
       return methodCallOf(new AsmSMethodName(klass, methodName, desc), matchers);
    }
 
@@ -37,17 +37,17 @@ public class TraceMatchers {
    @SafeVarargs
    public static Matcher<Trace> methodCallOf(
          final SMethodName methodName,
-         final Matcher<Object>... matchers) {
+         final Matcher<?>... matchers) {
       return both(traceWithName(methodName)).and(traceIsCall()).and(argumentsMatch(matchers));
    }
 
    @SafeVarargs
-   private static Matcher<? super Trace> argumentsMatch(final Matcher<Object> ... matchers) {
+   private static Matcher<? super Trace> argumentsMatch(final Matcher<?> ... matchers) {
       return new TypeSafeDiagnosingMatcher<Trace>(){
          @Override public void describeTo(final Description description) {
             description.appendText("arguments are ");
             String separator = "";
-            for (final Matcher<Object> matcher : matchers) {
+            for (final Matcher<?> matcher : matchers) {
                description.appendText(separator).appendDescriptionOf(matcher);
                separator = ", ";
             }
@@ -58,7 +58,8 @@ public class TraceMatchers {
 
          @Override protected boolean matchesSafely(final Trace item, final Description mismatchDescription) {
             final Object[] args = item.args();
-            final Matcher<Iterable<Object>> argsMatcher = has(matchers).only().inOrder();
+            @SuppressWarnings("unchecked")
+            final Matcher<Iterable<Object>> argsMatcher = has((Matcher<Object>[]) matchers).only().inOrder();
             if(argsMatcher.matches(asList(args))) {
                return true;
             }
@@ -79,14 +80,14 @@ public class TraceMatchers {
          final Class<?> klass,
          final String methodName,
          final String desc,
-         final Matcher<Object> ... matchers) {
+         final Matcher<?> ... matchers) {
       return methodReturnOf(new AsmSMethodName(klass, methodName, desc), matchers);
    }
 
    @SafeVarargs
    public static Matcher<Trace> methodReturnOf(
          final SMethodName methodName,
-         final Matcher<Object> ... matchers) {
+         final Matcher<?> ... matchers) {
       return both(traceWithName(methodName)).and(traceIsReturn()).and(argumentsMatch(matchers));
    }
 
