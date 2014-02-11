@@ -12,8 +12,9 @@ public class CachingByteCodeReader implements ByteCodeReader {
    private final ResourceByteCodeReader byteCodeReader;
 
    public CachingByteCodeReader(
-         final InstructionSource instructions) {
-      byteCodeReader = new ResourceByteCodeReader(instructions, new ClasspathClassRepository());
+         final InstructionSource instructions,
+         final ClassSource classSource) {
+      byteCodeReader = new ResourceByteCodeReader(instructions, classSource);
    }
 
    @Override

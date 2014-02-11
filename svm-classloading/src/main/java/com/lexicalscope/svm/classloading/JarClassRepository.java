@@ -35,6 +35,10 @@ public class JarClassRepository implements ClassSource {
       }
    }
 
+   @Override public String toString() {
+      return "loading from " + baseLocation + prefix;
+   }
+
    public static JarClassRepository loadFromLibDirectoryInSameJarFileAs(final Class<?> loadFromWhereverThisWasLoaded) {
       return new JarClassRepository(loadFromWhereverThisWasLoaded, "lib/");
    }

@@ -9,13 +9,16 @@ import com.lexicalscope.svm.vm.j.State;
 public class VmWrap {
    private final VmRule vmRule;
    private Vm<State> vm;
+   private final LoadFrom annotation;
 
    public VmWrap(final VmRule vmRule, final LoadFrom annotation) {
       this.vmRule = vmRule;
+      this.annotation = annotation;
    }
 
    public final FlowNode<State> execute(final Object ... args) {
       if(vm == null) {
+         vmRule.builder().loadFrom(annotation.value());
          vm = vmRule.build(args);
       }
       return vm.execute();

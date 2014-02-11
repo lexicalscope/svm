@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.vm.conc;
 
+import static com.lexicalscope.svm.classloading.JarClassRepository.loadFromLibDirectoryInSameJarFileAs;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.svm.stack.MethodScope.STATIC;
 import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
@@ -11,6 +12,8 @@ import java.util.List;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.classloading.AsmSClassLoader;
+import com.lexicalscope.svm.classloading.ClassSource;
+import com.lexicalscope.svm.classloading.ClasspathClassRepository;
 import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.classloading.StaticsImpl;
 import com.lexicalscope.svm.heap.HeapFactory;
@@ -52,6 +55,7 @@ public final class JvmBuilder {
    private final NativeMethods natives = DefaultNativeMethods.natives();
    private final InstrumentationBuilder instrumentationBuilder = new InstrumentationBuilder();
    private final MetaState metaState = new HashMetaState();
+   private ClassSource classSource = new ClasspathClassRepository();
 
    public JvmBuilder() {
       if(getClass().desiredAssertionStatus()) {
@@ -91,6 +95,11 @@ public final class JvmBuilder {
       return this;
    }
 
+   public JvmBuilder loadFrom(final Class<?> loadFromWhereverThisWasLoaded) {
+      this.classSource = loadFromLibDirectoryInSameJarFileAs(loadFromWhereverThisWasLoaded);
+      return this;
+   }
+
    public Vm<State> build(final MethodInfo entryPoint, final Object... args) {
       return build(new AsmSMethodName(entryPoint.klass(), entryPoint.name(), entryPoint.desc()), args);
    }
@@ -99,7 +108,12 @@ public final class JvmBuilder {
       final Vm<State> vm = build();
 
       final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
-      final SClassLoader classLoader = new AsmSClassLoader(instructions, instrumentationBuilder.instrumentation(instructions), natives());
+      System.out.println("using classSource " + classSource);
+      final SClassLoader classLoader = new AsmSClassLoader(
+            instructions,
+            instrumentationBuilder.instrumentation(instructions),
+            natives(),
+            classSource);
 
       final StatementBuilder statements = statements(instructions);
       defineBootstrapClassesInstruction(statements.sink(), instructions);

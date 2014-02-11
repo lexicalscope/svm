@@ -24,11 +24,11 @@ public class AsmSClassLoader implements SClassLoader {
    public AsmSClassLoader(
          final InstructionSource instructionSource,
          final Instrumentation instrumentation,
-         final NativeMethods natives) {
+         final NativeMethods natives, final ClassSource classSource) {
       this.instrumentation = instrumentation;
       this.natives = natives;
       this.instructions = instructionSource;
-      this.byteCodeReader = new CachingByteCodeReader(instructions);
+      this.byteCodeReader = new CachingByteCodeReader(instructions, classSource);
    }
 
    public AsmSClassLoader() {
@@ -36,7 +36,7 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    private AsmSClassLoader(final InstructionFactory instructionFactory) {
-      this(new BaseInstructionSource(instructionFactory), new NullInstrumentation2(), DefaultNativeMethods.natives());
+      this(new BaseInstructionSource(instructionFactory), new NullInstrumentation2(), DefaultNativeMethods.natives(), new ClasspathClassRepository());
    }
 
    @Override public SClass load(final String name, final ClassLoaded classLoaded) {
