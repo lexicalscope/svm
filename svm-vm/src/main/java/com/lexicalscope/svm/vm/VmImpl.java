@@ -1,52 +1,44 @@
 package com.lexicalscope.svm.vm;
 
-import java.util.ArrayDeque;
 import java.util.Collection;
-import java.util.Deque;
 
 public final class VmImpl<S> implements Vm<S> {
-	final Deque<FlowNode<S>> pending = new ArrayDeque<>();
-	final Deque<FlowNode<S>> finished = new ArrayDeque<>();
+   private final StateSearch<S> search = new StateSearch<>();
 
 	@Override
 	public FlowNode<S> execute() {
-		while (!pending.isEmpty()) {
+		while (search.searching()) {
 			try {
-				pending.peek().eval();
+			   search.pendingState().eval();
 			} catch (final TerminationException termination) {
-				finished.push(pending.pop());
+			   search.reachedLeaf();
 			} catch (final RuntimeException e) {
 				throw e;
 			}
 		}
-		return finished.isEmpty() ? null : result();
+		return search.firstResult();
 	}
 
-	@Override
-	public void initial(final FlowNode<S> state) {
-		pending.push(state);
-	}
+   @Override public void initial(final FlowNode<S> state) {
+      search.initial(state);
+   }
 
 	@Override
 	public void fork(final FlowNode<S>[] states) {
-		pending.pop();
-
-		for (final FlowNode<S> state : states) {
-			pending.push(state);
-		}
+		search.fork(states);
 	}
 
 	@Override
 	public FlowNode<S> result() {
-		return finished.peek();
+		return search.firstResult();
 	}
 
 	@Override
 	public Collection<FlowNode<S>> results() {
-		return finished;
+		return search.results();
 	}
 
    @Override public FlowNode<S> pending() {
-      return pending.peek();
+      return search.pendingState();
    }
 }
