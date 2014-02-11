@@ -16,7 +16,6 @@ import com.lexicalscope.svm.examples.doubler.working.OutsidePartition;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.partition.trace.PartitionBuilder;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
-import com.lexicalscope.svm.vm.conc.MethodInfo;
 import com.lexicalscope.svm.vm.conc.junit.VmWrap;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
@@ -27,7 +26,7 @@ public class TestSinglePathDifferentVersionsSymbolicTraceEquivalence {
    @Rule public final SymbVmRule vmRule = new SymbVmRule();
    {
       instrumentPartition(partition, vmRule);
-      vmRule.entryPoint(new MethodInfo(OutsidePartition.class, "callSomeMethods", "(I)I"));
+      vmRule.entryPoint(OutsidePartition.class, "callSomeMethods", "(I)I");
    }
 
    @LoadFrom(ExamplesOneMarker.class) private VmWrap vm1;

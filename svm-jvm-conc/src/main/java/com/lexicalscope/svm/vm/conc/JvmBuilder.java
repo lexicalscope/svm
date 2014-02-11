@@ -45,7 +45,6 @@ import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.JavaConstants;
 import com.lexicalscope.svm.vm.j.State;
 import com.lexicalscope.svm.vm.j.StateImpl;
-import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public final class JvmBuilder {
@@ -98,10 +97,6 @@ public final class JvmBuilder {
    public JvmBuilder loadFrom(final Class<?> loadFromWhereverThisWasLoaded) {
       this.classSource = classpathClassRepostory(loadFromWhereverThisWasLoaded);
       return this;
-   }
-
-   public Vm<State> build(final MethodInfo entryPoint, final Object... args) {
-      return build(new AsmSMethodName(entryPoint.klass(), entryPoint.name(), entryPoint.desc()), args);
    }
 
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {

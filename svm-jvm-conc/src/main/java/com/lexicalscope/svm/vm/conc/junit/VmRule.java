@@ -24,14 +24,15 @@ import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
-import com.lexicalscope.svm.vm.conc.MethodInfo;
 import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
+import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class VmRule implements MethodRule {
    private final ReflectionMatcher<FluentAnnotated> annotatedWithTestPointEntry = annotatedWith(TestEntryPoint.class);
    private final JvmBuilder jvmBuilder;
-   private final Map<String, MethodInfo> entryPoints = new HashMap<>();
-   private MethodInfo entryPoint;
+   private final Map<String, SMethodDescriptor> entryPoints = new HashMap<>();
+   private SMethodDescriptor entryPoint;
 
    private final List<Vm<State>> vm = new ArrayList<>();
 
@@ -82,7 +83,7 @@ public class VmRule implements MethodRule {
 
          private void findEntryPoints(final FluentObject<Object> object) {
             for (final FluentMethod entryPointMethod : object.reflectedClass().methods(annotatedWithTestPointEntry)) {
-               entryPoints.put(entryPointMethod.name(), new MethodInfo(
+               entryPoints.put(entryPointMethod.name(), new AsmSMethodName(
                      object.classUnderReflection(),
                      entryPointMethod.name(),
                      getMethodDescriptor(entryPointMethod.member())));
@@ -99,8 +100,8 @@ public class VmRule implements MethodRule {
       // can be overridden
    }
 
-   public final void entryPoint(final MethodInfo entryPoint) {
-      this.entryPoint = entryPoint;
+   public final void entryPoint(final Class<?> klass, final String name, final String desc) {
+      this.entryPoint = new AsmSMethodName(klass, name, desc);
    }
 
    public final Vm<State> build(final Object[] args) {
