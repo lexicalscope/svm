@@ -25,8 +25,8 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
-import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder;
+import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
@@ -96,7 +96,7 @@ public final class JvmBuilder {
    }
 
    public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
-      final Vm<State> vm = new VmImpl<State>();
+      final Vm<State> vm = build();
 
       final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
       final SClassLoader classLoader = new AsmSClassLoader(instructions, instrumentationBuilder.instrumentation(instructions), natives());
@@ -112,6 +112,10 @@ public final class JvmBuilder {
       stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
       vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState));
       return vm;
+   }
+
+   public Vm<State> build() {
+      return new VmImpl<State>();
    }
 
    private void loadArgsInstruction(final StatementBuilder statements, final Object[] args) {

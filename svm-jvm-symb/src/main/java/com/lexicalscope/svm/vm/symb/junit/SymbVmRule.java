@@ -8,7 +8,7 @@ import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class SymbVmRule extends VmRule {
    private final FeasibilityChecker feasibilityChecker;
-   private final SolverRule freshRule;
+   private final SolverRule solverRule;
 
    public SymbVmRule() {
       this(new FeasibilityChecker());
@@ -21,11 +21,11 @@ public class SymbVmRule extends VmRule {
    public SymbVmRule(final SymbInstructionFactory symbInstructionFactory, final FeasibilityChecker feasibilityChecker) {
       super(SymbVmFactory.symbolicVmBuilder(symbInstructionFactory));
       this.feasibilityChecker = feasibilityChecker;
-      this.freshRule = new SolverRule(symbInstructionFactory, feasibilityChecker);
+      this.solverRule = new SolverRule(symbInstructionFactory, feasibilityChecker);
    }
 
    @Override protected void configureTarget(final FluentObject<Object> object) {
-      freshRule.createSymbols(object);
+      solverRule.createSymbols(object);
    }
 
    @Override protected void cleanup() {
@@ -34,5 +34,9 @@ public class SymbVmRule extends VmRule {
 
    public FeasibilityChecker feasbilityChecker() {
       return feasibilityChecker;
+   }
+
+   public SolverRule solver() {
+      return solverRule;
    }
 }

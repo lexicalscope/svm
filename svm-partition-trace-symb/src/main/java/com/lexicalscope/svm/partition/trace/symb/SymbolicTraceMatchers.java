@@ -10,17 +10,36 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.TraceBuilder;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
+import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
 public class SymbolicTraceMatchers {
    public static Matcher<TraceBuilder> equivalentTo(final SolverRule solver, final TraceBuilder expected) {
+      final Matcher<Trace> traceMatcher = equivalentTo(solver, expected.build());
       return new TypeSafeDiagnosingMatcher<TraceBuilder>() {
          @Override public void describeTo(final Description description) {
-            description.appendText("trace equivalent to ").appendValue(expected);
+            description.appendDescriptionOf(traceMatcher);
          }
 
-         @Override protected boolean matchesSafely(final TraceBuilder actual, final Description mismatchDescription) {
-            final Iterator<Trace> expectedIterator = expected.build().iterator();
-            final Iterator<Trace> actualIterator = actual.build().iterator();
+         @Override protected boolean matchesSafely(final TraceBuilder item, final Description mismatchDescription) {
+            final Trace actualTrace = item.build();
+            final boolean matches = traceMatcher.matches(actualTrace);
+            if(!matches) {
+               traceMatcher.describeMismatch(actualTrace, mismatchDescription);
+            }
+            return matches;
+         }
+      };
+   }
+
+   private static Matcher<Trace> equivalentTo(final SolverRule solver, final Trace expectedTrace) {
+      return new TypeSafeDiagnosingMatcher<Trace>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("trace equivalent to ").appendValue(expectedTrace);
+         }
+
+         @Override protected boolean matchesSafely(final Trace actualTrace, final Description mismatchDescription) {
+            final Iterator<Trace> expectedIterator = expectedTrace.iterator();
+            final Iterator<Trace> actualIterator = actualTrace.iterator();
             while(expectedIterator.hasNext() && actualIterator.hasNext()) {
                final Trace expectedTraceElement = expectedIterator.next();
                final Trace actualTraceElement = actualIterator.next();
@@ -77,5 +96,9 @@ public class SymbolicTraceMatchers {
             return true;
          }
       };
+   }
+
+   public static Matcher<Trace> equivalentTo(final SymbVmRule vmRule, final Trace trace) {
+      return equivalentTo(vmRule.solver(), trace);
    }
 }

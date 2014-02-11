@@ -1,11 +1,13 @@
 package com.lexicalscope.svm.vm.conc.junit;
 
 import static com.lexicalscope.fluentreflection.FluentReflection.object;
-import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
+import static com.lexicalscope.fluentreflection.ReflectionMatchers.*;
 import static org.objectweb.asm.Type.getMethodDescriptor;
 
+import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.junit.rules.MethodRule;
@@ -13,6 +15,7 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import com.lexicalscope.fluentreflection.FluentAnnotated;
+import com.lexicalscope.fluentreflection.FluentField;
 import com.lexicalscope.fluentreflection.FluentMethod;
 import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.FluentReflection;
@@ -20,6 +23,7 @@ import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
+import com.lexicalscope.svm.vm.conc.LoadFrom;
 import com.lexicalscope.svm.vm.conc.MethodInfo;
 import com.lexicalscope.svm.vm.j.State;
 
@@ -28,7 +32,8 @@ public class VmRule implements MethodRule {
    private final JvmBuilder jvmBuilder;
    private final Map<String, MethodInfo> entryPoints = new HashMap<>();
    private MethodInfo entryPoint;
-   private Vm<State> vm;
+
+   private final List<Vm<State>> vm = new ArrayList<>();
 
    public VmRule() {
       this(new JvmBuilder());
@@ -50,9 +55,16 @@ public class VmRule implements MethodRule {
             findEntryPoints(object);
             findEntryPoint(object);
             configureTarget(object);
+            configureVms(object);
 
             base.evaluate();
             cleanup();
+         }
+
+         private void configureVms(final FluentObject<Object> object) {
+            for (final FluentField field : object.fields(hasType(VmWrap.class))) {
+               field.call(new VmWrap(VmRule.this, field.annotation(LoadFrom.class)));
+            }
          }
 
          private void findEntryPoint(final FluentObject<Object> object) {
@@ -68,7 +80,7 @@ public class VmRule implements MethodRule {
             }
          }
 
-         public void findEntryPoints(final FluentObject<Object> object) {
+         private void findEntryPoints(final FluentObject<Object> object) {
             for (final FluentMethod entryPointMethod : object.reflectedClass().methods(annotatedWithTestPointEntry)) {
                entryPoints.put(entryPointMethod.name(), new MethodInfo(
                      object.classUnderReflection(),
@@ -87,16 +99,22 @@ public class VmRule implements MethodRule {
       // can be overridden
    }
 
+   public Vm<State> build(final Object[] args) {
+      return jvmBuilder.build(entryPoint, args);
+   }
+
    public final FlowNode<State> execute(final Object ... args) {
-      vm = jvmBuilder.build(entryPoint, args);
-      return vm.execute();
+      if(vm.isEmpty()) {
+         vm.add(build(args));
+      }
+      return vm.get(0).execute();
    }
 
    public final FlowNode<State> result() {
-      return vm.result();
+      return vm.get(0).result();
    }
 
    public final Collection<FlowNode<State>> results() {
-      return vm.results();
+      return vm.get(0).results();
    }
 }

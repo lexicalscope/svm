@@ -41,6 +41,16 @@
 			<artifactId>svm-partition-trace</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+      <dependency>
+         <groupId>com.lexicalscope.symb</groupId>
+         <artifactId>svm-examples-one</artifactId>
+         <version>${project.version}</version>
+      </dependency>
+      <dependency>
+         <groupId>com.lexicalscope.symb</groupId>
+         <artifactId>svm-examples-two</artifactId>
+         <version>${project.version}</version>
+      </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
