@@ -136,4 +136,11 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    public static SMethodDescriptor defaultConstructor(final Class<?> klass) {
       return defaultConstructor(getInternalName(klass));
    }
+
+   public static SMethodDescriptor method(
+         final Class<?> klass,
+         final String name,
+         final String desc) {
+      return new AsmSMethodName(klass, name, desc);
+   }
 }

@@ -3,6 +3,7 @@ package com.lexicalscope.svm.classloading;
 import static com.lexicalscope.matchers.url.MatchersUrl.*;
 import static com.lexicalscope.svm.classloading.ClasspathClassRepository.classpathClassRepostory;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.notNullValue;
 import static org.hamcrest.core.CombinableMatcher.both;
 
 import org.junit.Test;
@@ -23,5 +24,19 @@ public class TestLoadFromSpecificJar {
             classpathClassRepostory(ExamplesTwoMarker.class)
                .loadFromRepository("com/lexicalscope/svm/examples/ExamplesMarker"),
             both(urlHasProtocolFile()).and(urlPathContains("svm-examples-two")));
+   }
+
+   @Test public void loadsBootstrapClassesFromExamplesOne() {
+      assertThat(
+            classpathClassRepostory(ExamplesOneMarker.class)
+               .loadFromRepository("java/lang/Integer"),
+            notNullValue());
+   }
+
+   @Test public void loadsBootstrapClassesFromExamplesTwo() {
+      assertThat(
+            classpathClassRepostory(ExamplesTwoMarker.class)
+               .loadFromRepository("java/lang/Integer"),
+            notNullValue());
    }
 }

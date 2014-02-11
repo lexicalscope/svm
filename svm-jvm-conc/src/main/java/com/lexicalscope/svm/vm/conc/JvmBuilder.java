@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.vm.conc;
 
-import static com.lexicalscope.svm.classloading.JarClassRepository.loadFromLibDirectoryInSameJarFileAs;
+import static com.lexicalscope.svm.classloading.ClasspathClassRepository.classpathClassRepostory;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.svm.stack.MethodScope.STATIC;
 import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
@@ -96,7 +96,7 @@ public final class JvmBuilder {
    }
 
    public JvmBuilder loadFrom(final Class<?> loadFromWhereverThisWasLoaded) {
-      this.classSource = loadFromLibDirectoryInSameJarFileAs(loadFromWhereverThisWasLoaded);
+      this.classSource = classpathClassRepostory(loadFromWhereverThisWasLoaded);
       return this;
    }
 
@@ -108,7 +108,6 @@ public final class JvmBuilder {
       final Vm<State> vm = build();
 
       final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
-      System.out.println("using classSource " + classSource);
       final SClassLoader classLoader = new AsmSClassLoader(
             instructions,
             instrumentationBuilder.instrumentation(instructions),
@@ -124,7 +123,7 @@ public final class JvmBuilder {
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
-      vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState));
+      vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState.snapshot()));
       return vm;
    }
 

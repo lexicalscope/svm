@@ -99,7 +99,11 @@ public class VmRule implements MethodRule {
       // can be overridden
    }
 
-   public Vm<State> build(final Object[] args) {
+   public final void entryPoint(final MethodInfo entryPoint) {
+      this.entryPoint = entryPoint;
+   }
+
+   public final Vm<State> build(final Object[] args) {
       return jvmBuilder.build(entryPoint, args);
    }
 
