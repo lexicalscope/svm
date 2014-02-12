@@ -95,53 +95,53 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override
    public Vop ifge(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.geInstruction(feasibilityChecker);
+      return SBranchInstruction.geInstruction();
    }
 
    @Override public Vop ifgt(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.gtInstruction(feasibilityChecker);
+      return SBranchInstruction.gtInstruction();
    }
 
    @Override
    public Vop ifle(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.leInstruction(feasibilityChecker);
+      return SBranchInstruction.leInstruction();
    }
 
    @Override
    public Vop iflt(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.ltInstruction(feasibilityChecker);
+      return SBranchInstruction.ltInstruction();
    }
 
    @Override public Vop ifne(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.neInstruction(feasibilityChecker);
+      return SBranchInstruction.neInstruction();
    }
 
    @Override public Vop ifeq(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.eqInstruction(feasibilityChecker);
+      return SBranchInstruction.eqInstruction();
    }
 
    @Override public Vop ificmpeq(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.icmpeqInstruction(feasibilityChecker);
+      return SBranchInstruction.icmpeqInstruction();
    }
 
    @Override public Vop ificmpne(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.icmpneInstruction(feasibilityChecker);
+      return SBranchInstruction.icmpneInstruction();
    }
 
    @Override public Vop ificmple(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.icmpleInstruction(feasibilityChecker);
+      return SBranchInstruction.icmpleInstruction();
    }
 
    @Override public Vop ificmpge(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.icmpgeInstruction(feasibilityChecker);
+      return SBranchInstruction.icmpgeInstruction();
    }
 
    @Override public Vop ificmplt(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.icmpltInstruction(feasibilityChecker);
+      return SBranchInstruction.icmpltInstruction();
    }
 
    @Override public Vop ificmpgt(final JumpInsnNode jumpInsnNode) {
-      return SBranchInstruction.icmpgtInstruction(feasibilityChecker);
+      return SBranchInstruction.icmpgtInstruction();
    }
 
    @Override public Vop ifacmpeq(final JumpInsnNode jumpInsnNode) {
