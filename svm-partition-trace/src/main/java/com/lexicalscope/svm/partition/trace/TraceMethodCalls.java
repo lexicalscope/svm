@@ -7,6 +7,9 @@ import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
+import com.lexicalscope.svm.partition.trace.ops.TraceCallbackCallOp;
+import com.lexicalscope.svm.partition.trace.ops.TraceCallbackReturnOp;
+import com.lexicalscope.svm.partition.trace.ops.TraceMethodCallOp;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.State;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;

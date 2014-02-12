@@ -63,4 +63,8 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    public Collection<FlowNode<State>> results() {
       return search.results();
    }
+
+   @Override public void goal() {
+      // nothing
+   }
 }

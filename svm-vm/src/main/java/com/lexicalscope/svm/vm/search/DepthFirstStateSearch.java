@@ -49,4 +49,8 @@ public class DepthFirstStateSearch<S> implements StateSearch<S> {
    public Collection<FlowNode<S>> results() {
       return finished;
    }
+
+   @Override public void goal() {
+      // nothing
+   }
 }

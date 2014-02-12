@@ -30,6 +30,7 @@ public interface State extends Snapshotable<State>, FlowNode<State> {
 
    void fork(State[] states);
    State[] fork();
+   void goal();
 
    Object whereMyStaticsAt(SClass klass);
    void staticsAt(SClass klass, Object classAddress);

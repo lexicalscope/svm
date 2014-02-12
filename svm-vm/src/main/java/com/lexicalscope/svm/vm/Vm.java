@@ -8,6 +8,7 @@ public interface Vm<S> {
 	void initial(FlowNode<S> state);
 
 	void fork(FlowNode<S>[] states);
+	void goal();
 
 	FlowNode<S> result();
 

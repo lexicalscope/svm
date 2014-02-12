@@ -32,6 +32,10 @@ public final class VmImpl<S> implements Vm<S> {
 		search.fork(states);
 	}
 
+   @Override public void goal() {
+      search.goal();
+   }
+
 	@Override
 	public FlowNode<S> result() {
 		return search.firstResult();

@@ -1,10 +1,11 @@
-package com.lexicalscope.svm.partition.trace;
+package com.lexicalscope.svm.partition.trace.ops;
 
 import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.RETURN;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 
 import org.hamcrest.Matcher;
 
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.Trace.CallReturn;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.State;
@@ -35,6 +36,7 @@ public class TraceMethodCallOp implements Vop {
          }
          final Trace trace = ctx.getMeta(TRACE);
          ctx.setMeta(TRACE, trace.extend(methodName, callReturn, args));
+         ctx.goal();
       }
    }
 

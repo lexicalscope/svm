@@ -268,6 +268,10 @@ public class StateImpl implements State {
       vm.fork(states);
    }
 
+   @Override public void goal() {
+      vm.goal();
+   }
+
    @Override
    public void popFrame(final int returnCount) {
       stack.popFrame(returnCount);

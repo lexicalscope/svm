@@ -14,22 +14,22 @@
 	<properties>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 	</properties>
-   <build>
-      <plugins>
-         <plugin>
-            <groupId>com.lexicalscope.symb</groupId>
-            <artifactId>svm-z3-plugin</artifactId>
-            <version>${project.version}</version>
-            <executions>
-               <execution>
-                  <goals>
-                     <goal>install-z3</goal>
-                  </goals>
-               </execution>
-            </executions>
-         </plugin>
-      </plugins>
-   </build>
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>com.lexicalscope.symb</groupId>
+				<artifactId>svm-z3-plugin</artifactId>
+				<version>${project.version}</version>
+				<executions>
+					<execution>
+						<goals>
+							<goal>install-z3</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+		</plugins>
+	</build>
 	<dependencies>
 		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
@@ -41,16 +41,21 @@
 			<artifactId>svm-partition-trace</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-      <dependency>
-         <groupId>com.lexicalscope.symb</groupId>
-         <artifactId>svm-examples-one</artifactId>
-         <version>${project.version}</version>
-      </dependency>
-      <dependency>
-         <groupId>com.lexicalscope.symb</groupId>
-         <artifactId>svm-examples-two</artifactId>
-         <version>${project.version}</version>
-      </dependency>
+		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-examples-one</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-examples-two</artifactId>
+			<version>${project.version}</version>
+		</dependency>
+		<dependency>
+			<groupId>org.jmock</groupId>
+			<artifactId>jmock-junit4</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

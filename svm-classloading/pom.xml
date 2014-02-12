@@ -56,23 +56,23 @@
 			<artifactId>svm-jnatives</artifactId>
 			<version>${project.version}</version>
 		</dependency>
-      <dependency>
-         <groupId>com.lexicalscope.symb</groupId>
-         <artifactId>svm-examples-one</artifactId>
-         <version>${project.version}</version>
-         <scope>test</scope>
-      </dependency>
-      <dependency>
-         <groupId>com.lexicalscope.symb</groupId>
-         <artifactId>svm-examples-two</artifactId>
-         <version>${project.version}</version>
-         <scope>test</scope>
-      </dependency>
-        <dependency>
-            <groupId>org.jmock</groupId>
-            <artifactId>jmock-junit4</artifactId>
-            <scope>test</scope>
-        </dependency>
+		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-examples-one</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>com.lexicalscope.symb</groupId>
+			<artifactId>svm-examples-two</artifactId>
+			<version>${project.version}</version>
+			<scope>test</scope>
+		</dependency>
+		<dependency>
+			<groupId>org.jmock</groupId>
+			<artifactId>jmock-junit4</artifactId>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
