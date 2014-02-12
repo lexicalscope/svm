@@ -10,4 +10,7 @@ public final class TraceMetaKey implements MetaKey<Trace> {
    @Override public Class<Trace> valueType() {
       return Trace.class;
    }
+   @Override public String toString() {
+      return "TRACE";
+   }
 }

@@ -11,4 +11,8 @@ public final class PcMetaKey implements MetaKey<Pc> {
    @Override public Class<Pc> valueType() {
       return Pc.class;
    }
+
+   @Override public String toString() {
+      return "PC";
+   }
 }

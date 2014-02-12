@@ -33,11 +33,10 @@ public class TestSinglePathDifferentVersionsSymbolicTraceEquivalence {
    @LoadFrom(ExamplesTwoMarker.class) private VmWrap vm2;
 
    private @Fresh ISymbol symbol1;
-   private @Fresh ISymbol symbol2;
 
    @Test public void traceFromEquivalentVersionsIsEquivalent() throws Exception {
-      vm1.execute(symbol1, symbol2);
-      vm2.execute(symbol1, symbol2);
+      vm1.execute(symbol1);
+      vm2.execute(symbol1);
 
       assertThat(
             vm1.getMeta(TRACE),

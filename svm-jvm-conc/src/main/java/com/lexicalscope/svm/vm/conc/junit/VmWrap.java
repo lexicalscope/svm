@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.vm.conc.junit;
 
+import java.util.Collection;
+
 import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.Vm;
@@ -26,6 +28,10 @@ public class VmWrap {
 
    public FlowNode<State> result() {
       return vm.result();
+   }
+
+   public Collection<FlowNode<State>> results() {
+      return vm.results();
    }
 
    public <T> T getMeta(final MetaKey<T> key) {

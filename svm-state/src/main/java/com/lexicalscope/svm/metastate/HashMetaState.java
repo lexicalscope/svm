@@ -35,4 +35,8 @@ public class HashMetaState implements MetaState {
    @Override public void remove(final MetaKey<?> key) {
       meta.remove(key);
    }
+
+   @Override public String toString() {
+      return meta.toString();
+   }
 }

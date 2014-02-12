@@ -26,9 +26,12 @@ public class BinarySBranchStrategy implements SBranchStrategy {
          if(value1 instanceof Integer) {
             svalue1 = new IConstSymbol((int) value1);
             svalue2 = (ISymbol) value2;
-         } else {
+         } else if(value2 instanceof Integer) {
             svalue1 = (ISymbol) value1;
             svalue2 = new IConstSymbol((int) value2);
+         } else {
+            svalue1 = (ISymbol) value1;
+            svalue2 = (ISymbol) value2;
          }
          return op.conditionSymbol(svalue1, svalue2);
       }
