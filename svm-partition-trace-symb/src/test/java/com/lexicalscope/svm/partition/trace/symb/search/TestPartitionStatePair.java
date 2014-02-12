@@ -10,21 +10,20 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.partition.trace.symb.PartitionStatePairs;
-import com.lexicalscope.svm.vm.j.State;
 
 public class TestPartitionStatePair {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
 
-   private final PartitionStatePairs pairs = new PartitionStatePairs();
+   private final PartitionStatePairs<FakeState> pairs = new PartitionStatePairs<>();
 
-   @Mock State pstate0;
-   @Mock State qstate0;
+   @Mock FakeState pstate0;
+   @Mock FakeState qstate0;
 
-   @Mock State pstate1;
-   @Mock State qstate1;
+   @Mock FakeState pstate1;
+   @Mock FakeState qstate1;
 
-   @Mock State pstate2;
-   @Mock State qstate2;
+   @Mock FakeState pstate2;
+   @Mock FakeState qstate2;
 
    @Before public void initialState() {
       pairs.put(pstate0, qstate0);
