@@ -3,9 +3,17 @@ package com.lexicalscope.svm.vm;
 import java.util.Collection;
 
 public final class VmImpl<S> implements Vm<S> {
-   private final StateSearch<S> search = new StateSearch<>();
+   private final StateSearch<S> search;
 
-	@Override
+   public VmImpl() {
+      this(new DepthFirstStateSearch<S>());
+   }
+
+	public VmImpl(final StateSearch<S> search) {
+      this.search = search;
+   }
+
+   @Override
 	public FlowNode<S> execute() {
 		while (search.searching()) {
 			try {

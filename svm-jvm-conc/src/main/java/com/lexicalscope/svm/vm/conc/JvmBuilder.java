@@ -55,6 +55,7 @@ public final class JvmBuilder {
    private final InstrumentationBuilder instrumentationBuilder = new InstrumentationBuilder();
    private final MetaState metaState = new HashMetaState();
    private ClassSource classSource = new ClasspathClassRepository();
+   private StateSearchFactory searchFactory = new DepthFirstStateSearchFactory();
 
    public JvmBuilder() {
       if(getClass().desiredAssertionStatus()) {
@@ -123,7 +124,7 @@ public final class JvmBuilder {
    }
 
    public Vm<State> build() {
-      return new VmImpl<State>();
+      return new VmImpl<State>(searchFactory.search());
    }
 
    private void loadArgsInstruction(final StatementBuilder statements, final Object[] args) {
@@ -142,6 +143,11 @@ public final class JvmBuilder {
 
    public <T> JvmBuilder meta(final MetaKey<T> key, final T initialMeta) {
       metaState.set(key, initialMeta);
+      return this;
+   }
+
+   public JvmBuilder searchWith(final StateSearchFactory searchFactory) {
+      this.searchFactory = searchFactory;
       return this;
    }
 }

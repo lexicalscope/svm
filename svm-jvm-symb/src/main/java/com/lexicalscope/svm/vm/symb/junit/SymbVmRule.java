@@ -19,7 +19,7 @@ public class SymbVmRule extends VmRule {
    }
 
    public SymbVmRule(final SymbInstructionFactory symbInstructionFactory, final FeasibilityChecker feasibilityChecker) {
-      super(SymbVmFactory.symbolicVmBuilder(symbInstructionFactory));
+      super(SymbVmFactory.symbolicVmBuilder(symbInstructionFactory, feasibilityChecker));
       this.feasibilityChecker = feasibilityChecker;
       this.solverRule = new SolverRule(symbInstructionFactory, feasibilityChecker);
    }
