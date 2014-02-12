@@ -1,59 +1,45 @@
 package com.lexicalscope.svm.partition.trace.symb.search;
 
-import static com.lexicalscope.svm.partition.trace.symb.search.FakeExecutionBuilder.from;
+import static com.lexicalscope.svm.partition.trace.symb.search.fakes.FakeExecutionBuilder.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasEntry;
 
-import org.jmock.auto.Mock;
-import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
-import org.junit.Rule;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.junit.Test;
 
 import com.lexicalscope.svm.partition.trace.symb.PartitionStatePairs;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.partition.trace.symb.search.fakes.ExecutionStrategy;
+import com.lexicalscope.svm.partition.trace.symb.search.fakes.FakeState;
+import com.lexicalscope.svm.partition.trace.symb.search.fakes.PStrategy;
+import com.lexicalscope.svm.partition.trace.symb.search.fakes.QStrategy;
 
 public class TestPairedExecutionToGoal {
-   @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
+   private final PartitionStatePairs<FakeState> pairs = new PartitionStatePairs<>();
+   private final ExecutionStrategy pvm = new PStrategy(pairs);
+   private final ExecutionStrategy qvm = new QStrategy(pairs);
 
-   private final PartitionStatePairs pairs = new PartitionStatePairs();
-
-
-   @Mock State pstate0;
-   @Mock State pstateL;
-   @Mock State pstateLL;
-   @Mock State pstateLR;
-   @Mock State pstateR;
-   @Mock State pstateRL;
-   @Mock State pstateRR;
-
-   @Mock State qstate0;
-   @Mock State qstateL;
-   @Mock State qstateLL;
-   @Mock State qstateLR;
-   @Mock State qstateR;
-   @Mock State qstateRL;
-   @Mock State qstateRR;
-
-   @Before public void initialState() {
-      pairs.put(pstate0, qstate0);
-   }
 
    @Test public void pairedExecutionWIthNoGoalCorresponds() throws Exception {
-      final FakeExecution pexecution = FakeExecutionBuilder.p(pstate0)
-                                        .to(from(pstateL)
-                                             .to(pstateLL, pstateLR),
-                                            from(pstateR)
-                                             .to(pstateRL, pstateRR)).build();
+      final FakeState pexecution = branch(branch(term("P1"), term("P2")),
+                                          branch(term("P3"), term("P4")));
 
-      final FakeExecution qexecution = from(qstate0)
-                                        .to(from(qstateL)
-                                             .to(qstateLL, qstateLR),
-                                            from(qstateR)
-                                             .to(qstateRL, qstateRR)).build();
+      final FakeState qexecution = branch(branch(term("Q1"), term("Q2")),
+                                          branch(term("Q3"), term("Q4")));
 
-      final PartitionStatePairs pairs = new PartitionStatePairs();
+      pairs.initial(pexecution, qexecution);
 
-//      pexecution.execute(pairs);
+      final Map<FakeState, FakeState> result = new HashMap<>();
+      while(pairs.hasPending()) {
+         result.put(pairs.ppending().execute(pvm),
+                    pairs.qpending().execute(qvm));
+      }
 
+      assertThat(result, hasEntry(term("P1"), term("Q1")));
+      assertThat(result, hasEntry(term("P2"), term("Q2")));
+      assertThat(result, hasEntry(term("P3"), term("Q3")));
+      assertThat(result, hasEntry(term("P4"), term("Q4")));
    }
 }
 

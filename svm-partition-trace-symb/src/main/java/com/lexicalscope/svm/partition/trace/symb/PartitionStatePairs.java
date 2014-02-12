@@ -1,18 +1,19 @@
 package com.lexicalscope.svm.partition.trace.symb;
 
+import java.util.Iterator;
 import java.util.List;
 
-import com.google.common.collect.ArrayListMultimap;
+import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 
 public class PartitionStatePairs<S> {
-   private final ListMultimap<S, S> statePairs = ArrayListMultimap.create();
-   private final ListMultimap<S, S> pleadsTo = ArrayListMultimap.create();
+   private final ListMultimap<S, S> statePairs = LinkedListMultimap.create();
+   private final ListMultimap<S, S> pleadsTo = LinkedListMultimap.create();
 
    private S pstate;
    private S qstate;
 
-   public final void put(final S pstate, final S qstate) {
+   public final void initial(final S pstate, final S qstate) {
       if(statePairs.isEmpty()) {
          this.pstate = pstate;
       }
@@ -56,6 +57,11 @@ public class PartitionStatePairs<S> {
    }
 
    public void backtrack() {
-      pstate = statePairs.keySet().iterator().next();
+      final Iterator<S> pkeys = statePairs.keySet().iterator();
+      if(pkeys.hasNext()) {
+         pstate = pkeys.next();
+      } else {
+         pstate = null;
+      }
    }
 }

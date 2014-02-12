@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.partition.trace.symb.PartitionStatePairs;
+import com.lexicalscope.svm.partition.trace.symb.search.fakes.FakeState;
 
 public class TestPartitionStatePair {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
@@ -26,7 +27,7 @@ public class TestPartitionStatePair {
    @Mock FakeState qstate2;
 
    @Before public void initialState() {
-      pairs.put(pstate0, qstate0);
+      pairs.initial(pstate0, qstate0);
    }
 
    @Test public void initalStatesCorrespond() throws Exception {
