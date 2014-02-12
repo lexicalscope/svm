@@ -11,7 +11,7 @@ public class UnarySBranchStrategy implements SBranchStrategy {
       this.op = op;
    }
 
-   @Override public BoolSymbol branchPredicateSymbol(final State ctx) {
+   @Override public BoolSymbol evaluateBranchConditonAsSymbol(final State ctx) {
       final Object value = ctx.pop();
       if(value instanceof Integer) {
          return op.conditionSymbol((Integer) value);

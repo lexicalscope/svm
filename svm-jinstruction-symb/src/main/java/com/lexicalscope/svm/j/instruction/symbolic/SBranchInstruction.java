@@ -42,35 +42,18 @@ final class SBranchInstruction implements Vop {
    @Override public void eval(final State ctx) {
       final Pc pc = ctx.getMeta(PC);
 
-      final BoolSymbol jumpSymbol = branchStrategy.branchPredicateSymbol(ctx);
+      final BoolSymbol branchPredicateSymbol = branchStrategy.evaluateBranchConditonAsSymbol(ctx);
+      final State[] states = ctx.fork();
 
-      final Pc jumpPc = pc.and(jumpSymbol);
-      final boolean jumpFeasible = feasibilityChecker.check(jumpPc);
+      final Pc jumpPc = pc.and(branchPredicateSymbol);
+      states[0].setMeta(PC, jumpPc);
+      states[0].advanceTo(ctx.instructionJmpTarget());
 
-      final NotSymbol nojumpSymbol = new NotSymbol(jumpSymbol);
-      final Pc nojumpPc = pc.and(nojumpSymbol);
-      final boolean nojumpFeasible = feasibilityChecker.check(nojumpPc);
+      final Pc nojumpPc = pc.and(new NotSymbol(branchPredicateSymbol));
+      states[1].setMeta(PC, nojumpPc);
+      states[1].advanceTo(ctx.instructionNext());
 
-      if(jumpFeasible && nojumpFeasible)
-      {
-         final State[] states = ctx.fork();
-
-         // jump
-         states[0].setMeta(PC, jumpPc);
-         states[0].advanceTo(ctx.instructionJmpTarget());
-
-         // no jump
-         states[1].setMeta(PC, nojumpPc);
-         states[1].advanceTo(ctx.instructionNext());
-
-         ctx.fork(states);
-      } else if(jumpFeasible) {
-         ctx.advanceTo(ctx.instructionJmpTarget());
-      } else if(nojumpFeasible) {
-         ctx.advanceTo(ctx.instructionNext());
-      } else {
-         throw new RuntimeException("unable to check feasibility");
-      }
+      ctx.fork(states);
    }
 
    @Override

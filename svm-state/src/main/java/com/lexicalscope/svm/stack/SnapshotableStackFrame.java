@@ -80,6 +80,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    }
 
    private void pushInternal(final Object val) {
+      assert val != null;
       opTop++;
       stack[opTop] = val;
    }
@@ -87,6 +88,7 @@ public final class SnapshotableStackFrame implements StackFrame {
    @Override
    public Object pop() {
       try {
+         assert stack[opTop] != null : toString();
          return stack[opTop];
       } finally {
          opTop--;

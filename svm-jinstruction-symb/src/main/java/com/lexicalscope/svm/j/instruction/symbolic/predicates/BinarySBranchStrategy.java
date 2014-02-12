@@ -12,9 +12,12 @@ public class BinarySBranchStrategy implements SBranchStrategy {
       this.op = op;
    }
 
-   @Override public BoolSymbol branchPredicateSymbol(final State ctx) {
+   @Override public BoolSymbol evaluateBranchConditonAsSymbol(final State ctx) {
       final Object value2 = ctx.pop();
       final Object value1 = ctx.pop();
+
+      assert value1 != null && value2 != null : value1 + " # " + value2;
+
       if(value1 instanceof Integer && value2 instanceof Integer) {
          return op.conditionSymbol((Integer) value1, (Integer) value2);
       } else {

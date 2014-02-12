@@ -5,6 +5,7 @@ public class ICmpGeSymbol implements BoolSymbol {
    private final ISymbol value2;
 
    public ICmpGeSymbol(final ISymbol value1, final ISymbol value2) {
+      assert value1 != null && value2 != null;
       this.value1 = value1;
       this.value2 = value2;
    }
