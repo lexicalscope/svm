@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace.symb;
+package com.lexicalscope.svm.partition.trace.symb.search;
 
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;

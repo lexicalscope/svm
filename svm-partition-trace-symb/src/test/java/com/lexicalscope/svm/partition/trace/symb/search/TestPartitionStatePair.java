@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace.symb;
+package com.lexicalscope.svm.partition.trace.symb.search;
 
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
@@ -9,6 +9,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.svm.partition.trace.symb.PartitionStatePairs;
 import com.lexicalscope.svm.vm.j.State;
 
 public class TestPartitionStatePair {
