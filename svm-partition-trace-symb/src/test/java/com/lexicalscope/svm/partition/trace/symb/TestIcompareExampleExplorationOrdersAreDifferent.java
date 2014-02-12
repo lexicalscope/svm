@@ -5,8 +5,8 @@ import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.inst
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 import static com.lexicalscope.svm.partition.trace.symb.SymbolicTraceMatchers.equivalentTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.not;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -21,7 +21,7 @@ import com.lexicalscope.svm.vm.conc.junit.VmWrap;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
-public class TestGuidedSearch {
+public class TestIcompareExampleExplorationOrdersAreDifferent {
    private final PartitionBuilder partition = partition().ofClass(InsidePartition.class);
 
    @Rule public final SymbVmRule vmRule = new SymbVmRule();
@@ -36,12 +36,16 @@ public class TestGuidedSearch {
    private @Fresh ISymbol symbol1;
    private @Fresh ISymbol symbol2;
 
-   @Test @Ignore public void pathsExploredPairwise() throws Exception {
+   @Test public void pathsExploredPairwise() throws Exception {
       vm1.execute(symbol1, symbol2);
       vm2.execute(symbol1, symbol2);
 
+      // should pass due to different exploration orders
+      // this is necessary to check that other tests that are using this
+      // example are not rendered vacuous by any compiler improvements
+      // which might effect branch selection order.
       assertThat(
             vm1.getMeta(TRACE),
-            equivalentTo(vmRule, vm2.getMeta(TRACE)));
+            not(equivalentTo(vmRule, vm2.getMeta(TRACE))));
    }
 }
