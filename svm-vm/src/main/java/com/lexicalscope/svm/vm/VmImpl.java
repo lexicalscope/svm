@@ -5,10 +5,6 @@ import java.util.Collection;
 public final class VmImpl<S> implements Vm<S> {
    private final StateSearch<S> search;
 
-   public VmImpl() {
-      this(new DepthFirstStateSearch<S>());
-   }
-
 	public VmImpl(final StateSearch<S> search) {
       this.search = search;
    }

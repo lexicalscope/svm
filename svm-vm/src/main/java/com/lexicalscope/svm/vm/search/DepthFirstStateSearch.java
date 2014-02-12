@@ -1,8 +1,11 @@
-package com.lexicalscope.svm.vm;
+package com.lexicalscope.svm.vm.search;
 
 import java.util.ArrayDeque;
 import java.util.Collection;
 import java.util.Deque;
+
+import com.lexicalscope.svm.vm.FlowNode;
+import com.lexicalscope.svm.vm.StateSearch;
 
 public class DepthFirstStateSearch<S> implements StateSearch<S> {
    private final Deque<FlowNode<S>> pending = new ArrayDeque<>();
