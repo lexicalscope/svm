@@ -2,44 +2,32 @@ package com.lexicalscope.svm.partition.trace;
 
 import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.CALL;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.base.Joiner;
-import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
-public class Trace implements Iterable<Trace> {
-   private final Trace previous;
-   private final SMethodDescriptor method;
-   private final CallReturn callReturn;
-   private final Object[] args;
+public class Trace implements Iterable<TraceElement> {
    private final Map<Object, Alias> map;
    private final int nextAlias;
+   private final TraceElement head;
+
    public enum CallReturn { CALL, RETURN }
 
    public Trace() {
-      this(null, new HashMap<Object, Alias>(), 0, null, null, new Object[0]);
+      this(null, new HashMap<Object, Alias>(), 0);
    }
 
    private Trace(
-         final Trace trace,
+         final TraceElement trace,
          final Map<Object, Alias> map,
-         final int nextAlias,
-         final SMethodDescriptor method,
-         final CallReturn callReturn,
-         final Object[] args) {
+         final int nextAlias) {
+      this.head = trace;
       this.nextAlias = nextAlias;
-      assert !Arrays.asList(args).contains(null);
-      this.previous = trace;
       this.map = map;
-      this.method = method;
-      this.callReturn = callReturn;
-      this.args = args;
    }
 
    public Trace extend(final SMethodDescriptor methodCalled, final CallReturn callReturn, final Object ... args) {
@@ -52,48 +40,25 @@ public class Trace implements Iterable<Trace> {
          traceExtender.aliasesForZerothArguments();
       }
 
-      return new Trace(this, traceExtender.newMap(), traceExtender.newNextAlias(), methodCalled, callReturn, traceExtender.normalisedArgs());
+      return new Trace(new TraceElement(head, methodCalled, callReturn, traceExtender.normalisedArgs()), traceExtender.newMap(), traceExtender.newNextAlias());
    }
 
-   public List<Trace> asList() {
-      final LinkedList<Trace> result = new LinkedList<>();
+   public List<TraceElement> asList() {
+      final LinkedList<TraceElement> result = new LinkedList<>();
 
-      Trace element = this;
-      while(element.previous != null) {
+      TraceElement element = head;
+      while(element != null) {
          result.add(0, element);
-         element = element.previous;
+         element = element.previous();
       }
       return result;
    }
 
-   @Override public Iterator<Trace> iterator() {
+   @Override public Iterator<TraceElement> iterator() {
       return asList().iterator();
    }
 
-   public SMethodName methodName() {
-      return method;
-   }
-
-   public boolean isCall() {
-      return callReturn.equals(CALL);
-   }
-
    @Override public String toString() {
-      if(previous == null) {
-         return "";
-      } else if (previous.previous != null) {
-//         return String.format("%s, %s", previous, describe());
-         return describe();
-      } else {
-         return describe();
-      }
-   }
-
-   public Object[] args() {
-      return args;
-   }
-
-   private String describe() {
-      return String.format("[%s]%s - (%s)", callReturn, method, Joiner.on(", ").join(args));
+      return String.format("%s", asList());
    }
 }

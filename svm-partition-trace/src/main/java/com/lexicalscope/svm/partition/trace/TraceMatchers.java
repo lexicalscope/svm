@@ -13,7 +13,7 @@ import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 
 public class TraceMatchers {
-   public static Matcher<Trace> methodCallOf(
+   public static Matcher<TraceElement> methodCallOf(
          final Class<?> klass,
          final String methodName,
          final String desc) {
@@ -21,7 +21,7 @@ public class TraceMatchers {
    }
 
    @SafeVarargs
-   public static Matcher<Trace> methodCallOf(
+   public static Matcher<TraceElement> methodCallOf(
          final Class<?> klass,
          final String methodName,
          final String desc,
@@ -29,21 +29,21 @@ public class TraceMatchers {
       return methodCallOf(new AsmSMethodName(klass, methodName, desc), matchers);
    }
 
-   public static Matcher<Trace> methodCallOf(
+   public static Matcher<TraceElement> methodCallOf(
          final SMethodName methodName) {
       return methodCallOf(methodName, someReceiver());
    }
 
    @SafeVarargs
-   public static Matcher<Trace> methodCallOf(
+   public static Matcher<TraceElement> methodCallOf(
          final SMethodName methodName,
          final Matcher<?>... matchers) {
       return both(traceWithName(methodName)).and(traceIsCall()).and(argumentsMatch(matchers));
    }
 
    @SafeVarargs
-   private static Matcher<? super Trace> argumentsMatch(final Matcher<?> ... matchers) {
-      return new TypeSafeDiagnosingMatcher<Trace>(){
+   private static Matcher<? super TraceElement> argumentsMatch(final Matcher<?> ... matchers) {
+      return new TypeSafeDiagnosingMatcher<TraceElement>(){
          @Override public void describeTo(final Description description) {
             description.appendText("arguments are ");
             String separator = "";
@@ -56,7 +56,7 @@ public class TraceMatchers {
             }
          }
 
-         @Override protected boolean matchesSafely(final Trace item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final TraceElement item, final Description mismatchDescription) {
             final Object[] args = item.args();
             @SuppressWarnings("unchecked")
             final Matcher<Iterable<Object>> argsMatcher = has((Matcher<Object>[]) matchers).only().inOrder();
@@ -68,7 +68,7 @@ public class TraceMatchers {
          }};
    }
 
-   public static Matcher<Trace> methodReturnOf(
+   public static Matcher<TraceElement> methodReturnOf(
          final Class<?> klass,
          final String methodName,
          final String desc) {
@@ -76,7 +76,7 @@ public class TraceMatchers {
    }
 
    @SafeVarargs
-   public static Matcher<Trace> methodReturnOf(
+   public static Matcher<TraceElement> methodReturnOf(
          final Class<?> klass,
          final String methodName,
          final String desc,
@@ -85,19 +85,19 @@ public class TraceMatchers {
    }
 
    @SafeVarargs
-   public static Matcher<Trace> methodReturnOf(
+   public static Matcher<TraceElement> methodReturnOf(
          final SMethodName methodName,
          final Matcher<?> ... matchers) {
       return both(traceWithName(methodName)).and(traceIsReturn()).and(argumentsMatch(matchers));
    }
 
-   private static Matcher<? super Trace> traceIsReturn() {
-      return new TypeSafeDiagnosingMatcher<Trace>() {
+   private static Matcher<? super TraceElement> traceIsReturn() {
+      return new TypeSafeDiagnosingMatcher<TraceElement>() {
          @Override public void describeTo(final Description description) {
             description.appendText("method return");
          }
 
-         @Override protected boolean matchesSafely(final Trace item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final TraceElement item, final Description mismatchDescription) {
             if(item.isCall()) {
                mismatchDescription.appendText("method call");
                return false;
@@ -107,13 +107,13 @@ public class TraceMatchers {
       };
    }
 
-   private static Matcher<? super Trace> traceIsCall() {
-      return new TypeSafeDiagnosingMatcher<Trace>() {
+   private static Matcher<? super TraceElement> traceIsCall() {
+      return new TypeSafeDiagnosingMatcher<TraceElement>() {
          @Override public void describeTo(final Description description) {
             description.appendText("method call");
          }
 
-         @Override protected boolean matchesSafely(final Trace item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final TraceElement item, final Description mismatchDescription) {
             if(item.isCall()) {
                return true;
             }
@@ -123,13 +123,13 @@ public class TraceMatchers {
       };
    }
 
-   private static TypeSafeDiagnosingMatcher<Trace> traceWithName(final SMethodName methodName) {
-      return new TypeSafeDiagnosingMatcher<Trace>() {
+   private static TypeSafeDiagnosingMatcher<TraceElement> traceWithName(final SMethodName methodName) {
+      return new TypeSafeDiagnosingMatcher<TraceElement>() {
          @Override public void describeTo(final Description description) {
             description.appendText("trace element with name ").appendValue(methodName);
          }
 
-         @Override protected boolean matchesSafely(final Trace item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final TraceElement item, final Description mismatchDescription) {
             mismatchDescription.appendText("trace element with name ").appendValue(item.methodName());
             return item.methodName().equals(methodName);
          }

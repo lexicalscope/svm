@@ -9,6 +9,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.TraceBuilder;
+import com.lexicalscope.svm.partition.trace.TraceElement;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
@@ -38,11 +39,11 @@ public class SymbolicTraceMatchers {
          }
 
          @Override protected boolean matchesSafely(final Trace actualTrace, final Description mismatchDescription) {
-            final Iterator<Trace> expectedIterator = expectedTrace.iterator();
-            final Iterator<Trace> actualIterator = actualTrace.iterator();
+            final Iterator<TraceElement> expectedIterator = expectedTrace.iterator();
+            final Iterator<TraceElement> actualIterator = actualTrace.iterator();
             while(expectedIterator.hasNext() && actualIterator.hasNext()) {
-               final Trace expectedTraceElement = expectedIterator.next();
-               final Trace actualTraceElement = actualIterator.next();
+               final TraceElement expectedTraceElement = expectedIterator.next();
+               final TraceElement actualTraceElement = actualIterator.next();
 
                if(expectedTraceElement.methodName().equals(actualTraceElement.methodName()) &&
                   expectedTraceElement.isCall() == actualTraceElement.isCall()) {
