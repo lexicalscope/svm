@@ -16,4 +16,8 @@ public class QStrategy implements ExecutionStrategy {
    @Override public void fork(final FakeState left, final FakeState right) {
       pairs.qexecution(left, right);
    }
+
+   @Override public void goal(final FakeState successor) {
+      pairs.qexecution(successor);
+   }
 }

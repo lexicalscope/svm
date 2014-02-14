@@ -13,4 +13,8 @@ public class FakeExecuteToBranch implements FakeState {
       strategy.fork(left, right);
       return this;
    }
+
+   @Override public String toString() {
+      return "BRANCH";
+   }
 }

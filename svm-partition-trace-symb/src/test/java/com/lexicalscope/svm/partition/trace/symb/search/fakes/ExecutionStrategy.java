@@ -4,4 +4,6 @@ public interface ExecutionStrategy {
    void backtrack();
 
    void fork(FakeState left, FakeState right);
+
+   void goal(FakeState successor);
 }

@@ -15,4 +15,8 @@ public class PStrategy implements ExecutionStrategy {
    @Override public void fork(final FakeState left, final FakeState right) {
       pairs.pexecution(left, right);
    }
+
+   @Override public void goal(final FakeState successor) {
+      pairs.pexecution(successor);
+   }
 }

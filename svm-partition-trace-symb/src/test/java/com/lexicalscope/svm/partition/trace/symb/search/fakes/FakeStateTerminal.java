@@ -22,4 +22,8 @@ public class FakeStateTerminal implements FakeState {
       strategy.backtrack();
       return this;
    }
+
+   @Override public String toString() {
+      return String.format("TERM(%s)", name);
+   }
 }
