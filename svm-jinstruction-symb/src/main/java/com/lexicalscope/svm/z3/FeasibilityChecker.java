@@ -94,6 +94,16 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       }
    }
 
+   public boolean covers(final Pc pc, final Pc smallerPc) {
+      try {
+         final BoolExpr pcExpr = pc.accept(new PcToZ3(ctx));
+         final BoolExpr smallerPcExpr = smallerPc.accept(new PcToZ3(ctx));
+         return checkUnsat(ctx.mkNot(ctx.mkImplies(pcExpr, smallerPcExpr)));
+      } catch (final Z3Exception e) {
+         throw new RuntimeException("could not check if: " + pc + " implies " + smallerPc, e);
+      }
+   }
+
    /**
     * Be kind, rewind.
     */

@@ -49,4 +49,8 @@ public class SolverRule implements MethodRule {
             base.evaluate();
          }};
    }
+
+   public FeasibilityChecker checker() {
+      return feasibilityChecker;
+   }
 }
