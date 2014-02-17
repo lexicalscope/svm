@@ -40,27 +40,27 @@ public class TestGoalTree {
       assertThat(goalTree, hasChild(covers(lessThanThree)));
    }
 
-//   @Test public void parentKeepsTrackOfTheCoveredSetOfItsChildre() throws Exception {
-//
-//      goalTree.reached(new Object(), lessThanThree);
-//      goalTree.reached(new Object(), not(lessThanThree).and(moreThanMinusSix));
-//
-//      assertThat(goalTree, childrenCover(not(lessThanThree).and(moreThanMinusSix)).or(moreThanMinusSix)));
-//   }
-//
-//
-//   private Matcher<? super GoalTree<Object>> childrenCover(final Object and) {
-//      return new TypeSafeDiagnosingMatcher<GoalTree<?>>() {
-//         @Override public void describeTo(final Description description) {
-//            description.appendText("node with chidren that cover").appendDescriptionOf(childMatcher);
-//         }
-//
-//         @Override protected boolean matchesSafely(final GoalTree<?> item, final Description mismatchDescription) {
-//            mismatchDescription.appendValue(item);
-//            return item.hasChild(childMatcher);
-//         }
-//      };
-//   }
+   @Test public void parentKeepsTrackOfTheCoveredSetOfItsChildre() throws Exception {
+      final BoolSymbol alternativeBranch = not(lessThanThree).and(moreThanMinusSix);
+
+      goalTree.reached(new Object(), lessThanThree);
+      goalTree.reached(new Object(), alternativeBranch);
+
+      assertThat(goalTree, childrenCover(not(lessThanThree).and(moreThanMinusSix).or(lessThanThree)));
+   }
+
+   private Matcher<? super GoalTree<Object>> childrenCover(final BoolSymbol pc) {
+      return new TypeSafeDiagnosingMatcher<GoalTree<?>>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("node with chidren that cover ").appendValue(pc);
+         }
+
+         @Override protected boolean matchesSafely(final GoalTree<?> item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item);
+            return item.childrenCover(pc);
+         }
+      };
+   }
 
    private Matcher<GoalTree<?>> hasChild(final Matcher<? super GoalTree<?>> childMatcher) {
       return new TypeSafeDiagnosingMatcher<GoalTree<?>>() {

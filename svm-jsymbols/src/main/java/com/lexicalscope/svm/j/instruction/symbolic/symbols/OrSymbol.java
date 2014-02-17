@@ -12,4 +12,8 @@ public class OrSymbol extends AbstractBoolSymbol {
    @Override public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
       return visitor.or(left, right);
    }
+
+   @Override public String toString() {
+      return String.format("(OR %s %s)", left, right);
+   }
 }

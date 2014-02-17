@@ -12,4 +12,8 @@ public class AndSymbol extends AbstractBoolSymbol {
    @Override public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
       return visitor.and(left, right);
    }
+
+   @Override public String toString() {
+      return String.format("(AND %s %s)", left, right);
+   }
 }
