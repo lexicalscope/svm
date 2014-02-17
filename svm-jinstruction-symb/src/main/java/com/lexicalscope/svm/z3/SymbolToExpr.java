@@ -104,6 +104,11 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    }
 
    @Override
+   public Expr and(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
+      return ctx.mkAnd((BoolExpr) left.accept(this), (BoolExpr) right.accept(this));
+   }
+
+   @Override
    public Expr intSymbol(final String name) throws Z3Exception {
       return ctx.mkConst(name, intBvSort);
    }

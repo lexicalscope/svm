@@ -4,6 +4,7 @@ import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.icmpEq;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 
 public final class ICmpEqStrategy implements BinarySBranchOp {
    @Override public String toString() {

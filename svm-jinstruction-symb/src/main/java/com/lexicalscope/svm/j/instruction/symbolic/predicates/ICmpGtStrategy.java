@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.symbolic.predicates;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpGtSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 
 public final class ICmpGtStrategy implements BinarySBranchOp {
    @Override public String toString() {

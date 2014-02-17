@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops;
 
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.AndSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IAndSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 
 public class SIAndOperator implements SIBinaryOperator {
@@ -14,6 +14,6 @@ public class SIAndOperator implements SIBinaryOperator {
    }
 
    @Override public ISymbol eval(final ISymbol svalue1, final ISymbol svalue2) {
-      return new AndSymbol(svalue1, svalue2);
+      return new IAndSymbol(svalue1, svalue2);
    }
 }

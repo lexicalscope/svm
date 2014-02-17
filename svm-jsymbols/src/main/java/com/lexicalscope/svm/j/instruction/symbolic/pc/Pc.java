@@ -1,38 +1,36 @@
 package com.lexicalscope.svm.j.instruction.symbolic.pc;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import com.google.common.base.Joiner;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.AndSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 
 public class Pc {
-   private final List<BoolSymbol> conjunction;
+   private final BoolSymbol symbol;
 
-   private Pc(final List<BoolSymbol> conjunction) {
-      this.conjunction = conjunction;
+   private Pc(final BoolSymbol symbol) {
+      this.symbol = symbol;
    }
 
    public Pc() {
-      this(new ArrayList<BoolSymbol>());
+      this(new TrueSymbol());
    }
 
-   public Pc and(final BoolSymbol symbol) {
+   public Pc and(final BoolSymbol conjunct) {
       // we only change the path condition at fork points.
       // so we should be able to do better than this.
-      final ArrayList<BoolSymbol> extended = new ArrayList<>(conjunction);
-      extended.add(symbol);
-      return new Pc(extended);
+      return new Pc(new AndSymbol(symbol, conjunct));
+   }
+
+   public Pc and(final Pc other) {
+      return new Pc(new AndSymbol(symbol, other.symbol));
    }
 
    public <T, E extends Throwable> T accept(final PcVisitor<T, E> visitor) throws E {
-      return visitor.conjunction(conjunction);
+      return visitor.symbol(symbol);
    }
-
-   private static final Joiner conjJoiner = Joiner.on(" ");
 
    @Override
    public String toString() {
-      return String.format("(AND %s)", conjJoiner.join(conjunction));
+      return symbol.toString();
    }
 }

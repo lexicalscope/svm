@@ -1,7 +1,5 @@
 package com.lexicalscope.svm.z3;
 
-import java.util.List;
-
 import com.lexicalscope.svm.j.instruction.symbolic.pc.PcVisitor;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.microsoft.z3.BoolExpr;
@@ -16,11 +14,7 @@ public class PcToZ3 implements PcVisitor<BoolExpr, Z3Exception> {
    }
 
    @Override
-   public BoolExpr conjunction(final List<BoolSymbol> conjunction) throws Z3Exception {
-      final BoolExpr[] exprs = new BoolExpr[conjunction.size()];
-      for (int i = 0; i < conjunction.size(); i++) {
-         exprs[i] = (BoolExpr) conjunction.get(i).accept(new SymbolToExpr(ctx));
-      }
-      return ctx.mkAnd(exprs);
+   public BoolExpr symbol(final BoolSymbol conjunction) throws Z3Exception {
+      return (BoolExpr) conjunction.accept(new SymbolToExpr(ctx));
    }
 }
