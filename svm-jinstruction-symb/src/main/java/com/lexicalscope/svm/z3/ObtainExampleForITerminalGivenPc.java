@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.z3;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
@@ -10,11 +10,11 @@ import com.lexicalscope.svm.z3.FeasibilityChecker.ISimplificationResult;
 public class ObtainExampleForITerminalGivenPc implements Simplification {
    private final ISimplificationResult result;
    private final ITerminalSymbol symbol;
-   private final Pc pc;
+   private final BoolSymbol pc;
 
    public ObtainExampleForITerminalGivenPc(
          final ITerminalSymbol symbol,
-         final Pc pc,
+         final BoolSymbol pc,
          final ISimplificationResult result) {
       this.symbol = symbol;
       this.pc = pc;

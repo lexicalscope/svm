@@ -5,36 +5,37 @@ import java.util.Map;
 
 import org.hamcrest.Matcher;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class GoalTree<T> {
    private final Map<T, GoalTree<T>> children = new HashMap<>();
    private final FeasibilityChecker feasibilityChecker;
-   private final Pc pc;
+   private final BoolSymbol pc;
 
    public GoalTree() {
       this(new FeasibilityChecker());
    }
 
    public GoalTree(final FeasibilityChecker feasibilityChecker) {
-      this(feasibilityChecker, new Pc());
+      this(feasibilityChecker, new TrueSymbol());
    }
 
-   public GoalTree(final FeasibilityChecker feasibilityChecker, final Pc pc) {
+   public GoalTree(final FeasibilityChecker feasibilityChecker, final BoolSymbol pc) {
       this.feasibilityChecker = feasibilityChecker;
       this.pc = pc;
    }
 
-   public Pc pc() {
+   public BoolSymbol pc() {
       return pc;
    }
 
-   public boolean covers(final Pc smallerPc) {
+   public boolean covers(final BoolSymbol smallerPc) {
       return feasibilityChecker.covers(pc, smallerPc);
    }
 
-   public void reached(final T goal, final Pc pc) {
+   public void reached(final T goal, final BoolSymbol pc) {
       children.put(goal, new GoalTree<T>(feasibilityChecker, pc));
    }
 

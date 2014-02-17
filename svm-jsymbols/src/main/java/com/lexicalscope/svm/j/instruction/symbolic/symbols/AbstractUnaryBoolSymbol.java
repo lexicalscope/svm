@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic.symbols;
 
-public abstract class AbstractUnaryBoolSymbol implements BoolSymbol {
+public abstract class AbstractUnaryBoolSymbol extends AbstractBoolSymbol {
    protected final ISymbol val;
 
    public AbstractUnaryBoolSymbol(final ISymbol val) {

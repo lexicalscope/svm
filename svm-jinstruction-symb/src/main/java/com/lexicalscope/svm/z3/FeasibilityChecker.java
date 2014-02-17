@@ -6,7 +6,7 @@ import java.util.HashMap;
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
@@ -20,12 +20,12 @@ import com.microsoft.z3.IntExpr;
 import com.microsoft.z3.Status;
 import com.microsoft.z3.Z3Exception;
 
-public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements Closeable {
-   // TODO[tim]: use z3 stack for efficency
+public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> implements Closeable {
+   // TODO[tim]: use z3 stack for efficiency
    private final Context ctx;
 
    public FeasibilityChecker() {
-      super(Pc.class);
+      super(BoolSymbol.class);
       try {
          Context.ToggleWarningMessages(true);
       } catch (final Z3Exception e) {
@@ -74,10 +74,10 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       return status.equals(Status.UNSATISFIABLE);
    }
 
-   public boolean check(final Pc pc) {
+   public boolean check(final BoolSymbol pc) {
       final BoolExpr expr;
       try {
-         expr = pc.accept(new PcToZ3(ctx));
+         expr = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not map PC to Z3: " + pc, e);
       }
@@ -94,10 +94,10 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       }
    }
 
-   public boolean covers(final Pc pc, final Pc smallerPc) {
+   public boolean covers(final BoolSymbol pc, final BoolSymbol smallerPc) {
       try {
-         final BoolExpr pcExpr = pc.accept(new PcToZ3(ctx));
-         final BoolExpr smallerPcExpr = smallerPc.accept(new PcToZ3(ctx));
+         final BoolExpr pcExpr = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
+         final BoolExpr smallerPcExpr = (BoolExpr) smallerPc.accept(new SymbolToExpr(ctx));
          return checkUnsat(ctx.mkNot(ctx.mkImplies(pcExpr, smallerPcExpr)));
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not check if: " + pc + " implies " + smallerPc, e);
@@ -117,11 +117,11 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       void simplified(ISymbol simplification);
    }
 
-   public void modelForBv32Expr(final ISymbol symbol, final Pc pc, final ISimplificationResult result) {
+   public void modelForBv32Expr(final ISymbol symbol, final BoolSymbol pc, final ISimplificationResult result) {
       new SimplifyISymbolGivenPc(symbol, pc, result).eval(new Simplifier(ctx));
    }
 
-   public void modelForInputTerminalBv32Expr(final ITerminalSymbol symbol, final Pc pc, final ISimplificationResult result) {
+   public void modelForInputTerminalBv32Expr(final ITerminalSymbol symbol, final BoolSymbol pc, final ISimplificationResult result) {
       new ObtainExampleForITerminalGivenPc(symbol, pc, result).eval(new Simplifier(ctx));
    }
 
@@ -152,7 +152,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       description.appendText("feasible path condition");
    }
 
-   @Override protected boolean matchesSafely(final Pc item, final Description mismatchDescription) {
+   @Override protected boolean matchesSafely(final BoolSymbol item, final Description mismatchDescription) {
       mismatchDescription.appendText("infeasible ").appendValue(item);
       return check(item);
    }
@@ -161,7 +161,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<Pc> implements
       return ctx;
    }
 
-   public Symbol modelForBv32Expr(final ISymbol operand, final Pc pc) {
+   public Symbol modelForBv32Expr(final ISymbol operand, final BoolSymbol pc) {
       final Symbol[] result = new Symbol[1];
       modelForBv32Expr(operand, pc, new ISimplificationResult(){
          @Override public void simplifiedToValue(final int value) {

@@ -2,7 +2,6 @@ package com.lexicalscope.svm.z3;
 
 import static com.google.common.base.Joiner.on;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.microsoft.z3.ApplyResult;
 import com.microsoft.z3.BoolExpr;
@@ -21,13 +20,13 @@ public class Simplifier {
       this.ctx = ctx;
    }
 
-   public SModel powerSimplify(final Pc pc, final BoolSymbol ... exprToSolve) {
+   public SModel powerSimplify(final BoolSymbol pc, final BoolSymbol ... exprToSolve) {
       try {
          final BoolExpr[] z3ToSolve = new BoolExpr[exprToSolve.length + 1];
          for (int i = 0; i < exprToSolve.length; i++) {
             z3ToSolve[i] = (BoolExpr) exprToSolve[i].accept(new SymbolToExpr(ctx));
          }
-         z3ToSolve[exprToSolve.length] = pc.accept(new PcToZ3(ctx));
+         z3ToSolve[exprToSolve.length] = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
          return new SModel(ctx, powerSimplify(z3ToSolve));
       } catch (final Z3Exception e) {
          throw new RuntimeException("unable to create expressions", e);

@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.j.instruction.symbolic.predicates;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpGtSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;

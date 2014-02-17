@@ -5,7 +5,7 @@ import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
 import org.hamcrest.Description;
 
 import com.lexicalscope.Transform;
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
@@ -31,7 +31,7 @@ public class ModelForStateTransform implements Transform<Symbol, State> {
          return new IConstSymbol((int) operand);
       }
 
-      final Pc pc = item.getMeta(PC);
+      final BoolSymbol pc = item.getMeta(PC);
       final Symbol modelForBv32Expr = feasibilityChecker.modelForBv32Expr((ISymbol) operand, pc);
       mismatchDescription
       .appendText("simplification ")

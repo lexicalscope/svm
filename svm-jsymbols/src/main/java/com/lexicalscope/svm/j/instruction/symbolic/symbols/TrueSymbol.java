@@ -6,6 +6,18 @@ public class TrueSymbol implements BoolSymbol {
       return visitor.tru3();
    }
 
+   @Override public BoolSymbol and(final BoolSymbol conjunct) {
+      return conjunct;
+   }
+
+   @Override public BoolSymbol or(final BoolSymbol disjunct) {
+      return this;
+   }
+
+   @Override public BoolSymbol not() {
+      return new FalseSymbol();
+   }
+
    @Override public String toString() {
       return "TT";
    }

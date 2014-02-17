@@ -9,12 +9,13 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.junit.junitautocloseable.AutoCloseRule;
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.StateBuilder;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class TestArrayTheory {
@@ -22,7 +23,7 @@ public class TestArrayTheory {
    private final FeasibilityChecker feasbilityChecker = new FeasibilityChecker();
 
    private final StateBuilder state = new StateBuilder();
-   private final Pc pc = new Pc();
+   private final BoolSymbol pc = new TrueSymbol();
 
    @Test public void storeAndSelectAtSymbolicIndex() throws Exception {
       final ITerminalSymbol indexSymbol = state.intSymbol();

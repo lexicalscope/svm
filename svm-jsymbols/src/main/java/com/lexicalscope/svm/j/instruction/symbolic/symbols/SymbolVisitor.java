@@ -23,6 +23,7 @@ public interface SymbolVisitor<T, E extends Throwable> {
 
    T not(BoolSymbol val) throws E;
    T and(BoolSymbol left, BoolSymbol right) throws E;
+   T or(BoolSymbol left, BoolSymbol right) throws E;
 
    T intSymbol(String name) throws E;
 

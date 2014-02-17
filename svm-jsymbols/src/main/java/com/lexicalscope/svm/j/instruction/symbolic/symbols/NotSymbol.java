@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic.symbols;
 
-public class NotSymbol implements BoolSymbol {
+public class NotSymbol extends AbstractBoolSymbol {
    private final BoolSymbol val;
 
    public NotSymbol(final BoolSymbol val) {

@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.z3;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpEqSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
@@ -11,11 +11,11 @@ import com.lexicalscope.svm.z3.FeasibilityChecker.ISimplificationResult;
 public class SimplifyISymbolGivenPc implements Simplification {
    private final ISimplificationResult result;
    private final ISymbol symbol;
-   private final Pc pc;
+   private final BoolSymbol pc;
 
    public SimplifyISymbolGivenPc(
          final ISymbol symbol,
-         final Pc pc,
+         final BoolSymbol pc,
          final ISimplificationResult result) {
       this.symbol = symbol;
       this.pc = pc;

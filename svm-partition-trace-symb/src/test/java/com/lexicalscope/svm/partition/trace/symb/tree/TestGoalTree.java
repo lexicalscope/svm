@@ -10,24 +10,25 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTree {
    @Rule public final SolverRule solver = new SolverRule();
    final GoalTree<Object> goalTree = new GoalTree<>(solver.checker());
-   final Pc rootPc = new Pc();
+   final BoolSymbol rootPc = new TrueSymbol();
 
    @Fresh ISymbol symbol;
 
-   private Pc lessThanThree;
-   private Pc moreThanMinusSix;
+   private BoolSymbol lessThanThree;
+   private BoolSymbol moreThanMinusSix;
 
    @Before public void createPcs() {
-      lessThanThree = rootPc.and(icmplt(symbol, asISymbol(3)));
-      moreThanMinusSix = rootPc.and(icmpgt(symbol, asISymbol(-6)));
+      lessThanThree = icmplt(symbol, asISymbol(3));
+      moreThanMinusSix = icmpgt(symbol, asISymbol(-6));
    }
 
    @Test public void rootHasEmptyPc() throws Exception {
@@ -74,7 +75,7 @@ public class TestGoalTree {
       };
    }
 
-   private Matcher<GoalTree<?>> covers(final Pc pc) {
+   private Matcher<GoalTree<?>> covers(final BoolSymbol pc) {
       return new TypeSafeDiagnosingMatcher<GoalTree<?>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("goal tree that covers ").appendValue(pc);

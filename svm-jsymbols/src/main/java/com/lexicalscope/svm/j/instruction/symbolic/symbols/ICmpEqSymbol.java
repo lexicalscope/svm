@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic.symbols;
 
-public class ICmpEqSymbol implements BoolSymbol {
+public class ICmpEqSymbol extends AbstractBoolSymbol {
    private final ISymbol value1;
    private final ISymbol value2;
 

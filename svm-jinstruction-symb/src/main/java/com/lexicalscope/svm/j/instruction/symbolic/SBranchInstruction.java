@@ -2,7 +2,6 @@ package com.lexicalscope.svm.j.instruction.symbolic;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
 
-import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.BinarySBranchOp;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.BinarySBranchStrategy;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.EqStrategy;
@@ -34,16 +33,16 @@ final class SBranchInstruction implements Vop {
    }
 
    @Override public void eval(final State ctx) {
-      final Pc pc = ctx.getMeta(PC);
+      final BoolSymbol pc = ctx.getMeta(PC);
 
       final BoolSymbol branchPredicateSymbol = branchStrategy.evaluateBranchConditonAsSymbol(ctx);
       final State[] states = ctx.fork();
 
-      final Pc jumpPc = pc.and(branchPredicateSymbol);
+      final BoolSymbol jumpPc = pc.and(branchPredicateSymbol);
       states[0].setMeta(PC, jumpPc);
       states[0].advanceTo(ctx.instructionJmpTarget());
 
-      final Pc nojumpPc = pc.and(new NotSymbol(branchPredicateSymbol));
+      final BoolSymbol nojumpPc = pc.and(new NotSymbol(branchPredicateSymbol));
       states[1].setMeta(PC, nojumpPc);
       states[1].advanceTo(ctx.instructionNext());
 
