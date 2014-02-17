@@ -3,6 +3,8 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 import java.util.HashMap;
 import java.util.Map;
 
+import org.hamcrest.Matcher;
+
 import com.lexicalscope.svm.j.instruction.symbolic.pc.Pc;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -34,5 +36,14 @@ public class GoalTree<T> {
 
    public void reached(final T goal, final Pc pc) {
       children.put(goal, new GoalTree<T>(feasibilityChecker, pc));
+   }
+
+   public boolean hasChild(final Matcher<? super GoalTree<?>> childMatcher) {
+      for (final GoalTree<T> child : children.values()) {
+         if(childMatcher.matches(child)) {
+            return true;
+         }
+      }
+      return false;
    }
 }
