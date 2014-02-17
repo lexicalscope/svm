@@ -10,7 +10,7 @@ import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
-public class TestSearchCluster {
+public class TestPreservingSearchCluster {
    public final @Rule JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock Randomiser randomiser;
 
@@ -18,13 +18,13 @@ public class TestSearchCluster {
    final Object candidate2 = new Object();
    final Object candidate3 = new Object();
 
-   private RandomSearchCluster<Object> searchCluster;
+   private SearchCluster<Object> searchCluster;
 
    @Before public void initSearchCluster() {
-      searchCluster = new RandomSearchCluster<Object>(randomiser);
+      searchCluster = new PreservingSearchCluster<Object>(randomiser);
    }
 
-   @Test public void testName() throws Exception {
+   @Test public void beginsEmpty() throws Exception {
       assertThat("begins empty", searchCluster.isEmpty());
    }
 
@@ -35,18 +35,19 @@ public class TestSearchCluster {
 
       searchCluster.add(candidate1);
       assertThat(searchCluster.candidate(), equalTo(candidate1));
-      assertThat("empty after selection from 1", searchCluster.isEmpty());
+      assertThat("not empty after selection from 1", !searchCluster.isEmpty());
    }
 
-   @Test public void randomlyPicksACandiate() throws Exception {
+   @Test public void canPickTheSameCandidateTwice() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(randomiser).random(3); will(returnValue(1));
+         exactly(2).of(randomiser).random(3); will(returnValue(1));
       }});
 
       searchCluster.add(candidate1);
       searchCluster.add(candidate2);
       searchCluster.add(candidate3);
 
+      assertThat(searchCluster.candidate(), equalTo(candidate2));
       assertThat(searchCluster.candidate(), equalTo(candidate2));
       assertThat("not empty after selection from 3", !searchCluster.isEmpty());
    }
