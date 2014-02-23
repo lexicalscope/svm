@@ -94,13 +94,13 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
       }
    }
 
-   public boolean covers(final BoolSymbol pc, final BoolSymbol smallerPc) {
+   public boolean implies(final BoolSymbol pc, final BoolSymbol largerPc) {
       try {
          final BoolExpr pcExpr = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
-         final BoolExpr smallerPcExpr = (BoolExpr) smallerPc.accept(new SymbolToExpr(ctx));
-         return checkUnsat(ctx.mkNot(ctx.mkImplies(pcExpr, smallerPcExpr)));
+         final BoolExpr largerPcExpr = (BoolExpr) largerPc.accept(new SymbolToExpr(ctx));
+         return checkUnsat(ctx.mkNot(ctx.mkImplies(pcExpr, largerPcExpr)));
       } catch (final Z3Exception e) {
-         throw new RuntimeException("could not check if: " + pc + " implies " + smallerPc, e);
+         throw new RuntimeException("could not check if: " + pc + " implies " + largerPc, e);
       }
    }
 

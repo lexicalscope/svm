@@ -2,7 +2,9 @@ package com.lexicalscope.svm.j.instruction.symbolic.pc;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpEqSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpGeSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpGtSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpLeSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpLtSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
@@ -23,6 +25,14 @@ public class PcBuilder {
 
    public static BoolSymbol icmpgt(final ISymbol value1, final ISymbol value2) {
       return new ICmpGtSymbol(value1, value2);
+   }
+
+   public static BoolSymbol icmpge(final ISymbol value1, final ISymbol value2) {
+      return new ICmpGeSymbol(value1, value2);
+   }
+
+   public static BoolSymbol icmple(final ISymbol value1, final ISymbol value2) {
+      return new ICmpLeSymbol(value1, value2);
    }
 
    public static ISymbol asISymbol(final Object symbolOrInt) {

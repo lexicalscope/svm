@@ -5,6 +5,7 @@ public class AndSymbol extends AbstractBoolSymbol {
    private final BoolSymbol right;
 
    public AndSymbol(final BoolSymbol left, final BoolSymbol right) {
+      assert left != null && right != null;
       this.left = left;
       this.right = right;
    }

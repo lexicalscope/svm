@@ -11,6 +11,6 @@ public abstract class AbstractBoolSymbol implements BoolSymbol {
    }
 
    @Override public BoolSymbol not() {
-      return null;
+      return new NotSymbol(this);
    }
 }

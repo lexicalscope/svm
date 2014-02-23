@@ -1,7 +1,8 @@
 package com.lexicalscope.svm.vm.symb;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
+
 import com.lexicalscope.svm.heap.HeapFactory;
-import com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.vm.conc.FastHeapFactory;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
@@ -22,7 +23,7 @@ public class SymbVmFactory {
          .searchWith(new FeasibleBranchSearchFactory(feasibilityChecker))
          .instructionFactory(instructionFactory)
          .heapFactory(heapFactory)
-         .meta(PcMetaKey.PC, instructionFactory.initialMeta());
+         .meta(PC, instructionFactory.initialMeta());
       return vmBuilder;
    }
 }

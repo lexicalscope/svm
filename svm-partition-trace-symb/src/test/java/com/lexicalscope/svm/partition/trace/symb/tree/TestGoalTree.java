@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
+import static org.hamcrest.Matchers.both;
 import static org.junit.Assert.assertThat;
 
 import org.hamcrest.Description;
@@ -23,12 +24,12 @@ public class TestGoalTree {
 
    @Fresh ISymbol symbol;
 
-   private BoolSymbol lessThanThree;
-   private BoolSymbol moreThanMinusSix;
+   private BoolSymbol betweenThreeAndFifteen;
+   private BoolSymbol betweenTwentyFourAndThirty;
 
    @Before public void createPcs() {
-      lessThanThree = icmplt(symbol, asISymbol(3));
-      moreThanMinusSix = icmpgt(symbol, asISymbol(-6));
+      betweenThreeAndFifteen = icmpge(symbol, asISymbol(3)).and(icmple(symbol, asISymbol(15)));
+      betweenTwentyFourAndThirty = icmpge(symbol, asISymbol(24)).and(icmple(symbol, asISymbol(30)));
    }
 
    @Test public void rootHasEmptyPc() throws Exception {
@@ -36,17 +37,27 @@ public class TestGoalTree {
    }
 
    @Test public void firstGoalCreatesFirstChild() throws Exception {
-      goalTree.reached(new Object(), lessThanThree);
-      assertThat(goalTree, hasChild(covers(lessThanThree)));
+      goalTree.reached(new Object(), betweenThreeAndFifteen);
+      assertThat(goalTree, hasChild(covers(betweenThreeAndFifteen)));
    }
 
-   @Test public void parentKeepsTrackOfTheCoveredSetOfItsChildre() throws Exception {
-      final BoolSymbol alternativeBranch = not(lessThanThree).and(moreThanMinusSix);
+   @Test public void parentKeepsTrackOfTheCoveredSetOfItsChildren() throws Exception {
+      goalTree.reached(new Object(), betweenTwentyFourAndThirty);
+      goalTree.reached(new Object(), betweenThreeAndFifteen);
 
-      goalTree.reached(new Object(), lessThanThree);
-      goalTree.reached(new Object(), alternativeBranch);
+      assertThat(goalTree, both(childrenCover(betweenThreeAndFifteen))
+                           .and(childrenCover(betweenTwentyFourAndThirty)));
+   }
 
-      assertThat(goalTree, childrenCover(not(lessThanThree).and(moreThanMinusSix).or(lessThanThree)));
+   @Test public void reachingGoalTwoWaysUpdatesCoveredSetOfItsChildre() throws Exception {
+      final Object goal = new Object();
+      goalTree.reached(goal, betweenThreeAndFifteen);
+      goalTree.reached(goal, betweenTwentyFourAndThirty);
+
+      assertThat(goalTree, childrenCover(betweenThreeAndFifteen.or(betweenTwentyFourAndThirty)));
+      assertThat(goalTree, hasChild(
+             both(covers(betweenThreeAndFifteen))
+             .and(covers(betweenTwentyFourAndThirty))));
    }
 
    private Matcher<? super GoalTree<Object>> childrenCover(final BoolSymbol pc) {
