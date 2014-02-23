@@ -33,6 +33,10 @@ public class OpenNodes<S> {
       return false;
    }
 
+   public boolean isEmpty() {
+      return nodes.isEmpty();
+   }
+
    @Override public String toString() {
       return format("(open %s)", nodes);
    }

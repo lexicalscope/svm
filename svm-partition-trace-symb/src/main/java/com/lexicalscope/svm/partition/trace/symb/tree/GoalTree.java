@@ -57,7 +57,7 @@ public class GoalTree<T, S> {
       child.increaseOpenNodes(state);
    }
 
-   private void increaseOpenNodes(final S state) {
+   public void increaseOpenNodes(final S state) {
       openNodes.push(state);
    }
 
@@ -80,6 +80,10 @@ public class GoalTree<T, S> {
 
    public GoalTree<T, S> child(final T goal) {
       return children.get(goal);
+   }
+
+   public boolean isOpen() {
+      return !openNodes.isEmpty();
    }
 
    @Override public String toString() {
