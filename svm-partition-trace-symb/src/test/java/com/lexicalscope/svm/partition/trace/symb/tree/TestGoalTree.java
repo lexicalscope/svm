@@ -24,6 +24,9 @@ public class TestGoalTree {
 
    @Fresh ISymbol symbol;
 
+   final Object goal1 = new Object();
+   final Object goal2 = new Object();
+
    private BoolSymbol betweenThreeAndFifteen;
    private BoolSymbol betweenTwentyFourAndThirty;
 
@@ -37,22 +40,21 @@ public class TestGoalTree {
    }
 
    @Test public void firstGoalCreatesFirstChild() throws Exception {
-      goalTree.reached(new Object(), betweenThreeAndFifteen);
+      goalTree.reached(goal1, betweenThreeAndFifteen);
       assertThat(goalTree, hasChild(covers(betweenThreeAndFifteen)));
    }
 
    @Test public void parentKeepsTrackOfTheCoveredSetOfItsChildren() throws Exception {
-      goalTree.reached(new Object(), betweenTwentyFourAndThirty);
-      goalTree.reached(new Object(), betweenThreeAndFifteen);
+      goalTree.reached(goal1, betweenTwentyFourAndThirty);
+      goalTree.reached(goal2, betweenThreeAndFifteen);
 
       assertThat(goalTree, both(childrenCover(betweenThreeAndFifteen))
                            .and(childrenCover(betweenTwentyFourAndThirty)));
    }
 
    @Test public void reachingGoalTwoWaysUpdatesCoveredSetOfItsChildre() throws Exception {
-      final Object goal = new Object();
-      goalTree.reached(goal, betweenThreeAndFifteen);
-      goalTree.reached(goal, betweenTwentyFourAndThirty);
+      goalTree.reached(goal1, betweenThreeAndFifteen);
+      goalTree.reached(goal1, betweenTwentyFourAndThirty);
 
       assertThat(goalTree, childrenCover(betweenThreeAndFifteen.or(betweenTwentyFourAndThirty)));
       assertThat(goalTree, hasChild(
