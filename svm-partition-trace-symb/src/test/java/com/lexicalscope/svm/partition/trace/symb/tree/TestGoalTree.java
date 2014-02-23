@@ -1,12 +1,10 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
+import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.*;
 import static org.hamcrest.Matchers.*;
 import static org.junit.Assert.assertThat;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -68,57 +66,5 @@ public class TestGoalTree {
 
       assertThat(goalTree.child(goal1),
             both(hasOpenNode(equalTo(state1))).and(hasOpenNode(equalTo(state2))));
-   }
-
-   private Matcher<GoalTree<?, ?>> childrenCover(final BoolSymbol pc) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, ?>>() {
-         @Override public void describeTo(final Description description) {
-            description.appendText("node with chidren that cover ").appendValue(pc);
-         }
-
-         @Override protected boolean matchesSafely(final GoalTree<?, ?> item, final Description mismatchDescription) {
-            mismatchDescription.appendValue(item);
-            return item.childrenCover(pc);
-         }
-      };
-   }
-
-   private Matcher<GoalTree<?, ?>> hasChild(final Matcher<? super GoalTree<?, ?>> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, ?>>() {
-         @Override public void describeTo(final Description description) {
-            description.appendText("child matching ").appendDescriptionOf(childMatcher);
-         }
-
-         @Override protected boolean matchesSafely(final GoalTree<?, ?> item, final Description mismatchDescription) {
-            mismatchDescription.appendValue(item);
-            return item.hasChild(childMatcher);
-         }
-      };
-   }
-
-   private <S> Matcher<GoalTree<?, S>> hasOpenNode(final Matcher<S> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, S>>() {
-         @Override public void describeTo(final Description description) {
-            description.appendText("child matching ").appendDescriptionOf(childMatcher);
-         }
-
-         @Override protected boolean matchesSafely(final GoalTree<?, S> item, final Description mismatchDescription) {
-            mismatchDescription.appendValue(item);
-            return item.hasOpenNode(childMatcher);
-         }
-      };
-   }
-
-   private Matcher<GoalTree<?, ?>> covers(final BoolSymbol pc) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, ?>>() {
-         @Override public void describeTo(final Description description) {
-            description.appendText("goal tree that covers ").appendValue(pc);
-         }
-
-         @Override protected boolean matchesSafely(final GoalTree<?, ?> item, final Description mismatchDescription) {
-            mismatchDescription.appendText("goal tree that covers ").appendValue(item.pc());
-            return item.covers(pc);
-         }
-      };
    }
 }
