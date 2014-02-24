@@ -13,7 +13,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class GoalTree<T, S> {
+public class GoalTree<T, S> implements InputSubset {
    private final Map<T, GoalTree<T, S>> children = new HashMap<>();
    private final OpenNodes<S> openNodes;
    private final FeasibilityChecker feasibilityChecker;
@@ -35,6 +35,7 @@ public class GoalTree<T, S> {
       return coveredPc;
    }
 
+   @Override
    public boolean covers(final BoolSymbol pc) {
       return feasibilityChecker.implies(pc, coveredPc);
    }

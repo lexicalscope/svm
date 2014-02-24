@@ -46,13 +46,13 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<GoalTree<?, ?>> covers(final BoolSymbol pc) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, ?>>() {
+   public static Matcher<InputSubset> covers(final BoolSymbol pc) {
+      return new TypeSafeDiagnosingMatcher<InputSubset>() {
          @Override public void describeTo(final Description description) {
             description.appendText("goal tree that covers ").appendValue(pc);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<?, ?> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final InputSubset item, final Description mismatchDescription) {
             mismatchDescription.appendText("goal tree that covers ").appendValue(item.pc());
             return item.covers(pc);
          }

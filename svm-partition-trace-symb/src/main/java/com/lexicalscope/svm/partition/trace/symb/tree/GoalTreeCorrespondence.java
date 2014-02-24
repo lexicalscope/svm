@@ -1,13 +1,17 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 
-public class GoalTreeCorrespondence<T, S> {
+public class GoalTreeCorrespondence<T, S> implements InputSubset {
    private final GoalTree<T, S> pside;
    private final GoalTree<T, S> qside;
 //   private final Map<T, GoalTreeCorrespondence<T, S>> children = new HashMap<>();
@@ -57,5 +61,22 @@ public class GoalTreeCorrespondence<T, S> {
       qside.increaseOpenNodes(qstate0);
 
       return new GoalTreeCorrespondence<>(pside, qside);
+   }
+
+   @Override public boolean covers(final BoolSymbol pc) {
+      return pside.covers(pc) || qside.covers(pc);
+   }
+
+   @Override public BoolSymbol pc() {
+      return and(pside.pc(), qside.pc());
+   }
+
+   public boolean hasChild(final Matcher<? super GoalTreeCorrespondence<T, S>> childMatcher) {
+      for (final GoalTreeCorrespondence<T, S> child : children) {
+         if(childMatcher.matches(child)) {
+            return true;
+         }
+      }
+      return false;
    }
 }

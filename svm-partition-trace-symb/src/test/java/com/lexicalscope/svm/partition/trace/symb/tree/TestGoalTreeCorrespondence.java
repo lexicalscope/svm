@@ -2,8 +2,10 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence.root;
+import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.covers;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
+import static org.hamcrest.core.CombinableMatcher.both;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -61,6 +63,23 @@ public class TestGoalTreeCorrespondence {
       correspondenceRoot.reachedQ(goalq1, stateq1, betweenSevenAndEighteen);
 
       assertThat(correspondenceRoot, not(isOpenLeaf()));
+      assertThat(correspondenceRoot,
+            hasChildCorrespondence(
+                  both(covers(betweenThreeAndFifteen))
+                  .and(covers(betweenSevenAndEighteen))));
+   }
+
+   private Matcher<? super GoalTreeCorrespondence<?, ?>> hasChildCorrespondence(final Matcher<? super GoalTreeCorrespondence<?, ?>> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("correspondence with child matching ").appendDescriptionOf(childMatcher);
+         }
+
+         @Override protected boolean matchesSafely(final GoalTreeCorrespondence<?, ?> item, final Description mismatchDescription) {
+            mismatchDescription.appendValue(item);
+            return item.hasChild(childMatcher);
+         }
+      };
    }
 
    private Matcher<? super GoalTreeCorrespondence<?, ?>> isOpenLeaf() {
