@@ -47,6 +47,14 @@ public class TestGoalTree {
       assertThat(goalTree.child(goal1), hasOpenNode(equalTo(state1)));
    }
 
+   @Test public void afterReachingAGoalThatGoalIsReached() throws Exception {
+      goalTree.reached(goal1, state1, betweenThreeAndFifteen);
+
+      assertThat(goalTree, hasReached(goal1));
+      assertThat(goalTree, not(hasReached(goal2)));
+      assertThat(goalTree.childForGoal(goal1), covers(betweenThreeAndFifteen));
+   }
+
    @Test public void parentKeepsTrackOfTheCoveredSetOfItsChildren() throws Exception {
       goalTree.reached(goal1, state1, betweenTwentyFourAndThirty);
       goalTree.reached(goal2, state2, betweenThreeAndFifteen);

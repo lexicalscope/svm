@@ -13,7 +13,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class GoalTree<T, S> implements InputSubset {
+public final class GoalTree<T, S> implements InputSubset {
    private final Map<T, GoalTree<T, S>> children = new HashMap<>();
    private final OpenNodes<S> openNodes;
    private final FeasibilityChecker feasibilityChecker;
@@ -31,6 +31,7 @@ public class GoalTree<T, S> implements InputSubset {
       this.openNodes = new OpenNodes<>(feasibilityChecker);
    }
 
+   @Override
    public BoolSymbol pc() {
       return coveredPc;
    }
@@ -58,6 +59,10 @@ public class GoalTree<T, S> implements InputSubset {
       child.increaseOpenNodes(state);
 
       return child;
+   }
+
+   public boolean hasReached(final T goal) {
+      return children.containsKey(goal);
    }
 
    public void increaseOpenNodes(final S state) {
@@ -96,6 +101,10 @@ public class GoalTree<T, S> implements InputSubset {
          }
       }
       throw new IllegalStateException("no child covers " + pc);
+   }
+
+   public GoalTree<T, S> childForGoal(final Object goal) {
+      return children.get(goal);
    }
 
    @Override public String toString() {

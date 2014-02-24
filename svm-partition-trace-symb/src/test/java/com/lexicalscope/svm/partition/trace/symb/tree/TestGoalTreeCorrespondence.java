@@ -2,14 +2,11 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence.root;
-import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.covers;
+import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.CombinableMatcher.both;
 
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -25,75 +22,66 @@ public class TestGoalTreeCorrespondence {
    private final Object pstate0 = new Object();
    private final Object qstate0 = new Object();
 
-   final GoalTreeCorrespondence<Object, Object> correspondenceRoot = root(pstate0, qstate0, solver.checker());
+   final GoalTreeCorrespondence<Object, Object> correspondenceRoot =
+         root(pstate0, qstate0, solver.checker(), new ObjectGoalMapFactory());
 
-   private final Object goalp1 = new Object();
+   private final Object goal1 = new Object();
+   private final Object goal2 = new Object();
+
    private final Object statep1 = new Object();
 
-   private final Object goalq1 = new Object();
    private final Object stateq1 = new Object();
+   private final Object stateq2 = new Object();
 
    @Fresh ISymbol symbol;
    private BoolSymbol betweenThreeAndFifteen;
    private BoolSymbol betweenSevenAndEighteen;
-   private BoolSymbol betweenTwentyFourAndThirty;
+   private BoolSymbol betweenSixteenAndThirty;
 
    @Before public void createPcs() {
       betweenThreeAndFifteen = icmpge(symbol, asISymbol(3)).and(icmple(symbol, asISymbol(15)));
       betweenSevenAndEighteen = icmpge(symbol, asISymbol(7)).and(icmple(symbol, asISymbol(18)));
-      betweenTwentyFourAndThirty = icmpge(symbol, asISymbol(24)).and(icmple(symbol, asISymbol(30)));
+      betweenSixteenAndThirty = icmpge(symbol, asISymbol(16)).and(icmple(symbol, asISymbol(30)));
    }
 
    @Test public void rootStartsAsAnOpenLeaf() throws Exception {
-      assertThat(correspondenceRoot, isOpenLeaf());
+      assertThat(correspondenceRoot, GoalTreeMatchers.isOpenLeaf());
    }
 
    @Test public void reachingAGoalInPRemainsAnOpenLeaf() throws Exception {
-      correspondenceRoot.reachedP(goalp1, statep1, betweenThreeAndFifteen);
-      assertThat(correspondenceRoot, isOpenLeaf());
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+      assertThat(correspondenceRoot, GoalTreeMatchers.isOpenLeaf());
    }
 
    @Test public void reachingAGoalInQRemainsAnOpenLeaf() throws Exception {
-      correspondenceRoot.reachedP(goalp1, statep1, betweenThreeAndFifteen);
-      assertThat(correspondenceRoot, isOpenLeaf());
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+      assertThat(correspondenceRoot, GoalTreeMatchers.isOpenLeaf());
    }
 
-   @Test public void reachingOverlappingGoalsNoLongerALeaf() throws Exception {
-      correspondenceRoot.reachedP(goalp1, statep1, betweenThreeAndFifteen);
-      correspondenceRoot.reachedQ(goalq1, stateq1, betweenSevenAndEighteen);
+   @Test public void reachingCorrespondingGoalsNoLongerALeaf() throws Exception {
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+      correspondenceRoot.reachedQ(goal1, stateq1, betweenSevenAndEighteen);
 
-      assertThat(correspondenceRoot, not(isOpenLeaf()));
+      assertThat(correspondenceRoot, not(isLeaf()));
+      assertThat(correspondenceRoot, isOpen());
+      assertThat(correspondenceRoot, hasChildCorrespondences(1));
       assertThat(correspondenceRoot,
             hasChildCorrespondence(
                   both(covers(betweenThreeAndFifteen))
                   .and(covers(betweenSevenAndEighteen))));
    }
 
-   private Matcher<? super GoalTreeCorrespondence<?, ?>> hasChildCorrespondence(final Matcher<? super GoalTreeCorrespondence<?, ?>> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
-         @Override public void describeTo(final Description description) {
-            description.appendText("correspondence with child matching ").appendDescriptionOf(childMatcher);
-         }
+   @Test public void reachingFurtherCorrespondingGoalsDoesNotCreateMoreChildren() throws Exception {
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+      correspondenceRoot.reachedQ(goal1, stateq1, betweenSevenAndEighteen);
 
-         @Override protected boolean matchesSafely(final GoalTreeCorrespondence<?, ?> item, final Description mismatchDescription) {
-            mismatchDescription.appendValue(item);
-            return item.hasChild(childMatcher);
-         }
-      };
-   }
+      correspondenceRoot.reachedQ(goal1, stateq2, betweenSixteenAndThirty);
 
-   private Matcher<? super GoalTreeCorrespondence<?, ?>> isOpenLeaf() {
-      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>(){
-         @Override public void describeTo(final Description description) {
-            description.appendText("correspondence with no children and open nodes");
-         }
-
-         @Override protected boolean matchesSafely(final GoalTreeCorrespondence<?, ?> item, final Description mismatchDescription) {
-            final boolean result = !item.hasChildren() && item.isOpen();
-            if(!result) {
-               mismatchDescription.appendValue(item);
-            }
-            return result;
-         }};
+      assertThat(correspondenceRoot, hasChildCorrespondences(1));
+      assertThat(correspondenceRoot,
+            hasChildCorrespondence(
+                  both(covers(betweenThreeAndFifteen))
+                  .and(covers(betweenSevenAndEighteen))
+                  .and(covers(betweenSixteenAndThirty))));
    }
 }
