@@ -29,6 +29,7 @@ public class TestGoalTreeCorrespondence {
    private final Object goal2 = new Object();
 
    private final Object statep1 = new Object();
+   private final Object statep2 = new Object();
 
    private final Object stateq1 = new Object();
    private final Object stateq2 = new Object();
@@ -83,5 +84,19 @@ public class TestGoalTreeCorrespondence {
                   both(covers(betweenThreeAndFifteen))
                   .and(covers(betweenSevenAndEighteen))
                   .and(covers(betweenSixteenAndThirty))));
+   }
+
+   @Test public void reachingNonCorrespondingGoalsCreatesMoreChildren() throws Exception {
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+      correspondenceRoot.reachedQ(goal1, stateq1, betweenThreeAndFifteen);
+
+      correspondenceRoot.reachedQ(goal2, stateq2, betweenSixteenAndThirty);
+      correspondenceRoot.reachedP(goal2, statep2, betweenSixteenAndThirty);
+
+      assertThat(correspondenceRoot, hasChildCorrespondences(2));
+      assertThat(correspondenceRoot,
+            hasChildCorrespondence(covers(betweenThreeAndFifteen)));
+      assertThat(correspondenceRoot,
+            hasChildCorrespondence(covers(betweenSixteenAndThirty)));
    }
 }
