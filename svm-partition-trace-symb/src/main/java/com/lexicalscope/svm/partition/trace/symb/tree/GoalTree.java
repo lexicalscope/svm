@@ -43,7 +43,7 @@ public class GoalTree<T, S> {
       coveredPc = coveredPc.or(conjunct);
    }
 
-   public void reached(final T goal, final S state, final BoolSymbol childPc) {
+   public GoalTree<T, S> reached(final T goal, final S state, final BoolSymbol childPc) {
       childrenCoverPc = childrenCoverPc.or(childPc);
 
       final GoalTree<T, S> child;
@@ -55,6 +55,8 @@ public class GoalTree<T, S> {
       }
       child.increaseCovers(childPc);
       child.increaseOpenNodes(state);
+
+      return child;
    }
 
    public void increaseOpenNodes(final S state) {
@@ -84,6 +86,15 @@ public class GoalTree<T, S> {
 
    public boolean isOpen() {
       return !openNodes.isEmpty();
+   }
+
+   public GoalTree<T, S> coveredChild(final BoolSymbol pc) {
+      for (final GoalTree<T, S> child : children.values()) {
+         if(child.covers(pc)) {
+            return child;
+         }
+      }
+      throw new IllegalStateException("no child covers " + pc);
    }
 
    @Override public String toString() {

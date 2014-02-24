@@ -19,7 +19,7 @@ public class PcBuilder {
       return new ICmpLtSymbol(value1, value2);
    }
 
-   public static BoolSymbol not(final BoolSymbol value1) {
+   public static BoolSymbol invert(final BoolSymbol value1) {
       return new NotSymbol(value1);
    }
 
