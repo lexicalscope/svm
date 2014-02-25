@@ -93,8 +93,8 @@ public final class GoalTreeCorrespondence<T, S> implements InputSubset {
          final S qstate0,
          final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory<T> goalMapFactory) {
-      final GoalTree<T, S> pside = new GoalTree<>(feasibilityChecker);
-      final GoalTree<T, S> qside = new GoalTree<>(feasibilityChecker);
+      final GoalTree<T, S> pside = new GoalTree<>(goalMapFactory, feasibilityChecker);
+      final GoalTree<T, S> qside = new GoalTree<>(goalMapFactory, feasibilityChecker);
 
       pside.increaseOpenNodes(pstate0);
       qside.increaseOpenNodes(qstate0);

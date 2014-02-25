@@ -22,13 +22,13 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<GoalTree<?, ?>> hasChild(final Matcher<? super GoalTree<?, ?>> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, ?>>() {
+   public static <T, S> Matcher<GoalTree<T, S>> hasChild(final Matcher<? super GoalTree<T, S>> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTree<T, S>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<?, ?> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree<T, S> item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasChild(childMatcher);
          }

@@ -17,7 +17,7 @@ import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTree {
    @Rule public final SolverRule solver = new SolverRule();
-   final GoalTree<Object, Object> goalTree = new GoalTree<>(solver.checker());
+   final GoalTree<Object, Object> goalTree = new GoalTree<>(new ObjectGoalMapFactory(), solver.checker());
 
    @Fresh ISymbol symbol;
 
@@ -43,7 +43,7 @@ public class TestGoalTree {
       goalTree.reached(goal1, state1, betweenThreeAndFifteen);
 
       assertThat(goalTree, hasChild(covers(betweenThreeAndFifteen)));
-      assertThat(goalTree.child(goal1), hasOpenNode(equalTo(state1)));
+      assertThat(goalTree, hasChild(hasOpenNode(equalTo(state1))));
    }
 
    @Test public void afterReachingAGoalThatGoalIsReached() throws Exception {
@@ -71,7 +71,7 @@ public class TestGoalTree {
              both(covers(betweenThreeAndFifteen))
              .and(covers(betweenTwentyFourAndThirty))));
 
-      assertThat(goalTree.child(goal1),
-            both(hasOpenNode(equalTo(state1))).and(hasOpenNode(equalTo(state2))));
+      assertThat(goalTree,
+            hasChild(both(hasOpenNode(equalTo(state1))).and(hasOpenNode(equalTo(state2)))));
    }
 }

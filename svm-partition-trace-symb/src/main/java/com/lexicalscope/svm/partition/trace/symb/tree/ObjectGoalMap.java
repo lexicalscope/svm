@@ -4,8 +4,17 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public class ObjectGoalMap<N> extends AbstractGoalMap<Object, N> {
+public final class ObjectGoalMap<N> extends AbstractGoalMap<Object, N> {
    private final Map<Object, N> children = new HashMap<>();
+
+   @Override public N get(final Object goal, final SubtreeFactory<N> factory) {
+      N child = children.get(goal);
+      if(child == null) {
+         child = factory.create();
+         children.put(goal, child);
+      }
+      return child;
+   }
 
    @Override public void put(final Object goal, final N node) {
       children.put(goal, node);
@@ -21,5 +30,13 @@ public class ObjectGoalMap<N> extends AbstractGoalMap<Object, N> {
 
    @Override public int size() {
       return children.size();
+   }
+
+   @Override public boolean containsGoal(final Object goal) {
+      return children.containsKey(goal);
+   }
+
+   @Override public N get(final Object goal) {
+      return children.get(goal);
    }
 }
