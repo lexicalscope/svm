@@ -10,15 +10,14 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTree {
    @Rule public final SolverRule solver = new SolverRule();
    final GoalTree<Object, Object> goalTree = new GoalTree<>(solver.checker());
-   final BoolSymbol rootPc = new TrueSymbol();
 
    @Fresh ISymbol symbol;
 
@@ -37,7 +36,7 @@ public class TestGoalTree {
    }
 
    @Test public void rootHasEmptyPc() throws Exception {
-      assertThat(goalTree, covers(rootPc));
+      assertThat(goalTree.covers(), solver.equivalent(new FalseSymbol()));
    }
 
    @Test public void firstGoalCreatesFirstChild() throws Exception {

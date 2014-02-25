@@ -2,6 +2,8 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
 
+import java.util.List;
+
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
@@ -33,18 +35,52 @@ public final class GoalTreeCorrespondence<T, S> implements InputSubset {
    }
 
    public void reachedP(final T goal, final S state, final BoolSymbol childPc) {
-      final GoalTree<T, S> psideChild = pside.reached(goal, state, childPc);
-      if(qside.hasReached(goal)){
-          final GoalTree<T, S> qsideChild = qside.childForGoal(goal);
-          children.put(goal, new GoalTreeCorrespondence<T,S>(psideChild, qsideChild, goalMapFactory));
-      }
+      reached(goal, state, childPc, new PqChildFactory(), pside, qside);
    }
 
    public void reachedQ(final T goal, final S state, final BoolSymbol childPc) {
-      final GoalTree<T, S> qsideChild = qside.reached(goal, state, childPc);
-      if(qside.hasReached(goal)){
-          final GoalTree<T, S> psideChild = pside.childForGoal(goal);
-          children.put(goal, new GoalTreeCorrespondence<T,S>(psideChild, qsideChild, goalMapFactory));
+      reached(goal, state, childPc, new QpChildFactory(), qside, pside);
+   }
+
+   private void reached(
+         final T goal,
+         final S state,
+         final BoolSymbol childPc,
+         final ChildFactory childFactory,
+         final GoalTree<T, S> thisSide,
+         final GoalTree<T, S> otherSide) {
+
+      final GoalTree<T, S> thisSideChild = thisSide.reached(goal, state, childPc);
+      if(thisSide.overlappingChildGoals(childPc).size() > 1) {
+         throw new RuntimeException("unbounded");
+      }
+
+      final List<GoalTree<T, S>> otherSideOverlappingChildGoals = otherSide.overlappingChildGoals(childPc);
+      if(otherSideOverlappingChildGoals.size() > 1) {
+         throw new RuntimeException("unbounded");
+      } else if(otherSideOverlappingChildGoals.size() == 1 &&
+         !otherSide.isChildForGoal(otherSideOverlappingChildGoals.get(0), goal)) {
+         throw new RuntimeException("unbounded");
+      }
+
+      if(otherSide.hasReached(goal)){
+          children.put(goal, childFactory.create(thisSideChild, otherSide.childForGoal(goal), goalMapFactory));
+      }
+   }
+
+   private interface ChildFactory {
+      <T, S> GoalTreeCorrespondence<T, S> create(GoalTree<T, S> thisSide, GoalTree<T, S> otherSide, GoalMapFactory<T> goalMapFactory);
+   }
+
+   private static class PqChildFactory implements ChildFactory {
+      @Override public <T, S> GoalTreeCorrespondence<T, S> create(final GoalTree<T, S> thisSide, final GoalTree<T, S> otherSide, final GoalMapFactory<T> goalMapFactory) {
+         return new GoalTreeCorrespondence<T,S>(thisSide, otherSide, goalMapFactory);
+      }
+   }
+
+   private static class QpChildFactory implements ChildFactory {
+      @Override public <T, S> GoalTreeCorrespondence<T, S> create(final GoalTree<T, S> thisSide, final GoalTree<T, S> otherSide, final GoalMapFactory<T> goalMapFactory) {
+         return new GoalTreeCorrespondence<T,S>(otherSide, thisSide, goalMapFactory);
       }
    }
 

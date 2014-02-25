@@ -74,7 +74,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
       return status.equals(Status.UNSATISFIABLE);
    }
 
-   public boolean check(final BoolSymbol pc) {
+   public boolean satisfiable(final BoolSymbol pc) {
       final BoolExpr expr;
       try {
          expr = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
@@ -154,7 +154,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
 
    @Override protected boolean matchesSafely(final BoolSymbol item, final Description mismatchDescription) {
       mismatchDescription.appendText("infeasible ").appendValue(item);
-      return check(item);
+      return satisfiable(item);
    }
 
    Context ctx() {

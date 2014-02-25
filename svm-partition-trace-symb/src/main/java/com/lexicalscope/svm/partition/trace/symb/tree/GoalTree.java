@@ -1,16 +1,18 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.google.common.base.Joiner.on;
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
 import static java.lang.String.format;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class GoalTree<T, S> implements InputSubset {
@@ -26,7 +28,7 @@ public final class GoalTree<T, S> implements InputSubset {
 
    public GoalTree(final FeasibilityChecker feasibilityChecker) {
       this.feasibilityChecker = feasibilityChecker;
-      this.coveredPc = new TrueSymbol();
+      this.coveredPc = new FalseSymbol();
       this.childrenCoverPc = new FalseSymbol();
       this.openNodes = new OpenNodes<>(feasibilityChecker);
    }
@@ -41,8 +43,16 @@ public final class GoalTree<T, S> implements InputSubset {
       return feasibilityChecker.implies(pc, coveredPc);
    }
 
-   private void increaseCovers(final BoolSymbol conjunct) {
-      coveredPc = coveredPc.or(conjunct);
+   private boolean overlaps(final BoolSymbol pc) {
+      return feasibilityChecker.satisfiable(and(pc, coveredPc));
+   }
+
+   public BoolSymbol covers() {
+      return coveredPc;
+   }
+
+   private void increaseCovers(final BoolSymbol disjunct) {
+      coveredPc = coveredPc.or(disjunct);
    }
 
    public GoalTree<T, S> reached(final T goal, final S state, final BoolSymbol childPc) {
@@ -78,6 +88,11 @@ public final class GoalTree<T, S> implements InputSubset {
       return false;
    }
 
+   public boolean isChildForGoal(final GoalTree<T, S> child, final T goal) {
+      final GoalTree<T, S> childForGoal = children.get(goal);
+      return childForGoal != null && childForGoal.equals(child);
+   }
+
    public boolean hasOpenNode(final Matcher<S> openNodeMatcher) {
       return openNodes.hasMatching(openNodeMatcher);
    }
@@ -101,6 +116,26 @@ public final class GoalTree<T, S> implements InputSubset {
          }
       }
       throw new IllegalStateException("no child covers " + pc);
+   }
+
+   public List<GoalTree<T, S>> coveredChilden(final BoolSymbol pc) {
+      final List<GoalTree<T, S>> result = new ArrayList<>();
+      for (final GoalTree<T, S> child : children.values()) {
+         if(child.covers(pc)) {
+            result.add(child);
+         }
+      }
+      return result;
+   }
+
+   public List<GoalTree<T, S>> overlappingChildGoals(final BoolSymbol pc) {
+      final List<GoalTree<T, S>> result = new ArrayList<>();
+      for (final GoalTree<T, S> child : children.values()) {
+         if(child.overlaps(pc)) {
+            result.add(child);
+         }
+      }
+      return result;
    }
 
    public GoalTree<T, S> childForGoal(final Object goal) {

@@ -26,7 +26,7 @@ public class FeasibleBranchSearch implements StateSearch<State> {
       final FlowNode<State>[] result = Arrays.copyOf(states, states.length);
       int resultCount = 0;
       for (final FlowNode<State> state : states) {
-         if(feasibilityChecker.check(state.state().getMeta(PC))) {
+         if(feasibilityChecker.satisfiable(state.state().getMeta(PC))) {
             result[resultCount] = state;
             resultCount++;
          }

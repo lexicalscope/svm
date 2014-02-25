@@ -6,10 +6,12 @@ import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 import static org.hamcrest.core.CombinableMatcher.both;
+import static org.junit.rules.ExpectedException.none;
 
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
@@ -18,6 +20,7 @@ import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTreeCorrespondence {
    @Rule public final SolverRule solver = new SolverRule();
+   @Rule public final ExpectedException exception = none();
 
    private final Object pstate0 = new Object();
    private final Object qstate0 = new Object();
@@ -25,8 +28,8 @@ public class TestGoalTreeCorrespondence {
    final GoalTreeCorrespondence<Object, Object> correspondenceRoot =
          root(pstate0, qstate0, solver.checker(), new ObjectGoalMapFactory());
 
-   private final Object goal1 = new Object();
-   private final Object goal2 = new Object();
+   private final Object goal1 = new Goal("goal1");
+   private final Object goal2 = new Goal("goal2");
 
    private final Object statep1 = new Object();
    private final Object statep2 = new Object();
@@ -35,11 +38,13 @@ public class TestGoalTreeCorrespondence {
    private final Object stateq2 = new Object();
 
    @Fresh ISymbol symbol;
+   private BoolSymbol betweenThreeAndSix;
    private BoolSymbol betweenThreeAndFifteen;
    private BoolSymbol betweenSevenAndEighteen;
    private BoolSymbol betweenSixteenAndThirty;
 
    @Before public void createPcs() {
+      betweenThreeAndSix = icmpge(symbol, asISymbol(3)).and(icmple(symbol, asISymbol(6)));
       betweenThreeAndFifteen = icmpge(symbol, asISymbol(3)).and(icmple(symbol, asISymbol(15)));
       betweenSevenAndEighteen = icmpge(symbol, asISymbol(7)).and(icmple(symbol, asISymbol(18)));
       betweenSixteenAndThirty = icmpge(symbol, asISymbol(16)).and(icmple(symbol, asISymbol(30)));
@@ -98,5 +103,20 @@ public class TestGoalTreeCorrespondence {
             hasChildCorrespondence(covers(betweenThreeAndFifteen)));
       assertThat(correspondenceRoot,
             hasChildCorrespondence(covers(betweenSixteenAndThirty)));
+   }
+
+   @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnError() throws Exception {
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+      correspondenceRoot.reachedQ(goal1, stateq1, betweenThreeAndSix);
+
+      exception.expectMessage("unbounded");
+      correspondenceRoot.reachedQ(goal2, stateq2, betweenSevenAndEighteen);
+   }
+
+   @Test public void reachingSecondGoalThatOverlapsIsAnError() throws Exception {
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+
+      exception.expectMessage("unbounded");
+      correspondenceRoot.reachedP(goal2, statep2, betweenSevenAndEighteen);
    }
 }

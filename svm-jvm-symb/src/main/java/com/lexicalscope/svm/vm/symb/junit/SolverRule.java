@@ -3,6 +3,9 @@ package com.lexicalscope.svm.vm.symb.junit;
 import static com.lexicalscope.fluentreflection.FluentReflection.object;
 import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
 
+import org.hamcrest.Description;
+import org.hamcrest.Matcher;
+import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.rules.MethodRule;
 import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
@@ -10,6 +13,7 @@ import org.junit.runners.model.Statement;
 import com.lexicalscope.fluentreflection.FluentField;
 import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -40,6 +44,19 @@ public class SolverRule implements MethodRule {
 
    public boolean equivalant(final Symbol left, final Symbol right) {
       return feasibilityChecker.equivalent(left, right);
+   }
+
+   public Matcher<? super BoolSymbol> equivalent(final BoolSymbol expected) {
+      return new TypeSafeDiagnosingMatcher<BoolSymbol>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("symbol equivalent to ").appendValue(expected);
+         }
+
+         @Override protected boolean matchesSafely(final BoolSymbol actual, final Description mismatchDescription) {
+            mismatchDescription.appendText("symbol equivalent to ").appendValue(actual);
+            return equivalant(expected, actual);
+         }
+      };
    }
 
    @Override public Statement apply(final Statement base, final FrameworkMethod method, final Object target) {
