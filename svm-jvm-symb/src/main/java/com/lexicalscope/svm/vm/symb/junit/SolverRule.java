@@ -42,7 +42,7 @@ public class SolverRule implements MethodRule {
       }
    }
 
-   public boolean equivalant(final Symbol left, final Symbol right) {
+   public boolean equivalent(final Symbol left, final Symbol right) {
       return feasibilityChecker.equivalent(left, right);
    }
 
@@ -54,7 +54,7 @@ public class SolverRule implements MethodRule {
 
          @Override protected boolean matchesSafely(final BoolSymbol actual, final Description mismatchDescription) {
             mismatchDescription.appendText("symbol equivalent to ").appendValue(actual);
-            return equivalant(expected, actual);
+            return equivalent(expected, actual);
          }
       };
    }

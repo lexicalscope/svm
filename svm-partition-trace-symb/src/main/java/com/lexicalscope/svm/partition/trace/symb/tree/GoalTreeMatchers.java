@@ -137,4 +137,20 @@ public class GoalTreeMatchers {
             return result;
          }};
    }
+
+   public static Matcher<? super GoalMap<?, ?>> nodeCount(final int count) {
+      return new TypeSafeDiagnosingMatcher<GoalMap<?, ?>>(){
+         @Override public void describeTo(final Description description) {
+            description.appendText("goal map with size ").appendValue(count);
+         }
+
+         @Override protected boolean matchesSafely(final GoalMap<?, ?> item, final Description mismatchDescription) {
+            final boolean result = item.size() == count;
+            if(!result) {
+               mismatchDescription.appendValue(item);
+            }
+            return result;
+         }};
+   }
+
 }

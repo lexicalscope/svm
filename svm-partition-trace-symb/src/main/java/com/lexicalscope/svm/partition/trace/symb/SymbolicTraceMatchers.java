@@ -12,6 +12,7 @@ import com.lexicalscope.svm.partition.trace.TraceBuilder;
 import com.lexicalscope.svm.partition.trace.TraceElement;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
+import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class SymbolicTraceMatchers {
    public static Matcher<TraceBuilder> equivalentTo(final SolverRule solver, final TraceBuilder expected) {
@@ -33,6 +34,10 @@ public class SymbolicTraceMatchers {
    }
 
    private static Matcher<Trace> equivalentTo(final SolverRule solver, final Trace expectedTrace) {
+      return equivalentTo(solver.checker(), expectedTrace);
+   }
+
+   public static Matcher<Trace> equivalentTo(final FeasibilityChecker checker, final Trace expectedTrace) {
       return new TypeSafeDiagnosingMatcher<Trace>() {
          @Override public void describeTo(final Description description) {
             description.appendText("trace equivalent to ").appendValue(expectedTrace);
@@ -63,7 +68,7 @@ public class SymbolicTraceMatchers {
                      final Object expectedArg = expectedArgs[i];
                      if(   actualArg instanceof Symbol
                         && expectedArg instanceof Symbol) {
-                        if(!solver.equivalant((Symbol) expectedArg, (Symbol) actualArg))
+                        if(!checker.equivalent((Symbol) expectedArg, (Symbol) actualArg))
                         {
                            mismatchDescription.appendText("unable to prove equivalence of ")
                               .appendValue(expectedArg)
