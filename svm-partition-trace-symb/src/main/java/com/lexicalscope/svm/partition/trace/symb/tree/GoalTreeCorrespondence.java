@@ -51,11 +51,10 @@ public final class GoalTreeCorrespondence<T, S> implements InputSubset {
          final GoalTree<T, S> otherSide) {
 
       final GoalTree<T, S> thisSideChild = thisSide.reached(goal, state, childPc);
-      if(thisSide.overlappingChildGoals(childPc).size() > 1) {
-         throw new RuntimeException("unbounded");
-      }
+      assert thisSide.overlappingChildGoals(childPc).size() == 1;
 
-      final List<GoalTree<T, S>> otherSideOverlappingChildGoals = otherSide.overlappingChildGoals(childPc);
+      final List<GoalTree<T, S>> otherSideOverlappingChildGoals =
+            otherSide.overlappingChildGoals(childPc);
       if(otherSideOverlappingChildGoals.size() > 1) {
          throw new RuntimeException("unbounded");
       } else if(otherSideOverlappingChildGoals.size() == 1 &&
@@ -64,7 +63,8 @@ public final class GoalTreeCorrespondence<T, S> implements InputSubset {
       }
 
       if(otherSide.hasReached(goal)){
-          children.put(goal, childFactory.create(thisSideChild, otherSide.childForGoal(goal), goalMapFactory));
+          children.put(goal,
+                childFactory.create(thisSideChild, otherSide.childForGoal(goal), goalMapFactory));
       }
    }
 

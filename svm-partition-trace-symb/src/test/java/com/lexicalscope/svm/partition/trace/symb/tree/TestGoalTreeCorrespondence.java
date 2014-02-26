@@ -105,7 +105,7 @@ public class TestGoalTreeCorrespondence {
             hasChildCorrespondence(covers(betweenSixteenAndThirty)));
    }
 
-   @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnError() throws Exception {
+   @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnErrorInQ() throws Exception {
       correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
       correspondenceRoot.reachedQ(goal1, stateq1, betweenThreeAndSix);
 
@@ -113,8 +113,9 @@ public class TestGoalTreeCorrespondence {
       correspondenceRoot.reachedQ(goal2, stateq2, betweenSevenAndEighteen);
    }
 
-   @Test public void reachingSecondGoalThatOverlapsIsAnError() throws Exception {
-      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndFifteen);
+   @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnErrorInP() throws Exception {
+      correspondenceRoot.reachedQ(goal1, stateq1, betweenThreeAndFifteen);
+      correspondenceRoot.reachedP(goal1, statep1, betweenThreeAndSix);
 
       exception.expectMessage("unbounded");
       correspondenceRoot.reachedP(goal2, statep2, betweenSevenAndEighteen);
