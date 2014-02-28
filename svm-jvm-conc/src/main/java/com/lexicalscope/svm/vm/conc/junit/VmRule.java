@@ -20,7 +20,6 @@ import com.lexicalscope.fluentreflection.FluentMethod;
 import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.FluentReflection;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
-import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
@@ -108,18 +107,18 @@ public class VmRule implements MethodRule {
       return jvmBuilder.build(entryPoint, args);
    }
 
-   public final FlowNode<State> execute(final Object ... args) {
+   public final State execute(final Object ... args) {
       if(vm.isEmpty()) {
          vm.add(build(args));
       }
       return vm.get(0).execute();
    }
 
-   public final FlowNode<State> result() {
+   public final State result() {
       return vm.get(0).result();
    }
 
-   public final Collection<FlowNode<State>> results() {
+   public final Collection<State> results() {
       return vm.get(0).results();
    }
 }

@@ -1,6 +1,7 @@
 package com.lexicalscope.symb.vm.symb;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers.symbolEquivalentTo;
+import static com.lexicalscope.svm.vm.symb.matchers.SymbStateMatchers.flowNodeToModel;
 import static java.lang.Math.min;
 import static org.hamcrest.MatcherAssert.assertThat;
 
@@ -12,7 +13,6 @@ import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.conc.junit.WithEntryPoint;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
-import com.lexicalscope.svm.vm.symb.matchers.SymbStateMatchers;
 
 public class TestCreateArrayWithSymbolicLength {
    @Rule public final SymbVmRule vm = new SymbVmRule();
@@ -59,7 +59,7 @@ public class TestCreateArrayWithSymbolicLength {
    @Test @WithEntryPoint("reverseArrayWithSymbolicLength") public void copyBetweenArraysWithSymbolicLength() throws Exception {
       vm.execute(symbol1);
 
-      assertThat(vm.results(), SymbStateMatchers.flowNodeToModel(vm.feasbilityChecker()).
+      assertThat(vm.results(), flowNodeToModel(vm.feasbilityChecker()).
             has(3, symbolEquivalentTo(0)).
             has(symbolEquivalentTo(1)).
             has(symbolEquivalentTo(2)).

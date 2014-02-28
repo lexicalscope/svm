@@ -30,7 +30,7 @@ public class VmWrap {
       return vm.result();
    }
 
-   public Collection<FlowNode<State>> results() {
+   public Collection<State> results() {
       return vm.results();
    }
 

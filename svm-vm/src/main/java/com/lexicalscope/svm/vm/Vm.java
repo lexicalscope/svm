@@ -2,17 +2,17 @@ package com.lexicalscope.svm.vm;
 
 import java.util.Collection;
 
-public interface Vm<S> {
-	FlowNode<S> execute();
+public interface Vm<S extends FlowNode<S>> {
+	S execute();
 
-	void initial(FlowNode<S> state);
+	void initial(S state);
 
-	void fork(FlowNode<S>[] states);
+	void fork(S[] states);
 	void goal();
 
-	FlowNode<S> result();
+	S result();
 
-	Collection<FlowNode<S>> results();
+	Collection<S> results();
 
-   FlowNode<S> pending();
+   S pending();
 }

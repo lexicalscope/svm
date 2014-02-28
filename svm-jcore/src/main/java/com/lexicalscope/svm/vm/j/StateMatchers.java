@@ -9,7 +9,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.MatchersAdditional;
 import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
-import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.FlowNodeToState;
 
 public class StateMatchers {
@@ -17,7 +16,8 @@ public class StateMatchers {
       return operandMatching(equalTo(expected));
    }
 
-   public static TransformMatcherBuilder<State, FlowNode<State>> flowNodeToState() {
+   @Deprecated
+   public static TransformMatcherBuilder<State, State> flowNodeToState() {
       return MatchersAdditional.after(new FlowNodeToState<State>());
    }
 
@@ -97,7 +97,7 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super FlowNode<State>> normalTerminiationWithResult(final Object result) {
+   public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
       return both(normalTerminiation()).and(flowNodeToState().matches(operandEqual(result)));
    }
 
@@ -105,7 +105,7 @@ public class StateMatchers {
       return both(normalTerminiation()).and(flowNodeToState().matches(operandMatching(matcher)));
    }
 
-   public static Matcher<? super FlowNode<State>> normalTerminiation() {
+   public static Matcher<? super State> normalTerminiation() {
       return flowNodeToState().matches(both(terminalInstruction()).and(stackSize(1)));
    }
 }

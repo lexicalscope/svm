@@ -3,13 +3,13 @@ package com.lexicalscope.svm.vm;
 import java.util.Collection;
 
 public interface StateSearch<S> {
-   FlowNode<S> pendingState();
+   S pendingState();
 
-   void initial(FlowNode<S> state);
+   void initial(S state);
    void reachedLeaf();
-   void fork(FlowNode<S>[] states);
+   void fork(S[] states);
    void goal();
 
-   FlowNode<S> firstResult();
-   Collection<FlowNode<S>> results();
+   S firstResult();
+   Collection<S> results();
 }

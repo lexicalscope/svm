@@ -5,7 +5,6 @@ import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
 import java.util.Arrays;
 import java.util.Collection;
 
-import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.State;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
@@ -22,10 +21,10 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    }
 
    @Override
-   public void fork(final FlowNode<State>[] states) {
-      final FlowNode<State>[] result = Arrays.copyOf(states, states.length);
+   public void fork(final State[] states) {
+      final State[] result = Arrays.copyOf(states, states.length);
       int resultCount = 0;
-      for (final FlowNode<State> state : states) {
+      for (final State state : states) {
          if(feasibilityChecker.satisfiable(state.state().getMeta(PC))) {
             result[resultCount] = state;
             resultCount++;
@@ -35,12 +34,12 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    }
 
    @Override
-   public FlowNode<State> pendingState() {
+   public State pendingState() {
       return search.pendingState();
    }
 
    @Override
-   public void initial(final FlowNode<State> state) {
+   public void initial(final State state) {
       search.initial(state);
    }
 
@@ -50,12 +49,12 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    }
 
    @Override
-   public FlowNode<State> firstResult() {
+   public State firstResult() {
       return search.firstResult();
    }
 
    @Override
-   public Collection<FlowNode<State>> results() {
+   public Collection<State> results() {
       return search.results();
    }
 

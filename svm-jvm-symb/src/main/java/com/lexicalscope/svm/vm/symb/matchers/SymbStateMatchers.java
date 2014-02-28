@@ -9,7 +9,6 @@ import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers;
-import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.j.State;
 import com.lexicalscope.svm.vm.j.StateMatchers;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
@@ -37,7 +36,7 @@ public class SymbStateMatchers {
       return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
    }
 
-   public static CollectionMatcherBuilder<Symbol, FlowNode<State>> flowNodeToModel(final FeasibilityChecker feasibilityChecker) {
+   public static CollectionMatcherBuilder<Symbol, State> flowNodeToModel(final FeasibilityChecker feasibilityChecker) {
       return StateMatchers.flowNodeToState().then(stateToModel(feasibilityChecker));
    }
 }

@@ -14,12 +14,12 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
       this.correspondence = correspondence;
    }
 
-   @Override public FlowNode<S> pendingState() {
+   @Override public S pendingState() {
       // TODO Auto-generated method stub
       return null;
    }
 
-   @Override public void initial(final FlowNode<S> state) {
+   @Override public void initial(final S state) {
       // TODO Auto-generated method stub
 
    }
@@ -29,7 +29,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
 
    }
 
-   @Override public void fork(final FlowNode<S>[] states) {
+   @Override public void fork(final S[] states) {
       // TODO Auto-generated method stub
 
    }
@@ -39,15 +39,14 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
 
    }
 
-   @Override public FlowNode<S> firstResult() {
+   @Override public S firstResult() {
       // TODO Auto-generated method stub
       return null;
    }
 
-   @Override public Collection<FlowNode<S>> results() {
+   @Override public Collection<S> results() {
       // TODO Auto-generated method stub
       return null;
    }
-
 
 }
