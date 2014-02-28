@@ -22,7 +22,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchStrate
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.NotSymbol;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 final class SBranchInstruction implements Vop {
@@ -32,11 +32,11 @@ final class SBranchInstruction implements Vop {
       this.branchStrategy = branchStrategy;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final BoolSymbol pc = ctx.getMeta(PC);
 
       final BoolSymbol branchPredicateSymbol = branchStrategy.evaluateBranchConditonAsSymbol(ctx);
-      final State[] states = ctx.fork();
+      final JState[] states = ctx.fork();
 
       final BoolSymbol jumpPc = pc.and(branchPredicateSymbol);
       states[0].setMeta(PC, jumpPc);

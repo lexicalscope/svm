@@ -23,7 +23,7 @@ import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -33,7 +33,7 @@ public class VmRule implements MethodRule {
    private final Map<String, SMethodDescriptor> entryPoints = new HashMap<>();
    private SMethodDescriptor entryPoint;
 
-   private final List<Vm<State>> vm = new ArrayList<>();
+   private final List<Vm<JState>> vm = new ArrayList<>();
 
    public VmRule() {
       this(new JvmBuilder());
@@ -103,22 +103,22 @@ public class VmRule implements MethodRule {
       this.entryPoint = new AsmSMethodName(klass, name, desc);
    }
 
-   public final Vm<State> build(final Object[] args) {
+   public final Vm<JState> build(final Object[] args) {
       return jvmBuilder.build(entryPoint, args);
    }
 
-   public final State execute(final Object ... args) {
+   public final JState execute(final Object ... args) {
       if(vm.isEmpty()) {
          vm.add(build(args));
       }
       return vm.get(0).execute();
    }
 
-   public final State result() {
+   public final JState result() {
       return vm.get(0).result();
    }
 
-   public final Collection<State> results() {
+   public final Collection<JState> results() {
       return vm.get(0).results();
    }
 }

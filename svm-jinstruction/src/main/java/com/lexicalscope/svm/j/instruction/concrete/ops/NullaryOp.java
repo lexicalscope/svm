@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.ops;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class NullaryOp implements Vop {
@@ -16,7 +16,7 @@ public class NullaryOp implements Vop {
 		return operator.toString();
 	}
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.push(operator.eval());
    }
 

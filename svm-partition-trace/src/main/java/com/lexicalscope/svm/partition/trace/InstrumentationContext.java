@@ -1,15 +1,15 @@
 package com.lexicalscope.svm.partition.trace;
 
 import com.lexicalscope.svm.stack.StackFrame;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class InstrumentationContext {
-   private final State state;
+   private final JState state;
    private final SMethodDescriptor methodName;
 
-   public InstrumentationContext(final SMethodDescriptor methodName, final State state) {
+   public InstrumentationContext(final SMethodDescriptor methodName, final JState state) {
       this.methodName = methodName;
       this.state = state;
    }
@@ -18,7 +18,7 @@ public class InstrumentationContext {
       return state.currentFrame();
    }
 
-   public State state() {
+   public JState state() {
       return state;
    }
 

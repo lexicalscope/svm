@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.stack;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class Store2 implements Vop {
@@ -16,7 +16,7 @@ public class Store2 implements Vop {
       return String.format("STORE2 %d", var);
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.local(var, ctx.popDoubleWord());
    }
 

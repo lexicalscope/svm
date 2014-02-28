@@ -9,10 +9,10 @@ import com.lexicalscope.svm.stack.Stack;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.stack.trace.SStackTrace;
 import com.lexicalscope.svm.state.Snapshotable;
-import com.lexicalscope.svm.vm.FlowNode;
+import com.lexicalscope.svm.vm.VmState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public interface State extends Snapshotable<State>, FlowNode {
+public interface JState extends Snapshotable<JState>, VmState {
    Stack stack();
    void pushFrame(StackFrame stackFrame);
    void popFrame(int returnCount);
@@ -28,8 +28,8 @@ public interface State extends Snapshotable<State>, FlowNode {
    Object local(int var);
    void local(int var, Object val);
 
-   void fork(State[] states);
-   State[] fork();
+   void fork(JState[] states);
+   JState[] fork();
    void goal();
 
    Object whereMyStaticsAt(SClass klass);

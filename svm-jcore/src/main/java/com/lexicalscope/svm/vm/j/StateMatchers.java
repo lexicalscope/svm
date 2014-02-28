@@ -8,12 +8,12 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 public class StateMatchers {
-   public static Matcher<State> operandEqual(final Object expected) {
+   public static Matcher<JState> operandEqual(final Object expected) {
       return operandMatching(equalTo(expected));
    }
 
-   private static Matcher<State> operandMatching(final Matcher<Object> expectedMatcher) {
-      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+   private static Matcher<JState> operandMatching(final Matcher<Object> expectedMatcher) {
+      return new TypeSafeDiagnosingMatcher<JState>(JState.class) {
          @Override
          public void describeTo(final Description description) {
             description.appendText(
@@ -22,7 +22,7 @@ public class StateMatchers {
          }
 
          @Override
-         protected boolean matchesSafely(final State item,
+         protected boolean matchesSafely(final JState item,
                final Description mismatchDescription) {
             final Object operand = item.peekOperand();
             mismatchDescription.appendText("state with top of operand stack ");
@@ -32,8 +32,8 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> instructionEqual(final Instruction expectedInstruction) {
-      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+   public static Matcher<? super JState> instructionEqual(final Instruction expectedInstruction) {
+      return new TypeSafeDiagnosingMatcher<JState>(JState.class) {
          @Override
          public void describeTo(final Description description) {
             description.appendText("state with next instruction equal to ")
@@ -41,7 +41,7 @@ public class StateMatchers {
          }
 
          @Override
-         protected boolean matchesSafely(final State item,
+         protected boolean matchesSafely(final JState item,
                final Description mismatchDescription) {
             final Instruction instruction = item.instruction();
             mismatchDescription.appendText("state with next instruction ")
@@ -51,15 +51,15 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> terminalInstruction() {
-      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+   public static Matcher<? super JState> terminalInstruction() {
+      return new TypeSafeDiagnosingMatcher<JState>(JState.class) {
          @Override
          public void describeTo(final Description description) {
             description.appendText("instruction with no successor");
          }
 
          @Override
-         protected boolean matchesSafely(final State item,
+         protected boolean matchesSafely(final JState item,
                final Description mismatchDescription) {
             final Instruction instruction = item.instruction();
             mismatchDescription.appendText("instruction with successor ")
@@ -69,8 +69,8 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> stackSize(final int expectedSize) {
-      return new TypeSafeDiagnosingMatcher<State>(State.class) {
+   public static Matcher<? super JState> stackSize(final int expectedSize) {
+      return new TypeSafeDiagnosingMatcher<JState>(JState.class) {
          @Override
          public void describeTo(final Description description) {
             description.appendText("state with ").appendValue(expectedSize)
@@ -78,7 +78,7 @@ public class StateMatchers {
          }
 
          @Override
-         protected boolean matchesSafely(final State item,
+         protected boolean matchesSafely(final JState item,
                final Description mismatchDescription) {
             final int actualSize = item.stack().size();
             mismatchDescription.appendText("state with ")
@@ -88,15 +88,15 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
+   public static Matcher<? super JState> normalTerminiationWithResult(final Object result) {
       return both(normalTerminiation()).and(operandEqual(result));
    }
 
-   public static Matcher<? super State> normalTerminiationWithResultMatching(final Matcher<Object> matcher) {
+   public static Matcher<? super JState> normalTerminiationWithResultMatching(final Matcher<Object> matcher) {
       return both(normalTerminiation()).and(operandMatching(matcher));
    }
 
-   public static Matcher<? super State> normalTerminiation() {
+   public static Matcher<? super JState> normalTerminiation() {
       return both(terminalInstruction()).and(stackSize(1));
    }
 }

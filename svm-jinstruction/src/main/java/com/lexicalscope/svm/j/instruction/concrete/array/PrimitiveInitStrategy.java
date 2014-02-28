@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 final class PrimitiveInitStrategy implements InitStrategy {
    private final Object initialValue;
@@ -17,7 +17,7 @@ final class PrimitiveInitStrategy implements InitStrategy {
    this.initialValue = initialValue;
    }
 
-   @Override public Object initialValue(final State ctx) {
+   @Override public Object initialValue(final JState ctx) {
       return initialValue;
    }
 }

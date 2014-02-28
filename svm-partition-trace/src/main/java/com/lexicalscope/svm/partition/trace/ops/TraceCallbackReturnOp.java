@@ -7,7 +7,7 @@ import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 import com.lexicalscope.svm.metastate.MetaFactory;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -18,7 +18,7 @@ public class TraceCallbackReturnOp implements Vop {
       this.methodName = methodName;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       if(ctx.currentFrame().containsMeta(CROSSINGCALL)) {
          ctx.currentFrame().removeMeta(CROSSINGCALL);
          ctx.replaceMeta(TRACE, new MetaFactory<Trace>(){

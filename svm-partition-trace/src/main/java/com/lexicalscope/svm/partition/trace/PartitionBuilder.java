@@ -10,7 +10,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.svm.stack.StackFrame;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -43,14 +43,14 @@ public class PartitionBuilder {
       };
    }
 
-   public Matcher<? super State> dynamicExactCallinMatcher() {
+   public Matcher<? super JState> dynamicExactCallinMatcher() {
       final Matcher<? super MethodCallContext> dynamicExactMatcher = dynamicExactMatcher();
-      return new TypeSafeDiagnosingMatcher<State>() {
+      return new TypeSafeDiagnosingMatcher<JState>() {
          @Override public void describeTo(final Description description) {
             description.appendDescriptionOf(dynamicExactMatcher);
          }
 
-         @Override protected boolean matchesSafely(final State item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final JState item, final Description mismatchDescription) {
             final StackFrame previousFrame = item.previousFrame();
             final StackFrame currentFrame = item.currentFrame();
 
@@ -107,7 +107,7 @@ public class PartitionBuilder {
       };
    }
 
-   private SClass frameReceiver(final State item, final StackFrame previousFrame) {
+   private SClass frameReceiver(final JState item, final StackFrame previousFrame) {
       return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
    }
 

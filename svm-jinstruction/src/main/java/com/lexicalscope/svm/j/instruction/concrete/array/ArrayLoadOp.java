@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.array;
 import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.ARRAY_PREAMBLE;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class ArrayLoadOp implements Vop {
@@ -30,7 +30,7 @@ public class ArrayLoadOp implements Vop {
       this.valueTransform = valueTransform;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final int offset = (int) ctx.pop();
       final Object arrayref = ctx.pop();
 
@@ -38,14 +38,14 @@ public class ArrayLoadOp implements Vop {
 
    }
 
-   public Object loadFromHeap(final State ctx, final Object arrayref, final int offset) {
+   public Object loadFromHeap(final JState ctx, final Object arrayref, final int offset) {
       // TODO[tim]: check bounds in-game
       assert inBounds(ctx, offset, arrayref) : String.format("out-of-bounds %d %s %s", offset, arrayref, ctx);
 
       return valueTransform.transformForLoad(ctx.get(arrayref, offset + ARRAY_PREAMBLE));
    }
 
-   private boolean inBounds(final State ctx, final int offset, final Object arrayref) {
+   private boolean inBounds(final JState ctx, final int offset, final Object arrayref) {
       return offset >= 0 && offset < (int) ctx.get(arrayref, NewArrayOp.ARRAY_LENGTH_OFFSET);
    }
 

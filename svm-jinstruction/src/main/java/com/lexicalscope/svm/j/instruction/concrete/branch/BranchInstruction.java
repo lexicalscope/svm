@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.branch;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public final class BranchInstruction implements Vop {
@@ -16,7 +16,7 @@ public final class BranchInstruction implements Vop {
       return branchPredicate.toString();
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.advanceTo(branchPredicate.eval(ctx) ? ctx.instructionJmpTarget() : ctx.instructionNext());
    }
 

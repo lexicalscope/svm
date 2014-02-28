@@ -5,7 +5,7 @@ import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
 import com.lexicalscope.svm.heap.Heap;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.Op;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class NewObjectOp implements Op<Object> {
@@ -15,7 +15,7 @@ public final class NewObjectOp implements Op<Object> {
       this.klassDesc = klassDesc;
    }
 
-   @Override public Object eval(final State ctx) {
+   @Override public Object eval(final JState ctx) {
       // TODO[tim]: linking should remove this
       final SClass klass = ctx.load(klassDesc);
       final Object address = allocateObject(ctx, klass);
@@ -37,7 +37,7 @@ public final class NewObjectOp implements Op<Object> {
       return address;
    }
 
-   public static Object allocateObject(final State ctx, final SClass klass) {
+   public static Object allocateObject(final JState ctx, final SClass klass) {
       final Object address = ctx.newObject(klass);
       ctx.put(address, OBJECT_MARKER_OFFSET, klass);
 

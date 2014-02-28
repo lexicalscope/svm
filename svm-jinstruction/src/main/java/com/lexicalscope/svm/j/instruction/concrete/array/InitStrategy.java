@@ -1,8 +1,8 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 
 public interface InitStrategy {
-   Object initialValue(State ctx);
+   Object initialValue(JState ctx);
 }

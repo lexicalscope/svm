@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.ops;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class Binary2Op implements Vop {
@@ -11,7 +11,7 @@ public class Binary2Op implements Vop {
       this.operator = operator;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final Object right = ctx.popDoubleWord();
       final Object left = ctx.popDoubleWord();
 

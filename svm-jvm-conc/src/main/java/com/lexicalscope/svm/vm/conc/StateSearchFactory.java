@@ -1,8 +1,8 @@
 package com.lexicalscope.svm.vm.conc;
 
 import com.lexicalscope.svm.vm.StateSearch;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 public interface StateSearchFactory {
-   StateSearch<State> search();
+   StateSearch<JState> search();
 }

@@ -11,7 +11,7 @@ import java.util.Map.Entry;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.Op;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class DefinePrimitiveClassesOp implements Op<List<SClass>> {
@@ -38,7 +38,7 @@ public final class DefinePrimitiveClassesOp implements Op<List<SClass>> {
       this.op = op;
    }
 
-   @Override public List<SClass> eval(final State ctx) {
+   @Override public List<SClass> eval(final JState ctx) {
       final List<SClass> result = op.eval(ctx);
       for (final Entry<String, String> primitive : primitivesMap.entrySet()) {
          final String primitiveName = primitive.getKey();

@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.j.instruction.concrete.fl0at;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class F2IOp implements Vop {
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.push((int)(float)ctx.pop());
    }
 

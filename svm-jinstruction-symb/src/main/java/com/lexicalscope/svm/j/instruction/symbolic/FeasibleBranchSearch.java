@@ -6,25 +6,25 @@ import java.util.Arrays;
 import java.util.Collection;
 
 import com.lexicalscope.svm.vm.StateSearch;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class FeasibleBranchSearch implements StateSearch<State> {
+public class FeasibleBranchSearch implements StateSearch<JState> {
    private final FeasibilityChecker feasibilityChecker;
-   private final StateSearch<State> search;
+   private final StateSearch<JState> search;
 
    public FeasibleBranchSearch(
-         final StateSearch<State> search,
+         final StateSearch<JState> search,
          final FeasibilityChecker feasibilityChecker) {
       this.search = search;
       this.feasibilityChecker = feasibilityChecker;
    }
 
    @Override
-   public void fork(final State[] states) {
-      final State[] result = Arrays.copyOf(states, states.length);
+   public void fork(final JState[] states) {
+      final JState[] result = Arrays.copyOf(states, states.length);
       int resultCount = 0;
-      for (final State state : states) {
+      for (final JState state : states) {
          if(feasibilityChecker.satisfiable(state.getMeta(PC))) {
             result[resultCount] = state;
             resultCount++;
@@ -34,12 +34,12 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    }
 
    @Override
-   public State pendingState() {
+   public JState pendingState() {
       return search.pendingState();
    }
 
    @Override
-   public void initial(final State state) {
+   public void initial(final JState state) {
       search.initial(state);
    }
 
@@ -49,12 +49,12 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    }
 
    @Override
-   public State firstResult() {
+   public JState firstResult() {
       return search.firstResult();
    }
 
    @Override
-   public Collection<State> results() {
+   public Collection<JState> results() {
       return search.results();
    }
 

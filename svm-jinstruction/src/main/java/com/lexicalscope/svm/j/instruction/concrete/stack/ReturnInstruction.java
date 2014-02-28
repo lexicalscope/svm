@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.stack;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class ReturnInstruction implements Vop {
@@ -11,7 +11,7 @@ public class ReturnInstruction implements Vop {
       this.returnCount = returnCount;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.popFrame(returnCount);
    }
 

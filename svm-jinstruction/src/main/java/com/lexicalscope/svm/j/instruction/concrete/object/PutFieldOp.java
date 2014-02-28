@@ -5,7 +5,7 @@ import org.objectweb.asm.tree.FieldInsnNode;
 
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
@@ -39,7 +39,7 @@ public final class PutFieldOp implements Vop {
       return conversion;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       // TODO[tim]: link should remove this
       final int offset = ctx.load(fieldInsnNode.owner).fieldIndex(name);
 

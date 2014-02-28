@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.j.instruction.concrete.nativ3;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class FloatToRawIntBits implements Vop {
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.push(Float.floatToRawIntBits((float) ctx.pop()));
    }
 

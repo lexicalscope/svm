@@ -8,7 +8,7 @@ import org.hamcrest.Matcher;
 import com.lexicalscope.svm.partition.trace.InstrumentationContext;
 import com.lexicalscope.svm.partition.trace.Trace.CallReturn;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -21,7 +21,7 @@ public class TraceCallbackCallOp implements Vop {
       this.callbackMatcher = callbackMatcher;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final InstrumentationContext instrumentationContext = new InstrumentationContext(methodName, ctx);
       if(callbackMatcher.matches(instrumentationContext)) {
          ctx.setMeta(TRACE, ctx.getMeta(TRACE).extend(methodName, CallReturn.CALL, ctx.peek(methodName.argSize())));

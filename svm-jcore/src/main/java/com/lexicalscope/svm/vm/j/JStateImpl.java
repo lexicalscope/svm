@@ -15,15 +15,15 @@ import com.lexicalscope.svm.stack.trace.SStackTrace;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public class StateImpl implements State {
+public class JStateImpl implements JState {
    private final Statics statics;
    private final Stack stack;
    private final Heap heap;
    private final MetaState meta;
-   private final Vm<State> vm;
+   private final Vm<JState> vm;
 
-   public StateImpl(
-         final Vm<State> vm,
+   public JStateImpl(
+         final Vm<JState> vm,
          final Statics statics,
          final Stack stack,
          final Heap heap,
@@ -55,8 +55,8 @@ public class StateImpl implements State {
    }
 
    @Override
-   public final State[] fork(){
-      return new State[]{this.snapshot(), this.snapshot()};
+   public final JState[] fork(){
+      return new JState[]{this.snapshot(), this.snapshot()};
    }
 
    @Override
@@ -73,8 +73,8 @@ public class StateImpl implements State {
       meta.set(key, metaFactory.replacement(meta.get(key)));
    }
 
-   @Override public final StateImpl snapshot() {
-      return new StateImpl(vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
+   @Override public final JStateImpl snapshot() {
+      return new JStateImpl(vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
    @Override public final SStackTrace trace() {
@@ -88,7 +88,7 @@ public class StateImpl implements State {
 
    @Override public boolean equals(final Object obj) {
       if(obj != null && obj.getClass().equals(this.getClass())) {
-         final StateImpl that = (StateImpl) obj;
+         final JStateImpl that = (JStateImpl) obj;
          return equal(that.stack(), this.stack()) && equal(that.heap, this.heap) && equal(that.heap, this.heap);
       }
       return false;
@@ -260,7 +260,7 @@ public class StateImpl implements State {
    }
 
    @Override
-   public void fork(final State[] states) {
+   public void fork(final JState[] states) {
       vm.fork(states);
    }
 

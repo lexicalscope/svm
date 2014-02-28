@@ -12,7 +12,7 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.Op;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
@@ -44,7 +44,7 @@ public class LoadingInstruction implements Vop {
       this(asList(klassName), op, instructions);
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final List<SClass> definedClasses = loader.eval(ctx);
       if(definedClasses.isEmpty()){
          new LinearInstruction(op).eval(ctx);

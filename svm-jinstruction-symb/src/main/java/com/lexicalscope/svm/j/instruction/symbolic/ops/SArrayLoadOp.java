@@ -9,7 +9,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySelectSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -22,7 +22,7 @@ public class SArrayLoadOp implements Vop {
       this.concreteArrayLoad = concreteArrayLoad;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final Object offset = (int) ctx.pop();
       final Object arrayref = ctx.pop();
 
@@ -36,7 +36,7 @@ public class SArrayLoadOp implements Vop {
       }
    }
 
-   private Object loadFromSymbolicArray(final State ctx, final Object arrayref, final Object offset) {
+   private Object loadFromSymbolicArray(final JState ctx, final Object arrayref, final Object offset) {
       return new IArraySelectSymbol(
             (IArraySymbol) ctx.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET),
             asISymbol(offset));

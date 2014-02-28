@@ -2,7 +2,7 @@ package com.lexicalscope.svm.vm;
 
 import java.util.Collection;
 
-public final class VmImpl<S extends FlowNode> implements Vm<S> {
+public final class VmImpl<S extends VmState> implements Vm<S> {
    private final StateSearch<S> search;
 
 	public VmImpl(final StateSearch<S> search) {

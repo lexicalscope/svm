@@ -9,7 +9,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayStoreSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -22,7 +22,7 @@ public class SArrayStoreOp implements Vop {
       this.concreteArrayStore = concreteArrayStore;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final Object value = ctx.pop();
       final Object offset = ctx.pop();
       final Object arrayref = ctx.pop();
@@ -37,7 +37,7 @@ public class SArrayStoreOp implements Vop {
       }
    }
 
-   private void storeInSymbolicArray(final State ctx, final Object arrayref, final Object offset, final Object value) {
+   private void storeInSymbolicArray(final JState ctx, final Object arrayref, final Object offset, final Object value) {
       final IArraySymbol symbol = (IArraySymbol) ctx.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET);
       ctx.put(arrayref,
             NewSymbArray.ARRAY_SYMBOL_OFFSET,

@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.j.instruction.concrete.l0ng;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class LushrOp implements Vop {
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final int value2 = (int) ctx.pop();
       final long value1 = (long) ctx.popDoubleWord();
 

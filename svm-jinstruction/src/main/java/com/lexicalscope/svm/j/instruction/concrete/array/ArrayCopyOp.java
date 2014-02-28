@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class ArrayCopyOp implements Vop {
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final int length = (int) ctx.pop();
       final int destPos = (int) ctx.pop();
       final Object dest = ctx.pop();

@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction;
 import org.objectweb.asm.tree.AbstractInsnNode;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class UnsupportedInstruction implements Vop {
@@ -18,7 +18,7 @@ public class UnsupportedInstruction implements Vop {
 		return String.format("UNSUPPORTED opcode(%s) type(%s)", abstractInsnNode.getOpcode(), abstractInsnNode.getClass().getSimpleName());
 	}
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       throw new UnsupportedInstructionException(abstractInsnNode);
    }
 

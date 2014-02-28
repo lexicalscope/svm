@@ -14,17 +14,17 @@ import com.lexicalscope.svm.search2.GoalTreeGuidedSearchStrategy;
 
 public class TestGoalTreeSearchStrategy {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock private GoalTreeCorrespondence<Object, FakeFlowNode> correspondence;
+   @Mock private GoalTreeCorrespondence<Object, FakeVmState> correspondence;
    @Mock private Randomiser randomiser;
 
-   GoalTreeGuidedSearchStrategy<Object, FakeFlowNode> searchStrategy;
+   GoalTreeGuidedSearchStrategy<Object, FakeVmState> searchStrategy;
 
    @Before public void createStrategy() {
       searchStrategy = null; //new GoalTreeGuidedSearchStrategy<Object, FakeFlowNode>(correspondence);
    }
 
    @Test @Ignore public void searchingIfOpenNodes() throws Exception {
-      final FakeFlowNode state = new FakeFlowNode();
+      final FakeVmState state = new FakeVmState();
       context.checking(new Expectations(){{
          oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(state));
       }});

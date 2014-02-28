@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class NoOp implements Vop {
@@ -15,7 +15,7 @@ public class NoOp implements Vop {
       this.name = name;
    }
 
-   @Override public void eval(final State ctx) { }
+   @Override public void eval(final JState ctx) { }
 
    @Override public String toString() {
       return name;

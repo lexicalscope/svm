@@ -18,7 +18,7 @@ import com.lexicalscope.svm.heap.Heap;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.stack.DequeStack;
 import com.lexicalscope.svm.stack.SnapshotableStackFrame;
-import com.lexicalscope.svm.vm.j.StateImpl;
+import com.lexicalscope.svm.vm.j.JStateImpl;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class TestFieldInit {
@@ -35,7 +35,7 @@ public class TestFieldInit {
       assertThat(klasses, Matchers.hasSize(2));
       sClass = klasses.get(1);
 
-      newObject = new NewObjectOp(klassName).eval(new StateImpl(null, statics, new DequeStack(new SnapshotableStackFrame(null, null, null, 0, 1)), heap, null));
+      newObject = new NewObjectOp(klassName).eval(new JStateImpl(null, statics, new DequeStack(new SnapshotableStackFrame(null, null, null, 0, 1)), heap, null));
    }
 
    @Test public void intFieldInit() {

@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.j.instruction.concrete.l0ng;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class L2IOp implements Vop {
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.push((int)(long)ctx.popDoubleWord());
    }
 

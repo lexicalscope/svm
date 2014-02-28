@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 public interface ArrayConstructor {
-   void newArray(State ctx, InitStrategy initStrategy);
+   void newArray(JState ctx, InitStrategy initStrategy);
 }

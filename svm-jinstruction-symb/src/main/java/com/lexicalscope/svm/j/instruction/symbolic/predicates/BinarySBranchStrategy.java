@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.symbolic.predicates;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 public class BinarySBranchStrategy implements SBranchStrategy {
    private final BinarySBranchOp op;
@@ -12,7 +12,7 @@ public class BinarySBranchStrategy implements SBranchStrategy {
       this.op = op;
    }
 
-   @Override public BoolSymbol evaluateBranchConditonAsSymbol(final State ctx) {
+   @Override public BoolSymbol evaluateBranchConditonAsSymbol(final JState ctx) {
       final Object value2 = ctx.pop();
       final Object value1 = ctx.pop();
 

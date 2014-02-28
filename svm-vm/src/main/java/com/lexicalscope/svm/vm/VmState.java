@@ -1,5 +1,5 @@
 package com.lexicalscope.svm.vm;
 
-public interface FlowNode {
+public interface VmState {
 	void eval();
 }

@@ -9,7 +9,7 @@ import java.util.Collection;
  * @author tim
  */
 public interface Instruction extends Iterable<Instruction> {
-   void eval(State ctx);
+   void eval(JState ctx);
 
    Instruction append(Instruction instruction);
    void insertNext(Instruction nodeE);

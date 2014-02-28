@@ -4,7 +4,7 @@ import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.object.SymbolicObject;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
@@ -15,7 +15,7 @@ public class LoadSymbolicObjectArg implements Vop {
       this.symbol = symbol;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final Object newObject = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return 2;

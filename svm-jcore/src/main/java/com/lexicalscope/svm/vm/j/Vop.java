@@ -2,6 +2,6 @@ package com.lexicalscope.svm.vm.j;
 
 
 public interface Vop {
-   void eval(State ctx);
+   void eval(JState ctx);
    <T> T query(InstructionQuery<T> instructionQuery);
 }

@@ -1,12 +1,12 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class GetClassOp implements Vop {
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       final Object klassFromHeap = ctx.get(ctx.pop(), SClass.OBJECT_MARKER_OFFSET);
       ctx.push(ctx.whereMyStaticsAt((SClass) klassFromHeap));
    }

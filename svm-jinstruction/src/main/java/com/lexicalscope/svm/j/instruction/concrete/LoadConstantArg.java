@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public final class LoadConstantArg implements Vop {
@@ -12,7 +12,7 @@ public final class LoadConstantArg implements Vop {
       this.value = value;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       ctx.push(value);
    }
 

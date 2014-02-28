@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class NewArrayOp implements Vop {
@@ -24,7 +24,7 @@ public class NewArrayOp implements Vop {
       this.arrayConstructor = arrayConstructor;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       arrayConstructor.newArray(ctx, initStrategy);
    }
 

@@ -11,15 +11,15 @@ import com.lexicalscope.svm.partition.trace.ops.TraceCallbackCallOp;
 import com.lexicalscope.svm.partition.trace.ops.TraceCallbackReturnOp;
 import com.lexicalscope.svm.partition.trace.ops.TraceMethodCallOp;
 import com.lexicalscope.svm.vm.j.Instruction;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class TraceMethodCalls implements Instrumentor {
-   private final Matcher<? super State> callinMatcher;
+   private final Matcher<? super JState> callinMatcher;
    private final Matcher<? super InstrumentationContext> callbackMatcher;
 
    public TraceMethodCalls(
-         final Matcher<? super State> callinMatcher,
+         final Matcher<? super JState> callinMatcher,
          final Matcher<? super InstrumentationContext> callbackMatcher) {
       this.callinMatcher = callinMatcher;
       this.callbackMatcher = callbackMatcher;
@@ -32,7 +32,7 @@ public class TraceMethodCalls implements Instrumentor {
    }
 
    private static Instrumentor methodCallsAndReturnsThatCross(
-         final Matcher<? super State> dynamicExactCallinMatcher,
+         final Matcher<? super JState> dynamicExactCallinMatcher,
          final Matcher<? super InstrumentationContext> dynamicExactCallbackMatcher) {
       return new TraceMethodCalls(dynamicExactCallinMatcher, dynamicExactCallbackMatcher);
    }

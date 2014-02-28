@@ -9,7 +9,7 @@ import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class SymbStateMatchers {
@@ -21,7 +21,7 @@ public class SymbStateMatchers {
          this.feasibilityChecker = feasibilityChecker;
       }
 
-      public Matcher<? super State> toInt(final int expectedValue) {
+      public Matcher<? super JState> toInt(final int expectedValue) {
          return after(SymbStateMatchers.stateToModel(feasibilityChecker)).matches(SymbolMatchers.symbolEquivalentTo(expectedValue));
       }
    }
@@ -31,11 +31,11 @@ public class SymbStateMatchers {
       return new SimplifyingMatcherBuilder(feasibilityChecker);
    }
 
-   public static Transform<Symbol,State> stateToModel(final FeasibilityChecker feasibilityChecker) {
+   public static Transform<Symbol,JState> stateToModel(final FeasibilityChecker feasibilityChecker) {
       return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
    }
 
-   public static TransformMatcherBuilder<Symbol, State> toModel(final FeasibilityChecker feasibilityChecker) {
+   public static TransformMatcherBuilder<Symbol, JState> toModel(final FeasibilityChecker feasibilityChecker) {
       return after(stateToModel(feasibilityChecker));
    }
 }

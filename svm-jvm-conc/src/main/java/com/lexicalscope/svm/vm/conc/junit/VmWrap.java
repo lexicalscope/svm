@@ -5,11 +5,11 @@ import java.util.Collection;
 import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 public class VmWrap {
    private final VmRule vmRule;
-   private Vm<State> vm;
+   private Vm<JState> vm;
    private final LoadFrom annotation;
 
    public VmWrap(final VmRule vmRule, final LoadFrom annotation) {
@@ -17,7 +17,7 @@ public class VmWrap {
       this.annotation = annotation;
    }
 
-   public final State execute(final Object ... args) {
+   public final JState execute(final Object ... args) {
       if(vm == null) {
          vmRule.builder().loadFrom(annotation.value());
          vm = vmRule.build(args);
@@ -25,11 +25,11 @@ public class VmWrap {
       return vm.execute();
    }
 
-   public State result() {
+   public JState result() {
       return vm.result();
    }
 
-   public Collection<State> results() {
+   public Collection<JState> results() {
       return vm.results();
    }
 

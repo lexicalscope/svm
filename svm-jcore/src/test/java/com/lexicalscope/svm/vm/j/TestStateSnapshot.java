@@ -13,8 +13,8 @@ import com.lexicalscope.svm.heap.Heap;
 import com.lexicalscope.svm.metastate.MetaState;
 import com.lexicalscope.svm.stack.Stack;
 import com.lexicalscope.svm.vm.Vm;
-import com.lexicalscope.svm.vm.j.State;
-import com.lexicalscope.svm.vm.j.StateImpl;
+import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.JStateImpl;
 import com.lexicalscope.svm.vm.j.Statics;
 
 public class TestStateSnapshot {
@@ -23,7 +23,7 @@ public class TestStateSnapshot {
    @Test
    public void snapshotOfStateCopiesEverythingStateful() {
       @SuppressWarnings("unchecked")
-      final Vm<State> vm = context.mock(Vm.class, "Vm");
+      final Vm<JState> vm = context.mock(Vm.class, "Vm");
 
       final Statics statics = context.mock(Statics.class, "Statics");
       final Statics staticsCopy = context.mock(Statics.class, "Statics copy");
@@ -44,6 +44,6 @@ public class TestStateSnapshot {
          oneOf(meta).snapshot(); will(returnValue(metaCopy));
       }});
 
-      assertThat(new StateImpl(vm, statics, stack, heap, meta).snapshot(), equalTo(new StateImpl(vm, staticsCopy, stackCopy, heapCopy, metaCopy)));
+      assertThat(new JStateImpl(vm, statics, stack, heap, meta).snapshot(), equalTo(new JStateImpl(vm, staticsCopy, stackCopy, heapCopy, metaCopy)));
    }
 }

@@ -9,10 +9,10 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class ModelForStateTransform implements Transform<Symbol, State> {
+public class ModelForStateTransform implements Transform<Symbol, JState> {
    private final FeasibilityChecker feasibilityChecker;
 
    public ModelForStateTransform(final FeasibilityChecker feasibilityChecker) {
@@ -23,7 +23,7 @@ public class ModelForStateTransform implements Transform<Symbol, State> {
       description.appendText("simplified using ").appendValue(feasibilityChecker);
    }
 
-   @Override public Symbol transform(final State item, final Description mismatchDescription) {
+   @Override public Symbol transform(final JState item, final Description mismatchDescription) {
       final Object operand = item.peekOperand();
 
       if(operand instanceof Integer) {

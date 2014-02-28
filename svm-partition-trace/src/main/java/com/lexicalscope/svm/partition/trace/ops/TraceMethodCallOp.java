@@ -8,17 +8,17 @@ import org.hamcrest.Matcher;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.Trace.CallReturn;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class TraceMethodCallOp implements Vop {
-   private final Matcher<? super State> matcher;
+   private final Matcher<? super JState> matcher;
    private final CallReturn callReturn;
    private final SMethodDescriptor methodName;
 
    public TraceMethodCallOp(
-         final Matcher<? super State> matcher,
+         final Matcher<? super JState> matcher,
          final SMethodDescriptor methodName,
          final CallReturn callReturn) {
       this.matcher = matcher;
@@ -26,7 +26,7 @@ public class TraceMethodCallOp implements Vop {
       this.callReturn = callReturn;
    }
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       if(matcher.matches(ctx)) {
          final Object[] args;
          if(callReturn.equals(RETURN)) {

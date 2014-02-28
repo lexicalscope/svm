@@ -43,8 +43,8 @@ import com.lexicalscope.svm.vm.VmImpl;
 import com.lexicalscope.svm.vm.conc.checkingheap.CheckingHeapFactory;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.JavaConstants;
-import com.lexicalscope.svm.vm.j.State;
-import com.lexicalscope.svm.vm.j.StateImpl;
+import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.JStateImpl;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public final class JvmBuilder {
@@ -100,8 +100,8 @@ public final class JvmBuilder {
       return this;
    }
 
-   public Vm<State> build(final SMethodDescriptor entryPointName, final Object... args) {
-      final Vm<State> vm = build();
+   public Vm<JState> build(final SMethodDescriptor entryPointName, final Object... args) {
+      final Vm<JState> vm = build();
 
       final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
       final SClassLoader classLoader = new AsmSClassLoader(
@@ -119,12 +119,12 @@ public final class JvmBuilder {
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
-      vm.initial(new StateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState.snapshot()));
+      vm.initial(new JStateImpl(vm, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState.snapshot()));
       return vm;
    }
 
-   public Vm<State> build() {
-      return new VmImpl<State>(searchFactory.search());
+   public Vm<JState> build() {
+      return new VmImpl<JState>(searchFactory.search());
    }
 
    private void loadArgsInstruction(final StatementBuilder statements, final Object[] args) {

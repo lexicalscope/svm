@@ -9,12 +9,12 @@ import com.lexicalscope.svm.vm.TerminationException;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionCode;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.State;
+import com.lexicalscope.svm.vm.j.JState;
 
 public class TerminateInstruction implements Instruction {
    private Instruction prev;
 
-   @Override public void eval(final State ctx) {
+   @Override public void eval(final JState ctx) {
       // TODO[tim]: demeter
       throw new TerminationException();
    }
