@@ -3,14 +3,13 @@ package com.lexicalscope.svm.search2;
 import java.util.Collection;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
-import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
-   private final GoalTreeCorrespondence<T, FlowNode<S>> correspondence;
+   private final GoalTreeCorrespondence<T, S> correspondence;
    private boolean qNext;
 
-   public GoalTreeGuidedSearchStrategy(final GoalTreeCorrespondence<T, FlowNode<S>> correspondence) {
+   public GoalTreeGuidedSearchStrategy(final GoalTreeCorrespondence<T, S> correspondence) {
       this.correspondence = correspondence;
    }
 

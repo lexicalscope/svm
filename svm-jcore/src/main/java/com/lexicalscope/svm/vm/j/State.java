@@ -12,7 +12,7 @@ import com.lexicalscope.svm.state.Snapshotable;
 import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public interface State extends Snapshotable<State>, FlowNode<State> {
+public interface State extends Snapshotable<State>, FlowNode {
    Stack stack();
    void pushFrame(StackFrame stackFrame);
    void popFrame(int returnCount);

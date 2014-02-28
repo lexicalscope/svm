@@ -13,8 +13,8 @@ import static org.hamcrest.Matchers.*;
 import org.junit.Rule;
 import org.junit.Test;
 
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IMulSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.partition.trace.PartitionBuilder;
 import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
@@ -51,7 +51,7 @@ public class TestSymbolicTraceCapture {
       vm.execute(symbol1, symbol2);
 
       assertThat(
-            vm.result().state().getMeta(TRACE),
+            vm.result().getMeta(TRACE),
             has(methodCallOf(InsidePartition.class, INIT, NOARGS_VOID_DESC),
                 methodReturnOf(InsidePartition.class, INIT, NOARGS_VOID_DESC),
                 methodCallOf(InsidePartition.class, "multiply", "(II)I", any(Object.class), equalTo(symbol1), equalTo(symbol2)),

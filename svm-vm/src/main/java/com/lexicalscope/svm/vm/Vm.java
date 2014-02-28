@@ -2,7 +2,7 @@ package com.lexicalscope.svm.vm;
 
 import java.util.Collection;
 
-public interface Vm<S extends FlowNode<S>> {
+public interface Vm<S extends FlowNode> {
 	S execute();
 
 	void initial(S state);

@@ -99,10 +99,6 @@ public class StateImpl implements State {
       return stack().hashCode() ^ heap.hashCode() ^ (meta == null ? 0 : meta.hashCode());
    }
 
-   @Override public State state() {
-      return this;
-   }
-
    @Override public Object peekOperand() {
       return stackFrame().peek();
    }

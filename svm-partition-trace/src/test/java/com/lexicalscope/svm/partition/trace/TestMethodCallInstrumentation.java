@@ -42,7 +42,7 @@ public class TestMethodCallInstrumentation {
       vm.execute();
 
       assertThat(
-            vm.result().state().getMeta(TRACE),
+            vm.result().getMeta(TRACE),
             has(methodCallOf(ClassWithVirtualMethod.class, INIT, NOARGS_VOID_DESC),
                 methodReturnOf(ClassWithVirtualMethod.class, INIT, NOARGS_VOID_DESC),
                 methodCallOf(ClassWithVirtualMethod.class, "myVirtualMethod", "()V"),

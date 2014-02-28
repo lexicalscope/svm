@@ -41,7 +41,7 @@ public class TestMethodParametersInstrumentation {
       vm.execute();
 
       assertThat(
-            vm.result().state().getMeta(TRACE),
+            vm.result().getMeta(TRACE),
             has(methodCallOf(ClassInsidePartition.class, INIT, NOARGS_VOID_DESC),
                 methodReturnOf(ClassInsidePartition.class, INIT, NOARGS_VOID_DESC),
                 methodCallOf(ClassInsidePartition.class, "myMethod", "(I)I", any(Object.class), equalTo((Object) 5)),

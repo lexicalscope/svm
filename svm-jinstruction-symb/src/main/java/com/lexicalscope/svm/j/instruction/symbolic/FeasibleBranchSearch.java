@@ -25,7 +25,7 @@ public class FeasibleBranchSearch implements StateSearch<State> {
       final State[] result = Arrays.copyOf(states, states.length);
       int resultCount = 0;
       for (final State state : states) {
-         if(feasibilityChecker.satisfiable(state.state().getMeta(PC))) {
+         if(feasibilityChecker.satisfiable(state.getMeta(PC))) {
             result[resultCount] = state;
             resultCount++;
          }

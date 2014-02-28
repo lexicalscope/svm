@@ -3,7 +3,6 @@ package com.lexicalscope.svm.vm.conc.junit;
 import java.util.Collection;
 
 import com.lexicalscope.svm.metastate.MetaKey;
-import com.lexicalscope.svm.vm.FlowNode;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
 import com.lexicalscope.svm.vm.j.State;
@@ -18,7 +17,7 @@ public class VmWrap {
       this.annotation = annotation;
    }
 
-   public final FlowNode<State> execute(final Object ... args) {
+   public final State execute(final Object ... args) {
       if(vm == null) {
          vmRule.builder().loadFrom(annotation.value());
          vm = vmRule.build(args);
@@ -26,7 +25,7 @@ public class VmWrap {
       return vm.execute();
    }
 
-   public FlowNode<State> result() {
+   public State result() {
       return vm.result();
    }
 
@@ -35,6 +34,6 @@ public class VmWrap {
    }
 
    public <T> T getMeta(final MetaKey<T> key) {
-      return result().state().getMeta(key);
+      return result().getMeta(key);
    }
 }

@@ -49,7 +49,7 @@ public class TestMethodCallBackInstrumentation {
 
 
       assertThat(
-            vm.result().state().getMeta(TRACE),
+            vm.result().getMeta(TRACE),
             has(methodCallOf(defaultConstructor(ClassInsidePartiton.class)),
                 methodReturnOf(defaultConstructor(ClassInsidePartiton.class)),
                 methodCallOf(ClassInsidePartiton.class, "myMethod", "(L"+ getInternalName(ClassOutSidePartition.class)  +";)I", any(Object.class), any(Object.class)),
