@@ -2,18 +2,31 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.partition.trace.symb.SymbolicTraceMatchers.equivalentTo;
 
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.Map;
-import java.util.Map.Entry;
+import java.util.List;
 
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.partition.trace.Trace;
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
-   private final Map<Trace, N> children = new LinkedHashMap<>();
+public final class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
+   private static final class Child<N> {
+      private final Trace goal;
+      private final N node;
+
+      public Child(final Trace goal, final N node) {
+         this.goal = goal;
+         this.node = node;
+      }
+
+      public Trace goal() { return goal; }
+      public N node() { return node; }
+   }
+
+   private final List<Child<N>> children = new ArrayList<>();
    private final FeasibilityChecker checker;
 
    public TraceGoalMap(final FeasibilityChecker checker) {
@@ -21,15 +34,15 @@ public class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
    }
 
    @Override public void put(final Trace goal, final N node) {
-      children.put(goal, node);
+      children.add(new Child<N>(goal, node));
    }
 
    @Override public N get(final Trace goal) {
       // TODO[tim]: we already know the trace prefixes match - try to take advantage of that
       final Matcher<Trace> equivalentTo = equivalentTo(checker, goal);
-      for (final Entry<Trace, N> child : children.entrySet()) {
-         if(equivalentTo.matches(child.getKey())) {
-            return child.getValue();
+      for (final Child<N> child : children) {
+         if(equivalentTo.matches(child.goal())) {
+            return child.node();
          }
       }
       return null;
@@ -57,7 +70,24 @@ public class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
    }
 
    @Override public Iterator<N> iterator() {
-      return children.values().iterator();
+      final Iterator<Child<N>> iterator = children.iterator();
+      return new Iterator<N>() {
+         @Override public boolean hasNext() {
+            return iterator.hasNext();
+         }
+
+         @Override public N next() {
+            return iterator.next().node();
+         }
+
+         @Override public void remove() {
+            iterator.remove();
+         }
+      };
+   }
+
+   @Override public N getRandom(final Randomiser randomiser) {
+      return children.get(randomiser.random(children.size())).node;
    }
 
    @Override public String toString() {

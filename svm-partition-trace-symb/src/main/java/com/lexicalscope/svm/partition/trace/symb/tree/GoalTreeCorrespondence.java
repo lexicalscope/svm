@@ -3,6 +3,7 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.search.Randomiser;
 
 public interface GoalTreeCorrespondence<T, S>  {
    boolean hasChildren();
@@ -14,11 +15,13 @@ public interface GoalTreeCorrespondence<T, S>  {
     */
    GoalTreePair<T, S> correspondence(T rootGoal);
 
-   void reachedP(GoalTreePair<T, S> parent, T goal, S state, BoolSymbol childPc);
+   GoalTreePair<T, S> reachedP(GoalTreePair<T, S> parent, T goal, S state, BoolSymbol childPc);
 
-   void reachedQ(GoalTreePair<T, S> parent, T goal, S state, BoolSymbol childPc);
+   GoalTreePair<T, S> reachedQ(GoalTreePair<T, S> parent, T goal, S state, BoolSymbol childPc);
 
    boolean hasChild(Matcher<? super GoalTreePair<T, S>> childMatcher);
 
    int childCount();
+
+   GoalTreePair<T, S> randomOpenCorrespondence(Randomiser randomiser);
 }

@@ -5,6 +5,7 @@ import java.util.List;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 
@@ -40,16 +41,16 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    }
 
    @Override
-   public void reachedP(final GoalTreePair<T, S> parent, final T goal, final S state, final BoolSymbol childPc) {
-      reached(goal, state, childPc, new PqChildFactory(), parent.pside, parent.qside);
+   public GoalTreePair<T, S> reachedP(final GoalTreePair<T, S> parent, final T goal, final S state, final BoolSymbol childPc) {
+      return reached(goal, state, childPc, new PqChildFactory(), parent.pside, parent.qside);
    }
 
    @Override
-   public void reachedQ(final GoalTreePair<T, S> parent, final T goal, final S state, final BoolSymbol childPc) {
-      reached(goal, state, childPc, new QpChildFactory(), parent.qside, parent.pside);
+   public GoalTreePair<T, S> reachedQ(final GoalTreePair<T, S> parent, final T goal, final S state, final BoolSymbol childPc) {
+      return reached(goal, state, childPc, new QpChildFactory(), parent.qside, parent.pside);
    }
 
-   private void reached(
+   private GoalTreePair<T, S> reached(
          final T goal,
          final S state,
          final BoolSymbol childPc,
@@ -71,9 +72,11 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       }
 
       if(!reachedBefore && otherSide.hasReached(goal)){
-          children.put(goal,
-                childFactory.create(thisSideChild, otherSide.childForGoal(goal)));
+         final GoalTreePair<T, S> result = childFactory.create(thisSideChild, otherSide.childForGoal(goal));
+         children.put(goal, result);
+         return result;
       }
+      return null;
    }
 
    private interface ChildFactory {
@@ -123,5 +126,9 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
 
    @Override public GoalTreePair<T, S> correspondence(final T goal) {
       return children.get(goal);
+   }
+
+   @Override public GoalTreePair<T, S> randomOpenCorrespondence(final Randomiser randomiser) {
+      return children.getRandom(randomiser);
    }
 }

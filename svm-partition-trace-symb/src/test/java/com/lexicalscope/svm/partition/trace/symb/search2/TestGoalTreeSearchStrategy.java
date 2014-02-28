@@ -1,8 +1,5 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
-import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.equalTo;
-
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -12,22 +9,25 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.search2.GoalTreeGuidedSearchStrategy;
 
 public class TestGoalTreeSearchStrategy {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock private GoalTreeCorrespondence<Object, Object> correspondence;
+   @Mock private GoalTreeCorrespondence<Object, FakeFlowNode> correspondence;
+   @Mock private Randomiser randomiser;
 
-   GoalTreeGuidedSearchStrategy<Object, Object> searchStrategy;
+   GoalTreeGuidedSearchStrategy<Object, FakeFlowNode> searchStrategy;
 
    @Before public void createStrategy() {
-      searchStrategy = new GoalTreeGuidedSearchStrategy<>(correspondence);
+      searchStrategy = null; //new GoalTreeGuidedSearchStrategy<Object, FakeFlowNode>(correspondence);
    }
 
    @Test @Ignore public void searchingIfOpenNodes() throws Exception {
+      final FakeFlowNode state = new FakeFlowNode();
       context.checking(new Expectations(){{
-//         oneOf(correspondence).
+         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(state));
       }});
-      assertThat(searchStrategy.pendingState().state(), equalTo(new Object()));
+      //assertThat(searchStrategy.pendingState(), equalTo(state));
    }
 }

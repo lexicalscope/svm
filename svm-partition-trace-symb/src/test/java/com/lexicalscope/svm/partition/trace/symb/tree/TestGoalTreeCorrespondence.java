@@ -3,10 +3,13 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondenceImpl.root;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.*;
+import static com.lexicalscope.svm.search.ConstantRandomiser.constant;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.CombinableMatcher.both;
 import static org.junit.rules.ExpectedException.none;
 
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
@@ -18,6 +21,7 @@ import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTreeCorrespondence {
+   @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
    @Rule public final SolverRule solver = new SolverRule();
    @Rule public final ExpectedException exception = none();
 
@@ -28,7 +32,7 @@ public class TestGoalTreeCorrespondence {
 
    final GoalTreeCorrespondence<Object, Object> correspondence =
          root(rootGoal, pstate0, qstate0, solver.checker(), new ObjectGoalMapFactory());
-   GoalTreePair<Object, Object> rootCorrespondece = correspondence.correspondence(rootGoal);
+   GoalTreePair<Object, Object> rootCorrespondence = correspondence.correspondence(rootGoal);
 
    private final Object goal1 = new Goal("goal1");
    private final Object goal2 = new Goal("goal2");
@@ -57,20 +61,20 @@ public class TestGoalTreeCorrespondence {
    }
 
    @Test public void reachingAGoalInPRemainsAnOpenLeaf() throws Exception {
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndFifteen);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
       assertThat(correspondence, isOpen());
       assertThat(correspondence, hasCorrespondences(1));
    }
 
    @Test public void reachingAGoalInQRemainsAnOpenLeaf() throws Exception {
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndFifteen);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
       assertThat(correspondence, isOpen());
       assertThat(correspondence, hasCorrespondences(1));
    }
 
    @Test public void reachingCorrespondingGoalsNoLongerALeaf() throws Exception {
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndFifteen);
-      correspondence.reachedQ(rootCorrespondece, goal1, stateq1, betweenSevenAndEighteen);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
+      correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenSevenAndEighteen);
 
       assertThat(correspondence, isOpen());
       assertThat(correspondence, hasCorrespondences(2));
@@ -81,10 +85,10 @@ public class TestGoalTreeCorrespondence {
    }
 
    @Test public void reachingFurtherCorrespondingGoalsDoesNotCreateMoreChildren() throws Exception {
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndFifteen);
-      correspondence.reachedQ(rootCorrespondece, goal1, stateq1, betweenSevenAndEighteen);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
+      correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenSevenAndEighteen);
 
-      correspondence.reachedQ(rootCorrespondece, goal1, stateq2, betweenSixteenAndThirty);
+      correspondence.reachedQ(rootCorrespondence, goal1, stateq2, betweenSixteenAndThirty);
 
       assertThat(correspondence, hasCorrespondences(2));
       assertThat(correspondence,
@@ -95,32 +99,45 @@ public class TestGoalTreeCorrespondence {
    }
 
    @Test public void reachingNonCorrespondingGoalsCreatesMoreChildren() throws Exception {
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndFifteen);
-      correspondence.reachedQ(rootCorrespondece, goal1, stateq1, betweenThreeAndFifteen);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
+      correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
 
-      correspondence.reachedQ(rootCorrespondece, goal2, stateq2, betweenSixteenAndThirty);
-      correspondence.reachedP(rootCorrespondece, goal2, statep2, betweenSixteenAndThirty);
+      correspondence.reachedQ(rootCorrespondence, goal2, stateq2, betweenSixteenAndThirty);
+      correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
 
       assertThat(correspondence, hasCorrespondences(3));
       assertThat(correspondence,
             hasCorrespondence(covers(betweenThreeAndFifteen)));
       assertThat(correspondence,
             hasCorrespondence(covers(betweenSixteenAndThirty)));
+
+
    }
 
    @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnErrorInQ() throws Exception {
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndFifteen);
-      correspondence.reachedQ(rootCorrespondece, goal1, stateq1, betweenThreeAndSix);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
+      correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndSix);
 
       exception.expectMessage("unbounded");
-      correspondence.reachedQ(rootCorrespondece, goal2, stateq2, betweenSevenAndEighteen);
+      correspondence.reachedQ(rootCorrespondence, goal2, stateq2, betweenSevenAndEighteen);
    }
 
    @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnErrorInP() throws Exception {
-      correspondence.reachedQ(rootCorrespondece, goal1, stateq1, betweenThreeAndFifteen);
-      correspondence.reachedP(rootCorrespondece, goal1, statep1, betweenThreeAndSix);
+      correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndSix);
 
       exception.expectMessage("unbounded");
-      correspondence.reachedP(rootCorrespondece, goal2, statep2, betweenSevenAndEighteen);
+      correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSevenAndEighteen);
+   }
+
+   @Test public void canPickRandomCorrespondence() throws Exception {
+      correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
+      final GoalTreePair<Object, Object> firstChild = correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
+
+      correspondence.reachedQ(rootCorrespondence, goal2, stateq2, betweenSixteenAndThirty);
+      final GoalTreePair<Object, Object> secondChild = correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
+
+      assertThat(correspondence.randomOpenCorrespondence(constant(1)), equalTo(firstChild));
+      assertThat(correspondence.randomOpenCorrespondence(constant(2)), equalTo(secondChild));
    }
 }
