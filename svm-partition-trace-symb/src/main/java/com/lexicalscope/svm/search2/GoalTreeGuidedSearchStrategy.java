@@ -14,13 +14,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public S pendingState() {
-      // TODO Auto-generated method stub
       return null;
-   }
-
-   @Override public void initial(final S state) {
-      // TODO Auto-generated method stub
-
    }
 
    @Override public void reachedLeaf() {
@@ -48,4 +42,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
       return null;
    }
 
+   @Override public void consider(final S state) {
+
+   }
 }

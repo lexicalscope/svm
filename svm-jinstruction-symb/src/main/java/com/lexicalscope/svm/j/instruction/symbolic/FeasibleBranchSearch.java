@@ -39,11 +39,6 @@ public class FeasibleBranchSearch implements StateSearch<JState> {
    }
 
    @Override
-   public void initial(final JState state) {
-      search.initial(state);
-   }
-
-   @Override
    public void reachedLeaf() {
       search.reachedLeaf();
    }
@@ -60,5 +55,9 @@ public class FeasibleBranchSearch implements StateSearch<JState> {
 
    @Override public void goal() {
       // nothing
+   }
+
+   @Override public void consider(final JState state) {
+      search.consider(state);
    }
 }

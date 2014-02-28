@@ -26,17 +26,16 @@ public class DepthFirstStateSearch<S> implements StateSearch<S> {
    }
 
    @Override
-   public void initial(final S state) {
-      pending.push(state);
-   }
-
-   @Override
    public void fork(final S[] states) {
       pending.pop();
-
       for (final S state : states) {
          pending.push(state);
       }
+   }
+
+   @Override
+   public void consider(final S state) {
+      pending.push(state);
    }
 
    @Override

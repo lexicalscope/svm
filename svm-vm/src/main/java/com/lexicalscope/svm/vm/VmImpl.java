@@ -24,19 +24,6 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 		return search.firstResult();
 	}
 
-   @Override public void initial(final S state) {
-      search.initial(state);
-   }
-
-	@Override
-	public void fork(final S[] states) {
-		search.fork(states);
-	}
-
-   @Override public void goal() {
-      search.goal();
-   }
-
 	@Override
 	public S result() {
 		return search.firstResult();
@@ -46,8 +33,4 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 	public Collection<S> results() {
 		return search.results();
 	}
-
-   @Override public S pending() {
-      return search.pendingState();
-   }
 }

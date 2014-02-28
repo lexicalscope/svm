@@ -12,7 +12,7 @@ import com.lexicalscope.svm.metastate.MetaState;
 import com.lexicalscope.svm.stack.Stack;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.stack.trace.SStackTrace;
-import com.lexicalscope.svm.vm.Vm;
+import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class JStateImpl implements JState {
@@ -20,10 +20,10 @@ public class JStateImpl implements JState {
    private final Stack stack;
    private final Heap heap;
    private final MetaState meta;
-   private final Vm<JState> vm;
+   private final StateSearch<JState> vm;
 
    public JStateImpl(
-         final Vm<JState> vm,
+         final StateSearch<JState> vm,
          final Statics statics,
          final Stack stack,
          final Heap heap,

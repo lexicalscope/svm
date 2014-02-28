@@ -1,5 +1,8 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.equalTo;
+
 import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
@@ -20,7 +23,7 @@ public class TestGoalTreeSearchStrategy {
    GoalTreeGuidedSearchStrategy<Object, FakeVmState> searchStrategy;
 
    @Before public void createStrategy() {
-      searchStrategy = null; //new GoalTreeGuidedSearchStrategy<Object, FakeFlowNode>(correspondence);
+      searchStrategy = new GoalTreeGuidedSearchStrategy<Object, FakeVmState>(correspondence);
    }
 
    @Test @Ignore public void searchingIfOpenNodes() throws Exception {
@@ -28,6 +31,6 @@ public class TestGoalTreeSearchStrategy {
       context.checking(new Expectations(){{
          oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(state));
       }});
-      //assertThat(searchStrategy.pendingState(), equalTo(state));
+      assertThat(searchStrategy.pendingState(), equalTo(state));
    }
 }

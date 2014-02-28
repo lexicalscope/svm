@@ -12,10 +12,7 @@ import org.junit.Test;
 import com.lexicalscope.svm.heap.Heap;
 import com.lexicalscope.svm.metastate.MetaState;
 import com.lexicalscope.svm.stack.Stack;
-import com.lexicalscope.svm.vm.Vm;
-import com.lexicalscope.svm.vm.j.JState;
-import com.lexicalscope.svm.vm.j.JStateImpl;
-import com.lexicalscope.svm.vm.j.Statics;
+import com.lexicalscope.svm.vm.StateSearch;
 
 public class TestStateSnapshot {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
@@ -23,7 +20,7 @@ public class TestStateSnapshot {
    @Test
    public void snapshotOfStateCopiesEverythingStateful() {
       @SuppressWarnings("unchecked")
-      final Vm<JState> vm = context.mock(Vm.class, "Vm");
+      final StateSearch<JState> stateSearch = context.mock(StateSearch.class, "StateSearch");
 
       final Statics statics = context.mock(Statics.class, "Statics");
       final Statics staticsCopy = context.mock(Statics.class, "Statics copy");
@@ -44,6 +41,6 @@ public class TestStateSnapshot {
          oneOf(meta).snapshot(); will(returnValue(metaCopy));
       }});
 
-      assertThat(new JStateImpl(vm, statics, stack, heap, meta).snapshot(), equalTo(new JStateImpl(vm, staticsCopy, stackCopy, heapCopy, metaCopy)));
+      assertThat(new JStateImpl(stateSearch, statics, stack, heap, meta).snapshot(), equalTo(new JStateImpl(stateSearch, staticsCopy, stackCopy, heapCopy, metaCopy)));
    }
 }
