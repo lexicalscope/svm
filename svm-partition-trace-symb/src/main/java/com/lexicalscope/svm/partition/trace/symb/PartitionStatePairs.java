@@ -6,6 +6,7 @@ import java.util.List;
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.ListMultimap;
 
+@Deprecated
 public class PartitionStatePairs<S> {
    private final ListMultimap<S, S> statePairs = LinkedListMultimap.create();
    private final ListMultimap<S, S> pleadsTo = LinkedListMultimap.create();

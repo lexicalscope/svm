@@ -35,11 +35,6 @@ public class FeasibleBranchSearch implements StateSearch<State> {
    }
 
    @Override
-   public boolean searching() {
-      return search.searching();
-   }
-
-   @Override
    public FlowNode<State> pendingState() {
       return search.pendingState();
    }

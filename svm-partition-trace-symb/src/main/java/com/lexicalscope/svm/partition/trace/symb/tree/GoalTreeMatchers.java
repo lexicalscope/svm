@@ -1,7 +1,5 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
-import static org.hamcrest.core.CombinableMatcher.both;
-
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -76,7 +74,7 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasChildCorrespondence(final Matcher<? super GoalTreeCorrespondence<?, ?>> childMatcher) {
+   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasCorrespondence(final Matcher<? super GoalTreePair<?, ?>> childMatcher) {
       return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("correspondence with child matching ").appendDescriptionOf(childMatcher);
@@ -89,7 +87,7 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasChildCorrespondences(final int count) {
+   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasCorrespondences(final int count) {
       return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("correspondence with child count ").appendValue(count);
@@ -104,9 +102,9 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> isOpenLeaf() {
-      return both(isOpen()).and(isLeaf());
-   }
+//   public static Matcher<? super GoalTreeCorrespondenceImpl<?, ?>> isOpenLeaf() {
+//      return both(isOpen()).and(isLeaf());
+//   }
 
    public static Matcher<? super GoalTreeCorrespondence<?, ?>> isOpen() {
       return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>(){
@@ -123,20 +121,20 @@ public class GoalTreeMatchers {
          }};
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> isLeaf() {
-      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>(){
-         @Override public void describeTo(final Description description) {
-            description.appendText("correspondence with no children");
-         }
-
-         @Override protected boolean matchesSafely(final GoalTreeCorrespondence<?, ?> item, final Description mismatchDescription) {
-            final boolean result = !item.hasChildren();
-            if(!result) {
-               mismatchDescription.appendValue(item);
-            }
-            return result;
-         }};
-   }
+//   public static Matcher<? super GoalTreeCorrespondenceImpl<?, ?>> isLeaf() {
+//      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondenceImpl<?, ?>>(){
+//         @Override public void describeTo(final Description description) {
+//            description.appendText("correspondence with no children");
+//         }
+//
+//         @Override protected boolean matchesSafely(final GoalTreeCorrespondenceImpl<?, ?> item, final Description mismatchDescription) {
+//            final boolean result = !item.hasChildren();
+//            if(!result) {
+//               mismatchDescription.appendValue(item);
+//            }
+//            return result;
+//         }};
+//   }
 
    public static Matcher<? super GoalMap<?, ?>> nodeCount(final int count) {
       return new TypeSafeDiagnosingMatcher<GoalMap<?, ?>>(){

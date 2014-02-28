@@ -27,11 +27,6 @@ public class DepthFirstStateSearch<S> implements StateSearch<S> {
    }
 
    @Override
-   public boolean searching() {
-      return !pending.isEmpty();
-   }
-
-   @Override
    public void initial(final FlowNode<S> state) {
       pending.push(state);
    }

@@ -11,9 +11,10 @@ public final class VmImpl<S> implements Vm<S> {
 
    @Override
 	public FlowNode<S> execute() {
-		while (search.searching()) {
+      FlowNode<S> pending;
+      while ((pending = search.pendingState()) != null) {
 			try {
-			   search.pendingState().eval();
+			   pending.eval();
 			} catch (final TerminationException termination) {
 			   search.reachedLeaf();
 			} catch (final RuntimeException e) {
