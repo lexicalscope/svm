@@ -7,18 +7,9 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
-import com.lexicalscope.MatchersAdditional;
-import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
-import com.lexicalscope.svm.vm.FlowNodeToState;
-
 public class StateMatchers {
    public static Matcher<State> operandEqual(final Object expected) {
       return operandMatching(equalTo(expected));
-   }
-
-   @Deprecated
-   public static TransformMatcherBuilder<State, State> flowNodeToState() {
-      return MatchersAdditional.after(new FlowNodeToState<State>());
    }
 
    private static Matcher<State> operandMatching(final Matcher<Object> expectedMatcher) {
@@ -98,14 +89,14 @@ public class StateMatchers {
    }
 
    public static Matcher<? super State> normalTerminiationWithResult(final Object result) {
-      return both(normalTerminiation()).and(flowNodeToState().matches(operandEqual(result)));
+      return both(normalTerminiation()).and(operandEqual(result));
    }
 
    public static Matcher<? super State> normalTerminiationWithResultMatching(final Matcher<Object> matcher) {
-      return both(normalTerminiation()).and(flowNodeToState().matches(operandMatching(matcher)));
+      return both(normalTerminiation()).and(operandMatching(matcher));
    }
 
    public static Matcher<? super State> normalTerminiation() {
-      return flowNodeToState().matches(both(terminalInstruction()).and(stackSize(1)));
+      return both(terminalInstruction()).and(stackSize(1));
    }
 }

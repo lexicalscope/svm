@@ -4,13 +4,12 @@ import static com.lexicalscope.MatchersAdditional.after;
 
 import org.hamcrest.Matcher;
 
-import com.lexicalscope.MatchersAdditional.CollectionMatcherBuilder;
+import com.lexicalscope.MatchersAdditional.TransformMatcherBuilder;
 import com.lexicalscope.MemoizeTransform;
 import com.lexicalscope.Transform;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolMatchers;
 import com.lexicalscope.svm.vm.j.State;
-import com.lexicalscope.svm.vm.j.StateMatchers;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class SymbStateMatchers {
@@ -36,7 +35,7 @@ public class SymbStateMatchers {
       return new MemoizeTransform<>(new ModelForStateTransform(feasibilityChecker));
    }
 
-   public static CollectionMatcherBuilder<Symbol, State> flowNodeToModel(final FeasibilityChecker feasibilityChecker) {
-      return StateMatchers.flowNodeToState().then(stateToModel(feasibilityChecker));
+   public static TransformMatcherBuilder<Symbol, State> toModel(final FeasibilityChecker feasibilityChecker) {
+      return after(stateToModel(feasibilityChecker));
    }
 }
