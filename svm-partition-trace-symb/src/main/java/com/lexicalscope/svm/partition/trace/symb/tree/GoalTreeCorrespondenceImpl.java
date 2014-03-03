@@ -25,7 +25,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       this.pside = pside;
       this.qside = qside;
       children = goalMapFactory.newGoalMap();
-      children.put(rootGoal, new GoalTreePair<T, S>(pside, qside));
+      children.put(rootGoal, new GoalTreePairImpl<T, S>(pside, qside));
    }
 
    @Override
@@ -37,7 +37,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    public boolean isOpen() {
       // TODO[tim]: very expensive method
       for (final GoalTreePair<T, S> child : children) {
-         if(child.pside.isOpen() || child.qside.isOpen()) {
+         if(child.isOpen()) {
             return true;
          }
       }
@@ -46,12 +46,12 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
 
    @Override
    public GoalTreePair<T, S> reachedP(final GoalTreePair<T, S> parent, final T goal, final S state, final BoolSymbol childPc) {
-      return reached(goal, state, childPc, new PqChildFactory(), parent.pside, parent.qside);
+      return reached(goal, state, childPc, new PqChildFactory(), parent.pside(), parent.qside());
    }
 
    @Override
    public GoalTreePair<T, S> reachedQ(final GoalTreePair<T, S> parent, final T goal, final S state, final BoolSymbol childPc) {
-      return reached(goal, state, childPc, new QpChildFactory(), parent.qside, parent.pside);
+      return reached(goal, state, childPc, new QpChildFactory(), parent.qside(), parent.pside());
    }
 
    private GoalTreePair<T, S> reached(
@@ -89,13 +89,13 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
 
    private static class PqChildFactory implements ChildFactory {
       @Override public <T, S> GoalTreePair<T, S> create(final GoalTree<T, S> thisSide, final GoalTree<T, S> otherSide) {
-         return new GoalTreePair<T, S>(thisSide, otherSide);
+         return new GoalTreePairImpl<T, S>(thisSide, otherSide);
       }
    }
 
    private static class QpChildFactory implements ChildFactory {
       @Override public <T, S> GoalTreePair<T, S> create(final GoalTree<T, S> thisSide, final GoalTree<T, S> otherSide) {
-         return new GoalTreePair<T,S>(otherSide, thisSide);
+         return new GoalTreePairImpl<T,S>(otherSide, thisSide);
       }
    }
 

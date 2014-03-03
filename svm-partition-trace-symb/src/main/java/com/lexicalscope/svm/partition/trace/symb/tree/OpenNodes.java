@@ -40,7 +40,7 @@ public class OpenNodes<S> {
 
    public S random(final Randomiser randomiser) {
       // TODO[tim]: this is slow in a linked list
-      return nodes.get(randomiser.random(nodes.size()));
+      return nodes.remove(randomiser.random(nodes.size()));
    }
 
    @Override public String toString() {

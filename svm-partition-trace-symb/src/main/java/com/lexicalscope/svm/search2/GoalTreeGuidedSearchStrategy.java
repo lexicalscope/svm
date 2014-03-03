@@ -47,10 +47,11 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
 
    @Override public void fork(final S[] states) {
       if(searchingQ) {
-
+         correspodenceUnderConsideration.expandQ(states);
+      } else {
+         correspodenceUnderConsideration.expandP(states);
       }
-      // TODO Auto-generated method stub
-
+      switchSides();
    }
 
    @Override public void goal() {
