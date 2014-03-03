@@ -6,6 +6,7 @@ import java.util.LinkedList;
 
 import org.hamcrest.Matcher;
 
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class OpenNodes<S> {
@@ -35,6 +36,11 @@ public class OpenNodes<S> {
 
    public boolean isEmpty() {
       return nodes.isEmpty();
+   }
+
+   public S random(final Randomiser randomiser) {
+      // TODO[tim]: this is slow in a linked list
+      return nodes.get(randomiser.random(nodes.size()));
    }
 
    @Override public String toString() {

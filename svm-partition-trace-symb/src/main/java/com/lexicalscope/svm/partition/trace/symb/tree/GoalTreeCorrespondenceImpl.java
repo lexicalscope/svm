@@ -14,12 +14,16 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    // map should map to a pair, each trace should reach one GoalTree in each side
    // this also makes it easier to find a place to search from...
    private final GoalMap<T, GoalTreePair<T, S>> children;
+   private final GoalTree<T, S> pside;
+   private final GoalTree<T, S> qside;
 
    private GoalTreeCorrespondenceImpl(
          final T rootGoal,
          final GoalTree<T, S> pside,
          final GoalTree<T, S> qside,
          final GoalMapFactory<T> goalMapFactory) {
+      this.pside = pside;
+      this.qside = qside;
       children = goalMapFactory.newGoalMap();
       children.put(rootGoal, new GoalTreePair<T, S>(pside, qside));
    }
@@ -101,17 +105,34 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
 
    public static <T, S> GoalTreeCorrespondenceImpl<T, S> root(
          final T rootGoal,
-         final S pstate0,
-         final S qstate0,
          final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory<T> goalMapFactory) {
       final GoalTree<T, S> pside = new GoalTree<>(goalMapFactory, feasibilityChecker);
       final GoalTree<T, S> qside = new GoalTree<>(goalMapFactory, feasibilityChecker);
-
-      pside.increaseOpenNodes(pstate0);
-      qside.increaseOpenNodes(qstate0);
-
       return new GoalTreeCorrespondenceImpl<>(rootGoal, pside, qside, goalMapFactory);
+   }
+
+   public static <T, S> GoalTreeCorrespondenceImpl<T, S> root(
+         final T rootGoal,
+         final S pstate0,
+         final S qstate0,
+         final FeasibilityChecker feasibilityChecker,
+         final GoalMapFactory<T> goalMapFactory) {
+      final GoalTreeCorrespondenceImpl<T, S> result =
+            root(rootGoal, feasibilityChecker, goalMapFactory);
+
+      result.pInitial(pstate0);
+      result.qInitial(qstate0);
+
+      return result;
+   }
+
+   private void pInitial(final S pstate0) {
+      pside.increaseOpenNodes(pstate0);
+   }
+
+   private void qInitial(final S qstate0) {
+      qside.increaseOpenNodes(qstate0);
    }
 
    @Override

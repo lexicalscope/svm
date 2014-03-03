@@ -3,18 +3,32 @@ package com.lexicalscope.svm.search2;
 import java.util.Collection;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
+import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
-   private boolean qNext;
+   private final Randomiser randomiser;
+   private boolean pNext = true;
+   private GoalTreePair<T, S> correspodenceUnderConsideration;
 
-   public GoalTreeGuidedSearchStrategy(final GoalTreeCorrespondence<T, S> correspondence) {
+   public GoalTreeGuidedSearchStrategy(
+         final GoalTreeCorrespondence<T, S> correspondence,
+         final Randomiser randomiser) {
       this.correspondence = correspondence;
+      this.randomiser = randomiser;
    }
 
    @Override public S pendingState() {
-      return null;
+      if(pNext) {
+         pNext = false;
+         correspodenceUnderConsideration = correspondence.randomOpenCorrespondence(randomiser);
+         return correspodenceUnderConsideration.openPNode(randomiser);
+      } else {
+         pNext = true;
+         return correspodenceUnderConsideration.openQNode(randomiser);
+      }
    }
 
    @Override public void reachedLeaf() {

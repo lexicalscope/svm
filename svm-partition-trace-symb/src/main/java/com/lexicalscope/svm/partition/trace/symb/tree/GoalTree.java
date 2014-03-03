@@ -12,6 +12,7 @@ import org.hamcrest.Matcher;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalMap.SubtreeFactory;
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class GoalTree<T, S> implements InputSubset {
@@ -22,7 +23,7 @@ public final class GoalTree<T, S> implements InputSubset {
    private BoolSymbol coveredPc;
    private BoolSymbol childrenCoverPc;
 
-   public GoalTree(final GoalMapFactory<T> goalMapFactory) {
+    public GoalTree(final GoalMapFactory<T> goalMapFactory) {
       this(goalMapFactory, new FeasibilityChecker());
    }
 
@@ -65,16 +66,13 @@ public final class GoalTree<T, S> implements InputSubset {
       childrenCoverPc = childrenCoverPc.or(childPc);
 
       final GoalTree<T, S> child = children.get(goal, childFactory);
-//      if(children.containsKey(goal)) {
-//         child = children.get(goal);
-//      } else {
-//         child = new GoalTree<T, S>(feasibilityChecker);
-//         children.put(goal, child);
-//      }
       child.increaseCovers(childPc);
       child.increaseOpenNodes(state);
-
       return child;
+   }
+
+   public S openNode(final Randomiser randomiser) {
+      return openNodes.random(randomiser);
    }
 
    public boolean hasReached(final T goal) {
@@ -144,5 +142,11 @@ public final class GoalTree<T, S> implements InputSubset {
                childrenCoverPc,
                openNodes,
                on(" ").join(children));
+   }
+
+   public static <S> GoalTree<Object, S> goalTree(final S initial) {
+      final GoalTree<Object, S> result = new GoalTree<Object, S>(new ObjectGoalMapFactory());
+      result.increaseOpenNodes(initial);
+      return result;
    }
 }
