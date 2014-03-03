@@ -16,19 +16,15 @@ import com.lexicalscope.svm.examples.ExamplesTwoMarker;
 import com.lexicalscope.svm.examples.icompare.working.InsidePartition;
 import com.lexicalscope.svm.examples.icompare.working.OutsidePartition;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.partition.trace.PartitionBuilder;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
 public class TestIcompareExampleExplorationOrdersAreDifferent {
-   private final PartitionBuilder partition = partition().ofClass(InsidePartition.class);
-
    @Rule public final SymbVmRule vm = new SymbVmRule(ExamplesOneMarker.class, ExamplesTwoMarker.class);
    {
-      instrumentPartition(partition, vm);
+      instrumentPartition(partition().ofClass(InsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
    }
-
 
    private @Fresh ISymbol symbol1;
    private @Fresh ISymbol symbol2;
