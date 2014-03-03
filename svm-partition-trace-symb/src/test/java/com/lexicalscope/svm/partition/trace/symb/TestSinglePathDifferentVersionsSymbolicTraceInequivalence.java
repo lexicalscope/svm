@@ -4,6 +4,7 @@ import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 import static com.lexicalscope.svm.partition.trace.symb.SymbolicTraceMatchers.equivalentTo;
+import static com.lexicalscope.svm.vm.conc.junit.ClassStateTag.tag;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
@@ -30,17 +31,15 @@ public class TestSinglePathDifferentVersionsSymbolicTraceInequivalence {
       vmRule.entryPoint(OutsidePartition.class, "callSomeMethods", "(I)I");
    }
 
-   @LoadFrom(ExamplesOneMarker.class) private VmWrap vm1;
-   @LoadFrom(ExamplesTwoMarker.class) private VmWrap vm2;
+   @LoadFrom({ExamplesOneMarker.class, ExamplesTwoMarker.class}) private VmWrap vm;
 
    private @Fresh ISymbol symbol1;
 
    @Test public void traceFromNonEquivalentVersionsIsNotEquivalent() throws Exception {
-      vm1.execute(symbol1);
-      vm2.execute(symbol1);
+      vm.execute(symbol1);
 
       assertThat(
-            vm1.getMeta(TRACE),
-            not(equivalentTo(vmRule, vm2.getMeta(TRACE))));
+            vm.getMeta(tag(ExamplesOneMarker.class), TRACE),
+            not(equivalentTo(vmRule, vm.getMeta(tag(ExamplesTwoMarker.class), TRACE))));
    }
 }
