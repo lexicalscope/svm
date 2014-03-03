@@ -19,7 +19,7 @@ public class VmWrap {
 
    public final JState execute(final Object ... args) {
       if(vm == null) {
-         vmRule.builder().loadFrom(annotation.value());
+         vmRule.initialStateBuilder().loadFrom(annotation.value());
          vm = vmRule.build(args);
       }
       return vm.execute();

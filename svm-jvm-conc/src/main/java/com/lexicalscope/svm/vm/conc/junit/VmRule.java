@@ -21,6 +21,7 @@ import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.FluentReflection;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.svm.vm.Vm;
+import com.lexicalscope.svm.vm.conc.InitialStateBuilder;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
 import com.lexicalscope.svm.vm.j.JState;
@@ -45,6 +46,10 @@ public class VmRule implements MethodRule {
 
    public JvmBuilder builder() {
       return jvmBuilder;
+   }
+
+   public InitialStateBuilder initialStateBuilder() {
+      return builder().initialState();
    }
 
    @Override public final Statement apply(final Statement base, final FrameworkMethod method, final Object target) {

@@ -36,11 +36,9 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.SIMulOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SISubOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SymbFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -164,10 +162,6 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    @Override public NullaryOperator fconst(final float val) {
       return new FConstOperator(val);
-   }
-
-   public BoolSymbol initialMeta() {
-      return new TrueSymbol();
    }
 
    @Override public Vop ifnonnull(final JumpInsnNode jumpInsnNode) {
