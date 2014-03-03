@@ -127,16 +127,15 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return result;
    }
 
-   private void pInitial(final S pstate0) {
+   @Override public void pInitial(final S pstate0) {
       pside.increaseOpenNodes(pstate0);
    }
 
-   private void qInitial(final S qstate0) {
+   @Override public void qInitial(final S qstate0) {
       qside.increaseOpenNodes(qstate0);
    }
 
-   @Override
-   public boolean hasChild(final Matcher<? super GoalTreePair<T, S>> childMatcher) {
+   @Override public boolean hasChild(final Matcher<? super GoalTreePair<T, S>> childMatcher) {
       return children.containsMatching(childMatcher);
    }
 

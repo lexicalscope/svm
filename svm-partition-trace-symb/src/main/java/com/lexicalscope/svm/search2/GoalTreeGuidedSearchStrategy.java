@@ -10,8 +10,11 @@ import com.lexicalscope.svm.vm.StateSearch;
 public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
    private final Randomiser randomiser;
-   private boolean pNext = true;
+   private boolean searchingQ = true;
    private GoalTreePair<T, S> correspodenceUnderConsideration;
+   private boolean pInitialised;
+   private boolean qInitialised;
+   private S pending;
 
    public GoalTreeGuidedSearchStrategy(
          final GoalTreeCorrespondence<T, S> correspondence,
@@ -21,22 +24,31 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public S pendingState() {
-      if(pNext) {
-         pNext = false;
+      if(pending == null) {
+         return switchSides();
+      }
+      return pending;
+   }
+
+   private S switchSides() {
+      if(searchingQ) {
+         searchingQ = false;
          correspodenceUnderConsideration = correspondence.randomOpenCorrespondence(randomiser);
-         return correspodenceUnderConsideration.openPNode(randomiser);
+         return pending = correspodenceUnderConsideration.openPNode(randomiser);
       } else {
-         pNext = true;
-         return correspodenceUnderConsideration.openQNode(randomiser);
+         searchingQ = true;
+         return pending = correspodenceUnderConsideration.openQNode(randomiser);
       }
    }
 
    @Override public void reachedLeaf() {
-      // TODO Auto-generated method stub
-
+      switchSides();
    }
 
    @Override public void fork(final S[] states) {
+      if(searchingQ) {
+
+      }
       // TODO Auto-generated method stub
 
    }
@@ -57,6 +69,14 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public void consider(final S state) {
-
+      if(!pInitialised) {
+         correspondence.pInitial(state);
+         pInitialised = true;
+      } else if(!qInitialised) {
+         correspondence.qInitial(state);
+         qInitialised = true;
+      } else {
+         throw new IllegalStateException("only 2 initial states can be considered, not " + state);
+      }
    }
 }

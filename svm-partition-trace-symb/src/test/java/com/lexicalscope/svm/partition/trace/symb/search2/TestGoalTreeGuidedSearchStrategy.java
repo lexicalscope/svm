@@ -9,8 +9,10 @@ import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
@@ -18,6 +20,7 @@ import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.search2.GoalTreeGuidedSearchStrategy;
 
 public class TestGoalTreeGuidedSearchStrategy {
+   @Rule public final ExpectedException exception = ExpectedException.none();
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock private GoalTreeCorrespondence<Object, FakeVmState> correspondence;
    @Mock private Randomiser randomiser;
@@ -28,9 +31,9 @@ public class TestGoalTreeGuidedSearchStrategy {
       searchStrategy = new GoalTreeGuidedSearchStrategy<Object, FakeVmState>(correspondence, randomiser);
    }
 
-   @Test public void searchingIfOpenNodes() throws Exception {
-      final FakeVmState pstate = new FakeVmState();
-      final FakeVmState qstate = new FakeVmState();
+   @Test public void searchPThenQ() throws Exception {
+      final FakeVmState pstate = new FakeVmState("p");
+      final FakeVmState qstate = new FakeVmState("q");
 
       final GoalTreePair<Object, FakeVmState> pair = pair(goalTree(pstate), goalTree(qstate));
 
@@ -39,6 +42,31 @@ public class TestGoalTreeGuidedSearchStrategy {
          oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
       }});
       assertThat(searchStrategy.pendingState(), equalTo(pstate));
+      searchStrategy.reachedLeaf();
       assertThat(searchStrategy.pendingState(), equalTo(qstate));
+   }
+
+   @Test public void firstInitialStateIsTakenAsPSecondAsQSubsequentRejected() throws Exception {
+      final FakeVmState pstate = new FakeVmState("p");
+      final FakeVmState qstate = new FakeVmState("q");
+      final FakeVmState spuriousstate = new FakeVmState("spurious");
+
+      context.checking(new Expectations(){{
+         oneOf(correspondence).pInitial(pstate);
+         oneOf(correspondence).qInitial(qstate);
+      }});
+
+      searchStrategy.consider(pstate);
+      searchStrategy.consider(qstate);
+
+      exception.expectMessage("only 2 initial states can be considered");
+      searchStrategy.consider(spuriousstate);
+   }
+
+   @Test @Ignore public void forkExtendsOpenNodesOfSideBeingSearched() throws Exception {
+      final FakeVmState pstate1 = new FakeVmState("p1");
+      final FakeVmState pstate2 = new FakeVmState("p2");
+
+      searchStrategy.fork(new FakeVmState[]{pstate1, pstate2});
    }
 }

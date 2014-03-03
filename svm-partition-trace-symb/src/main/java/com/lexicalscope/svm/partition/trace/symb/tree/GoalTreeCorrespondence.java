@@ -24,4 +24,14 @@ public interface GoalTreeCorrespondence<T, S>  {
    int childCount();
 
    GoalTreePair<T, S> randomOpenCorrespondence(Randomiser randomiser);
+
+   /**
+    * @param pstate0 an initial state in p
+    */
+   void pInitial(S pstate0);
+
+   /**
+    * @param qstate0 an initial state in q
+    */
+   void qInitial(S qstate0);
 }
