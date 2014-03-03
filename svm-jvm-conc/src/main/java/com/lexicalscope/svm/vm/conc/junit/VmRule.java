@@ -23,6 +23,7 @@ import com.lexicalscope.fluentreflection.FluentReflection;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.svm.classloading.ClassSource;
 import com.lexicalscope.svm.classloading.ClasspathClassRepository;
+import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.InitialStateBuilder;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
@@ -44,6 +45,11 @@ public class VmRule implements MethodRule {
 
    public VmRule() {
       this(new JvmBuilder());
+   }
+
+   public VmRule(final Class<?>[] loadFromWhereverTheseWereLoaded) {
+      this();
+      loadFrom(loadFromWhereverTheseWereLoaded);
    }
 
    public VmRule(final JvmBuilder jvmBuilder) {
@@ -141,5 +147,14 @@ public class VmRule implements MethodRule {
 
    public final Collection<JState> results() {
       return vm.get(0).results();
+   }
+
+   public <T> T getMeta(final StateTag tag, final MetaKey<T> key) {
+      for (final JState result : results()) {
+         if(result.tag().equals(tag)) {
+            return result.getMeta(key);
+         }
+      }
+      return null;
    }
 }
