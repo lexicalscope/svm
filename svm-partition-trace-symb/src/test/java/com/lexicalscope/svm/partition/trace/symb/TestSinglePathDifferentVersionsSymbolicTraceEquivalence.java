@@ -29,7 +29,7 @@ public class TestSinglePathDifferentVersionsSymbolicTraceEquivalence {
       vmRule.entryPoint(OutsidePartition.class, "callSomeMethods", "(I)I");
    }
 
-   @LoadFrom(ExamplesOneMarker.class) private VmWrap vm1;
+   @LoadFrom({ExamplesOneMarker.class, ExamplesTwoMarker.class}) private VmWrap vm1;
    @LoadFrom(ExamplesTwoMarker.class) private VmWrap vm2;
 
    private @Fresh ISymbol symbol1;
