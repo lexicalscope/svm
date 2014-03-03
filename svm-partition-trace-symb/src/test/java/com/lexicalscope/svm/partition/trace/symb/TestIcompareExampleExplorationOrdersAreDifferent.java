@@ -17,21 +17,18 @@ import com.lexicalscope.svm.examples.icompare.working.InsidePartition;
 import com.lexicalscope.svm.examples.icompare.working.OutsidePartition;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.partition.trace.PartitionBuilder;
-import com.lexicalscope.svm.vm.conc.LoadFrom;
-import com.lexicalscope.svm.vm.conc.junit.VmWrap;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
 public class TestIcompareExampleExplorationOrdersAreDifferent {
    private final PartitionBuilder partition = partition().ofClass(InsidePartition.class);
 
-   @Rule public final SymbVmRule vmRule = new SymbVmRule();
+   @Rule public final SymbVmRule vm = new SymbVmRule(ExamplesOneMarker.class, ExamplesTwoMarker.class);
    {
-      instrumentPartition(partition, vmRule);
-      vmRule.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
+      instrumentPartition(partition, vm);
+      vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
    }
 
-   @LoadFrom({ExamplesOneMarker.class, ExamplesTwoMarker.class}) private VmWrap vm;
 
    private @Fresh ISymbol symbol1;
    private @Fresh ISymbol symbol2;
@@ -45,6 +42,6 @@ public class TestIcompareExampleExplorationOrdersAreDifferent {
       // which might effect branch selection order.
       assertThat(
             vm.getMeta(tag(ExamplesOneMarker.class), TRACE),
-            not(equivalentTo(vmRule, vm.getMeta(tag(ExamplesTwoMarker.class), TRACE))));
+            not(equivalentTo(vm, vm.getMeta(tag(ExamplesTwoMarker.class), TRACE))));
    }
 }

@@ -10,6 +10,11 @@ public class SymbVmRule extends VmRule {
    private final FeasibilityChecker feasibilityChecker;
    private final SolverRule solverRule;
 
+   public SymbVmRule(final Class<?> ... loadFromWhereverTheseWereLoaded) {
+      this();
+      loadFrom(loadFromWhereverTheseWereLoaded);
+   }
+
    public SymbVmRule() {
       this(new FeasibilityChecker());
    }
