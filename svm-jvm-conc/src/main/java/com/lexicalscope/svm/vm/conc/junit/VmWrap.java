@@ -6,6 +6,7 @@ import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.StateTag;
 
 public class VmWrap {
    private final VmRule vmRule;
@@ -35,5 +36,14 @@ public class VmWrap {
 
    public <T> T getMeta(final MetaKey<T> key) {
       return result().getMeta(key);
+   }
+
+   public <T> T getMeta(final StateTag tag, final MetaKey<T> key) {
+      for (final JState result : results()) {
+         if(result.tag().equals(tag)) {
+            return result.getMeta(key);
+         }
+      }
+      return null;
    }
 }

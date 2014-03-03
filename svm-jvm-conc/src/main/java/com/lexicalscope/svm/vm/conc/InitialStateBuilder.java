@@ -42,6 +42,7 @@ import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JStateImpl;
 import com.lexicalscope.svm.vm.j.JavaConstants;
+import com.lexicalscope.svm.vm.j.StateTag;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class InitialStateBuilder {
@@ -53,6 +54,7 @@ public class InitialStateBuilder {
    private final MetaState metaState = new HashMetaState();
 
    public JStateImpl createInitialState(
+         final StateTag stateTag,
          final StateSearch<JState> search,
          final ClassSource classSource,
          final SMethodDescriptor entryPointName,
@@ -73,7 +75,7 @@ public class InitialStateBuilder {
 
       final DequeStack stack = new DequeStack();
       stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
-      return new JStateImpl(search, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState.snapshot());
+      return new JStateImpl(stateTag, search, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState.snapshot());
    }
 
    private void loadArgsInstruction(final StatementBuilder statements, final Object[] args) {

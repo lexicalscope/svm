@@ -22,6 +22,8 @@ public class TestStateSnapshot {
       @SuppressWarnings("unchecked")
       final StateSearch<JState> stateSearch = context.mock(StateSearch.class, "StateSearch");
 
+      final StateTag tag = new StateTag() {};
+
       final Statics statics = context.mock(Statics.class, "Statics");
       final Statics staticsCopy = context.mock(Statics.class, "Statics copy");
 
@@ -41,6 +43,6 @@ public class TestStateSnapshot {
          oneOf(meta).snapshot(); will(returnValue(metaCopy));
       }});
 
-      assertThat(new JStateImpl(stateSearch, statics, stack, heap, meta).snapshot(), equalTo(new JStateImpl(stateSearch, staticsCopy, stackCopy, heapCopy, metaCopy)));
+      assertThat(new JStateImpl(tag, stateSearch, statics, stack, heap, meta).snapshot(), equalTo(new JStateImpl(tag, stateSearch, staticsCopy, stackCopy, heapCopy, metaCopy)));
    }
 }

@@ -21,13 +21,16 @@ public class JStateImpl implements JState {
    private final Heap heap;
    private final MetaState meta;
    private final StateSearch<JState> vm;
+   private final StateTag tag;
 
    public JStateImpl(
+         final StateTag tag,
          final StateSearch<JState> vm,
          final Statics statics,
          final Stack stack,
          final Heap heap,
          final MetaState meta) {
+      this.tag = tag;
       this.vm = vm;
       this.statics = statics;
       this.stack = stack;
@@ -74,7 +77,7 @@ public class JStateImpl implements JState {
    }
 
    @Override public final JStateImpl snapshot() {
-      return new JStateImpl(vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
+      return new JStateImpl(tag, vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
    @Override public final SStackTrace trace() {
@@ -89,7 +92,13 @@ public class JStateImpl implements JState {
    @Override public boolean equals(final Object obj) {
       if(obj != null && obj.getClass().equals(this.getClass())) {
          final JStateImpl that = (JStateImpl) obj;
-         return equal(that.stack(), this.stack()) && equal(that.heap, this.heap) && equal(that.heap, this.heap);
+         return
+               equal(that.tag, this.tag) &&
+               equal(that.meta, this.meta) &&
+               equal(that.vm, this.vm) &&
+               equal(that.statics, this.statics) &&
+               equal(that.heap, this.heap) &&
+               equal(that.heap, this.heap);
       }
       return false;
    }
@@ -281,5 +290,9 @@ public class JStateImpl implements JState {
    @Override
    public void pushFrame(final StackFrame stackFrame) {
       stack.push(stackFrame);
+   }
+
+   @Override public StateTag tag() {
+      return tag;
    }
 }

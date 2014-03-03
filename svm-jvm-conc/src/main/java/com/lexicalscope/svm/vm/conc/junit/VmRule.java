@@ -28,6 +28,7 @@ import com.lexicalscope.svm.vm.conc.InitialStateBuilder;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
 import com.lexicalscope.svm.vm.conc.LoadFrom;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.StateTag;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -39,6 +40,7 @@ public class VmRule implements MethodRule {
 
    private final List<Vm<JState>> vm = new ArrayList<>();
    private ClassSource[] classSources = new ClassSource[]{new ClasspathClassRepository()};
+   private StateTag[] tags = new StateTag[]{new StateTag() {}};
 
    public VmRule() {
       this(new JvmBuilder());
@@ -114,13 +116,15 @@ public class VmRule implements MethodRule {
    }
 
    public final Vm<JState> build(final Object[] args) {
-      return jvmBuilder.build(classSources, entryPoint, args);
+      return jvmBuilder.build(tags, classSources, entryPoint, args);
    }
 
    public void loadFrom(final Class<?>[] loadFromWhereverTheseWereLoaded) {
       classSources = new ClassSource[loadFromWhereverTheseWereLoaded.length];
+      tags = new StateTag[loadFromWhereverTheseWereLoaded.length];
       for (int i = 0; i < classSources.length; i++) {
          classSources[i] = classpathClassRepostory(loadFromWhereverTheseWereLoaded[i]);
+         tags[i] = new ClassStateTag(loadFromWhereverTheseWereLoaded[i]);
       }
    }
 

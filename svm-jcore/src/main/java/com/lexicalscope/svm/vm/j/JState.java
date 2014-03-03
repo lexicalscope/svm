@@ -69,4 +69,5 @@ public interface JState extends Snapshotable<JState>, VmState {
    <T> void replaceMeta(MetaKey<T> key, MetaFactory<T> metaFactory);
 
    SStackTrace trace();
+   StateTag tag();
 }

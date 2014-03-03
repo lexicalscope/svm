@@ -10,9 +10,6 @@ import org.junit.Before;
 import org.junit.Test;
 import org.objectweb.asm.Type;
 
-import com.lexicalscope.svm.classloading.AsmSClassLoader;
-import com.lexicalscope.svm.classloading.SClassLoader;
-import com.lexicalscope.svm.classloading.StaticsImpl;
 import com.lexicalscope.svm.heap.FastHeap;
 import com.lexicalscope.svm.heap.Heap;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
@@ -35,7 +32,7 @@ public class TestFieldInit {
       assertThat(klasses, Matchers.hasSize(2));
       sClass = klasses.get(1);
 
-      newObject = new NewObjectOp(klassName).eval(new JStateImpl(null, statics, new DequeStack(new SnapshotableStackFrame(null, null, null, 0, 1)), heap, null));
+      newObject = new NewObjectOp(klassName).eval(new JStateImpl(null, null, statics, new DequeStack(new SnapshotableStackFrame(null, null, null, 0, 1)), heap, null));
    }
 
    @Test public void intFieldInit() {
