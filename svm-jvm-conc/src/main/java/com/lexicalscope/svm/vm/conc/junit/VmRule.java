@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.vm.conc.junit;
 
 import static com.lexicalscope.fluentreflection.FluentReflection.object;
-import static com.lexicalscope.fluentreflection.ReflectionMatchers.*;
+import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
 import static com.lexicalscope.svm.classloading.ClasspathClassRepository.classpathClassRepostory;
 import static org.objectweb.asm.Type.getMethodDescriptor;
 
@@ -16,7 +16,6 @@ import org.junit.runners.model.FrameworkMethod;
 import org.junit.runners.model.Statement;
 
 import com.lexicalscope.fluentreflection.FluentAnnotated;
-import com.lexicalscope.fluentreflection.FluentField;
 import com.lexicalscope.fluentreflection.FluentMethod;
 import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.FluentReflection;
@@ -27,7 +26,6 @@ import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.InitialStateBuilder;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
-import com.lexicalscope.svm.vm.conc.LoadFrom;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.StateTag;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
@@ -72,17 +70,9 @@ public class VmRule implements MethodRule {
             findEntryPoints(object);
             findEntryPoint(object);
             configureTarget(object);
-            configureVms(object);
 
             base.evaluate();
             cleanup();
-         }
-
-         private void configureVms(final FluentObject<Object> object) {
-            final List<FluentField> fields = object.fields(hasType(VmWrap.class));
-            for (final FluentField field : fields) {
-               field.call(new VmWrap(VmRule.this, field.annotation(LoadFrom.class)));
-            }
          }
 
          private void findEntryPoint(final FluentObject<Object> object) {
