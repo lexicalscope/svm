@@ -1,10 +1,10 @@
 package com.lexicalscope.svm.vm.conc;
 
+import com.lexicalscope.svm.classloading.ClassSource;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.VmImpl;
 import com.lexicalscope.svm.vm.j.JState;
-import com.lexicalscope.svm.vm.j.JStateImpl;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public final class JvmBuilder {
@@ -13,10 +13,11 @@ public final class JvmBuilder {
 
    public static JvmBuilder jvm() { return new JvmBuilder(); }
 
-   public Vm<JState> build(final SMethodDescriptor entryPointName, final Object... args) {
+   public Vm<JState> build(final ClassSource[] classSources, final SMethodDescriptor entryPointName, final Object... args) {
       final StateSearch<JState> search = searchFactory.search();
-      final JStateImpl initialState = initialStateBuilder.createInitialState(search, entryPointName, args);
-      search.consider(initialState);
+      for (final ClassSource classSource : classSources) {
+         search.consider(initialStateBuilder.createInitialState(search, classSource, entryPointName, args));
+      }
       return new VmImpl<JState>(search);
    }
 

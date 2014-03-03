@@ -2,6 +2,7 @@ package com.lexicalscope.svm.vm.conc.junit;
 
 import static com.lexicalscope.fluentreflection.FluentReflection.object;
 import static com.lexicalscope.fluentreflection.ReflectionMatchers.*;
+import static com.lexicalscope.svm.classloading.ClasspathClassRepository.classpathClassRepostory;
 import static org.objectweb.asm.Type.getMethodDescriptor;
 
 import java.util.ArrayList;
@@ -20,6 +21,8 @@ import com.lexicalscope.fluentreflection.FluentMethod;
 import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.fluentreflection.FluentReflection;
 import com.lexicalscope.fluentreflection.ReflectionMatcher;
+import com.lexicalscope.svm.classloading.ClassSource;
+import com.lexicalscope.svm.classloading.ClasspathClassRepository;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.InitialStateBuilder;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
@@ -35,6 +38,7 @@ public class VmRule implements MethodRule {
    private SMethodDescriptor entryPoint;
 
    private final List<Vm<JState>> vm = new ArrayList<>();
+   private ClassSource[] classSources = new ClassSource[]{new ClasspathClassRepository()};
 
    public VmRule() {
       this(new JvmBuilder());
@@ -67,7 +71,8 @@ public class VmRule implements MethodRule {
          }
 
          private void configureVms(final FluentObject<Object> object) {
-            for (final FluentField field : object.fields(hasType(VmWrap.class))) {
+            final List<FluentField> fields = object.fields(hasType(VmWrap.class));
+            for (final FluentField field : fields) {
                field.call(new VmWrap(VmRule.this, field.annotation(LoadFrom.class)));
             }
          }
@@ -109,7 +114,14 @@ public class VmRule implements MethodRule {
    }
 
    public final Vm<JState> build(final Object[] args) {
-      return jvmBuilder.build(entryPoint, args);
+      return jvmBuilder.build(classSources, entryPoint, args);
+   }
+
+   public void loadFrom(final Class<?>[] loadFromWhereverTheseWereLoaded) {
+      classSources = new ClassSource[loadFromWhereverTheseWereLoaded.length];
+      for (int i = 0; i < classSources.length; i++) {
+         classSources[i] = classpathClassRepostory(loadFromWhereverTheseWereLoaded[i]);
+      }
    }
 
    public final JState execute(final Object ... args) {

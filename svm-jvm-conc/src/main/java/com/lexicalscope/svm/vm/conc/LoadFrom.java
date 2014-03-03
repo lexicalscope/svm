@@ -6,5 +6,5 @@ import java.lang.annotation.Retention;
 
 @Retention(RUNTIME)
 public @interface LoadFrom {
-   Class<?> value();
+   Class<?>[] value();
 }

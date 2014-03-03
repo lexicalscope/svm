@@ -1,6 +1,5 @@
 package com.lexicalscope.svm.vm.conc;
 
-import static com.lexicalscope.svm.classloading.ClasspathClassRepository.classpathClassRepostory;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.svm.stack.MethodScope.STATIC;
 import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
@@ -13,7 +12,6 @@ import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.classloading.AsmSClassLoader;
 import com.lexicalscope.svm.classloading.ClassSource;
-import com.lexicalscope.svm.classloading.ClasspathClassRepository;
 import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.classloading.StaticsImpl;
 import com.lexicalscope.svm.heap.HeapFactory;
@@ -53,9 +51,12 @@ public class InitialStateBuilder {
    private final NativeMethods natives = DefaultNativeMethods.natives();
    private final InstrumentationBuilder instrumentationBuilder = new InstrumentationBuilder();
    private final MetaState metaState = new HashMetaState();
-   private ClassSource classSource = new ClasspathClassRepository();
 
-   public JStateImpl createInitialState(final StateSearch<JState> search, final SMethodDescriptor entryPointName, final Object... args) {
+   public JStateImpl createInitialState(
+         final StateSearch<JState> search,
+         final ClassSource classSource,
+         final SMethodDescriptor entryPointName,
+         final Object... args) {
       final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
       final SClassLoader classLoader = new AsmSClassLoader(
             instructions,
@@ -124,11 +125,6 @@ public class InitialStateBuilder {
 
    public InitialStateBuilder heapFactory(final HeapFactory heapFactory) {
       this.heapFactory = heapFactory;
-      return this;
-   }
-
-   public InitialStateBuilder loadFrom(final Class<?> loadFromWhereverThisWasLoaded) {
-      this.classSource = classpathClassRepostory(loadFromWhereverThisWasLoaded);
       return this;
    }
 
