@@ -62,8 +62,21 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public void goal() {
-      correspodenceUnderConsideration.reachedGoalP(
-            goalExtractor.goal(pending), pending, goalExtractor.pc(pending));
+      if(searchingQ) {
+         correspondence.
+            reachedP(
+                  correspodenceUnderConsideration,
+                  goalExtractor.goal(pending),
+                  pending,
+                  goalExtractor.pc(pending));
+      } else {
+         correspondence.
+            reachedP(
+                  correspodenceUnderConsideration,
+                  goalExtractor.goal(pending),
+                  pending,
+                  goalExtractor.pc(pending));
+      }
       switchSides();
    }
 

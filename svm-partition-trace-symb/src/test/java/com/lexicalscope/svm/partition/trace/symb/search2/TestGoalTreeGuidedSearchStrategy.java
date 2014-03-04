@@ -115,7 +115,7 @@ public class TestGoalTreeGuidedSearchStrategy {
          oneOf(goalExtractor).goal(pstate); will(returnValue(goal));
          oneOf(goalExtractor).pc(pstate); will(returnValue(truth()));
 
-         oneOf(pair).reachedGoalP(goal, pstate, truth());
+         oneOf(correspondence).reachedP(pair, goal, pstate, truth());
       }});
 
       assertThat(searchStrategy.pendingState(), equalTo(pstate));
