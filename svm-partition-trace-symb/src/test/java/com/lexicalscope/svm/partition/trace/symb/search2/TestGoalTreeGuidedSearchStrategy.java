@@ -23,6 +23,7 @@ public class TestGoalTreeGuidedSearchStrategy {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock private GoalTreeCorrespondence<Object, FakeVmState> correspondence;
    @Mock private Randomiser randomiser;
+   @Mock private GoalTreePair<Object, FakeVmState> pair;
 
    GoalTreeGuidedSearchStrategy<Object, FakeVmState> searchStrategy;
 
@@ -71,7 +72,6 @@ public class TestGoalTreeGuidedSearchStrategy {
       final FakeVmState qstate1 = new FakeVmState("q1");
       final FakeVmState qstate2 = new FakeVmState("q2");
 
-      final GoalTreePair<Object, FakeVmState> pair = context.mock(GoalTreePair.class);
 
       context.checking(new Expectations(){{
          oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
@@ -88,5 +88,20 @@ public class TestGoalTreeGuidedSearchStrategy {
 
       assertThat(searchStrategy.pendingState(), equalTo(qstate));
       searchStrategy.fork(new FakeVmState[]{qstate1, qstate2});
+   }
+
+   @Test public void resultCreatedAtLeaf() throws Exception {
+      final FakeVmState pstate = new FakeVmState("p");
+      final FakeVmState qstate = new FakeVmState("q");
+
+      context.checking(new Expectations(){{
+         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
+         oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
+         oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
+      }});
+
+      assertThat(searchStrategy.pendingState(), equalTo(pstate));
+      searchStrategy.reachedLeaf();
+      assertThat(searchStrategy.firstResult(), equalTo(pstate));
    }
 }

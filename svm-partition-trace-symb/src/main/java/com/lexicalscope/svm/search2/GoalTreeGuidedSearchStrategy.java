@@ -1,6 +1,8 @@
 package com.lexicalscope.svm.search2;
 
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
@@ -9,6 +11,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
+   private final List<S> result = new ArrayList<>();
    private final Randomiser randomiser;
    private boolean searchingQ = true;
    private GoalTreePair<T, S> correspodenceUnderConsideration;
@@ -42,6 +45,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public void reachedLeaf() {
+      result.add(pending);
       switchSides();
    }
 
@@ -60,8 +64,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public S firstResult() {
-      // TODO Auto-generated method stub
-      return null;
+      return result.get(0);
    }
 
    @Override public Collection<S> results() {
