@@ -40,6 +40,9 @@ public class OpenNodes<S> {
 
    public S random(final Randomiser randomiser) {
       // TODO[tim]: this is slow in a linked list
+      if(nodes.isEmpty()) {
+         return null;
+      }
       return nodes.remove(randomiser.random(nodes.size()));
    }
 

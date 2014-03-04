@@ -24,6 +24,10 @@ public final class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
 
       public Trace goal() { return goal; }
       public N node() { return node; }
+
+      @Override public String toString() {
+         return String.format("(child %s %s)", goal, node);
+      }
    }
 
    private final List<Child<N>> children = new ArrayList<>();

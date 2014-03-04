@@ -28,6 +28,7 @@ import org.apache.maven.project.MavenProject;
  *
  * @goal install-z3
  * @phase process-resources
+ * @threadSafe
  * @requiresDependencyResolution compile
  */
 public class Z3Mojo extends AbstractMojo {

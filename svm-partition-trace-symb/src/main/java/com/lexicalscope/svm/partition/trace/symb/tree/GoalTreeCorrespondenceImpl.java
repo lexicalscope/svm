@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.truth;
+
 import java.util.List;
 
 import org.hamcrest.Matcher;
@@ -65,7 +67,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       final boolean reachedBefore = thisSide.hasReached(goal);
 
       final GoalTree<T, S> thisSideChild = thisSide.reached(goal, state, childPc);
-      assert thisSide.overlappingChildGoals(childPc).size() == 1;
+      assert thisSide.overlappingChildGoals(childPc).size() == 1 : this;
 
       final List<GoalTree<T, S>> otherSideOverlappingChildGoals =
             otherSide.overlappingChildGoals(childPc);
@@ -106,9 +108,19 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    public static <T, S> GoalTreeCorrespondenceImpl<T, S> root(
          final T rootGoal,
          final FeasibilityChecker feasibilityChecker,
+         final GoalMapFactory<T> goalMapFactory,
+         final Class<S> bindGenerics) {
+      return root(rootGoal, feasibilityChecker, goalMapFactory);
+   }
+
+   public static <T, S> GoalTreeCorrespondenceImpl<T, S> root(
+         final T rootGoal,
+         final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory<T> goalMapFactory) {
       final GoalTree<T, S> pside = new GoalTree<>(goalMapFactory, feasibilityChecker);
       final GoalTree<T, S> qside = new GoalTree<>(goalMapFactory, feasibilityChecker);
+      pside.covers(truth());
+      qside.covers(truth());
       return new GoalTreeCorrespondenceImpl<>(rootGoal, pside, qside, goalMapFactory);
    }
 

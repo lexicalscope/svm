@@ -62,4 +62,8 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
          qside.increaseOpenNodes(s);
       }
    }
+
+   @Override public String toString() {
+      return String.format("(pair %s %s)", pside, qside);
+   }
 }

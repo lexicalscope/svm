@@ -86,7 +86,7 @@ public class JStateImpl implements JState {
 
    @Override
    public final String toString() {
-      return String.format("stack:<%s>, heap:<%s>, meta:<%s>", stack(), heap, meta);
+      return String.format("stackframe:<%s>, heap:<>, meta:<%s>", stackFrame(), meta);
    }
 
    @Override public boolean equals(final Object obj) {

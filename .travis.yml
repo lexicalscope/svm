@@ -2,4 +2,4 @@ language: java
 jdk:
   - openjdk7
 install: true
-script: mvn install -B
+script: mvn -T 2 install -B

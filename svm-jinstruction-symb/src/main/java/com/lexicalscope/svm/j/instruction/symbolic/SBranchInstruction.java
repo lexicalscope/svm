@@ -20,7 +20,6 @@ import com.lexicalscope.svm.j.instruction.symbolic.predicates.SBranchStrategy;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchOp;
 import com.lexicalscope.svm.j.instruction.symbolic.predicates.UnarySBranchStrategy;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.NotSymbol;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
@@ -42,7 +41,7 @@ final class SBranchInstruction implements Vop {
       states[0].setMeta(PC, jumpPc);
       states[0].advanceTo(ctx.instructionJmpTarget());
 
-      final BoolSymbol nojumpPc = pc.and(new NotSymbol(branchPredicateSymbol));
+      final BoolSymbol nojumpPc = pc.and(branchPredicateSymbol.not());
       states[1].setMeta(PC, nojumpPc);
       states[1].advanceTo(ctx.instructionNext());
 

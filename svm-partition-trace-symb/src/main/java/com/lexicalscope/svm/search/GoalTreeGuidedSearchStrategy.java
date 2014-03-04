@@ -14,7 +14,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    private final List<S> result = new ArrayList<>();
    private final Randomiser randomiser;
    private boolean searchingQ = true;
-   private GoalTreePair<T, S> correspodenceUnderConsideration;
+   private GoalTreePair<T, S> correspondenceUnderConsideration;
    private boolean pInitialised;
    private boolean qInitialised;
    private S pending;
@@ -38,11 +38,11 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    private S switchSides() {
       if(searchingQ) {
          searchingQ = false;
-         correspodenceUnderConsideration = correspondence.randomOpenCorrespondence(randomiser);
-         return pending = correspodenceUnderConsideration.openPNode(randomiser);
+         correspondenceUnderConsideration = correspondence.randomOpenCorrespondence(randomiser);
+         return pending = correspondenceUnderConsideration.openPNode(randomiser);
       } else {
          searchingQ = true;
-         return pending = correspodenceUnderConsideration.openQNode(randomiser);
+         return pending = correspondenceUnderConsideration.openQNode(randomiser);
       }
    }
 
@@ -53,9 +53,9 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
 
    @Override public void fork(final S[] states) {
       if(searchingQ) {
-         correspodenceUnderConsideration.expandQ(states);
+         correspondenceUnderConsideration.expandQ(states);
       } else {
-         correspodenceUnderConsideration.expandP(states);
+         correspondenceUnderConsideration.expandP(states);
       }
       switchSides();
    }
@@ -64,14 +64,14 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
       if(searchingQ) {
          correspondence.
             reachedP(
-                  correspodenceUnderConsideration,
+                  correspondenceUnderConsideration,
                   goalExtractor.goal(pending),
                   pending,
                   goalExtractor.pc(pending));
       } else {
          correspondence.
             reachedP(
-                  correspodenceUnderConsideration,
+                  correspondenceUnderConsideration,
                   goalExtractor.goal(pending),
                   pending,
                   goalExtractor.pc(pending));

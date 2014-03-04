@@ -16,6 +16,7 @@ import com.lexicalscope.svm.examples.ExamplesTwoMarker;
 import com.lexicalscope.svm.examples.icompare.working.InsidePartition;
 import com.lexicalscope.svm.examples.icompare.working.OutsidePartition;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
@@ -24,6 +25,7 @@ public class TestGuidedSearch {
    {
       instrumentPartition(partition().ofClass(InsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
+      vm.builder().searchWith(new GuidedStateSearchFactory(vm.feasbilityChecker()));
    }
 
    private @Fresh ISymbol symbol1;
@@ -31,6 +33,10 @@ public class TestGuidedSearch {
 
    @Test @Ignore public void pathsExploredPairwise() throws Exception {
       vm.execute(symbol1, symbol2);
+
+      for (final JState result : vm.results()) {
+         System.out.println(result.getMeta(TRACE));
+      }
 
       assertThat(
             vm.getMeta(tag(ExamplesOneMarker.class), TRACE),

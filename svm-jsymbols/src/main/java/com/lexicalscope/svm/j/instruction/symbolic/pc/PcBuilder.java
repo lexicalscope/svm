@@ -9,7 +9,6 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpLeSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpLtSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.NotSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 
 public class PcBuilder {
@@ -22,7 +21,7 @@ public class PcBuilder {
    }
 
    public static BoolSymbol invert(final BoolSymbol value1) {
-      return new NotSymbol(value1);
+      return value1.not();
    }
 
    public static BoolSymbol icmpgt(final ISymbol value1, final ISymbol value2) {
