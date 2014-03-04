@@ -10,6 +10,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ICmpLtSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.NotSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
 
 public class PcBuilder {
    public static ICmpEqSymbol icmpEq(final ISymbol value1, final ISymbol value2) {
@@ -42,5 +43,9 @@ public class PcBuilder {
 
    public static BoolSymbol and(final BoolSymbol left, final BoolSymbol right) {
       return new AndSymbol(left, right);
+   }
+
+   public static BoolSymbol truth() {
+      return new TrueSymbol();
    }
 }

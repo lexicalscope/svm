@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.symbolic.symbols;
 
 
-public class TrueSymbol implements BoolSymbol {
+public final class TrueSymbol implements BoolSymbol {
    @Override public <T, E extends Throwable> T accept(final SymbolVisitor<T, E> visitor) throws E {
       return visitor.tru3();
    }
@@ -20,5 +20,9 @@ public class TrueSymbol implements BoolSymbol {
 
    @Override public String toString() {
       return "TT";
+   }
+
+   @Override public boolean equals(final Object obj) {
+      return obj != null && obj.getClass().equals(this.getClass());
    }
 }

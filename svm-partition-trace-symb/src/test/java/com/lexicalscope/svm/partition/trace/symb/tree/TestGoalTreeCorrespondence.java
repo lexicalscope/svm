@@ -110,8 +110,6 @@ public class TestGoalTreeCorrespondence {
             hasCorrespondence(covers(betweenThreeAndFifteen)));
       assertThat(correspondence,
             hasCorrespondence(covers(betweenSixteenAndThirty)));
-
-
    }
 
    @Test public void reachingNonCorrespondingGoalsThatOverlapIsAnErrorInQ() throws Exception {

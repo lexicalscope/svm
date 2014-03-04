@@ -11,6 +11,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
+   private final GoalExtractor<T, S> goalExtractor;
    private final List<S> result = new ArrayList<>();
    private final Randomiser randomiser;
    private boolean searchingQ = true;
@@ -21,8 +22,10 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
 
    public GoalTreeGuidedSearchStrategy(
          final GoalTreeCorrespondence<T, S> correspondence,
+         final GoalExtractor<T, S> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;
+      this.goalExtractor = goalExtractor;
       this.randomiser = randomiser;
    }
 
@@ -59,8 +62,9 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public void goal() {
-      // TODO Auto-generated method stub
-
+      correspodenceUnderConsideration.reachedGoalP(
+            goalExtractor.goal(pending), pending, goalExtractor.pc(pending));
+      switchSides();
    }
 
    @Override public S firstResult() {
@@ -68,8 +72,7 @@ public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {
    }
 
    @Override public Collection<S> results() {
-      // TODO Auto-generated method stub
-      return null;
+      return result;
    }
 
    @Override public void consider(final S state) {

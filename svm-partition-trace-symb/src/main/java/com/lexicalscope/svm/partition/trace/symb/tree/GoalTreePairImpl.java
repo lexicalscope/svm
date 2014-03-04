@@ -62,4 +62,12 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
          qside.increaseOpenNodes(s);
       }
    }
+
+   @Override public void reachedGoalP(final T goal, final S state, final BoolSymbol pc) {
+      pside.reached(goal, state, pc);
+   }
+
+   @Override public void reachedGoalQ(final T goal, final S state, final BoolSymbol pc) {
+      qside.reached(goal, state, pc);
+   }
 }

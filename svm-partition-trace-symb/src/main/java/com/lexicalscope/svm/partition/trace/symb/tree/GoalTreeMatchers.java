@@ -102,10 +102,6 @@ public class GoalTreeMatchers {
       };
    }
 
-//   public static Matcher<? super GoalTreeCorrespondenceImpl<?, ?>> isOpenLeaf() {
-//      return both(isOpen()).and(isLeaf());
-//   }
-
    public static Matcher<? super GoalTreeCorrespondence<?, ?>> isOpen() {
       return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>(){
          @Override public void describeTo(final Description description) {
@@ -120,21 +116,6 @@ public class GoalTreeMatchers {
             return result;
          }};
    }
-
-//   public static Matcher<? super GoalTreeCorrespondenceImpl<?, ?>> isLeaf() {
-//      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondenceImpl<?, ?>>(){
-//         @Override public void describeTo(final Description description) {
-//            description.appendText("correspondence with no children");
-//         }
-//
-//         @Override protected boolean matchesSafely(final GoalTreeCorrespondenceImpl<?, ?> item, final Description mismatchDescription) {
-//            final boolean result = !item.hasChildren();
-//            if(!result) {
-//               mismatchDescription.appendValue(item);
-//            }
-//            return result;
-//         }};
-//   }
 
    public static Matcher<? super GoalMap<?, ?>> nodeCount(final int count) {
       return new TypeSafeDiagnosingMatcher<GoalMap<?, ?>>(){
