@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace.symb.search2;
+package com.lexicalscope.svm.partition.trace.symb.search;
 
 import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.truth;
@@ -17,9 +17,9 @@ import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
+import com.lexicalscope.svm.search.GoalExtractor;
+import com.lexicalscope.svm.search.GoalTreeGuidedSearchStrategy;
 import com.lexicalscope.svm.search.Randomiser;
-import com.lexicalscope.svm.search2.GoalExtractor;
-import com.lexicalscope.svm.search2.GoalTreeGuidedSearchStrategy;
 
 public class TestGoalTreeGuidedSearchStrategy {
    @Rule public final ExpectedException exception = ExpectedException.none();

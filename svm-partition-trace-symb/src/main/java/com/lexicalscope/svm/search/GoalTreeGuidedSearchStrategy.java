@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.search2;
+package com.lexicalscope.svm.search;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -6,7 +6,6 @@ import java.util.List;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
-import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearchStrategy<T, S> implements StateSearch<S> {

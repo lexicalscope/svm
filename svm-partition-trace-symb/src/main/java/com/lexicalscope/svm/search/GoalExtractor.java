@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.search2;
+package com.lexicalscope.svm.search;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 

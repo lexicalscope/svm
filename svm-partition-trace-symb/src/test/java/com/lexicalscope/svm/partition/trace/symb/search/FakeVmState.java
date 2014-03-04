@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace.symb.search2;
+package com.lexicalscope.svm.partition.trace.symb.search;
 
 import com.lexicalscope.svm.vm.VmState;
 
