@@ -31,13 +31,13 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
 
       SearchState<T1, S1> nextState();
 
-      GoalTreePair<T1, S1> pickCorrspondence(
+      GoalTreePair<T1, S1> pickCorrespondence(
             GoalTreeCorrespondence<T1, S1> correspondence,
             GoalTreePair<T1, S1> correspondenceUnderConsideration);
 
       boolean isOpen();
 
-      void searchNode();
+      S1 pickSearchNode(GoalTreePair<T1, S1> correspondenceUnderConsideration);
    }
 
    private class InitialState<T1, S1> implements SearchState<T1, S1> {
@@ -59,11 +59,11 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          throw new UnsupportedOperationException();
       }
 
-      @Override public void searchNode() {
+      @Override public S1 pickSearchNode(final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          throw new UnsupportedOperationException();
       }
 
-      @Override public GoalTreePair<T1, S1> pickCorrspondence(final GoalTreeCorrespondence<T1, S1> correspondence, final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
+      @Override public GoalTreePair<T1, S1> pickCorrespondence(final GoalTreeCorrespondence<T1, S1> correspondence, final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          throw new UnsupportedOperationException();
       }}
 
@@ -79,7 +79,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
             final GoalTreePair<T1, S1> pair) {
       }
 
-      @Override public GoalTreePair<T1, S1> pickCorrspondence(
+      @Override public GoalTreePair<T1, S1> pickCorrespondence(
             final GoalTreeCorrespondence<T1, S1> correspondence,
             final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          return correspondence.randomOpenChild(randomiser);
@@ -97,8 +97,8 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          return correspondenceUnderConsideration.psideIsOpen();
       }
 
-      @Override public void searchNode() {
-         pending = correspondenceUnderConsideration.openPNode(randomiser);
+      @Override public S1 pickSearchNode(final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
+         return correspondenceUnderConsideration.openPNode(randomiser);
       }}
 
    private class SearchingQ<T1, S1> implements SearchState<T1, S1> {
@@ -128,11 +128,11 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          return correspondenceUnderConsideration.qsideIsOpen();
       }
 
-      @Override public void searchNode() {
-         pending = correspondenceUnderConsideration.openQNode(randomiser);
+      @Override public S1 pickSearchNode(final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
+         return correspondenceUnderConsideration.openQNode(randomiser);
       }
 
-      @Override public GoalTreePair<T1, S1> pickCorrspondence(
+      @Override public GoalTreePair<T1, S1> pickCorrespondence(
             final GoalTreeCorrespondence<T1, S1> correspondence,
             final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          return correspondenceUnderConsideration;
@@ -161,11 +161,10 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          searchingQ = !searchingQ;
          side = side.nextState();
          correspondenceUnderConsideration =
-               side.pickCorrspondence(correspondence, correspondenceUnderConsideration);
+               side.pickCorrespondence(correspondence, correspondenceUnderConsideration);
 
          if(side.isOpen()) {
-            side.searchNode();
-            return pending;
+            return pending = side.pickSearchNode(correspondenceUnderConsideration);
          }
       }
       return pending = null;
