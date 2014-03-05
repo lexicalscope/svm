@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.StateSearch;
@@ -14,7 +15,6 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private final GoalExtractor<T, S> goalExtractor;
    private final List<S> result = new ArrayList<>();
    private final Randomiser randomiser;
-   private boolean searchingQ = true;
    private GoalTreePair<T, S> correspondenceUnderConsideration;
    private boolean pInitialised;
    private boolean qInitialised;
@@ -38,6 +38,15 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       boolean isOpen();
 
       S1 pickSearchNode(GoalTreePair<T1, S1> correspondenceUnderConsideration);
+
+      void fork(GoalTreePair<T1, S1> correspondenceUnderConsideration, S1[] states);
+
+      void goal(
+            GoalTreeCorrespondence<T1, S1> correspondence,
+            GoalTreePair<T1, S1> correspondenceUnderConsideration,
+            T1 goal,
+            S1 pending,
+            BoolSymbol pc);
    }
 
    private class InitialState<T1, S1> implements SearchState<T1, S1> {
@@ -64,6 +73,14 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       }
 
       @Override public GoalTreePair<T1, S1> pickCorrespondence(final GoalTreeCorrespondence<T1, S1> correspondence, final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
+         throw new UnsupportedOperationException();
+      }
+
+      @Override public void fork(final GoalTreePair<T1, S1> correspondenceUnderConsideration, final S1[] states) {
+         throw new UnsupportedOperationException();
+      }
+
+      @Override public void goal(final GoalTreeCorrespondence<T1, S1> correspondence, final GoalTreePair<T1, S1> correspondenceUnderConsideration, final T1 goal, final S1 pending, final BoolSymbol pc) {
          throw new UnsupportedOperationException();
       }}
 
@@ -99,6 +116,20 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
 
       @Override public S1 pickSearchNode(final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          return correspondenceUnderConsideration.openPNode(randomiser);
+      }
+
+      @Override public void fork(
+            final GoalTreePair<T1, S1> correspondenceUnderConsideration, final S1[] states) {
+         correspondenceUnderConsideration.expandP(states);
+      }
+
+      @Override public void goal(
+            final GoalTreeCorrespondence<T1, S1> correspondence,
+            final GoalTreePair<T1, S1> parent,
+            final T1 goal,
+            final S1 state,
+            final BoolSymbol pc) {
+         correspondence.reachedP(parent, goal, state, pc);
       }}
 
    private class SearchingQ<T1, S1> implements SearchState<T1, S1> {
@@ -136,6 +167,20 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
             final GoalTreeCorrespondence<T1, S1> correspondence,
             final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          return correspondenceUnderConsideration;
+      }
+
+      @Override public void fork(
+            final GoalTreePair<T1, S1> correspondenceUnderConsideration, final S1[] states) {
+         correspondenceUnderConsideration.expandQ(states);
+      }
+
+      @Override public void goal(
+            final GoalTreeCorrespondence<T1, S1> correspondence,
+            final GoalTreePair<T1, S1> parent,
+            final T1 goal,
+            final S1 state,
+            final BoolSymbol pc) {
+         correspondence.reachedQ(parent, goal, state, pc);
       }};
 
    public GoalTreeGuidedSearch(
@@ -158,7 +203,6 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       side.searchedSide(correspondence, correspondenceUnderConsideration);
 
       while(side.searchMore()) {
-         searchingQ = !searchingQ;
          side = side.nextState();
          correspondenceUnderConsideration =
                side.pickCorrespondence(correspondence, correspondenceUnderConsideration);
@@ -176,31 +220,18 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    }
 
    @Override public void fork(final S[] states) {
-      if(searchingQ) {
-         correspondenceUnderConsideration.expandQ(states);
-      } else {
-         correspondenceUnderConsideration.expandP(states);
-      }
-      assert correspondenceUnderConsideration.isOpen();
+      side.fork(correspondenceUnderConsideration, states);
       switchSides();
    }
 
    @Override public void goal() {
-      if(searchingQ) {
-         correspondence.
-            reachedQ(
-                  correspondenceUnderConsideration,
-                  goalExtractor.goal(pending),
-                  pending,
-                  goalExtractor.pc(pending));
-      } else {
-         correspondence.
-            reachedP(
-                  correspondenceUnderConsideration,
-                  goalExtractor.goal(pending),
-                  pending,
-                  goalExtractor.pc(pending));
-      }
+      side.goal(
+            correspondence,
+            correspondenceUnderConsideration,
+            goalExtractor.goal(pending),
+            pending,
+            goalExtractor.pc(pending));
+
       switchSides();
    }
 

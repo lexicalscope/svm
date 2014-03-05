@@ -88,7 +88,6 @@ public class TestGoalTreeGuidedSearch {
 
       context.checking(new Expectations(){{
          oneOf(pair).expandP(new FakeVmState[]{pstate1, pstate2});
-         oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).qsideIsOpen(); will(returnValue(true));
          oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
@@ -98,7 +97,6 @@ public class TestGoalTreeGuidedSearch {
       context.checking(new Expectations(){{
          oneOf(pair).expandQ(new FakeVmState[]{qstate1, qstate2});
 
-         oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(correspondence).stillOpen(pair);
 
          oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
