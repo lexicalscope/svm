@@ -39,79 +39,28 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    }
 
    private S switchSides() {
-      System.out.println("switch");
-
-      if(correspondenceUnderConsideration != null) {
-         System.out.println("correspondence " + correspondenceUnderConsideration);
-      }
-
       if(searchingQ &&
             correspondenceUnderConsideration != null &&
             correspondenceUnderConsideration.isOpen()) {
-         System.out.println("still open");
          openChildren.add(correspondenceUnderConsideration);
-      } else if (searchingQ && correspondenceUnderConsideration != null) {
-         System.out.println("discarding");
-      }
-
-      if(searchingQ) {
-         System.out.println("was searching q");
-      } else {
-         System.out.println("was searching p");
-      }
-
-      if(openChildren.isEmpty()) {
-         System.out.println("not open");
-      } else {
-         System.out.println("open children = " + openChildren.size());
       }
 
       while(!searchingQ || !openChildren.isEmpty()) {
-         System.out.println("change sides");
          searchingQ = !searchingQ;
 
          if(!searchingQ) {
-            System.out.println("pick open");
             correspondenceUnderConsideration = randomOpenCorrespondence(randomiser);
          }
 
          if(!searchingQ && correspondenceUnderConsideration.psideIsOpen()) {
-            System.out.println("pick p side");
             return pending = correspondenceUnderConsideration.openPNode(randomiser);
          }
 
          if(searchingQ && correspondenceUnderConsideration.qsideIsOpen()) {
-            System.out.println("pick q side");
             return pending = correspondenceUnderConsideration.openQNode(randomiser);
          }
       }
-      System.out.println("return null");
       return pending = null;
-
-//      if(searchingQ) {
-//         searchingQ = false;
-//
-//         if(correspondenceUnderConsideration != null && correspondenceUnderConsideration.isOpen()) {
-//            openChildren.add(correspondenceUnderConsideration);
-//         }
-//
-//         if(openChildren.isEmpty()) {
-//            return null;
-//         }
-//
-//         correspondenceUnderConsideration = randomOpenCorrespondence(randomiser);
-//      }
-//
-//      if(!searchingQ && correspondenceUnderConsideration.pside().isOpen()) {
-//         return pending = correspondenceUnderConsideration.openPNode(randomiser);
-//      } else {
-//         searchingQ = true;
-//         if(correspondenceUnderConsideration.qside().isOpen()) {
-//            return pending = correspondenceUnderConsideration.openQNode(randomiser);
-//         } else {
-//            return switchSides();
-//         }
-//      }
    }
 
    private GoalTreePair<T, S> randomOpenCorrespondence(final Randomiser randomiser) {
@@ -124,13 +73,11 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    }
 
    @Override public void reachedLeaf() {
-      System.out.println("leaf");
       result.add(pending);
       switchSides();
    }
 
    @Override public void fork(final S[] states) {
-      System.out.println("fork " + states.length);
       if(searchingQ) {
          correspondenceUnderConsideration.expandQ(states);
       } else {
@@ -141,7 +88,6 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    }
 
    @Override public void goal() {
-      System.out.println("goal");
       final GoalTreePair<T, S> newPair;
       if(searchingQ) {
          newPair = correspondence.
@@ -159,7 +105,6 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
                   goalExtractor.pc(pending));
       }
       if(newPair != null) {
-         System.out.println("add pair");
          openChildren.add(newPair);
       }
       switchSides();
