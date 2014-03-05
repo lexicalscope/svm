@@ -10,7 +10,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
-   private final List<GoalTreePair<T, S>> openChildren = new ArrayList<>();
+   private final ListRandomPool<GoalTreePair<T, S>> openChildren;
 
    private final GoalExtractor<T, S> goalExtractor;
    private final List<S> result = new ArrayList<>();
@@ -26,7 +26,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          final GoalExtractor<T, S> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;
-      openChildren.addAll(correspondence.children());
+      openChildren = new ListRandomPool<GoalTreePair<T, S>>(correspondence.children());
       this.goalExtractor = goalExtractor;
       this.randomiser = randomiser;
    }
@@ -49,7 +49,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          searchingQ = !searchingQ;
 
          if(!searchingQ) {
-            correspondenceUnderConsideration = randomOpenCorrespondence(randomiser);
+            correspondenceUnderConsideration = openChildren.randomElement(randomiser);
          }
 
          if(!searchingQ && correspondenceUnderConsideration.psideIsOpen()) {
@@ -63,14 +63,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       return pending = null;
    }
 
-   private GoalTreePair<T, S> randomOpenCorrespondence(final Randomiser randomiser) {
-      final int index = randomiser.random(openChildren.size());
-      final GoalTreePair<T, S> result = openChildren.get(index);
-      openChildren.set(index, openChildren.get(openChildren.size() - 1));
-      openChildren.remove(openChildren.size() - 1);
-      assert result.isOpen();
-      return result;
-   }
+
 
    @Override public void reachedLeaf() {
       result.add(pending);

@@ -56,7 +56,6 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
          final T goal,
          final S state,
          final BoolSymbol childPc) {
-      System.out.println("reached p");
       return reached(goal, state, childPc, new PqChildFactory(), parent.pside(), parent.qside());
    }
 
@@ -66,7 +65,6 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
          final T goal,
          final S state,
          final BoolSymbol childPc) {
-      System.out.println("reached q");
       return reached(goal, state, childPc, new QpChildFactory(), parent.qside(), parent.pside());
    }
 
@@ -77,16 +75,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
          final ChildFactory childFactory,
          final GoalTree<T, S> thisSide,
          final GoalTree<T, S> otherSide) {
-
-      System.out.println("reached " + goal);
-
       final boolean reachedBefore = thisSide.hasReached(goal);
-
-      if(!reachedBefore) {
-         System.out.println("reached for the first time");
-      } else {
-         System.out.println("reached again");
-      }
 
       final GoalTree<T, S> thisSideChild = thisSide.reached(goal, state, childPc);
       assert thisSide.overlappingChildGoals(childPc).size() == 1 : this;

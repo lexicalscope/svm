@@ -54,7 +54,6 @@ public class TestGoalTreeGuidedSearch {
 
       context.checking(new Expectations(){{
          oneOf(randomiser).random(1); will(returnValue(0));
-         oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
 
@@ -115,11 +114,9 @@ public class TestGoalTreeGuidedSearch {
    @Test public void resultCreatedAtLeaf() throws Exception {
       context.checking(new Expectations(){{
          oneOf(randomiser).random(1); will(returnValue(0));
-         oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
 
-         allowing(pair).isOpen(); will(returnValue(true));
          oneOf(pair).qsideIsOpen(); will(returnValue(true));
          oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
@@ -136,7 +133,6 @@ public class TestGoalTreeGuidedSearch {
       context.checking(new Expectations(){{
 //         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
          oneOf(randomiser).random(1); will(returnValue(0));
-         oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
@@ -161,7 +157,6 @@ public class TestGoalTreeGuidedSearch {
 
          oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(randomiser).random(3); will(returnValue(2));
-         oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
