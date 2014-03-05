@@ -20,23 +20,25 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private boolean qInitialised;
    private S pending;
 
-   private SearchState side = new InitialState();
-   private final SearchState searchingP = new SearchingP();
-   private final SearchState searchingQx = new SearchingQ();
+   private SearchState<T, S> side = new InitialState<>();
 
-   private interface SearchState {
+   private interface SearchState<T1, S1> {
       void searchedSide();
 
       boolean searchMore();
 
-      SearchState nextState();
+      SearchState<T1, S1> nextState();
 
       boolean isOpen();
 
       void searchNode();
    }
 
-   private class InitialState implements SearchState {
+   private class InitialState<T1, S1> implements SearchState<T1, S1> {
+      public InitialState() {
+
+      }
+
       @Override public void searchedSide() {
          correspondenceUnderConsideration = correspondence.randomOpenChild(randomiser);
       }
@@ -45,8 +47,8 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          return true;
       }
 
-      @Override public SearchState nextState() {
-         return searchingP;
+      @Override public SearchState<T1, S1> nextState() {
+         return new SearchingP<T1, S1>();
       }
 
       @Override public boolean isOpen() {
@@ -57,7 +59,13 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          throw new UnsupportedOperationException();
       }}
 
-   private class SearchingP implements SearchState {
+   private class SearchingP<T1, S1> implements SearchState<T1, S1> {
+      private final SearchState<T1, S1> searchingQy;
+
+      public SearchingP() {
+         searchingQy = new SearchingQ<T1, S1>(this);
+      }
+
       @Override public void searchedSide() {
          // TODO Auto-generated method stub
       }
@@ -66,8 +74,8 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          return true;
       }
 
-      @Override public SearchState nextState() {
-         return searchingQx;
+      @Override public SearchState<T1, S1> nextState() {
+         return searchingQy;
       }
 
       @Override public boolean isOpen() {
@@ -78,7 +86,13 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          pending = correspondenceUnderConsideration.openPNode(randomiser);
       }}
 
-   private class SearchingQ implements SearchState {
+   private class SearchingQ<T1, S1> implements SearchState<T1, S1> {
+      private final SearchingP<T1, S1> searchingP;
+
+      public SearchingQ(final SearchingP<T1, S1> searchingP) {
+         this.searchingP = searchingP;
+      }
+
       @Override public void searchedSide() {
          if(correspondenceUnderConsideration.isOpen()) {
             correspondence.stillOpen(correspondenceUnderConsideration);
@@ -89,7 +103,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          return correspondence.hasOpenChildren();
       }
 
-      @Override public SearchState nextState() {
+      @Override public SearchState<T1, S1> nextState() {
          correspondenceUnderConsideration = correspondence.randomOpenChild(randomiser);
          return searchingP;
       }
