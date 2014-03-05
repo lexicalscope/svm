@@ -14,57 +14,35 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
 
    private final GoalExtractor<T, S> goalExtractor;
    private final List<S> result = new ArrayList<>();
-   private final Randomiser randomiser;
    private GoalTreePair<T, S> correspondenceUnderConsideration;
    private boolean pInitialised;
    private boolean qInitialised;
    private S pending;
 
-   private SearchState<T, S> side = new InitialState<>();
+   private GuidedSearchState<T, S> side;
 
-   private interface SearchState<T1, S1> {
-      void searchedSide(
-            GoalTreeCorrespondence<T1, S1> correspondence,
-            GoalTreePair<T1, S1> correspondenceUnderConsideration);
+   private static final class InitialState<T1, S1> implements GuidedSearchState<T1, S1> {
+      private final Randomiser randomiser;
 
-      boolean searchMore();
+      public InitialState(final Randomiser randomiser) {
+         this.randomiser = randomiser;
+      }
 
-      SearchState<T1, S1> nextState();
-
-      GoalTreePair<T1, S1> pickCorrespondence(
-            GoalTreeCorrespondence<T1, S1> correspondence,
-            GoalTreePair<T1, S1> correspondenceUnderConsideration);
-
-      boolean isOpen();
-
-      S1 pickSearchNode(GoalTreePair<T1, S1> correspondenceUnderConsideration);
-
-      void fork(GoalTreePair<T1, S1> correspondenceUnderConsideration, S1[] states);
-
-      void goal(
-            GoalTreeCorrespondence<T1, S1> correspondence,
-            GoalTreePair<T1, S1> correspondenceUnderConsideration,
-            T1 goal,
-            S1 pending,
-            BoolSymbol pc);
-   }
-
-   private class InitialState<T1, S1> implements SearchState<T1, S1> {
       @Override public void searchedSide(
             final GoalTreeCorrespondence<T1, S1> correspondence,
             final GoalTreePair<T1, S1> pair) {
-
+         // nothing
       }
 
-      @Override public boolean searchMore() {
+      @Override public boolean searchMore(final GoalTreeCorrespondence<T1, S1> correspondence) {
          return true;
       }
 
-      @Override public SearchState<T1, S1> nextState() {
-         return new SearchingP<T1, S1>();
+      @Override public GuidedSearchState<T1, S1> nextState() {
+         return new SearchingP<T1, S1>(randomiser);
       }
 
-      @Override public boolean isOpen() {
+      @Override public boolean isOpen(final GoalTreePair<T1, S1> correspondence) {
          throw new UnsupportedOperationException();
       }
 
@@ -84,11 +62,13 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          throw new UnsupportedOperationException();
       }}
 
-   private class SearchingP<T1, S1> implements SearchState<T1, S1> {
-      private final SearchState<T1, S1> searchingQy;
+   private static class SearchingP<T1, S1> implements GuidedSearchState<T1, S1> {
+      private final GuidedSearchState<T1, S1> searchingQy;
+      private final Randomiser randomiser;
 
-      public SearchingP() {
-         searchingQy = new SearchingQ<T1, S1>(this);
+      public SearchingP(final Randomiser randomiser) {
+         this.randomiser = randomiser;
+         searchingQy = new SearchingQ<T1, S1>(this, randomiser);
       }
 
       @Override public void searchedSide(
@@ -102,15 +82,15 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          return correspondence.randomOpenChild(randomiser);
       }
 
-      @Override public boolean searchMore() {
+      @Override public boolean searchMore(final GoalTreeCorrespondence<T1, S1> correspondence) {
          return true;
       }
 
-      @Override public SearchState<T1, S1> nextState() {
+      @Override public GuidedSearchState<T1, S1> nextState() {
          return searchingQy;
       }
 
-      @Override public boolean isOpen() {
+      @Override public boolean isOpen(final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          return correspondenceUnderConsideration.psideIsOpen();
       }
 
@@ -132,11 +112,13 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          correspondence.reachedP(parent, goal, state, pc);
       }}
 
-   private class SearchingQ<T1, S1> implements SearchState<T1, S1> {
+   private static class SearchingQ<T1, S1> implements GuidedSearchState<T1, S1> {
       private final SearchingP<T1, S1> searchingP;
+      private final Randomiser randomiser;
 
-      public SearchingQ(final SearchingP<T1, S1> searchingP) {
+      public SearchingQ(final SearchingP<T1, S1> searchingP, final Randomiser randomiser) {
          this.searchingP = searchingP;
+         this.randomiser = randomiser;
       }
 
       @Override public void searchedSide(
@@ -147,15 +129,15 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          }
       }
 
-      @Override public boolean searchMore() {
+      @Override public boolean searchMore(final GoalTreeCorrespondence<T1, S1> correspondence) {
          return correspondence.hasOpenChildren();
       }
 
-      @Override public SearchState<T1, S1> nextState() {
+      @Override public GuidedSearchState<T1, S1> nextState() {
          return searchingP;
       }
 
-      @Override public boolean isOpen() {
+      @Override public boolean isOpen(final GoalTreePair<T1, S1> correspondenceUnderConsideration) {
          return correspondenceUnderConsideration.qsideIsOpen();
       }
 
@@ -189,7 +171,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          final Randomiser randomiser) {
       this.correspondence = correspondence;
       this.goalExtractor = goalExtractor;
-      this.randomiser = randomiser;
+      side = new InitialState<>(randomiser);
    }
 
    @Override public S pendingState() {
@@ -202,12 +184,12 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private S switchSides() {
       side.searchedSide(correspondence, correspondenceUnderConsideration);
 
-      while(side.searchMore()) {
+      while(side.searchMore(correspondence)) {
          side = side.nextState();
          correspondenceUnderConsideration =
                side.pickCorrespondence(correspondence, correspondenceUnderConsideration);
 
-         if(side.isOpen()) {
+         if(side.isOpen(correspondenceUnderConsideration)) {
             return pending = side.pickSearchNode(correspondenceUnderConsideration);
          }
       }
