@@ -10,7 +10,6 @@ import com.lexicalscope.svm.vm.StateSearch;
 
 public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
-   private final ListRandomPool<GoalTreePair<T, S>> openChildren;
 
    private final GoalExtractor<T, S> goalExtractor;
    private final List<S> result = new ArrayList<>();
@@ -26,7 +25,6 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
          final GoalExtractor<T, S> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;
-      openChildren = new ListRandomPool<GoalTreePair<T, S>>(correspondence.children());
       this.goalExtractor = goalExtractor;
       this.randomiser = randomiser;
    }
@@ -42,14 +40,14 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       if(searchingQ &&
             correspondenceUnderConsideration != null &&
             correspondenceUnderConsideration.isOpen()) {
-         openChildren.add(correspondenceUnderConsideration);
+         correspondence.stillOpen(correspondenceUnderConsideration);
       }
 
-      while(!searchingQ || !openChildren.isEmpty()) {
+      while(!searchingQ || correspondence.hasOpenChildren()) {
          searchingQ = !searchingQ;
 
          if(!searchingQ) {
-            correspondenceUnderConsideration = openChildren.randomElement(randomiser);
+            correspondenceUnderConsideration = correspondence.randomOpenChild(randomiser);
          }
 
          if(!searchingQ && correspondenceUnderConsideration.psideIsOpen()) {
@@ -97,9 +95,9 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
                   pending,
                   goalExtractor.pc(pending));
       }
-      if(newPair != null) {
-         openChildren.add(newPair);
-      }
+//      if(newPair != null) {
+//         openChildren.add(newPair);
+//      }
       switchSides();
    }
 

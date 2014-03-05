@@ -7,6 +7,8 @@ import java.util.List;
 public class ListRandomPool<T> {
    private final List<T> list = new ArrayList<>();
 
+   public ListRandomPool() { }
+
    public ListRandomPool(final Collection<T> children) {
       list.addAll(children);
    }

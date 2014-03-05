@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.search.Randomiser;
 
 public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair<T, S>>  {
    boolean hasChildren();
@@ -35,4 +36,8 @@ public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair<T, S
    void qInitial(S qstate0);
 
    Collection<GoalTreePair<T, S>> children();
+
+   void stillOpen(GoalTreePair<T, S> node);
+   boolean hasOpenChildren();
+   GoalTreePair<T, S> randomOpenChild(Randomiser randomiser);
 }

@@ -9,6 +9,8 @@ import java.util.List;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.search.ListRandomPool;
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 
@@ -17,6 +19,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    // map should map to a pair, each trace should reach one GoalTree in each side
    // this also makes it easier to find a place to search from...
    private final GoalMap<T, GoalTreePair<T, S>> children;
+   private final ListRandomPool<GoalTreePair<T, S>> openChildren;
    private final GoalTree<T, S> pside;
    private final GoalTree<T, S> qside;
 
@@ -28,15 +31,28 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       this.pside = pside;
       this.qside = qside;
       children = goalMapFactory.newGoalMap();
+      openChildren = new ListRandomPool<GoalTreePair<T, S>>();
       put(rootGoal, new GoalTreePairImpl<T, S>(pside, qside));
    }
 
    private void put(final T goal, final GoalTreePair<T, S> node) {
       children.put(goal, node);
+      openChildren.add(node);
    }
 
-   @Override
-   public boolean hasChildren() {
+   @Override public void stillOpen(final GoalTreePair<T, S> node) {
+      openChildren.add(node);
+   }
+
+   @Override public GoalTreePair<T, S> randomOpenChild(final Randomiser randomiser) {
+      return openChildren.randomElement(randomiser);
+   }
+
+   @Override public boolean hasOpenChildren() {
+      return !openChildren.isEmpty();
+   }
+
+   @Override public boolean hasChildren() {
       return !children.isEmpty();
    }
 

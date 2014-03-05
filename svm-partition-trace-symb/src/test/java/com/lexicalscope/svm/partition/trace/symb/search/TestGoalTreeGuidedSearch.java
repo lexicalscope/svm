@@ -2,7 +2,6 @@ package com.lexicalscope.svm.partition.trace.symb.search;
 
 import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.truth;
-import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -39,10 +38,6 @@ public class TestGoalTreeGuidedSearch {
    GoalTreeGuidedSearch<Object, FakeVmState> searchStrategy;
 
    @Before public void createStrategy() {
-      context.checking(new Expectations(){{
-         oneOf(correspondence).children(); will(returnValue(asList(pair)));
-      }});
-
       searchStrategy = new GoalTreeGuidedSearch<Object, FakeVmState>(
             correspondence,
             goalExtractor,
@@ -53,7 +48,9 @@ public class TestGoalTreeGuidedSearch {
 //      final GoalTreePair<Object, FakeVmState> pair = pair(goalTree(pstate), goalTree(qstate));
 
       context.checking(new Expectations(){{
-         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
+         oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
+
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
 
@@ -82,7 +79,8 @@ public class TestGoalTreeGuidedSearch {
 
    @Test public void forkExtendsOpenNodesOfSideBeingSearched() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
+         oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
@@ -101,9 +99,12 @@ public class TestGoalTreeGuidedSearch {
 
       context.checking(new Expectations(){{
          oneOf(pair).expandQ(new FakeVmState[]{qstate1, qstate2});
-         allowing(pair).isOpen(); will(returnValue(true)); // one of these is due to an assert. uh-oh
 
-         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(correspondence).stillOpen(pair);
+
+         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
+         oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
@@ -113,7 +114,8 @@ public class TestGoalTreeGuidedSearch {
 
    @Test public void resultCreatedAtLeaf() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
+         oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
 
@@ -131,8 +133,8 @@ public class TestGoalTreeGuidedSearch {
       final Object goal = new Object();
 
       context.checking(new Expectations(){{
-//         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
-         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
+         oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
@@ -156,7 +158,9 @@ public class TestGoalTreeGuidedSearch {
          oneOf(goalExtractor).pc(qstate); will(returnValue(truth()));
 
          oneOf(pair).isOpen(); will(returnValue(true));
-         oneOf(randomiser).random(3); will(returnValue(2));
+         oneOf(correspondence).stillOpen(pair);
+         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
+         oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
