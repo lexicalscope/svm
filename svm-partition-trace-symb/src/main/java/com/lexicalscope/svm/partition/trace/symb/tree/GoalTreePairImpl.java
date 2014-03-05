@@ -15,7 +15,15 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
    }
 
    @Override public boolean isOpen() {
-      return pside.isOpen() || qside.isOpen();
+      return psideIsOpen() || qsideIsOpen();
+   }
+
+   @Override public boolean qsideIsOpen() {
+      return qside.isOpen();
+   }
+
+   @Override public boolean psideIsOpen() {
+      return pside.isOpen();
    }
 
    @Override public boolean covers(final BoolSymbol pc) {
@@ -29,12 +37,12 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
 
    @Override
    public S openPNode(final Randomiser randomiser) {
-      return pside.openNode(randomiser);
+      return pside.randomOpenNode(randomiser);
    }
 
    @Override
    public S openQNode(final Randomiser randomiser) {
-      return qside.openNode(randomiser);
+      return qside.randomOpenNode(randomiser);
    }
 
    @Override public GoalTree<T, S> pside() {

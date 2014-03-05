@@ -2,16 +2,17 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static java.lang.String.format;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
+import java.util.List;
 
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class OpenNodes<S> {
+public final class OpenNodes<S> {
    private final FeasibilityChecker feasibilityChecker;
-   private final LinkedList<S> nodes = new LinkedList<>();
+   private final List<S> nodes = new ArrayList<>();
 
    public OpenNodes(final FeasibilityChecker feasibilityChecker) {
       this.feasibilityChecker = feasibilityChecker;
@@ -39,10 +40,8 @@ public class OpenNodes<S> {
    }
 
    public S random(final Randomiser randomiser) {
-      // TODO[tim]: this is slow in a linked list
-      if(nodes.isEmpty()) {
-         return null;
-      }
+      assert !nodes.isEmpty();
+
       return nodes.remove(randomiser.random(nodes.size()));
    }
 

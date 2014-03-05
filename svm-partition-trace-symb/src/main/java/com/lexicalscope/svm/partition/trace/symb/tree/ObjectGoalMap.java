@@ -1,11 +1,10 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.LinkedHashMap;
 import java.util.List;
-
-import com.lexicalscope.svm.search.Randomiser;
 
 public final class ObjectGoalMap<N> extends AbstractGoalMap<Object, N> {
    private final LinkedHashMap<Object, N> childMap = new LinkedHashMap<>();
@@ -45,7 +44,7 @@ public final class ObjectGoalMap<N> extends AbstractGoalMap<Object, N> {
       return childMap.get(goal);
    }
 
-   @Override public N getRandom(final Randomiser randomiser) {
-      return list.get(randomiser.random(list.size()));
+   @Override public Collection<N> values() {
+      return childMap.values();
    }
 }

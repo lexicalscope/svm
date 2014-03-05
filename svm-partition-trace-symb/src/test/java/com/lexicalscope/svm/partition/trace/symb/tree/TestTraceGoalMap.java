@@ -2,7 +2,6 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.nodeCount;
-import static com.lexicalscope.svm.search.ConstantRandomiser.constant;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -52,16 +51,6 @@ public class TestTraceGoalMap {
 
    @Test public void emptyTraceNotEqualToItself() throws Exception {
       assertThat(trace().build(), not(equalTo(trace().build())));
-   }
-
-   @Test public void canPickNodesAtRandom() throws Exception {
-      final Object node1 = new Object();
-      final Object node2 = new Object();
-      traceGoalMap.put(trace().build(), node1);
-      traceGoalMap.put(traceFoo.build(), node2);
-
-      assertThat(traceGoalMap.getRandom(constant(0)), equalTo(node1));
-      assertThat(traceGoalMap.getRandom(constant(1)), equalTo(node2));
    }
 }
 

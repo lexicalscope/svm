@@ -2,8 +2,7 @@ package com.lexicalscope.svm.partition.trace.symb.search;
 
 import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.truth;
-import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTree.goalTree;
-import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePairImpl.pair;
+import static java.util.Arrays.asList;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 
@@ -18,10 +17,10 @@ import org.junit.rules.ExpectedException;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.search.GoalExtractor;
-import com.lexicalscope.svm.search.GoalTreeGuidedSearchStrategy;
+import com.lexicalscope.svm.search.GoalTreeGuidedSearch;
 import com.lexicalscope.svm.search.Randomiser;
 
-public class TestGoalTreeGuidedSearchStrategy {
+public class TestGoalTreeGuidedSearch {
    @Rule public final ExpectedException exception = ExpectedException.none();
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock private GoalTreeCorrespondence<Object, FakeVmState> correspondence;
@@ -37,21 +36,30 @@ public class TestGoalTreeGuidedSearchStrategy {
    final FakeVmState qstate1 = new FakeVmState("q1");
    final FakeVmState qstate2 = new FakeVmState("q2");
 
-   GoalTreeGuidedSearchStrategy<Object, FakeVmState> searchStrategy;
+   GoalTreeGuidedSearch<Object, FakeVmState> searchStrategy;
 
    @Before public void createStrategy() {
-      searchStrategy = new GoalTreeGuidedSearchStrategy<Object, FakeVmState>(
+      context.checking(new Expectations(){{
+         oneOf(correspondence).children(); will(returnValue(asList(pair)));
+      }});
+
+      searchStrategy = new GoalTreeGuidedSearch<Object, FakeVmState>(
             correspondence,
             goalExtractor,
             randomiser);
    }
 
    @Test public void searchPThenQ() throws Exception {
-      final GoalTreePair<Object, FakeVmState> pair = pair(goalTree(pstate), goalTree(qstate));
+//      final GoalTreePair<Object, FakeVmState> pair = pair(goalTree(pstate), goalTree(qstate));
 
       context.checking(new Expectations(){{
-         exactly(2).of(randomiser).random(1); will(returnValue(0));
-         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
+         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).psideIsOpen(); will(returnValue(true));
+         oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
+
+         oneOf(pair).qsideIsOpen(); will(returnValue(true));
+         oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
       assertThat(searchStrategy.pendingState(), equalTo(pstate));
       searchStrategy.reachedLeaf();
@@ -75,26 +83,44 @@ public class TestGoalTreeGuidedSearchStrategy {
 
    @Test public void forkExtendsOpenNodesOfSideBeingSearched() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
+         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
-         oneOf(pair).expandP(new FakeVmState[]{pstate1, pstate2});
-         oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
-         oneOf(pair).expandQ(new FakeVmState[]{qstate1, qstate2});
-
-         oneOf(correspondence).randomOpenCorrespondence(randomiser);
       }});
 
       assertThat(searchStrategy.pendingState(), equalTo(pstate));
-      searchStrategy.fork(new FakeVmState[]{pstate1, pstate2});
 
+      context.checking(new Expectations(){{
+         oneOf(pair).expandP(new FakeVmState[]{pstate1, pstate2});
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).qsideIsOpen(); will(returnValue(true));
+         oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
+      }});
+      searchStrategy.fork(new FakeVmState[]{pstate1, pstate2});
       assertThat(searchStrategy.pendingState(), equalTo(qstate));
+
+      context.checking(new Expectations(){{
+         oneOf(pair).expandQ(new FakeVmState[]{qstate1, qstate2});
+         allowing(pair).isOpen(); will(returnValue(true)); // one of these is due to an assert. uh-oh
+
+         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(pair).psideIsOpen(); will(returnValue(true));
+         oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
+      }});
+
       searchStrategy.fork(new FakeVmState[]{qstate1, qstate2});
    }
 
    @Test public void resultCreatedAtLeaf() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
+         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
+
+         allowing(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).qsideIsOpen(); will(returnValue(true));
          oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
 
@@ -108,17 +134,37 @@ public class TestGoalTreeGuidedSearchStrategy {
       final Object goal = new Object();
 
       context.checking(new Expectations(){{
-         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
+//         oneOf(correspondence).randomOpenCorrespondence(randomiser); will(returnValue(pair));
+         oneOf(randomiser).random(1); will(returnValue(0));
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
-         oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
+      }});
+      assertThat(searchStrategy.pendingState(), equalTo(pstate));
 
+      context.checking(new Expectations(){{
+         oneOf(correspondence).reachedP(pair, goal, pstate, truth());
          oneOf(goalExtractor).goal(pstate); will(returnValue(goal));
          oneOf(goalExtractor).pc(pstate); will(returnValue(truth()));
 
-         oneOf(correspondence).reachedP(pair, goal, pstate, truth());
+         oneOf(pair).qsideIsOpen(); will(returnValue(true));
+         oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
 
-      assertThat(searchStrategy.pendingState(), equalTo(pstate));
+      searchStrategy.goal();
+      assertThat(searchStrategy.pendingState(), equalTo(qstate));
+
+      context.checking(new Expectations(){{
+         oneOf(correspondence).reachedQ(pair, goal, qstate, truth());
+         oneOf(goalExtractor).goal(qstate); will(returnValue(goal));
+         oneOf(goalExtractor).pc(qstate); will(returnValue(truth()));
+
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(randomiser).random(3); will(returnValue(2));
+         oneOf(pair).isOpen(); will(returnValue(true));
+         oneOf(pair).psideIsOpen(); will(returnValue(true));
+         oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
+      }});
       searchStrategy.goal();
    }
 }

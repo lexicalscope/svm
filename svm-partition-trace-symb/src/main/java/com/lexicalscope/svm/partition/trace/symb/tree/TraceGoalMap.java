@@ -3,13 +3,13 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 import static com.lexicalscope.svm.partition.trace.symb.SymbolicTraceMatchers.equivalentTo;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.partition.trace.Trace;
-import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
@@ -90,8 +90,12 @@ public final class TraceGoalMap<N> extends AbstractGoalMap<Trace, N> {
       };
    }
 
-   @Override public N getRandom(final Randomiser randomiser) {
-      return children.get(randomiser.random(children.size())).node;
+   @Override public Collection<N> values() {
+      final List<N> result = new ArrayList<>(children.size());
+      for (final Child<N> child : children) {
+         result.add(child.node);
+      }
+      return result;
    }
 
    @Override public String toString() {

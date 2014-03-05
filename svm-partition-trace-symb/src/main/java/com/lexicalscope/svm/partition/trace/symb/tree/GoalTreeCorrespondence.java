@@ -1,11 +1,12 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
+import java.util.Collection;
+
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
-import com.lexicalscope.svm.search.Randomiser;
 
-public interface GoalTreeCorrespondence<T, S>  {
+public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair<T, S>>  {
    boolean hasChildren();
 
    boolean isOpen();
@@ -23,8 +24,6 @@ public interface GoalTreeCorrespondence<T, S>  {
 
    int childCount();
 
-   GoalTreePair<T, S> randomOpenCorrespondence(Randomiser randomiser);
-
    /**
     * @param pstate0 an initial state in p
     */
@@ -34,4 +33,6 @@ public interface GoalTreeCorrespondence<T, S>  {
     * @param qstate0 an initial state in q
     */
    void qInitial(S qstate0);
+
+   Collection<GoalTreePair<T, S>> children();
 }

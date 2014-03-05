@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace.symb.search;
+package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;

@@ -71,7 +71,7 @@ public final class GoalTree<T, S> implements InputSubset {
       return child;
    }
 
-   public S openNode(final Randomiser randomiser) {
+   public S randomOpenNode(final Randomiser randomiser) {
       return openNodes.random(randomiser);
    }
 
@@ -102,15 +102,6 @@ public final class GoalTree<T, S> implements InputSubset {
    public boolean isOpen() {
       return !openNodes.isEmpty();
    }
-
-//   public GoalTree<T, S> coveredChild(final BoolSymbol pc) {
-//      for (final GoalTree<T, S> child : children) {
-//         if(child.covers(pc)) {
-//            return child;
-//         }
-//      }
-//      throw new IllegalStateException("no child covers " + pc);
-//   }
 
    public List<GoalTree<T, S>> coveredChilden(final BoolSymbol pc) {
       final List<GoalTree<T, S>> result = new ArrayList<>();

@@ -1,9 +1,9 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
+import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondenceImpl.root;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeMatchers.*;
-import static com.lexicalscope.svm.search.ConstantRandomiser.constant;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.CombinableMatcher.both;
@@ -135,7 +135,10 @@ public class TestGoalTreeCorrespondence {
       correspondence.reachedQ(rootCorrespondence, goal2, stateq2, betweenSixteenAndThirty);
       final GoalTreePair<Object, Object> secondChild = correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
 
-      assertThat(correspondence.randomOpenCorrespondence(constant(1)), equalTo(firstChild));
-      assertThat(correspondence.randomOpenCorrespondence(constant(2)), equalTo(secondChild));
+      assertThat(correspondence.children(),
+            has(
+                  equalTo(rootCorrespondence),
+                  equalTo(firstChild),
+                  equalTo(secondChild)).only().inAnyOrder());
    }
 }
