@@ -48,7 +48,6 @@ public class TestGoalTreeGuidedSearch {
 //      final GoalTreePair<Object, FakeVmState> pair = pair(goalTree(pstate), goalTree(qstate));
 
       context.checking(new Expectations(){{
-         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
          oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
 
          oneOf(pair).psideIsOpen(); will(returnValue(true));
@@ -79,7 +78,6 @@ public class TestGoalTreeGuidedSearch {
 
    @Test public void forkExtendsOpenNodesOfSideBeingSearched() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
          oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).isOpen(); will(returnValue(true));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
@@ -114,7 +112,6 @@ public class TestGoalTreeGuidedSearch {
 
    @Test public void resultCreatedAtLeaf() throws Exception {
       context.checking(new Expectations(){{
-         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
          oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
@@ -133,7 +130,6 @@ public class TestGoalTreeGuidedSearch {
       final Object goal = new Object();
 
       context.checking(new Expectations(){{
-         oneOf(correspondence).hasOpenChildren(); will(returnValue(true));
          oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));
          oneOf(pair).psideIsOpen(); will(returnValue(true));
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));

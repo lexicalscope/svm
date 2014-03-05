@@ -20,6 +20,88 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private boolean qInitialised;
    private S pending;
 
+   private SearchState side = new InitialState();
+   private final SearchState searchingP = new SearchingP();
+   private final SearchState searchingQx = new SearchingQ();
+
+   private interface SearchState {
+      void searchedSide();
+
+      boolean searchMore();
+
+      SearchState nextState();
+
+      boolean isOpen();
+
+      void searchNode();
+   }
+
+   private class InitialState implements SearchState {
+      @Override public void searchedSide() {
+         correspondenceUnderConsideration = correspondence.randomOpenChild(randomiser);
+      }
+
+      @Override public boolean searchMore() {
+         return true;
+      }
+
+      @Override public SearchState nextState() {
+         return searchingP;
+      }
+
+      @Override public boolean isOpen() {
+         throw new UnsupportedOperationException();
+      }
+
+      @Override public void searchNode() {
+         throw new UnsupportedOperationException();
+      }}
+
+   private class SearchingP implements SearchState {
+      @Override public void searchedSide() {
+         // TODO Auto-generated method stub
+      }
+
+      @Override public boolean searchMore() {
+         return true;
+      }
+
+      @Override public SearchState nextState() {
+         return searchingQx;
+      }
+
+      @Override public boolean isOpen() {
+         return correspondenceUnderConsideration.psideIsOpen();
+      }
+
+      @Override public void searchNode() {
+         pending = correspondenceUnderConsideration.openPNode(randomiser);
+      }}
+
+   private class SearchingQ implements SearchState {
+      @Override public void searchedSide() {
+         if(correspondenceUnderConsideration.isOpen()) {
+            correspondence.stillOpen(correspondenceUnderConsideration);
+         }
+      }
+
+      @Override public boolean searchMore() {
+         return correspondence.hasOpenChildren();
+      }
+
+      @Override public SearchState nextState() {
+         correspondenceUnderConsideration = correspondence.randomOpenChild(randomiser);
+         return searchingP;
+      }
+
+      @Override public boolean isOpen() {
+         return correspondenceUnderConsideration.qsideIsOpen();
+      }
+
+      @Override public void searchNode() {
+         pending = correspondenceUnderConsideration.openQNode(randomiser);
+      }};
+
    public GoalTreeGuidedSearch(
          final GoalTreeCorrespondence<T, S> correspondence,
          final GoalExtractor<T, S> goalExtractor,
@@ -37,31 +119,18 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    }
 
    private S switchSides() {
-      if(searchingQ &&
-            correspondenceUnderConsideration != null &&
-            correspondenceUnderConsideration.isOpen()) {
-         correspondence.stillOpen(correspondenceUnderConsideration);
-      }
+      side.searchedSide();
 
-      while(!searchingQ || correspondence.hasOpenChildren()) {
+      while(side.searchMore()) {
          searchingQ = !searchingQ;
-
-         if(!searchingQ) {
-            correspondenceUnderConsideration = correspondence.randomOpenChild(randomiser);
-         }
-
-         if(!searchingQ && correspondenceUnderConsideration.psideIsOpen()) {
-            return pending = correspondenceUnderConsideration.openPNode(randomiser);
-         }
-
-         if(searchingQ && correspondenceUnderConsideration.qsideIsOpen()) {
-            return pending = correspondenceUnderConsideration.openQNode(randomiser);
+         side = side.nextState();
+         if(side.isOpen()) {
+            side.searchNode();
+            return pending;
          }
       }
       return pending = null;
    }
-
-
 
    @Override public void reachedLeaf() {
       result.add(pending);
@@ -79,25 +148,21 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    }
 
    @Override public void goal() {
-      final GoalTreePair<T, S> newPair;
       if(searchingQ) {
-         newPair = correspondence.
+         correspondence.
             reachedQ(
                   correspondenceUnderConsideration,
                   goalExtractor.goal(pending),
                   pending,
                   goalExtractor.pc(pending));
       } else {
-         newPair = correspondence.
+         correspondence.
             reachedP(
                   correspondenceUnderConsideration,
                   goalExtractor.goal(pending),
                   pending,
                   goalExtractor.pc(pending));
       }
-//      if(newPair != null) {
-//         openChildren.add(newPair);
-//      }
       switchSides();
    }
 
