@@ -1,12 +1,13 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class AddressToHashCodeOp implements Vop {
    @Override public void eval(final JState ctx) {
-      ctx.push(ctx.hashCode(ctx.pop()));
+      ctx.push(ctx.hashCode((ObjectRef) ctx.pop()));
    }
 
    @Override public String toString() {

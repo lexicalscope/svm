@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops.array;
 
 import com.lexicalscope.svm.heap.Allocatable;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayConstructor;
 import com.lexicalscope.svm.j.instruction.concrete.array.InitStrategy;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
@@ -38,7 +39,7 @@ public class NewSymbArray implements ArrayConstructor {
    }
 
    private void newSymbolicArray(final JState ctx, final InitStrategy initStrategy, final ISymbol arrayLength) {
-      final Object arrayAddress = ctx.newObject(new Allocatable() {
+      final ObjectRef arrayAddress = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return NewArrayOp.ARRAY_PREAMBLE + 1;
          }

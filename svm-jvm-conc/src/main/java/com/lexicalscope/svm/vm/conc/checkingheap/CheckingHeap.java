@@ -4,6 +4,7 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.heap.Heap;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.StaticsMarker;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
@@ -23,17 +24,17 @@ public class CheckingHeap implements Heap {
    }
 
    @Override
-   public Object newObject(final Allocatable klass) {
+   public ObjectRef newObject(final Allocatable klass) {
       return heap.newObject(klass);
    }
 
    @Override
-   public void put(final Object address, final int offset, final Object val) {
+   public void put(final ObjectRef address, final int offset, final Object val) {
       assert putPreCondition(address, offset, val);
       heap.put(address, offset, val);
    }
 
-   private boolean putPreCondition(final Object address, final int offset, final Object val) {
+   private boolean putPreCondition(final ObjectRef address, final int offset, final Object val) {
       final Object marker = heap.get(address, SClass.OBJECT_MARKER_OFFSET);
       if(offset == SClass.OBJECT_MARKER_OFFSET) {
          assert marker == null;
@@ -59,17 +60,17 @@ public class CheckingHeap implements Heap {
    }
 
    @Override
-   public Object get(final Object address, final int offset) {
+   public Object get(final ObjectRef address, final int offset) {
       return heap.get(address, offset);
    }
 
    @Override
-   public Object nullPointer() {
+   public ObjectRef nullPointer() {
       return heap.nullPointer();
    }
 
    @Override
-   public int hashCode(final Object address) {
+   public int hashCode(final ObjectRef address) {
       return heap.hashCode(address);
    }
 

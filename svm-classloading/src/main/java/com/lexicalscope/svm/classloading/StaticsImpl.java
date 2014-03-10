@@ -9,6 +9,7 @@ import java.util.List;
 import java.util.Map;
 
 import com.lexicalscope.svm.classloading.asm.AsmSClass;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.JavaConstants;
 import com.lexicalscope.svm.vm.j.Statics;
 import com.lexicalscope.svm.vm.j.StaticsMarker;
@@ -22,23 +23,23 @@ public class StaticsImpl implements Statics {
    private final Map<String, SClass> defined;
 
    // TODO[tim]: combine these maps for efficiency
-   private final Map<SClass, Object> staticsAddresses;
-   private final Map<SClass, Object> classAddresses;
+   private final Map<SClass, ObjectRef> staticsAddresses;
+   private final Map<SClass, ObjectRef> classAddresses;
 
    private final SClassLoader classLoader;
 
    public StaticsImpl(final SClassLoader classLoader) {
       this(classLoader,
             new HashMap<String, SClass>(),
-            new HashMap<SClass, Object>(),
-            new HashMap<SClass, Object>());
+            new HashMap<SClass, ObjectRef>(),
+            new HashMap<SClass, ObjectRef>());
    }
 
    private StaticsImpl(
          final SClassLoader classLoader,
          final Map<String, SClass> defined,
-         final Map<SClass, Object> staticsAddresses,
-         final Map<SClass, Object> classAddresses) {
+         final Map<SClass, ObjectRef> staticsAddresses,
+         final Map<SClass, ObjectRef> classAddresses) {
       this.defined = defined;
       this.classLoader = classLoader;
       this.staticsAddresses = staticsAddresses;
@@ -129,33 +130,33 @@ public class StaticsImpl implements Statics {
       return defined.get(klassName);
    }
 
-   @Override public void staticsAt(final SClass klass, final Object staticsAddress) {
+   @Override public void staticsAt(final SClass klass, final ObjectRef staticsAddress) {
       assert !staticsAddresses.containsKey(klass);
       staticsAddresses.put(klass, staticsAddress);
    }
 
-   @Override public Object whereMyStaticsAt(final SClass klass) {
-      final Object address = staticsAddresses.get(klass);
+   @Override public ObjectRef whereMyStaticsAt(final SClass klass) {
+      final ObjectRef address = staticsAddresses.get(klass);
       if(address == null) {
          throw new IllegalStateException("no statics for " + klass);
       }
       return address;
    }
 
-   @Override public void classAt(final SClass klass, final Object classAddress) {
+   @Override public void classAt(final SClass klass, final ObjectRef classAddress) {
       assert !classAddresses.containsKey(klass);
       classAddresses.put(klass, classAddress);
    }
 
-   @Override public Object whereMyClassAt(final SClass klass) {
-      final Object address = classAddresses.get(klass);
+   @Override public ObjectRef whereMyClassAt(final SClass klass) {
+      final ObjectRef address = classAddresses.get(klass);
       if(address == null) {
          throw new IllegalStateException("no class for " + klass);
       }
       return address;
    }
 
-   @Override public Object whereMyClassAt(final String internalName) {
+   @Override public ObjectRef whereMyClassAt(final String internalName) {
       final SClass klass = load(internalName);
       return whereMyClassAt(klass);
    }

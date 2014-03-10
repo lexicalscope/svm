@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.pool;
 import static com.lexicalscope.svm.vm.j.JavaConstants.STRING_CLASS;
 import static org.objectweb.asm.Type.getInternalName;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
@@ -24,14 +25,14 @@ public final class StringPoolLoadOperator implements Vop {
 
       // create new string
       new NewObjectOp(getInternalName(String.class)).eval(ctx);
-      final Object stringAddress = ctx.pop();
+      final ObjectRef stringAddress = (ObjectRef) ctx.pop();
 
       // create char array
       final char[] chars = val.toCharArray();
 
       ctx.push(chars.length);
       new NewArrayOp(new NewConcArray()).eval(ctx);
-      final Object valueAddress = ctx.pop();
+      final ObjectRef valueAddress = (ObjectRef) ctx.pop();
 
       for (int i = 0; i < chars.length; i++) {
          ctx.put(valueAddress, NewArrayOp.ARRAY_PREAMBLE + i, chars[i]);

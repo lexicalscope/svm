@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.array;
 
 import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.*;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
@@ -33,16 +34,16 @@ public class ArrayStoreOp implements Vop {
    @Override public void eval(final JState ctx) {
       final Object value = ctx.pop();
       final int offset = (int) ctx.pop();
-      final Object arrayref = ctx.pop();
+      final ObjectRef arrayref = (ObjectRef) ctx.pop();
       storeInHeap(ctx, arrayref, offset, value);
    }
 
-   public void storeInHeap(final JState ctx, final Object arrayref, final int offset, final Object value) {
+   public void storeInHeap(final JState ctx, final ObjectRef arrayref, final int offset, final Object value) {
       assert boundsCheck(ctx, arrayref, offset);
       ctx.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
    }
 
-   private boolean boundsCheck(final JState ctx, final Object arrayref, final int offset) {
+   private boolean boundsCheck(final JState ctx, final ObjectRef arrayref, final int offset) {
       return offset < (int) ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
    }
 

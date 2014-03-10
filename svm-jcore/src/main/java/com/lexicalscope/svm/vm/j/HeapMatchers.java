@@ -6,16 +6,17 @@ import org.hamcrest.Matchers;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.svm.heap.Heap;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
 public class HeapMatchers {
    public static final class HeapLocation {
-      private final Object heapAddress;
+      private final ObjectRef heapAddress;
       private final SClass sClass;
       private final String fieldName;
 
-      public HeapLocation(final Object heapAddress, final SClass sClass, final String fieldName) {
+      public HeapLocation(final ObjectRef heapAddress, final SClass sClass, final String fieldName) {
          this.heapAddress = heapAddress;
          this.sClass = sClass;
          this.fieldName = fieldName;
@@ -26,7 +27,7 @@ public class HeapMatchers {
       }
    }
 
-   public static HeapLocation heapLocation(final Object heapAddress, final SClass sClass, final String fieldName) {
+   public static HeapLocation heapLocation(final ObjectRef heapAddress, final SClass sClass, final String fieldName) {
       return new HeapLocation(heapAddress, sClass, fieldName);
    }
 

@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JavaConstants;
 import com.lexicalscope.svm.vm.j.Op;
-import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.StaticsMarker;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
@@ -43,14 +44,14 @@ public final class DefineClassOp implements Op<List<SClass>> {
    public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");
    static void allocateClass(final JState ctx, final SClass klass) {
       final SClass classClass = ctx.classClass();
-      final Object classAddress = NewObjectOp.allocateObject(ctx, classClass);
+      final ObjectRef classAddress = NewObjectOp.allocateObject(ctx, classClass);
       ctx.put(classAddress,  classClass.fieldIndex(internalClassPointer), klass);
       ctx.classAt(klass, classAddress);
    }
 
    static void allocateStatics(final JState ctx, final StaticsMarker staticsMarker, final SClass klass) {
       if(klass.statics().allocateSize() > 0) {
-         final Object staticsAddress = ctx.newObject(klass.statics());
+         final ObjectRef staticsAddress = ctx.newObject(klass.statics());
          ctx.put(staticsAddress, SClass.OBJECT_MARKER_OFFSET, staticsMarker);
          ctx.staticsAt(klass, staticsAddress);
       }

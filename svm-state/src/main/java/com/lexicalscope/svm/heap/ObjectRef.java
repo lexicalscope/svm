@@ -7,7 +7,7 @@ public final class ObjectRef {
       this.address = address;
    }
 
-   public int address() {
+   int address() {
       return address;
    }
 
@@ -16,7 +16,9 @@ public final class ObjectRef {
    }
 
    @Override public boolean equals(final Object obj) {
-      if(obj == this) return true;
+      if(obj == this) {
+         return true;
+      }
       if(obj != null && obj.getClass().equals(this.getClass())) {
          return ((ObjectRef) obj).address == address;
       }

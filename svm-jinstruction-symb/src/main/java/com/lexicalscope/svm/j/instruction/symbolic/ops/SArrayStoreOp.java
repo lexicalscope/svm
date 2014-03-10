@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.symbolic.ops;
 import static com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp.ARRAY_LENGTH_OFFSET;
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.asISymbol;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayStoreSymbol;
@@ -25,7 +26,7 @@ public class SArrayStoreOp implements Vop {
    @Override public void eval(final JState ctx) {
       final Object value = ctx.pop();
       final Object offset = ctx.pop();
-      final Object arrayref = ctx.pop();
+      final ObjectRef arrayref = (ObjectRef) ctx.pop();
 
       final Object arrayLength = ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
       if(arrayLength instanceof Integer && offset instanceof Integer) {
@@ -37,7 +38,7 @@ public class SArrayStoreOp implements Vop {
       }
    }
 
-   private void storeInSymbolicArray(final JState ctx, final Object arrayref, final Object offset, final Object value) {
+   private void storeInSymbolicArray(final JState ctx, final ObjectRef arrayref, final Object offset, final Object value) {
       final IArraySymbol symbol = (IArraySymbol) ctx.get(arrayref, NewSymbArray.ARRAY_SYMBOL_OFFSET);
       ctx.put(arrayref,
             NewSymbArray.ARRAY_SYMBOL_OFFSET,

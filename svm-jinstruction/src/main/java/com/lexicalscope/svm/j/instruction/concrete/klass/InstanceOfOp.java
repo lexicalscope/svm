@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
@@ -15,7 +16,7 @@ public class InstanceOfOp implements Vop {
    }
 
    @Override public void eval(final JState ctx) {
-      final Object address = ctx.pop();
+      final ObjectRef address = (ObjectRef) ctx.pop();
       if(!ctx.nullPointer().equals(address)) {
          ctx.push(1);
          return;

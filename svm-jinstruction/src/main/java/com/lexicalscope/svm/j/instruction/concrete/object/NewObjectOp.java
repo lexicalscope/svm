@@ -3,29 +3,30 @@ package com.lexicalscope.svm.j.instruction.concrete.object;
 import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.svm.heap.Heap;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public final class NewObjectOp implements Op<Object> {
+public final class NewObjectOp implements Op<ObjectRef> {
    private final String klassDesc;
 
    public NewObjectOp(final String klassDesc) {
       this.klassDesc = klassDesc;
    }
 
-   @Override public Object eval(final JState ctx) {
+   @Override public ObjectRef eval(final JState ctx) {
       // TODO[tim]: linking should remove this
       final SClass klass = ctx.load(klassDesc);
-      final Object address = allocateObject(ctx, klass);
+      final ObjectRef address = allocateObject(ctx, klass);
       ctx.push(address);
 
       return address;
    }
 
-   public static Object allocateObject(final Heap heap, final SClass klass) {
-      final Object address = heap.newObject(klass);
+   public static ObjectRef allocateObject(final Heap heap, final SClass klass) {
+      final ObjectRef address = heap.newObject(klass);
       heap.put(address, OBJECT_MARKER_OFFSET, klass);
 
       final Object nullPointer = heap.nullPointer();
@@ -37,8 +38,8 @@ public final class NewObjectOp implements Op<Object> {
       return address;
    }
 
-   public static Object allocateObject(final JState ctx, final SClass klass) {
-      final Object address = ctx.newObject(klass);
+   public static ObjectRef allocateObject(final JState ctx, final SClass klass) {
+      final ObjectRef address = ctx.newObject(klass);
       ctx.put(address, OBJECT_MARKER_OFFSET, klass);
 
       final Object nullPointer = ctx.nullPointer();

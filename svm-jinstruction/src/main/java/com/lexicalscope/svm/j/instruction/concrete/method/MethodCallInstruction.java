@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.method;
 
 import static com.lexicalscope.svm.vm.j.InstructionCode.*;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.MethodCallVop;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
@@ -10,9 +11,9 @@ import com.lexicalscope.svm.stack.SnapshotableStackFrame;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JavaConstants;
 import com.lexicalscope.svm.vm.j.MethodResolver;
-import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethod;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
@@ -94,7 +95,7 @@ public class MethodCallInstruction {
    }
 
    private static MethodResolver receiver(final Object[] args, final SMethodName sMethodName, final JState ctx) {
-      final Object receiver = ctx.get(args[0], SClass.OBJECT_MARKER_OFFSET);
+      final Object receiver = ctx.get((ObjectRef) args[0], SClass.OBJECT_MARKER_OFFSET);
       assert receiver != null : sMethodName;
       assert receiver instanceof MethodResolver : "no " + sMethodName + " in " + receiver;
       return (MethodResolver) receiver;

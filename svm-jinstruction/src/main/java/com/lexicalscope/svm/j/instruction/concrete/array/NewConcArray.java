@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.array;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.svm.heap.Allocatable;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
@@ -13,7 +14,7 @@ public final class NewConcArray implements ArrayConstructor {
          final InitStrategy initStrategy) {
       final Object initValue = initStrategy.initialValue(ctx);
 
-      final Object arrayAddress = ctx.newObject(new Allocatable() {
+      final ObjectRef arrayAddress = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return arrayLength + NewArrayOp.ARRAY_PREAMBLE;
          }
@@ -27,7 +28,7 @@ public final class NewConcArray implements ArrayConstructor {
       ctx.push(arrayAddress);
    }
 
-   public static void initArrayPreamble(final JState ctx, final Object arrayAddress, final Object arrayLength) {
+   public static void initArrayPreamble(final JState ctx, final ObjectRef arrayAddress, final Object arrayLength) {
       // TODO - arrays can have different types
       final SClass objectArrayClass = ctx.load(getInternalName(Object[].class));
       ctx.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);

@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.object;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
@@ -44,7 +45,7 @@ public final class PutFieldOp implements Vop {
       final int offset = ctx.load(fieldInsnNode.owner).fieldIndex(name);
 
       final Object val = ctx.pop();
-      final Object obj = ctx.pop();
+      final ObjectRef obj = (ObjectRef) ctx.pop();
 
       ctx.put(obj, offset, conversion.convert(val));
    }

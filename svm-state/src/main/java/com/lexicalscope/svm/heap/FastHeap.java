@@ -15,27 +15,27 @@ public class FastHeap implements Heap {
    }
 
    @Override
-   public Object newObject(final Allocatable klass) {
+   public ObjectRef newObject(final Allocatable klass) {
       final int key = trie.allocate(klass.allocateSize());
       return new ObjectRef(key);
    }
 
    @Override
-   public void put(final Object obj, final int offset, final Object val) {
-      trie.insert(objectForRef(obj) + offset, val);
+   public void put(final ObjectRef obj, final int offset, final Object val) {
+      trie.insert(addressFromRef(obj) + offset, val);
    }
 
    @Override
-   public Object get(final Object obj, final int offset) {
+   public Object get(final ObjectRef obj, final int offset) {
       assert offset >= 0;
-      return trie.get(objectForRef(obj) + offset);
+      return trie.get(addressFromRef(obj) + offset);
    }
 
-   private int objectForRef(final Object obj) {
-      return ((ObjectRef) obj).address();
+   private int addressFromRef(final ObjectRef obj) {
+      return obj.address();
    }
 
-   @Override public Object nullPointer() {
+   @Override public ObjectRef nullPointer() {
       return new ObjectRef(trie.nullPointer());
    }
 
@@ -49,7 +49,7 @@ public class FastHeap implements Heap {
       return trie.toString();
    }
 
-   @Override public int hashCode(final Object address) {
-      return objectForRef(address);
+   @Override public int hashCode(final ObjectRef address) {
+      return addressFromRef(address);
    }
 }

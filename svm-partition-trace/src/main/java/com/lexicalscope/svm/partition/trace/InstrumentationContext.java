@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.partition.trace;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
@@ -24,7 +25,7 @@ public class InstrumentationContext {
 
    public SClass receiverKlass() {
       final int argSize = methodName.argSize();
-      final Object receiver = state.peek(argSize)[0];
+      final ObjectRef receiver = (ObjectRef) state.peek(argSize)[0];
 
       return (SClass) state.get(receiver, SClass.OBJECT_MARKER_OFFSET);
    }

@@ -6,6 +6,7 @@ import java.util.List;
 
 import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.heap.Heap;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.metastate.MetaFactory;
 import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.metastate.MetaState;
@@ -113,7 +114,7 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public Object nullPointer() {
+   public ObjectRef nullPointer() {
       return heap.nullPointer();
    }
 
@@ -146,7 +147,7 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public Object hashCode(final Object address) {
+   public Object hashCode(final ObjectRef address) {
       return heap.hashCode(address);
    }
 
@@ -155,12 +156,12 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public Object get(final Object address, final int offset) {
+   public Object get(final ObjectRef address, final int offset) {
       return heap.get(address, offset);
    }
 
    @Override
-   public void put(final Object address, final int offset, final Object val) {
+   public void put(final ObjectRef address, final int offset, final Object val) {
       heap.put(address, offset, val);
    }
 
@@ -225,17 +226,17 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public void classAt(final SClass klass, final Object classAddress) {
+   public void classAt(final SClass klass, final ObjectRef classAddress) {
       statics.classAt(klass, classAddress);
    }
 
    @Override
-   public Object newObject(final Allocatable klass) {
+   public ObjectRef newObject(final Allocatable klass) {
       return heap.newObject(klass);
    }
 
    @Override
-   public void staticsAt(final SClass klass, final Object classAddress) {
+   public void staticsAt(final SClass klass, final ObjectRef classAddress) {
       statics.staticsAt(klass, classAddress);
    }
 
@@ -254,12 +255,12 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public Object whereMyClassAt(final String klassName) {
+   public ObjectRef whereMyClassAt(final String klassName) {
       return statics.whereMyClassAt(klassName);
    }
 
    @Override
-   public Object whereMyStaticsAt(final SClass klass) {
+   public ObjectRef whereMyStaticsAt(final SClass klass) {
       return statics.whereMyStaticsAt(klass);
    }
 

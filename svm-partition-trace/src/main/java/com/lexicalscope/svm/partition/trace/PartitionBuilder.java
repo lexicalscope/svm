@@ -9,6 +9,7 @@ import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
@@ -108,7 +109,7 @@ public class PartitionBuilder {
    }
 
    private SClass frameReceiver(final JState item, final StackFrame previousFrame) {
-      return (SClass) item.get(previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
+      return (SClass) item.get((ObjectRef) previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
    }
 
    public Matcher<? super SMethodDescriptor> staticOverApproximateMatcher() {

@@ -2,6 +2,7 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 
 import org.objectweb.asm.tree.FieldInsnNode;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
@@ -19,7 +20,7 @@ public final class GetStaticOp implements Vop {
 
    @Override public void eval(final JState ctx) {
       final SClass klass = ctx.load(fieldInsnNode.owner);
-      final Object staticsAddress = ctx.whereMyStaticsAt(klass);
+      final ObjectRef staticsAddress = ctx.whereMyStaticsAt(klass);
       final int offset = klass.staticFieldIndex(name);
 
       ctx.push(ctx.get(staticsAddress, offset));

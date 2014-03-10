@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.object;
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
@@ -45,7 +46,7 @@ public final class GetFieldOp implements Vop {
       final int offset = ctx.load(fieldInsnNode.owner).fieldIndex(name);
       final Object obj = ctx.pop();
 
-      ctx.push(conversion.convert(ctx.get(obj, offset)));
+      ctx.push(conversion.convert(ctx.get((ObjectRef) obj, offset)));
    }
 
    @Override

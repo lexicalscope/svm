@@ -3,6 +3,7 @@ package com.lexicalscope.svm.vm.j;
 import java.util.List;
 
 import com.lexicalscope.svm.heap.Allocatable;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.metastate.MetaFactory;
 import com.lexicalscope.svm.metastate.MetaKey;
 import com.lexicalscope.svm.stack.Stack;
@@ -32,10 +33,10 @@ public interface JState extends Snapshotable<JState>, VmState {
    JState[] fork();
    void goal();
 
-   Object whereMyStaticsAt(SClass klass);
-   void staticsAt(SClass klass, Object classAddress);
-   Object whereMyClassAt(String klassName);
-   void classAt(SClass klass, Object classAddress);
+   ObjectRef whereMyStaticsAt(SClass klass);
+   void staticsAt(SClass klass, ObjectRef classAddress);
+   ObjectRef whereMyClassAt(String klassName);
+   void classAt(SClass klass, ObjectRef classAddress);
 
    StaticsMarker staticsMarker(SClass klass);
    List<SClass> defineClass(String klassName);
@@ -43,11 +44,11 @@ public interface JState extends Snapshotable<JState>, VmState {
    boolean isDefined(String klass);
    SClass load(String klassName);
 
-   Object newObject(Allocatable klass);
-   Object hashCode(Object object);
-   Object nullPointer();
-   void put(Object address, int offset, Object val);
-   Object get(Object address, int offset);
+   ObjectRef newObject(Allocatable klass);
+   Object hashCode(ObjectRef object);
+   ObjectRef nullPointer();
+   void put(ObjectRef address, int offset, Object val);
+   Object get(ObjectRef address, int offset);
 
    SClass classClass();
 

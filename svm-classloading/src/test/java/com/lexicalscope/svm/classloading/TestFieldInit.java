@@ -12,6 +12,7 @@ import org.objectweb.asm.Type;
 
 import com.lexicalscope.svm.heap.FastHeap;
 import com.lexicalscope.svm.heap.Heap;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.stack.DequeStack;
 import com.lexicalscope.svm.stack.SnapshotableStackFrame;
@@ -25,7 +26,7 @@ public class TestFieldInit {
 
    private final Heap heap = new FastHeap();
    private SClass sClass;
-   private Object newObject;
+   private ObjectRef newObject;
 
    @Before public void before() {
       final List<SClass> klasses = statics.defineClass(klassName);
