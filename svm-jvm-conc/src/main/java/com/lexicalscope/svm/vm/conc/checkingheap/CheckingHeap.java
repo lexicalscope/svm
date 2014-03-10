@@ -24,8 +24,8 @@ public class CheckingHeap implements Heap {
    }
 
    @Override
-   public ObjectRef newObject(final Allocatable klass) {
-      return heap.newObject(klass);
+   public ObjectRef newObject(final Allocatable klass, final Object tag) {
+      return heap.newObject(klass, tag);
    }
 
    @Override

@@ -22,7 +22,7 @@ public class JStateImpl implements JState {
    private final Heap heap;
    private final MetaState meta;
    private final StateSearch<JState> vm;
-   private final StateTag tag;
+   private final StateTag descendentTag;
 
    public JStateImpl(
          final StateTag tag,
@@ -31,7 +31,7 @@ public class JStateImpl implements JState {
          final Stack stack,
          final Heap heap,
          final MetaState meta) {
-      this.tag = tag;
+      this.descendentTag = tag;
       this.vm = vm;
       this.statics = statics;
       this.stack = stack;
@@ -78,7 +78,7 @@ public class JStateImpl implements JState {
    }
 
    @Override public final JStateImpl snapshot() {
-      return new JStateImpl(tag, vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
+      return new JStateImpl(descendentTag, vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
    @Override public final SStackTrace trace() {
@@ -94,7 +94,7 @@ public class JStateImpl implements JState {
       if(obj != null && obj.getClass().equals(this.getClass())) {
          final JStateImpl that = (JStateImpl) obj;
          return
-               equal(that.tag, this.tag) &&
+               equal(that.descendentTag, this.descendentTag) &&
                equal(that.meta, this.meta) &&
                equal(that.vm, this.vm) &&
                equal(that.statics, this.statics) &&
@@ -231,8 +231,8 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public ObjectRef newObject(final Allocatable klass) {
-      return heap.newObject(klass);
+   public ObjectRef newObject(final Allocatable klass, final Object tag) {
+      return heap.newObject(klass, tag);
    }
 
    @Override
@@ -293,7 +293,23 @@ public class JStateImpl implements JState {
       stack.push(stackFrame);
    }
 
-   @Override public StateTag tag() {
-      return tag;
+   @Override public StateTag descendentTag() {
+      return descendentTag;
+   }
+
+   @Override public <T> T getFrameMeta(final MetaKey<T> key) {
+      return stackFrame().getMeta(key);
+   }
+
+   @Override public <T> void setFrameMeta(final MetaKey<T> key, final T value) {
+      stackFrame().setMeta(key, value);
+   }
+
+   @Override public boolean containsFrameMeta(final MetaKey<?> key) {
+      return stackFrame().containsMeta(key);
+   }
+
+   @Override public void removeFrameMeta(final MetaKey<?> key) {
+      stackFrame().removeMeta(key);
    }
 }

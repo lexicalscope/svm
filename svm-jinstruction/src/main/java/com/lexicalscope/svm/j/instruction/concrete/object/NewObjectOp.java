@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
+import static com.lexicalscope.svm.j.instruction.concrete.object.ObjectTagMetaKey.OBJECT_TAG;
 import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
 
 import com.lexicalscope.svm.heap.ObjectRef;
@@ -25,7 +26,7 @@ public final class NewObjectOp implements Op<ObjectRef> {
    }
 
    public static ObjectRef allocateObject(final JState ctx, final SClass klass) {
-      final ObjectRef address = ctx.newObject(klass);
+      final ObjectRef address = ctx.newObject(klass, ctx.getFrameMeta(OBJECT_TAG));
       ctx.put(address, OBJECT_MARKER_OFFSET, klass);
 
       final Object nullPointer = ctx.nullPointer();

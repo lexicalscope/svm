@@ -141,7 +141,7 @@ public class VmRule implements MethodRule {
 
    public <T> T getMeta(final StateTag tag, final MetaKey<T> key) {
       for (final JState result : results()) {
-         if(result.tag().equals(tag)) {
+         if(result.descendentTag().equals(tag)) {
             return result.getMeta(key);
          }
       }

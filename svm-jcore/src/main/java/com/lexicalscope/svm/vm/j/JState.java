@@ -44,7 +44,7 @@ public interface JState extends Snapshotable<JState>, VmState {
    boolean isDefined(String klass);
    SClass load(String klassName);
 
-   ObjectRef newObject(Allocatable klass);
+   ObjectRef newObject(Allocatable klass, Object tag);
    Object hashCode(ObjectRef object);
    ObjectRef nullPointer();
    void put(ObjectRef address, int offset, Object val);
@@ -69,6 +69,11 @@ public interface JState extends Snapshotable<JState>, VmState {
    <T> void setMeta(MetaKey<T> key, T value);
    <T> void replaceMeta(MetaKey<T> key, MetaFactory<T> metaFactory);
 
+   <T> T getFrameMeta(MetaKey<T> key);
+   <T> void setFrameMeta(MetaKey<T> key, T value);
+   boolean containsFrameMeta(MetaKey<?> key);
+   void removeFrameMeta(MetaKey<?> key);
+
    SStackTrace trace();
-   StateTag tag();
+   StateTag descendentTag();
 }
