@@ -28,7 +28,7 @@ public GuidedSearchSearchingP(final Randomiser randomiser) {
    return true;
 }
 
-@Override public GuidedSearchState<T1, S1> nextState() {
+@Override public GuidedSearchState<T1, S1> nextSide() {
    return searchingQy;
 }
 

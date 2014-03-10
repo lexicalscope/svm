@@ -11,7 +11,7 @@ interface GuidedSearchState<T1, S1> {
 
    boolean searchMore(GoalTreeCorrespondence<T1, S1> correspondence);
 
-   GuidedSearchState<T1, S1> nextState();
+   GuidedSearchState<T1, S1> nextSide();
 
    GoalTreePair<T1, S1> pickCorrespondence(
          GoalTreeCorrespondence<T1, S1> correspondence,

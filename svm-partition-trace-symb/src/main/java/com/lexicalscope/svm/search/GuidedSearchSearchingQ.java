@@ -25,7 +25,7 @@ public GuidedSearchSearchingQ(final GuidedSearchSearchingP<T1, S1> searchingP, f
    return correspondence.hasOpenChildren();
 }
 
-@Override public GuidedSearchState<T1, S1> nextState() {
+@Override public GuidedSearchState<T1, S1> nextSide() {
    return searchingP;
 }
 

@@ -40,7 +40,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       side.searchedSide(correspondence, correspondenceUnderConsideration);
 
       while(side.searchMore(correspondence)) {
-         side = side.nextState();
+         side = side.nextSide();
          correspondenceUnderConsideration =
                side.pickCorrespondence(correspondence, correspondenceUnderConsideration);
 
