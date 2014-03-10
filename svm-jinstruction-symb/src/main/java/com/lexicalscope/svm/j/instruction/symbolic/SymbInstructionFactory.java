@@ -17,6 +17,7 @@ import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LAndOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.object.GetFieldOp;
+import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.j.instruction.concrete.object.PutFieldOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
@@ -39,6 +40,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
+import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -248,5 +250,9 @@ public class SymbInstructionFactory implements InstructionFactory {
       } else {
          return new LinearInstruction(new LoadConstantArg(object));
       }
+   }
+
+   @Override public Op<?> newObject(final String klassDesc) {
+      return new NewObjectOp(klassDesc);
    }
 }

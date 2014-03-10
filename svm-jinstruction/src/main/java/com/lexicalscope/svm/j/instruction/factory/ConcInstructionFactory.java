@@ -11,24 +11,24 @@ import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifeq;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifge;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifgt;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpBranchPredicate;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpeq;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmple;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpne;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.ICmpOp;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifacmpeq;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifacmpne;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifeq;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifge;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifgt;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpeq;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpge;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpgt;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmple;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmplt;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnonnull;
-import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnull;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ificmpne;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifle;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Iflt;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifne;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnonnull;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnull;
 import com.lexicalscope.svm.j.instruction.concrete.d0uble.DConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FAddOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FConstOperator;
@@ -45,12 +45,14 @@ import com.lexicalscope.svm.j.instruction.concrete.l0ng.LAndOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.object.ConcFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.concrete.object.GetFieldOp;
+import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.j.instruction.concrete.object.PutFieldOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
+import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public class ConcInstructionFactory implements InstructionFactory {
@@ -242,5 +244,9 @@ public class ConcInstructionFactory implements InstructionFactory {
 
    @Override public Vop loadArg(final Object object, final InstructionSource instructions) {
       return new LinearInstruction(new LoadConstantArg(object));
+   }
+
+   @Override public Op<?> newObject(final String klassDesc) {
+      return new NewObjectOp(klassDesc);
    }
 }

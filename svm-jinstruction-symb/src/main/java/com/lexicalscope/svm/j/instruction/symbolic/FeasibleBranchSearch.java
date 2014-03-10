@@ -22,7 +22,6 @@ public class FeasibleBranchSearch implements StateSearch<JState> {
 
    @Override
    public void fork(final JState[] states) {
-      System.out.println("fork " + states.length);
       final JState[] result = Arrays.copyOf(states, states.length);
       int resultCount = 0;
       for (final JState state : states) {

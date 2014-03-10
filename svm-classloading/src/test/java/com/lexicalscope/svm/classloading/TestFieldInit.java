@@ -24,7 +24,7 @@ public class TestFieldInit {
    private final StaticsImpl statics = new StaticsImpl(classLoader);
    private final String klassName = Type.getInternalName(ClassWithAllTypesOfFields.class);
 
-   private final Heap heap = new FastHeap();
+   private final Heap heap = FastHeap.createFastHeap();
    private SClass sClass;
    private ObjectRef newObject;
 

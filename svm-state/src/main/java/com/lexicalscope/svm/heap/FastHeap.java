@@ -4,20 +4,23 @@ import com.lexicalscope.rcbittrie.BitTrie;
 
 
 public class FastHeap implements Heap {
-   private final BitTrie trie;
-
-   public FastHeap(final BitTrie trie) {
-      this.trie = trie;
+   public static FastHeap createFastHeap() {
+      final BitTrie trie = new BitTrie();
+      return new FastHeap(trie, new ObjectRef(trie.nullPointer(), new Object()));
    }
 
-   public FastHeap() {
-      this(new BitTrie());
+   final ObjectRef nullPointer;
+   private final BitTrie trie;
+
+   private FastHeap(final BitTrie trie, final ObjectRef nullPointer) {
+      this.trie = trie;
+      this.nullPointer = nullPointer;
    }
 
    @Override
    public ObjectRef newObject(final Allocatable klass) {
       final int key = trie.allocate(klass.allocateSize());
-      return new ObjectRef(key);
+      return new ObjectRef(key, new Object());
    }
 
    @Override
@@ -36,12 +39,12 @@ public class FastHeap implements Heap {
    }
 
    @Override public ObjectRef nullPointer() {
-      return new ObjectRef(trie.nullPointer());
+      return nullPointer;
    }
 
    @Override
    public Heap snapshot() {
-      return new FastHeap(trie.copy());
+      return new FastHeap(trie.copy(), nullPointer);
    }
 
    @Override

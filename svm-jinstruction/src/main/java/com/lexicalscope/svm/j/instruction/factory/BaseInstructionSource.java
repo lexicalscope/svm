@@ -34,7 +34,6 @@ import com.lexicalscope.svm.j.instruction.concrete.l0ng.LCmpOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LushrOp;
 import com.lexicalscope.svm.j.instruction.concrete.method.MethodCallInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.object.AConstNullOp;
-import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Binary2Op;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOp;
 import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
@@ -569,7 +568,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource newobject(final String klassDesc, final InstructionSource.InstructionSink sink) {
-      return loadingInstruction(klassDesc, new VopAdapter(new NewObjectOp(klassDesc)), newobject, sink);
+      return loadingInstruction(klassDesc, new VopAdapter(instructionFactory.newObject(klassDesc)), newobject, sink);
    }
 
    private InstructionSource binaryOp(final BinaryOperator operation, final InstructionCode code, final InstructionSource.InstructionSink sink) {

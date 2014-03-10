@@ -8,6 +8,7 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.BinaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.Nullary2Operator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
+import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public interface InstructionFactory {
@@ -38,6 +39,7 @@ public interface InstructionFactory {
    Vop iaLoad();
    Vop aaLoad();
 
+   Op<?> newObject(String klassDesc);
    Vop putField(FieldInsnNode fieldInsnNode);
    Vop getField(FieldInsnNode fieldInsnNode);
 

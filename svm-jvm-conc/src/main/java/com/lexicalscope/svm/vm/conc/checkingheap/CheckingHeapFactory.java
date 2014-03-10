@@ -7,6 +7,6 @@ import com.lexicalscope.svm.heap.HeapFactory;
 public class CheckingHeapFactory implements HeapFactory {
 	@Override
 	public Heap heap() {
-		return new CheckingHeap(new FastHeap(), new ConcreteHeapCheck());
+		return new CheckingHeap(FastHeap.createFastHeap(), new ConcreteHeapCheck());
 	}
 }

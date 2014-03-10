@@ -6,6 +6,6 @@ import com.lexicalscope.svm.heap.HeapFactory;
 
 public class FastHeapFactory implements HeapFactory {
    @Override public Heap heap() {
-      return new FastHeap();
+      return FastHeap.createFastHeap();
    }
 }

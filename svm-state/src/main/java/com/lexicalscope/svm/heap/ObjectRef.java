@@ -2,9 +2,11 @@ package com.lexicalscope.svm.heap;
 
 public final class ObjectRef {
    private final int address;
+   private final Object tag;
 
-   public ObjectRef(final int address) {
+   public ObjectRef(final int address, final Object tag) {
       this.address = address;
+      this.tag = tag;
    }
 
    int address() {
