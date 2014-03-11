@@ -35,6 +35,10 @@ public class TerminateInstruction implements Instruction {
       throw new IllegalStateException("TERMINATE has no successor");
    }
 
+   @Override public void replaceWith(final Instruction instruction) {
+      throw new IllegalStateException("TERMINATE cannot be replaced");
+   }
+
    @Override public void jmpTarget(final Instruction instruction) {
       throw new UnsupportedOperationException();
    }
@@ -72,6 +76,10 @@ public class TerminateInstruction implements Instruction {
 
    @Override public void prevIs(final Instruction instruction) {
       this.prev = instruction;
+   }
+
+   @Override public void nextIs(final Instruction instruction) {
+      throw new IllegalStateException("TERMINATE has no successor");
    }
 
    @Override public Instruction prev() {

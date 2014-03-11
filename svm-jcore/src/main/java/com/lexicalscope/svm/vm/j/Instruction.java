@@ -16,12 +16,19 @@ public interface Instruction extends Iterable<Instruction> {
    void jmpTarget(Instruction instruction);
    void targetOf(Instruction instruction);
    void prevIs(Instruction instruction);
+   void nextIs(Instruction instruction);
 
    /**
     * Inserts a node here and shifts the rest of the nodes down.
     * Fixes up any jmp instructions to target the inserted node.
     */
    void insertHere(Instruction instruction);
+
+   /**
+    * Replace this node.
+    * Fixes up any jmp instructions to target the inserted node.
+    */
+   void replaceWith(Instruction instruction);
 
    boolean hasNext();
    Instruction next();
@@ -32,4 +39,6 @@ public interface Instruction extends Iterable<Instruction> {
    InstructionCode code();
 
    <T> T query(InstructionQuery<T> instructionQuery);
+
+
 }

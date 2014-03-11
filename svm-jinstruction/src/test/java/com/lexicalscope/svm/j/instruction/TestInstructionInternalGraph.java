@@ -92,4 +92,22 @@ public class TestInstructionInternalGraph {
       assertThat(node5.targetOf(), empty());
       assertThat(nodeE.targetOf(), has(sameInstance(node2), sameInstance(node3)).only().inOrder());
    }
+
+   @Test public void instructionListInsertedAsReplacement() {
+      node1.append(node2).append(node3).append(node4).append(node5);
+
+      nodeE.append(nodeF);
+
+      node3.replaceWith(nodeE);
+
+      assertThat(node3.next(), nullValue());
+      assertThat(node3.prev(), nullValue());
+
+      assertThat(node2.next(), sameInstance(nodeE));
+      assertThat(nodeE.next(), sameInstance(nodeF));
+      assertThat(nodeF.next(), sameInstance(node4));
+      assertThat(nodeE.prev(), sameInstance(node2));
+      assertThat(node4.prev(), sameInstance(nodeF));
+   }
 }
+

@@ -83,6 +83,10 @@ public class InstructionInternal implements Instruction {
       prev = instruction;
    }
 
+   @Override public void nextIs(final Instruction instruction) {
+      next = instruction;
+   }
+
    @Override public void insertNext(final Instruction node) {
       node.append(next);
       next = node;
@@ -99,6 +103,20 @@ public class InstructionInternal implements Instruction {
          comeFrom.jmpTarget(node);
       }
       targetOf.clear();
+   }
+
+   @Override public void replaceWith(final Instruction node) {
+      node.append(next);
+      if(prev != null) {
+         node.prevIs(prev);
+         prev.nextIs(node);
+      }
+      for (final Instruction comeFrom : targetOf) {
+         comeFrom.jmpTarget(node);
+      }
+      targetOf.clear();
+      prev = null;
+      next = null;
    }
 
    @Override public Instruction prev() {
