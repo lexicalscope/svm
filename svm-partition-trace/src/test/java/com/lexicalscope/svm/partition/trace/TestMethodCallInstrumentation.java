@@ -3,6 +3,7 @@ package com.lexicalscope.svm.partition.trace;
 import static com.lexicalscope.MatchersAdditional.has;
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
+import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static com.lexicalscope.svm.partition.trace.TraceMatchers.*;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 import static com.lexicalscope.svm.vm.j.JavaConstants.*;
@@ -21,6 +22,7 @@ public class TestMethodCallInstrumentation {
    @Rule public final VmRule vm = new VmRule();
    {
       instrumentPartition(partition, vm);
+      vm.builder().initialState().meta(TRACE, trace().build());
    }
 
    public interface WithVirtualMethod { void myVirtualMethod(); }

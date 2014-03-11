@@ -23,7 +23,7 @@ public class GuidedStateSearchFactory implements StateSearchFactory {
       return new FeasibleBranchSearch(
                new GoalTreeGuidedSearch<Trace, JState>(
                      root(trace().build(), feasibilityChecker, new TraceGoalMapFactory(feasibilityChecker), JState.class),
-                     new JStateGoalExtractor(),
+                     new TraceMetaExtractor(),
                      new RandomSeedPseudoRandomiser()),
                feasibilityChecker);
    }

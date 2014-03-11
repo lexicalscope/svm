@@ -2,6 +2,7 @@ package com.lexicalscope.svm.partition.trace.symb;
 
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
+import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 import static com.lexicalscope.svm.partition.trace.symb.SymbolicTraceMatchers.equivalentTo;
 import static com.lexicalscope.svm.vm.conc.junit.ClassStateTag.tag;
@@ -24,6 +25,7 @@ public class TestIcompareExampleExplorationOrdersAreDifferent {
    {
       instrumentPartition(partition().ofClass(InsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
+      vm.builder().initialState().meta(TRACE, trace().build());
    }
 
    private @Fresh ISymbol symbol1;

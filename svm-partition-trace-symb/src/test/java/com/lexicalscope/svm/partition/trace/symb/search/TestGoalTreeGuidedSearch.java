@@ -15,9 +15,9 @@ import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
-import com.lexicalscope.svm.search.GoalExtractor;
 import com.lexicalscope.svm.search.GoalTreeGuidedSearch;
 import com.lexicalscope.svm.search.Randomiser;
+import com.lexicalscope.svm.search.SearchMetaExtractor;
 
 public class TestGoalTreeGuidedSearch {
    @Rule public final ExpectedException exception = ExpectedException.none();
@@ -25,7 +25,7 @@ public class TestGoalTreeGuidedSearch {
    @Mock private GoalTreeCorrespondence<Object, FakeVmState> correspondence;
    @Mock private Randomiser randomiser;
    @Mock private GoalTreePair<Object, FakeVmState> pair;
-   @Mock private GoalExtractor<Object, FakeVmState> goalExtractor;
+   @Mock private SearchMetaExtractor<Object, FakeVmState> goalExtractor;
 
    final FakeVmState pstate = new FakeVmState("p");
    final FakeVmState pstate1 = new FakeVmState("p1");
@@ -65,7 +65,10 @@ public class TestGoalTreeGuidedSearch {
       final FakeVmState spuriousstate = new FakeVmState("spurious");
 
       context.checking(new Expectations(){{
+         oneOf(goalExtractor).configureInitial(pstate);
          oneOf(correspondence).pInitial(pstate);
+
+         oneOf(goalExtractor).configureInitial(qstate);
          oneOf(correspondence).qInitial(qstate);
       }});
 

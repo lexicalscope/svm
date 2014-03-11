@@ -11,7 +11,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
    private final GoalTreeCorrespondence<T, S> correspondence;
 
-   private final GoalExtractor<T, S> goalExtractor;
+   private final SearchMetaExtractor<T, S> goalExtractor;
    private final List<S> result = new ArrayList<>();
    private GoalTreePair<T, S> correspondenceUnderConsideration;
    private boolean pInitialised;
@@ -22,7 +22,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
 
    public GoalTreeGuidedSearch(
          final GoalTreeCorrespondence<T, S> correspondence,
-         final GoalExtractor<T, S> goalExtractor,
+         final SearchMetaExtractor<T, S> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;
       this.goalExtractor = goalExtractor;
@@ -82,9 +82,11 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
 
    @Override public void consider(final S state) {
       if(!pInitialised) {
+         goalExtractor.configureInitial(state);
          correspondence.pInitial(state);
          pInitialised = true;
       } else if(!qInitialised) {
+         goalExtractor.configureInitial(state);
          correspondence.qInitial(state);
          qInitialised = true;
       } else {
