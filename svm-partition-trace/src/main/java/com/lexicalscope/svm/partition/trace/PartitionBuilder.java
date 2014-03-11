@@ -27,6 +27,19 @@ public class PartitionBuilder {
       return this;
    }
 
+   public Matcher<String> staticNewInstanceMatcher() {
+      return new TypeSafeDiagnosingMatcher<String>() {
+         @Override public void describeTo(final Description description) {
+            description.appendText("new instance of : ").appendValue(klasses);
+         }
+
+         @Override protected boolean matchesSafely(final String item, final Description mismatchDescription) {
+            // TODO Auto-generated method stub
+            return false;
+         }
+      };
+   }
+
    private Matcher<? super MethodCallContext> dynamicExactMatcher() {
       return new TypeSafeDiagnosingMatcher<MethodCallContext>() {
          @Override public void describeTo(final Description description) {

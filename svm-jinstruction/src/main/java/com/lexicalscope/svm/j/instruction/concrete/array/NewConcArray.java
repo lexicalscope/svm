@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.array;
 
-import static com.lexicalscope.svm.j.instruction.concrete.object.ObjectTagMetaKey.OBJECT_TAG;
+import static com.lexicalscope.svm.j.instruction.concrete.object.PartitionTagMetaKey.PARTITION_TAG;
 import static org.objectweb.asm.Type.getInternalName;
 
 import com.lexicalscope.svm.heap.Allocatable;
@@ -19,7 +19,7 @@ public final class NewConcArray implements ArrayConstructor {
          @Override public int allocateSize() {
             return arrayLength + NewArrayOp.ARRAY_PREAMBLE;
          }
-      }, ctx.getFrameMeta(OBJECT_TAG));
+      }, ctx.getFrameMeta(PARTITION_TAG));
 
       initArrayPreamble(ctx, arrayAddress, arrayLength);
 

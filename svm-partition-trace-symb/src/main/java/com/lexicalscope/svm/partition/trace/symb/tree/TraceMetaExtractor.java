@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
-import static com.lexicalscope.svm.j.instruction.concrete.object.ObjectTagMetaKey.OBJECT_TAG;
+import static com.lexicalscope.svm.j.instruction.concrete.object.PartitionTagMetaKey.PARTITION_TAG;
 import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
 import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
 
@@ -21,7 +21,7 @@ public class TraceMetaExtractor implements SearchMetaExtractor<Trace, JState> {
    }
 
    @Override public void configureInitial(final JState state) {
-      state.setFrameMeta(OBJECT_TAG, initialTag);
+      state.setFrameMeta(PARTITION_TAG, initialTag);
       state.setMeta(TRACE, new Trace());
    }
 }

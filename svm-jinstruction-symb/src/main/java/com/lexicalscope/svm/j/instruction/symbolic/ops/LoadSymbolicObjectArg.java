@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops;
 
-import static com.lexicalscope.svm.j.instruction.concrete.object.ObjectTagMetaKey.OBJECT_TAG;
+import static com.lexicalscope.svm.j.instruction.concrete.object.PartitionTagMetaKey.PARTITION_TAG;
 
 import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.heap.ObjectRef;
@@ -23,7 +23,7 @@ public class LoadSymbolicObjectArg implements Vop {
          @Override public int allocateSize() {
             return 2;
          }
-      }, ctx.getFrameMeta(OBJECT_TAG));
+      }, ctx.getFrameMeta(PARTITION_TAG));
       ctx.put(newObject, SClass.OBJECT_MARKER_OFFSET, new SymbolicObject(symbol));
       ctx.push(newObject);
    }

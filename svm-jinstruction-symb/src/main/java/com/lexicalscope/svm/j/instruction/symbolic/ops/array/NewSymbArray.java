@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.symbolic.ops.array;
 
-import static com.lexicalscope.svm.j.instruction.concrete.object.ObjectTagMetaKey.OBJECT_TAG;
+import static com.lexicalscope.svm.j.instruction.concrete.object.PartitionTagMetaKey.PARTITION_TAG;
 
 import com.lexicalscope.svm.heap.Allocatable;
 import com.lexicalscope.svm.heap.ObjectRef;
@@ -45,7 +45,7 @@ public class NewSymbArray implements ArrayConstructor {
          @Override public int allocateSize() {
             return NewArrayOp.ARRAY_PREAMBLE + 1;
          }
-      }, ctx.getFrameMeta(OBJECT_TAG));
+      }, ctx.getFrameMeta(PARTITION_TAG));
       NewConcArray.initArrayPreamble(ctx, arrayAddress, arrayLength);
       // TODO[tim]: support other kinds of arrays
       ctx.put(arrayAddress, ARRAY_SYMBOL_OFFSET, new IArrayZeroedSymbol());

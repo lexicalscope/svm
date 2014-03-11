@@ -2,10 +2,10 @@ package com.lexicalscope.svm.j.instruction.concrete.object;
 
 import com.lexicalscope.svm.metastate.MetaKey;
 
-public final class ObjectTagMetaKey implements MetaKey<Object> {
-   public static final ObjectTagMetaKey OBJECT_TAG = new ObjectTagMetaKey();
+public final class PartitionTagMetaKey implements MetaKey<Object> {
+   public static final PartitionTagMetaKey PARTITION_TAG = new PartitionTagMetaKey();
 
-   private ObjectTagMetaKey() {}
+   private PartitionTagMetaKey() {}
 
    @Override public Class<Object> valueType() {
       return Object.class;
