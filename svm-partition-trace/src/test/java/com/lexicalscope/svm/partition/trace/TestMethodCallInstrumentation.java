@@ -17,11 +17,10 @@ import com.lexicalscope.svm.vm.conc.junit.VmRule;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 
 public class TestMethodCallInstrumentation {
-   private final PartitionBuilder partition = partition().ofClass(ClassWithVirtualMethod.class);
 
    @Rule public final VmRule vm = new VmRule();
    {
-      instrumentPartition(partition, vm);
+      instrumentPartition(partition().ofClass(ClassWithVirtualMethod.class), partition().ofClass(ClassOutSidePartition.class), vm);
       vm.builder().initialState().meta(TRACE, trace().build());
    }
 

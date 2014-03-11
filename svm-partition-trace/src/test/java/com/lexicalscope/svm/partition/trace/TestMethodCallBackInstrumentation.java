@@ -18,23 +18,22 @@ import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.conc.junit.VmRule;
 
 public class TestMethodCallBackInstrumentation {
-   private final PartitionBuilder partition = partition().ofClass(ClassInsidePartiton.class);
 
    @Rule public final VmRule vm = new VmRule();
    {
-      instrumentPartition(partition, vm);
+      instrumentPartition(partition().ofClass(ClassInsidePartition.class), partition().ofClass(ClassOutsidePartition.class), vm);
       vm.builder().initialState().meta(TRACE, trace().build());
    }
 
-   public static class ClassInsidePartiton {
-      public int myMethod(final ClassOutSidePartition callback){
+   public static class ClassInsidePartition {
+      public int myMethod(final ClassOutsidePartition callback){
          return callback.callingBack();
       }
    }
 
-   public static class ClassOutSidePartition {
+   public static class ClassOutsidePartition {
       public void entry() {
-         new ClassInsidePartiton().myMethod(this);
+         new ClassInsidePartition().myMethod(this);
       }
 
       public int callingBack() {
@@ -43,7 +42,7 @@ public class TestMethodCallBackInstrumentation {
    }
 
    @TestEntryPoint public static void callSomeMethods() {
-      new ClassOutSidePartition().entry();
+      new ClassOutsidePartition().entry();
    }
 
    @Test public void collectCallbackInTrace() throws Exception {
@@ -52,11 +51,11 @@ public class TestMethodCallBackInstrumentation {
 
       assertThat(
             vm.result().getMeta(TRACE),
-            has(methodCallOf(defaultConstructor(ClassInsidePartiton.class)),
-                methodReturnOf(defaultConstructor(ClassInsidePartiton.class)),
-                methodCallOf(ClassInsidePartiton.class, "myMethod", "(L"+ getInternalName(ClassOutSidePartition.class)  +";)I", any(Object.class), any(Object.class)),
-                methodCallOf(ClassOutSidePartition.class, "callingBack", "()I", any(Object.class)),
-                methodReturnOf(ClassOutSidePartition.class, "callingBack", "()I", equalTo((Object) 4)),
-                methodReturnOf(ClassInsidePartiton.class, "myMethod", "(L"+ getInternalName(ClassOutSidePartition.class)  +";)I", equalTo((Object) 4))).only().inOrder());
+            has(methodCallOf(defaultConstructor(ClassInsidePartition.class)),
+                methodReturnOf(defaultConstructor(ClassInsidePartition.class)),
+                methodCallOf(ClassInsidePartition.class, "myMethod", "(L"+ getInternalName(ClassOutsidePartition.class)  +";)I", any(Object.class), any(Object.class)),
+                methodCallOf(ClassOutsidePartition.class, "callingBack", "()I", any(Object.class)),
+                methodReturnOf(ClassOutsidePartition.class, "callingBack", "()I", equalTo((Object) 4)),
+                methodReturnOf(ClassInsidePartition.class, "myMethod", "(L"+ getInternalName(ClassOutsidePartition.class)  +";)I", equalTo((Object) 4))).only().inOrder());
    }
 }

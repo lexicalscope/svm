@@ -22,7 +22,7 @@ import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 public class TestSinglePathDifferentVersionsSymbolicTraceEquivalence {
    @Rule public final SymbVmRule vm = new SymbVmRule(ExamplesOneMarker.class, ExamplesTwoMarker.class);
    {
-      instrumentPartition(partition().ofClass(InsidePartition.class), vm);
+      instrumentPartition(partition().ofClass(InsidePartition.class), partition().ofClass(OutsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(I)I");
       vm.builder().initialState().meta(TRACE, trace().build());
    }

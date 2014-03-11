@@ -16,17 +16,15 @@ import org.junit.Test;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IMulSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
-import com.lexicalscope.svm.partition.trace.PartitionBuilder;
 import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
 public class TestSymbolicTraceCapture {
-   private final PartitionBuilder partition = partition().ofClass(InsidePartition.class);
 
    @Rule public final SymbVmRule vm = new SymbVmRule();
    {
-      instrumentPartition(partition, vm);
+      instrumentPartition(partition().ofClass(InsidePartition.class), partition().ofClass(OutsidePartition.class), vm);
       vm.builder().initialState().meta(TRACE, trace().build());
    }
 

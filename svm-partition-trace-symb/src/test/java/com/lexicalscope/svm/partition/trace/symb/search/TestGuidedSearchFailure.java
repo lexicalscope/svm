@@ -20,7 +20,8 @@ public class TestGuidedSearchFailure {
    @Rule public final ExpectedException exception = ExpectedException.none();
    @Rule public final SymbVmRule vm = new SymbVmRule(ExamplesOneMarker.class, ExamplesTwoMarker.class);
    {
-      instrumentPartition(partition().ofClass(InsidePartition.class), vm);
+      instrumentPartition(partition().ofClass(InsidePartition.class),
+                          partition().ofClass(OutsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
       vm.builder().searchWith(new GuidedStateSearchFactory(vm.feasbilityChecker()));
    }

@@ -17,11 +17,9 @@ import com.lexicalscope.svm.vm.conc.junit.TestEntryPoint;
 import com.lexicalscope.svm.vm.conc.junit.VmRule;
 
 public class TestMethodParametersInstrumentation {
-   private final PartitionBuilder partition = partition().ofClass(ClassInsidePartition.class);
-
    @Rule public final VmRule vm = new VmRule();
    {
-      instrumentPartition(partition, vm);
+      instrumentPartition(partition().ofClass(ClassInsidePartition.class), partition().ofClass(ClassOutsidePartition.class), vm);
       vm.builder().initialState().meta(TRACE, trace().build());
    }
 
@@ -29,14 +27,14 @@ public class TestMethodParametersInstrumentation {
       public int myMethod(final int x){ return x*2; }
    }
 
-   public static class ClassOutSidePartition {
+   public static class ClassOutsidePartition {
       public int entry(final int x) {
          return new ClassInsidePartition().myMethod(x);
       }
    }
 
    @TestEntryPoint public static void callSomeMethods() {
-      new ClassOutSidePartition().entry(5);
+      new ClassOutsidePartition().entry(5);
    }
 
    @Test public void collectArgumentsInTrace() throws Exception {
