@@ -18,6 +18,9 @@ public interface Instruction extends Iterable<Instruction> {
    void prevIs(Instruction instruction);
    void nextIs(Instruction instruction);
 
+   Vop op();
+   void replaceOp(Vop op);
+
    /**
     * Inserts a node here and shifts the rest of the nodes down.
     * Fixes up any jmp instructions to target the inserted node.
@@ -39,6 +42,4 @@ public interface Instruction extends Iterable<Instruction> {
    InstructionCode code();
 
    <T> T query(InstructionQuery<T> instructionQuery);
-
-
 }

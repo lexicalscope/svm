@@ -8,6 +8,7 @@ import org.objectweb.asm.tree.IincInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 import org.objectweb.asm.tree.TypeInsnNode;
 
+import com.lexicalscope.svm.j.instruction.MethodEntryVop;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLengthOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
@@ -64,7 +65,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource methodentry(final SMethodDescriptor methodName, final InstructionSink sink) {
-      // nothing by default, instrumented instruction sets may use this hook
+      linearInstruction(new MethodEntryVop(), methodentry, sink);
       return this;
    }
 

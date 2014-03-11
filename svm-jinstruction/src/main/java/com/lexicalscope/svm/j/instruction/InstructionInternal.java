@@ -21,7 +21,7 @@ import com.lexicalscope.svm.vm.j.Vop;
 public class InstructionInternal implements Instruction {
    private static TerminateInstruction terminate = new TerminateInstruction();
 
-   private final Vop op;
+   private Vop op;
    private Instruction prev;
    private Instruction next;
    private Instruction target;
@@ -30,8 +30,8 @@ public class InstructionInternal implements Instruction {
 
    private final List<Instruction> targetOf = new LinkedList<>();
 
-   public InstructionInternal(final Vop instruction, final InstructionCode code) {
-      this.op = instruction;
+   public InstructionInternal(final Vop op, final InstructionCode code) {
+      this.op = op;
       this.code = code;
 
       next = terminate;
@@ -103,6 +103,14 @@ public class InstructionInternal implements Instruction {
          comeFrom.jmpTarget(node);
       }
       targetOf.clear();
+   }
+
+   @Override public Vop op() {
+      return op;
+   }
+
+   @Override public void replaceOp(final Vop op) {
+      this.op = op;
    }
 
    @Override public void replaceWith(final Instruction node) {

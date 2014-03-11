@@ -8,8 +8,6 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.junit.Test;
 
-import com.lexicalscope.svm.classloading.AsmSClassLoader;
-import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionCode;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
@@ -33,6 +31,7 @@ public class TestMethodLinking {
    @Test public void linkedMethodIsTree() throws Exception {
       final Instruction entry = withTwoReturns.entry();
       assertThat(entry, instructionSequence(
+            methodentry,
             iconst_3,
             iload,
             ificmpne,

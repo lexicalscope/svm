@@ -13,6 +13,10 @@ public class InstructionQueryAdapter<T> implements InstructionQuery<T> {
       return null;
    }
 
+   @Override public T methodentry() {
+      return null;
+   }
+
    @Override public T methodexit() {
       return null;
    }

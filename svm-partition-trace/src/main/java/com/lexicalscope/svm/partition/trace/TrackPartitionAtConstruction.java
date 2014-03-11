@@ -1,7 +1,5 @@
 package com.lexicalscope.svm.partition.trace;
 
-import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
-
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
@@ -14,29 +12,34 @@ import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class TrackPartitionAtConstruction implements Instrumentor {
    private static class NewInstanceSamePartitionOp implements Vop {
-      @Override public void eval(final JState ctx) {
+      private final Vop newOp;
 
+      public NewInstanceSamePartitionOp(final Vop newOp) {
+         this.newOp = newOp;
+      }
+
+      @Override public void eval(final JState ctx) {
+         newOp.eval(ctx);
       }
 
       @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
-         // TODO Auto-generated method stub
-         return null;
+         return newOp.query(instructionQuery);
       }
    }
 
    private static final class NewInstanceNewPartitionOp implements Vop {
-      public NewInstanceNewPartitionOp(final Object aPart) {
-         // TODO Auto-generated constructor stub
+      private final Vop vop;
+
+      public NewInstanceNewPartitionOp(final Vop newInstruction, final Object aPart) {
+         this.vop = newInstruction;
       }
 
       @Override public void eval(final JState ctx) {
-         // TODO Auto-generated method stub
-
+         vop.eval(ctx);
       }
 
       @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
-         // TODO Auto-generated method stub
-         return null;
+         return vop.query(instructionQuery);
       }
    }
 
@@ -72,15 +75,13 @@ public class TrackPartitionAtConstruction implements Instrumentor {
             @Override public Void newobject(final String klassDesc) {
                final Vop op;
                if(aPartNewInstanceMatcher.matches(klassDesc)) {
-                  op = new NewInstanceNewPartitionOp(aPart);
+                  op = new NewInstanceNewPartitionOp(instruction.op(), aPart);
                } else if (uPartNewInstanceMatcher.matches(klassDesc)) {
-                  op = new NewInstanceNewPartitionOp(uPart);
+                  op = new NewInstanceNewPartitionOp(instruction.op(), uPart);
                } else {
-                  op = new NewInstanceSamePartitionOp();
+                  op = new NewInstanceSamePartitionOp(instruction.op());
                }
-               instruction.insertNext(statements(instructions).
-                     linearOp(op).
-                     buildInstruction());
+               instruction.replaceOp(op);
                return null;
             }
          });
