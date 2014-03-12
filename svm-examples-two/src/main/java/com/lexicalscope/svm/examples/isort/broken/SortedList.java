@@ -19,7 +19,7 @@ public class SortedList {
       return internal.size();
    }
 
-   public void get(final int i) {
-      internal.get(i);
+   public int get(final int i) {
+      return internal.get(i);
    }
 }

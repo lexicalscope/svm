@@ -41,7 +41,12 @@ public class JStateImpl implements JState {
 
    @Override
    public final void eval() {
-      instruction().eval(this);
+      try {
+         instruction().eval(this);
+      } catch (final AssertionError e) {
+         System.out.println(stack.trace());
+         throw e;
+      }
    }
 
    @Override

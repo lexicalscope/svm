@@ -19,4 +19,8 @@ public class UnarySBranchStrategy implements SBranchStrategy {
          return op.conditionSymbol((ISymbol) value);
       }
    }
+
+   @Override public String toString() {
+      return op.toString();
+   }
 }

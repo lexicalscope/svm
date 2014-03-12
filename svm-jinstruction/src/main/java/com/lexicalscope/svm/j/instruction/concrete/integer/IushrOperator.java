@@ -8,6 +8,6 @@ public class IushrOperator implements BinaryOperator {
    }
 
    @Override public String toString() {
-      return "LUSHR";
+      return "IUSHR";
    }
 }

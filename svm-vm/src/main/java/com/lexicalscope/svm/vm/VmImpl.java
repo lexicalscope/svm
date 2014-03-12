@@ -23,6 +23,10 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 			}
 			count++;
 		}
+      if(!(count<50000)) {
+         System.out.println("limit reached");
+         System.out.println(search.results());
+      }
 		return search.firstResult();
 	}
 
