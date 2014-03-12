@@ -13,7 +13,7 @@ import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnull;
 import com.lexicalscope.svm.j.instruction.concrete.d0uble.DConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IConstOperator;
-import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LAndOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.object.GetFieldOp;
@@ -246,7 +246,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    @Override public Vop loadArg(final Object object, final InstructionSource instructions) {
       if(object instanceof OTerminalSymbol) {
          final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
-         return new LoadingInstruction(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
+         return new LoadingOp(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
       } else {
          return new LinearInstruction(new LoadConstantArg(object));
       }

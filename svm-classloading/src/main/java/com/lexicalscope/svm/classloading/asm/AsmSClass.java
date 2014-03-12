@@ -141,6 +141,10 @@ public class AsmSClass implements SClass {
          @Override public int allocateSize() {
             return staticFieldCount() + STATICS_PREAMBLE;
          }
+
+         @Override public String toString() {
+            return "Statics of " + klassName;
+         }
       };
    }
 

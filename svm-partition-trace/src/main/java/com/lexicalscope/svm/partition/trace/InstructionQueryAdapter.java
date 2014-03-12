@@ -13,7 +13,7 @@ public class InstructionQueryAdapter<T> implements InstructionQuery<T> {
       return null;
    }
 
-   @Override public T methodentry() {
+   @Override public T methodentry(final SMethodDescriptor methodName) {
       return null;
    }
 

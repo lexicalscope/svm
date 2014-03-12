@@ -7,7 +7,7 @@ public interface InstructionQuery<T> {
    T nativ3();
    T synthetic();
 
-   T methodentry();
+   T methodentry(SMethodDescriptor methodName);
    T methodexit();
 
    T arraycopy();

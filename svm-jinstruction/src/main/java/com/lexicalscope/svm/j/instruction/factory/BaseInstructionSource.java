@@ -28,7 +28,7 @@ import com.lexicalscope.svm.j.instruction.concrete.integer.IxorOperator;
 import com.lexicalscope.svm.j.instruction.concrete.klass.CheckCastOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.GetStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.InstanceOfOp;
-import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.PutStaticOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.L2IOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LCmpOp;
@@ -65,7 +65,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public InstructionSource methodentry(final SMethodDescriptor methodName, final InstructionSink sink) {
-      linearInstruction(new MethodEntryVop(), methodentry, sink);
+      linearInstruction(new MethodEntryVop(methodName), methodentry, sink);
       return this;
    }
 
@@ -583,7 +583,7 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionCode code, final InstructionSource.InstructionSink sink) {
-      sink.nextOp(new LoadingInstruction(klassDesc, op, this), code);
+      sink.nextOp(new LoadingOp(klassDesc, op, this), code);
       return this;
    }
 

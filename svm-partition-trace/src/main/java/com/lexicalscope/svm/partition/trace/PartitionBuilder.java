@@ -34,8 +34,7 @@ public class PartitionBuilder {
          }
 
          @Override protected boolean matchesSafely(final String item, final Description mismatchDescription) {
-            // TODO Auto-generated method stub
-            return false;
+            return klasses.contains(item);
          }
       };
    }

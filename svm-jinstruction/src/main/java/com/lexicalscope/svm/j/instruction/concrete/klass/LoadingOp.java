@@ -11,27 +11,27 @@ import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
-import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 /*
  * Only instructions new, getstatic, putstatic, or invokestatic can cause class loading.
  */
-public class LoadingInstruction implements Vop {
+public class LoadingOp implements Vop {
    private final Op<List<SClass>> loader;
    private final Vop op;
    private final InstructionSource instructions;
 
-   public LoadingInstruction(
+   private LoadingOp(
          final List<String> klassNames,
          final Vop op,
          final InstructionSource instructions) {
       this(new DefineClassOp(klassNames), op, instructions);
    }
 
-   public LoadingInstruction(
+   public LoadingOp(
          final Op<List<SClass>> loader,
          final Vop op,
          final InstructionSource instructions) {
@@ -40,7 +40,7 @@ public class LoadingInstruction implements Vop {
       this.instructions = instructions;
    }
 
-   public LoadingInstruction(final String klassName, final Vop op, final InstructionSource instructions) {
+   public LoadingOp(final String klassName, final Vop op, final InstructionSource instructions) {
       this(asList(klassName), op, instructions);
    }
 

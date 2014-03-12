@@ -13,7 +13,7 @@ public class InstructionQuerySafe<T> implements InstructionQuery<T> {
       throw new UnsupportedOperationException();
    }
 
-   @Override public T methodentry() {
+   @Override public T methodentry(final SMethodDescriptor methodName) {
       throw new UnsupportedOperationException();
    }
 

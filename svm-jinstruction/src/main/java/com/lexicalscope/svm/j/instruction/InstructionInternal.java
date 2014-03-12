@@ -145,13 +145,18 @@ public class InstructionInternal implements Instruction {
 
    @Override public Iterator<Instruction> iterator() {
       return new Iterator<Instruction>() {
-         Instruction cur = InstructionInternal.this;
+         Instruction cur = null;
          @Override public boolean hasNext() {
-            return cur.hasNext();
+            return cur == null || cur.hasNext();
          }
 
          @Override public Instruction next() {
-            return cur = cur.next();
+            if(cur == null) {
+               cur = InstructionInternal.this;
+            } else {
+               cur = cur.next();
+            }
+            return cur;
          }
 
          @Override public void remove() {

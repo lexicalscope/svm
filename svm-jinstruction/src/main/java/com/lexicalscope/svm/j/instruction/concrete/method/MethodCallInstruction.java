@@ -4,7 +4,7 @@ import static com.lexicalscope.svm.vm.j.InstructionCode.*;
 
 import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.MethodCallVop;
-import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingInstruction;
+import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingOp;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.stack.MethodScope;
 import com.lexicalscope.svm.stack.SnapshotableStackFrame;
@@ -226,6 +226,6 @@ public class MethodCallInstruction {
    }
 
    public static void invokestatic(final SMethodDescriptor sMethodName, final InstructionSource.InstructionSink sink, final InstructionSource instructions) {
-      sink.nextOp(new LoadingInstruction(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()), instructions), invokestatic);
+      sink.nextOp(new LoadingOp(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()), instructions), invokestatic);
    }
 }

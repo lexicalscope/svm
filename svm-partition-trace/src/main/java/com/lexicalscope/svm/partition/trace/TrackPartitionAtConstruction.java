@@ -51,8 +51,10 @@ public class TrackPartitionAtConstruction implements Instrumentor {
       }
 
       @Override public void eval(final JState ctx) {
+         System.out.println("constructing in " + partitionTag);
          newOp.eval(new JStateAdaptor(ctx){
             @Override public ObjectRef newObject(final Allocatable klass) {
+               System.out.println("constructing " + klass + " in " + partitionTag);
                return ctx.newObject(klass, partitionTag);
             }
          });
@@ -94,11 +96,15 @@ public class TrackPartitionAtConstruction implements Instrumentor {
          instruction.query(new InstructionQueryAdapter<Void>() {
             @Override public Void newobject(final String klassDesc) {
                final Vop op;
+               System.out.println("instrument " + klassDesc + " obj");
                if(aPartNewInstanceMatcher.matches(klassDesc)) {
+                  System.out.println("instrument a obj yo");
                   op = new NewInstanceNewPartitionOp(instruction.op(), aPart);
                } else if (uPartNewInstanceMatcher.matches(klassDesc)) {
+                  System.out.println("instrument u obj yo");
                   op = new NewInstanceNewPartitionOp(instruction.op(), uPart);
                } else {
+                  System.out.println("new " + klassDesc + " obj yo");
                   op = new NewInstanceSamePartitionOp(instruction.op());
                }
                instruction.replaceOp(op);

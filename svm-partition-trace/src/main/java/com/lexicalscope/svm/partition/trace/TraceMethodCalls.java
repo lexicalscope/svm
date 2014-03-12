@@ -49,10 +49,10 @@ public class TraceMethodCalls implements Instrumentor {
          final InstructionSource instructions,
          final SMethodDescriptor methodName,
          final Instruction methodEntry) {
-      return statements(instructions).
-            before(methodEntry).
+      methodEntry.insertNext(statements(instructions).
             linearOp(new TraceMethodCallOp(callinMatcher, methodName, CALL)).
-            buildInstruction();
+            buildInstruction());
+      return methodEntry;
    }
 
    private Instruction instrumentMethodCallsAndReturns(
