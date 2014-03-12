@@ -7,14 +7,13 @@ import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JavaConstants;
-import com.lexicalscope.svm.vm.j.Statics;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class InitThreadOp implements Vop {
    @Override public void eval(final JState ctx) {
       final SClass threadClass = ctx.load(JavaConstants.THREAD_CLASS);
-      final ObjectRef address = ctx.newObject(threadClass, Statics.INTRINSIC_TAG);
+      final ObjectRef address = ctx.newObject(threadClass);
       ctx.put(address, SClass.OBJECT_MARKER_OFFSET, threadClass);
       ctx.currentThreadIs(address);
       ctx.push(address);

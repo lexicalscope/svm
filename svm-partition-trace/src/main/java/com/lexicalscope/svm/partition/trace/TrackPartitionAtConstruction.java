@@ -28,6 +28,11 @@ public class TrackPartitionAtConstruction implements Instrumentor {
             @Override public ObjectRef newObject(final Allocatable klass) {
                return ctx.newObject(klass, ctx.getFrameMeta(PARTITION_TAG));
             }
+
+            @Override public ObjectRef newObject(final Allocatable klass, final Object tag) {
+               assert false : "new operation must not provide a custom tag";
+               return super.newObject(klass, tag);
+            }
          });
       }
 

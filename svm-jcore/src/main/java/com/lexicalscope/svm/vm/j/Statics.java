@@ -8,8 +8,6 @@ import com.lexicalscope.svm.vm.j.klass.SClass;
 
 
 public interface Statics extends Snapshotable<Statics> {
-   Object INTRINSIC_TAG = new Object();
-
    SClass load(String klassName);
 
    List<SClass> defineClass(String klass);

@@ -10,7 +10,6 @@ import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JavaConstants;
 import com.lexicalscope.svm.vm.j.Op;
-import com.lexicalscope.svm.vm.j.Statics;
 import com.lexicalscope.svm.vm.j.StaticsMarker;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
@@ -52,7 +51,7 @@ public final class DefineClassOp implements Op<List<SClass>> {
 
    static void allocateStatics(final JState ctx, final StaticsMarker staticsMarker, final SClass klass) {
       if(klass.statics().allocateSize() > 0) {
-         final ObjectRef staticsAddress = ctx.newObject(klass.statics(), Statics.INTRINSIC_TAG);
+         final ObjectRef staticsAddress = ctx.newObject(klass.statics());
          ctx.put(staticsAddress, SClass.OBJECT_MARKER_OFFSET, staticsMarker);
          ctx.staticsAt(klass, staticsAddress);
       }
