@@ -12,6 +12,6 @@ public class Java_lang_system_nanoTime extends AbstractNativeMethodDef implement
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(2).linearOp(new NanoTimeOp()).return2().build();
+      return statements(instructions).maxStack(2).linearOp(new NanoTimeOp()).return2(name()).build();
    }
 }

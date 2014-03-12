@@ -146,7 +146,7 @@ public class AsmSMethod implements SMethod {
             return;
       }
 
-      new InstructionSwitch(instructions).instructionFor(abstractInsnNode, sink);
+      new InstructionSwitch(instructions).instructionFor(abstractInsnNode, methodName, sink);
    }
 
    private AbstractInsnNode getEntryPoint() {

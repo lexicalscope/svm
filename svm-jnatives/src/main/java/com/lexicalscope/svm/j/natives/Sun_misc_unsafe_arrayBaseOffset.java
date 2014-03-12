@@ -12,6 +12,6 @@ public final class Sun_misc_unsafe_arrayBaseOffset extends AbstractNativeMethodD
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).iconst(NewArrayOp.ARRAY_PREAMBLE).return1(name()).build();
    }
 }

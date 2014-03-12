@@ -11,6 +11,6 @@ public final class Sun_misc_unsafe_arrayIndexScale extends AbstractNativeMethodD
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).maxLocals(1).iconst(1).return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).iconst(1).return1(name()).build();
    }
 }

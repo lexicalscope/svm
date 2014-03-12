@@ -26,18 +26,18 @@ public class DefaultNativeMethods implements NativeMethods {
          return methodDef.instructions(instructions);
       }
       if (methodName.equals(new AsmSMethodName("java/lang/Class", "desiredAssertionStatus0", "(Ljava/lang/Class;)Z"))) {
-         return statements(instructions).maxStack(1).iconst_0().return1().build();
+         return statements(instructions).maxStack(1).iconst_0().return1(methodName).build();
       } else if (methodName.equals(new AsmSMethodName("java/lang/Class", "getPrimitiveClass", "(Ljava/lang/String;)Ljava/lang/Class;"))) {
          return statements(instructions)
                .maxLocals(1)
                .maxStack(1)
                .linearOp(new GetPrimitiveClass())
-               .return1()
+               .return1(methodName)
                .build();
       }
 
       if (!methodName.isVoidMethod()) { throw new UnsupportedOperationException("only void native methods are supported - " + methodName); }
-      return statements(instructions).returnVoid().build();
+      return statements(instructions).returnVoid(methodName).build();
    }
    public static NativeMethods natives() {
       return natives(Arrays.<NativeMethodDef>asList(

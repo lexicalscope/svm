@@ -553,18 +553,18 @@ public class BaseInstructionSource implements InstructionSource {
       return linearInstruction(new Load2(index), load2, sink);
    }
 
-   @Override public InstructionSource returnvoid(final InstructionSource.InstructionSink sink) {
-      sink.nextOp(new ReturnInstruction(0), returnvoid);
+   @Override public InstructionSource returnvoid(final SMethodDescriptor methodName, final InstructionSource.InstructionSink sink) {
+      sink.nextOp(new ReturnInstruction(methodName, 0), returnvoid);
       return this;
    }
 
-   @Override public InstructionSource return1(final InstructionSource.InstructionSink sink) {
-      sink.nextOp(new ReturnInstruction(1), return1);
+   @Override public InstructionSource return1(final SMethodDescriptor methodName, final InstructionSource.InstructionSink sink) {
+      sink.nextOp(new ReturnInstruction(methodName, 1), return1);
       return this;
    }
 
-   @Override public InstructionSource return2(final InstructionSource.InstructionSink sink) {
-      sink.nextOp(new ReturnInstruction(2), return2);
+   @Override public InstructionSource return2(final SMethodDescriptor methodName, final InstructionSource.InstructionSink sink) {
+      sink.nextOp(new ReturnInstruction(methodName, 2), return2);
       return this;
    }
 

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.partition.trace;
 
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
-import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.CALL;
+import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.*;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
@@ -23,6 +23,13 @@ public class CheckPartitionAtMethodEntryExit implements Instrumentor {
             @Override public Void methodentry(final SMethodDescriptor methodName) {
                instruction.insertNext(statements(instructions).
                      linearOp(new TraceMethodEntryExitOp(methodName, CALL)).
+                     buildInstruction());
+               return null;
+            }
+
+            @Override public Void r3turn(final SMethodDescriptor methodName, final int returnCount) {
+               instruction.insertHere(statements(instructions).
+                     linearOp(new TraceMethodEntryExitOp(methodName, RETURN)).
                      buildInstruction());
                return null;
             }

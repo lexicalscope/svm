@@ -16,6 +16,6 @@ public class Java_lang_object_getClass extends AbstractNativeMethodDef {
                .maxLocals(1)
                .aload(0)
                .linearOp(new GetClassOp())
-               .return1().build();
+               .return1(name()).build();
    }
 }

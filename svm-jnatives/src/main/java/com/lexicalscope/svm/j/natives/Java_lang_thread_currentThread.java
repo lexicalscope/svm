@@ -12,6 +12,6 @@ public class Java_lang_thread_currentThread extends AbstractNativeMethodDef impl
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).linearOp(new CurrentThreadOp()).return1().build();
+      return statements(instructions).maxStack(1).linearOp(new CurrentThreadOp()).return1(name()).build();
    }
 }

@@ -11,6 +11,6 @@ public class Java_lang_runtime_freeMemory extends AbstractNativeMethodDef implem
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(2).lconst(4294967296L).return2().build();
+      return statements(instructions).maxStack(2).lconst(4294967296L).return2(name()).build();
    }
 }

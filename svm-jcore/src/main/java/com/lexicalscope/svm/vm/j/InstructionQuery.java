@@ -49,7 +49,7 @@ public interface InstructionQuery<T> {
    @Deprecated T store(int var);
    T dup_x1();
    T pop();
-   T r3turn(int returnCount);
+   T r3turn(SMethodDescriptor methodName, int returnCount);
    T dup();
    T ifacmpeq();
    T ifle();

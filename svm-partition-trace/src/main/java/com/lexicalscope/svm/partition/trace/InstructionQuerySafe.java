@@ -149,7 +149,7 @@ public class InstructionQuerySafe<T> implements InstructionQuery<T> {
       throw new UnsupportedOperationException();
    }
 
-   @Override public T r3turn(final int returnCount) {
+   @Override public T r3turn(final SMethodDescriptor methodName, final int returnCount) {
       throw new UnsupportedOperationException();
    }
 

@@ -11,6 +11,6 @@ public final class Java_lang_class_getClassLoader0 extends AbstractNativeMethodD
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).aconst_null().return1().build();
+      return statements(instructions).maxStack(1).aconst_null().return1(name()).build();
    }
 }

@@ -149,7 +149,7 @@ public class InstructionQueryAdapter<T> implements InstructionQuery<T> {
       return null;
    }
 
-   @Override public T r3turn(final int returnCount) {
+   @Override public T r3turn(final SMethodDescriptor methodName, final int returnCount) {
       return null;
    }
 

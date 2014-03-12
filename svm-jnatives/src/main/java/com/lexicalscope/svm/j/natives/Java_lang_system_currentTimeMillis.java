@@ -12,6 +12,6 @@ public class Java_lang_system_currentTimeMillis extends AbstractNativeMethodDef 
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(2).linearOp(new CurrentTimeMillisOp()).return2().build();
+      return statements(instructions).maxStack(2).linearOp(new CurrentTimeMillisOp()).return2(name()).build();
    }
 }

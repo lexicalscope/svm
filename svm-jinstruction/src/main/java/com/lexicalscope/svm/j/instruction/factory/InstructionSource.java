@@ -38,9 +38,9 @@ public interface InstructionSource {
 
    InstructionSource aconst_null(InstructionSink sink);
 
-   InstructionSource returnvoid(InstructionSink sink);
-   InstructionSource return1(InstructionSink sink);
-   InstructionSource return2(InstructionSink sink);
+   InstructionSource returnvoid(SMethodDescriptor methodName, InstructionSink sink);
+   InstructionSource return1(SMethodDescriptor methodName, InstructionSink sink);
+   InstructionSource return2(SMethodDescriptor methodName, InstructionSink sink);
 
    InstructionSource iand(InstructionSink sink);
    InstructionSource iadd(InstructionSink sink);

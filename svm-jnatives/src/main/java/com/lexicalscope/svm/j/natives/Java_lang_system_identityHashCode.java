@@ -12,6 +12,6 @@ public class Java_lang_system_identityHashCode extends AbstractNativeMethodDef i
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).maxLocals(1).aload(0).linearOp(new AddressToHashCodeOp()).return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).aload(0).linearOp(new AddressToHashCodeOp()).return1(name()).build();
    }
 }

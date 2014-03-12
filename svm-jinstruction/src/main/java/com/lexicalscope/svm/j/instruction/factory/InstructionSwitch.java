@@ -26,7 +26,10 @@ public class InstructionSwitch {
       this.s = s;
    }
 
-   public InstructionSource instructionFor(final AbstractInsnNode abstractInsnNode, final InstructionSource.InstructionSink sink) {
+   public InstructionSource instructionFor(
+         final AbstractInsnNode abstractInsnNode,
+         final SMethodDescriptor methodName,
+         final InstructionSource.InstructionSink sink) {
       switch (abstractInsnNode.getType()) {
          case AbstractInsnNode.VAR_INSN:
             final VarInsnNode varInsnNode = (VarInsnNode) abstractInsnNode;
@@ -66,15 +69,15 @@ public class InstructionSwitch {
                case Opcodes.ACONST_NULL:
                   return s.aconst_null(sink);
                case Opcodes.RETURN:
-                  return s.returnvoid(sink);
+                  return s.returnvoid(methodName, sink);
                case Opcodes.IRETURN:
-                  return s.return1(sink);
+                  return s.return1(methodName, sink);
                case Opcodes.FRETURN:
-                  return s.return1(sink);
+                  return s.return1(methodName, sink);
                case Opcodes.LRETURN:
-                  return s.return2(sink);
+                  return s.return2(methodName, sink);
                case Opcodes.ARETURN:
-                  return s.return1(sink);
+                  return s.return1(methodName, sink);
                case Opcodes.IAND:
                   return s.iand(sink);
                case Opcodes.LAND:

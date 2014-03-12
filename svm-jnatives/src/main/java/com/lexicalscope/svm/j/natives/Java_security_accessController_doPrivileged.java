@@ -11,6 +11,6 @@ public class Java_security_accessController_doPrivileged extends AbstractNativeM
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxStack(1).maxLocals(1).aload(0).invokeInterface("java/security/PrivilegedAction", "run", "()Ljava/lang/Object;").return1().build();
+      return statements(instructions).maxStack(1).maxLocals(1).aload(0).invokeInterface("java/security/PrivilegedAction", "run", "()Ljava/lang/Object;").return1(name()).build();
    }
 }

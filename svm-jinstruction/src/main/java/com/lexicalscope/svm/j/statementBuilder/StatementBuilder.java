@@ -88,18 +88,18 @@ public final class StatementBuilder {
       return this;
    }
 
-   public StatementBuilder return1() {
-      source.return1(sink);
+   public StatementBuilder return1(final SMethodDescriptor methodName) {
+      source.return1(methodName, sink);
       return this;
    }
 
-   public StatementBuilder return2() {
-      source.return2(sink);
+   public StatementBuilder return2(final SMethodDescriptor methodName) {
+      source.return2(methodName, sink);
       return this;
    }
 
-   public StatementBuilder returnVoid() {
-      source.returnvoid(sink);
+   public StatementBuilder returnVoid(final SMethodDescriptor methodName) {
+      source.returnvoid(methodName, sink);
       return this;
    }
 

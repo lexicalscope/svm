@@ -11,6 +11,6 @@ public final class Java_lang_reflect_array_newArray extends AbstractNativeMethod
    }
 
    @Override public MethodBody instructions(final InstructionSource instructions) {
-      return statements(instructions).maxLocals(2).maxStack(2).aload(1).reflectionnewarray().return1().build();
+      return statements(instructions).maxLocals(2).maxStack(2).aload(1).reflectionnewarray().return1(name()).build();
    }
 }
