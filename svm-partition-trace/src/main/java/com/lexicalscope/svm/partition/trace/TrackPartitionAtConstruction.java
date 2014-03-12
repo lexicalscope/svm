@@ -39,6 +39,10 @@ public class TrackPartitionAtConstruction implements Instrumentor {
       @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
          return newOp.query(instructionQuery);
       }
+
+      @Override public String toString() {
+         return "UNDEFINED PARTITION OBJECT";
+      }
    }
 
    private static final class NewInstanceNewPartitionOp implements Vop {
@@ -60,6 +64,10 @@ public class TrackPartitionAtConstruction implements Instrumentor {
 
       @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
          return newOp.query(instructionQuery);
+      }
+
+      @Override public String toString() {
+         return partitionTag + " PARTITION OBJECT";
       }
    }
 

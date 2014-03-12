@@ -159,7 +159,7 @@ public class AsmSClass implements SClass {
    }
 
    @Override public String toString() {
-      return String.format("%s s<%s> <%s>", name(), declaredFields.staticFieldsToString(), fields);
+      return String.format("{%s {staticfields %s} {fields %s}}", name(), declaredFields.staticFieldsToString(), fields);
    }
 
    @Override public boolean isArray() {

@@ -3,7 +3,7 @@ package com.lexicalscope.svm.examples.isort.broken;
 import java.util.LinkedList;
 
 public class SortedList {
-   private LinkedList<Integer> internal;
+   private final LinkedList<Integer> internal = new LinkedList<>();
 
    public void add(final int newElement) {
       for (int j = 0; j < internal.size(); j++) {

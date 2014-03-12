@@ -30,7 +30,6 @@ public final class DefineClassOp implements Op<List<SClass>> {
          for (final String klassName : klassNames) {
             if (!ctx.isDefined(klassName)) {
                final List<SClass> klasses = ctx.defineClass(klassName);
-
                for (final SClass klass : klasses) {
                   allocate(ctx, klass);
                }

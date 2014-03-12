@@ -6,6 +6,7 @@ import com.lexicalscope.svm.j.instruction.concrete.array.ArrayConstructor;
 import com.lexicalscope.svm.j.instruction.concrete.array.InitStrategy;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewConcArray;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayZeroedSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.vm.j.JState;
@@ -38,7 +39,11 @@ public class NewSymbArray implements ArrayConstructor {
       }
    }
 
-   private void newSymbolicArray(final JState ctx, final InitStrategy initStrategy, final ISymbol arrayLength) {
+   private void newSymbolicArray(final JState ctx, final InitStrategy initStrategy, final ISymbol arrayLengthSymbol) {
+      newSymbolicArray(ctx, arrayLengthSymbol, new IArrayZeroedSymbol());
+   }
+
+   public static void newSymbolicArray(final JState ctx, final ISymbol arrayLength, final IArraySymbol arrayValueSymbol) {
       final ObjectRef arrayAddress = ctx.newObject(new Allocatable() {
          @Override public int allocateSize() {
             return NewArrayOp.ARRAY_PREAMBLE + 1;
@@ -46,7 +51,7 @@ public class NewSymbArray implements ArrayConstructor {
       });
       NewConcArray.initArrayPreamble(ctx, arrayAddress, arrayLength);
       // TODO[tim]: support other kinds of arrays
-      ctx.put(arrayAddress, ARRAY_SYMBOL_OFFSET, new IArrayZeroedSymbol());
+      ctx.put(arrayAddress, ARRAY_SYMBOL_OFFSET, arrayValueSymbol);
       ctx.push(arrayAddress);
    }
 

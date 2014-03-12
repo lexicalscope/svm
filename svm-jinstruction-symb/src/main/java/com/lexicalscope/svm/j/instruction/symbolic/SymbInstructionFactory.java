@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.symbolic;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.LinearOp;
 import com.lexicalscope.svm.j.instruction.concrete.LoadConstantArg;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
@@ -35,6 +35,8 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.SIMulOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SISubOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SymbFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbolPair;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayTerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OTerminalSymbol;
@@ -86,6 +88,10 @@ public class SymbInstructionFactory implements InstructionFactory {
 
    public ITerminalSymbol isymbol() {
       return new ITerminalSymbol(++symbol);
+   }
+
+   public IArrayTerminalSymbol iasymbol() {
+      return new IArrayTerminalSymbol(++symbol);
    }
 
    public OSymbol osymbol(final String klassName) {
@@ -246,8 +252,12 @@ public class SymbInstructionFactory implements InstructionFactory {
 //         final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
 //         return new LoadingOp(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
 //      } else {
-         return new LinearInstruction(new LoadConstantArg(object));
-//      }
+      if (object instanceof IArraySymbolPair) {
+         return new LinearOp(
+               new LoadSymbolicArrayArg((IArraySymbolPair) object));
+      } else {
+         return new LinearOp(new LoadConstantArg(object));
+      }
    }
 
    @Override public Op<?> newObject(final String klassDesc) {

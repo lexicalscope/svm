@@ -3,7 +3,7 @@ package com.lexicalscope.svm.j.instruction.factory;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.JumpInsnNode;
 
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.LinearOp;
 import com.lexicalscope.svm.j.instruction.concrete.LoadConstantArg;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
@@ -243,7 +243,7 @@ public class ConcInstructionFactory implements InstructionFactory {
    }
 
    @Override public Vop loadArg(final Object object, final InstructionSource instructions) {
-      return new LinearInstruction(new LoadConstantArg(object));
+      return new LinearOp(new LoadConstantArg(object));
    }
 
    @Override public Op<?> newObject(final String klassDesc) {

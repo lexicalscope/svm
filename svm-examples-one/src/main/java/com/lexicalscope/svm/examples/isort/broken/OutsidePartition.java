@@ -12,7 +12,7 @@ public class OutsidePartition {
       }
    }
 
-   public static void callSomeMethods(final int[] ints) {
+   public static void entryPoint(final int[] ints) {
       new OutsidePartition().entry(ints);
    }
 }

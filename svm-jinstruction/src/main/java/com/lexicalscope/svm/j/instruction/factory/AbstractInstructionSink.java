@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.j.instruction.factory;
 
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
+import com.lexicalscope.svm.j.instruction.LinearOp;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionCode;
 import com.lexicalscope.svm.vm.j.Vop;
@@ -19,8 +19,8 @@ public abstract class AbstractInstructionSink implements InstructionSource.Instr
    }
 
    @Override public final void linearOp(final Vop node, final InstructionCode code) {
-      assert !(node instanceof LinearInstruction);
-      nextOp(new LinearInstruction(node), code);
+      assert !(node instanceof LinearOp);
+      nextOp(new LinearOp(node), code);
    }
 
    @Override public void noOp() { }

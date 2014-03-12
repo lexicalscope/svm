@@ -4,10 +4,10 @@ import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 
-public class LinearInstruction implements Vop {
+public class LinearOp implements Vop {
    private final Vop op;
 
-   public LinearInstruction(final Vop op) {
+   public LinearOp(final Vop op) {
       this.op = op;
    }
 

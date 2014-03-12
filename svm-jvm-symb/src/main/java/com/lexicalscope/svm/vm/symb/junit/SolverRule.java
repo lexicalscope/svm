@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.vm.symb.junit;
 
 import static com.lexicalscope.fluentreflection.FluentReflection.object;
-import static com.lexicalscope.fluentreflection.ReflectionMatchers.annotatedWith;
+import static com.lexicalscope.fluentreflection.ReflectionMatchers.*;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
@@ -14,6 +14,8 @@ import com.lexicalscope.fluentreflection.FluentField;
 import com.lexicalscope.fluentreflection.FluentObject;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbolPair;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
@@ -38,7 +40,18 @@ public class SolverRule implements MethodRule {
 
    public void createSymbols(final FluentObject<Object> object) {
       for (final FluentField field : object.fields(annotatedWith(Fresh.class))) {
-         field.call(symbInstructionFactory.isymbol());
+         // should be field.matches(isType(ISymbol.class))
+         // or field.isType(ISymbol.class)
+         if(field.type().isType(reflectingOn(ISymbol.class))) {
+            field.call(symbInstructionFactory.isymbol());
+         } else if(field.type().isType(reflectingOn(IArraySymbolPair.class))) {
+            field.call(
+                  new IArraySymbolPair(
+                        symbInstructionFactory.iasymbol(),
+                        symbInstructionFactory.isymbol()));
+         } else {
+            throw new UnsupportedOperationException();
+         }
       }
    }
 
