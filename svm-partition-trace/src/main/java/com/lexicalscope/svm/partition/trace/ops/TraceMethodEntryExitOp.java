@@ -31,14 +31,11 @@ public class TraceMethodEntryExitOp implements Vop {
       final StackFrame currentFrame = ctx.currentFrame();
 
       if(callReturn.equals(CallReturn.CALL) && currentFrame.isDynamic()) {
-         System.out.println("set " + ((ObjectRef) currentFrame.local(0)).tag());
          currentFrame.setMeta(PARTITION_TAG, ((ObjectRef) currentFrame.local(0)).tag());
       }
 
       final Object previousFrameTag = previousFrame.getMeta(PARTITION_TAG);
       final Object currentFrameTag = currentFrame.getMeta(PARTITION_TAG);
-
-      System.out.println("call " + methodName + " " + previousFrameTag + " - " + currentFrameTag);
 
       if(previousFrameTag != null && currentFrameTag != null && !Objects.equals(previousFrameTag, currentFrameTag)) {
          final Object[] args;
