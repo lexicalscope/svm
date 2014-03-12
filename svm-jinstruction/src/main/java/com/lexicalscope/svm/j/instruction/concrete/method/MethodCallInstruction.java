@@ -226,6 +226,7 @@ public class MethodCallInstruction {
    }
 
    public static void invokestatic(final SMethodDescriptor sMethodName, final InstructionSource.InstructionSink sink, final InstructionSource instructions) {
-      sink.nextOp(new LoadingOp(sMethodName.klassName(), new MethodCallOp(sMethodName, new StaticMethodInvokation()), instructions), invokestatic);
+      sink.nextOp(new LoadingOp(sMethodName.klassName(), instructions), invokestatic);
+      sink.linearOp(new MethodCallOp(sMethodName, new StaticMethodInvokation()), invokestatic);
    }
 }

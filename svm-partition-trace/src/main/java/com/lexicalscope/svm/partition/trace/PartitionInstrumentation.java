@@ -1,6 +1,5 @@
 package com.lexicalscope.svm.partition.trace;
 
-import static com.lexicalscope.svm.partition.trace.CheckPartitionAtMethodEntryExit.checkPartitionAtMethodEntryExit;
 import static com.lexicalscope.svm.partition.trace.TraceMethodCalls.methodCallsAndReturnsThatCross;
 import static com.lexicalscope.svm.partition.trace.TrackPartitionAtConstruction.constructionOf;
 import static com.lexicalscope.svm.vm.j.klass.SMethodDescriptorMatchers.anyMethod;
@@ -14,7 +13,7 @@ public class PartitionInstrumentation {
          final PartitionBuilder mPart,
          final VmRule vm) {
       vm.initialStateBuilder().instrument(anyMethod(), constructionOf(aPart, mPart));
-      vm.initialStateBuilder().instrument(anyMethod(), checkPartitionAtMethodEntryExit());
+//      vm.initialStateBuilder().instrument(anyMethod(), checkPartitionAtMethodEntryExit());
 
       vm.initialStateBuilder().instrument(aPart.staticOverApproximateMatcher(),
             methodCallsAndReturnsThatCross(aPart));

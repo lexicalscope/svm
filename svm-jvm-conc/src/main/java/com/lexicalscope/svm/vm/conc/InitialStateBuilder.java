@@ -15,7 +15,6 @@ import com.lexicalscope.svm.classloading.ClassSource;
 import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.classloading.StaticsImpl;
 import com.lexicalscope.svm.heap.HeapFactory;
-import com.lexicalscope.svm.j.instruction.NoOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefineClassOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.DefinePrimitiveClassesOp;
 import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingOp;
@@ -89,7 +88,7 @@ public class InitialStateBuilder {
       bootstrapClasses.add(getInternalName(Class.class));
       bootstrapClasses.add(getInternalName(String.class));
       bootstrapClasses.add(getInternalName(Thread.class));
-      sink.nextOp(new LoadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), new NoOp(), instructions), synthetic);
+      sink.nextOp(new LoadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), instructions), synthetic);
    }
 
    public InitialStateBuilder() {

@@ -53,7 +53,13 @@ public final class StatementBuilder {
    }
 
    public Instruction buildInstruction() {
-      if(insertBeforeInstruction != null) { next.append(insertBeforeInstruction); }
+      if(insertBeforeInstruction != null) {
+         if(next != null) {
+            next.append(insertBeforeInstruction);
+         } else {
+            return insertBeforeInstruction;
+         }
+      }
       return first;
    }
 

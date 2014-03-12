@@ -13,7 +13,6 @@ import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnull;
 import com.lexicalscope.svm.j.instruction.concrete.d0uble.DConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IConstOperator;
-import com.lexicalscope.svm.j.instruction.concrete.klass.LoadingOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LAndOp;
 import com.lexicalscope.svm.j.instruction.concrete.l0ng.LConstOperator;
 import com.lexicalscope.svm.j.instruction.concrete.object.GetFieldOp;
@@ -26,7 +25,6 @@ import com.lexicalscope.svm.j.instruction.concrete.ops.NullaryOperator;
 import com.lexicalscope.svm.j.instruction.concrete.ops.UnaryOperator;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.symbolic.ops.LoadSymbolicObjectArg;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SArrayLoadOp;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SArrayStoreOp;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SIAddOperator;
@@ -244,12 +242,12 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Vop loadArg(final Object object, final InstructionSource instructions) {
-      if(object instanceof OTerminalSymbol) {
-         final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
-         return new LoadingOp(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
-      } else {
+//      if(object instanceof OTerminalSymbol) {
+//         final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
+//         return new LoadingOp(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
+//      } else {
          return new LinearInstruction(new LoadConstantArg(object));
-      }
+//      }
    }
 
    @Override public Op<?> newObject(final String klassDesc) {

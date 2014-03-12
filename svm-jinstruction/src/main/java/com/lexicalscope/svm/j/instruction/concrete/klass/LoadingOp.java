@@ -7,7 +7,6 @@ import static java.util.Arrays.asList;
 import java.util.List;
 
 import com.google.common.collect.Lists;
-import com.lexicalscope.svm.j.instruction.LinearInstruction;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
@@ -21,33 +20,31 @@ import com.lexicalscope.svm.vm.j.klass.SClass;
  */
 public class LoadingOp implements Vop {
    private final Op<List<SClass>> loader;
-   private final Vop op;
    private final InstructionSource instructions;
 
    private LoadingOp(
          final List<String> klassNames,
-         final Vop op,
          final InstructionSource instructions) {
-      this(new DefineClassOp(klassNames), op, instructions);
+      this(new DefineClassOp(klassNames), instructions);
    }
 
    public LoadingOp(
          final Op<List<SClass>> loader,
-         final Vop op,
          final InstructionSource instructions) {
       this.loader = loader;
-      this.op = op;
       this.instructions = instructions;
    }
 
-   public LoadingOp(final String klassName, final Vop op, final InstructionSource instructions) {
-      this(asList(klassName), op, instructions);
+   public LoadingOp(
+         final String klassName,
+         final InstructionSource instructions) {
+      this(asList(klassName), instructions);
    }
 
    @Override public void eval(final JState ctx) {
       final List<SClass> definedClasses = loader.eval(ctx);
       if(definedClasses.isEmpty()){
-         new LinearInstruction(op).eval(ctx);
+         ctx.advanceToNextInstruction();
       } else {
          final StatementBuilder replacementInstruction = statements(instructions).before(ctx.instructionNext());
          for (final SClass klass : Lists.reverse(definedClasses)) {
@@ -58,15 +55,15 @@ public class LoadingOp implements Vop {
                   .invokeConstructorOfClassObjects(klass.name());
             }
          }
-         ctx.advanceTo(replacementInstruction.linearOp(op).buildInstruction());
+         ctx.advanceTo(replacementInstruction.buildInstruction());
       }
    }
 
    @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
-      return op.query(instructionQuery);
+      return instructionQuery.synthetic();
    }
 
    @Override public String toString() {
-      return "(loading " + loader + ") " + op.toString();
+      return "(loading " + loader + ") ";
    }
 }

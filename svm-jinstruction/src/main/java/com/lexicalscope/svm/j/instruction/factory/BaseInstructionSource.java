@@ -583,7 +583,8 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    private InstructionSource loadingInstruction(final String klassDesc, final Vop op, final InstructionCode code, final InstructionSource.InstructionSink sink) {
-      sink.nextOp(new LoadingOp(klassDesc, op, this), code);
+      sink.nextOp(new LoadingOp(klassDesc, this), code);
+      sink.linearOp(op, code);
       return this;
    }
 
