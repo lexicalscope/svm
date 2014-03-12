@@ -19,7 +19,6 @@ public final class NewConcArray implements ArrayConstructor {
             return arrayLength + NewArrayOp.ARRAY_PREAMBLE;
          }
       });
-
       initArrayPreamble(ctx, arrayAddress, arrayLength);
 
       for (int i = 0; i < arrayLength; i++) {

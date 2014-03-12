@@ -11,8 +11,9 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 
    @Override
 	public S execute() {
+      int count = 0;
       S pending;
-      while ((pending = search.pendingState()) != null) {
+      while ((pending = search.pendingState()) != null && count < 50000) {
 			try {
 			   pending.eval();
 			} catch (final TerminationException termination) {
@@ -20,6 +21,7 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 			} catch (final RuntimeException e) {
 				throw e;
 			}
+			count++;
 		}
 		return search.firstResult();
 	}

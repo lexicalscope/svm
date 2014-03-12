@@ -39,12 +39,12 @@ public class ArrayStoreOp implements Vop {
    }
 
    public void storeInHeap(final JState ctx, final ObjectRef arrayref, final int offset, final Object value) {
-      assert boundsCheck(ctx, arrayref, offset);
+      assert boundsCheck(ctx, arrayref, offset) : offset;
       ctx.put(arrayref, offset + ARRAY_PREAMBLE, valueTransform.transformForStore(value));
    }
 
    private boolean boundsCheck(final JState ctx, final ObjectRef arrayref, final int offset) {
-      return offset < (int) ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
+      return offset >= 0 && offset < (int) ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
    }
 
    @Override public String toString() {
