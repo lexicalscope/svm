@@ -24,7 +24,8 @@ public class AsmSClassLoader implements SClassLoader {
    public AsmSClassLoader(
          final InstructionSource instructionSource,
          final Instrumentation instrumentation,
-         final NativeMethods natives, final ClassSource classSource) {
+         final NativeMethods natives,
+         final ClassSource classSource) {
       this.instrumentation = instrumentation;
       this.natives = natives;
       this.instructions = instructionSource;
@@ -39,20 +40,12 @@ public class AsmSClassLoader implements SClassLoader {
       this(new BaseInstructionSource(instructionFactory), new NullInstrumentation2(), DefaultNativeMethods.natives(), new ClasspathClassRepository());
    }
 
-   @Override public SClass load(final String name, final ClassLoaded classLoaded) {
-      return byteCodeReader.load(this, name, classLoaded);
-   }
-
-   @Override public SClass load(final Class<?> klass, final ClassLoaded classLoaded) {
-      return load(getInternalName(klass), classLoaded);
+   @Override public SClass load(final String name) {
+      return byteCodeReader.load(this, name);
    }
 
    @Override public SClass load(final Class<?> klass) {
-      return load(klass, new NullClassLoaded());
-   }
-
-   public Object load(final String string) {
-      return load(string, new NullClassLoaded());
+      return load(getInternalName(klass));
    }
 
    @Override public MethodBody resolveNative(final SMethodDescriptor methodName) {

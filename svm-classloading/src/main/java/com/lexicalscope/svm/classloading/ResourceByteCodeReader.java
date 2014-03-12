@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.classloading;
 
+import static com.lexicalscope.svm.classloading.asm.AsmSClassFactory.newSClass;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.io.File;
@@ -15,7 +16,6 @@ import org.objectweb.asm.ClassReader;
 import org.objectweb.asm.tree.ClassNode;
 
 import com.lexicalscope.svm.classloading.asm.AsmSClass;
-import com.lexicalscope.svm.classloading.asm.AsmSClassFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
@@ -31,8 +31,7 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 	}
 
 	@Override
-	public AsmSClass load(final SClassLoader classLoader, final String name,
-			final ClassLoaded classLoaded) {
+	public AsmSClass load(final SClassLoader classLoader, final String name) {
 	   assert !name.startsWith("[");
 		if (name == null) {
 			return null;
@@ -53,19 +52,23 @@ public class ResourceByteCodeReader implements ByteCodeReader {
 
 			final ClassNode classNode = loadClassBytecodeFromUrl(classUrl);
 			final SClass superclass = classNode.superName != null ? classLoader
-					.load(classNode.superName, classLoaded) : null;
+					.load(classNode.superName) : null;
 
 			@SuppressWarnings("unchecked")
 			final List<String> interfaceNames = classNode.interfaces;
 			final List<SClass> interfaces = new ArrayList<>();
 			for (final String interfaceName : interfaceNames) {
-				interfaces.add(classLoader.load(interfaceName, classLoaded));
+				interfaces.add(classLoader.load(interfaceName));
 			}
 
-			final AsmSClass result = AsmSClassFactory.newSClass(classLoader,
-					instructions, classUrl, classNode, superclass, interfaces, null);
-			classLoaded.loaded(result);
-			return result;
+			return newSClass(
+			      classLoader,
+					instructions,
+					classUrl,
+					classNode,
+					superclass,
+					interfaces,
+					null);
 		} catch (final IOException e) {
 			throw new SClassLoadingFailException(name + " from " + classUrl, e);
 		}

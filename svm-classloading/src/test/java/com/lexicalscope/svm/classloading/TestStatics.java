@@ -8,11 +8,6 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
-import com.lexicalscope.svm.classloading.AsmSClassLoader;
-import com.lexicalscope.svm.classloading.DuplicateClassDefinitionException;
-import com.lexicalscope.svm.classloading.SClassLoader;
-import com.lexicalscope.svm.classloading.StaticsImpl;
-
 public class TestStatics {
    @Rule public ExpectedException exception = ExpectedException.none();
 

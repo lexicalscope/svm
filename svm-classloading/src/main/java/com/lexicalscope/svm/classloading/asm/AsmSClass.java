@@ -5,7 +5,7 @@ import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.staticInitialiser;
 import java.net.URL;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.HashSet;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -25,7 +25,7 @@ import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class AsmSClass implements SClass {
    private final String klassName;
-   private final Set<SClass> superTypes = new HashSet<>();
+   private final Set<SClass> superTypes = new LinkedHashSet<>();
 
    private final DeclaredFields declaredFields;
    private final DeclaredMethods declaredMethods;
@@ -54,15 +54,13 @@ public class AsmSClass implements SClass {
       this.fields = (superclass == null ? new Fields() : superclass.fields()).extend(klassName, declaredFields);
       this.methods = (superclass == null ? new Methods(klassName) : superclass.methods()).extend(klassName, declaredMethods);
 
-      superTypes.add(this);
       if (superclass != null) {
          superTypes.addAll(superclass.superTypes());
-
       }
-
       for (final SClass interfac3 : interfaces) {
          superTypes.addAll(interfac3.superTypes());
       }
+      superTypes.add(this);
    }
 
    @Override

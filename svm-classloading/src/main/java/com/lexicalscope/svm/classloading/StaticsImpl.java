@@ -60,12 +60,22 @@ public class StaticsImpl implements Statics {
       }
 
       final List<SClass> result = new ArrayList<>();
-      classLoader.load(klassName, new ClassLoaded(){
-         @Override public void loaded(final SClass klass) {
-            if(!defined.containsKey(klass.name())) {
-               result.add(cache(klass.name(), klass));
-            }
-         }});
+      final SClass loaded = classLoader.load(klassName);
+      cache(loaded);
+      // load all supertypes
+      for (final SClass klass : loaded.superTypes()) {
+         if(!defined.containsKey(klass.name())){
+            result.add(cache(klass));
+         }
+      }
+      result.add(loaded);
+//      , new ClassLoaded(){
+//         @Override public void loaded(final SClass klass) {
+//            if(!defined.containsKey(klass.name())) {
+//               result.add(cache(klass.name(), klass));
+//               fix this
+//            }
+//         }});
 
       return result;
    }
@@ -112,6 +122,10 @@ public class StaticsImpl implements Statics {
             return "java/lang/Object";
       }
       return substring;
+   }
+
+   private SClass cache(final SClass result) {
+      return cache(result.name(), result);
    }
 
    private SClass cache(final String klassName, final SClass result) {
