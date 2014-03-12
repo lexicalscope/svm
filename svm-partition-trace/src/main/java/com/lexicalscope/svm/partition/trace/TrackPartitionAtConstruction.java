@@ -1,12 +1,17 @@
 package com.lexicalscope.svm.partition.trace;
 
+import static com.lexicalscope.svm.j.instruction.concrete.object.PartitionTagMetaKey.PARTITION_TAG;
+
 import org.hamcrest.Matcher;
 
+import com.lexicalscope.svm.heap.Allocatable;
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.JStateAdaptor;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -19,7 +24,11 @@ public class TrackPartitionAtConstruction implements Instrumentor {
       }
 
       @Override public void eval(final JState ctx) {
-         newOp.eval(ctx);
+         newOp.eval(new JStateAdaptor(ctx){
+            @Override public ObjectRef newObject(final Allocatable klass) {
+               return ctx.newObject(klass, ctx.getFrameMeta(PARTITION_TAG));
+            }
+         });
       }
 
       @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
@@ -28,18 +37,24 @@ public class TrackPartitionAtConstruction implements Instrumentor {
    }
 
    private static final class NewInstanceNewPartitionOp implements Vop {
-      private final Vop vop;
+      private final Vop newOp;
+      private final Object partitionTag;
 
-      public NewInstanceNewPartitionOp(final Vop newInstruction, final Object aPart) {
-         this.vop = newInstruction;
+      public NewInstanceNewPartitionOp(final Vop newInstruction, final Object partitionTag) {
+         this.newOp = newInstruction;
+         this.partitionTag = partitionTag;
       }
 
       @Override public void eval(final JState ctx) {
-         vop.eval(ctx);
+         newOp.eval(new JStateAdaptor(ctx){
+            @Override public ObjectRef newObject(final Allocatable klass) {
+               return ctx.newObject(klass, partitionTag);
+            }
+         });
       }
 
       @Override public <T> T query(final InstructionQuery<T> instructionQuery) {
-         return vop.query(instructionQuery);
+         return newOp.query(instructionQuery);
       }
    }
 

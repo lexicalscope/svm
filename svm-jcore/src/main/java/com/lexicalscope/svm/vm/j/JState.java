@@ -44,6 +44,7 @@ public interface JState extends Snapshotable<JState>, VmState {
    boolean isDefined(String klass);
    SClass load(String klassName);
 
+   ObjectRef newObject(Allocatable klass);
    ObjectRef newObject(Allocatable klass, Object tag);
    Object hashCode(ObjectRef object);
    ObjectRef nullPointer();

@@ -231,6 +231,11 @@ public class JStateImpl implements JState {
    }
 
    @Override
+   public ObjectRef newObject(final Allocatable klass) {
+      return newObject(klass, null);
+   }
+
+   @Override
    public ObjectRef newObject(final Allocatable klass, final Object tag) {
       return heap.newObject(klass, tag);
    }
