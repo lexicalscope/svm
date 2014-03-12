@@ -32,7 +32,10 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.SIAndOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SIBinaryOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SIBinaryOperatorAdapter;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SIMulOperator;
+import com.lexicalscope.svm.j.instruction.symbolic.ops.SINegOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SISubOperator;
+import com.lexicalscope.svm.j.instruction.symbolic.ops.SIUnaryOperator;
+import com.lexicalscope.svm.j.instruction.symbolic.ops.SIUnaryOperatorAdapter;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SymbFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbolPair;
@@ -83,7 +86,11 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public UnaryOperator inegOperation() {
-      throw new UnsupportedOperationException("not implemented yet");
+      return siUnary(new SINegOperator());
+   }
+
+   private SIUnaryOperatorAdapter siUnary(final SIUnaryOperator op) {
+      return new SIUnaryOperatorAdapter(op);
    }
 
    public ITerminalSymbol isymbol() {
