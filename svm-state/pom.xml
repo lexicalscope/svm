@@ -37,7 +37,7 @@
 			<artifactId>hamcrest-all</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>com.lexicalscope.symb</groupId>
+			<groupId>com.lexicalscope.hamcrest</groupId>
 			<artifactId>matchers-additional</artifactId>
 		</dependency>
 	</dependencies>

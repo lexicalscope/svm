@@ -21,7 +21,7 @@
 			<scope>test</scope>
 		</dependency>
 		<dependency>
-			<groupId>com.lexicalscope.symb</groupId>
+			<groupId>com.lexicalscope.hamcrest</groupId>
 			<artifactId>matchers-additional</artifactId>
 		</dependency>
 	</dependencies>
