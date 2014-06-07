@@ -2,6 +2,7 @@ package com.lexicalscope.svm.z3;
 
 import java.io.Closeable;
 import java.util.HashMap;
+import java.util.Map;
 
 import org.hamcrest.Description;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
@@ -21,8 +22,11 @@ import com.microsoft.z3.Status;
 import com.microsoft.z3.Z3Exception;
 
 public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> implements Closeable {
+   private final Map<Object, Expr> cache = new HashMap<>();
+
    // TODO[tim]: use z3 stack for efficiency
    private final Context ctx;
+   private final SymbolToExpr symbolToExpr;
 
    public FeasibilityChecker() {
       super(BoolSymbol.class);
@@ -37,6 +41,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
       cfg.put("model", "true");
       try {
          ctx = new Context(cfg);
+         symbolToExpr = new SymbolToExpr(ctx, cache);
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not create context", e);
       }
@@ -77,7 +82,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
    public boolean satisfiable(final BoolSymbol pc) {
       final BoolExpr expr;
       try {
-         expr = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
+         expr = (BoolExpr) symbolToExpr.toExpr(pc);
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not map PC to Z3: " + pc, e);
       }
@@ -86,8 +91,8 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
 
    public boolean equivalent(final Symbol left, final Symbol right) {
       try {
-         final Expr leftExpr = left.accept(new SymbolToExpr(ctx));
-         final Expr rightExpr = right.accept(new SymbolToExpr(ctx));
+         final Expr leftExpr = symbolToExpr.toExpr(left);
+         final Expr rightExpr = symbolToExpr.toExpr(right);
          return checkUnsat(ctx.mkNot(ctx.mkEq(leftExpr, rightExpr)));
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not check equivlence of: " + left + " vs " + right, e);
@@ -96,8 +101,8 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
 
    public boolean implies(final BoolSymbol pc, final BoolSymbol largerPc) {
       try {
-         final BoolExpr pcExpr = (BoolExpr) pc.accept(new SymbolToExpr(ctx));
-         final BoolExpr largerPcExpr = (BoolExpr) largerPc.accept(new SymbolToExpr(ctx));
+         final BoolExpr pcExpr = (BoolExpr) symbolToExpr.toExpr(pc);
+         final BoolExpr largerPcExpr = (BoolExpr) symbolToExpr.toExpr(largerPc);
          return checkUnsat(ctx.mkNot(ctx.mkImplies(pcExpr, largerPcExpr)));
       } catch (final Z3Exception e) {
          throw new RuntimeException("could not check if: " + pc + " implies " + largerPc, e);
@@ -127,7 +132,7 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
 
    public void simplifyBv32Expr(final ISymbol symbol, final ISimplificationResult result) {
       try {
-         simplify(symbol, symbol.accept(new SymbolToExpr(ctx)), result);
+         simplify(symbol, symbolToExpr.toExpr(symbol), result);
       } catch (final Z3Exception e) {
          throw new RuntimeException("unable to simplify " + symbol, e);
       }

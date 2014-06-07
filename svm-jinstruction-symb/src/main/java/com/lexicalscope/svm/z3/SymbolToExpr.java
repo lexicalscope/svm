@@ -1,8 +1,12 @@
 package com.lexicalscope.svm.z3;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.Symbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.SymbolVisitor;
 import com.microsoft.z3.ArrayExpr;
 import com.microsoft.z3.BitVecExpr;
@@ -14,20 +18,25 @@ import com.microsoft.z3.Z3Exception;
 
 public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    private static final int intWidth = 32;
+   private final Map<Object, Expr> cache;
    private final Context ctx;
    private final BitVecSort intBvSort;
    private final BitVecExpr bv0;
    private final ArrayExpr bva0;
 
    public SymbolToExpr(final Context ctx) throws Z3Exception {
+      this(ctx, new HashMap<Object, Expr>());
+   }
+
+   public SymbolToExpr(final Context ctx, final Map<Object, Expr> cache) throws Z3Exception {
       this.ctx = ctx;
+      this.cache = cache;
       this.bv0 = constant(0);
       this.intBvSort = ctx.mkBitVecSort(intWidth);
       this.bva0 = ctx.mkConstArray(intBvSort, bv0);
    }
 
-   @Override
-   public BitVecExpr add(final ISymbol left, final ISymbol right) throws Z3Exception {
+   @Override public BitVecExpr add(final ISymbol left, final ISymbol right) throws Z3Exception {
       return ctx.mkBVAdd((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
    }
 
@@ -39,8 +48,7 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
       return ctx.mkBVSub((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
    }
 
-   @Override
-   public BitVecExpr mul(final ISymbol left, final ISymbol right) throws Z3Exception {
+   @Override public BitVecExpr mul(final ISymbol left, final ISymbol right) throws Z3Exception {
       return ctx.mkBVMul((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
    }
 
@@ -48,13 +56,11 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
       return ctx.mkBVNeg((BitVecExpr) value.accept(this));
    }
 
-   @Override
-   public BitVecExpr constant(final int val) throws Z3Exception {
+   @Override public BitVecExpr constant(final int val) throws Z3Exception {
       return ctx.mkBV(val, intWidth);
    }
 
-   @Override
-   public BoolExpr ge(final ISymbol val) throws Z3Exception {
+   @Override public BoolExpr ge(final ISymbol val) throws Z3Exception {
       return ctx.mkBVSGE((BitVecExpr) val.accept(this), constant(0));
    }
 
@@ -67,7 +73,7 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    }
 
    @Override public BoolExpr lt(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkBVSLT((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
+      return ctx.mkBVSLT((BitVecExpr) toExpr(value1), (BitVecExpr) toExpr(value2));
    }
 
    @Override public Expr gt(final ISymbol val) throws Z3Exception {
@@ -99,27 +105,29 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    }
 
    @Override public BoolExpr eq(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkEq(value1.accept(this), value2.accept(this));
+      return ctx.mkEq(cache.get(value1), cache.get(value2));
    }
 
-   @Override
-   public Expr not(final BoolSymbol val) throws Z3Exception {
+   @Override public Expr not(final BoolSymbol val) throws Z3Exception {
       return ctx.mkNot((BoolExpr) val.accept(this));
    }
 
-   @Override
-   public Expr and(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
+   @Override public Expr and(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
       return ctx.mkAnd((BoolExpr) left.accept(this), (BoolExpr) right.accept(this));
    }
 
-   @Override
-   public Expr or(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
+   @Override public Expr or(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
       return ctx.mkOr((BoolExpr) left.accept(this), (BoolExpr) right.accept(this));
    }
 
-   @Override
-   public Expr intSymbol(final String name) throws Z3Exception {
-      return ctx.mkConst(name, intBvSort);
+   @Override public Expr intSymbol(final String name) throws Z3Exception {
+      if(!cache.containsKey(name)) {
+         cache.put(name, ctx.mkConst(name, intBvSort));
+      } else {
+         new Exception().printStackTrace();
+      }
+      return cache.get(name);
+//      return ctx.mkConst(name, intBvSort);
    }
 
    @Override public BoolExpr tru3() throws Z3Exception {
@@ -148,5 +156,13 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
 
    @Override public Expr iarraySelect(final IArraySymbol arraySymbol, final ISymbol indexSymbol) throws Z3Exception {
       return ctx.mkSelect((ArrayExpr) arraySymbol.accept(this), indexSymbol.accept(this));
+   }
+
+   public Expr toExpr(final Symbol symbol) throws Z3Exception {
+      if(!cache.containsKey(symbol)) {
+         cache.put(symbol, symbol.accept(this));
+      }
+      return cache.get(symbol);
+//      return symbol.accept(this);
    }
 }

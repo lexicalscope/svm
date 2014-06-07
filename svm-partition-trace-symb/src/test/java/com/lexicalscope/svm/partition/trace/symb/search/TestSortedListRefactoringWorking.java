@@ -3,7 +3,6 @@ package com.lexicalscope.svm.partition.trace.symb.search;
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -26,7 +25,7 @@ public class TestSortedListRefactoringWorking {
 
    private @Fresh IArraySymbolPair symbol;
 
-   @Test @Ignore public void pathsExploredPairwise() throws Exception {
+   @Test public void pathsExploredPairwise() throws Exception {
       vm.execute(symbol);
    }
 }
