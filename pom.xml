@@ -144,7 +144,7 @@
 			<dependency>
 				<groupId>com.lexicalscope.hamcrest</groupId>
 				<artifactId>matchers-additional</artifactId>
-				<version>0.0.1-SNAPSHOT</version>
+				<version>0.0.1</version>
 			</dependency>
 			<dependency>
 				<groupId>com.lexicalscope.symb</groupId>
