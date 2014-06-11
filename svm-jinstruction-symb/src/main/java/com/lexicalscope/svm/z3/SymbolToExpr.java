@@ -37,23 +37,23 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
    }
 
    @Override public BitVecExpr add(final ISymbol left, final ISymbol right) throws Z3Exception {
-      return ctx.mkBVAdd((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
+      return ctx.mkBVAdd((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public BitVecExpr and(final ISymbol left, final ISymbol right) throws Z3Exception {
-      return ctx.mkBVAND((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
+      return ctx.mkBVAND((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public BitVecExpr sub(final ISymbol left, final ISymbol right) throws Z3Exception {
-      return ctx.mkBVSub((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
+      return ctx.mkBVSub((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public BitVecExpr mul(final ISymbol left, final ISymbol right) throws Z3Exception {
-      return ctx.mkBVMul((BitVecExpr) left.accept(this), (BitVecExpr) right.accept(this));
+      return ctx.mkBVMul((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
-   @Override public Expr neg(final ISymbol value) throws Z3Exception {
-      return ctx.mkBVNeg((BitVecExpr) value.accept(this));
+   @Override public Expr neg(final ISymbol val) throws Z3Exception {
+      return ctx.mkBVNeg((BitVecExpr) toExpr(val));
    }
 
    @Override public BitVecExpr constant(final int val) throws Z3Exception {
@@ -64,67 +64,65 @@ public class SymbolToExpr implements SymbolVisitor<Expr, Z3Exception> {
       return ctx.mkBVSGE((BitVecExpr) val.accept(this), constant(0));
    }
 
-   @Override public BoolExpr ge(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkBVSGE((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
+   @Override public BoolExpr ge(final ISymbol left, final ISymbol right) throws Z3Exception {
+      return ctx.mkBVSGE((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public Expr lt(final ISymbol val) throws Z3Exception {
       return ctx.mkBVSLT((BitVecExpr) val.accept(this), constant(0));
    }
 
-   @Override public BoolExpr lt(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkBVSLT((BitVecExpr) toExpr(value1), (BitVecExpr) toExpr(value2));
+   @Override public BoolExpr lt(final ISymbol left, final ISymbol right) throws Z3Exception {
+      return ctx.mkBVSLT((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public Expr gt(final ISymbol val) throws Z3Exception {
       return ctx.mkBVSGT((BitVecExpr) val.accept(this), constant(0));
    }
 
-   @Override public BoolExpr gt(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkBVSGT((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
+   @Override public BoolExpr gt(final ISymbol left, final ISymbol right) throws Z3Exception {
+      return ctx.mkBVSGT((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public Expr le(final ISymbol val) throws Z3Exception {
       return ctx.mkBVSLE((BitVecExpr) val.accept(this), constant(0));
    }
 
-   @Override public BoolExpr le(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkBVSLE((BitVecExpr) value1.accept(this), (BitVecExpr) value2.accept(this));
+   @Override public BoolExpr le(final ISymbol left, final ISymbol right) throws Z3Exception {
+      return ctx.mkBVSLE((BitVecExpr) toExpr(left), (BitVecExpr) toExpr(right));
    }
 
    @Override public Expr ne(final ISymbol val) throws Z3Exception {
       return ctx.mkNot(ctx.mkEq(val.accept(this), constant(0)));
    }
 
-   @Override public BoolExpr ne(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkNot(eq(value1, value2));
+   @Override public BoolExpr ne(final ISymbol left, final ISymbol right) throws Z3Exception {
+      return ctx.mkNot(eq(left, right));
    }
 
    @Override public Expr eq(final ISymbol val) throws Z3Exception {
       return ctx.mkEq(val.accept(this), constant(0));
    }
 
-   @Override public BoolExpr eq(final ISymbol value1, final ISymbol value2) throws Z3Exception {
-      return ctx.mkEq(cache.get(value1), cache.get(value2));
+   @Override public BoolExpr eq(final ISymbol left, final ISymbol right) throws Z3Exception {
+      return ctx.mkEq(toExpr(left), toExpr(right));
    }
 
    @Override public Expr not(final BoolSymbol val) throws Z3Exception {
-      return ctx.mkNot((BoolExpr) val.accept(this));
+      return ctx.mkNot((BoolExpr) toExpr(val));
    }
 
    @Override public Expr and(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
-      return ctx.mkAnd((BoolExpr) left.accept(this), (BoolExpr) right.accept(this));
+      return ctx.mkAnd((BoolExpr) toExpr(left), (BoolExpr) toExpr(right));
    }
 
    @Override public Expr or(final BoolSymbol left, final BoolSymbol right) throws Z3Exception {
-      return ctx.mkOr((BoolExpr) left.accept(this), (BoolExpr) right.accept(this));
+      return ctx.mkOr((BoolExpr) toExpr(left), (BoolExpr) toExpr(right));
    }
 
    @Override public Expr intSymbol(final String name) throws Z3Exception {
       if(!cache.containsKey(name)) {
          cache.put(name, ctx.mkConst(name, intBvSort));
-      } else {
-         new Exception().printStackTrace();
       }
       return cache.get(name);
 //      return ctx.mkConst(name, intBvSort);

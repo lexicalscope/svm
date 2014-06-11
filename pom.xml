@@ -15,7 +15,6 @@
 	</properties>
 
 	<modules>
-		<module>matchers-additional</module>
 		<module>svm-snapshot</module>
 		<module>svm-state</module>
 		<module>svm-trie</module>
@@ -104,7 +103,7 @@
 			<dependency>
 				<groupId>com.google.guava</groupId>
 				<artifactId>guava</artifactId>
-				<version>15.0</version>
+				<version>17.0</version>
 			</dependency>
 			<dependency>
 				<groupId>org.ow2.asm</groupId>
