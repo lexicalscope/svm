@@ -32,9 +32,10 @@
 		<module>svm-jvm-symb</module>
 		<module>svm-examples-one</module>
 		<module>svm-examples-two</module>
-    <module>svm-partition-trace</module>
-    <module>svm-partition-trace-symb</module>
-  </modules>
+      <module>svm-partition-trace</module>
+      <module>svm-partition-trace-symb</module>
+      <module>svm-partition-trace-spec</module>
+	</modules>
 	<build>
 		<pluginManagement>
 			<plugins>
