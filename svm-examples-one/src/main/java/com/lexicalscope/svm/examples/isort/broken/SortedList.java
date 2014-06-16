@@ -1,13 +1,13 @@
 package com.lexicalscope.svm.examples.isort.broken;
 
-import java.util.LinkedList;
+import java.util.ArrayList;
 
 public class SortedList {
-   private final LinkedList<Integer> internal = new LinkedList<>();
+   private final ArrayList<Integer> internal = new ArrayList<>();
 
    public void add(final int newElement) {
       for (int j = 0; j < internal.size(); j++) {
-         if(internal.get(j) > newElement) {
+         if(internal.get(j) < newElement) {
             internal.add(j, newElement);
             return;
          }

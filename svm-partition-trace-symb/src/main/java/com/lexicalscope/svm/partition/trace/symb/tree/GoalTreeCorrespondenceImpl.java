@@ -101,7 +101,12 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       if(otherSideOverlappingChildGoals.size() > 1||
             otherSideOverlappingChildGoals.size() == 1 &&
             !otherSide.isChildForGoal(otherSideOverlappingChildGoals.get(0), goal)) {
-         throw new RuntimeException("unbounded");
+         if(otherSideOverlappingChildGoals.size() == 1) {
+            throw new RuntimeException(String.format("unbounded%n\t%s%n\t%s", goal, otherSideOverlappingChildGoals.get(0)));
+         } else {
+            throw new RuntimeException(String.format("unbounded%n\t%s%n\t%s", goal, otherSideOverlappingChildGoals));
+         }
+
       }
 
       if(!reachedBefore && otherSide.hasReached(goal)){
