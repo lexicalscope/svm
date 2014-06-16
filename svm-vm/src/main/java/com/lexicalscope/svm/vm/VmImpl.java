@@ -4,16 +4,21 @@ import java.util.Collection;
 
 public final class VmImpl<S extends VmState> implements Vm<S> {
    private final StateSearch<S> search;
+   private SearchLimits limits;
 
 	public VmImpl(final StateSearch<S> search) {
-      this.search = search;
+      this(search, new StateCountSearchLimit());
    }
+
+	public VmImpl(final StateSearch<S> search, final SearchLimits limits) {
+	   this.search = search;
+      this.limits = limits;
+	}
 
    @Override
 	public S execute() {
-      int count = 0;
       S pending;
-      while ((pending = search.pendingState()) != null && count < 50000) {
+      while ((pending = search.pendingState()) != null && limits.withinLimits()) {
 			try {
 			   pending.eval();
 			} catch (final TerminationException termination) {
@@ -21,12 +26,8 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 			} catch (final RuntimeException e) {
 				throw e;
 			}
-			count++;
+			limits.searchedState();
 		}
-      if(!(count<50000)) {
-         System.out.println("limit reached");
-         System.out.println(search.results());
-      }
 		return search.firstResult();
 	}
 
