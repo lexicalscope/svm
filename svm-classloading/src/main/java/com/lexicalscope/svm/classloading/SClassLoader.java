@@ -1,11 +1,10 @@
 package com.lexicalscope.svm.classloading;
 
-import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.MethodBody;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
-public interface SClassLoader {
+public interface SClassLoader extends MethodInstrumentor {
    /**
     * @return the loaded class
     */
@@ -17,6 +16,4 @@ public interface SClassLoader {
    SClass load(Class<?> klass);
 
    MethodBody resolveNative(SMethodDescriptor methodName);
-
-   Instruction instrument(SMethodDescriptor name, Instruction methodEntry);
 }

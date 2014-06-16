@@ -10,7 +10,7 @@ import org.objectweb.asm.tree.MethodNode;
 
 import com.google.common.collect.LinkedListMultimap;
 import com.google.common.collect.Multimap;
-import com.lexicalscope.svm.classloading.SClassLoader;
+import com.lexicalscope.svm.classloading.MethodInstrumentor;
 import com.lexicalscope.svm.j.instruction.InstructionInternal;
 import com.lexicalscope.svm.j.instruction.factory.AbstractInstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
@@ -24,19 +24,19 @@ public class MethodLinker {
    private final InstructionSource instructions;
    private final SMethodDescriptor methodName;
    private final MethodNode method;
-   private final SClassLoader classLoader;
+   private final MethodInstrumentor instrumentor;
 
    public MethodLinker(
          final MethodNode method,
          final SMethodDescriptor methodName,
          final AbstractInsnNode entryPoint,
          final InstructionSource instructions,
-         final SClassLoader classLoader) {
+         final MethodInstrumentor classLoader) {
       this.method = method;
       this.methodName = methodName;
       asmInstruction = entryPoint;
       this.instructions = instructions;
-      this.classLoader = classLoader;
+      this.instrumentor = classLoader;
    }
 
    public LinkedMethod linkBytecodeMethod() {
@@ -69,6 +69,15 @@ public class MethodLinker {
          asmInstruction = asmInstruction.getNext();
       }
 
+      connectUpJumpsWithTargets();
+
+      return new LinkedMethod(
+            method.maxLocals,
+            method.maxStack,
+            instrumentor.instrument(methodName, linked.values().iterator().next()));
+   }
+
+   private void connectUpJumpsWithTargets() {
       for (final Entry<AbstractInsnNode, Instruction> entry : linked.entries()) {
          if(entry.getKey() instanceof JumpInsnNode) {
             final JumpInsnNode asmJumpInstruction = (JumpInsnNode) entry.getKey();
@@ -82,11 +91,6 @@ public class MethodLinker {
             entry.getValue().jmpTarget(jmpTarget);
          }
       }
-
-      return new LinkedMethod(
-            method.maxLocals,
-            method.maxStack,
-            classLoader.instrument(methodName, linked.values().iterator().next()));
    }
 
    private void instructionFor(
