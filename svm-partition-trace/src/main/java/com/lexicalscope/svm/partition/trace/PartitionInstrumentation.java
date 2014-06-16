@@ -14,8 +14,5 @@ public class PartitionInstrumentation {
          final VmRule vm) {
       vm.initialStateBuilder().instrument(anyMethod(), constructionOf(aPart, mPart));
       vm.initialStateBuilder().instrument(anyMethod(), checkPartitionAtMethodEntryExit());
-
-//      vm.initialStateBuilder().instrument(aPart.staticOverApproximateMatcher(),
-//            methodCallsAndReturnsThatCross(aPart));
    }
 }

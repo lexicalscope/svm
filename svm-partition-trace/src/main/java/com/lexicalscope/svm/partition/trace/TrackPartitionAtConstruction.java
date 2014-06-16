@@ -43,24 +43,14 @@ public class TrackPartitionAtConstruction implements Instrumentor {
       for (final Instruction instruction : methodEntry) {
          instruction.query(new InstructionQueryAdapter<Void>() {
             @Override public Void newobject(final String klassDesc) {
-               final Vop op;
-               // this cannot be done statically for any interesting examples
-               op = new NewInstanceVariablePartitionOp(
+               final Vop op = new NewInstanceVariablePartitionOp(
                      klassDesc,
                      instruction.op(),
                      aPartNewInstanceMatcher,
                      uPartNewInstanceMatcher,
                      aPart,
                      uPart);
-               /*
-               if(aPartNewInstanceMatcher.matches(klassDesc)) {
-                  op = new NewInstanceNewPartitionOp(instruction.op(), aPart);
-               } else if (uPartNewInstanceMatcher.matches(klassDesc)) {
-                  op = new NewInstanceNewPartitionOp(instruction.op(), uPart);
-               } else {
-                  op = new NewInstanceSamePartitionOp(instruction.op());
-               }
-               */
+
                instruction.replaceOp(op);
                return null;
             }
