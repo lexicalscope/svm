@@ -7,11 +7,6 @@ import com.lexicalscope.svm.vm.j.InstructionCode;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public abstract class AbstractInstructionSink implements InstructionSource.InstructionSink {
-   private final InstructionSource source;
-
-   public AbstractInstructionSink(final InstructionSource source) {
-      this.source = source;
-   }
 
    @Override public final void nextOp(final Vop op, final InstructionCode code) {
       assert !(op instanceof Instruction);

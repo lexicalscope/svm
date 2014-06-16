@@ -25,7 +25,7 @@ public final class StatementBuilder {
 
    public StatementBuilder(final InstructionSource source) {
       this.source = source;
-      sink = new AbstractInstructionSink(source) {
+      sink = new AbstractInstructionSink() {
          @Override public void nextInstruction(final InstructionInternal node) {
             if(next != null) {next.append(node); next = node;}
             if(first == null) {first = next = node;}

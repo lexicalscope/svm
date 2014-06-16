@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.branchPredicates;
 
+import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
@@ -9,6 +10,7 @@ public class Ifacmpne implements BranchPredicate {
       final Object value2 = ctx.pop();
       final Object value1 = ctx.pop();
 
+      assert value1 instanceof ObjectRef && value2 instanceof ObjectRef;
       return !value1.equals(value2);
    }
 
