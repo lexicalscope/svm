@@ -11,7 +11,9 @@ public final class NewInstanceNewPartitionOp implements Vop {
    private final Vop newOp;
    private final Object partitionTag;
 
-   public NewInstanceNewPartitionOp(final Vop newInstruction, final Object partitionTag) {
+   public NewInstanceNewPartitionOp(
+         final Vop newInstruction,
+         final Object partitionTag) {
       this.newOp = newInstruction;
       this.partitionTag = partitionTag;
    }

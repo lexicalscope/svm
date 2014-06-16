@@ -79,6 +79,12 @@
          <artifactId>fluent-reflection</artifactId>
          <type>jar</type>
          <scope>compile</scope>
+         <exclusions>
+            <exclusion>
+               <groupId>org.hamcrest</groupId>
+               <artifactId>*</artifactId>
+            </exclusion>
+         </exclusions>
       </dependency>
 	</dependencies>
 </project>

@@ -42,7 +42,7 @@ public final class PutFieldOp implements Vop {
 
    @Override public void eval(final JState ctx) {
       // TODO[tim]: link should remove this
-      final int offset = ctx.load(fieldInsnNode.owner).fieldIndex(name);
+      final int offset = ctx.loadKlassFor(fieldInsnNode.owner).fieldIndex(name);
 
       final Object val = ctx.pop();
       final ObjectRef obj = (ObjectRef) ctx.pop();

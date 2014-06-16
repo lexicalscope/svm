@@ -20,6 +20,11 @@
 			<artifactId>svm-jvm-conc</artifactId>
 			<version>${project.version}</version>
 		</dependency>
+      <dependency>
+         <groupId>com.lexicalscope.symb</groupId>
+         <artifactId>svm-partition-spec</artifactId>
+         <version>${project.version}</version>
+      </dependency>
 		<dependency>
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>

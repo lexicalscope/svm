@@ -19,7 +19,7 @@ public final class GetPrimitiveClass implements Vop {
    }
 
    private String inGameStringToRealLifeString(final JState ctx, final ObjectRef primitiveNameRef) {
-      final SClass string = ctx.load(JavaConstants.STRING_CLASS);
+      final SClass string = ctx.loadKlassFor(JavaConstants.STRING_CLASS);
       final int valueFieldIndex = string.fieldIndex(JavaConstants.STRING_VALUE_FIELD);
       return new String(extractCharArray(ctx, primitiveNameRef, valueFieldIndex)).intern();
    }

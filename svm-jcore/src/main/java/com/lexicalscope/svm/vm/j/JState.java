@@ -42,7 +42,7 @@ public interface JState extends Snapshotable<JState>, VmState {
    List<SClass> defineClass(String klassName);
    SClass definePrimitiveClass(String klassName);
    boolean isDefined(String klass);
-   SClass load(String klassName);
+   SClass loadKlassFor(String klassName);
 
    ObjectRef newObject(Allocatable klass);
    ObjectRef newObject(Allocatable klass, Object tag);

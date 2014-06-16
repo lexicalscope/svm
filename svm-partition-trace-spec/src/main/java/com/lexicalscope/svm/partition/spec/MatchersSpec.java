@@ -1,6 +1,8 @@
 package com.lexicalscope.svm.partition.spec;
 
-import static org.hamcrest.Matchers.equalTo;
+import static org.hamcrest.Matchers.*;
+
+import java.util.Set;
 
 import org.hamcrest.Description;
 import org.hamcrest.FeatureMatcher;
@@ -18,6 +20,10 @@ public class MatchersSpec {
 
    public static Matcher<? super CallContext> receiverClass(final String klass) {
       return receiver(objectClass(equalTo(klass)));
+   }
+
+   public static Matcher<Receiver> klassIn(final Set<String> klasses) {
+      return objectClass(isIn(klasses));
    }
 
    public static Matcher<Invocation> receiver(final Matcher<Receiver> matcher) {

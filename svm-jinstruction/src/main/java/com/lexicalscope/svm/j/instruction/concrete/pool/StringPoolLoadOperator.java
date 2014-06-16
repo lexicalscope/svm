@@ -21,7 +21,7 @@ public final class StringPoolLoadOperator implements Vop {
    }
 
    @Override public void eval(final JState ctx) {
-      final SClass stringClass = ctx.load(STRING_CLASS);
+      final SClass stringClass = ctx.loadKlassFor(STRING_CLASS);
 
       // create new string
       new NewObjectOp(getInternalName(String.class)).eval(ctx);

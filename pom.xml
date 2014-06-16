@@ -35,6 +35,7 @@
       <module>svm-partition-trace</module>
       <module>svm-partition-trace-symb</module>
       <module>svm-partition-trace-spec</module>
+      <module>svm-versions-inline</module>
 	</modules>
 	<build>
 		<pluginManagement>

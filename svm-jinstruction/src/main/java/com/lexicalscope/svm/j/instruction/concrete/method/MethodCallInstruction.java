@@ -111,7 +111,7 @@ public class MethodCallInstruction {
       }
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final JState ctx) {
-         return new Resolution(ctx.load(sMethodName.klassName()).declaredMethod(sMethodName));
+         return new Resolution(ctx.loadKlassFor(sMethodName.klassName()).declaredMethod(sMethodName));
       }
 
       @Override public MethodScope scope() {
@@ -164,7 +164,7 @@ public class MethodCallInstruction {
       }
 
       @Override public Resolution resolveMethod(final Object[] args, final SMethodDescriptor sMethodName, final JState ctx) {
-         return new Resolution(ctx.load(sMethodName.klassName()).declaredMethod(sMethodName));
+         return new Resolution(ctx.loadKlassFor(sMethodName.klassName()).declaredMethod(sMethodName));
       }
 
       @Override public MethodScope scope() {

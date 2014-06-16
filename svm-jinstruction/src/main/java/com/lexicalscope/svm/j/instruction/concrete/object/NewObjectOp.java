@@ -17,7 +17,7 @@ public final class NewObjectOp implements Op<ObjectRef> {
 
    @Override public ObjectRef eval(final JState ctx) {
       // TODO[tim]: linking should remove this
-      final SClass klass = ctx.load(klassDesc);
+      final SClass klass = ctx.loadKlassFor(klassDesc);
       final ObjectRef address = allocateObject(ctx, klass);
       ctx.push(address);
 

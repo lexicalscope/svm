@@ -29,7 +29,7 @@ public final class NewConcArray implements ArrayConstructor {
 
    public static void initArrayPreamble(final JState ctx, final ObjectRef arrayAddress, final Object arrayLength) {
       // TODO - arrays can have different types
-      final SClass objectArrayClass = ctx.load(getInternalName(Object[].class));
+      final SClass objectArrayClass = ctx.loadKlassFor(getInternalName(Object[].class));
       ctx.put(arrayAddress, NewArrayOp.ARRAY_CLASS_OFFSET, objectArrayClass);
       ctx.put(arrayAddress, NewArrayOp.ARRAY_LENGTH_OFFSET, arrayLength);
    }

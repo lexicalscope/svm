@@ -6,10 +6,19 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public class GetClassOp implements Vop {
+public final class GetClassOp implements Vop {
    @Override public void eval(final JState ctx) {
-      final Object klassFromHeap = ctx.get((ObjectRef) ctx.pop(), SClass.OBJECT_MARKER_OFFSET);
-      ctx.push(ctx.whereMyStaticsAt((SClass) klassFromHeap));
+      final SClass klassFromHeap = klassFromHeap(ctx);
+      final ObjectRef klassRef = ctx.whereMyStaticsAt(klassFromHeap);
+      ctx.push(klassRef);
+   }
+
+   public SClass klassFromHeap(final JState ctx) {
+      return klassFromHeap(ctx, (ObjectRef) ctx.pop());
+   }
+
+   public SClass klassFromHeap(final JState ctx, final ObjectRef objectRef) {
+      return (SClass) ctx.get(objectRef, SClass.OBJECT_MARKER_OFFSET);
    }
 
    @Override public String toString() {

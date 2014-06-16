@@ -8,6 +8,7 @@ import com.lexicalscope.svm.j.instruction.concrete.LoadConstantArg;
 import com.lexicalscope.svm.j.instruction.concrete.array.NewArrayOp;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchPredicate;
+import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifacmpne;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnonnull;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Ifnull;
 import com.lexicalscope.svm.j.instruction.concrete.d0uble.DConstOperator;
@@ -161,7 +162,7 @@ public class SymbInstructionFactory implements InstructionFactory {
    }
 
    @Override public Vop ifacmpne(final JumpInsnNode jumpInsnNode) {
-      throw new UnsupportedOperationException("not implemented yet");
+      return branchInstruction(new Ifacmpne());
    }
 
    @Override

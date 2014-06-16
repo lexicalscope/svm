@@ -43,7 +43,7 @@ public final class GetFieldOp implements Vop {
 
    @Override public void eval(final JState ctx) {
       // TODO[tim]: link should remove this
-      final int offset = ctx.load(fieldInsnNode.owner).fieldIndex(name);
+      final int offset = ctx.loadKlassFor(fieldInsnNode.owner).fieldIndex(name);
       final Object obj = ctx.pop();
 
       ctx.push(conversion.convert(ctx.get((ObjectRef) obj, offset)));

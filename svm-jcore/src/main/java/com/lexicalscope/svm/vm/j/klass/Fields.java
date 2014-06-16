@@ -24,6 +24,15 @@ public final class Fields {
       return map.get(name);
    }
 
+   public int indexOf(final String name) {
+      for (final Entry<SFieldName, Integer> field : map.entrySet()) {
+         if(field.getKey().getName().equals(name)) {
+            return field.getValue();
+         }
+      }
+      throw new IndexOutOfBoundsException();
+   }
+
    public SField get(final int index) {
       return fields.get(index);
    }

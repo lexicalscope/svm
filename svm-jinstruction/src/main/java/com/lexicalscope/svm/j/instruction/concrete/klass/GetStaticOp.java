@@ -19,7 +19,7 @@ public final class GetStaticOp implements Vop {
    }
 
    @Override public void eval(final JState ctx) {
-      final SClass klass = ctx.load(fieldInsnNode.owner);
+      final SClass klass = ctx.loadKlassFor(fieldInsnNode.owner);
       final ObjectRef staticsAddress = ctx.whereMyStaticsAt(klass);
       final int offset = klass.staticFieldIndex(name);
 

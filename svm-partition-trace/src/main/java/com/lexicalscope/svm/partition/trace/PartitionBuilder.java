@@ -1,19 +1,18 @@
 package com.lexicalscope.svm.partition.trace;
 
+import static com.lexicalscope.svm.partition.spec.MatchersSpec.*;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.HashSet;
 import java.util.Set;
 
-import org.hamcrest.Description;
 import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.svm.heap.ObjectRef;
+import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.klass.SClass;
-import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class PartitionBuilder {
    private final Set<String> klasses = new HashSet<>();
@@ -27,8 +26,9 @@ public class PartitionBuilder {
       return this;
    }
 
-   public Matcher<String> staticNewInstanceMatcher() {
-      return new TypeSafeDiagnosingMatcher<String>() {
+   public Matcher<? super CallContext> newInstanceMatcher() {
+      return receiver(klassIn(klasses));
+      /*return new TypeSafeDiagnosingMatcher<String>() {
          @Override public void describeTo(final Description description) {
             description.appendText("new instance of : ").appendValue(klasses);
          }
@@ -36,9 +36,10 @@ public class PartitionBuilder {
          @Override protected boolean matchesSafely(final String item, final Description mismatchDescription) {
             return klasses.contains(item);
          }
-      };
+      };*/
    }
 
+   /*
    private Matcher<? super MethodCallContext> dynamicExactMatcher() {
       return new TypeSafeDiagnosingMatcher<MethodCallContext>() {
          @Override public void describeTo(final Description description) {
@@ -54,8 +55,9 @@ public class PartitionBuilder {
             return false;
          }
       };
-   }
+   }*/
 
+   /*
    public Matcher<? super JState> dynamicExactCallinMatcher() {
       final Matcher<? super MethodCallContext> dynamicExactMatcher = dynamicExactMatcher();
       return new TypeSafeDiagnosingMatcher<JState>() {
@@ -86,8 +88,9 @@ public class PartitionBuilder {
             });
          }
       };
-   }
+   }*/
 
+   /*
    public Matcher<? super InstrumentationContext> dynamicExactCallbackMatcher() {
       final Matcher<? super MethodCallContext> dynamicExactMatcher = dynamicExactMatcher();
       return new TypeSafeDiagnosingMatcher<InstrumentationContext>() {
@@ -119,11 +122,12 @@ public class PartitionBuilder {
          }
       };
    }
-
+   */
    private SClass frameReceiver(final JState item, final StackFrame previousFrame) {
       return (SClass) item.get((ObjectRef) previousFrame.local(0), SClass.OBJECT_MARKER_OFFSET);
    }
 
+   /*
    public Matcher<? super SMethodDescriptor> staticOverApproximateMatcher() {
       return new TypeSafeDiagnosingMatcher<SMethodDescriptor>() {
          @Override public void describeTo(final Description description) {
@@ -135,4 +139,5 @@ public class PartitionBuilder {
          }
       };
    }
+   */
 }

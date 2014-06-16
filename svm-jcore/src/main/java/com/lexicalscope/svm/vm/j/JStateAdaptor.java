@@ -144,8 +144,8 @@ public class JStateAdaptor implements JState {
    }
 
    @Override
-   public SClass load(final String klassName) {
-      return delegate.load(klassName);
+   public SClass loadKlassFor(final String klassName) {
+      return delegate.loadKlassFor(klassName);
    }
 
    @Override public ObjectRef newObject(final Allocatable klass) {

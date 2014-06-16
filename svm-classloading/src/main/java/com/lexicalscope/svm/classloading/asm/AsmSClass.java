@@ -87,6 +87,10 @@ public class AsmSClass implements SClass {
       return fields.indexOf(name) + OBJECT_PREAMBLE;
    }
 
+   @Override public int fieldIndex(final String name) {
+      return fields.indexOf(name) + OBJECT_PREAMBLE;
+   }
+
    @Override public SField fieldAtIndex(final int index) {
       return fields.get(index - OBJECT_PREAMBLE);
    }

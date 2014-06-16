@@ -12,7 +12,7 @@ import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class InitThreadOp implements Vop {
    @Override public void eval(final JState ctx) {
-      final SClass threadClass = ctx.load(JavaConstants.THREAD_CLASS);
+      final SClass threadClass = ctx.loadKlassFor(JavaConstants.THREAD_CLASS);
       final ObjectRef address = ctx.newObject(threadClass);
       ctx.put(address, SClass.OBJECT_MARKER_OFFSET, threadClass);
       ctx.currentThreadIs(address);

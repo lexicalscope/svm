@@ -19,6 +19,7 @@ public interface SClass extends Allocatable, MethodResolver {
    Allocatable statics();
 
    int fieldIndex(SFieldName name);
+   int fieldIndex(String field);
    SField fieldAtIndex(int index);
    boolean hasField(SFieldName name);
    Fields fields();

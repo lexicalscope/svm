@@ -196,7 +196,7 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public SClass load(final String klassName) {
+   public SClass loadKlassFor(final String klassName) {
       return statics.load(klassName);
    }
 
