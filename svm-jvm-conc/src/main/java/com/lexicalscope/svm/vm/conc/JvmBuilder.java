@@ -1,6 +1,8 @@
 package com.lexicalscope.svm.vm.conc;
 
 import com.lexicalscope.svm.classloading.ClassSource;
+import com.lexicalscope.svm.vm.SearchLimits;
+import com.lexicalscope.svm.vm.StateCountSearchLimit;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.VmImpl;
@@ -14,18 +16,27 @@ public final class JvmBuilder {
 
    public static JvmBuilder jvm() { return new JvmBuilder(); }
 
+    public Vm<JState> build(
+            final StateTag[] tags,
+            final ClassSource[] classSources,
+            final SMethodDescriptor entryPointName,
+            final SearchLimits searchLimits,
+            final Object... args) {
+        final StateSearch<JState> search = searchFactory.search();
+        for (int i = 0; i < classSources.length; i++) {
+            final ClassSource classSource = classSources[i];
+            final StateTag tag = tags[i];
+            search.consider(initialStateBuilder.createInitialState(tag, search, classSource, entryPointName, args));
+        }
+        return new VmImpl<JState>(search, searchLimits);
+    }
+
    public Vm<JState> build(
          final StateTag[] tags,
          final ClassSource[] classSources,
          final SMethodDescriptor entryPointName,
          final Object... args) {
-      final StateSearch<JState> search = searchFactory.search();
-      for (int i = 0; i < classSources.length; i++) {
-         final ClassSource classSource = classSources[i];
-         final StateTag tag = tags[i];
-         search.consider(initialStateBuilder.createInitialState(tag, search, classSource, entryPointName, args));
-      }
-      return new VmImpl<JState>(search);
+       return build(tags, classSources, entryPointName, new StateCountSearchLimit(), args);
    }
 
    public <T> JvmBuilder initialState(final InitialStateBuilder initialStateBuilder) {

@@ -23,6 +23,9 @@ import com.lexicalscope.fluentreflection.ReflectionMatcher;
 import com.lexicalscope.svm.classloading.ClassSource;
 import com.lexicalscope.svm.classloading.ClasspathClassRepository;
 import com.lexicalscope.svm.metastate.MetaKey;
+import com.lexicalscope.svm.vm.SearchLimits;
+import com.lexicalscope.svm.vm.StateCountSearchLimit;
+import com.lexicalscope.svm.vm.TimerSearchLimit;
 import com.lexicalscope.svm.vm.Vm;
 import com.lexicalscope.svm.vm.conc.InitialStateBuilder;
 import com.lexicalscope.svm.vm.conc.JvmBuilder;
@@ -36,6 +39,7 @@ public class VmRule implements MethodRule {
    private final JvmBuilder jvmBuilder;
    private final Map<String, SMethodDescriptor> entryPoints = new HashMap<>();
    private SMethodDescriptor entryPoint;
+   private SearchLimits searchLimits;
 
    private final List<Vm<JState>> vm = new ArrayList<>();
    private ClassSource[] classSources = new ClassSource[]{new ClasspathClassRepository()};
@@ -52,6 +56,7 @@ public class VmRule implements MethodRule {
 
    public VmRule(final JvmBuilder jvmBuilder) {
       this.jvmBuilder = jvmBuilder;
+      this.searchLimits = new StateCountSearchLimit();
    }
 
    public JvmBuilder builder() {
@@ -107,12 +112,16 @@ public class VmRule implements MethodRule {
       // can be overridden
    }
 
+   public void limitBy(final int seconds) {
+      this.searchLimits = TimerSearchLimit.limitByTime(seconds);
+   }
+
    public final void entryPoint(final Class<?> klass, final String name, final String desc) {
       this.entryPoint = new AsmSMethodName(klass, name, desc);
    }
 
    public final Vm<JState> build(final Object[] args) {
-      return jvmBuilder.build(tags, classSources, entryPoint, args);
+      return jvmBuilder.build(tags, classSources, entryPoint, searchLimits, args);
    }
 
    public void loadFrom(final Class<?>[] loadFromWhereverTheseWereLoaded) {
