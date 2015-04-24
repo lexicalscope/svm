@@ -24,7 +24,7 @@ public class MatchersSpec {
       return receiver(objectClass(equalTo(klass)));
    }
 
-   public static Matcher<Receiver> klassIn(String... klasses) {
+   public static Matcher<Receiver> klassIn(final String... klasses) {
        return klassIn(new HashSet<>(Arrays.asList(klasses)));
    }
 
@@ -49,8 +49,8 @@ public class MatchersSpec {
    }
 
     public static Matcher<CallContext> calledBy(final Matcher<String> matcher) {
-        return new FeatureMatcher<CallContext, String>(matcher, "receiver", "receiver") {
-            @Override protected String featureValueOf(CallContext actual) {
+        return new FeatureMatcher<CallContext, String>(matcher, "methodName", "methodName") {
+            @Override protected String featureValueOf(final CallContext actual) {
                 return actual.methodName();
             }
         };

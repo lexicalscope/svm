@@ -86,9 +86,13 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
       return hashCode;
    }
 
+   public String qualifiedName() {
+      return klassName + "." + virtualName;
+   }
+
    @Override
    public String toString() {
-      return klassName + "." + virtualName;
+      return qualifiedName();
    }
 
    @Override
