@@ -1,27 +1,45 @@
 package com.lexicalscope.svm.j.natives;
 
-import com.lexicalscope.svm.j.instruction.concrete.LoadConstantArg;
+import static com.lexicalscope.svm.j.instruction.concrete.object.SymbolCounterMetaKey.SC;
+import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
+import com.lexicalscope.svm.vm.j.InstructionQuery;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.MethodBody;
-
-import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
+import com.lexicalscope.svm.vm.j.Vop;
 
 /**
  * Class that allows dynamic creation of int symbols in execution.
  */
 public class Symbolic_newSymbol extends AbstractNativeMethodDef {
-    public Symbolic_newSymbol(String methodName, String signature) {
+    public Symbolic_newSymbol(final String methodName, final String signature) {
         super("com/lexicalscope/svm/j/instruction/symbolic/symbols/SymbolFactory", methodName, signature);
     }
 
     @Override
-    public MethodBody instructions(InstructionSource instructions) {
-        ITerminalSymbol symbol = new ITerminalSymbol("s1"); // needs to be a proper symbol.
+    public MethodBody instructions(final InstructionSource instructions) {
         return statements(instructions)
                 .maxStack(1)
                 .maxLocals(1)
-                .linearOp(new LoadConstantArg(symbol))
+                .linearOp(new GetSymbolOp())
                 .return1(name()).build();
+    }
+
+
+    private class GetSymbolOp implements Vop {
+        @Override
+        public void eval(final JState ctx) {
+            final int counter = ctx.getMeta(SC);
+            final ITerminalSymbol symbol = new ITerminalSymbol(String.format("%s%d", "symbol", counter));
+            ctx.setMeta(SC, counter + 1);
+            ctx.push(symbol);
+        }
+
+        @Override
+        public <T> T query(final InstructionQuery<T> instructionQuery) {
+            return instructionQuery.nativ3();
+        }
     }
 }
