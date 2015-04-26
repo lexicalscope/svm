@@ -24,9 +24,7 @@ public class SArrayLoadOp implements Vop {
    }
 
    @Override public void eval(final JState ctx) {
-      assert ctx.peek() instanceof Integer;
-
-      final Object offset = (int) ctx.pop();
+      final Object offset = ctx.pop();
       final ObjectRef arrayref = (ObjectRef) ctx.pop();
 
       final Object arrayLength = ctx.get(arrayref, ARRAY_LENGTH_OFFSET);
