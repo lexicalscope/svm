@@ -148,7 +148,7 @@ public class VmRule implements MethodRule {
       return vm.get(0).results();
    }
 
-   public <T> List<T> getMatchingMeta(final StateTag tag, final MetaKey<T> key) {
+   public <T> List<T> getAllByMeta(final StateTag tag, final MetaKey<T> key) {
       List<T> results = new ArrayList<>();
       for (final JState result : results()) {
          if (result.descendentTag().equals(tag)) {
@@ -158,7 +158,7 @@ public class VmRule implements MethodRule {
       return results;
    }
 
-   public <T> T getMeta(final StateTag tag, final MetaKey<T> key) {
+   public <T> T getByMeta(final StateTag tag, final MetaKey<T> key) {
       for (final JState result : results()) {
          if(result.descendentTag().equals(tag)) {
             return result.getMeta(key);

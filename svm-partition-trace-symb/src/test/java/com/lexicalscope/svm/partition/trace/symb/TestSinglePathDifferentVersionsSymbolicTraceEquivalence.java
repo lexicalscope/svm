@@ -33,7 +33,7 @@ public class TestSinglePathDifferentVersionsSymbolicTraceEquivalence {
       vm.execute(symbol1);
 
       assertThat(
-            vm.getMeta(tag(ExamplesOneMarker.class), TRACE),
-            equivalentTo(vm,  vm.getMeta(tag(ExamplesOneMarker.class), TRACE)));
+            vm.getByMeta(tag(ExamplesOneMarker.class), TRACE),
+            equivalentTo(vm,  vm.getByMeta(tag(ExamplesOneMarker.class), TRACE)));
    }
 }
