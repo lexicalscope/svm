@@ -45,13 +45,14 @@ public class VmRule implements MethodRule {
    private ClassSource[] classSources = new ClassSource[]{new ClasspathClassRepository()};
    private StateTag[] tags = new StateTag[]{new StateTag() {}};
 
-   public VmRule() {
-      this(new JvmBuilder());
+   public static VmRule createVmRuleWithConfiguredClassLoader(final Class<?>[] loadFromWhereverTheseWereLoaded) {
+      final VmRule result = new VmRule();
+      result.loadFrom(loadFromWhereverTheseWereLoaded);
+      return result;
    }
 
-   public VmRule(final Class<?>[] loadFromWhereverTheseWereLoaded) {
-      this();
-      loadFrom(loadFromWhereverTheseWereLoaded);
+   public VmRule() {
+      this(new JvmBuilder());
    }
 
    public VmRule(final JvmBuilder jvmBuilder) {
@@ -148,8 +149,8 @@ public class VmRule implements MethodRule {
       return vm.get(0).results();
    }
 
-   public <T> List<T> getAllByMeta(final StateTag tag, final MetaKey<T> key) {
-      List<T> results = new ArrayList<>();
+   public <T> List<T> getMatchingMeta(final StateTag tag, final MetaKey<T> key) {
+      final List<T> results = new ArrayList<>();
       for (final JState result : results()) {
          if (result.descendentTag().equals(tag)) {
             results.add(result.getMeta(key));
