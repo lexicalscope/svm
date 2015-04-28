@@ -14,6 +14,7 @@ import com.lexicalscope.svm.stack.Stack;
 import com.lexicalscope.svm.stack.StackFrame;
 import com.lexicalscope.svm.stack.trace.SStackTrace;
 import com.lexicalscope.svm.vm.StateSearch;
+import com.lexicalscope.svm.vm.TerminationException;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class JStateImpl implements JState {
@@ -44,7 +45,14 @@ public class JStateImpl implements JState {
       try {
          instruction().eval(this);
       } catch (final AssertionError e) {
-         System.out.println(stack.trace());
+         System.out.println(stack.trace()); // TODO[tim]: something better than printing the stack
+         throw e;
+      } catch (final TerminationException e) {
+         throw e;
+      } catch (final RuntimeException e) {
+         System.out.println(e.getClass());
+         System.out.println(e.getMessage());
+         System.out.println(stack.trace()); // TODO[tim]: something better than printing the stack
          throw e;
       }
    }

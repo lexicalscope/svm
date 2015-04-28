@@ -62,7 +62,7 @@ public class Trace implements Iterable<TraceElement> {
    @Override public String toString() {
       final StringBuilder traceToString = new StringBuilder();
       final List<TraceElement> trace = asList();
-      traceToString.append(String.format("Trace of %s elements", trace.size()));
+      traceToString.append(String.format("Trace of %s elements%n", trace.size()));
       for (final TraceElement element : trace) {
          traceToString.append("\t").append(element).append(lineSeparator());
       }

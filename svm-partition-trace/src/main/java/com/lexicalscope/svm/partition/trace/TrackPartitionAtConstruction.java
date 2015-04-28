@@ -24,13 +24,7 @@ public class TrackPartitionAtConstruction implements Instrumentor {
       this.uPartNewInstanceMatcher = uPartNewInstanceMatcher;
    }
 
-   public static Instrumentor constructionOf(final PartitionBuilder aPart, final PartitionBuilder uPart) {
-      return constructionOf(
-            aPart.newInstanceMatcher(),
-            uPart.newInstanceMatcher());
-   }
-
-   private static Instrumentor constructionOf(
+   public static Instrumentor constructionOf(
          final Matcher<? super CallContext> aPartNewInstanceMatcher,
          final Matcher<? super CallContext> uPartNewInstanceMatcher) {
       return new TrackPartitionAtConstruction(aPartNewInstanceMatcher, uPartNewInstanceMatcher);

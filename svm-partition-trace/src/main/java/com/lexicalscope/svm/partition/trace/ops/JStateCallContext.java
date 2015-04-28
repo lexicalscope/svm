@@ -1,10 +1,13 @@
 package com.lexicalscope.svm.partition.trace.ops;
 
+import static com.google.common.base.MoreObjects.toStringHelper;
+
 import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.j.instruction.concrete.object.GetClassOp;
 import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.partition.spec.Field;
 import com.lexicalscope.svm.partition.spec.Invocation;
+import com.lexicalscope.svm.partition.spec.Local;
 import com.lexicalscope.svm.partition.spec.Receiver;
 import com.lexicalscope.svm.partition.spec.Value;
 import com.lexicalscope.svm.vm.j.JState;
@@ -19,7 +22,7 @@ public class JStateCallContext implements CallContext {
       this.klassDesc = klassDesc;
    }
 
-   @Override public String methodName() {
+   @Override public String callerMethodName() {
       return this.ctx.currentFrame().context().toString();
    }
 
@@ -49,7 +52,25 @@ public class JStateCallContext implements CallContext {
       throw new UnsupportedOperationException();
    }
 
+   @Override public Value callerParameter(final int index) {
+      return new Local(){
+         @Override public Object value() {
+            return ctx.currentFrame().local(index);
+         }};
+   }
+
+   @Override public Value calleeParameter(final int index) {
+      return new Local(){
+         @Override public Object value() {
+            throw new UnsupportedOperationException("we don't know the constructor params because we have to tag the object before its constructor is invoked");
+         }};
+   }
+
    @Override public Invocation previously(final String klass, final String method) {
       throw new UnsupportedOperationException();
+   }
+
+   @Override public String toString() {
+      return toStringHelper(this).add("klass", klassDesc).add("methodName", callerMethodName()).toString();
    }
 }
