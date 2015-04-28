@@ -18,7 +18,7 @@ public class InstrumentationBuilder {
 
    public Instrumentation instrumentation(final InstructionSource instructions) {
       if(instrumentationMap.isEmpty()) {
-         return new NullInstrumentation2();
+         return new NullInstrumentation();
       }
       return new MultimapInstrumentationContext(instructions, instrumentationMap);
    }

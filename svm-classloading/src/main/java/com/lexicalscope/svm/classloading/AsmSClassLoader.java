@@ -7,7 +7,7 @@ import com.lexicalscope.svm.j.instruction.factory.ConcInstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionFactory;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentation;
-import com.lexicalscope.svm.j.instruction.instrumentation.NullInstrumentation2;
+import com.lexicalscope.svm.j.instruction.instrumentation.NullInstrumentation;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.vm.j.Instruction;
@@ -37,7 +37,7 @@ public class AsmSClassLoader implements SClassLoader {
    }
 
    private AsmSClassLoader(final InstructionFactory instructionFactory) {
-      this(new BaseInstructionSource(instructionFactory), new NullInstrumentation2(), DefaultNativeMethods.natives(), new ClasspathClassRepository());
+      this(new BaseInstructionSource(instructionFactory), new NullInstrumentation(), DefaultNativeMethods.natives(), new ClasspathClassRepository());
    }
 
    @Override public SClass load(final String name) {
