@@ -7,6 +7,7 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.svm.partition.trace.ops.TraceMethodEntryExitOp;
 import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class CheckPartitionAtMethodEntryExit implements Instrumentor {

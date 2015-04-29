@@ -7,6 +7,7 @@ import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
 import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.partition.trace.ops.NewInstanceVariablePartitionOp;
 import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 

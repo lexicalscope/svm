@@ -1,6 +1,5 @@
-package com.lexicalscope.svm.partition.trace;
+package com.lexicalscope.svm.vm.j;
 
-import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 

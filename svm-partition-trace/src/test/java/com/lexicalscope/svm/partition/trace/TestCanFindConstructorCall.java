@@ -12,6 +12,7 @@ import com.lexicalscope.svm.classloading.AsmSClassLoader;
 import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionFinder;
 import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethod;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
