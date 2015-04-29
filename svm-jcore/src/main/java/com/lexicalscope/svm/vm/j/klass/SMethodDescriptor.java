@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.vm.j.klass;
 
+import org.hamcrest.Matcher;
+
 import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.SVirtualMethodName;
 
@@ -9,6 +11,7 @@ public interface SMethodDescriptor extends SMethodName {
 
    String klassName();
    boolean declaredOn(String klassInternalName);
+   boolean declaredOn(Matcher<String> klassInternalNameMatcher);
 
    String name();
 

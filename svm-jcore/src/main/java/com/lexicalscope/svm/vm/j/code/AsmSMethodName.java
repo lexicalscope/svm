@@ -6,6 +6,7 @@ import static org.objectweb.asm.Type.*;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.Matcher;
 import org.objectweb.asm.Type;
 
 import com.google.common.primitives.Ints;
@@ -154,5 +155,9 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
 
    @Override public boolean declaredOn(final String klassInternalName) {
       return klassName().equals(klassInternalName);
+   }
+
+   @Override public boolean declaredOn(final Matcher<String> klassInternalNameMatcher) {
+      return klassInternalNameMatcher.matches(klassName());
    }
 }
