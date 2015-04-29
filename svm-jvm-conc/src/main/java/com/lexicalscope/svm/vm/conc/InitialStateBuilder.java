@@ -26,7 +26,7 @@ import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource.InstructionSink;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSourceFactory;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstrumentationBuilder;
-import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
+import com.lexicalscope.svm.j.instruction.instrumentation.MethodInstrumentor;
 import com.lexicalscope.svm.j.natives.DefaultNativeMethods;
 import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
@@ -111,7 +111,7 @@ public class InitialStateBuilder {
       return this;
    }
 
-   public InitialStateBuilder instrument(final Matcher<? super SMethodDescriptor> methodMatcher, final Instrumentor instrumentation) {
+   public InitialStateBuilder instrument(final Matcher<? super SMethodDescriptor> methodMatcher, final MethodInstrumentor instrumentation) {
       instrumentationBuilder.instrument(methodMatcher, instrumentation);
       return this;
    }

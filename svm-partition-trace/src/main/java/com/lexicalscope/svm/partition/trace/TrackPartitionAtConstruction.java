@@ -3,7 +3,7 @@ package com.lexicalscope.svm.partition.trace;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
-import com.lexicalscope.svm.j.instruction.instrumentation.Instrumentor;
+import com.lexicalscope.svm.j.instruction.instrumentation.MethodInstrumentor;
 import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.partition.trace.ops.NewInstanceVariablePartitionOp;
 import com.lexicalscope.svm.vm.j.Instruction;
@@ -11,7 +11,7 @@ import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
-public class TrackPartitionAtConstruction implements Instrumentor {
+public class TrackPartitionAtConstruction implements MethodInstrumentor {
    private final Object aPart = new Object(){ @Override public String toString() { return "aPart"; }};
    private final Object uPart = new Object(){ @Override public String toString() { return "uPart"; }};
 
@@ -25,7 +25,7 @@ public class TrackPartitionAtConstruction implements Instrumentor {
       this.uPartNewInstanceMatcher = uPartNewInstanceMatcher;
    }
 
-   public static Instrumentor constructionOf(
+   public static MethodInstrumentor constructionOf(
          final Matcher<? super CallContext> aPartNewInstanceMatcher,
          final Matcher<? super CallContext> uPartNewInstanceMatcher) {
       return new TrackPartitionAtConstruction(aPartNewInstanceMatcher, uPartNewInstanceMatcher);
