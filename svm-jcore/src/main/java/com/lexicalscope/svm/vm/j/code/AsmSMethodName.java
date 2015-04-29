@@ -147,4 +147,12 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
          final String desc) {
       return new AsmSMethodName(klass, name, desc);
    }
+
+   @Override public boolean isConstructor() {
+      return name().equals(INIT);
+   }
+
+   @Override public boolean declaredOn(final String klassInternalName) {
+      return klassName().equals(klassInternalName);
+   }
 }

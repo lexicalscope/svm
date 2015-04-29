@@ -5,8 +5,10 @@ import com.lexicalscope.svm.vm.j.SVirtualMethodName;
 
 public interface SMethodDescriptor extends SMethodName {
    boolean isVoidMethod();
+   boolean isConstructor();
 
    String klassName();
+   boolean declaredOn(String klassInternalName);
 
    String name();
 
