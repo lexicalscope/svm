@@ -3,19 +3,17 @@ package com.lexicalscope.svm.partition.trace;
 import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.method;
 import static org.hamcrest.MatcherAssert.assertThat;
 
-import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
 import org.junit.Test;
-import org.objectweb.asm.Type;
 
 import com.lexicalscope.svm.classloading.AsmSClassLoader;
 import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionFinder;
 import com.lexicalscope.svm.vm.j.Instruction;
-import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethod;
-import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
+import com.lexicalscope.svm.vm.j.queries.IsConstructorCall;
+import com.lexicalscope.svm.vm.j.queries.IsNewInstruction;
 
 
 public class TestCanFindConstructorCall {
@@ -64,54 +62,6 @@ public class TestCanFindConstructorCall {
             }
          }
          return foundConstructor;
-      }
-   }
-
-   public static class IsNewInstruction extends InstructionQueryAdapter<Boolean> {
-      private final Matcher<String> klassInternalNameMatcher;
-
-      public IsNewInstruction(final Class<?> klass) {
-         this(Type.getInternalName(klass));
-      }
-
-      public IsNewInstruction(final String klassInternalName) {
-         this(Matchers.equalTo(klassInternalName));
-      }
-
-      public IsNewInstruction(final Matcher<String> klassInternalNameMatcher) {
-         this.klassInternalNameMatcher = klassInternalNameMatcher;
-      }
-
-      @Override public Boolean newobject(final String klassDesc) {
-         return klassInternalNameMatcher.matches(klassDesc);
-      }
-
-      @Override protected Boolean defaultResult() {
-         return false;
-      }
-   }
-
-   public static class IsConstructorCall extends InstructionQueryAdapter<Boolean> {
-      private final Matcher<String> klassInternalNameMatcher;
-
-      public IsConstructorCall(final Class<?> klass) {
-         this(Type.getInternalName(klass));
-      }
-
-      public IsConstructorCall(final String klassInternalName) {
-         this(Matchers.equalTo(klassInternalName));
-      }
-
-      public IsConstructorCall(final Matcher<String> klassInternalNameMatcher) {
-         this.klassInternalNameMatcher = klassInternalNameMatcher;
-      }
-
-      @Override public Boolean invokespecial(final SMethodDescriptor methodName) {
-         return methodName.declaredOn(klassInternalNameMatcher) && methodName.isConstructor();
-      }
-
-      @Override protected Boolean defaultResult() {
-         return false;
       }
    }
 }
