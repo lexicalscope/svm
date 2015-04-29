@@ -37,29 +37,43 @@ public class TestCanFindConstructorCall {
    }
 
    public static class FindConstructorCall implements InstructionFinder {
-      @Override public boolean findInstruction(final SMethod method) {
-         boolean foundNewInstruction = false;
-         boolean foundConstructor = false;
-         for (final Instruction instruction : method.entry()) {
-            if(!foundNewInstruction && instruction.query(new IsNewInstruction(ClassUnderConstruction.class)))
-            {
-               foundNewInstruction = true;
-            }
-            else if(foundNewInstruction)
-            {
-               assert !instruction.query(new IsNewInstruction(ClassUnderConstruction.class)) :
-                  "found two new instructions with no constructor inbetween";
+      private interface SearchState {
+         void matchInstruction(Instruction instruction);
+      }
 
-               if(instruction.query(new IsConstructorCall(ClassUnderConstruction.class)))
-               {
-                  foundConstructor = true;
-               }
-               else
-               {
-                  assert !instruction.query(new IsConstructorCall(Matchers.any(String.class))) :
-                     "found the wrong constructor after a new instruction";
-               }
+      private class LookingForNew implements SearchState {
+         @Override public void matchInstruction(final Instruction instruction) {
+            if(instruction.query(new IsNewInstruction(ClassUnderConstruction.class)))
+            {
+               state = new LookingForConstructor();
             }
+         }
+      }
+
+      private class LookingForConstructor implements SearchState {
+         @Override public void matchInstruction(final Instruction instruction) {
+            assert !instruction.query(new IsNewInstruction(ClassUnderConstruction.class)) :
+               "found two new instructions with no constructor inbetween";
+
+            if(instruction.query(new IsConstructorCall(ClassUnderConstruction.class)))
+            {
+               foundConstructor = true;
+               state = new LookingForNew();
+            }
+            else
+            {
+               assert !instruction.query(new IsConstructorCall(Matchers.any(String.class))) :
+                  "found the wrong constructor after a new instruction";
+            }
+         }
+      }
+
+      private SearchState state = new LookingForNew();
+      boolean foundConstructor = false;
+
+      @Override public boolean findInstruction(final SMethod method) {
+         for (final Instruction instruction : method.entry()) {
+            state.matchInstruction(instruction);
          }
          return foundConstructor;
       }
