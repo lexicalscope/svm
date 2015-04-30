@@ -53,7 +53,7 @@ public final class DefineClassOp implements Op<List<SClass>> {
    static void allocateStatics(final JState ctx, final StaticsMarker staticsMarker, final SClass klass) {
       if(klass.statics().allocateSize() > 0) {
          final ObjectRef staticsAddress = ctx.newObject(klass.statics());
-         ctx.put(staticsAddress, SClass.OBJECT_MARKER_OFFSET, staticsMarker);
+         ctx.put(staticsAddress, SClass.OBJECT_TYPE_MARKER_OFFSET, staticsMarker);
          ctx.staticsAt(klass, staticsAddress);
       }
    }

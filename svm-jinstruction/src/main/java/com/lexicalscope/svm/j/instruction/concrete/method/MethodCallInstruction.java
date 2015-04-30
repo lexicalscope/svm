@@ -96,7 +96,7 @@ public class MethodCallInstruction {
    }
 
    private static MethodResolver receiver(final Object[] args, final SMethodName sMethodName, final JState ctx) {
-      final Object receiver = ctx.get((ObjectRef) args[0], SClass.OBJECT_MARKER_OFFSET);
+      final Object receiver = ctx.get((ObjectRef) args[0], SClass.OBJECT_TYPE_MARKER_OFFSET);
       assert receiver != null : sMethodName;
       assert receiver instanceof MethodResolver : "no " + sMethodName + " in " + receiver;
       return (MethodResolver) receiver;

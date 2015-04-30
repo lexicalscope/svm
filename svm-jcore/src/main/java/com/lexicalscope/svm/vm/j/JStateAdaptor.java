@@ -153,11 +153,6 @@ public class JStateAdaptor implements JState {
    }
 
    @Override
-   public ObjectRef newObject(final Allocatable klass, final Object tag) {
-      return delegate.newObject(klass, tag);
-   }
-
-   @Override
    public Object hashCode(final ObjectRef object) {
       return delegate.hashCode(object);
    }

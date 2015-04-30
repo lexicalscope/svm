@@ -14,7 +14,7 @@ public class InitThreadOp implements Vop {
    @Override public void eval(final JState ctx) {
       final SClass threadClass = ctx.loadKlassFor(THREAD_CLASS);
       final ObjectRef address = ctx.newObject(threadClass);
-      ctx.put(address, SClass.OBJECT_MARKER_OFFSET, threadClass);
+      ctx.put(address, SClass.OBJECT_TYPE_MARKER_OFFSET, threadClass);
       ctx.currentThreadIs(address);
       ctx.push(address);
    }

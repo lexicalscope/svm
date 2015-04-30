@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction.concrete.object;
 
-import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
+import static com.lexicalscope.svm.vm.j.klass.SClass.*;
 
 import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
@@ -27,10 +27,10 @@ public final class NewObjectOp implements Op<ObjectRef> {
 
    public static ObjectRef allocateObject(final JState ctx, final SClass klass) {
       final ObjectRef address = ctx.newObject(klass);
-      ctx.put(address, OBJECT_MARKER_OFFSET, klass);
+      ctx.put(address, OBJECT_TYPE_MARKER_OFFSET, klass);
 
       final Object nullPointer = ctx.nullPointer();
-      int fieldOffset = OBJECT_MARKER_OFFSET + 1;
+      int fieldOffset = OBJECT_PREAMBLE;
       for (final Object initialValue : klass.fieldInit()) {
          ctx.put(address, fieldOffset, initialValue == null ? nullPointer : initialValue);
          fieldOffset++;

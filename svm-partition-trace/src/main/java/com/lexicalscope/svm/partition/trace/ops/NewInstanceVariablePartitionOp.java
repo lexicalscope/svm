@@ -12,6 +12,7 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JStateAdaptor;
 import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class NewInstanceVariablePartitionOp implements Vop {
    private final Vop newOp;
@@ -64,12 +65,9 @@ public final class NewInstanceVariablePartitionOp implements Vop {
    @Override public void eval(final JState ctx) {
       newOp.eval(new JStateAdaptor(ctx){
          @Override public ObjectRef newObject(final Allocatable klass) {
-            return ctx.newObject(klass, partition.tagForConstructionOf(ctx, klassDesc));
-         }
-
-         @Override public ObjectRef newObject(final Allocatable klass, final Object tag) {
-            assert false : "new operation must not provide a custom tag";
-            return super.newObject(klass, tag);
+            final ObjectRef newObject = ctx.newObject(klass);
+            ctx.put(newObject, SClass.OBJECT_TAG_OFFSET, partition.tagForConstructionOf(ctx, klassDesc));
+            return newObject;
          }
       });
    }

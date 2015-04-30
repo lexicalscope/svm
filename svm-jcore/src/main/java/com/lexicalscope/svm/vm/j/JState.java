@@ -45,7 +45,6 @@ public interface JState extends Snapshotable<JState>, VmState {
    SClass loadKlassFor(KlassInternalName klassName);
 
    ObjectRef newObject(Allocatable klass);
-   ObjectRef newObject(Allocatable klass, Object tag);
    Object hashCode(ObjectRef object);
    ObjectRef nullPointer();
    void put(ObjectRef address, int offset, Object val);
