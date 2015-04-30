@@ -48,7 +48,7 @@ public class TestCanFindConstructorCall {
    @Test public void constructorCallCanBeFound() {
       final SMethod method = classLoader.virtualMethod(ClassCallingConstructor.class, "method", NOARGS_VOID_DESC);
 
-      new FindConstructorCall(matchingKlass(ClassUnderConstruction.class), counting).findInstruction(method);
+      new FindConstructorCall(matchingKlass(ClassUnderConstruction.class)).findInstruction(method.entry(), counting);
 
       assertThat("found constructor", counting, countIs(1));
    }
@@ -56,7 +56,7 @@ public class TestCanFindConstructorCall {
    @Test public void constructorCallsInBranchCanBeFound() {
       final SMethod method = classLoader.virtualMethod(ClassCallingConstructorInBranch.class, "method", NOARGS_VOID_DESC);
 
-      new FindConstructorCall(anyKlass(), counting).findInstruction(method);
+      new FindConstructorCall(anyKlass()).findInstruction(method.entry(), counting);
 
       assertThat("found constructor", counting, countIs(2));
    }
@@ -64,7 +64,7 @@ public class TestCanFindConstructorCall {
    @Test public void superConstructorIsNotFound() {
       final SMethod method = classLoader.declaredMethod(ClassCallingSuperConstructor.class, INIT, NOARGS_VOID_DESC);
 
-      new FindConstructorCall(anyKlass(), counting).findInstruction(method);
+      new FindConstructorCall(anyKlass()).findInstruction(method.entry(), counting);
 
       assertThat("found constructor", counting, countIs(0));
    }

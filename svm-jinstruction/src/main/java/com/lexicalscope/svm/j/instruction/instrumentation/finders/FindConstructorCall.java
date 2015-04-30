@@ -8,17 +8,16 @@ import com.lexicalscope.svm.j.instruction.instrumentation.InstructionFinder;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionInstrumentor;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.KlassInternalName;
-import com.lexicalscope.svm.vm.j.klass.SMethod;
 import com.lexicalscope.svm.vm.j.queries.IsConstructorCall;
 import com.lexicalscope.svm.vm.j.queries.IsNewInstruction;
 
 public class FindConstructorCall implements InstructionFinder {
    private interface SearchState {
-      void matchInstruction(Instruction instruction);
+      void matchInstruction(Instruction instruction, InstructionInstrumentor instrumentor);
    }
 
    private class LookingForNew implements FindConstructorCall.SearchState {
-      @Override public void matchInstruction(final Instruction instruction) {
+      @Override public void matchInstruction(final Instruction instruction, final InstructionInstrumentor instrumentor) {
          if(instruction.query(new IsNewInstruction(klass)))
          {
             state = new LookingForConstructor();
@@ -27,7 +26,7 @@ public class FindConstructorCall implements InstructionFinder {
    }
 
    private class LookingForConstructor implements FindConstructorCall.SearchState {
-      @Override public void matchInstruction(final Instruction instruction) {
+      @Override public void matchInstruction(final Instruction instruction, final InstructionInstrumentor instrumentor) {
          assert !instruction.query(new IsNewInstruction(klass)) :
             "found two new instructions with no constructor inbetween";
 
@@ -45,19 +44,15 @@ public class FindConstructorCall implements InstructionFinder {
    }
 
    private FindConstructorCall.SearchState state = new LookingForNew();
-   private final InstructionInstrumentor instrumentor;
    private final Matcher<KlassInternalName> klass;
 
-   public FindConstructorCall(
-         final Matcher<KlassInternalName> klass,
-         final InstructionInstrumentor instrumentor) {
+   public FindConstructorCall(final Matcher<KlassInternalName> klass) {
       this.klass = klass;
-      this.instrumentor = instrumentor;
    }
 
-   @Override public void findInstruction(final SMethod method) {
-      for (final Instruction instruction : method.entry()) {
-         state.matchInstruction(instruction);
+   @Override public void findInstruction(final Instruction methodEntry, final InstructionInstrumentor instrumentor) {
+      for (final Instruction instruction : methodEntry) {
+         state.matchInstruction(instruction, instrumentor);
       }
    }
 }
