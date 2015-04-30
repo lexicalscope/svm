@@ -2,6 +2,8 @@ package com.lexicalscope.svm.j.instruction.instrumentation.finders;
 
 import static org.hamcrest.Matchers.any;
 
+import org.hamcrest.Matcher;
+
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionFinder;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionInstrumentor;
 import com.lexicalscope.svm.vm.j.Instruction;
@@ -44,10 +46,10 @@ public class FindConstructorCall implements InstructionFinder {
 
    private FindConstructorCall.SearchState state = new LookingForNew();
    private final InstructionInstrumentor instrumentor;
-   private final Class<?> klass;
+   private final Matcher<KlassInternalName> klass;
 
    public FindConstructorCall(
-         final Class<?> klass,
+         final Matcher<KlassInternalName> klass,
          final InstructionInstrumentor instrumentor) {
       this.klass = klass;
       this.instrumentor = instrumentor;

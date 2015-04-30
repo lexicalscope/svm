@@ -1,8 +1,12 @@
 package com.lexicalscope.svm.vm.j;
 
+import static org.hamcrest.Matchers.equalTo;
+
 import java.util.ArrayList;
 import java.util.List;
 
+import org.hamcrest.Matcher;
+import org.hamcrest.Matchers;
 import org.objectweb.asm.Type;
 
 public class KlassInternalName implements Comparable<KlassInternalName> {
@@ -103,5 +107,13 @@ public class KlassInternalName implements Comparable<KlassInternalName> {
 
    @Override public String toString() {
       return string();
+   }
+
+   public static Matcher<KlassInternalName> anyKlass() {
+      return Matchers.any(KlassInternalName.class);
+   }
+
+   public static Matcher<KlassInternalName> matchingKlass(final Class<?> klass) {
+      return equalTo(internalName(klass));
    }
 }
