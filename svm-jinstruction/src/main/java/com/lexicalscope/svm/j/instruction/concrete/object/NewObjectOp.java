@@ -5,13 +5,14 @@ import static com.lexicalscope.svm.vm.j.klass.SClass.OBJECT_MARKER_OFFSET;
 import com.lexicalscope.svm.heap.ObjectRef;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public final class NewObjectOp implements Op<ObjectRef> {
-   private final String klassDesc;
+   private final KlassInternalName klassDesc;
 
-   public NewObjectOp(final String klassDesc) {
+   public NewObjectOp(final KlassInternalName klassDesc) {
       this.klassDesc = klassDesc;
    }
 

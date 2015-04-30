@@ -114,7 +114,7 @@ public class JStateAdaptor implements JState {
    }
 
    @Override
-   public ObjectRef whereMyClassAt(final String klassName) {
+   public ObjectRef whereMyClassAt(final KlassInternalName klassName) {
       return delegate.whereMyClassAt(klassName);
    }
 
@@ -129,22 +129,22 @@ public class JStateAdaptor implements JState {
    }
 
    @Override
-   public List<SClass> defineClass(final String klassName) {
+   public List<SClass> defineClass(final KlassInternalName klassName) {
       return delegate.defineClass(klassName);
    }
 
    @Override
-   public SClass definePrimitiveClass(final String klassName) {
+   public SClass definePrimitiveClass(final KlassInternalName klassName) {
       return delegate.definePrimitiveClass(klassName);
    }
 
    @Override
-   public boolean isDefined(final String klass) {
+   public boolean isDefined(final KlassInternalName klass) {
       return delegate.isDefined(klass);
    }
 
    @Override
-   public SClass loadKlassFor(final String klassName) {
+   public SClass loadKlassFor(final KlassInternalName klassName) {
       return delegate.loadKlassFor(klassName);
    }
 

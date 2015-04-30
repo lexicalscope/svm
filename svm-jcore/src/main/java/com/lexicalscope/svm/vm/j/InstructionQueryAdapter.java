@@ -216,7 +216,7 @@ public class InstructionQueryAdapter<T> implements InstructionQuery<T> {
       return defaultResult();
    }
 
-   @Override public T newobject(final String klassDesc) {
+   @Override public T newobject(final KlassInternalName klassDesc) {
       return defaultResult();
    }
 }

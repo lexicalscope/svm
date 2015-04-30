@@ -1,10 +1,11 @@
 package com.lexicalscope.svm.j.instruction.instrumentation.finders;
 
-import org.hamcrest.Matchers;
+import static org.hamcrest.Matchers.any;
 
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionFinder;
 import com.lexicalscope.svm.j.instruction.instrumentation.InstructionInstrumentor;
 import com.lexicalscope.svm.vm.j.Instruction;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.klass.SMethod;
 import com.lexicalscope.svm.vm.j.queries.IsConstructorCall;
 import com.lexicalscope.svm.vm.j.queries.IsNewInstruction;
@@ -35,7 +36,7 @@ public class FindConstructorCall implements InstructionFinder {
          }
          else
          {
-            assert !instruction.query(new IsConstructorCall(Matchers.any(String.class))) :
+            assert !instruction.query(new IsConstructorCall(any(KlassInternalName.class))) :
                "found the wrong constructor after a new instruction";
          }
       }
@@ -45,7 +46,9 @@ public class FindConstructorCall implements InstructionFinder {
    private final InstructionInstrumentor instrumentor;
    private final Class<?> klass;
 
-   public FindConstructorCall(final Class<?> klass, final InstructionInstrumentor instrumentor) {
+   public FindConstructorCall(
+         final Class<?> klass,
+         final InstructionInstrumentor instrumentor) {
       this.klass = klass;
       this.instrumentor = instrumentor;
    }

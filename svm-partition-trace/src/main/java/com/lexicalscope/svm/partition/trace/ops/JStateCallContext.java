@@ -11,13 +11,14 @@ import com.lexicalscope.svm.partition.spec.Local;
 import com.lexicalscope.svm.partition.spec.Receiver;
 import com.lexicalscope.svm.partition.spec.Value;
 import com.lexicalscope.svm.vm.j.JState;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
 public class JStateCallContext implements CallContext {
    private final JState ctx;
-   private final String klassDesc;
+   private final KlassInternalName klassDesc;
 
-   public JStateCallContext(final JState ctx, final String klassDesc) {
+   public JStateCallContext(final JState ctx, final KlassInternalName klassDesc) {
       this.ctx = ctx;
       this.klassDesc = klassDesc;
    }
@@ -29,7 +30,7 @@ public class JStateCallContext implements CallContext {
    @Override public Receiver receiver() {
       return new Receiver() {
          @Override public String klass() {
-            return klassDesc;
+            return klassDesc.string();
          }
 
          @Override public Field field(final String field) {

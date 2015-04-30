@@ -13,6 +13,7 @@ import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JavaConstants;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.MethodResolver;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethod;
@@ -20,7 +21,7 @@ import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class MethodCallInstruction {
    private static final class Resolution {
-      public Resolution(final String receiverKlass, final SMethod sMethod) {
+      public Resolution(final KlassInternalName receiverKlass, final SMethod sMethod) {
          this.receiverKlass = receiverKlass;
          this.method = sMethod;
       }
@@ -29,7 +30,7 @@ public class MethodCallInstruction {
          this(sMethod.name().klassName(), sMethod);
       }
 
-      final String receiverKlass;
+      final KlassInternalName receiverKlass;
       final SMethod method;
    }
 
@@ -124,9 +125,9 @@ public class MethodCallInstruction {
    }
 
    private static class ClassDefaultConstructorMethodInvokation implements MethodInvokation {
-      private final String klassName;
+      private final KlassInternalName klassName;
 
-      public ClassDefaultConstructorMethodInvokation(final String klassName) {
+      public ClassDefaultConstructorMethodInvokation(final KlassInternalName klassName) {
          this.klassName = klassName;
       }
 
@@ -221,7 +222,7 @@ public class MethodCallInstruction {
       sink.linearOp(new MethodCallOp(sMethodName, new SpecialMethodInvokation()), invokespecial);
    }
 
-   public static void invokeconstructorofclassobjects(final String klassName, final InstructionSource.InstructionSink sink) {
+   public static void invokeconstructorofclassobjects(final KlassInternalName klassName, final InstructionSource.InstructionSink sink) {
       sink.linearOp(new MethodCallOp(JavaConstants.CLASS_CLASS_DEFAULT_CONSTRUCTOR, new ClassDefaultConstructorMethodInvokation(klassName)), invokeconstructorofclassobjects);
    }
 

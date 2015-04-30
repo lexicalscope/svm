@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.vm.j.code;
 
 import static com.lexicalscope.svm.vm.j.JavaConstants.*;
+import static com.lexicalscope.svm.vm.j.KlassInternalName.internalName;
 import static org.objectweb.asm.Type.*;
 
 import java.util.ArrayList;
@@ -10,11 +11,12 @@ import org.hamcrest.Matcher;
 import org.objectweb.asm.Type;
 
 import com.google.common.primitives.Ints;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.SVirtualMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethodDescriptor {
-   private final String klassName;
+   private final KlassInternalName klassName;
    private final SVirtualMethodName virtualName;
    private final int hashCode;
    private final int[] objectArgIndexes;
@@ -22,6 +24,14 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
 
    public AsmSMethodName(
          final String klassName,
+         final String name,
+         final String desc
+         ) {
+      this(internalName(klassName), name, desc);
+   }
+
+   public AsmSMethodName(
+         final KlassInternalName klassName,
          final String name,
          final String desc
          ) {
@@ -47,12 +57,8 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
       return returnTypeIsObject;
    }
 
-   public AsmSMethodName(
-         final Class<?> klass,
-         final String name,
-         final String desc
-         ) {
-      this(Type.getInternalName(klass), name, desc);
+   public AsmSMethodName(final Class<?> klass, final String name, final String desc) {
+      this(internalName(klass), name, desc);
    }
 
    @Override
@@ -97,7 +103,7 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
    }
 
    @Override
-   public String klassName() {
+   public KlassInternalName klassName() {
       return klassName;
    }
 
@@ -130,16 +136,16 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
       return virtualName;
    }
 
-   public static SMethodDescriptor staticInitialiser(final String klassName) {
+   public static SMethodDescriptor staticInitialiser(final KlassInternalName klassName) {
       return new AsmSMethodName(klassName, CLINIT, NOARGS_VOID_DESC);
    }
 
-   public static SMethodDescriptor defaultConstructor(final String klassName) {
+   public static SMethodDescriptor defaultConstructor(final KlassInternalName klassName) {
       return new AsmSMethodName(klassName, INIT, NOARGS_VOID_DESC);
    }
 
    public static SMethodDescriptor defaultConstructor(final Class<?> klass) {
-      return defaultConstructor(getInternalName(klass));
+      return defaultConstructor(internalName(klass));
    }
 
    public static SMethodDescriptor method(
@@ -153,11 +159,11 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
       return name().equals(INIT);
    }
 
-   @Override public boolean declaredOn(final String klassInternalName) {
+   @Override public boolean declaredOn(final KlassInternalName klassInternalName) {
       return klassName().equals(klassInternalName);
    }
 
-   @Override public boolean declaredOn(final Matcher<String> klassInternalNameMatcher) {
+   @Override public boolean declaredOn(final Matcher<KlassInternalName> klassInternalNameMatcher) {
       return klassInternalNameMatcher.matches(klassName());
    }
 }

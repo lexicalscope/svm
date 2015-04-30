@@ -3,7 +3,7 @@ package com.lexicalscope.svm.vm.conc;
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.svm.stack.MethodScope.STATIC;
 import static com.lexicalscope.svm.vm.j.InstructionCode.synthetic;
-import static org.objectweb.asm.Type.getInternalName;
+import static com.lexicalscope.svm.vm.j.KlassInternalName.internalName;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -41,6 +41,7 @@ import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JStateImpl;
 import com.lexicalscope.svm.vm.j.JavaConstants;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.StateTag;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -84,10 +85,10 @@ public class InitialStateBuilder {
    }
 
    private void defineBootstrapClassesInstruction(final InstructionSink sink, final InstructionSource instructions) {
-      final List<String> bootstrapClasses = new ArrayList<>();
-      bootstrapClasses.add(getInternalName(Class.class));
-      bootstrapClasses.add(getInternalName(String.class));
-      bootstrapClasses.add(getInternalName(Thread.class));
+      final List<KlassInternalName> bootstrapClasses = new ArrayList<>();
+      bootstrapClasses.add(internalName(Class.class));
+      bootstrapClasses.add(internalName(String.class));
+      bootstrapClasses.add(internalName(Thread.class));
       sink.nextOp(new LoadingOp(new DefinePrimitiveClassesOp(new DefineClassOp(bootstrapClasses)), instructions), synthetic);
    }
 

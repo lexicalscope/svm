@@ -204,7 +204,7 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public SClass loadKlassFor(final String klassName) {
+   public SClass loadKlassFor(final KlassInternalName klassName) {
       return statics.load(klassName);
    }
 
@@ -219,17 +219,17 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public boolean isDefined(final String klass) {
+   public boolean isDefined(final KlassInternalName klass) {
       return statics.isDefined(klass);
    }
 
    @Override
-   public SClass definePrimitiveClass(final String klassName) {
+   public SClass definePrimitiveClass(final KlassInternalName klassName) {
       return statics.definePrimitiveClass(klassName);
    }
 
    @Override
-   public List<SClass> defineClass(final String klassName) {
+   public List<SClass> defineClass(final KlassInternalName klassName) {
       return statics.defineClass(klassName);
    }
 
@@ -273,7 +273,7 @@ public class JStateImpl implements JState {
    }
 
    @Override
-   public ObjectRef whereMyClassAt(final String klassName) {
+   public ObjectRef whereMyClassAt(final KlassInternalName klassName) {
       return statics.whereMyClassAt(klassName);
    }
 

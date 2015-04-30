@@ -8,6 +8,7 @@ import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.partition.trace.ops.NewInstanceVariablePartitionOp;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
@@ -37,7 +38,7 @@ public class TrackPartitionAtConstruction implements MethodInstrumentor {
          final Instruction methodEntry) {
       for (final Instruction instruction : methodEntry) {
          instruction.query(new InstructionQueryAdapter<Void>() {
-            @Override public Void newobject(final String klassDesc) {
+            @Override public Void newobject(final KlassInternalName klassDesc) {
                final Vop op = new NewInstanceVariablePartitionOp(
                      klassDesc,
                      instruction.op(),

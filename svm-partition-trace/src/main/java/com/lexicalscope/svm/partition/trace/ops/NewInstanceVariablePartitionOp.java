@@ -10,6 +10,7 @@ import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JStateAdaptor;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Vop;
 
 public final class NewInstanceVariablePartitionOp implements Vop {
@@ -18,10 +19,10 @@ public final class NewInstanceVariablePartitionOp implements Vop {
    private final Matcher<? super CallContext> uMatcher;
    private final Object aPartitionTag;
    private final Object uPartitionTag;
-   private final String klassDesc;
+   private final KlassInternalName klassDesc;
 
    public NewInstanceVariablePartitionOp(
-         final String klassDesc,
+         final KlassInternalName klassDesc,
          final Vop newInstruction,
          final Matcher<? super CallContext> aMatcher,
          final Matcher<? super CallContext> uMatcher,

@@ -1,24 +1,26 @@
 package com.lexicalscope.svm.vm.j.queries;
 
+import static com.lexicalscope.svm.vm.j.KlassInternalName.internalName;
+
 import org.hamcrest.Matcher;
 import org.hamcrest.Matchers;
-import org.objectweb.asm.Type;
 
 import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class IsConstructorCall extends InstructionQueryAdapter<Boolean> {
-   private final Matcher<String> klassInternalNameMatcher;
+   private final Matcher<KlassInternalName> klassInternalNameMatcher;
 
    public IsConstructorCall(final Class<?> klass) {
-      this(Type.getInternalName(klass));
+      this(internalName(klass));
    }
 
-   public IsConstructorCall(final String klassInternalName) {
+   public IsConstructorCall(final KlassInternalName klassInternalName) {
       this(Matchers.equalTo(klassInternalName));
    }
 
-   public IsConstructorCall(final Matcher<String> klassInternalNameMatcher) {
+   public IsConstructorCall(final Matcher<KlassInternalName> klassInternalNameMatcher) {
       this.klassInternalNameMatcher = klassInternalNameMatcher;
    }
 

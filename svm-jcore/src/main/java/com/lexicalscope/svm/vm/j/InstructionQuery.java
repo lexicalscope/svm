@@ -65,6 +65,6 @@ public interface InstructionQuery<T> {
    T ifge();
    T putstatic();
 
-   T newobject(String klassDesc);
+   T newobject(KlassInternalName klassDesc);
    T loadarg(Object value);
 }

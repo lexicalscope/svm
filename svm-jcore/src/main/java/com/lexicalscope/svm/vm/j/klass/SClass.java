@@ -5,6 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.lexicalscope.svm.heap.Allocatable;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.MethodResolver;
 
 public interface SClass extends Allocatable, MethodResolver {
@@ -12,7 +13,7 @@ public interface SClass extends Allocatable, MethodResolver {
    public static final int OBJECT_PREAMBLE = 1;
    public static final int OBJECT_MARKER_OFFSET = 0;
 
-   String name();
+   KlassInternalName name();
    SClass superclass();
 
    boolean hasStaticInitialiser();

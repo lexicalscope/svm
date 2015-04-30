@@ -1,7 +1,8 @@
 package com.lexicalscope.svm.j.instruction.concrete.klass;
 
+import static java.util.Arrays.asList;
+
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
 
 import com.lexicalscope.svm.heap.ObjectRef;
@@ -9,25 +10,26 @@ import com.lexicalscope.svm.j.instruction.concrete.object.NewObjectOp;
 import com.lexicalscope.svm.vm.j.InstructionQuery;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.JavaConstants;
+import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Op;
 import com.lexicalscope.svm.vm.j.StaticsMarker;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
 
 public final class DefineClassOp implements Op<List<SClass>> {
-   private final List<String> klassNames;
+   private final List<KlassInternalName> klassNames;
 
-   public DefineClassOp(final String klassName) {
-      this(Arrays.asList(klassName));
+   public DefineClassOp(final KlassInternalName klassName) {
+      this(asList(klassName));
    }
 
-   public DefineClassOp(final List<String> klassNames) {
+   public DefineClassOp(final List<KlassInternalName> klassNames) {
       this.klassNames = klassNames;
    }
 
    @Override public List<SClass> eval(final JState ctx) {
          final List<SClass> results = new ArrayList<>();
-         for (final String klassName : klassNames) {
+         for (final KlassInternalName klassName : klassNames) {
             if (!ctx.isDefined(klassName)) {
                final List<SClass> klasses = ctx.defineClass(klassName);
                for (final SClass klass : klasses) {

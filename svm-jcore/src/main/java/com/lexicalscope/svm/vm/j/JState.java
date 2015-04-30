@@ -35,14 +35,14 @@ public interface JState extends Snapshotable<JState>, VmState {
 
    ObjectRef whereMyStaticsAt(SClass klass);
    void staticsAt(SClass klass, ObjectRef classAddress);
-   ObjectRef whereMyClassAt(String klassName);
+   ObjectRef whereMyClassAt(KlassInternalName klassName);
    void classAt(SClass klass, ObjectRef classAddress);
 
    StaticsMarker staticsMarker(SClass klass);
-   List<SClass> defineClass(String klassName);
-   SClass definePrimitiveClass(String klassName);
-   boolean isDefined(String klass);
-   SClass loadKlassFor(String klassName);
+   List<SClass> defineClass(KlassInternalName klassName);
+   SClass definePrimitiveClass(KlassInternalName klassName);
+   boolean isDefined(KlassInternalName klass);
+   SClass loadKlassFor(KlassInternalName klassName);
 
    ObjectRef newObject(Allocatable klass);
    ObjectRef newObject(Allocatable klass, Object tag);
