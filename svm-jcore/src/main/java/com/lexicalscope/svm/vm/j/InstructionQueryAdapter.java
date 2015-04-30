@@ -88,19 +88,19 @@ public class InstructionQueryAdapter<T> implements InstructionQuery<T> {
       return defaultResult();
    }
 
-   @Override public T invokevirtual(final SMethodDescriptor methodName) {
+   @Override public T invokevirtual(final SMethodDescriptor methodName, final MethodArguments methodArguments) {
       return defaultResult();
    }
 
-   @Override public T invokestatic(final SMethodDescriptor methodName) {
+   @Override public T invokestatic(final SMethodDescriptor methodName, final MethodArguments methodArguments) {
       return defaultResult();
    }
 
-   @Override public T invokespecial(final SMethodDescriptor methodName) {
+   @Override public T invokespecial(final SMethodDescriptor methodName, final MethodArguments methodArguments) {
       return defaultResult();
    }
 
-   @Override public T invokeinterface(final SMethodDescriptor methodName) {
+   @Override public T invokeinterface(final SMethodDescriptor methodName, final MethodArguments methodArguments) {
       return defaultResult();
    }
 

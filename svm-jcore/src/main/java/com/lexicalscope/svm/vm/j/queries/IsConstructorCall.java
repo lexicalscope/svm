@@ -24,7 +24,7 @@ public class IsConstructorCall extends InstructionQueryAdapter<Boolean> {
       this.klassInternalNameMatcher = klassInternalNameMatcher;
    }
 
-   @Override public Boolean invokespecial(final SMethodDescriptor methodName) {
+   @Override public Boolean invokespecial(final SMethodDescriptor methodName, final MethodArguments methodArguments) {
       return methodName.declaredOn(klassInternalNameMatcher) && methodName.isConstructor();
    }
 

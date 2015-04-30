@@ -170,6 +170,7 @@ public class JStateImpl implements JState {
 
    @Override
    public Object get(final ObjectRef address, final int offset) {
+      assert address != null;
       return heap.get(address, offset);
    }
 

@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.partition.trace;
 
 import static com.lexicalscope.svm.partition.trace.CheckPartitionAtMethodEntryExit.checkPartitionAtMethodEntryExit;
-import static com.lexicalscope.svm.partition.trace.TrackPartitionAtConstruction.constructionOf;
+import static com.lexicalscope.svm.partition.trace.TrackPartitionAtNew.constructionOf;
 import static com.lexicalscope.svm.vm.j.klass.SMethodDescriptorMatchers.anyMethod;
 
 import org.hamcrest.Matcher;

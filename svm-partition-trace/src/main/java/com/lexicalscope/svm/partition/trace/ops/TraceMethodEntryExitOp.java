@@ -33,6 +33,7 @@ public class TraceMethodEntryExitOp implements Vop {
 
       if(callReturn.equals(CallReturn.CALL) && currentFrame.isDynamic()) {
          final ObjectRef receiver = (ObjectRef) currentFrame.local(0);
+         assert receiver != null : "null receiver at call of " + methodName + " in frame " + currentFrame;
          currentFrame.setMeta(PARTITION_TAG, ctx.get(receiver, SClass.OBJECT_TAG_OFFSET));
       }
 

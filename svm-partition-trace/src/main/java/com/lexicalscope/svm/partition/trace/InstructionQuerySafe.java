@@ -86,19 +86,19 @@ public class InstructionQuerySafe<T> implements InstructionQuery<T> {
       throw new UnsupportedOperationException();
    }
 
-   @Override public T invokevirtual(final SMethodDescriptor methodName) {
+   @Override public T invokevirtual(final SMethodDescriptor methodName, final MethodArguments arguments) {
       throw new UnsupportedOperationException();
    }
 
-   @Override public T invokestatic(final SMethodDescriptor methodName) {
+   @Override public T invokestatic(final SMethodDescriptor methodName, final MethodArguments arguments) {
       throw new UnsupportedOperationException();
    }
 
-   @Override public T invokespecial(final SMethodDescriptor methodName) {
+   @Override public T invokespecial(final SMethodDescriptor methodName, final MethodArguments arguments) {
       throw new UnsupportedOperationException();
    }
 
-   @Override public T invokeinterface(final SMethodDescriptor methodName) {
+   @Override public T invokeinterface(final SMethodDescriptor methodName, final MethodArguments arguments) {
       throw new UnsupportedOperationException();
    }
 
