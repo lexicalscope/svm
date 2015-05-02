@@ -8,7 +8,7 @@ import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.KlassInternalName;
 
-public class MatcherPartition {
+class MatcherPartition {
    private final Matcher<? super CallContext> aMatcher;
    private final Matcher<? super CallContext> uMatcher;
    private final Object aPartitionTag;

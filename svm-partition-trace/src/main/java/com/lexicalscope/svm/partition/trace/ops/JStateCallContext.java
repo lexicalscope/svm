@@ -14,7 +14,7 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public class JStateCallContext implements CallContext {
+class JStateCallContext implements CallContext {
    private final JState ctx;
    private final KlassInternalName klassDesc;
 

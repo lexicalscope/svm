@@ -1,11 +1,10 @@
-package com.lexicalscope.svm.partition.trace;
+package com.lexicalscope.svm.partition.trace.ops;
 
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.*;
 
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.j.instruction.instrumentation.MethodInstrumentor;
-import com.lexicalscope.svm.partition.trace.ops.TraceMethodEntryExitOp;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;

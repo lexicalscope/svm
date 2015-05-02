@@ -8,7 +8,7 @@ import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
-public class TagConstructorRecieverWithPartition implements Vop {
+class TagConstructorRecieverWithPartition implements Vop {
    private final SMethodDescriptor targetMethod;
    private final MethodArguments methodArguments;
    private final MatcherPartition partition;

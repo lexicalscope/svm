@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace;
+package com.lexicalscope.svm.partition.trace.ops;
 
 import static org.hamcrest.Matchers.any;
 
@@ -12,9 +12,6 @@ import com.lexicalscope.svm.j.instruction.instrumentation.InstructionInstrumento
 import com.lexicalscope.svm.j.instruction.instrumentation.MethodInstrumentor;
 import com.lexicalscope.svm.j.instruction.instrumentation.finders.FindConstructorCall;
 import com.lexicalscope.svm.partition.spec.CallContext;
-import com.lexicalscope.svm.partition.trace.ops.MatcherPartition;
-import com.lexicalscope.svm.partition.trace.ops.TagConstructorRecieverWithPartition;
-import com.lexicalscope.svm.partition.trace.ops.TagNewInstanceWithPartitionOp;
 import com.lexicalscope.svm.vm.j.Instruction;
 import com.lexicalscope.svm.vm.j.InstructionCode;
 import com.lexicalscope.svm.vm.j.InstructionQueryAdapter;

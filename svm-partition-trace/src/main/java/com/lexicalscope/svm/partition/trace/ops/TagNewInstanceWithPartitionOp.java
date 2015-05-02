@@ -9,7 +9,7 @@ import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 
-public final class TagNewInstanceWithPartitionOp implements Vop {
+final class TagNewInstanceWithPartitionOp implements Vop {
    private final Vop newOp;
    private final KlassInternalName klassDesc;
    private final MatcherPartition partition;

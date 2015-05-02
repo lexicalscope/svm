@@ -16,7 +16,7 @@ import com.lexicalscope.svm.vm.j.Vop;
 import com.lexicalscope.svm.vm.j.klass.SClass;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
-public class TraceMethodEntryExitOp implements Vop {
+class TraceMethodEntryExitOp implements Vop {
    private final CallReturn callReturn;
    private final SMethodDescriptor methodName;
 
