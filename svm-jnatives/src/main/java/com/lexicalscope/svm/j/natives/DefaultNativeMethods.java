@@ -60,7 +60,8 @@ public class DefaultNativeMethods implements NativeMethods {
             new Sun_misc_unsafe_addressSize(),
             new Sun_reflect_reflection_getCallerClass(),
             new Java_security_accessController_doPrivileged(),
-            new Symbolic_newSymbol("newIntSymbol", "()I")
+            new Symbolic_newSymbol("newIntSymbol", "()I"),
+            new Symbolic_newSymbol("newBooleanSymbol", "()Z")
             ));
    }
 

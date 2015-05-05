@@ -1,6 +1,9 @@
 package com.lexicalscope.svm.j.instruction.symbolic.symbols;
 
 public class SymbolFactory {
-    /** Method that allows to create symbols in program runtime. */
+    /** Create an integer symbols while symbolically executing the program. */
     public static native int newIntSymbol();
+
+    /** Create a boolean symbols while symbolically executing the program. */
+    public static native boolean newBooleanSymbol();
 }
