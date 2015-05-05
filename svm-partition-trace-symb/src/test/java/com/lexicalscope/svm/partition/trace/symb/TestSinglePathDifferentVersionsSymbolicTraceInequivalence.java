@@ -37,5 +37,4 @@ public class TestSinglePathDifferentVersionsSymbolicTraceInequivalence {
             vm.getMeta(tag(ExamplesOneMarker.class), TRACE),
             not(equivalentTo(vm, vm.getMeta(tag(ExamplesTwoMarker.class), TRACE))));
    }
-
 }
