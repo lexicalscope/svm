@@ -100,7 +100,14 @@ public class JStateImpl implements JState {
 
    @Override
    public final String toString() {
-      return String.format("stackframe:<%s>, heap:<>, meta:<%s>", stackFrame(), meta);
+      return String.format("state%n"
+            + "\ttag:<%s>%n"
+            + "\tstackframe:<%s>%n"
+            + "\theap:<>%n"
+            + "\tmeta:<%s>",
+            descendentTag,
+            stackFrame(),
+            meta);
    }
 
    @Override public boolean equals(final Object obj) {
@@ -285,6 +292,13 @@ public class JStateImpl implements JState {
 
    @Override
    public void fork(final JState[] states) {
+   /* if(states.length > 1)
+      {
+         System.out.println("fork");
+         for (final JState state : states) {
+            System.out.println(state);
+         }
+      } */
       vm.fork(states);
    }
 
