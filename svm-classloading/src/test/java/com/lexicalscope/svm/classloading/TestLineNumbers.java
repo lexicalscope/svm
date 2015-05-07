@@ -7,34 +7,35 @@ import static org.hamcrest.MatcherAssert.assertThat;
 import org.junit.Test;
 
 import com.lexicalscope.svm.vm.j.Instruction;
-import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethod;
 
-public class TestMethodLinking {
+public class TestLineNumbers {
    private final SClassLoader sClassLoader = new AsmSClassLoader();
-   private final SMethod withTwoReturns = sClassLoader.
-         load(MethodWithTwoReturns.class).
-         declaredMethod(new AsmSMethodName(MethodWithTwoReturns.class, "twoReturns", "(I)I"));
 
-   public static class MethodWithTwoReturns {
-      public int twoReturns(final int x) {
-         if(3 == x) {
-            return 1;
+   public static class LineNumbers {
+      public int aMethod(
+            final int x,
+            final int y) {
+         if(x == y) {
+            return 10;
          }
-         return 2;
+         return 11;
       }
    }
 
-   @Test public void linkedMethodIsTree() throws Exception {
-      final Instruction entry = withTwoReturns.entry();
+   final SMethod virtualMethod = sClassLoader.virtualMethod(LineNumbers.class, "aMethod", "(II)I");
+
+   @Test public void canObtainMethodNamesOfVirtualMethod() {
+      final Instruction entry = virtualMethod.entry();
+
       assertThat(entry, instructionSequence(
             methodentry,
-            iconst_3,
+            iload,
             iload,
             ificmpne,
-            iconst_1,
+            bipush,
             return1,
-            iconst_2,
+            bipush,
             return1,
             methodexit));
    }

@@ -1,13 +1,10 @@
-package com.lexicalscope.svm.classloading.linking;
+package com.lexicalscope.svm.vm.j;
 
 import static com.lexicalscope.svm.vm.j.InstructionCode.methodexit;
 
 import org.hamcrest.Description;
 import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
-
-import com.lexicalscope.svm.vm.j.Instruction;
-import com.lexicalscope.svm.vm.j.InstructionCode;
 
 public final class InstructionSequenceMatcher extends TypeSafeDiagnosingMatcher<Instruction> {
    private final InstructionCode[] codes;
