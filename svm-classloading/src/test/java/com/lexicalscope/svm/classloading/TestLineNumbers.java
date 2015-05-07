@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.classloading;
 
 import static com.lexicalscope.svm.vm.j.InstructionCode.*;
-import static com.lexicalscope.svm.vm.j.InstructionSequenceMatcher.instructionSequence;
+import static com.lexicalscope.svm.vm.j.InstructionMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 import org.junit.Test;
@@ -29,14 +29,14 @@ public class TestLineNumbers {
       final Instruction entry = virtualMethod.entry();
 
       assertThat(entry, instructionSequence(
-            methodentry,
-            iload,
-            iload,
-            ificmpne,
-            bipush,
-            return1,
-            bipush,
-            return1,
-            methodexit));
+            instructionAt(methodentry, 0),
+            instructionAt(iload, 19),
+            instructionAt(iload, 19),
+            instructionAt(ificmpne, 19),
+            instructionAt(bipush, 20),
+            instructionAt(return1, 20),
+            instructionAt(bipush, 22),
+            instructionAt(return1, 22),
+            instructionAt(methodexit, -1)));
    }
 }

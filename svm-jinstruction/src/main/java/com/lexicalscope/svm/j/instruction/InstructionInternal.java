@@ -167,4 +167,8 @@ public class InstructionInternal implements Instruction {
          }
       };
    }
+
+   @Override public int line() {
+      return line;
+   }
 }
