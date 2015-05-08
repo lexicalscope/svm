@@ -34,7 +34,7 @@ public class TestGoalTreeCorrespondence {
 
    final GoalTreeCorrespondence<Object, JState> correspondence =
          root(rootGoal, pstate0, qstate0, solver.checker(), new ObjectGoalMapFactory());
-   GoalTreePair<Object, JState> rootCorrespondence = correspondence.correspondence(rootGoal);
+   GoalTreePair2<Object> rootCorrespondence = correspondence.correspondence(rootGoal);
 
    private final Object goal1 = new Goal("goal1");
    private final Object goal2 = new Goal("goal2");
@@ -132,10 +132,10 @@ public class TestGoalTreeCorrespondence {
 
    @Test public void canPickRandomCorrespondence() throws Exception {
       correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
-      final GoalTreePair<Object, JState> firstChild = correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
+      final GoalTreePair2<Object> firstChild = correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
 
       correspondence.reachedQ(rootCorrespondence, goal2, stateq2, betweenSixteenAndThirty);
-      final GoalTreePair<Object, JState> secondChild = correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
+      final GoalTreePair2<Object> secondChild = correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
 
       assertThat(correspondence.children(),
             has(

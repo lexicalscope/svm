@@ -74,7 +74,7 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasCorrespondence(final Matcher<? super GoalTreePair<?, ?>> childMatcher) {
+   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasCorrespondence(final Matcher<? super GoalTreePair2<?>> childMatcher) {
       return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("correspondence with child matching ").appendDescriptionOf(childMatcher);

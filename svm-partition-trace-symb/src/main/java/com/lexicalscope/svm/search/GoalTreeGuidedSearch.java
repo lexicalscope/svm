@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.List;
 
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
-import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
+import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair2;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 
@@ -14,7 +14,7 @@ public class GoalTreeGuidedSearch<T> implements StateSearch<JState> {
 
    private final SearchMetaExtractor<T, JState> goalExtractor;
    private final List<JState> result = new ArrayList<>();
-   private GoalTreePair<T, JState> correspondenceUnderConsideration;
+   private GoalTreePair2<T> correspondenceUnderConsideration;
    private boolean pInitialised;
    private boolean qInitialised;
    private JState pending;
