@@ -19,7 +19,7 @@ import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class GoalTree<T,S> implements InputSubset {
    private final GoalMap<Trace, GoalTree<Trace, JState>> children;
-   private final OpenNodes<S> openNodes;
+   private final OpenNodes<JState> openNodes;
    private final FeasibilityChecker feasibilityChecker;
    private final SubtreeFactory<GoalTree<Trace, JState>> childFactory;
    private BoolSymbol coveredPc;
@@ -73,7 +73,7 @@ public final class GoalTree<T,S> implements InputSubset {
       return child;
    }
 
-   public S randomOpenNode(final Randomiser randomiser) {
+   public JState randomOpenNode(final Randomiser randomiser) {
       return openNodes.random(randomiser);
    }
 
@@ -81,7 +81,7 @@ public final class GoalTree<T,S> implements InputSubset {
       return children.containsGoal(goal);
    }
 
-   public void increaseOpenNodes(final S state) {
+   public void increaseOpenNodes(final JState state) {
       openNodes.push(state);
    }
 
@@ -93,7 +93,7 @@ public final class GoalTree<T,S> implements InputSubset {
       return children.isChildForGoal(child, goal);
    }
 
-   public boolean hasOpenNode(final Matcher<S> openNodeMatcher) {
+   public boolean hasOpenNode(final Matcher<JState> openNodeMatcher) {
       return openNodes.hasMatching(openNodeMatcher);
    }
 
