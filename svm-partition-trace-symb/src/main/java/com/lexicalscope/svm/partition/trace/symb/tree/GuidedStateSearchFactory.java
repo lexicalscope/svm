@@ -3,7 +3,6 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondenceImpl.root;
 
-import com.lexicalscope.svm.j.instruction.symbolic.FeasibleBranchSearch;
 import com.lexicalscope.svm.search.GoalTreeGuidedSearch;
 import com.lexicalscope.svm.search.GuidedSearchObserver;
 import com.lexicalscope.svm.search.RandomSeedPseudoRandomiser;
@@ -34,12 +33,10 @@ public class GuidedStateSearchFactory implements StateSearchFactory {
    }
 
    @Override public StateSearch<JState> search() {
-      return new FeasibleBranchSearch(
-               new GoalTreeGuidedSearch(
-                     observer,
-                     root(trace().build(), feasibilityChecker, new TraceGoalMapFactory(feasibilityChecker)),
-                     new TraceMetaExtractor(),
-                     randomiser),
-               feasibilityChecker);
+      return new GoalTreeGuidedSearch(
+                  observer,
+                  root(trace().build(), feasibilityChecker, new TraceGoalMapFactory(feasibilityChecker)),
+                  new TraceMetaExtractor(),
+                  randomiser);
    }
 }
