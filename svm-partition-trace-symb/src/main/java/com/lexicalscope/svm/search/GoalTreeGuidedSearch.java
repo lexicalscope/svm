@@ -61,13 +61,14 @@ public class GoalTreeGuidedSearch implements StateSearch<JState> {
    }
 
    @Override public void reachedLeaf() {
+      observer.leaf(pending);
       result.add(pending);
       switchSides();
    }
 
-   @Override public void fork(final JState[] states) {
+   @Override public void fork(final JState parent, final JState[] states) {
 //      assert states.length == 2;
-
+      observer.forkAt(parent);
       side.fork(correspondenceUnderConsideration, states);
       switchSides();
    }

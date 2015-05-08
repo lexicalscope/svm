@@ -3,12 +3,14 @@ package com.lexicalscope.svm.partition.trace.symb;
 import static com.lexicalscope.svm.partition.spec.MatchersSpec.*;
 import static com.lexicalscope.svm.search.SideMatchers.*;
 import static com.lexicalscope.svm.vm.j.StateMatchers.*;
-import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.defaultConstructor;
+import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.*;
+import static org.hamcrest.core.CombinableMatcher.both;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.Collection;
 
 import org.hamcrest.Matcher;
+import org.hamcrest.core.CombinableMatcher;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.auto.Auto;
@@ -63,15 +65,23 @@ public class TestRouterInequivalence {
       return receiver(klassIn(getInternalName(ExampleServing.class)));
    }
 
-   final Matcher<JState> routerDefaultConstructor = currentMethodIs(defaultConstructor(Router.class));
+   final Matcher<JState> routerConstructorEntry = currentMethodIs(defaultConstructor(Router.class));
+   final Matcher<JState> serveMethod = currentMethodIs(method(ExampleServing.class, "serve", "(I)V"));
+   final CombinableMatcher<JState> routerConstructorExit = both(routerConstructorEntry).and(returnInstruction());
 
    @Test @Ignore public void testInequivalence() {
       context.checking(new Expectations(){{
          oneOf(searchObserver).picked(with(entryPoint()), with(pSide())); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(routerDefaultConstructor)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
          oneOf(searchObserver).picked(with(entryPoint()), with(qSide())); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(routerDefaultConstructor)); inSequence(searchSequence);
-         oneOf(searchObserver).picked(with(routerDefaultConstructor), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorEntry), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(routerConstructorExit)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorEntry), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(routerConstructorExit)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorExit), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).forkAt(with(both(serveMethod).and(lineNumber(15)))); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorExit), with(pSide())); inSequence(searchSequence);
       }});
       vm.execute(symbol);
       System.out.printf("Got %d traces.\n", vm.results().size());

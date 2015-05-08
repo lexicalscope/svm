@@ -100,7 +100,7 @@ public class TestGoalTreeGuidedSearch {
          oneOf(pair).qsideIsOpen(); will(returnValue(true));
          oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
-      searchStrategy.fork(new JState[]{pstate1, pstate2});
+      searchStrategy.fork(null, new JState[]{pstate1, pstate2});
       assertThat(searchStrategy.pendingState(), equalTo(qstate));
 
       context.checking(new Expectations(){{
@@ -114,7 +114,7 @@ public class TestGoalTreeGuidedSearch {
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
 
-      searchStrategy.fork(new JState[]{qstate1, qstate2});
+      searchStrategy.fork(null, new JState[]{qstate1, qstate2});
    }
 
    @Test public void resultCreatedAtLeaf() throws Exception {

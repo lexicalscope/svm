@@ -6,4 +6,8 @@ public interface GuidedSearchObserver {
    void picked(JState pending, GuidedSearchState side);
 
    void goal(JState pending);
+
+   void leaf(JState pending);
+
+   void forkAt(JState parent);
 }

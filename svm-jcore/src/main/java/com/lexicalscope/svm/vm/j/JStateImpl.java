@@ -22,18 +22,18 @@ public class JStateImpl implements JState {
    private final Stack stack;
    private final Heap heap;
    private final MetaState meta;
-   private final StateSearch<JState> vm;
+   private final StateSearch<JState> search;
    private final StateTag descendentTag;
 
    public JStateImpl(
          final StateTag tag,
-         final StateSearch<JState> vm,
+         final StateSearch<JState> search,
          final Statics statics,
          final Stack stack,
          final Heap heap,
          final MetaState meta) {
       this.descendentTag = tag;
-      this.vm = vm;
+      this.search = search;
       this.statics = statics;
       this.stack = stack;
       this.heap = heap;
@@ -91,7 +91,7 @@ public class JStateImpl implements JState {
    }
 
    @Override public final JStateImpl snapshot() {
-      return new JStateImpl(descendentTag, vm, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
+      return new JStateImpl(descendentTag, search, statics.snapshot(), stack().snapshot(), heap.snapshot(), meta == null ? null : meta.snapshot());
    }
 
    @Override public final SStackTrace trace() {
@@ -116,7 +116,7 @@ public class JStateImpl implements JState {
          return
                equal(that.descendentTag, this.descendentTag) &&
                equal(that.meta, this.meta) &&
-               equal(that.vm, this.vm) &&
+               equal(that.search, this.search) &&
                equal(that.statics, this.statics) &&
                equal(that.heap, this.heap) &&
                equal(that.heap, this.heap);
@@ -299,11 +299,11 @@ public class JStateImpl implements JState {
             System.out.println(state);
          }
       }*/
-      vm.fork(states);
+      search.fork(this, states);
    }
 
    @Override public void goal() {
-      vm.goal();
+      search.goal();
    }
 
    @Override
