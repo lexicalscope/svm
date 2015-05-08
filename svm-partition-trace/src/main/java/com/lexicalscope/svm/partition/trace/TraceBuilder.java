@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.partition.trace;
 
-import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.*;
+import static com.lexicalscope.svm.partition.trace.HashTrace.CallReturn.*;
 
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 
 public class TraceBuilder {
-   private Trace trace = new Trace();
+   private Trace trace = new HashTrace();
 
    public static TraceBuilder trace() { return new TraceBuilder(); }
 

@@ -1,11 +1,11 @@
 package com.lexicalscope.svm.partition.trace;
 
-import static com.lexicalscope.svm.partition.trace.Trace.CallReturn.CALL;
+import static com.lexicalscope.svm.partition.trace.HashTrace.CallReturn.CALL;
 
 import java.util.Arrays;
 
 import com.google.common.base.Joiner;
-import com.lexicalscope.svm.partition.trace.Trace.CallReturn;
+import com.lexicalscope.svm.partition.trace.HashTrace.CallReturn;
 import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
