@@ -2,8 +2,10 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 
 import org.hamcrest.Matcher;
 
+import com.lexicalscope.svm.partition.trace.Trace;
+
 public abstract class AbstractGoalMap<T, N> implements GoalMap<T, N> {
-   @Override public boolean isChildForGoal(final N child, final T goal) {
+   @Override public boolean isChildForGoal(final N child, final Trace goal) {
       final N childForGoal = get(goal);
       return childForGoal != null && childForGoal.equals(child);
    }

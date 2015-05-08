@@ -5,6 +5,7 @@ import org.hamcrest.Matcher;
 import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.partition.trace.Trace;
 
 public class GoalTreeMatchers {
    public static Matcher<GoalTree<?, ?>> childrenCover(final BoolSymbol pc) {
@@ -20,13 +21,13 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static <T, S> Matcher<GoalTree<T, S>> hasChild(final Matcher<? super GoalTree<T, S>> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<T, S>>() {
+   public static <T, S> Matcher<GoalTree<Trace, S>> hasChild(final Matcher<? super GoalTree<Trace, S>> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTree<Trace, S>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<T, S> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree<Trace, S> item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasChild(childMatcher);
          }
@@ -46,14 +47,14 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static <T> Matcher<GoalTree<T, ?>> hasReached(final T goal) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<T, ?>>() {
+   public static <T> Matcher<GoalTree<Trace, ?>> hasReached(final Trace goal) {
+      return new TypeSafeDiagnosingMatcher<GoalTree<Trace, ?>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("reached sub goal ").appendValue(goal);
          }
 
          @Override protected boolean matchesSafely(
-               final GoalTree<T, ?> item,
+               final GoalTree<Trace, ?> item,
                final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasReached(goal);

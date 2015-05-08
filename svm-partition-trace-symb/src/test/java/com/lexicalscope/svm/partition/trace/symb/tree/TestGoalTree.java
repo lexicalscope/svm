@@ -12,17 +12,18 @@ import org.junit.Test;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTree {
    @Rule public final SolverRule solver = new SolverRule();
-   final GoalTree<Object, Object> goalTree = new GoalTree<>(new ObjectGoalMapFactory(), solver.checker());
+   final GoalTree<Trace, Object> goalTree = new GoalTree<Trace, Object>(new ObjectGoalMapFactory(), solver.checker());
 
    @Fresh ISymbol symbol;
 
-   final Object goal1 = new Object();
-   final Object goal2 = new Object();
+   final Trace goal1 = new FakeTrace();
+   final Trace goal2 = new FakeTrace();
 
    final Object state1 = new Object();
    final Object state2 = new Object();

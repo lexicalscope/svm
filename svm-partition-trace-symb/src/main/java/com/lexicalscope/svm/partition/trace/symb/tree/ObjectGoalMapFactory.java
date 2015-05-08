@@ -1,7 +1,9 @@
 package com.lexicalscope.svm.partition.trace.symb.tree;
 
-public class ObjectGoalMapFactory implements GoalMapFactory<Object> {
-   @Override public <N> GoalMap<Object, N> newGoalMap() {
+import com.lexicalscope.svm.partition.trace.Trace;
+
+public class ObjectGoalMapFactory implements GoalMapFactory<Trace> {
+   @Override public <N> GoalMap<Trace, N> newGoalMap() {
       return new ObjectGoalMap<N>();
    }
 }
