@@ -16,14 +16,14 @@ class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<Trace, S1> {
    }
 
    @Override public void searchedSide(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair pair) {
       if(pair.isOpen()) {
          correspondence.stillOpen(pair);
       }
    }
 
-   @Override public boolean searchMore(final GoalTreeCorrespondence<Trace, JState> correspondence) {
+   @Override public boolean searchMore(final GoalTreeCorrespondence correspondence) {
       return correspondence.hasOpenChildren();
    }
 
@@ -40,7 +40,7 @@ class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<Trace, S1> {
    }
 
    @Override public GoalTreePair pickCorrespondence(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair correspondenceUnderConsideration) {
       return correspondenceUnderConsideration;
    }
@@ -51,7 +51,7 @@ class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<Trace, S1> {
    }
 
    @Override public void goal(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair parent,
          final Trace goal,
          final JState state,

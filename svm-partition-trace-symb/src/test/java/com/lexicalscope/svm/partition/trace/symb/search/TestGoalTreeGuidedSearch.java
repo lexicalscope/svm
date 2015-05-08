@@ -25,7 +25,7 @@ import com.lexicalscope.svm.vm.j.JState;
 public class TestGoalTreeGuidedSearch {
    @Rule public final ExpectedException exception = ExpectedException.none();
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock private GoalTreeCorrespondence<Trace, JState> correspondence;
+   @Mock private GoalTreeCorrespondence correspondence;
    @Mock private Randomiser randomiser;
    @Mock private GoalTreePair pair;
    @Mock private SearchMetaExtractor<Trace, JState> goalExtractor;

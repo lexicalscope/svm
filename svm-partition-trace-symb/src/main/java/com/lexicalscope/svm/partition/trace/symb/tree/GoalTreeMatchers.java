@@ -76,27 +76,27 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasCorrespondence(final Matcher<? super GoalTreePair> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
+   public static Matcher<? super GoalTreeCorrespondence> hasCorrespondence(final Matcher<? super GoalTreePair> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence>() {
          @Override public void describeTo(final Description description) {
             description.appendText("correspondence with child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTreeCorrespondence<?, ?> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTreeCorrespondence item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasChild(childMatcher);
          }
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> hasCorrespondences(final int count) {
-      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>() {
+   public static Matcher<? super GoalTreeCorrespondence> hasCorrespondences(final int count) {
+      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence>() {
          @Override public void describeTo(final Description description) {
             description.appendText("correspondence with child count ").appendValue(count);
          }
 
          @Override protected boolean matchesSafely(
-               final GoalTreeCorrespondence<?, ?> item,
+               final GoalTreeCorrespondence item,
                final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.childCount() == count;
@@ -104,13 +104,13 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static Matcher<? super GoalTreeCorrespondence<?, ?>> isOpen() {
-      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence<?, ?>>(){
+   public static Matcher<? super GoalTreeCorrespondence> isOpen() {
+      return new TypeSafeDiagnosingMatcher<GoalTreeCorrespondence>(){
          @Override public void describeTo(final Description description) {
             description.appendText("correspondence with open nodes");
          }
 
-         @Override protected boolean matchesSafely(final GoalTreeCorrespondence<?, ?> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTreeCorrespondence item, final Description mismatchDescription) {
             final boolean result = item.isOpen();
             if(!result) {
                mismatchDescription.appendValue(item);

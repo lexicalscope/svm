@@ -16,17 +16,17 @@ class GuidedSearchSearchingP implements GuidedSearchState<Trace, JState> {
    }
 
    @Override public void searchedSide(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair pair) {
    }
 
    @Override public GoalTreePair pickCorrespondence(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair correspondenceUnderConsideration) {
       return correspondence.randomOpenChild(randomiser);
    }
 
-   @Override public boolean searchMore(final GoalTreeCorrespondence<Trace, JState> correspondence) {
+   @Override public boolean searchMore(final GoalTreeCorrespondence correspondence) {
       return true;
    }
 
@@ -48,7 +48,7 @@ class GuidedSearchSearchingP implements GuidedSearchState<Trace, JState> {
    }
 
    @Override public void goal(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair parent,
          final Trace goal,
          final JState state,

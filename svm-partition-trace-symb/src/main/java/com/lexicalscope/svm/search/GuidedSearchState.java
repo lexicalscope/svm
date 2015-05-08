@@ -8,15 +8,15 @@ import com.lexicalscope.svm.vm.j.JState;
 
 interface GuidedSearchState<T1, S1> {
    void searchedSide(
-         GoalTreeCorrespondence<Trace, JState> correspondence,
+         GoalTreeCorrespondence correspondence,
          GoalTreePair correspondenceUnderConsideration);
 
-   boolean searchMore(GoalTreeCorrespondence<Trace, JState> correspondence);
+   boolean searchMore(GoalTreeCorrespondence correspondence);
 
    GuidedSearchState<Trace, ?> nextSide();
 
    GoalTreePair pickCorrespondence(
-         GoalTreeCorrespondence<Trace, JState> correspondence,
+         GoalTreeCorrespondence correspondence,
          GoalTreePair correspondenceUnderConsideration);
 
    boolean isOpen(GoalTreePair correspondenceUnderConsideration);
@@ -26,7 +26,7 @@ interface GuidedSearchState<T1, S1> {
    void fork(GoalTreePair correspondenceUnderConsideration, JState[] states);
 
    void goal(
-         GoalTreeCorrespondence<Trace, JState> correspondence,
+         GoalTreeCorrespondence correspondence,
          GoalTreePair correspondenceUnderConsideration,
          Trace goal,
          JState pending,

@@ -14,12 +14,12 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<Trace,
    }
 
    @Override public void searchedSide(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final GoalTreePair pair) {
       // nothing
    }
 
-   @Override public boolean searchMore(final GoalTreeCorrespondence<Trace, JState> correspondence) {
+   @Override public boolean searchMore(final GoalTreeCorrespondence correspondence) {
       return true;
    }
 
@@ -35,7 +35,7 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<Trace,
       throw new UnsupportedOperationException();
    }
 
-   @Override public GoalTreePair pickCorrespondence(final GoalTreeCorrespondence<Trace, JState> correspondence, final GoalTreePair correspondenceUnderConsideration) {
+   @Override public GoalTreePair pickCorrespondence(final GoalTreeCorrespondence correspondence, final GoalTreePair correspondenceUnderConsideration) {
       throw new UnsupportedOperationException();
    }
 
@@ -43,7 +43,7 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<Trace,
       throw new UnsupportedOperationException();
    }
 
-   @Override public void goal(final GoalTreeCorrespondence<Trace, JState> correspondence, final GoalTreePair correspondenceUnderConsideration, final Trace goal, final JState pending, final BoolSymbol pc) {
+   @Override public void goal(final GoalTreeCorrespondence correspondence, final GoalTreePair correspondenceUnderConsideration, final Trace goal, final JState pending, final BoolSymbol pc) {
       throw new UnsupportedOperationException();
    }
 }

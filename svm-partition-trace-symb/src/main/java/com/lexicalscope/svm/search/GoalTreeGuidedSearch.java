@@ -11,7 +11,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class GoalTreeGuidedSearch<T> implements StateSearch<JState> {
-   private final GoalTreeCorrespondence<Trace, JState> correspondence;
+   private final GoalTreeCorrespondence correspondence;
 
    private final SearchMetaExtractor<Trace, JState> goalExtractor;
    private final List<JState> result = new ArrayList<>();
@@ -23,7 +23,7 @@ public class GoalTreeGuidedSearch<T> implements StateSearch<JState> {
    private GuidedSearchState<Trace, ?> side;
 
    public GoalTreeGuidedSearch(
-         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final GoalTreeCorrespondence correspondence,
          final SearchMetaExtractor<Trace, JState> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;

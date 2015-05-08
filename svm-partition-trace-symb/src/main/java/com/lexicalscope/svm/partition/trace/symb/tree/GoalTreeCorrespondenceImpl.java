@@ -16,7 +16,7 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 
-public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespondence<Trace, S> {
+public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespondence {
    // should be flat not tree
    // map should map to a pair, each trace should reach one GoalTree in each side
    // this also makes it easier to find a place to search from...
@@ -170,7 +170,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return children.values();
    }
 
-   public static <T, S> GoalTreeCorrespondence<Trace, JState> root(
+   public static <T, S> GoalTreeCorrespondence root(
          final Trace rootGoal,
          final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory<Trace> goalMapFactory,
@@ -178,7 +178,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return root(rootGoal, feasibilityChecker, goalMapFactory);
    }
 
-   public static <T, S> GoalTreeCorrespondence<Trace, JState> root(
+   public static <T, S> GoalTreeCorrespondence root(
          final Trace rootGoal,
          final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory<Trace> goalMapFactory) {
@@ -189,13 +189,13 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return new GoalTreeCorrespondenceImpl<>(rootGoal, pside, qside, goalMapFactory);
    }
 
-   public static <T, S> GoalTreeCorrespondence<Trace, JState> root(
+   public static <T, S> GoalTreeCorrespondence root(
          final Trace rootGoal,
          final JState pstate0,
          final JState qstate0,
          final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory<Trace> goalMapFactory) {
-      final GoalTreeCorrespondence<Trace, JState> result =
+      final GoalTreeCorrespondence result =
             root(rootGoal, feasibilityChecker, goalMapFactory);
 
       result.pInitial(pstate0);

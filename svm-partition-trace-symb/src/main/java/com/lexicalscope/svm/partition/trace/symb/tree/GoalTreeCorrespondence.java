@@ -9,7 +9,7 @@ import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
-public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair>  {
+public interface GoalTreeCorrespondence extends Iterable<GoalTreePair>  {
    boolean hasChildren();
 
    boolean isOpen();

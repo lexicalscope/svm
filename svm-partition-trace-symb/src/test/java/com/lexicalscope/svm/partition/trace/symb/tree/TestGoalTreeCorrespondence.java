@@ -33,7 +33,7 @@ public class TestGoalTreeCorrespondence {
 
    private final Trace rootGoal = new FakeTrace();
 
-   final GoalTreeCorrespondence<Trace, JState> correspondence =
+   final GoalTreeCorrespondence correspondence =
          root(rootGoal, pstate0, qstate0, solver.checker(), new ObjectGoalMapFactory());
    GoalTreePair rootCorrespondence = correspondence.correspondence(rootGoal);
 
