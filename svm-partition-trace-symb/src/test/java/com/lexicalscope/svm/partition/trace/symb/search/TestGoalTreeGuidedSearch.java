@@ -28,7 +28,7 @@ public class TestGoalTreeGuidedSearch {
    @Mock private GoalTreeCorrespondence correspondence;
    @Mock private Randomiser randomiser;
    @Mock private GoalTreePair pair;
-   @Mock private SearchMetaExtractor<Trace, JState> goalExtractor;
+   @Mock private SearchMetaExtractor goalExtractor;
 
    final JState pstate = new FakeVmState("p");
    final JState pstate1 = new FakeVmState("p1");

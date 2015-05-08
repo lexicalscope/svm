@@ -10,7 +10,7 @@ import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.search.SearchMetaExtractor;
 import com.lexicalscope.svm.vm.j.JState;
 
-public class TraceMetaExtractor implements SearchMetaExtractor<Trace, JState> {
+public class TraceMetaExtractor implements SearchMetaExtractor {
    private final Object initialTag = new Object(){ @Override public String toString() { return "InitialTag";}};
 
    @Override public Trace goal(final JState state) {
