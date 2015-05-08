@@ -4,7 +4,7 @@ import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.partition.trace.Trace;
 
-public abstract class AbstractGoalMap<T, N> implements GoalMap<T, N> {
+public abstract class AbstractGoalMap<N> implements GoalMap<N> {
    @Override public boolean isChildForGoal(final N child, final Trace goal) {
       final N childForGoal = get(goal);
       return childForGoal != null && childForGoal.equals(child);

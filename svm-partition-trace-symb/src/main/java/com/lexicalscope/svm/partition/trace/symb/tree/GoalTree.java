@@ -18,18 +18,18 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class GoalTree implements InputSubset {
-   private final GoalMap<Trace, GoalTree> children;
+   private final GoalMap<GoalTree> children;
    private final OpenNodes<JState> openNodes;
    private final FeasibilityChecker feasibilityChecker;
    private final SubtreeFactory<GoalTree> childFactory;
    private BoolSymbol coveredPc;
    private BoolSymbol childrenCoverPc;
 
-    public GoalTree(final GoalMapFactory<Trace> goalMapFactory) {
+    public GoalTree(final GoalMapFactory goalMapFactory) {
       this(goalMapFactory, new FeasibilityChecker());
    }
 
-   public GoalTree(final GoalMapFactory<Trace> goalMapFactory, final FeasibilityChecker feasibilityChecker) {
+   public GoalTree(final GoalMapFactory goalMapFactory, final FeasibilityChecker feasibilityChecker) {
       this.feasibilityChecker = feasibilityChecker;
       this.coveredPc = new FalseSymbol();
       this.childrenCoverPc = new FalseSymbol();

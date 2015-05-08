@@ -6,7 +6,7 @@ import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.partition.trace.Trace;
 
-public interface GoalMap<T, N> extends Iterable<N> {
+public interface GoalMap<N> extends Iterable<N> {
    public interface SubtreeFactory<N> { N create(); }
 
    void put(Trace goal, N node);

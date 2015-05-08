@@ -8,7 +8,7 @@ import java.util.List;
 
 import com.lexicalscope.svm.partition.trace.Trace;
 
-public final class ObjectGoalMap<N> extends AbstractGoalMap<Trace, N> {
+public final class ObjectGoalMap<N> extends AbstractGoalMap<N> {
    private final LinkedHashMap<Trace, N> childMap = new LinkedHashMap<>();
    private final List<N> list = new ArrayList<>();
 

@@ -20,7 +20,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    // should be flat not tree
    // map should map to a pair, each trace should reach one GoalTree in each side
    // this also makes it easier to find a place to search from...
-   private final GoalMap<Trace, GoalTreePair> children;
+   private final GoalMap<GoalTreePair> children;
    private final ListRandomPool<GoalTreePair> openChildren;
    private final GoalTree pside;
    private final GoalTree qside;
@@ -29,7 +29,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
          final Trace rootGoal,
          final GoalTree pside,
          final GoalTree qside,
-         final GoalMapFactory<Trace> goalMapFactory) {
+         final GoalMapFactory goalMapFactory) {
       this.pside = pside;
       this.qside = qside;
       children = goalMapFactory.newGoalMap();
@@ -173,7 +173,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    public static <T, S> GoalTreeCorrespondence root(
          final Trace rootGoal,
          final FeasibilityChecker feasibilityChecker,
-         final GoalMapFactory<Trace> goalMapFactory,
+         final GoalMapFactory goalMapFactory,
          final Class<S> bindGenerics) {
       return root(rootGoal, feasibilityChecker, goalMapFactory);
    }
@@ -181,7 +181,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    public static <T, S> GoalTreeCorrespondence root(
          final Trace rootGoal,
          final FeasibilityChecker feasibilityChecker,
-         final GoalMapFactory<Trace> goalMapFactory) {
+         final GoalMapFactory goalMapFactory) {
       final GoalTree pside = new GoalTree(goalMapFactory, feasibilityChecker);
       final GoalTree qside = new GoalTree(goalMapFactory, feasibilityChecker);
       pside.covers(truth());
@@ -194,7 +194,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
          final JState pstate0,
          final JState qstate0,
          final FeasibilityChecker feasibilityChecker,
-         final GoalMapFactory<Trace> goalMapFactory) {
+         final GoalMapFactory goalMapFactory) {
       final GoalTreeCorrespondence result =
             root(rootGoal, feasibilityChecker, goalMapFactory);
 
