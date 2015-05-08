@@ -55,4 +55,8 @@ class GuidedSearchSearchingP implements GuidedSearchState {
          final BoolSymbol pc) {
       correspondence.reachedP(parent, goal, state, pc);
    }
+
+   @Override public String toString() {
+      return "Searching P side";
+   }
 }

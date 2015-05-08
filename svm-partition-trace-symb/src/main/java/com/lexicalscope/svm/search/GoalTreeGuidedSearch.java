@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.search;
 
+import static com.lexicalscope.svm.partition.trace.TraceMetaKey.TRACE;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -64,15 +66,18 @@ public class GoalTreeGuidedSearch implements StateSearch<JState> {
    }
 
    @Override public void fork(final JState[] states) {
+//      assert states.length == 2;
+
       side.fork(correspondenceUnderConsideration, states);
       switchSides();
    }
 
    @Override public void goal() {
+      observer.goal(pending);
       side.goal(
             correspondence,
             correspondenceUnderConsideration,
-            goalExtractor.goal(pending),
+            pending.getMeta(TRACE),
             pending,
             goalExtractor.pc(pending));
 

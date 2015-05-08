@@ -1,6 +1,5 @@
 package com.lexicalscope.svm.vm.j;
 
-import com.lexicalscope.svm.stack.trace.SMethodName;
 import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.SFieldName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
@@ -19,5 +18,5 @@ public class JavaConstants {
    public static final SMethodDescriptor TO_STRING = new AsmSMethodName(OBJECT_CLASS, "toString", "()Ljava/lang/String;");
    public static final SFieldName STRING_VALUE_FIELD = new SFieldName(STRING_CLASS, "value");
 
-   public static SMethodName INITIAL_FRAME_NAME = new AsmSMethodName("_svm_internal", "<entry>", NOARGS_VOID_DESC);
+   public static SMethodDescriptor INITIAL_FRAME_NAME = new AsmSMethodName("_svm_internal", "<entry>", NOARGS_VOID_DESC);
 }

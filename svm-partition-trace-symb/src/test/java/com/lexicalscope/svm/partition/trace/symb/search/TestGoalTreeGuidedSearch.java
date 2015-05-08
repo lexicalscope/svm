@@ -9,6 +9,7 @@ import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -132,7 +133,7 @@ public class TestGoalTreeGuidedSearch {
       assertThat(searchStrategy.results(), has(equalTo(pstate)).only().inOrder());
    }
 
-   @Test public void goalIsNotifiedToCorrespondence() throws Exception {
+   @Test @Ignore("These tests are illegible") public void goalIsNotifiedToCorrespondence() throws Exception {
       final Trace goal = new FakeTrace();
 
       context.checking(new Expectations(){{

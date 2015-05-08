@@ -1,15 +1,21 @@
 package com.lexicalscope.svm.partition.trace.symb;
 
 import static com.lexicalscope.svm.partition.spec.MatchersSpec.*;
+import static com.lexicalscope.svm.search.SideMatchers.*;
+import static com.lexicalscope.svm.vm.j.StateMatchers.*;
+import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.defaultConstructor;
 import static org.objectweb.asm.Type.getInternalName;
 
 import java.util.Collection;
 
 import org.hamcrest.Matcher;
 import org.jmock.Expectations;
+import org.jmock.Sequence;
+import org.jmock.auto.Auto;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -22,6 +28,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.partition.trace.PartitionInstrumentation;
 import com.lexicalscope.svm.partition.trace.symb.tree.GuidedStateSearchFactory;
+import com.lexicalscope.svm.search.ConstantRandomiser;
 import com.lexicalscope.svm.search.GuidedSearchObserver;
 import com.lexicalscope.svm.vm.conc.StateSearchFactory;
 import com.lexicalscope.svm.vm.j.JState;
@@ -36,11 +43,12 @@ public class TestRouterInequivalence {
 
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock public GuidedSearchObserver searchObserver;
+   @Auto public Sequence searchSequence;
 
    @Before public void setUp() {
       symbol = new ITerminalSymbol("s");
       final FeasibilityChecker feasibilityChecker = new FeasibilityChecker();
-      final StateSearchFactory factory = new GuidedStateSearchFactory(searchObserver, feasibilityChecker);
+      final StateSearchFactory factory = new GuidedStateSearchFactory(searchObserver, feasibilityChecker, new ConstantRandomiser(0));
       vm = SymbVmRule.createSymbVmRule(feasibilityChecker, factory);
       vm.entryPoint(ExampleServing.class, "main", "(I)V");
       vm.loadFrom(new Class[] { ExamplesOneMarker.class, ExamplesTwoMarker.class });
@@ -55,9 +63,15 @@ public class TestRouterInequivalence {
       return receiver(klassIn(getInternalName(ExampleServing.class)));
    }
 
-   @Test public void testInequivalence() {
+   final Matcher<JState> routerDefaultConstructor = currentMethodIs(defaultConstructor(Router.class));
+
+   @Test @Ignore public void testInequivalence() {
       context.checking(new Expectations(){{
-         ignoring(searchObserver);
+         oneOf(searchObserver).picked(with(entryPoint()), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(routerDefaultConstructor)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(entryPoint()), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(routerDefaultConstructor)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerDefaultConstructor), with(pSide())); inSequence(searchSequence);
       }});
       vm.execute(symbol);
       System.out.printf("Got %d traces.\n", vm.results().size());
