@@ -1,21 +1,22 @@
 package com.lexicalscope.svm.search;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
 interface GuidedSearchState<T1, S1> {
    void searchedSide(
-         GoalTreeCorrespondence<T1, JState> correspondence,
+         GoalTreeCorrespondence<Trace, JState> correspondence,
          GoalTreePair correspondenceUnderConsideration);
 
-   boolean searchMore(GoalTreeCorrespondence<T1, JState> correspondence);
+   boolean searchMore(GoalTreeCorrespondence<Trace, JState> correspondence);
 
-   GuidedSearchState<T1, ?> nextSide();
+   GuidedSearchState<Trace, ?> nextSide();
 
    GoalTreePair pickCorrespondence(
-         GoalTreeCorrespondence<T1, JState> correspondence,
+         GoalTreeCorrespondence<Trace, JState> correspondence,
          GoalTreePair correspondenceUnderConsideration);
 
    boolean isOpen(GoalTreePair correspondenceUnderConsideration);
@@ -25,9 +26,9 @@ interface GuidedSearchState<T1, S1> {
    void fork(GoalTreePair correspondenceUnderConsideration, JState[] states);
 
    void goal(
-         GoalTreeCorrespondence<T1, JState> correspondence,
+         GoalTreeCorrespondence<Trace, JState> correspondence,
          GoalTreePair correspondenceUnderConsideration,
-         T1 goal,
+         Trace goal,
          JState pending,
          BoolSymbol pc);
 }

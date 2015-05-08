@@ -1,11 +1,12 @@
 package com.lexicalscope.svm.search;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
-final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<T1, S1> {
+final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<Trace, S1> {
    private final Randomiser randomiser;
 
    public GuidedSearchInitialState(final Randomiser randomiser) {
@@ -13,17 +14,17 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<T1, S1
    }
 
    @Override public void searchedSide(
-         final GoalTreeCorrespondence<T1, JState> correspondence,
+         final GoalTreeCorrespondence<Trace, JState> correspondence,
          final GoalTreePair pair) {
       // nothing
    }
 
-   @Override public boolean searchMore(final GoalTreeCorrespondence<T1, JState> correspondence) {
+   @Override public boolean searchMore(final GoalTreeCorrespondence<Trace, JState> correspondence) {
       return true;
    }
 
-   @Override public GuidedSearchState<T1, JState> nextSide() {
-      return new GuidedSearchSearchingP<T1, JState>(randomiser);
+   @Override public GuidedSearchState<Trace, JState> nextSide() {
+      return new GuidedSearchSearchingP(randomiser);
    }
 
    @Override public boolean isOpen(final GoalTreePair correspondence) {
@@ -34,7 +35,7 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<T1, S1
       throw new UnsupportedOperationException();
    }
 
-   @Override public GoalTreePair pickCorrespondence(final GoalTreeCorrespondence<T1, JState> correspondence, final GoalTreePair correspondenceUnderConsideration) {
+   @Override public GoalTreePair pickCorrespondence(final GoalTreeCorrespondence<Trace, JState> correspondence, final GoalTreePair correspondenceUnderConsideration) {
       throw new UnsupportedOperationException();
    }
 
@@ -42,7 +43,7 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<T1, S1
       throw new UnsupportedOperationException();
    }
 
-   @Override public void goal(final GoalTreeCorrespondence<T1, JState> correspondence, final GoalTreePair correspondenceUnderConsideration, final T1 goal, final JState pending, final BoolSymbol pc) {
+   @Override public void goal(final GoalTreeCorrespondence<Trace, JState> correspondence, final GoalTreePair correspondenceUnderConsideration, final Trace goal, final JState pending, final BoolSymbol pc) {
       throw new UnsupportedOperationException();
    }
 }

@@ -4,26 +4,27 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class GoalTreeGuidedSearch<T> implements StateSearch<JState> {
-   private final GoalTreeCorrespondence<T, JState> correspondence;
+   private final GoalTreeCorrespondence<Trace, JState> correspondence;
 
-   private final SearchMetaExtractor<T, JState> goalExtractor;
+   private final SearchMetaExtractor<Trace, JState> goalExtractor;
    private final List<JState> result = new ArrayList<>();
    private GoalTreePair correspondenceUnderConsideration;
    private boolean pInitialised;
    private boolean qInitialised;
    private JState pending;
 
-   private GuidedSearchState<T, ?> side;
+   private GuidedSearchState<Trace, ?> side;
 
    public GoalTreeGuidedSearch(
-         final GoalTreeCorrespondence<T, JState> correspondence,
-         final SearchMetaExtractor<T, JState> goalExtractor,
+         final GoalTreeCorrespondence<Trace, JState> correspondence,
+         final SearchMetaExtractor<Trace, JState> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;
       this.goalExtractor = goalExtractor;

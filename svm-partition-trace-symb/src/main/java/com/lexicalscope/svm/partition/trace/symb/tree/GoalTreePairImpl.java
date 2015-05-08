@@ -54,7 +54,7 @@ public class GoalTreePairImpl implements GoalTreePair {
       return qside;
    }
 
-   public static <T, S> GoalTreePair pair(
+   public static GoalTreePair pair(
          final GoalTree pside,
          final GoalTree qside) {
       return new GoalTreePairImpl(pside, qside);

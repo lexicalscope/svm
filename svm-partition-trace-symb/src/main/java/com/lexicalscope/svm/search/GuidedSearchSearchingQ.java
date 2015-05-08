@@ -1,32 +1,33 @@
 package com.lexicalscope.svm.search;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
-class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<T1, S1> {
-   private final GuidedSearchSearchingP<T1, ?> searchingP;
+class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<Trace, S1> {
+   private final GuidedSearchSearchingP searchingP;
    private final Randomiser randomiser;
 
-   public GuidedSearchSearchingQ(final GuidedSearchSearchingP<T1, ?> searchingP, final Randomiser randomiser) {
+   public GuidedSearchSearchingQ(final GuidedSearchSearchingP searchingP, final Randomiser randomiser) {
       this.searchingP = searchingP;
       this.randomiser = randomiser;
    }
 
    @Override public void searchedSide(
-         final GoalTreeCorrespondence<T1, JState> correspondence,
+         final GoalTreeCorrespondence<Trace, JState> correspondence,
          final GoalTreePair pair) {
       if(pair.isOpen()) {
          correspondence.stillOpen(pair);
       }
    }
 
-   @Override public boolean searchMore(final GoalTreeCorrespondence<T1, JState> correspondence) {
+   @Override public boolean searchMore(final GoalTreeCorrespondence<Trace, JState> correspondence) {
       return correspondence.hasOpenChildren();
    }
 
-   @Override public GuidedSearchState<T1, ?> nextSide() {
+   @Override public GuidedSearchState<Trace, ?> nextSide() {
       return searchingP;
    }
 
@@ -39,7 +40,7 @@ class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<T1, S1> {
    }
 
    @Override public GoalTreePair pickCorrespondence(
-         final GoalTreeCorrespondence<T1, JState> correspondence,
+         final GoalTreeCorrespondence<Trace, JState> correspondence,
          final GoalTreePair correspondenceUnderConsideration) {
       return correspondenceUnderConsideration;
    }
@@ -50,9 +51,9 @@ class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<T1, S1> {
    }
 
    @Override public void goal(
-         final GoalTreeCorrespondence<T1, JState> correspondence,
+         final GoalTreeCorrespondence<Trace, JState> correspondence,
          final GoalTreePair parent,
-         final T1 goal,
+         final Trace goal,
          final JState state,
          final BoolSymbol pc) {
       correspondence.reachedQ(parent, goal, state, pc);

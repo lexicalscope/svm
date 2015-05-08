@@ -13,6 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
 
+import com.lexicalscope.svm.partition.trace.Trace;
+import com.lexicalscope.svm.partition.trace.symb.tree.FakeTrace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.search.GoalTreeGuidedSearch;
@@ -23,10 +25,10 @@ import com.lexicalscope.svm.vm.j.JState;
 public class TestGoalTreeGuidedSearch {
    @Rule public final ExpectedException exception = ExpectedException.none();
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock private GoalTreeCorrespondence<Object, JState> correspondence;
+   @Mock private GoalTreeCorrespondence<Trace, JState> correspondence;
    @Mock private Randomiser randomiser;
    @Mock private GoalTreePair pair;
-   @Mock private SearchMetaExtractor<Object, JState> goalExtractor;
+   @Mock private SearchMetaExtractor<Trace, JState> goalExtractor;
 
    final JState pstate = new FakeVmState("p");
    final JState pstate1 = new FakeVmState("p1");
@@ -36,10 +38,10 @@ public class TestGoalTreeGuidedSearch {
    final JState qstate1 = new FakeVmState("q1");
    final JState qstate2 = new FakeVmState("q2");
 
-   GoalTreeGuidedSearch<Object> searchStrategy;
+   GoalTreeGuidedSearch<Trace> searchStrategy;
 
    @Before public void createStrategy() {
-      searchStrategy = new GoalTreeGuidedSearch<Object>(
+      searchStrategy = new GoalTreeGuidedSearch<Trace>(
             correspondence,
             goalExtractor,
             randomiser);
@@ -129,7 +131,7 @@ public class TestGoalTreeGuidedSearch {
    }
 
    @Test public void goalIsNotifiedToCorrespondence() throws Exception {
-      final Object goal = new Object();
+      final Trace goal = new FakeTrace();
 
       context.checking(new Expectations(){{
          oneOf(correspondence).randomOpenChild(randomiser); will(returnValue(pair));

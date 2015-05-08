@@ -5,6 +5,7 @@ import java.util.Collection;
 import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
+import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
@@ -16,11 +17,11 @@ public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair>  {
    /**
     * potentially expensive
     */
-   GoalTreePair correspondence(T rootGoal);
+   GoalTreePair correspondence(Trace rootGoal);
 
-   GoalTreePair reachedP(GoalTreePair parent, T goal, JState state, BoolSymbol childPc);
+   GoalTreePair reachedP(GoalTreePair parent, Trace goal, JState state, BoolSymbol childPc);
 
-   GoalTreePair reachedQ(GoalTreePair parent, T goal, JState state, BoolSymbol childPc);
+   GoalTreePair reachedQ(GoalTreePair parent, Trace goal, JState state, BoolSymbol childPc);
 
    boolean hasChild(Matcher<? super GoalTreePair> childMatcher);
 
