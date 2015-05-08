@@ -18,27 +18,28 @@ import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.search.GoalTreeGuidedSearch;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.search.SearchMetaExtractor;
+import com.lexicalscope.svm.vm.j.JState;
 
 public class TestGoalTreeGuidedSearch {
    @Rule public final ExpectedException exception = ExpectedException.none();
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock private GoalTreeCorrespondence<Object, FakeVmState> correspondence;
+   @Mock private GoalTreeCorrespondence<Object, JState> correspondence;
    @Mock private Randomiser randomiser;
-   @Mock private GoalTreePair<Object, FakeVmState> pair;
-   @Mock private SearchMetaExtractor<Object, FakeVmState> goalExtractor;
+   @Mock private GoalTreePair<Object, JState> pair;
+   @Mock private SearchMetaExtractor<Object, JState> goalExtractor;
 
-   final FakeVmState pstate = new FakeVmState("p");
-   final FakeVmState pstate1 = new FakeVmState("p1");
-   final FakeVmState pstate2 = new FakeVmState("p2");
+   final JState pstate = new FakeVmState("p");
+   final JState pstate1 = new FakeVmState("p1");
+   final JState pstate2 = new FakeVmState("p2");
 
-   final FakeVmState qstate = new FakeVmState("q");
-   final FakeVmState qstate1 = new FakeVmState("q1");
-   final FakeVmState qstate2 = new FakeVmState("q2");
+   final JState qstate = new FakeVmState("q");
+   final JState qstate1 = new FakeVmState("q1");
+   final JState qstate2 = new FakeVmState("q2");
 
-   GoalTreeGuidedSearch<Object, FakeVmState> searchStrategy;
+   GoalTreeGuidedSearch<Object> searchStrategy;
 
    @Before public void createStrategy() {
-      searchStrategy = new GoalTreeGuidedSearch<Object, FakeVmState>(
+      searchStrategy = new GoalTreeGuidedSearch<Object>(
             correspondence,
             goalExtractor,
             randomiser);
@@ -90,15 +91,15 @@ public class TestGoalTreeGuidedSearch {
       assertThat(searchStrategy.pendingState(), equalTo(pstate));
 
       context.checking(new Expectations(){{
-         oneOf(pair).expandP(new FakeVmState[]{pstate1, pstate2});
+         oneOf(pair).expandP(new JState[]{pstate1, pstate2});
          oneOf(pair).qsideIsOpen(); will(returnValue(true));
          oneOf(pair).openQNode(randomiser); will(returnValue(qstate));
       }});
-      searchStrategy.fork(new FakeVmState[]{pstate1, pstate2});
+      searchStrategy.fork(new JState[]{pstate1, pstate2});
       assertThat(searchStrategy.pendingState(), equalTo(qstate));
 
       context.checking(new Expectations(){{
-         oneOf(pair).expandQ(new FakeVmState[]{qstate1, qstate2});
+         oneOf(pair).expandQ(new JState[]{qstate1, qstate2});
 
          oneOf(correspondence).stillOpen(pair);
 
@@ -108,7 +109,7 @@ public class TestGoalTreeGuidedSearch {
          oneOf(pair).openPNode(randomiser); will(returnValue(pstate));
       }});
 
-      searchStrategy.fork(new FakeVmState[]{qstate1, qstate2});
+      searchStrategy.fork(new JState[]{qstate1, qstate2});
    }
 
    @Test public void resultCreatedAtLeaf() throws Exception {

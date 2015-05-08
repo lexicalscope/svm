@@ -17,6 +17,8 @@ import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
+import com.lexicalscope.svm.partition.trace.symb.search.FakeVmState;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
@@ -25,23 +27,23 @@ public class TestGoalTreeCorrespondence {
    @Rule public final SolverRule solver = new SolverRule();
    @Rule public final ExpectedException exception = none();
 
-   private final Object pstate0 = new Object();
-   private final Object qstate0 = new Object();
+   private final JState pstate0 = new FakeVmState();
+   private final JState qstate0 = new FakeVmState();
 
    private final Object rootGoal = new Object();
 
-   final GoalTreeCorrespondence<Object, Object> correspondence =
+   final GoalTreeCorrespondence<Object, JState> correspondence =
          root(rootGoal, pstate0, qstate0, solver.checker(), new ObjectGoalMapFactory());
-   GoalTreePair<Object, Object> rootCorrespondence = correspondence.correspondence(rootGoal);
+   GoalTreePair<Object, JState> rootCorrespondence = correspondence.correspondence(rootGoal);
 
    private final Object goal1 = new Goal("goal1");
    private final Object goal2 = new Goal("goal2");
 
-   private final Object statep1 = new Object();
-   private final Object statep2 = new Object();
+   private final JState statep1 = new FakeVmState();
+   private final JState statep2 = new FakeVmState();
 
-   private final Object stateq1 = new Object();
-   private final Object stateq2 = new Object();
+   private final JState stateq1 = new FakeVmState();
+   private final JState stateq2 = new FakeVmState();
 
    @Fresh ISymbol symbol;
    private BoolSymbol betweenThreeAndSix;
@@ -130,10 +132,10 @@ public class TestGoalTreeCorrespondence {
 
    @Test public void canPickRandomCorrespondence() throws Exception {
       correspondence.reachedP(rootCorrespondence, goal1, statep1, betweenThreeAndFifteen);
-      final GoalTreePair<Object, Object> firstChild = correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
+      final GoalTreePair<Object, JState> firstChild = correspondence.reachedQ(rootCorrespondence, goal1, stateq1, betweenThreeAndFifteen);
 
       correspondence.reachedQ(rootCorrespondence, goal2, stateq2, betweenSixteenAndThirty);
-      final GoalTreePair<Object, Object> secondChild = correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
+      final GoalTreePair<Object, JState> secondChild = correspondence.reachedP(rootCorrespondence, goal2, statep2, betweenSixteenAndThirty);
 
       assertThat(correspondence.children(),
             has(

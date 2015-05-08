@@ -7,36 +7,37 @@ import java.util.List;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.StateSearch;
+import com.lexicalscope.svm.vm.j.JState;
 
-public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
-   private final GoalTreeCorrespondence<T, S> correspondence;
+public class GoalTreeGuidedSearch<T> implements StateSearch<JState> {
+   private final GoalTreeCorrespondence<T, JState> correspondence;
 
-   private final SearchMetaExtractor<T, S> goalExtractor;
-   private final List<S> result = new ArrayList<>();
-   private GoalTreePair<T, S> correspondenceUnderConsideration;
+   private final SearchMetaExtractor<T, JState> goalExtractor;
+   private final List<JState> result = new ArrayList<>();
+   private GoalTreePair<T, JState> correspondenceUnderConsideration;
    private boolean pInitialised;
    private boolean qInitialised;
-   private S pending;
+   private JState pending;
 
-   private GuidedSearchState<T, S> side;
+   private GuidedSearchState<T, ?> side;
 
    public GoalTreeGuidedSearch(
-         final GoalTreeCorrespondence<T, S> correspondence,
-         final SearchMetaExtractor<T, S> goalExtractor,
+         final GoalTreeCorrespondence<T, JState> correspondence,
+         final SearchMetaExtractor<T, JState> goalExtractor,
          final Randomiser randomiser) {
       this.correspondence = correspondence;
       this.goalExtractor = goalExtractor;
       side = new GuidedSearchInitialState<>(randomiser);
    }
 
-   @Override public S pendingState() {
+   @Override public JState pendingState() {
       if(pending == null) {
          return switchSides();
       }
       return pending;
    }
 
-   private S switchSides() {
+   private JState switchSides() {
       side.searchedSide(correspondence, correspondenceUnderConsideration);
 
       while(side.searchMore(correspondence)) {
@@ -56,7 +57,7 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       switchSides();
    }
 
-   @Override public void fork(final S[] states) {
+   @Override public void fork(final JState[] states) {
       side.fork(correspondenceUnderConsideration, states);
       switchSides();
    }
@@ -72,15 +73,15 @@ public class GoalTreeGuidedSearch<T, S> implements StateSearch<S> {
       switchSides();
    }
 
-   @Override public S firstResult() {
+   @Override public JState firstResult() {
       return result.get(0);
    }
 
-   @Override public Collection<S> results() {
+   @Override public Collection<JState> results() {
       return result;
    }
 
-   @Override public void consider(final S state) {
+   @Override public void consider(final JState state) {
       if(!pInitialised) {
          goalExtractor.configureInitial(state);
          correspondence.pInitial(state);

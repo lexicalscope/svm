@@ -292,13 +292,13 @@ public class JStateImpl implements JState {
 
    @Override
    public void fork(final JState[] states) {
-   /* if(states.length > 1)
+      if(states.length > 1)
       {
-         System.out.println("fork");
+         System.out.println("fork at " + this);
          for (final JState state : states) {
             System.out.println(state);
          }
-      } */
+      }
       vm.fork(states);
    }
 

@@ -4,12 +4,13 @@ import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.search.Randomiser;
+import com.lexicalscope.svm.vm.j.JState;
 
 public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
-   final GoalTree<T, S> pside;
-   final GoalTree<T, S> qside;
+   final GoalTree<T, JState> pside;
+   final GoalTree<T, JState> qside;
 
-   public GoalTreePairImpl(final GoalTree<T, S> pside, final GoalTree<T, S> qside) {
+   public GoalTreePairImpl(final GoalTree<T, JState> pside, final GoalTree<T, JState> qside) {
       this.pside = pside;
       this.qside = qside;
    }
@@ -36,37 +37,37 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
    }
 
    @Override
-   public S openPNode(final Randomiser randomiser) {
+   public JState openPNode(final Randomiser randomiser) {
       return pside.randomOpenNode(randomiser);
    }
 
    @Override
-   public S openQNode(final Randomiser randomiser) {
+   public JState openQNode(final Randomiser randomiser) {
       return qside.randomOpenNode(randomiser);
    }
 
-   @Override public GoalTree<T, S> pside() {
+   @Override public GoalTree<T, JState> pside() {
       return pside;
    }
 
-   @Override public GoalTree<T, S> qside() {
+   @Override public GoalTree<T, JState> qside() {
       return qside;
    }
 
-   public static <T, S> GoalTreePair<T, S> pair(
-         final GoalTree<T, S> pside,
-         final GoalTree<T, S> qside) {
+   public static <T, S> GoalTreePair<T, JState> pair(
+         final GoalTree<T, JState> pside,
+         final GoalTree<T, JState> qside) {
       return new GoalTreePairImpl<>(pside, qside);
    }
 
-   @Override public void expandP(final S[] states) {
-      for (final S s : states) {
+   @Override public void expandP(final JState[] states) {
+      for (final JState s : states) {
          pside.increaseOpenNodes(s);
       }
    }
 
-   @Override public void expandQ(final S[] states) {
-      for (final S s : states) {
+   @Override public void expandQ(final JState[] states) {
+      for (final JState s : states) {
          qside.increaseOpenNodes(s);
       }
    }

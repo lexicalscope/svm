@@ -21,7 +21,7 @@ public class GuidedStateSearchFactory implements StateSearchFactory {
 
    @Override public StateSearch<JState> search() {
       return new FeasibleBranchSearch(
-               new GoalTreeGuidedSearch<Trace, JState>(
+               new GoalTreeGuidedSearch<Trace>(
                      root(trace().build(), feasibilityChecker, new TraceGoalMapFactory(feasibilityChecker), JState.class),
                      new TraceMetaExtractor(),
                      new RandomSeedPseudoRandomiser()),
