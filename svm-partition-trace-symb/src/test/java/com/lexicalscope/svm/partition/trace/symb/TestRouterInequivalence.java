@@ -6,7 +6,11 @@ import static org.objectweb.asm.Type.getInternalName;
 import java.util.Collection;
 
 import org.hamcrest.Matcher;
+import org.jmock.Expectations;
+import org.jmock.auto.Mock;
+import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
+import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.examples.ExamplesOneMarker;
@@ -18,6 +22,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.partition.trace.PartitionInstrumentation;
 import com.lexicalscope.svm.partition.trace.symb.tree.GuidedStateSearchFactory;
+import com.lexicalscope.svm.search.GuidedSearchObserver;
 import com.lexicalscope.svm.vm.conc.StateSearchFactory;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
@@ -29,10 +34,13 @@ public class TestRouterInequivalence {
 
    public ISymbol symbol;
 
+   @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
+   @Mock public GuidedSearchObserver searchObserver;
+
    @Before public void setUp() {
       symbol = new ITerminalSymbol("s");
       final FeasibilityChecker feasibilityChecker = new FeasibilityChecker();
-      final StateSearchFactory factory = new GuidedStateSearchFactory(feasibilityChecker);
+      final StateSearchFactory factory = new GuidedStateSearchFactory(searchObserver, feasibilityChecker);
       vm = SymbVmRule.createSymbVmRule(feasibilityChecker, factory);
       vm.entryPoint(ExampleServing.class, "main", "(I)V");
       vm.loadFrom(new Class[] { ExamplesOneMarker.class, ExamplesTwoMarker.class });
@@ -48,6 +56,9 @@ public class TestRouterInequivalence {
    }
 
    @Test public void testInequivalence() {
+      context.checking(new Expectations(){{
+         ignoring(searchObserver);
+      }});
       vm.execute(symbol);
       System.out.printf("Got %d traces.\n", vm.results().size());
 

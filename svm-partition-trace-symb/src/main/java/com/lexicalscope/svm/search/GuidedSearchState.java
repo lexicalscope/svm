@@ -5,8 +5,8 @@ import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
-
-interface GuidedSearchState {
+// TODO[tim]: not public
+public interface GuidedSearchState {
    void searchedSide(
          GoalTreeCorrespondence correspondence,
          GoalTreePair correspondenceUnderConsideration);

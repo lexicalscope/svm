@@ -10,8 +10,9 @@ import com.lexicalscope.svm.examples.ExamplesOneMarker;
 import com.lexicalscope.svm.examples.ExamplesTwoMarker;
 import com.lexicalscope.svm.examples.isort.broken.OutsidePartition;
 import com.lexicalscope.svm.examples.isort.broken.SortedList;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbolPair;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayAndLengthSymbols;
 import com.lexicalscope.svm.partition.trace.symb.tree.GuidedStateSearchFactory;
+import com.lexicalscope.svm.search.NullGuidedSearchObserver;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
@@ -20,10 +21,10 @@ public class TestSortedListRefactoringWorking {
    {
       instrumentPartition(partition().ofClass(SortedList.class), partition().ofClass(OutsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "entryPoint", "([I)V");
-      vm.builder().searchWith(new GuidedStateSearchFactory(vm.feasbilityChecker()));
+      vm.builder().searchWith(new GuidedStateSearchFactory(new NullGuidedSearchObserver(), vm.feasbilityChecker()));
    }
 
-   private @Fresh IArraySymbolPair symbol;
+   private @Fresh IArrayAndLengthSymbols symbol;
 
    @Test public void pathsExploredPairwise() throws Exception {
       vm.execute(symbol);

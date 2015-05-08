@@ -32,41 +32,39 @@ final class SBranchInstruction implements Vop {
    }
 
    @Override public void eval(final JState ctx) {
-      final BoolSymbol pc = ctx.getMeta(PC);
-
       final BoolSymbol branchPredicateSymbol = branchStrategy.evaluateBranchConditonAsSymbol(ctx);
 
-      final BoolSymbol jumpPc = pc.and(branchPredicateSymbol);
-      final BoolSymbol nojumpPc = pc.and(branchPredicateSymbol.not());
-
-      final JState[] states;
       final JState jumpState;
       final JState nojumpState;
+
+      final boolean willFork = !(branchPredicateSymbol.isTT() || branchPredicateSymbol.isFF());
+
       if(branchPredicateSymbol.isTT()) {
-         states = new JState[]{ctx};
          jumpState = ctx;
          nojumpState = null;
       } else if(branchPredicateSymbol.isFF()) {
-         states = new JState[]{ctx};
          jumpState = null;
          nojumpState = ctx;
       } else {
-         states = ctx.fork();
+         final JState[] states = ctx.fork();
          jumpState = states[0];
          nojumpState = states[1];
       }
 
       if(jumpState != null) {
-         jumpState.setMeta(PC, jumpPc);
          jumpState.advanceTo(ctx.instructionJmpTarget());
       }
 
       if(nojumpState != null) {
-         nojumpState.setMeta(PC, nojumpPc);
          nojumpState.advanceTo(ctx.instructionNext());
       }
 
-      ctx.fork(states);
+      if(willFork) {
+         final BoolSymbol pc = ctx.getMeta(PC);
+         jumpState.setMeta(PC, pc.and(branchPredicateSymbol));
+         nojumpState.setMeta(PC, pc.and(branchPredicateSymbol.not()));
+         ctx.fork(new JState[]{jumpState, nojumpState});
+      }
    }
 
    @Override

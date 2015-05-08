@@ -39,7 +39,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.ops.SIUnaryOperator;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SIUnaryOperatorAdapter;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.SymbFieldConversionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.array.NewSymbArray;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArraySymbolPair;
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayAndLengthSymbols;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayTerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.OSymbol;
@@ -261,9 +261,9 @@ public class SymbInstructionFactory implements InstructionFactory {
 //         final OTerminalSymbol terminalSymbol = (OTerminalSymbol)object;
 //         return new LoadingOp(terminalSymbol.klass(), new LoadSymbolicObjectArg(terminalSymbol), instructions);
 //      } else {
-      if (object instanceof IArraySymbolPair) {
+      if (object instanceof IArrayAndLengthSymbols) {
          return new LinearOp(
-               new LoadSymbolicArrayArg((IArraySymbolPair) object));
+               new LoadSymbolicArrayArg((IArrayAndLengthSymbols) object));
       } else {
          return new LinearOp(new LoadConstantArg(object));
       }

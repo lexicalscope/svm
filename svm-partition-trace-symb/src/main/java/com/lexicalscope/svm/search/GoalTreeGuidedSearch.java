@@ -21,10 +21,14 @@ public class GoalTreeGuidedSearch implements StateSearch<JState> {
 
    private GuidedSearchState side;
 
+   private final GuidedSearchObserver observer;
+
    public GoalTreeGuidedSearch(
+         final GuidedSearchObserver observer,
          final GoalTreeCorrespondence correspondence,
          final SearchMetaExtractor goalExtractor,
          final Randomiser randomiser) {
+      this.observer = observer;
       this.correspondence = correspondence;
       this.goalExtractor = goalExtractor;
       side = new GuidedSearchInitialState(randomiser);
@@ -46,7 +50,9 @@ public class GoalTreeGuidedSearch implements StateSearch<JState> {
                side.pickCorrespondence(correspondence, correspondenceUnderConsideration);
 
          if(side.isOpen(correspondenceUnderConsideration)) {
-            return pending = side.pickSearchNode(correspondenceUnderConsideration);
+            pending = side.pickSearchNode(correspondenceUnderConsideration);
+            observer.picked(pending, side);
+            return pending;
          }
       }
       return pending = null;

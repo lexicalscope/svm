@@ -13,6 +13,7 @@ import com.lexicalscope.svm.examples.icompare.broken.InsidePartition;
 import com.lexicalscope.svm.examples.icompare.broken.OutsidePartition;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.partition.trace.symb.tree.GuidedStateSearchFactory;
+import com.lexicalscope.svm.search.NullGuidedSearchObserver;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
@@ -23,7 +24,7 @@ public class TestGuidedSearchFailure {
       instrumentPartition(partition().ofClass(InsidePartition.class),
                           partition().ofClass(OutsidePartition.class), vm);
       vm.entryPoint(OutsidePartition.class, "callSomeMethods", "(II)I");
-      vm.builder().searchWith(new GuidedStateSearchFactory(vm.feasbilityChecker()));
+      vm.builder().searchWith(new GuidedStateSearchFactory(new NullGuidedSearchObserver(), vm.feasbilityChecker()));
    }
 
    private @Fresh ISymbol symbol1;

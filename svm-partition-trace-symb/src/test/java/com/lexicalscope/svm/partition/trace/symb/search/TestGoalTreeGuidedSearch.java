@@ -18,6 +18,7 @@ import com.lexicalscope.svm.partition.trace.symb.tree.FakeTrace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.search.GoalTreeGuidedSearch;
+import com.lexicalscope.svm.search.NullGuidedSearchObserver;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.search.SearchMetaExtractor;
 import com.lexicalscope.svm.vm.j.JState;
@@ -42,6 +43,7 @@ public class TestGoalTreeGuidedSearch {
 
    @Before public void createStrategy() {
       searchStrategy = new GoalTreeGuidedSearch(
+            new NullGuidedSearchObserver(),
             correspondence,
             goalExtractor,
             randomiser);
