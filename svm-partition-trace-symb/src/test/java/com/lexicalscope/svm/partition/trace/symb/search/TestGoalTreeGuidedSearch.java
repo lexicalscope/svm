@@ -38,10 +38,10 @@ public class TestGoalTreeGuidedSearch {
    final JState qstate1 = new FakeVmState("q1");
    final JState qstate2 = new FakeVmState("q2");
 
-   GoalTreeGuidedSearch<Trace> searchStrategy;
+   GoalTreeGuidedSearch searchStrategy;
 
    @Before public void createStrategy() {
-      searchStrategy = new GoalTreeGuidedSearch<Trace>(
+      searchStrategy = new GoalTreeGuidedSearch(
             correspondence,
             goalExtractor,
             randomiser);

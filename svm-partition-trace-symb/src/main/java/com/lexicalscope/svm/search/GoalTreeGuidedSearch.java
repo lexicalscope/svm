@@ -10,7 +10,7 @@ import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 
-public class GoalTreeGuidedSearch<T> implements StateSearch<JState> {
+public class GoalTreeGuidedSearch implements StateSearch<JState> {
    private final GoalTreeCorrespondence correspondence;
 
    private final SearchMetaExtractor<Trace, JState> goalExtractor;
