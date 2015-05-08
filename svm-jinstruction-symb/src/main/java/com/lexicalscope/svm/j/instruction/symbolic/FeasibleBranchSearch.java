@@ -22,7 +22,9 @@ public class FeasibleBranchSearch implements StateSearch<JState> {
 
    @Override
    public void fork(final JState[] states) {
-      final JState[] result = Arrays.copyOf(states, states.length);
+      assert states.length == 2;
+
+      final JState[] result = new JState[states.length];
       int resultCount = 0;
       for (final JState state : states) {
          if(feasibilityChecker.satisfiable(state.getMeta(PC))) {
@@ -30,7 +32,11 @@ public class FeasibleBranchSearch implements StateSearch<JState> {
             resultCount++;
          }
       }
-      search.fork(Arrays.copyOf(result, resultCount));
+      if (resultCount > 1) {
+         search.fork(Arrays.copyOf(result, resultCount));
+      } else {
+         System.out.println("nothing to fork");
+      }
    }
 
    @Override
