@@ -25,7 +25,7 @@ public class TestGoalTreeGuidedSearch {
    @Rule public final JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock private GoalTreeCorrespondence<Object, JState> correspondence;
    @Mock private Randomiser randomiser;
-   @Mock private GoalTreePair<Object, JState> pair;
+   @Mock private GoalTreePair pair;
    @Mock private SearchMetaExtractor<Object, JState> goalExtractor;
 
    final JState pstate = new FakeVmState("p");

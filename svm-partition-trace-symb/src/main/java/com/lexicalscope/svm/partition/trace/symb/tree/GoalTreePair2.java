@@ -3,7 +3,7 @@ package com.lexicalscope.svm.partition.trace.symb.tree;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
-public interface GoalTreePair2<T> extends InputSubset {
+public interface GoalTreePair2 extends InputSubset {
    JState openPNode(Randomiser randomiser);
    JState openQNode(Randomiser randomiser);
 

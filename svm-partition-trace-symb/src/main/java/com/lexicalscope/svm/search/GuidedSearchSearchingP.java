@@ -2,7 +2,7 @@ package com.lexicalscope.svm.search;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
-import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair2;
+import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
 class GuidedSearchSearchingP<T1, S1> implements GuidedSearchState<T1, S1> {
@@ -16,12 +16,12 @@ class GuidedSearchSearchingP<T1, S1> implements GuidedSearchState<T1, S1> {
 
    @Override public void searchedSide(
          final GoalTreeCorrespondence<T1, JState> correspondence,
-         final GoalTreePair2<T1> pair) {
+         final GoalTreePair pair) {
    }
 
-   @Override public GoalTreePair2<T1> pickCorrespondence(
+   @Override public GoalTreePair pickCorrespondence(
          final GoalTreeCorrespondence<T1, JState> correspondence,
-         final GoalTreePair2<T1> correspondenceUnderConsideration) {
+         final GoalTreePair correspondenceUnderConsideration) {
       return correspondence.randomOpenChild(randomiser);
    }
 
@@ -33,22 +33,22 @@ class GuidedSearchSearchingP<T1, S1> implements GuidedSearchState<T1, S1> {
       return searchingQy;
    }
 
-   @Override public boolean isOpen(final GoalTreePair2<T1> correspondenceUnderConsideration) {
+   @Override public boolean isOpen(final GoalTreePair correspondenceUnderConsideration) {
       return correspondenceUnderConsideration.psideIsOpen();
    }
 
-   @Override public JState pickSearchNode(final GoalTreePair2<T1> correspondenceUnderConsideration) {
+   @Override public JState pickSearchNode(final GoalTreePair correspondenceUnderConsideration) {
       return correspondenceUnderConsideration.openPNode(randomiser);
    }
 
    @Override public void fork(
-         final GoalTreePair2<T1> correspondenceUnderConsideration, final JState[] states) {
+         final GoalTreePair correspondenceUnderConsideration, final JState[] states) {
       correspondenceUnderConsideration.expandP(states);
    }
 
    @Override public void goal(
          final GoalTreeCorrespondence<T1, JState> correspondence,
-         final GoalTreePair2<T1> parent,
+         final GoalTreePair parent,
          final T1 goal,
          final JState state,
          final BoolSymbol pc) {

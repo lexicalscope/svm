@@ -20,8 +20,8 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    // should be flat not tree
    // map should map to a pair, each trace should reach one GoalTree in each side
    // this also makes it easier to find a place to search from...
-   private final GoalMap<Trace, GoalTreePair2<Trace>> children;
-   private final ListRandomPool<GoalTreePair2<Trace>> openChildren;
+   private final GoalMap<Trace, GoalTreePair> children;
+   private final ListRandomPool<GoalTreePair> openChildren;
    private final GoalTree pside;
    private final GoalTree qside;
 
@@ -33,20 +33,20 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       this.pside = pside;
       this.qside = qside;
       children = goalMapFactory.newGoalMap();
-      openChildren = new ListRandomPool<GoalTreePair2<Trace>>();
-      put(rootGoal, new GoalTreePairImpl<Trace, JState>(pside, qside));
+      openChildren = new ListRandomPool<GoalTreePair>();
+      put(rootGoal, new GoalTreePairImpl(pside, qside));
    }
 
-   private void put(final Trace goal, final GoalTreePair2<Trace> node) {
+   private void put(final Trace goal, final GoalTreePair node) {
       children.put(goal, node);
       openChildren.add(node);
    }
 
-   @Override public void stillOpen(final GoalTreePair2<Trace> node) {
+   @Override public void stillOpen(final GoalTreePair node) {
       openChildren.add(node);
    }
 
-   @Override public GoalTreePair2<Trace> randomOpenChild(final Randomiser randomiser) {
+   @Override public GoalTreePair randomOpenChild(final Randomiser randomiser) {
       return openChildren.randomElement(randomiser);
    }
 
@@ -60,7 +60,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
 
    @Override
    public boolean isOpen() {
-      for (final GoalTreePair2<Trace> child : children) {
+      for (final GoalTreePair child : children) {
          if(child.isOpen()) {
             return true;
          }
@@ -69,8 +69,8 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    }
 
    @Override
-   public GoalTreePair2<Trace> reachedP(
-         final GoalTreePair2<Trace> parent,
+   public GoalTreePair reachedP(
+         final GoalTreePair parent,
          final Trace goal,
          final JState state,
          final BoolSymbol childPc) {
@@ -78,15 +78,15 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    }
 
    @Override
-   public GoalTreePair2<Trace> reachedQ(
-         final GoalTreePair2<Trace> parent,
+   public GoalTreePair reachedQ(
+         final GoalTreePair parent,
          final Trace goal,
          final JState state,
          final BoolSymbol childPc) {
       return reached(goal, state, childPc, new QpChildFactory(), parent.qside(), parent.pside());
    }
 
-   private GoalTreePair2<Trace> reached(
+   private GoalTreePair reached(
          final Trace goal,
          final JState state,
          final BoolSymbol childPc,
@@ -112,7 +112,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       }
 
       if(!reachedBefore && otherSide.hasReached(goal)){
-         final GoalTreePair2<Trace> result = childFactory.create(thisSideChild, otherSide.childForGoal(goal));
+         final GoalTreePair result = childFactory.create(thisSideChild, otherSide.childForGoal(goal));
          put(goal, result);
          return result;
       }
@@ -120,20 +120,20 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    }
 
    private interface ChildFactory {
-      <T, S> GoalTreePair2<T> create(GoalTree thisSide, GoalTree otherSide);
+      <T, S> GoalTreePair create(GoalTree thisSide, GoalTree otherSide);
    }
 
    private static class PqChildFactory implements ChildFactory {
-      @Override public <T, S> GoalTreePair2<T> create(
+      @Override public <T, S> GoalTreePair create(
             final GoalTree thisSide,
             final GoalTree otherSide) {
-         return new GoalTreePairImpl<T, JState>(thisSide, otherSide);
+         return new GoalTreePairImpl(thisSide, otherSide);
       }
    }
 
    private static class QpChildFactory implements ChildFactory {
-      @Override public <T, S> GoalTreePair2<T> create(final GoalTree thisSide, final GoalTree otherSide) {
-         return new GoalTreePairImpl<T, JState>(otherSide, thisSide);
+      @Override public <T, S> GoalTreePair create(final GoalTree thisSide, final GoalTree otherSide) {
+         return new GoalTreePairImpl(otherSide, thisSide);
       }
    }
 
@@ -149,7 +149,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       qside.increaseOpenNodes(qstate0);
    }
 
-   @Override public boolean hasChild(final Matcher<? super GoalTreePair2<Trace>> childMatcher) {
+   @Override public boolean hasChild(final Matcher<? super GoalTreePair> childMatcher) {
       return children.containsMatching(childMatcher);
    }
 
@@ -158,15 +158,15 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return children.size();
    }
 
-   @Override public GoalTreePair2<Trace> correspondence(final Trace goal) {
+   @Override public GoalTreePair correspondence(final Trace goal) {
       return children.get(goal);
    }
 
-   @Override public Iterator<GoalTreePair2<Trace>> iterator() {
+   @Override public Iterator<GoalTreePair> iterator() {
       return children.iterator();
    }
 
-   @Override public Collection<GoalTreePair2<Trace>> children() {
+   @Override public Collection<GoalTreePair> children() {
       return children.values();
    }
 

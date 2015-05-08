@@ -6,7 +6,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
-public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
+public class GoalTreePairImpl implements GoalTreePair {
    final GoalTree pside;
    final GoalTree qside;
 
@@ -54,10 +54,10 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
       return qside;
    }
 
-   public static <T, S> GoalTreePair2<T> pair(
+   public static <T, S> GoalTreePair pair(
          final GoalTree pside,
          final GoalTree qside) {
-      return new GoalTreePairImpl<>(pside, qside);
+      return new GoalTreePairImpl(pside, qside);
    }
 
    @Override public void expandP(final JState[] states) {

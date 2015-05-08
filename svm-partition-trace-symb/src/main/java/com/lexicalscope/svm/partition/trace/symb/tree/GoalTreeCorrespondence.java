@@ -8,7 +8,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
-public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair2<T>>  {
+public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair>  {
    boolean hasChildren();
 
    boolean isOpen();
@@ -16,13 +16,13 @@ public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair2<T>>
    /**
     * potentially expensive
     */
-   GoalTreePair2<T> correspondence(T rootGoal);
+   GoalTreePair correspondence(T rootGoal);
 
-   GoalTreePair2<T> reachedP(GoalTreePair2<T> parent, T goal, JState state, BoolSymbol childPc);
+   GoalTreePair reachedP(GoalTreePair parent, T goal, JState state, BoolSymbol childPc);
 
-   GoalTreePair2<T> reachedQ(GoalTreePair2<T> parent, T goal, JState state, BoolSymbol childPc);
+   GoalTreePair reachedQ(GoalTreePair parent, T goal, JState state, BoolSymbol childPc);
 
-   boolean hasChild(Matcher<? super GoalTreePair2<T>> childMatcher);
+   boolean hasChild(Matcher<? super GoalTreePair> childMatcher);
 
    int childCount();
 
@@ -36,9 +36,9 @@ public interface GoalTreeCorrespondence<T, S> extends Iterable<GoalTreePair2<T>>
     */
    void qInitial(JState qstate0);
 
-   Collection<GoalTreePair2<T>> children();
+   Collection<GoalTreePair> children();
 
-   void stillOpen(GoalTreePair2<T> node);
+   void stillOpen(GoalTreePair node);
    boolean hasOpenChildren();
-   GoalTreePair2<T> randomOpenChild(Randomiser randomiser);
+   GoalTreePair randomOpenChild(Randomiser randomiser);
 }
