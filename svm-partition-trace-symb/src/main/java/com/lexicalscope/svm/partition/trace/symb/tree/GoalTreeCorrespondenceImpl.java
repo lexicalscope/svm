@@ -170,15 +170,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return children.values();
    }
 
-   public static <T, S> GoalTreeCorrespondence root(
-         final Trace rootGoal,
-         final FeasibilityChecker feasibilityChecker,
-         final GoalMapFactory goalMapFactory,
-         final Class<S> bindGenerics) {
-      return root(rootGoal, feasibilityChecker, goalMapFactory);
-   }
-
-   public static <T, S> GoalTreeCorrespondence root(
+   public static GoalTreeCorrespondence root(
          final Trace rootGoal,
          final FeasibilityChecker feasibilityChecker,
          final GoalMapFactory goalMapFactory) {
@@ -189,7 +181,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       return new GoalTreeCorrespondenceImpl<>(rootGoal, pside, qside, goalMapFactory);
    }
 
-   public static <T, S> GoalTreeCorrespondence root(
+   public static GoalTreeCorrespondence root(
          final Trace rootGoal,
          final JState pstate0,
          final JState qstate0,

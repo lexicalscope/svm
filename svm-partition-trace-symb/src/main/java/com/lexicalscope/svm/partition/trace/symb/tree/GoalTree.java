@@ -19,7 +19,7 @@ import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class GoalTree implements InputSubset {
    private final GoalMap<GoalTree> children;
-   private final OpenNodes<JState> openNodes;
+   private final OpenNodes openNodes;
    private final FeasibilityChecker feasibilityChecker;
    private final SubtreeFactory<GoalTree> childFactory;
    private BoolSymbol coveredPc;
@@ -33,7 +33,7 @@ public final class GoalTree implements InputSubset {
       this.feasibilityChecker = feasibilityChecker;
       this.coveredPc = new FalseSymbol();
       this.childrenCoverPc = new FalseSymbol();
-      this.openNodes = new OpenNodes<>(feasibilityChecker);
+      this.openNodes = new OpenNodes(feasibilityChecker);
       this.children = goalMapFactory.newGoalMap();
       this.childFactory = new SubtreeFactory<GoalTree>() {
          @Override public GoalTree create() {
