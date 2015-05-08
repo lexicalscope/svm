@@ -20,7 +20,7 @@ import com.lexicalscope.svm.vm.symb.junit.SolverRule;
 
 public class TestGoalTree {
    @Rule public final SolverRule solver = new SolverRule();
-   final GoalTree<Trace, JState> goalTree = new GoalTree<Trace, JState>(new ObjectGoalMapFactory(), solver.checker());
+   final GoalTree goalTree = new GoalTree(new ObjectGoalMapFactory(), solver.checker());
 
    @Fresh ISymbol symbol;
 

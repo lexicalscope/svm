@@ -7,10 +7,10 @@ import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
-   final GoalTree<T, JState> pside;
-   final GoalTree<T, JState> qside;
+   final GoalTree pside;
+   final GoalTree qside;
 
-   public GoalTreePairImpl(final GoalTree<T, JState> pside, final GoalTree<T, JState> qside) {
+   public GoalTreePairImpl(final GoalTree pside, final GoalTree qside) {
       this.pside = pside;
       this.qside = qside;
    }
@@ -46,17 +46,17 @@ public class GoalTreePairImpl<T, S> implements GoalTreePair<T, S> {
       return qside.randomOpenNode(randomiser);
    }
 
-   @Override public GoalTree<T, JState> pside() {
+   @Override public GoalTree pside() {
       return pside;
    }
 
-   @Override public GoalTree<T, JState> qside() {
+   @Override public GoalTree qside() {
       return qside;
    }
 
    public static <T, S> GoalTreePair2<T> pair(
-         final GoalTree<T, JState> pside,
-         final GoalTree<T, JState> qside) {
+         final GoalTree pside,
+         final GoalTree qside) {
       return new GoalTreePairImpl<>(pside, qside);
    }
 

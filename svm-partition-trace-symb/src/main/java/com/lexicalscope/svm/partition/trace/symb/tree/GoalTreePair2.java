@@ -11,8 +11,8 @@ public interface GoalTreePair2<T> extends InputSubset {
    boolean psideIsOpen();
    boolean qsideIsOpen();
 
-   GoalTree<T, JState> pside();
-   GoalTree<T, JState> qside();
+   GoalTree pside();
+   GoalTree qside();
 
    void expandP(JState[] states);
    void expandQ(JState[] states);

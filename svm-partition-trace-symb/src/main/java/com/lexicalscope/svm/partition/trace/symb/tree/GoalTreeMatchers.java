@@ -9,53 +9,53 @@ import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class GoalTreeMatchers {
-   public static Matcher<GoalTree<?, ?>> childrenCover(final BoolSymbol pc) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, ?>>() {
+   public static Matcher<GoalTree> childrenCover(final BoolSymbol pc) {
+      return new TypeSafeDiagnosingMatcher<GoalTree>() {
          @Override public void describeTo(final Description description) {
             description.appendText("node with chidren that cover ").appendValue(pc);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<?, ?> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.childrenCover(pc);
          }
       };
    }
 
-   public static <T, S> Matcher<GoalTree<Trace, JState>> hasChild(final Matcher<? super GoalTree<Trace, JState>> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<Trace, JState>>() {
+   public static <T, S> Matcher<GoalTree> hasChild(final Matcher<? super GoalTree> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTree>() {
          @Override public void describeTo(final Description description) {
             description.appendText("child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<Trace, JState> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasChild(childMatcher);
          }
       };
    }
 
-   public static <S> Matcher<GoalTree<?, JState>> hasOpenNode(final Matcher<JState> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, JState>>() {
+   public static <S> Matcher<GoalTree> hasOpenNode(final Matcher<JState> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTree>() {
          @Override public void describeTo(final Description description) {
             description.appendText("child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<?, JState> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasOpenNode(childMatcher);
          }
       };
    }
 
-   public static <T> Matcher<GoalTree<Trace, ?>> hasReached(final Trace goal) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<Trace, ?>>() {
+   public static <T> Matcher<GoalTree> hasReached(final Trace goal) {
+      return new TypeSafeDiagnosingMatcher<GoalTree>() {
          @Override public void describeTo(final Description description) {
             description.appendText("reached sub goal ").appendValue(goal);
          }
 
          @Override protected boolean matchesSafely(
-               final GoalTree<Trace, ?> item,
+               final GoalTree item,
                final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasReached(goal);
