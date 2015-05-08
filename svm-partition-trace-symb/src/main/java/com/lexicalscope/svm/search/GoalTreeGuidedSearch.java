@@ -20,7 +20,7 @@ public class GoalTreeGuidedSearch implements StateSearch<JState> {
    private boolean qInitialised;
    private JState pending;
 
-   private GuidedSearchState<Trace, ?> side;
+   private GuidedSearchState side;
 
    public GoalTreeGuidedSearch(
          final GoalTreeCorrespondence correspondence,
@@ -28,7 +28,7 @@ public class GoalTreeGuidedSearch implements StateSearch<JState> {
          final Randomiser randomiser) {
       this.correspondence = correspondence;
       this.goalExtractor = goalExtractor;
-      side = new GuidedSearchInitialState<>(randomiser);
+      side = new GuidedSearchInitialState(randomiser);
    }
 
    @Override public JState pendingState() {

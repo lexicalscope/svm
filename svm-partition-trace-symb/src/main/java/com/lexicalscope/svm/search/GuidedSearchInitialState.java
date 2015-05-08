@@ -6,7 +6,7 @@ import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
-final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<Trace, S1> {
+final class GuidedSearchInitialState implements GuidedSearchState {
    private final Randomiser randomiser;
 
    public GuidedSearchInitialState(final Randomiser randomiser) {
@@ -23,7 +23,7 @@ final class GuidedSearchInitialState<T1, S1> implements GuidedSearchState<Trace,
       return true;
    }
 
-   @Override public GuidedSearchState<Trace, JState> nextSide() {
+   @Override public GuidedSearchState nextSide() {
       return new GuidedSearchSearchingP(randomiser);
    }
 

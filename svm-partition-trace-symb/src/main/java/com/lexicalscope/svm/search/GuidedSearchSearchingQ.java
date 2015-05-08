@@ -6,7 +6,7 @@ import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
-class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<Trace, S1> {
+class GuidedSearchSearchingQ implements GuidedSearchState {
    private final GuidedSearchSearchingP searchingP;
    private final Randomiser randomiser;
 
@@ -27,7 +27,7 @@ class GuidedSearchSearchingQ<T1, S1> implements GuidedSearchState<Trace, S1> {
       return correspondence.hasOpenChildren();
    }
 
-   @Override public GuidedSearchState<Trace, ?> nextSide() {
+   @Override public GuidedSearchState nextSide() {
       return searchingP;
    }
 

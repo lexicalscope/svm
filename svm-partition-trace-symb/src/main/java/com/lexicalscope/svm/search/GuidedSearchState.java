@@ -6,14 +6,14 @@ import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreeCorrespondence;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.j.JState;
 
-interface GuidedSearchState<T1, S1> {
+interface GuidedSearchState {
    void searchedSide(
          GoalTreeCorrespondence correspondence,
          GoalTreePair correspondenceUnderConsideration);
 
    boolean searchMore(GoalTreeCorrespondence correspondence);
 
-   GuidedSearchState<Trace, ?> nextSide();
+   GuidedSearchState nextSide();
 
    GoalTreePair pickCorrespondence(
          GoalTreeCorrespondence correspondence,
