@@ -14,13 +14,14 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.GoalMap.SubtreeFactory;
 import com.lexicalscope.svm.search.Randomiser;
+import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public final class GoalTree<T,S> implements InputSubset {
-   private final GoalMap<Trace, GoalTree<Trace, S>> children;
+   private final GoalMap<Trace, GoalTree<Trace, JState>> children;
    private final OpenNodes<S> openNodes;
    private final FeasibilityChecker feasibilityChecker;
-   private final SubtreeFactory<GoalTree<Trace,S>> childFactory;
+   private final SubtreeFactory<GoalTree<Trace, JState>> childFactory;
    private BoolSymbol coveredPc;
    private BoolSymbol childrenCoverPc;
 
@@ -34,9 +35,9 @@ public final class GoalTree<T,S> implements InputSubset {
       this.childrenCoverPc = new FalseSymbol();
       this.openNodes = new OpenNodes<>(feasibilityChecker);
       this.children = goalMapFactory.newGoalMap();
-      this.childFactory = new SubtreeFactory<GoalTree<Trace,S>>() {
-         @Override public GoalTree<Trace,S> create() {
-            return new GoalTree<Trace,S>(goalMapFactory, feasibilityChecker);
+      this.childFactory = new SubtreeFactory<GoalTree<Trace, JState>>() {
+         @Override public GoalTree<Trace, JState> create() {
+            return new GoalTree<Trace, JState>(goalMapFactory, feasibilityChecker);
          }
       };
    }
@@ -63,10 +64,10 @@ public final class GoalTree<T,S> implements InputSubset {
       coveredPc = coveredPc.or(disjunct);
    }
 
-   public GoalTree<Trace, S> reached(final Trace goal, final S state, final BoolSymbol childPc) {
+   public GoalTree<Trace, JState> reached(final Trace goal, final JState state, final BoolSymbol childPc) {
       childrenCoverPc = childrenCoverPc.or(childPc);
 
-      final GoalTree<Trace, S> child = children.get(goal, childFactory);
+      final GoalTree<Trace, JState> child = children.get(goal, childFactory);
       child.increaseCovers(childPc);
       child.increaseOpenNodes(state);
       return child;
@@ -84,11 +85,11 @@ public final class GoalTree<T,S> implements InputSubset {
       openNodes.push(state);
    }
 
-   public boolean hasChild(final Matcher<? super GoalTree<Trace,S>> childMatcher) {
+   public boolean hasChild(final Matcher<? super GoalTree<Trace, JState>> childMatcher) {
       return children.containsMatching(childMatcher);
    }
 
-   public boolean isChildForGoal(final GoalTree<Trace,S> child, final Trace goal) {
+   public boolean isChildForGoal(final GoalTree<Trace, JState> child, final Trace goal) {
       return children.isChildForGoal(child, goal);
    }
 
@@ -104,9 +105,9 @@ public final class GoalTree<T,S> implements InputSubset {
       return !openNodes.isEmpty();
    }
 
-   public List<GoalTree<Trace,S>> coveredChilden(final BoolSymbol pc) {
-      final List<GoalTree<Trace,S>> result = new ArrayList<>();
-      for (final GoalTree<Trace,S> child : children) {
+   public List<GoalTree<Trace, JState>> coveredChilden(final BoolSymbol pc) {
+      final List<GoalTree<Trace, JState>> result = new ArrayList<>();
+      for (final GoalTree<Trace, JState> child : children) {
          if(child.covers(pc)) {
             result.add(child);
          }
@@ -114,9 +115,9 @@ public final class GoalTree<T,S> implements InputSubset {
       return result;
    }
 
-   public List<GoalTree<Trace,S>> overlappingChildGoals(final BoolSymbol pc) {
-      final List<GoalTree<Trace,S>> result = new ArrayList<>();
-      for (final GoalTree<Trace,S> child : children) {
+   public List<GoalTree<Trace, JState>> overlappingChildGoals(final BoolSymbol pc) {
+      final List<GoalTree<Trace, JState>> result = new ArrayList<>();
+      for (final GoalTree<Trace, JState> child : children) {
          if(child.overlaps(pc)) {
             result.add(child);
          }
@@ -124,7 +125,7 @@ public final class GoalTree<T,S> implements InputSubset {
       return result;
    }
 
-   public GoalTree<Trace,S> childForGoal(final Trace goal) {
+   public GoalTree<Trace, JState> childForGoal(final Trace goal) {
       return children.get(goal);
    }
 

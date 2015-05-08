@@ -6,6 +6,7 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
+import com.lexicalscope.svm.vm.j.JState;
 
 public class GoalTreeMatchers {
    public static Matcher<GoalTree<?, ?>> childrenCover(final BoolSymbol pc) {
@@ -21,26 +22,26 @@ public class GoalTreeMatchers {
       };
    }
 
-   public static <T, S> Matcher<GoalTree<Trace, S>> hasChild(final Matcher<? super GoalTree<Trace, S>> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<Trace, S>>() {
+   public static <T, S> Matcher<GoalTree<Trace, JState>> hasChild(final Matcher<? super GoalTree<Trace, JState>> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTree<Trace, JState>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<Trace, S> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree<Trace, JState> item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasChild(childMatcher);
          }
       };
    }
 
-   public static <S> Matcher<GoalTree<?, S>> hasOpenNode(final Matcher<S> childMatcher) {
-      return new TypeSafeDiagnosingMatcher<GoalTree<?, S>>() {
+   public static <S> Matcher<GoalTree<?, JState>> hasOpenNode(final Matcher<JState> childMatcher) {
+      return new TypeSafeDiagnosingMatcher<GoalTree<?, JState>>() {
          @Override public void describeTo(final Description description) {
             description.appendText("child matching ").appendDescriptionOf(childMatcher);
          }
 
-         @Override protected boolean matchesSafely(final GoalTree<?, S> item, final Description mismatchDescription) {
+         @Override protected boolean matchesSafely(final GoalTree<?, JState> item, final Description mismatchDescription) {
             mismatchDescription.appendValue(item);
             return item.hasOpenNode(childMatcher);
          }
