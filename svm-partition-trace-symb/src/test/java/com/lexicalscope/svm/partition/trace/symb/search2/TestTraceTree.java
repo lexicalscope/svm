@@ -18,6 +18,7 @@ import com.lexicalscope.svm.vm.j.JState;
 public class TestTraceTree {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock public JState state01;
+   @Mock public JState state02;
    @Mock private TraceTreeObserver ttObserver;
 
    private final TraceTree tt = new TraceTree();
@@ -32,7 +33,7 @@ public class TestTraceTree {
 
    @Test public void treeNodeCanHoldPStates() {
       context.checking(new Expectations(){{
-         oneOf(ttObserver).stateAdded(tt, state01);
+         oneOf(ttObserver).pstateAvailable(tt);
       }});
 
       tt.pState(state01);
@@ -42,12 +43,36 @@ public class TestTraceTree {
 
    @Test public void treeNodeCanHoldQStates() {
       context.checking(new Expectations(){{
-         oneOf(ttObserver).stateAdded(tt, state01);
+         oneOf(ttObserver).qstateAvailable(tt);
       }});
 
       tt.qState(state01);
       assertThat(tt, containsQState(state01));
       assertThat(tt, noPStates());
+   }
+
+   @Test public void onlyTheFirstStateNotifes() {
+      context.checking(new Expectations(){{
+         oneOf(ttObserver).qstateAvailable(tt);
+      }});
+
+      tt.qState(state01);
+      tt.qState(state02);
+   }
+
+   @Test public void becomingEmptyNotifes() {
+      context.checking(new Expectations(){{
+         oneOf(ttObserver).qstateAvailable(tt);
+      }});
+
+      tt.qState(state01);
+      tt.qState(state02);
+      assertThat(tt.removeQState(0), equalTo(state01));
+
+      context.checking(new Expectations(){{
+         oneOf(ttObserver).qstateUnavailable(tt);
+      }});
+      assertThat(tt.removeQState(0), equalTo(state02));
    }
 
    @Test public void treeNodeCanHoldAChild() {

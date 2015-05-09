@@ -6,6 +6,7 @@ import static org.hamcrest.Matchers.*;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
+import java.util.List;
 
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
@@ -15,8 +16,8 @@ import com.lexicalscope.svm.vm.j.JState;
 
 public class TraceTree {
    private final Trace nodeTrace;
-   private final Collection<JState> pStates = new ArrayList<>();
-   private final Collection<JState> qStates = new ArrayList<>();
+   private final List<JState> pStates = new ArrayList<>();
+   private final List<JState> qStates = new ArrayList<>();
    private final LinkedHashMap<Trace, TraceTree> children = new LinkedHashMap<>();
    private TraceTreeObserver ttObserver;
 
@@ -33,21 +34,41 @@ public class TraceTree {
       return nodeTrace;
    }
 
-   protected Collection<JState> pStates() {
+   protected List<JState> pStates() {
       return pStates;
    }
 
    public void pState(final JState state) {
       pStates.add(state);
-      ttObserver.stateAdded(this, state);
+      if(pStates.size() == 1) {
+         ttObserver.pstateAvailable(this);
+      }
+   }
+
+   public JState removePState(final int i) {
+      final JState result = pStates.remove(i);
+      if(pStates.isEmpty()) {
+         ttObserver.pstateUnavailable(this);
+      }
+      return result;
    }
 
    public void qState(final JState state) {
       qStates.add(state);
-      ttObserver.stateAdded(this, state);
+      if(qStates.size() == 1) {
+         ttObserver.qstateAvailable(this);
+      }
    }
 
-   public Collection<JState> qStates() {
+   public JState removeQState(final int i) {
+      final JState result = qStates.remove(i);
+      if(qStates.isEmpty()) {
+         ttObserver.qstateUnavailable(this);
+      }
+      return result;
+   }
+
+   public List<JState> qStates() {
       return qStates;
    }
 
