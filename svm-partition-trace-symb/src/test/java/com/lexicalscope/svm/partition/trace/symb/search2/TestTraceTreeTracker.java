@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
-import static com.lexicalscope.svm.partition.trace.symb.search2.TraceTreeTracker.hasPstatesAvailable;
+import static com.lexicalscope.svm.search2.TraceTreeTracker.hasPstatesAvailable;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -10,6 +10,7 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.search2.TraceTree;
+import com.lexicalscope.svm.search2.TraceTreeTracker;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class TestTraceTreeTracker {

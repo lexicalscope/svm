@@ -1,13 +1,10 @@
-package com.lexicalscope.svm.partition.trace.symb.search2;
+package com.lexicalscope.svm.search2;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
-
-import com.lexicalscope.svm.search2.TraceTree;
-import com.lexicalscope.svm.search2.TraceTreeObserver;
 
 public class TraceTreeTracker implements TraceTreeObserver {
    private final Collection<TraceTree> pstatesAvailable = new ArrayList<TraceTree>();
@@ -33,7 +30,7 @@ public class TraceTreeTracker implements TraceTreeObserver {
       return pstatesAvailable;
    }
 
-   static FeatureMatcher<TraceTreeTracker, Collection<TraceTree>> hasPstatesAvailable(final Matcher<? super Collection<TraceTree>> contains) {
+   public static FeatureMatcher<TraceTreeTracker, Collection<TraceTree>> hasPstatesAvailable(final Matcher<? super Collection<TraceTree>> contains) {
       return new FeatureMatcher<TraceTreeTracker, Collection<TraceTree>>(contains, "tree with p states available", "pStates available") {
          @Override protected Collection<TraceTree> featureValueOf(final TraceTreeTracker actual) {
             return actual.pstatesAvailable();
