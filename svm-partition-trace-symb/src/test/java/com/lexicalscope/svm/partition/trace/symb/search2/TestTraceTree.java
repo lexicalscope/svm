@@ -5,8 +5,10 @@ import static com.lexicalscope.svm.partition.trace.symb.search2.TraceTree.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
+import org.jmock.Expectations;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -16,20 +18,33 @@ import com.lexicalscope.svm.vm.j.JState;
 public class TestTraceTree {
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
    @Mock public JState state01;
+   @Mock private TraceTreeObserver ttObserver;
 
-   TraceTree tt = new TraceTree();
+   private final TraceTree tt = new TraceTree();
+
+   @Before public void createTraceTree() {
+      tt.listener(ttObserver);
+   }
 
    @Test public void rootOfTraceTreeIsEmptyTrace() {
       assertThat(tt, nodeTrace(trace().build()));
    }
 
    @Test public void treeNodeCanHoldPStates() {
+      context.checking(new Expectations(){{
+         oneOf(ttObserver).stateAdded(tt, state01);
+      }});
+
       tt.pState(state01);
       assertThat(tt, containsPState(state01));
       assertThat(tt, noQStates());
    }
 
    @Test public void treeNodeCanHoldQStates() {
+      context.checking(new Expectations(){{
+         oneOf(ttObserver).stateAdded(tt, state01);
+      }});
+
       tt.qState(state01);
       assertThat(tt, containsQState(state01));
       assertThat(tt, noPStates());

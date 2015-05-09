@@ -18,6 +18,7 @@ public class TraceTree {
    private final Collection<JState> pStates = new ArrayList<>();
    private final Collection<JState> qStates = new ArrayList<>();
    private final LinkedHashMap<Trace, TraceTree> children = new LinkedHashMap<>();
+   private TraceTreeObserver ttObserver;
 
    public TraceTree() {
       this(trace().build());
@@ -25,6 +26,7 @@ public class TraceTree {
 
    public TraceTree(final Trace nodeTrace) {
       this.nodeTrace = nodeTrace;
+      ttObserver = new NullTraceTreeObserver();
    }
 
    public Trace nodeTrace() {
@@ -37,10 +39,12 @@ public class TraceTree {
 
    public void pState(final JState state) {
       pStates.add(state);
+      ttObserver.stateAdded(this, state);
    }
 
    public void qState(final JState state) {
       qStates.add(state);
+      ttObserver.stateAdded(this, state);
    }
 
    public Collection<JState> qStates() {
@@ -49,13 +53,19 @@ public class TraceTree {
 
    public TraceTree child(final Trace trace) {
       if(!children.containsKey(trace)) {
-         children.put(trace, new TraceTree(trace));
+         final TraceTree child = new TraceTree(trace);
+         child.listener(ttObserver);
+         children.put(trace, child);
       }
       return children.get(trace);
    }
 
    protected Collection<TraceTree> children() {
       return children.values();
+   }
+
+   public void listener(final TraceTreeObserver ttObserver) {
+      this.ttObserver = ttObserver;
    }
 
    private static FeatureMatcher<TraceTree, Collection<JState>> pStates(final Matcher<? super Collection<JState>> contains) {
