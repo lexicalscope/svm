@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.vm.j;
 
-import static com.lexicalscope.svm.vm.j.InstructionCode.returnvoid;
+import static com.lexicalscope.svm.vm.j.InstructionCode.*;
 import static com.lexicalscope.svm.vm.j.JavaConstants.INITIAL_FRAME_NAME;
 import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.CombinableMatcher.both;
@@ -122,12 +122,20 @@ public class StateMatchers {
       };
    }
 
-   public static Matcher<JState> returnInstruction() {
+   public static Matcher<JState> returnVoid() {
       return instructionCode(returnvoid);
+   }
+
+   public static Matcher<JState> returnOne() {
+      return instructionCode(return1);
    }
 
    public static Matcher<JState> lineNumber(final int line) {
       return lineNumber(equalTo(line));
+   }
+
+   public static Matcher<JState> terminate() {
+      return instructionCode(terminiate);
    }
 
    public static Matcher<JState> lineNumber(final Matcher<Integer> equalTo) {
