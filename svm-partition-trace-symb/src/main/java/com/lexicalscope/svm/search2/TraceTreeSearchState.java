@@ -18,6 +18,15 @@ public class TraceTreeSearchState {
       return currentlySearching;
    }
 
+   protected Side currentSide() {
+      return side;
+   }
+
+   public void search(final Side side, final TraceTree tt) {
+      this.side = side;
+      currentlySearching = tt;
+   }
+
    public static Matcher<? super TraceTreeSearchState> currentlySearching(final TraceTree tt) {
       return currentlySearching(equalTo(tt));
    }
@@ -40,14 +49,5 @@ public class TraceTreeSearchState {
             return actual.currentSide();
          }
       };
-   }
-
-   protected Side currentSide() {
-      return side;
-   }
-
-   public void search(final Side side, final TraceTree tt) {
-      this.side = side;
-      currentlySearching = tt;
    }
 }

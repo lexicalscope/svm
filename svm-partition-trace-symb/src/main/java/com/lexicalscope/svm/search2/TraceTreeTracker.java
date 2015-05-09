@@ -2,13 +2,14 @@ package com.lexicalscope.svm.search2;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 
 public class TraceTreeTracker implements TraceTreeObserver {
-   private final Collection<TraceTree> pstatesAvailable = new ArrayList<TraceTree>();
-   private final Collection<TraceTree> qstatesAvailable = new ArrayList<TraceTree>();
+   private final List<TraceTree> pstatesAvailable = new ArrayList<TraceTree>();
+   private final List<TraceTree> qstatesAvailable = new ArrayList<TraceTree>();
 
    @Override public void pstateAvailable(final TraceTree traceTree) {
       pstatesAvailable.add(traceTree);
@@ -26,8 +27,12 @@ public class TraceTreeTracker implements TraceTreeObserver {
       qstatesAvailable.remove(traceTree);
    }
 
-   protected Collection<TraceTree> pstatesAvailable() {
+   public List<TraceTree> pstatesAvailable() {
       return pstatesAvailable;
+   }
+
+   public List<TraceTree> qstatesAvailable() {
+      return qstatesAvailable;
    }
 
    public static FeatureMatcher<TraceTreeTracker, Collection<TraceTree>> hasPstatesAvailable(final Matcher<? super Collection<TraceTree>> contains) {
@@ -36,5 +41,13 @@ public class TraceTreeTracker implements TraceTreeObserver {
             return actual.pstatesAvailable();
          }
       };
+   }
+
+   public boolean anyPStatesAvailable() {
+      return !pstatesAvailable.isEmpty();
+   }
+
+   public boolean anyQStatesAvailable() {
+      return !qstatesAvailable.isEmpty();
    }
 }
