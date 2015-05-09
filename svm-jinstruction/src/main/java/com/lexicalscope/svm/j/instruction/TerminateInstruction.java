@@ -1,6 +1,6 @@
 package com.lexicalscope.svm.j.instruction;
 
-import static com.lexicalscope.svm.vm.j.InstructionCode.terminiate;
+import static com.lexicalscope.svm.vm.j.InstructionCode.methodexit;
 
 import java.util.Collection;
 import java.util.Iterator;
@@ -73,7 +73,7 @@ public class TerminateInstruction implements Instruction {
    }
 
    @Override public InstructionCode code() {
-      return terminiate;
+      return methodexit;
    }
 
    @Override public void prevIs(final Instruction instruction) {

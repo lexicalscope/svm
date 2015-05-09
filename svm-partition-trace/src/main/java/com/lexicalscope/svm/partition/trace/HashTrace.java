@@ -61,6 +61,46 @@ public class HashTrace implements Trace {
       return asList().iterator();
    }
 
+   @Override public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + (head == null ? 0 : head.hashCode());
+//      result = prime * result + (map == null ? 0 : map.hashCode());
+      result = prime * result + nextAlias;
+      return result;
+   }
+
+   @Override public boolean equals(final Object obj) {
+      if (this == obj) {
+         return true;
+      }
+      if (obj == null) {
+         return false;
+      }
+      if (getClass() != obj.getClass()) {
+         return false;
+      }
+      final HashTrace other = (HashTrace) obj;
+      if (head == null) {
+         if (other.head != null) {
+            return false;
+         }
+      } else if (!head.equals(other.head)) {
+         return false;
+      }
+//      if (map == null) {
+//         if (other.map != null) {
+//            return false;
+//         }
+//      } else if (!map.equals(other.map)) {
+//         return false;
+//      }
+      if (nextAlias != other.nextAlias) {
+         return false;
+      }
+      return true;
+   }
+
    @Override public String toString() {
       final StringBuilder traceToString = new StringBuilder();
       final List<TraceElement> trace = asList();

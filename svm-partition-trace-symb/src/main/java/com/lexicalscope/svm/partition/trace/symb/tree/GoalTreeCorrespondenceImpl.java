@@ -16,7 +16,7 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 
-public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespondence {
+public final class GoalTreeCorrespondenceImpl implements GoalTreeCorrespondence {
    // should be flat not tree
    // map should map to a pair, each trace should reach one GoalTree in each side
    // this also makes it easier to find a place to search from...
@@ -119,11 +119,11 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    }
 
    private interface ChildFactory {
-      <T, S> GoalTreePair create(GoalTree thisSide, GoalTree otherSide);
+      GoalTreePair create(GoalTree thisSide, GoalTree otherSide);
    }
 
    private static class PqChildFactory implements ChildFactory {
-      @Override public <T, S> GoalTreePair create(
+      @Override public GoalTreePair create(
             final GoalTree thisSide,
             final GoalTree otherSide) {
          return new GoalTreePairImpl(thisSide, otherSide);
@@ -131,7 +131,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
    }
 
    private static class QpChildFactory implements ChildFactory {
-      @Override public <T, S> GoalTreePair create(final GoalTree thisSide, final GoalTree otherSide) {
+      @Override public GoalTreePair create(final GoalTree thisSide, final GoalTree otherSide) {
          return new GoalTreePairImpl(otherSide, thisSide);
       }
    }
@@ -177,7 +177,7 @@ public final class GoalTreeCorrespondenceImpl<T, S> implements GoalTreeCorrespon
       final GoalTree qside = new GoalTree(goalMapFactory, feasibilityChecker);
       pside.covers(truth());
       qside.covers(truth());
-      return new GoalTreeCorrespondenceImpl<>(rootGoal, pside, qside, goalMapFactory);
+      return new GoalTreeCorrespondenceImpl(rootGoal, pside, qside, goalMapFactory);
    }
 
    public static GoalTreeCorrespondence root(

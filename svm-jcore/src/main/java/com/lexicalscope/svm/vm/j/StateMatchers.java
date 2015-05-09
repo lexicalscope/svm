@@ -135,7 +135,7 @@ public class StateMatchers {
    }
 
    public static Matcher<JState> terminate() {
-      return instructionCode(terminiate);
+      return instructionCode(methodexit);
    }
 
    public static Matcher<JState> lineNumber(final Matcher<Integer> equalTo) {

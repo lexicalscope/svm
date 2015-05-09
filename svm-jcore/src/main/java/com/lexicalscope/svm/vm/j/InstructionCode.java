@@ -9,7 +9,6 @@ public enum InstructionCode {
    methodentry,
    synthetic,
    methodexit,
-   terminiate,
 
    load,
    load2,

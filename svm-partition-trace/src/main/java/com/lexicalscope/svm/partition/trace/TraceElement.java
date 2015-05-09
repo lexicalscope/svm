@@ -43,6 +43,50 @@ public class TraceElement {
       return args;
    }
 
+   @Override public int hashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + Arrays.hashCode(args);
+      result = prime * result + (callReturn == null ? 0 : callReturn.hashCode());
+      result = prime * result + (method == null ? 0 : method.hashCode());
+      result = prime * result + (previous == null ? 0 : previous.hashCode());
+      return result;
+   }
+
+   @Override public boolean equals(final Object obj) {
+      if (this == obj) {
+         return true;
+      }
+      if (obj == null) {
+         return false;
+      }
+      if (getClass() != obj.getClass()) {
+         return false;
+      }
+      final TraceElement other = (TraceElement) obj;
+      if (!Arrays.equals(args, other.args)) {
+         return false;
+      }
+      if (callReturn != other.callReturn) {
+         return false;
+      }
+      if (method == null) {
+         if (other.method != null) {
+            return false;
+         }
+      } else if (!method.equals(other.method)) {
+         return false;
+      }
+      if (previous == null) {
+         if (other.previous != null) {
+            return false;
+         }
+      } else if (!previous.equals(other.previous)) {
+         return false;
+      }
+      return true;
+   }
+
    @Override public String toString() {
       return String.format("[%s]%s - (%s)", callReturn, method, Joiner.on(", ").join(args));
    }
