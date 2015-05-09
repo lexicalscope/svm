@@ -2,16 +2,10 @@ package com.lexicalscope.svm.partition.trace.symb.search2;
 
 import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
-import static com.lexicalscope.svm.partition.trace.symb.search2.TestTraceTreeChildMismatchDetector.TraceTreeChildMismatchDetector.hasMismatch;
+import static com.lexicalscope.svm.search2.TraceTreeChildMismatchDetector.hasMismatch;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.not;
 
-import java.util.ArrayList;
-import java.util.List;
-
-import org.hamcrest.Description;
-import org.hamcrest.Matcher;
-import org.hamcrest.TypeSafeDiagnosingMatcher;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
@@ -22,52 +16,12 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.search2.TraceTree;
+import com.lexicalscope.svm.search2.TraceTreeChildMismatchDetector;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.Fresh;
 import com.lexicalscope.svm.vm.symb.junit.SolverRule;
-import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class TestTraceTreeChildMismatchDetector {
-   public static class TraceTreeChildMismatchDetector {
-      private final FeasibilityChecker checker;
-
-      public TraceTreeChildMismatchDetector(final FeasibilityChecker checker) {
-         this.checker = checker;
-      }
-
-      public boolean mismatch(final TraceTree tree) {
-         final List<TraceTree> children = new ArrayList<>(tree.children());
-         for (int i = 0; i < children.size(); i++) {
-            for (int j = 0; j < children.size(); j++) {
-               if(i != j) {
-                  final TraceTree childI = children.get(i);
-                  final TraceTree childJ = children.get(j);
-
-                  System.out.println(childI.pPc() + "vs" + childJ.qPc());
-                  if (checker.overlap(childI.pPc(), childJ.qPc()) ||
-                      checker.overlap(childI.qPc(), childJ.pPc())) {
-                     return true;
-                  }
-               }
-            }
-         }
-         return false;
-      }
-
-      public static Matcher<TraceTree> hasMismatch(final TraceTreeChildMismatchDetector mismatchDetector) {
-         return new TypeSafeDiagnosingMatcher<TraceTree>() {
-            @Override public void describeTo(final Description description) {
-               description.appendText("a trace tree with a trace mismatch between its children");
-            }
-
-            @Override protected boolean matchesSafely(final TraceTree item, final Description mismatchDescription) {
-               return mismatchDetector.mismatch(item);
-            }
-         };
-      }
-
-   }
-
    @Rule public final SolverRule solver = new SolverRule();
 
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();

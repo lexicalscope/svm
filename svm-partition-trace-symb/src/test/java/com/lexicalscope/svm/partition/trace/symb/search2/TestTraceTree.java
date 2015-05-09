@@ -29,6 +29,15 @@ public class TestTraceTree {
       tt.listener(ttObserver);
    }
 
+   @Test public void terminatingTraceIsDifferentThanNonTeminatingTrace() {
+      final Trace openTrace01 = trace().methodCall(Object.class, "<init>", "()V", new Object()).build();
+      final Trace openTrace02 = trace().methodCall(Object.class, "<init>", "()V", new Object()).build();
+      final Trace closedTrace = trace().methodCall(Object.class, "<init>", "()V", new Object()).terminate().build();
+
+      assertThat(openTrace01, equalTo(openTrace02));
+      assertThat(openTrace01, not(equalTo(closedTrace)));
+   }
+
    @Test public void rootOfTraceTreeIsEmptyTrace() {
       assertThat(tt, nodeTrace(trace().build()));
    }

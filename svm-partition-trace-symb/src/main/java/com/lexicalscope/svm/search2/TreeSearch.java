@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.search2;
 
+import static com.lexicalscope.svm.partition.trace.TraceBuilder.terminateTrace;
 import static com.lexicalscope.svm.search2.Side.*;
 
 import java.util.ArrayList;
@@ -87,6 +88,10 @@ public class TreeSearch implements StateSearch<JState> {
    @Override public void reachedLeaf() {
       observer.leaf(pending);
       results.add(pending);
+
+      final Trace goal = metaExtractor.goal(pending);
+      pushGoalToCurrentNode(terminateTrace(goal));
+
       pending = null;
    }
 
@@ -100,9 +105,17 @@ public class TreeSearch implements StateSearch<JState> {
 
    @Override public void goal() {
       observer.goal(pending);
+
       final Trace goal = metaExtractor.goal(pending);
-      final TraceTree child = searchState.currentNode().child(goal);
+      final TraceTree child = pushGoalToCurrentNode(goal);
+
       pushStateToSearchLater(child, pending);
+
+      pending = null;
+   }
+
+   private TraceTree pushGoalToCurrentNode(final Trace goal) {
+      final TraceTree child = searchState.currentNode().child(goal);
 
       switch (searchState.currentSide()) {
          case PSIDE:
@@ -113,7 +126,11 @@ public class TreeSearch implements StateSearch<JState> {
             child.disjoinQ(metaExtractor.pc(pending));
             break;
       }
-      pending = null;
+      if(new TraceTreeChildMismatchDetector(feasibilityChecker).mismatch(searchState.currentNode()))
+      {
+         throw new RuntimeException("unbounded");
+      }
+      return child;
    }
 
    private void pushStateToSearchLater(final TraceTree node, final JState state) {

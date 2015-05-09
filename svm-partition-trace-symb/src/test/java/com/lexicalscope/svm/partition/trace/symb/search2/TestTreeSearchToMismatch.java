@@ -5,8 +5,9 @@ import static com.lexicalscope.svm.search2.Side.*;
 import static com.lexicalscope.svm.vm.j.StateMatchers.*;
 import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.*;
 import static org.hamcrest.MatcherAssert.assertThat;
-import static org.hamcrest.Matchers.hasSize;
+import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.core.CombinableMatcher.both;
+import static org.junit.Assert.fail;
 import static org.objectweb.asm.Type.getInternalName;
 
 import org.hamcrest.Matcher;
@@ -125,47 +126,13 @@ public class TestTreeSearchToMismatch {
          oneOf(searchObserver).picked(with(serveMethod(20)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(20)), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
+      }});
 
-         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
+      try {
+         vm.execute(symbol);
+         fail("should have been unbounded");
+      } catch(final RuntimeException e) {
+         assertThat(e.getMessage(), equalTo("unbounded"));
       }
-      });
-      vm.execute(symbol);
-      assertThat(vm.results(), hasSize(8));
    }
 }

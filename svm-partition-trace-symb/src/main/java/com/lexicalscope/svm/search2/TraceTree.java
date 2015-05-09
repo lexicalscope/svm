@@ -81,6 +81,8 @@ public class TraceTree {
          final TraceTree child = new TraceTree(trace);
          child.listener(ttObserver);
          children.put(trace, child);
+
+         //System.out.println("adding child " + this);
       }
       return children.get(trace);
    }
@@ -165,5 +167,9 @@ public class TraceTree {
 
    public void disjoinQ(final BoolSymbol pc) {
       qPc = or(qPc, pc);
+   }
+
+   @Override public String toString() {
+      return String.format("(traceTree %s %s)", nodeTrace, children());
    }
 }
