@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
 import static com.lexicalscope.svm.partition.spec.MatchersSpec.*;
+import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 import static com.lexicalscope.svm.search2.Side.*;
 import static com.lexicalscope.svm.vm.j.StateMatchers.*;
 import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.*;
@@ -14,11 +15,11 @@ import org.hamcrest.core.CombinableMatcher;
 import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.auto.Auto;
-import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
+import org.junit.rules.ExpectedException;
 
 import com.lexicalscope.svm.examples.ExamplesOneMarker;
 import com.lexicalscope.svm.examples.ExamplesTwoMarker;
@@ -27,33 +28,35 @@ import com.lexicalscope.svm.examples.router.working.Router;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.partition.spec.CallContext;
-import com.lexicalscope.svm.partition.trace.PartitionInstrumentation;
 import com.lexicalscope.svm.search.ConstantRandomiser;
 import com.lexicalscope.svm.search.GuidedSearchObserver;
 import com.lexicalscope.svm.search2.TreeSearchFactory;
-import com.lexicalscope.svm.vm.conc.StateSearchFactory;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
-import com.lexicalscope.svm.z3.FeasibilityChecker;
 
 public class TestTreeSearchToExhaustion {
-   //@Rule
-   public SymbVmRule vm;
-
-   public ISymbol symbol;
-
    @Rule public JUnitRuleMockery context = new JUnitRuleMockery();
-   @Mock public GuidedSearchObserver searchObserver;
+   public GuidedSearchObserver searchObserver = context.mock(GuidedSearchObserver.class);
    @Auto public Sequence searchSequence;
 
-   @Before public void setUp() {
-      symbol = new ITerminalSymbol("s");
-      final FeasibilityChecker feasibilityChecker = new FeasibilityChecker();
-      final StateSearchFactory factory = new TreeSearchFactory(searchObserver, feasibilityChecker, new ConstantRandomiser(0));
-      vm = SymbVmRule.createSymbVmRule(feasibilityChecker, factory);
+   @Rule public final ExpectedException exception = ExpectedException.none();
+   @Rule public final SymbVmRule vm = SymbVmRule.createSymbVmRuleLoadingFrom(ExamplesOneMarker.class, ExamplesTwoMarker.class);
+   {
+      instrumentPartition(changedRouter(), unchangedEntry(), vm);
       vm.entryPoint(ExampleServing.class, "main", "(I)V");
-      vm.loadFrom(new Class[] { ExamplesOneMarker.class, ExamplesTwoMarker.class });
-      PartitionInstrumentation.instrumentPartition(changedRouter(), unchangedEntry(), vm);
+      vm.builder().searchWith(new TreeSearchFactory(searchObserver, vm.feasbilityChecker(), new ConstantRandomiser(0)));
+   }
+
+   public ISymbol symbol = new ITerminalSymbol("s");
+
+   @Before public void setUp() {
+//      symbol = ;
+//      final FeasibilityChecker feasibilityChecker = new FeasibilityChecker();
+//      final StateSearchFactory factory = new TreeSearchFactory(searchObserver, feasibilityChecker, new ConstantRandomiser(0));
+//      vm = SymbVmRule.createSymbVmRule(feasibilityChecker, factory);
+//      vm.entryPoint(ExampleServing.class, "main", "(I)V");
+//      vm.loadFrom(new Class[] { ExamplesOneMarker.class, ExamplesTwoMarker.class });
+//      PartitionInstrumentation.instrumentPartition(changedRouter(), unchangedEntry(), vm);
    }
 
    public Matcher<? super CallContext> changedRouter() {
