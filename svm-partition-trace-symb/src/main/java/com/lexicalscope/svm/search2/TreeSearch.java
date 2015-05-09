@@ -14,7 +14,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class TreeSearch2 implements StateSearch<JState> {
+public class TreeSearch implements StateSearch<JState> {
    private final List<JState> results = new ArrayList<>();
 
    private final Randomiser randomiser;
@@ -31,8 +31,7 @@ public class TreeSearch2 implements StateSearch<JState> {
    private boolean pstateGiven;
    private boolean qstateGiven;
 
-
-   public TreeSearch2(
+   public TreeSearch(
          final GuidedSearchObserver observer,
          final FeasibilityChecker feasibilityChecker,
          final Randomiser randomiser) {

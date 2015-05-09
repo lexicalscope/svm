@@ -29,7 +29,7 @@ public class TreeSearchFactory implements StateSearchFactory {
    }
 
    @Override public StateSearch<JState> search() {
-      return new TreeSearch2(
+      return new TreeSearch(
                   observer,
                   feasibilityChecker,
                   randomiser);

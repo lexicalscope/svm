@@ -11,6 +11,7 @@ import com.lexicalscope.svm.partition.trace.symb.tree.GoalTreePair;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 
+@Deprecated() // please use TreeSearch instead
 public class GoalTreeGuidedSearch implements StateSearch<JState> {
    private final GoalTreeCorrespondence correspondence;
 
