@@ -48,10 +48,10 @@ public class TreeSearch2 implements StateSearch<JState> {
 
    @Override public JState pendingState() {
       if(pending == null) {
-         if(searchState.currentSide().equals(PSIDE) && tracker.anyPStatesAvailable()) {
-            pickAPstate();
-         } else if (searchState.currentSide().equals(QSIDE) && tracker.anyQStatesAvailable()) {
+         if(searchState.currentSide().equals(PSIDE) && tracker.anyQStatesAvailable()) {
             pickAQstate();
+         } else if (searchState.currentSide().equals(QSIDE) && tracker.anyPStatesAvailable()) {
+            pickAPstate();
          } else if (tracker.anyPStatesAvailable()) {
             pickAPstate();
          } else if (tracker.anyQStatesAvailable()) {
@@ -93,7 +93,7 @@ public class TreeSearch2 implements StateSearch<JState> {
 
    @Override public void fork(final JState parent, final JState[] states) {
       assert states.length == 2;
-      observer.leaf(parent);
+      observer.forkAt(parent);
       pushStateToSearchLater(searchState.currentNode(), states[0]);
       pushStateToSearchLater(searchState.currentNode(), states[1]);
       pending = null;

@@ -1,9 +1,11 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
 import static com.lexicalscope.svm.partition.spec.MatchersSpec.*;
-import static com.lexicalscope.svm.search.SideMatchers.*;
+import static com.lexicalscope.svm.search2.Side.*;
 import static com.lexicalscope.svm.vm.j.StateMatchers.*;
 import static com.lexicalscope.svm.vm.j.code.AsmSMethodName.*;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.Matchers.hasSize;
 import static org.hamcrest.core.CombinableMatcher.both;
 import static org.objectweb.asm.Type.getInternalName;
 
@@ -15,7 +17,6 @@ import org.jmock.auto.Auto;
 import org.jmock.auto.Mock;
 import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Before;
-import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 
@@ -63,88 +64,108 @@ public class TestTreeSearch {
       return receiver(klassIn(getInternalName(ExampleServing.class)));
    }
 
+   private CombinableMatcher<JState> serveMethod(final int line) {
+      return both(serveMethod).and(lineNumber(line));
+   }
+
    final Matcher<JState> routerConstructorEntry = currentMethodIs(defaultConstructor(Router.class));
    final CombinableMatcher<JState> routerConstructorExit = both(routerConstructorEntry).and(returnVoid());
    final Matcher<JState> serveMethod = currentMethodIs(method(ExampleServing.class, "serve", "(I)V"));
    final Matcher<JState> matchRouter = currentMethodIs(method(Router.class, "matchRoute", "(Ljava/lang/String;)Ljava/lang/String;"));
    final CombinableMatcher<JState> matchRouterExit = both(matchRouter).and(returnOne());
 
-   @Test @Ignore public void testInequivalence() {
+   @Test public void testInequivalence() {
       context.checking(new Expectations(){{
-         oneOf(searchObserver).picked(with(entryPoint()), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(entryPoint()), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
-         oneOf(searchObserver).picked(with(entryPoint()), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(entryPoint()), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(routerConstructorEntry), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorEntry), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorExit)); inSequence(searchSequence);
-         oneOf(searchObserver).picked(with(routerConstructorEntry), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorEntry), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorExit)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(routerConstructorExit), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorExit), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(15))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(routerConstructorExit), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(routerConstructorExit), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(15))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(17)), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(17)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(17))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(17)), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(17)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(17))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(16)), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(16)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(16)), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(16)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(matchRouter), with(pSide())); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouter), with(qSide())); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(serveMethod(19)), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(19)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(19))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(19)), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(19)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(19))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(matchRouterExit), with(pSide())); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(matchRouterExit), with(qSide())); inSequence(searchSequence);
-         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-
-         oneOf(searchObserver).picked(with(serveMethod(18)), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(18)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(18)), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(18)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(22)), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(22)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(22)), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(22)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(20)), with(pSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(20)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(20)), with(qSide())); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(serveMethod(20)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouterExit), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouterExit), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouterExit), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouterExit), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouterExit), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouterExit), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
       }
-
-      private CombinableMatcher<JState> serveMethod(final int line) {
-         return both(serveMethod).and(lineNumber(line));
-      }});
+      });
       vm.execute(symbol);
-//      System.out.printf("Got %d traces.\n", vm.results().size());
-//
-//      final Collection<JState> results = vm.results();
-//      for (final JState jState : results) {
-//         System.out.println(jState);
-//      }
+      assertThat(vm.results(), hasSize(8));
    }
 }
