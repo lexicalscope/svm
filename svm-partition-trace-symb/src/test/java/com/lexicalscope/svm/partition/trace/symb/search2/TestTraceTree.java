@@ -1,7 +1,7 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
-import static com.lexicalscope.svm.partition.trace.symb.search2.TraceTree.*;
+import static com.lexicalscope.svm.search2.TraceTree.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 import static org.hamcrest.Matchers.*;
 
@@ -13,6 +13,8 @@ import org.junit.Rule;
 import org.junit.Test;
 
 import com.lexicalscope.svm.partition.trace.Trace;
+import com.lexicalscope.svm.search2.TraceTree;
+import com.lexicalscope.svm.search2.TraceTreeObserver;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class TestTraceTree {

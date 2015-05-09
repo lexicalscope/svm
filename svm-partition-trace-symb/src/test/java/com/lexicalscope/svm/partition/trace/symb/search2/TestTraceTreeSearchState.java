@@ -8,6 +8,8 @@ import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 import org.junit.Test;
 
+import com.lexicalscope.svm.search2.TraceTree;
+
 public class TestTraceTreeSearchState {
    public static class TraceTreeSearchState {
       private final TraceTree root;

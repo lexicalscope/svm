@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.partition.trace.symb.search2;
+package com.lexicalscope.svm.search2;
 
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static org.hamcrest.Matchers.*;

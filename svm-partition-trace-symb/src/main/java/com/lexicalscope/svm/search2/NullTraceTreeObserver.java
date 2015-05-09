@@ -1,4 +1,5 @@
-package com.lexicalscope.svm.partition.trace.symb.search2;
+package com.lexicalscope.svm.search2;
+
 
 
 public class NullTraceTreeObserver implements TraceTreeObserver {
