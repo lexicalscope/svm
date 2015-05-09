@@ -103,6 +103,16 @@ public class TreeSearch implements StateSearch<JState> {
       final Trace goal = metaExtractor.goal(pending);
       final TraceTree child = searchState.currentNode().child(goal);
       pushStateToSearchLater(child, pending);
+
+      switch (searchState.currentSide()) {
+         case PSIDE:
+            child.disjoinP(metaExtractor.pc(pending));
+            break;
+
+         case QSIDE:
+            child.disjoinQ(metaExtractor.pc(pending));
+            break;
+      }
       pending = null;
    }
 

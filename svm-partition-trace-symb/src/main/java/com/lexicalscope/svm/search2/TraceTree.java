@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.search2;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static org.hamcrest.Matchers.*;
 
@@ -11,6 +12,7 @@ import java.util.List;
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
 
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.vm.j.JState;
 
@@ -20,6 +22,8 @@ public class TraceTree {
    private final List<JState> qStates = new ArrayList<>();
    private final LinkedHashMap<Trace, TraceTree> children = new LinkedHashMap<>();
    private TraceTreeObserver ttObserver;
+   private BoolSymbol pPc = falsity();
+   private BoolSymbol qPc = falsity();
 
    public TraceTree() {
       this(trace().build());
@@ -81,7 +85,7 @@ public class TraceTree {
       return children.get(trace);
    }
 
-   protected Collection<TraceTree> children() {
+   public Collection<TraceTree> children() {
       return children.values();
    }
 
@@ -145,5 +149,21 @@ public class TraceTree {
             return actual.children();
          }
       };
+   }
+
+   public BoolSymbol pPc() {
+      return pPc;
+   }
+
+   public BoolSymbol qPc() {
+      return qPc;
+   }
+
+   public void disjoinP(final BoolSymbol pc) {
+      pPc = or(pPc, pc);
+   }
+
+   public void disjoinQ(final BoolSymbol pc) {
+      qPc = or(qPc, pc);
    }
 }
