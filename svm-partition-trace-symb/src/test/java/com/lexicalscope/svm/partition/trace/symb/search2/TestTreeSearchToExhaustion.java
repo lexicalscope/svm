@@ -36,7 +36,7 @@ import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class TestTreeSearch {
+public class TestTreeSearchToExhaustion {
    //@Rule
    public SymbVmRule vm;
 
@@ -74,7 +74,7 @@ public class TestTreeSearch {
    final Matcher<JState> matchRouter = currentMethodIs(method(Router.class, "matchRoute", "(Ljava/lang/String;)Ljava/lang/String;"));
    final CombinableMatcher<JState> matchRouterExit = both(matchRouter).and(returnOne());
 
-   @Test public void testInequivalence() {
+   @Test public void stateSpaceSearchedExhaustively() {
       context.checking(new Expectations(){{
          oneOf(searchObserver).picked(with(entryPoint()), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
