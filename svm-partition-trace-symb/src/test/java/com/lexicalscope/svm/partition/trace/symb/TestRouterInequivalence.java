@@ -22,8 +22,8 @@ import org.junit.Test;
 
 import com.lexicalscope.svm.examples.ExamplesOneMarker;
 import com.lexicalscope.svm.examples.ExamplesTwoMarker;
-import com.lexicalscope.svm.examples.router.broken.ExampleServing;
-import com.lexicalscope.svm.examples.router.broken.Router;
+import com.lexicalscope.svm.examples.router.working.ExampleServing;
+import com.lexicalscope.svm.examples.router.working.Router;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.partition.spec.CallContext;

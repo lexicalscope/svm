@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.examples.router.broken;
+package com.lexicalscope.svm.examples.router.working;
 
 public class ExampleServing {
     public static void main(String[] args) {

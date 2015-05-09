@@ -1,4 +1,4 @@
-package com.lexicalscope.svm.examples.router.broken;
+package com.lexicalscope.svm.examples.router.working;
 
 public class Router {
     public String matchRoute(String url) {
