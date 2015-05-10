@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
+import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.TraceMetaExtractor;
 import com.lexicalscope.svm.search.GuidedSearchObserver;
@@ -126,10 +127,10 @@ public class TreeSearch implements StateSearch<JState> {
             child.disjoinQ(metaExtractor.pc(pending));
             break;
       }
-      if(new TraceTreeChildMismatchDetector(feasibilityChecker).mismatch(searchState.currentNode()))
-      {
-         throw new RuntimeException("unbounded");
-      }
+      new TraceTreeChildMismatchDetector(feasibilityChecker).mismatch(searchState.currentNode(), new MismatchReport(){
+         @Override public void mismatch(final FeasibilityChecker checker, final Trace nodeTraceP, final BoolSymbol pPc, final Trace nodeTraceQ, final BoolSymbol qPc) {
+            throw new PartitionViolationException(checker, nodeTraceP, pPc, nodeTraceQ, qPc);
+         }});
       return child;
    }
 

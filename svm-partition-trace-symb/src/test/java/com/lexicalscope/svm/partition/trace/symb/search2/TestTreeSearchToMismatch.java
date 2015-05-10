@@ -1,5 +1,6 @@
 package com.lexicalscope.svm.partition.trace.symb.search2;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
 import static com.lexicalscope.svm.partition.spec.MatchersSpec.*;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 import static com.lexicalscope.svm.search2.Side.*;
@@ -30,6 +31,7 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
 import com.lexicalscope.svm.partition.spec.CallContext;
 import com.lexicalscope.svm.search.ConstantRandomiser;
 import com.lexicalscope.svm.search.GuidedSearchObserver;
+import com.lexicalscope.svm.search2.PartitionViolationException;
 import com.lexicalscope.svm.search2.TreeSearchFactory;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
@@ -123,8 +125,9 @@ public class TestTreeSearchToMismatch {
       try {
          vm.execute(symbol);
          fail("should have been unbounded");
-      } catch(final RuntimeException e) {
-         assertThat(e.getMessage(), equalTo("unbounded"));
+      } catch(final PartitionViolationException e) {
+         // in this case only one input value causes the mismatch
+         assertThat(e.checker().intModelForBv32Expr(symbol, and(e.pPc(), e.qPc())), equalTo(54));
       }
    }
 }

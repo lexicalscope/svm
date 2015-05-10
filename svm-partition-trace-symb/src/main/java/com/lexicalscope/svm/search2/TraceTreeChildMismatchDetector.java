@@ -16,20 +16,22 @@ public class TraceTreeChildMismatchDetector {
       this.checker = checker;
    }
 
-   public boolean mismatch(final TraceTree tree) {
+   public boolean mismatch(final TraceTree tree, final MismatchReport mismatchReport) {
       final List<TraceTree> children = new ArrayList<>(tree.children());
-      //System.out.println(children);
       for (int i = 0; i < children.size(); i++) {
          for (int j = 0; j < children.size(); j++) {
             if(i != j) {
                final TraceTree childI = children.get(i);
                final TraceTree childJ = children.get(j);
 
-               System.out.println(childI.pPc() + " vs " + childJ.qPc());
-               System.out.println(childI.qPc() + " vs " + childJ.pPc());
-
-               if (checker.overlap(childI.pPc(), childJ.qPc()) ||
-                   checker.overlap(childI.qPc(), childJ.pPc())) {
+               if (checker.overlap(childI.pPc(), childJ.qPc()))
+               {
+                  mismatchReport.mismatch(checker, childI.nodeTrace(), childI.pPc(), childJ.nodeTrace(), childJ.qPc());
+                  return true;
+               }
+               if(checker.overlap(childI.qPc(), childJ.pPc()))
+               {
+                  mismatchReport.mismatch(checker, childJ.nodeTrace(), childJ.pPc(), childI.nodeTrace(), childI.qPc());
                   return true;
                }
             }
@@ -45,7 +47,7 @@ public class TraceTreeChildMismatchDetector {
          }
 
          @Override protected boolean matchesSafely(final TraceTree item, final Description mismatchDescription) {
-            return mismatchDetector.mismatch(item);
+            return mismatchDetector.mismatch(item, new NullMismatchReport());
          }
       };
    }

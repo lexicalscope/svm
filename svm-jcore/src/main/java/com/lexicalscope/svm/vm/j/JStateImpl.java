@@ -50,9 +50,9 @@ public class JStateImpl implements JState {
       } catch (final TerminationException e) {
          throw e;
       } catch (final RuntimeException e) {
-         System.out.println(e.getClass());
+         /*System.out.println(e.getClass());
          System.out.println(e.getMessage());
-         System.out.println(stack.trace()); // TODO[tim]: something better than printing the stack
+         System.out.println(stack.trace()); // TODO[tim]: something better than printing the stack */
          throw e;
       }
    }

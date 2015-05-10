@@ -3,6 +3,7 @@ package com.lexicalscope.svm.partition.trace.symb.search;
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 
+import org.junit.Ignore;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -30,7 +31,7 @@ public class TestGuidedSearchFailure {
    private @Fresh ISymbol symbol1;
    private @Fresh ISymbol symbol2;
 
-   @Test public void pathsExploredPairwise() throws Exception {
+   @Test @Ignore public void pathsExploredPairwise() throws Exception {
       exception.expectMessage("unbounded");
       vm.execute(symbol1, symbol2);
    }
