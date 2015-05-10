@@ -11,7 +11,6 @@ import org.hamcrest.TypeSafeDiagnosingMatcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.FalseSymbol;
-import com.lexicalscope.svm.j.instruction.symbolic.symbols.IArrayAndLengthSymbols;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.IConstSymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ISymbol;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.ITerminalSymbol;
@@ -180,10 +179,6 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
       return ctx;
    }
 
-   public int intModelForBv32Expr(final ISymbol operand, final BoolSymbol pc) {
-      return ((IConstSymbol)modelForBv32Expr(operand, pc)).val();
-   }
-
    public Symbol modelForBv32Expr(final ISymbol operand, final BoolSymbol pc) {
       final Symbol[] result = new Symbol[1];
       modelForBv32Expr(operand, pc, new ISimplificationResult(){
@@ -195,10 +190,6 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
             result[0] = simplification;
          }});
       return result[0];
-   }
-
-   public int[] modelForBv32Array(final IArrayAndLengthSymbols symbol, final BoolSymbol pc) {
-      return new ObtainExampleForArraySymbol(symbol, pc).eval(new Simplifier(ctx));
    }
 
    //   This uses a bit blasting tactic...
@@ -247,5 +238,9 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
 
    @Override public String toString() {
       return "Z3 Feasibility Checker";
+   }
+
+   public ViolationModel violationModel(final BoolSymbol pc) {
+      return new ViolationModel(new Simplifier(ctx).powerSimplify(pc));
    }
 }

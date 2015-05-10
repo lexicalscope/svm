@@ -1,14 +1,17 @@
 package com.lexicalscope.svm.search2;
 
+import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
+
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
+import com.lexicalscope.svm.z3.ViolationModel;
 
 public class PartitionViolationException extends RuntimeException {
    private final Trace nodeTraceP;
+   private final Trace nodeTraceQ;
    private final BoolSymbol pPc;
    private final BoolSymbol qPc;
-   private final Trace nodeTraceQ;
    private final FeasibilityChecker checker;
 
    public PartitionViolationException(final FeasibilityChecker checker, final Trace nodeTraceP, final BoolSymbol pPc, final Trace nodeTraceQ, final BoolSymbol qPc) {
@@ -29,15 +32,15 @@ public class PartitionViolationException extends RuntimeException {
                          nodeTraceQ);
    }
 
-   public FeasibilityChecker checker() {
-      return checker;
-   }
-
    public BoolSymbol pPc() {
       return pPc;
    }
 
    public BoolSymbol qPc() {
       return qPc;
+   }
+
+   public ViolationModel violationModel() {
+      return checker.violationModel(and(pPc, qPc));
    }
 }

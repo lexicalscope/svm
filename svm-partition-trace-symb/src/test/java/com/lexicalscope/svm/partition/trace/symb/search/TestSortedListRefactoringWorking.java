@@ -1,6 +1,5 @@
 package com.lexicalscope.svm.partition.trace.symb.search;
 
-import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.and;
 import static com.lexicalscope.svm.partition.trace.PartitionBuilder.partition;
 import static com.lexicalscope.svm.partition.trace.PartitionInstrumentation.instrumentPartition;
 
@@ -35,7 +34,7 @@ public class TestSortedListRefactoringWorking {
       try {
          vm.execute(symbol);
       } catch (final PartitionViolationException e) {
-         final int[] arrayModel = e.checker().modelForBv32Array(symbol, and(e.pPc(), e.qPc()));
+         final int[] arrayModel = e.violationModel().modelForBv32Array(symbol);
 
          System.out.println(Arrays.toString(arrayModel));
 

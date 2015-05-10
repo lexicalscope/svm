@@ -12,6 +12,7 @@ import com.lexicalscope.svm.vm.conc.StateSearchFactory;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
+@Deprecated
 public class GuidedStateSearchFactory implements StateSearchFactory {
    private final FeasibilityChecker feasibilityChecker;
    private final GuidedSearchObserver observer;

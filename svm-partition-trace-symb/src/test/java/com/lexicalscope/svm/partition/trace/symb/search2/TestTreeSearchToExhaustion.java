@@ -16,7 +16,6 @@ import org.jmock.Expectations;
 import org.jmock.Sequence;
 import org.jmock.auto.Auto;
 import org.jmock.integration.junit4.JUnitRuleMockery;
-import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.junit.rules.ExpectedException;
@@ -48,16 +47,6 @@ public class TestTreeSearchToExhaustion {
    }
 
    public ISymbol symbol = new ITerminalSymbol("s");
-
-   @Before public void setUp() {
-//      symbol = ;
-//      final FeasibilityChecker feasibilityChecker = new FeasibilityChecker();
-//      final StateSearchFactory factory = new TreeSearchFactory(searchObserver, feasibilityChecker, new ConstantRandomiser(0));
-//      vm = SymbVmRule.createSymbVmRule(feasibilityChecker, factory);
-//      vm.entryPoint(ExampleServing.class, "main", "(I)V");
-//      vm.loadFrom(new Class[] { ExamplesOneMarker.class, ExamplesTwoMarker.class });
-//      PartitionInstrumentation.instrumentPartition(changedRouter(), unchangedEntry(), vm);
-   }
 
    public Matcher<? super CallContext> changedRouter() {
       return receiver(klassIn(getInternalName(Router.class)));
