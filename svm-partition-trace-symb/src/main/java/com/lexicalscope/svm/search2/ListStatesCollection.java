@@ -9,6 +9,11 @@ import com.lexicalscope.svm.vm.j.JState;
 
 public class ListStatesCollection implements StatesCollection {
    private final List<JState> states = new ArrayList<>();
+   private final TraceTreeSideObserver listener;
+
+   public ListStatesCollection(final TraceTreeSideObserver listener) {
+      this.listener = listener;
+   }
 
    @Override public Iterator<JState> iterator() {
       return states.iterator();
@@ -23,7 +28,11 @@ public class ListStatesCollection implements StatesCollection {
    }
 
    @Override public JState remove(final int i) {
-      return states.remove(i);
+      final JState result = states.remove(i);
+      if(isEmpty()) {
+         listener.stateUnavailable();
+      }
+      return result;
    }
 
    @Override public boolean isEmpty() {

@@ -36,4 +36,8 @@ public class TreeSearchStateSelectionRandom implements TreeSearchStateSelection 
    private int pickState(final StatesCollection states) {
       return states.pickState(randomiser);
    }
+
+   @Override public StatesCollection statesCollection(final TraceTreeSideObserver listener) {
+      return new ListStatesCollection(listener);
+   }
 }

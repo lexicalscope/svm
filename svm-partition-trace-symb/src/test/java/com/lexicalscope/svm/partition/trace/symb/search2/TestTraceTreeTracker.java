@@ -18,11 +18,8 @@ public class TestTraceTreeTracker {
    @Mock public JState state01;
    @Mock public JState state02;
 
-   final TraceTree tt = new TraceTree();
    final TraceTreeTracker ttObserver = new TraceTreeTracker();
-   {
-      tt.listener(ttObserver);
-   }
+   final TraceTree tt = new TraceTree(ttObserver);
 
    @Test public void traceTreeTrackerKeepsTrackOfNodesWithAvailableStates() {
       tt.pState(state01);

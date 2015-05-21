@@ -5,6 +5,7 @@ import com.lexicalscope.svm.vm.j.JState;
 
 public interface StatesCollection extends Iterable<JState> {
    void add(JState state);
+
    JState remove(int i);
 
    boolean isEmpty();

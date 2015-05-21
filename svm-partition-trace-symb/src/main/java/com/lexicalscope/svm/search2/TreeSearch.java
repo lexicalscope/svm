@@ -39,9 +39,8 @@ public class TreeSearch implements StateSearch<JState> {
       this.observer = observer;
       this.feasibilityChecker = feasibilityChecker;
       this.randomiser = randomiser;
-      this.tt = new TraceTree();
       this.tracker = new TraceTreeTracker();
-      tt.listener(tracker);
+      this.tt = new TraceTree(randomiser, tracker);
       this.searchState = new TraceTreeSearchState(tt);
       metaExtractor = new TraceMetaExtractor();
    }

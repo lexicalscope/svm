@@ -12,24 +12,47 @@ import org.hamcrest.Matcher;
 
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
+import com.lexicalscope.svm.search.ConstantRandomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class TraceTree {
+   private final TreeSearchStateSelection stateSelection;
    private final Trace nodeTrace;
-   private final StatesCollection pStates = new ListStatesCollection();
-   private final StatesCollection qStates = new ListStatesCollection();
+   private final StatesCollection pStates;
+   private final StatesCollection qStates;
    private final LinkedHashMap<Trace, TraceTree> children = new LinkedHashMap<>();
-   private TraceTreeObserver ttObserver;
+   private final TraceTreeObserver ttObserver;
    private BoolSymbol pPc = falsity();
    private BoolSymbol qPc = falsity();
 
-   public TraceTree() {
-      this(trace().build());
+   public TraceTree(
+         final TreeSearchStateSelection stateSelection,
+         final TraceTreeObserver ttObserver) {
+      this(trace().build(), stateSelection, ttObserver);
    }
 
-   public TraceTree(final Trace nodeTrace) {
+   public TraceTree(
+         final Trace nodeTrace,
+         final TreeSearchStateSelection stateSelection,
+         final TraceTreeObserver ttObserver) {
       this.nodeTrace = nodeTrace;
-      ttObserver = new NullTraceTreeObserver();
+      this.stateSelection = stateSelection;
+      this.ttObserver = ttObserver;
+      pStates = stateSelection.statesCollection(new TraceTreeSideObserver(){
+         @Override public void stateAvailable() { ttObserver.pstateAvailable(TraceTree.this); }
+         @Override public void stateUnavailable() { ttObserver.pstateUnavailable(TraceTree.this); }});
+
+      qStates = stateSelection.statesCollection(new TraceTreeSideObserver(){
+         @Override public void stateAvailable() { ttObserver.qstateAvailable(TraceTree.this); }
+         @Override public void stateUnavailable() { ttObserver.qstateUnavailable(TraceTree.this); }});
+   }
+
+   public TraceTree() {
+      this(new TreeSearchStateSelectionRandom(new ConstantRandomiser(0)), new NullTraceTreeObserver());
+   }
+
+   public TraceTree(final TraceTreeTracker ttObserver) {
+      this(new TreeSearchStateSelectionRandom(new ConstantRandomiser(0)), ttObserver);
    }
 
    public Trace nodeTrace() {
@@ -49,11 +72,7 @@ public class TraceTree {
    }
 
    public JState removePState(final int i) {
-      final JState result = pStates.remove(i);
-      if(pStates.isEmpty()) {
-         ttObserver.pstateUnavailable(this);
-      }
-      return result;
+      return pStates.remove(i);
    }
 
    public void qState(final JState state) {
@@ -65,11 +84,7 @@ public class TraceTree {
    }
 
    public JState removeQState(final int i) {
-      final JState result = qStates.remove(i);
-      if(qStates.isEmpty()) {
-         ttObserver.qstateUnavailable(this);
-      }
-      return result;
+      return qStates.remove(i);
    }
 
    public StatesCollection qStates() {
@@ -78,21 +93,14 @@ public class TraceTree {
 
    public TraceTree child(final Trace trace) {
       if(!children.containsKey(trace)) {
-         final TraceTree child = new TraceTree(trace);
-         child.listener(ttObserver);
+         final TraceTree child = new TraceTree(trace, stateSelection, ttObserver);
          children.put(trace, child);
-
-         //System.out.println("adding child " + this);
       }
       return children.get(trace);
    }
 
    public Collection<TraceTree> children() {
       return children.values();
-   }
-
-   public void listener(final TraceTreeObserver ttObserver) {
-      this.ttObserver = ttObserver;
    }
 
    private static FeatureMatcher<TraceTree, Iterable<JState>> pStates(final Matcher<? super Iterable<JState>> contains) {
