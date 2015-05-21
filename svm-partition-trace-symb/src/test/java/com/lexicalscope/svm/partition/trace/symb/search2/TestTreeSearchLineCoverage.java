@@ -156,8 +156,6 @@ public class TestTreeSearchLineCoverage {
 
          oneOf(searchObserver).picked(with(both(insideMethodExit).and(pcIs(vm.feasbilityChecker(), icmpgt(symbol, 2)))), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(insideMethodEntry)); inSequence(searchSequence);
-         if(false) {
-         }
       }});
 
       try {
