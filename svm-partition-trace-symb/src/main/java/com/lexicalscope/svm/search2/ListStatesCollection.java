@@ -4,6 +4,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
+import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class ListStatesCollection implements StatesCollection {
@@ -17,7 +18,7 @@ public class ListStatesCollection implements StatesCollection {
       states.add(state);
    }
 
-   @Override public int size() {
+   private int size() {
       return states.size();
    }
 
@@ -27,5 +28,9 @@ public class ListStatesCollection implements StatesCollection {
 
    @Override public boolean isEmpty() {
       return states.isEmpty();
+   }
+
+   @Override public int pickState(final Randomiser randomiser) {
+      return randomiser.random(size());
    }
 }

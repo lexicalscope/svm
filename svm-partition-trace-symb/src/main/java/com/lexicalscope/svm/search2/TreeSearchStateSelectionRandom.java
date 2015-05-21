@@ -34,6 +34,6 @@ public class TreeSearchStateSelectionRandom implements TreeSearchStateSelection 
    }
 
    private int pickState(final StatesCollection states) {
-      return randomiser.random(states.size());
+      return states.pickState(randomiser);
    }
 }
