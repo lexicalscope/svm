@@ -17,7 +17,7 @@ public class TreeSearchStateSelectionRandom implements TreeSearchStateSelection 
    }
 
    @Override public JState qstate(final TraceTree selectedTree, final StatesCollection states) {
-      return selectedTree.removeQState(pickState(states));
+      return pickState(states);
    }
 
    @Override public TraceTree pnode(final List<TraceTree> pstatesAvailable) {
@@ -25,7 +25,7 @@ public class TreeSearchStateSelectionRandom implements TreeSearchStateSelection 
    }
 
    @Override public JState pstate(final TraceTree selectedTree, final StatesCollection states) {
-      return selectedTree.removePState(pickState(states));
+      return pickState(states);
    }
 
    private TraceTree pickNode(final List<TraceTree> statesAvailable) {
@@ -33,7 +33,7 @@ public class TreeSearchStateSelectionRandom implements TreeSearchStateSelection 
       return statesAvailable.get(node);
    }
 
-   private int pickState(final StatesCollection states) {
+   private JState pickState(final StatesCollection states) {
       return states.pickState(randomiser);
    }
 

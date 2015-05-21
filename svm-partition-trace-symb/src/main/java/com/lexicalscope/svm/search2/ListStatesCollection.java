@@ -27,7 +27,7 @@ public class ListStatesCollection implements StatesCollection {
       return states.size();
    }
 
-   @Override public JState remove(final int i) {
+   private JState remove(final int i) {
       final JState result = states.remove(i);
       if(isEmpty()) {
          listener.stateUnavailable();
@@ -39,7 +39,7 @@ public class ListStatesCollection implements StatesCollection {
       return states.isEmpty();
    }
 
-   @Override public int pickState(final Randomiser randomiser) {
-      return randomiser.random(size());
+   @Override public JState pickState(final Randomiser randomiser) {
+      return remove(randomiser.random(size()));
    }
 }

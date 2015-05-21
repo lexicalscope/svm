@@ -9,6 +9,7 @@ import org.jmock.integration.junit4.JUnitRuleMockery;
 import org.junit.Rule;
 import org.junit.Test;
 
+import com.lexicalscope.svm.search.ConstantRandomiser;
 import com.lexicalscope.svm.search2.TraceTree;
 import com.lexicalscope.svm.search2.TraceTreeTracker;
 import com.lexicalscope.svm.vm.j.JState;
@@ -24,7 +25,7 @@ public class TestTraceTreeTracker {
    @Test public void traceTreeTrackerKeepsTrackOfNodesWithAvailableStates() {
       tt.pState(state01);
       assertThat(ttObserver, hasPstatesAvailable(contains(tt)));
-      tt.removePState(0);
+      tt.pStates().pickState(new ConstantRandomiser(0));
       assertThat(ttObserver, hasPstatesAvailable(emptyCollectionOf(TraceTree.class)));
    }
 }

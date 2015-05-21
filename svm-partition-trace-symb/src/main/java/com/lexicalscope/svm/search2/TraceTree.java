@@ -59,7 +59,7 @@ public class TraceTree {
       return nodeTrace;
    }
 
-   protected StatesCollection pStates() {
+   public StatesCollection pStates() {
       return pStates;
    }
 
@@ -71,20 +71,12 @@ public class TraceTree {
       }
    }
 
-   public JState removePState(final int i) {
-      return pStates.remove(i);
-   }
-
    public void qState(final JState state) {
       final boolean empty = qStates.isEmpty();
       qStates.add(state);
       if(empty) {
          ttObserver.qstateAvailable(this);
       }
-   }
-
-   public JState removeQState(final int i) {
-      return qStates.remove(i);
    }
 
    public StatesCollection qStates() {
