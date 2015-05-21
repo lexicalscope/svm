@@ -6,7 +6,5 @@ import com.lexicalscope.svm.vm.j.JState;
 public interface StatesCollection extends Iterable<JState> {
    void add(JState state);
 
-   boolean isEmpty();
-
    JState pickState(Randomiser randomiser);
 }

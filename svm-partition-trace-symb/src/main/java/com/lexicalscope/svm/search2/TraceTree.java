@@ -64,19 +64,11 @@ public class TraceTree {
    }
 
    public void pState(final JState state) {
-      final boolean empty = pStates.isEmpty();
       pStates.add(state);
-      if(empty) {
-         ttObserver.pstateAvailable(this);
-      }
    }
 
    public void qState(final JState state) {
-      final boolean empty = qStates.isEmpty();
       qStates.add(state);
-      if(empty) {
-         ttObserver.qstateAvailable(this);
-      }
    }
 
    public StatesCollection qStates() {

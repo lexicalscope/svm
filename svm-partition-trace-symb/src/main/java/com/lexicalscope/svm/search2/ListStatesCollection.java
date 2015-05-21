@@ -20,7 +20,11 @@ public class ListStatesCollection implements StatesCollection {
    }
 
    @Override public void add(final JState state) {
+      final boolean empty = states.isEmpty();
       states.add(state);
+      if(empty) {
+         listener.stateAvailable();
+      }
    }
 
    private int size() {
@@ -35,7 +39,7 @@ public class ListStatesCollection implements StatesCollection {
       return result;
    }
 
-   @Override public boolean isEmpty() {
+   private boolean isEmpty() {
       return states.isEmpty();
    }
 
