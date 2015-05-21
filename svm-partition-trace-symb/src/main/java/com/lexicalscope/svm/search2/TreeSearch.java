@@ -11,7 +11,6 @@ import com.lexicalscope.svm.j.instruction.symbolic.symbols.BoolSymbol;
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.partition.trace.symb.tree.TraceMetaExtractor;
 import com.lexicalscope.svm.search.GuidedSearchObserver;
-import com.lexicalscope.svm.search.Randomiser;
 import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
@@ -19,7 +18,7 @@ import com.lexicalscope.svm.z3.FeasibilityChecker;
 public class TreeSearch implements StateSearch<JState> {
    private final List<JState> results = new ArrayList<>();
 
-   private final Randomiser randomiser;
+   private final TreeSearchStateSelection randomiser;
    private final GuidedSearchObserver observer;
    private final FeasibilityChecker feasibilityChecker;
    private final TraceMetaExtractor metaExtractor;
@@ -36,7 +35,7 @@ public class TreeSearch implements StateSearch<JState> {
    public TreeSearch(
          final GuidedSearchObserver observer,
          final FeasibilityChecker feasibilityChecker,
-         final Randomiser randomiser) {
+         final TreeSearchStateSelection randomiser) {
       this.observer = observer;
       this.feasibilityChecker = feasibilityChecker;
       this.randomiser = randomiser;
@@ -67,21 +66,15 @@ public class TreeSearch implements StateSearch<JState> {
    }
 
    private void pickAQstate() {
-      final int node = randomiser.random(tracker.qstatesAvailable().size());
-      final TraceTree selectedTree = tracker.qstatesAvailable().get(node);
-
-      final int state = randomiser.random(selectedTree.qStates().size());
-      pending = selectedTree.removeQState(state);
+      final TraceTree selectedTree = randomiser.qnode(tracker.qstatesAvailable());
+      pending = randomiser.qstate(selectedTree, selectedTree.qStates());
 
       searchState.search(QSIDE, selectedTree);
    }
 
    private void pickAPstate() {
-      final int node = randomiser.random(tracker.pstatesAvailable().size());
-      final TraceTree selectedTree = tracker.pstatesAvailable().get(node);
-
-      final int state = randomiser.random(selectedTree.pStates().size());
-      pending = selectedTree.removePState(state);
+      final TraceTree selectedTree = randomiser.pnode(tracker.pstatesAvailable());
+      pending = randomiser.pstate(selectedTree, selectedTree.pStates());
 
       searchState.search(PSIDE, selectedTree);
    }
