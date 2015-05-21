@@ -18,7 +18,7 @@ import com.lexicalscope.svm.z3.FeasibilityChecker;
 public class TreeSearch implements StateSearch<JState> {
    private final List<JState> results = new ArrayList<>();
 
-   private final TreeSearchStateSelection randomiser;
+   private final TreeSearchStateSelection stateSelection;
    private final GuidedSearchObserver observer;
    private final FeasibilityChecker feasibilityChecker;
    private final TraceMetaExtractor metaExtractor;
@@ -38,7 +38,7 @@ public class TreeSearch implements StateSearch<JState> {
          final TreeSearchStateSelection randomiser) {
       this.observer = observer;
       this.feasibilityChecker = feasibilityChecker;
-      this.randomiser = randomiser;
+      this.stateSelection = randomiser;
       this.tracker = new TraceTreeTracker();
       this.tt = new TraceTree(randomiser, tracker);
       this.searchState = new TraceTreeSearchState(tt);
@@ -65,15 +65,15 @@ public class TreeSearch implements StateSearch<JState> {
    }
 
    private void pickAQstate() {
-      final TraceTree selectedTree = randomiser.qnode(tracker.qstatesAvailable());
-      pending = randomiser.qstate(selectedTree, selectedTree.qStates());
+      final TraceTree selectedTree = stateSelection.qnode(tracker.qstatesAvailable());
+      pending = selectedTree.qStates().pickState();
 
       searchState.search(QSIDE, selectedTree);
    }
 
    private void pickAPstate() {
-      final TraceTree selectedTree = randomiser.pnode(tracker.pstatesAvailable());
-      pending = randomiser.pstate(selectedTree, selectedTree.pStates());
+      final TraceTree selectedTree = stateSelection.pnode(tracker.pstatesAvailable());
+      pending = selectedTree.pStates().pickState();
 
       searchState.search(PSIDE, selectedTree);
    }

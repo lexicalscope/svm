@@ -61,7 +61,7 @@ public final class SnapshotableStackFrame implements StackFrame {
 
    @Override
    public StackFrame push(final Object val) {
-      assert val != null;
+      assert val != null : this;
       assert !(val instanceof Double);
       assert !(val instanceof Long);
       assert !(val instanceof Character);
