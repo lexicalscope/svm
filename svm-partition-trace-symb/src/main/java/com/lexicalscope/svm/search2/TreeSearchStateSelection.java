@@ -6,8 +6,8 @@ import com.lexicalscope.svm.vm.j.JState;
 
 public interface TreeSearchStateSelection {
    TraceTree qnode(List<TraceTree> qstatesAvailable);
-   JState qstate(TraceTree selectedTree, List<JState> states);
+   JState qstate(TraceTree selectedTree, StatesCollection states);
 
    TraceTree pnode(List<TraceTree> pstatesAvailable);
-   JState pstate(TraceTree selectedTree, List<JState> states);
+   JState pstate(TraceTree selectedTree, StatesCollection states);
 }

@@ -4,10 +4,8 @@ import static com.lexicalscope.svm.j.instruction.symbolic.pc.PcBuilder.*;
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.trace;
 import static org.hamcrest.Matchers.*;
 
-import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedHashMap;
-import java.util.List;
 
 import org.hamcrest.FeatureMatcher;
 import org.hamcrest.Matcher;
@@ -18,8 +16,8 @@ import com.lexicalscope.svm.vm.j.JState;
 
 public class TraceTree {
    private final Trace nodeTrace;
-   private final List<JState> pStates = new ArrayList<>();
-   private final List<JState> qStates = new ArrayList<>();
+   private final StatesCollection pStates = new ListStatesCollection();
+   private final StatesCollection qStates = new ListStatesCollection();
    private final LinkedHashMap<Trace, TraceTree> children = new LinkedHashMap<>();
    private TraceTreeObserver ttObserver;
    private BoolSymbol pPc = falsity();
@@ -38,7 +36,7 @@ public class TraceTree {
       return nodeTrace;
    }
 
-   protected List<JState> pStates() {
+   protected StatesCollection pStates() {
       return pStates;
    }
 
@@ -72,7 +70,7 @@ public class TraceTree {
       return result;
    }
 
-   public List<JState> qStates() {
+   public StatesCollection qStates() {
       return qStates;
    }
 
@@ -95,19 +93,19 @@ public class TraceTree {
       this.ttObserver = ttObserver;
    }
 
-   private static FeatureMatcher<TraceTree, Collection<JState>> pStates(final Matcher<? super Collection<JState>> contains) {
-      return new FeatureMatcher<TraceTree, Collection<JState>>(contains, "p state collection", "pStates") {
-         @Override protected Collection<JState> featureValueOf(final TraceTree actual) {
+   private static FeatureMatcher<TraceTree, Iterable<JState>> pStates(final Matcher<? super Iterable<JState>> contains) {
+      return new FeatureMatcher<TraceTree, Iterable<JState>>(contains, "p state collection", "pStates") {
+         @Override protected Iterable<JState> featureValueOf(final TraceTree actual) {
             return actual.pStates();
          }
       };
    }
 
-   private static FeatureMatcher<TraceTree, Collection<JState>> qStates(final Matcher<? super Collection<JState>> contains) {
-      return new FeatureMatcher<TraceTree, Collection<JState>>(contains,
+   private static FeatureMatcher<TraceTree, Iterable<JState>> qStates(final Matcher<? super Iterable<JState>> contains) {
+      return new FeatureMatcher<TraceTree, Iterable<JState>>(contains,
             "q state collection",
             "qStates") {
-         @Override protected Collection<JState> featureValueOf(final TraceTree actual) {
+         @Override protected Iterable<JState> featureValueOf(final TraceTree actual) {
             return actual.qStates();
          }
       };
@@ -122,11 +120,11 @@ public class TraceTree {
    }
 
    public static Matcher<? super TraceTree> noQStates() {
-      return qStates(emptyCollectionOf(JState.class));
+      return qStates(emptyIterableOf(JState.class));
    }
 
    public static Matcher<? super TraceTree> noPStates() {
-      return pStates(emptyCollectionOf(JState.class));
+      return pStates(emptyIterableOf(JState.class));
    }
 
    public static Matcher<? super TraceTree> nodeTrace(final Trace trace) {
