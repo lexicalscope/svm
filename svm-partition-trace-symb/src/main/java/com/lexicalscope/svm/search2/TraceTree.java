@@ -48,10 +48,10 @@ public class TraceTree {
    }
 
    public TraceTree() {
-      this(new TreeSearchStateSelectionRandom(new ConstantRandomiser(0)), new NullTraceTreeObserver());
+      this(new NullTraceTreeObserver());
    }
 
-   public TraceTree(final TraceTreeTracker ttObserver) {
+   public TraceTree(final TraceTreeObserver ttObserver) {
       this(new TreeSearchStateSelectionRandom(new ConstantRandomiser(0)), ttObserver);
    }
 

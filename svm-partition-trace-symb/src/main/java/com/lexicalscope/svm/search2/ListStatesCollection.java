@@ -10,8 +10,12 @@ import com.lexicalscope.svm.vm.j.JState;
 public class ListStatesCollection implements StatesCollection {
    private final List<JState> states = new ArrayList<>();
    private final TraceTreeSideObserver listener;
+   private final Randomiser randomiser;
 
-   public ListStatesCollection(final TraceTreeSideObserver listener) {
+   public ListStatesCollection(
+         final Randomiser randomiser,
+         final TraceTreeSideObserver listener) {
+      this.randomiser = randomiser;
       this.listener = listener;
    }
 
@@ -43,7 +47,7 @@ public class ListStatesCollection implements StatesCollection {
       return states.isEmpty();
    }
 
-   @Override public JState pickState(final Randomiser randomiser) {
+   @Override public JState pickState() {
       return remove(randomiser.random(size()));
    }
 }

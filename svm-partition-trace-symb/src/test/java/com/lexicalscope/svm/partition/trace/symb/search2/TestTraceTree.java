@@ -80,12 +80,12 @@ public class TestTraceTree {
 
       tt.qState(state01);
       tt.qState(state02);
-      assertThat(tt.qStates().pickState(new ConstantRandomiser(0)), equalTo(state01));
+      assertThat(tt.qStates().pickState(), equalTo(state01));
 
       context.checking(new Expectations(){{
          oneOf(ttObserver).qstateUnavailable(tt);
       }});
-      assertThat(tt.qStates().pickState(new ConstantRandomiser(0)), equalTo(state02));
+      assertThat(tt.qStates().pickState(), equalTo(state02));
    }
 
    @Test public void treeNodeCanHoldAChild() {
