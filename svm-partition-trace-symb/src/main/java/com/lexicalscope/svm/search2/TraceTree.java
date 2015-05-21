@@ -41,8 +41,9 @@ public class TraceTree {
    }
 
    public void pState(final JState state) {
+      final boolean empty = pStates.isEmpty();
       pStates.add(state);
-      if(pStates.size() == 1) {
+      if(empty) {
          ttObserver.pstateAvailable(this);
       }
    }
@@ -56,8 +57,9 @@ public class TraceTree {
    }
 
    public void qState(final JState state) {
+      final boolean empty = qStates.isEmpty();
       qStates.add(state);
-      if(qStates.size() == 1) {
+      if(empty) {
          ttObserver.qstateAvailable(this);
       }
    }
