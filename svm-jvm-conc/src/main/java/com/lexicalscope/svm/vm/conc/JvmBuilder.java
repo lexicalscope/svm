@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.vm.conc;
 
 import com.lexicalscope.svm.classloading.ClassSource;
+import com.lexicalscope.svm.j.natives.NativeMethodDef;
 import com.lexicalscope.svm.vm.SearchLimits;
 import com.lexicalscope.svm.vm.StateCountSearchLimit;
 import com.lexicalscope.svm.vm.StateSearch;
@@ -47,6 +48,10 @@ public final class JvmBuilder {
    public JvmBuilder searchWith(final StateSearchFactory searchFactory) {
       this.searchFactory = searchFactory;
       return this;
+   }
+
+   public void addNative(NativeMethodDef nativeMethod) {
+       this.initialState().natives();
    }
 
    public InitialStateBuilder initialState() {

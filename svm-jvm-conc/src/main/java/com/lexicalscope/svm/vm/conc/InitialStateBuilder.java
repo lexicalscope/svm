@@ -32,6 +32,8 @@ import com.lexicalscope.svm.j.natives.NativeMethods;
 import com.lexicalscope.svm.j.statementBuilder.StatementBuilder;
 import com.lexicalscope.svm.metastate.HashMetaState;
 import com.lexicalscope.svm.metastate.MetaKey;
+import com.lexicalscope.svm.metastate.MetaState;
+import com.lexicalscope.svm.metastate.SnapshotableMetaState;
 import com.lexicalscope.svm.stack.DequeStack;
 import com.lexicalscope.svm.stack.SnapshotableStackFrame;
 import com.lexicalscope.svm.vm.StateSearch;
@@ -48,9 +50,11 @@ public class InitialStateBuilder {
    private InstructionFactory instructionFactory = new ConcInstructionFactory();
    private InstructionSourceFactory instructionSourceFactory = new BaseInstructionSourceFactory();
    private HeapFactory heapFactory = new CheckingHeapFactory();
-   private final NativeMethods natives = DefaultNativeMethods.natives();
    private final InstrumentationBuilder instrumentationBuilder = new InstrumentationBuilder();
-   private final HashMetaState metaState = new HashMetaState();
+
+   private final SnapshotableMetaState metaState = new HashMetaState();
+   private NativeMethods natives = DefaultNativeMethods.natives();
+   private InstructionSource instructionSource;
 
    public JStateImpl createInitialState(
          final StateTag stateTag,
@@ -58,12 +62,8 @@ public class InitialStateBuilder {
          final ClassSource classSource,
          final SMethodDescriptor entryPointName,
          final Object... args) {
-      final InstructionSource instructions = instructionSourceFactory.instructionSource(instructionFactory);
-      final SClassLoader classLoader = new AsmSClassLoader(
-            instructions,
-            instrumentationBuilder.instrumentation(instructions),
-            natives(),
-            classSource);
+      final InstructionSource instructions = getInstructionSource();
+      final SClassLoader classLoader = getsClassLoader(classSource);
 
       final StatementBuilder statements = statements(instructions);
       defineBootstrapClassesInstruction(statements.sink(), instructions);
@@ -76,7 +76,22 @@ public class InitialStateBuilder {
       stack.push(new SnapshotableStackFrame(JavaConstants.INITIAL_FRAME_NAME, STATIC, initialInstruction, 0, entryPointName.argSize()));
       return new JStateImpl(stateTag, search, new StaticsImpl(classLoader), stack, heapFactory().heap(), metaState.snapshot());
    }
+   
+   public SClassLoader getsClassLoader(ClassSource mainSource) {
+      return new AsmSClassLoader(
+      getInstructionSource(),
+      instrumentationBuilder.instrumentation(getInstructionSource()),
+      natives(),
+      mainSource);
+   }
 
+   private InstructionSource getInstructionSource() {
+      if (instructionSource == null) {
+            instructionSource = instructionSourceFactory.instructionSource(instructionFactory);
+      }
+      return instructionSource;
+   }
+   
    private void loadArgsInstruction(final StatementBuilder statements, final Object[] args) {
       for (final Object object : args) {
          statements.loadArg(object);
@@ -126,6 +141,11 @@ public class InitialStateBuilder {
 
    public InitialStateBuilder heapFactory(final HeapFactory heapFactory) {
       this.heapFactory = heapFactory;
+      return this;
+   }
+
+   public InitialStateBuilder useNatives(NativeMethods natives) {
+      this.natives = natives;
       return this;
    }
 
