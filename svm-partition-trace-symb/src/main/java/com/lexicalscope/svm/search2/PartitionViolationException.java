@@ -33,6 +33,14 @@ public class PartitionViolationException extends RuntimeException {
                          nodeTraceQ);
    }
 
+   public Trace getNodeTraceP() {
+      return nodeTraceP;
+   }
+
+   public Trace getNodeTraceQ() {
+      return nodeTraceQ;
+   }
+
    public BoolSymbol pPc() {
       return pPc;
    }
