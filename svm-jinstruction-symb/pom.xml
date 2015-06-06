@@ -37,6 +37,12 @@
 			<version>${project.version}</version>
 		</dependency>
 		<dependency>
+		    <!-- this shouldn't be here, the stuff that needs it should be split out -->
+	         <groupId>com.lexicalscope.symb</groupId>
+	         <artifactId>svm-partition-trace</artifactId>
+	         <version>${project.version}</version>
+      </dependency>
+		<dependency>
 			<groupId>com.lexicalscope.symb</groupId>
 			<artifactId>svm-jsymbols</artifactId>
 			<version>${project.version}</version>

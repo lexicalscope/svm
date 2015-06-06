@@ -2,7 +2,6 @@ package com.lexicalscope.svm.j.natives;
 
 import static com.lexicalscope.svm.j.statementBuilder.StatementBuilder.statements;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
@@ -65,9 +64,7 @@ public class DefaultNativeMethods implements NativeMethods {
                 new Sun_misc_unsafe_arrayIndexScale(),
                 new Sun_misc_unsafe_addressSize(),
                 new Sun_reflect_reflection_getCallerClass(),
-                new Java_security_accessController_doPrivileged(),
-                new Symbolic_newSymbol("newIntSymbol", "()I"),
-                new Symbolic_newSymbol("newBooleanSymbol", "()Z")
+                new Java_security_accessController_doPrivileged()
         );
     }
 

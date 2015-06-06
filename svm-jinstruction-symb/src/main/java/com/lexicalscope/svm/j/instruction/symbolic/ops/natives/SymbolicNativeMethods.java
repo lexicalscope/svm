@@ -12,7 +12,10 @@ public class SymbolicNativeMethods {
         symbolicNatives.addAll(DefaultNativeMethods.nativeMethodList());
         symbolicNatives.add(new Symbolic_newArray("newCharArraySymbol", "()[C"));
         symbolicNatives.add(new Symbolic_Java_lang_system_arraycopy());
-
+        symbolicNatives.add(new Symbolic_selectState());
+        symbolicNatives.add(new Symbolic_randomChoice());
+        symbolicNatives.add(new Symbolic_newSymbol("newIntSymbol", "()I"));
+        symbolicNatives.add(new Symbolic_newSymbol("newBooleanSymbol", "()Z"));
         return DefaultNativeMethods.natives(symbolicNatives);
     }
 }
