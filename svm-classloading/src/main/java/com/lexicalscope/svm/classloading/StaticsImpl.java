@@ -31,9 +31,9 @@ public class StaticsImpl implements Statics {
 
    public StaticsImpl(final SClassLoader classLoader) {
       this(classLoader,
-            new HashMap<KlassInternalName, SClass>(),
-            new HashMap<SClass, ObjectRef>(),
-            new HashMap<SClass, ObjectRef>());
+            new CowMap<KlassInternalName, SClass>(),
+            new CowMap<SClass, ObjectRef>(),
+            new CowMap<SClass, ObjectRef>());
    }
 
    private StaticsImpl(
@@ -50,9 +50,9 @@ public class StaticsImpl implements Statics {
    @Override public Statics snapshot() {
       return new StaticsImpl(
             classLoader,
-            new HashMap<>(defined),
-            new HashMap<>(staticsAddresses),
-            new HashMap<>(classAddresses));
+            new CowMap<>(defined),
+            new CowMap<>(staticsAddresses),
+            new CowMap<>(classAddresses));
    }
 
    @Override public List<SClass> defineClass(final KlassInternalName klassName) {
