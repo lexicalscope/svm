@@ -22,7 +22,7 @@ public class Symbolic_selectState extends AbstractNativeMethodDef {
     }
 
     @Override
-    public MethodBody instructions(InstructionSource instructions) {
+    public MethodBody instructions(final InstructionSource instructions) {
         return statements(instructions)
                 .maxStack(1)
                 .maxLocals(1)
@@ -30,18 +30,18 @@ public class Symbolic_selectState extends AbstractNativeMethodDef {
                 .return1(name()).build();
     }
 
-    public static void pushValues(JState ctx, Object[] values) {
-        SMethodDescriptor context = (SMethodDescriptor) ctx.currentFrame().context();
+    public static void pushValues(final JState ctx, final Object[] values) {
+        final SMethodDescriptor context = (SMethodDescriptor) ctx.currentFrame().context();
         Trace trace = ctx.getMeta(TRACE);
-        trace = trace.extend(context, HashTrace.CallReturn.CALL, 0);
+        trace = trace.extend(context, HashTrace.CallReturn.CALL, 0, ctx.nullPointer());
         ctx.setMeta(TRACE, trace);
 
-        JState[] forks = new JState[values.length];
+        final JState[] forks = new JState[values.length];
         for (int i = 0; i < values.length; i++) {
             forks[i] = ctx.snapshot();
             forks[i].push(values[i]);
 
-            Trace forkTrace = trace.extend(context, HashTrace.CallReturn.RETURN, 0, i);
+            final Trace forkTrace = trace.extend(context, HashTrace.CallReturn.RETURN, 0, i);
             forks[i].setMeta(TRACE, forkTrace);
         }
 
@@ -50,10 +50,10 @@ public class Symbolic_selectState extends AbstractNativeMethodDef {
 
     private class SelectStateOp implements Vop {
         @Override
-        public void eval(JState ctx) {
-            int count = (int) ctx.pop();
+        public void eval(final JState ctx) {
+            final int count = (int) ctx.pop();
             assert count > 0: "Cannot select one from 0 states.";
-            Object[] values = new Object[count];
+            final Object[] values = new Object[count];
             for (int i = 0; i < count; i++) {
                 values[i] = i;
             }
@@ -62,7 +62,7 @@ public class Symbolic_selectState extends AbstractNativeMethodDef {
         }
 
         @Override
-        public <T> T query(InstructionQuery<T> instructionQuery) {
+        public <T> T query(final InstructionQuery<T> instructionQuery) {
             return instructionQuery.nativ3();
         }
     }
