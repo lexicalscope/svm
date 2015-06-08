@@ -19,20 +19,14 @@ public final class VmImpl<S extends VmState> implements Vm<S> {
 	public S execute() {
 	   limits.reset();
       S pending;
-      int j = 0;
       while ((pending = search.pendingState()) != null && limits.withinLimits()) {
 			try {
 			   pending.eval();
-			   j++;
 			} catch (final TerminationException termination) {
 			   search.reachedLeaf();
 			}
-//			catch (final RuntimeException e) {
-//				throw e;
-//			}
 			limits.searchedState();
 		}
-      System.out.println("blah " + j);
 		return search.firstResult();
 	}
 
