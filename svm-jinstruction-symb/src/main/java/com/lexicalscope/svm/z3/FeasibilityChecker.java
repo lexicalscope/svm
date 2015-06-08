@@ -88,6 +88,9 @@ public class FeasibilityChecker extends TypeSafeDiagnosingMatcher<BoolSymbol> im
    }
 
    public boolean satisfiable(final BoolSymbol pc) {
+      if(pc.isFF()) return false;
+      if(pc.isTT()) return true;
+      
       if (satisfiableCache.containsKey(pc)) {
          return satisfiableCache.get(pc);
       }
