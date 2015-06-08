@@ -28,12 +28,14 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
    private final TraceTree tt;
    private final TraceTreeSearchState searchState;
 
-   private JState pending;
+   private JState pendingJState;
 
    private boolean pstateGiven;
    private boolean qstateGiven;
 
    private TraceTree selectedTree;
+
+   private int selectedTreeIndex;
 
 
    public TreeSearch(
@@ -50,7 +52,7 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
    }
 
    @Override public JState pendingState() {
-      if(pending == null) {
+      if(pendingJState == null) {
          if(searchState.currentSide().equals(PSIDE) && anyQStatesAvailable()) {
             pickAQstate();
          } else if (searchState.currentSide().equals(QSIDE) && anyPStatesAvailable()) {
@@ -61,41 +63,41 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
             pickAQstate();
          }
 
-         if(pending != null) {
-            observer.picked(pending, searchState.currentSide());
+         if(pendingJState != null) {
+            observer.picked(pendingJState, searchState.currentSide());
          }
       }
-      return pending;
+      return pendingJState;
    }
 
    private void pickAQstate() {
-      selectedTree = node(qstatesAvailable());
-      pending = selectedTree.qStates().pickState();
+      selectAnotherTree(qstatesAvailable());
+      pendingJState = selectedTree.qStates().pickState();
 
       searchState.search(QSIDE, selectedTree);
    }
 
    private void pickAPstate() {
-      selectedTree = node(pstatesAvailable());
-      pending = selectedTree.pStates().pickState();
+      selectAnotherTree(pstatesAvailable());
+      pendingJState = selectedTree.pStates().pickState();
 
       searchState.search(PSIDE, selectedTree);
    }
 
-   public TraceTree node(final List<TraceTree> statesAvailable) {
-      final int node1 = randomiser.random(statesAvailable.size());
-      return statesAvailable.get(node1);
+   public void selectAnotherTree(final List<TraceTree> withStatesAvailable) {
+      selectedTreeIndex = randomiser.random(withStatesAvailable.size());
+      selectedTree = withStatesAvailable.get(selectedTreeIndex);
    }
 
    @Override public void reachedLeaf() {
-      pending.complete();
-      observer.leaf(pending);
-      results.add(pending);
+      pendingJState.complete();
+      observer.leaf(pendingJState);
+      results.add(pendingJState);
 
-      final Trace goal = metaExtractor.goal(pending);
+      final Trace goal = metaExtractor.goal(pendingJState);
       pushGoalToCurrentNode(terminateTrace(goal));
 
-      pending = null;
+      pendingJState = null;
    }
 
    @Override public void fork(final JState parent, final JState[] states) {
@@ -103,7 +105,7 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
       observer.forkAt(parent);
       pushStateToSearchLater(searchState.currentNode(), states[0]);
       pushStateToSearchLater(searchState.currentNode(), states[1]);
-      pending = null;
+      pendingJState = null;
    }
 
    @Override public void forkDisjoined(final JState parent, final JState[] states) {
@@ -111,14 +113,14 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
    }
 
    @Override public void goal() {
-      observer.goal(pending);
+      observer.goal(pendingJState);
 
-      final Trace goal = metaExtractor.goal(pending);
+      final Trace goal = metaExtractor.goal(pendingJState);
       final TraceTree child = pushGoalToCurrentNode(goal);
 
-      pushStateToSearchLater(child, pending);
+      pushStateToSearchLater(child, pendingJState);
 
-      pending = null;
+      pendingJState = null;
    }
 
    private TraceTree pushGoalToCurrentNode(final Trace goal) {
@@ -126,11 +128,11 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
 
       switch (searchState.currentSide()) {
          case PSIDE:
-            child.disjoinP(metaExtractor.pc(pending));
+            child.disjoinP(metaExtractor.pc(pendingJState));
             break;
 
          case QSIDE:
-            child.disjoinQ(metaExtractor.pc(pending));
+            child.disjoinQ(metaExtractor.pc(pendingJState));
             break;
       }
       new TraceTreeChildMismatchDetector(feasibilityChecker).mismatch(searchState.currentNode(), new MismatchReport(){
@@ -186,7 +188,8 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
 
    @Override public void pstateUnavailable(final TraceTree traceTree) {
       assert selectedTree == traceTree;
-      removeWithSwap(pstatesAvailable.indexOf(traceTree), pstatesAvailable);
+      final TraceTree removed = removeWithSwap(selectedTreeIndex, pstatesAvailable);
+      assert removed == traceTree;
    }
 
    @Override public void qstateAvailable(final TraceTree traceTree) {
@@ -195,7 +198,8 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
 
    @Override public void qstateUnavailable(final TraceTree traceTree) {
       assert selectedTree == traceTree;
-      removeWithSwap(qstatesAvailable.indexOf(traceTree), qstatesAvailable);
+      final TraceTree removed = removeWithSwap(selectedTreeIndex, qstatesAvailable);
+      assert removed == traceTree;
    }
 
    public List<TraceTree> pstatesAvailable() {
