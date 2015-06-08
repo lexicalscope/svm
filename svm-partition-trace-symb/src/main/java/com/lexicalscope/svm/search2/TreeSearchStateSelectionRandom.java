@@ -19,17 +19,9 @@ public class TreeSearchStateSelectionRandom implements TreeSearchStateSelection 
       this(randomiser, new ListStatesCollectionFactory());
    }
 
-   @Override public TraceTree qnode(final List<TraceTree> qstatesAvailable) {
-      return pickNode(qstatesAvailable);
-   }
-
-   @Override public TraceTree pnode(final List<TraceTree> pstatesAvailable) {
-      return pickNode(pstatesAvailable);
-   }
-
-   private TraceTree pickNode(final List<TraceTree> statesAvailable) {
-      final int node = randomiser.random(statesAvailable.size());
-      return statesAvailable.get(node);
+   @Override public TraceTree node(final List<TraceTree> statesAvailable) {
+      final int node1 = randomiser.random(statesAvailable.size());
+      return statesAvailable.get(node1);
    }
 
    @Override public StatesCollection statesCollection(final TraceTreeSideObserver listener) {

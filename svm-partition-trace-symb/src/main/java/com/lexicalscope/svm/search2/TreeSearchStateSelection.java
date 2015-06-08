@@ -5,6 +5,5 @@ import java.util.List;
 public interface TreeSearchStateSelection {
    StatesCollection statesCollection(TraceTreeSideObserver ttObserver);
 
-   TraceTree qnode(List<TraceTree> qstatesAvailable);
-   TraceTree pnode(List<TraceTree> pstatesAvailable);
+   TraceTree node(List<TraceTree> statesAvailable);
 }

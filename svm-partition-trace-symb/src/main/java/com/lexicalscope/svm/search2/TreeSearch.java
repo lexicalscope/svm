@@ -65,14 +65,14 @@ public class TreeSearch implements StateSearch<JState> {
    }
 
    private void pickAQstate() {
-      final TraceTree selectedTree = stateSelection.qnode(tracker.qstatesAvailable());
+      final TraceTree selectedTree = stateSelection.node(tracker.qstatesAvailable());
       pending = selectedTree.qStates().pickState();
 
       searchState.search(QSIDE, selectedTree);
    }
 
    private void pickAPstate() {
-      final TraceTree selectedTree = stateSelection.pnode(tracker.pstatesAvailable());
+      final TraceTree selectedTree = stateSelection.node(tracker.pstatesAvailable());
       pending = selectedTree.pStates().pickState();
 
       searchState.search(PSIDE, selectedTree);
