@@ -10,7 +10,7 @@
 <mapEntry key="LD_LIBRARY_PATH" value="${resource_loc:/svm-jvm-symb/target/classes/}"/>
 </mapAttribute>
 <stringAttribute key="org.eclipse.jdt.junit.CONTAINER" value="=svm-jvm-symb"/>
-<booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="false"/>
+<booleanAttribute key="org.eclipse.jdt.junit.KEEPRUNNING_ATTR" value="true"/>
 <stringAttribute key="org.eclipse.jdt.junit.TESTNAME" value=""/>
 <stringAttribute key="org.eclipse.jdt.junit.TEST_KIND" value="org.eclipse.jdt.junit.loader.junit4"/>
 <stringAttribute key="org.eclipse.jdt.launching.CLASSPATH_PROVIDER" value="org.eclipse.m2e.launchconfig.classpathProvider"/>
