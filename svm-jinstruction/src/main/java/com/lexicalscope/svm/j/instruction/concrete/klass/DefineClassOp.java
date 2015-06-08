@@ -3,6 +3,7 @@ package com.lexicalscope.svm.j.instruction.concrete.klass;
 import static java.util.Arrays.asList;
 
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.List;
 
 import com.lexicalscope.svm.heap.ObjectRef;
@@ -28,18 +29,21 @@ public final class DefineClassOp implements Op<List<SClass>> {
    }
 
    @Override public List<SClass> eval(final JState ctx) {
-         final List<SClass> results = new ArrayList<>();
-         for (final KlassInternalName klassName : klassNames) {
-            if (!ctx.isDefined(klassName)) {
-               final List<SClass> klasses = ctx.defineClass(klassName);
-               for (final SClass klass : klasses) {
-                  allocate(ctx, klass);
-               }
-
-               results.addAll(klasses);
+      List<SClass> results = null;
+      for (final KlassInternalName klassName : klassNames) {
+         if (!ctx.isDefined(klassName)) {
+            if (results == null) {
+               results = new ArrayList<>();
             }
+            final List<SClass> klasses = ctx.defineClass(klassName);
+            for (final SClass klass : klasses) {
+               allocate(ctx, klass);
+            }
+
+            results.addAll(klasses);
          }
-         return results;
+      }
+      return results == null ? Collections.<SClass>emptyList() : results;
    }
 
    public static final SFieldName internalClassPointer = new SFieldName(JavaConstants.CLASS_CLASS, "*internalClassPointer");

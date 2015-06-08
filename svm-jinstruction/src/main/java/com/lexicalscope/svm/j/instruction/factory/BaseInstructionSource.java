@@ -3,7 +3,9 @@ package com.lexicalscope.svm.j.instruction.factory;
 import static com.lexicalscope.svm.vm.j.InstructionCode.*;
 import static com.lexicalscope.svm.vm.j.KlassInternalName.internalName;
 
-import com.lexicalscope.svm.j.instruction.concrete.integer.I2COp;
+import java.util.HashMap;
+import java.util.Map;
+
 import org.objectweb.asm.Type;
 import org.objectweb.asm.tree.FieldInsnNode;
 import org.objectweb.asm.tree.IincInsnNode;
@@ -12,13 +14,12 @@ import org.objectweb.asm.tree.TypeInsnNode;
 
 import com.lexicalscope.svm.j.instruction.MethodEntryVop;
 import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLengthOp;
-import com.lexicalscope.svm.j.instruction.concrete.array.ArrayLoadOp;
-import com.lexicalscope.svm.j.instruction.concrete.array.ArrayStoreOp;
 import com.lexicalscope.svm.j.instruction.concrete.branch.BranchInstruction;
 import com.lexicalscope.svm.j.instruction.concrete.branchPredicates.Got0;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.F2IOp;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpGOperator;
 import com.lexicalscope.svm.j.instruction.concrete.fl0at.FCmpLOperator;
+import com.lexicalscope.svm.j.instruction.concrete.integer.I2COp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.I2FOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.I2LOp;
 import com.lexicalscope.svm.j.instruction.concrete.integer.IincOp;
@@ -58,9 +59,11 @@ import com.lexicalscope.svm.j.instruction.concrete.stack.Store2;
 import com.lexicalscope.svm.vm.j.InstructionCode;
 import com.lexicalscope.svm.vm.j.KlassInternalName;
 import com.lexicalscope.svm.vm.j.Vop;
+import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.SMethodDescriptor;
 
 public class BaseInstructionSource implements InstructionSource {
+   private final Map<AsmSMethodName, AsmSMethodName> methodNameCache = new HashMap<>(); 
    private final InstructionFactory instructionFactory;
 
    public BaseInstructionSource(final InstructionFactory instructionFactory) {
@@ -665,5 +668,13 @@ public class BaseInstructionSource implements InstructionSource {
             return false;
       }
       throw new UnsupportedOperationException("" + sort);
+   }
+
+   @Override public SMethodDescriptor methodName(String owner, String name, String desc) {
+      final AsmSMethodName descriptor = new AsmSMethodName(owner, name, desc);
+      if(!methodNameCache.containsKey(descriptor)) {
+         methodNameCache.put(descriptor, descriptor);
+      }
+      return methodNameCache.get(descriptor);
    }
 }

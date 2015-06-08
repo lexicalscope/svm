@@ -151,4 +151,10 @@ public interface InstructionSource {
     */
    Object initialFieldValue(String desc);
 
+   /**
+    * Gives the canonical instance for a method name. This is an optimisation to allow us 
+    * to compare method names for equality faster durring method call instructions. 
+    */
+   SMethodDescriptor methodName(String owner, String name, String desc);
+
 }

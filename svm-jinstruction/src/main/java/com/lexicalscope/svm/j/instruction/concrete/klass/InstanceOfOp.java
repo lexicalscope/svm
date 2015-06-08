@@ -27,7 +27,10 @@ public class InstanceOfOp implements Vop {
       // TODO: might be replaced by a try {} catch {} given that in most cases the class will be loaded.
       // TODO: perhaps this should be optimised, if the class is not loaded then there will not be an instances
       //       what do JVMs actually do?
-      new DefineClassOp(klassName).eval(ctx);
+      if(!ctx.isDefined(klassName)) 
+      {
+         new DefineClassOp(klassName).eval(ctx);
+      }
       final SClass classFromHeap = (SClass) ctx.get(address, OBJECT_TYPE_MARKER_OFFSET);
       final SClass classFromInstruction = ctx.loadKlassFor(klassName);
 

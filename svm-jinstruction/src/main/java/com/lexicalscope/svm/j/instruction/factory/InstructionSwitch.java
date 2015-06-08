@@ -265,7 +265,7 @@ public class InstructionSwitch {
             break;
          case AbstractInsnNode.METHOD_INSN:
             final MethodInsnNode methodInsnNode = (MethodInsnNode) abstractInsnNode;
-            final SMethodDescriptor name = new AsmSMethodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
+            final SMethodDescriptor name = s.methodName(methodInsnNode.owner, methodInsnNode.name, methodInsnNode.desc);
             switch (abstractInsnNode.getOpcode()) {
                case Opcodes.INVOKESTATIC:
                   return s.invokestatic(name, sink);
