@@ -7,26 +7,31 @@ public class TimerSearchLimit implements SearchLimits {
     /**
      * Time in milliseconds when the execution started.
      */
-    public long startTime;
+    private long startTime;
 
     /**
      * Threshold in milliseconds that the execution should not exceed.
      */
-    public final long thresholdMillis;
+    private final long thresholdMillis;
 
-    public TimerSearchLimit(long thresholdMillis) {
+    private int count;
+
+    public TimerSearchLimit(final long thresholdMillis) {
         this.thresholdMillis = thresholdMillis;
         reset();
     }
 
-    public static TimerSearchLimit limitByTime(int seconds) {
+    public static TimerSearchLimit limitByTime(final int seconds) {
         return new TimerSearchLimit(seconds * 1000);
     }
 
     @Override
     public boolean withinLimits() {
-        long currentTime = System.currentTimeMillis();
-        return currentTime - startTime <= thresholdMillis;
+       if(count++ % 1000 == 0) {
+          final long currentTime = System.currentTimeMillis();
+          return currentTime - startTime <= thresholdMillis;
+       }
+       return true;
     }
 
     @Override
@@ -35,6 +40,7 @@ public class TimerSearchLimit implements SearchLimits {
 
     @Override
     public void reset() {
-        startTime = System.currentTimeMillis();
+       count = 0;
+       startTime = System.currentTimeMillis();
     }
 }
