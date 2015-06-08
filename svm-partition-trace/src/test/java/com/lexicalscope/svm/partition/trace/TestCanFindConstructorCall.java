@@ -6,6 +6,7 @@ import static com.lexicalscope.svm.vm.j.KlassInternalName.*;
 import static java.lang.Math.max;
 import static org.hamcrest.MatcherAssert.assertThat;
 
+import org.junit.Ignore;
 import org.junit.Test;
 
 import com.lexicalscope.svm.classloading.AsmSClassLoader;
@@ -78,7 +79,7 @@ public class TestCanFindConstructorCall {
       assertThat("found constructor", counting, countIs(0));
    }
 
-   @Test public void findNestedConstructors() {
+   @Test @Ignore public void findNestedConstructors() {
       final SMethod method = classLoader.virtualMethod(ClassCallingNestedConstructors.class, "method", NOARGS_VOID_DESC);
 
       new FindConstructorCall(anyKlass()).findInstruction(method.entry(), counting);
