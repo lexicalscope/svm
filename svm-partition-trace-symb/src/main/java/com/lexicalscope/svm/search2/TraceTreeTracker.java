@@ -1,5 +1,7 @@
 package com.lexicalscope.svm.search2;
 
+import static com.lexicalscope.svm.search2.ListStatesCollection.removeWithSwap;
+
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
@@ -16,7 +18,7 @@ public class TraceTreeTracker implements TraceTreeObserver {
    }
 
    @Override public void pstateUnavailable(final TraceTree traceTree) {
-      pstatesAvailable.remove(traceTree);
+      removeWithSwap(pstatesAvailable.indexOf(traceTree), pstatesAvailable);
    }
 
    @Override public void qstateAvailable(final TraceTree traceTree) {
@@ -24,7 +26,7 @@ public class TraceTreeTracker implements TraceTreeObserver {
    }
 
    @Override public void qstateUnavailable(final TraceTree traceTree) {
-      qstatesAvailable.remove(traceTree);
+      removeWithSwap(qstatesAvailable.indexOf(traceTree), qstatesAvailable);
    }
 
    public List<TraceTree> pstatesAvailable() {

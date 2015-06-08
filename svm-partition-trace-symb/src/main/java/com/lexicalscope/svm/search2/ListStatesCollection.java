@@ -36,19 +36,22 @@ public class ListStatesCollection implements StatesCollection {
    }
 
    private JState remove(final int i) {
-      JState result;
-      final JState lastItem = states.remove(states.size() - 1);
-      if(i == states.size()) {
-         result = lastItem;
-      }
-      else {
-         result = states.set(i, lastItem);
-      }
+      final JState result = removeWithSwap(i, states);
 
       if(isEmpty()) {
          listener.stateUnavailable();
       }
       return result;
+   }
+
+   public static <T> T removeWithSwap(final int i, final List<T> list) {
+      final T lastItem = list.remove(list.size() - 1);
+      if(i == list.size()) {
+         return lastItem;
+      }
+      else {
+         return list.set(i, lastItem);
+      }
    }
 
    private boolean isEmpty() {
