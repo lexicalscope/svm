@@ -90,7 +90,6 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
    }
 
    @Override public void reachedLeaf() {
-      pendingJState.complete();
       observer.leaf(pendingJState);
       results.add(pendingJState);
 
