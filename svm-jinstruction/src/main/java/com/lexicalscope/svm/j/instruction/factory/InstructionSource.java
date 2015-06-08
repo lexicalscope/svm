@@ -153,8 +153,8 @@ public interface InstructionSource {
 
    /**
     * Gives the canonical instance for a method name. This is an optimisation to allow us 
-    * to compare method names for equality faster durring method call instructions. 
+    * to compare method names for equality faster during method call instructions. 
     */
    SMethodDescriptor methodName(String owner, String name, String desc);
-
+   SMethodDescriptor methodName(KlassInternalName klassName, String name, String desc);
 }

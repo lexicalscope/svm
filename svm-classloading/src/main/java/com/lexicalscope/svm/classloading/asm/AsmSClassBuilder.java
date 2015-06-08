@@ -12,7 +12,6 @@ import com.lexicalscope.svm.classloading.AsmSMethod;
 import com.lexicalscope.svm.classloading.SClassLoader;
 import com.lexicalscope.svm.j.instruction.factory.InstructionSource;
 import com.lexicalscope.svm.vm.j.KlassInternalName;
-import com.lexicalscope.svm.vm.j.code.AsmSMethodName;
 import com.lexicalscope.svm.vm.j.klass.DeclaredFields;
 import com.lexicalscope.svm.vm.j.klass.DeclaredMethods;
 import com.lexicalscope.svm.vm.j.klass.SClass;
@@ -67,7 +66,7 @@ public class AsmSClassBuilder {
          declaredMethods.add(
                new AsmSMethod(
                      classLoader,
-                     new AsmSMethodName(klassName, method.name, method.desc),
+                     instructions.methodName(klassName, method.name, method.desc),
                      instructions,
                      method));
 

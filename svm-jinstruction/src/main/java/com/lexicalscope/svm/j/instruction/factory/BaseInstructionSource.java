@@ -671,7 +671,14 @@ public class BaseInstructionSource implements InstructionSource {
    }
 
    @Override public SMethodDescriptor methodName(String owner, String name, String desc) {
-      final AsmSMethodName descriptor = new AsmSMethodName(owner, name, desc);
+      return canonicalMethodName(new AsmSMethodName(owner, name, desc));
+   }
+   
+   @Override public SMethodDescriptor methodName(KlassInternalName klassName, String name, String desc) {
+      return canonicalMethodName(new AsmSMethodName(klassName, name, desc));
+   }
+
+   private SMethodDescriptor canonicalMethodName(final AsmSMethodName descriptor) {
       if(!methodNameCache.containsKey(descriptor)) {
          methodNameCache.put(descriptor, descriptor);
       }
