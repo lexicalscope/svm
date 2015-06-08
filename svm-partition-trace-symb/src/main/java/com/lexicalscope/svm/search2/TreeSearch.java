@@ -71,14 +71,14 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
    }
 
    private void pickAQstate() {
-      selectAnotherTree(qstatesAvailable());
+      selectAnotherTree(qstatesAvailable);
       pendingJState = selectedTree.qStates().pickState();
 
       searchState.search(QSIDE, selectedTree);
    }
 
    private void pickAPstate() {
-      selectAnotherTree(pstatesAvailable());
+      selectAnotherTree(pstatesAvailable);
       pendingJState = selectedTree.pStates().pickState();
 
       searchState.search(PSIDE, selectedTree);
@@ -202,19 +202,11 @@ public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
       assert removed == traceTree;
    }
 
-   public List<TraceTree> pstatesAvailable() {
-      return pstatesAvailable;
-   }
-
-   public List<TraceTree> qstatesAvailable() {
-      return qstatesAvailable;
-   }
-
-   public boolean anyPStatesAvailable() {
+   private boolean anyPStatesAvailable() {
       return !pstatesAvailable.isEmpty();
    }
 
-   public boolean anyQStatesAvailable() {
+   private boolean anyQStatesAvailable() {
       return !qstatesAvailable.isEmpty();
    }
 }
