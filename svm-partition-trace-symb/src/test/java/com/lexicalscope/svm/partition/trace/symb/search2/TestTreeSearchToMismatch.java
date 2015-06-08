@@ -73,6 +73,7 @@ public class TestTreeSearchToMismatch {
       context.checking(new Expectations(){{
          oneOf(searchObserver).picked(with(entryPoint()), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
+
          oneOf(searchObserver).picked(with(entryPoint()), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(routerConstructorEntry)); inSequence(searchSequence);
 
@@ -99,17 +100,29 @@ public class TestTreeSearchToMismatch {
          oneOf(searchObserver).picked(with(serveMethod(16)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
 
+         oneOf(searchObserver).picked(with(serveMethod(18)), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(serveMethod(18)), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
+
          oneOf(searchObserver).picked(with(serveMethod(19)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(19))); inSequence(searchSequence);
 
          oneOf(searchObserver).picked(with(serveMethod(19)), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).forkAt(with(serveMethod(19))); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(18)), with(PSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
 
-         oneOf(searchObserver).picked(with(serveMethod(18)), with(QSIDE)); inSequence(searchSequence);
-         oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
+         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(PSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
+
+         oneOf(searchObserver).picked(with(matchRouter), with(QSIDE)); inSequence(searchSequence);
+         oneOf(searchObserver).goal(with(matchRouterExit)); inSequence(searchSequence);
 
          oneOf(searchObserver).picked(with(serveMethod(22)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
@@ -119,7 +132,6 @@ public class TestTreeSearchToMismatch {
 
          oneOf(searchObserver).picked(with(serveMethod(20)), with(PSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(matchRouter)); inSequence(searchSequence);
-
       }});
 
       try {

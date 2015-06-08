@@ -36,7 +36,15 @@ public class ListStatesCollection implements StatesCollection {
    }
 
    private JState remove(final int i) {
-      final JState result = states.remove(i);
+      JState result;
+      final JState lastItem = states.remove(states.size() - 1);
+      if(i == states.size()) {
+         result = lastItem;
+      }
+      else {
+         result = states.set(i, lastItem);
+      }
+
       if(isEmpty()) {
          listener.stateUnavailable();
       }
