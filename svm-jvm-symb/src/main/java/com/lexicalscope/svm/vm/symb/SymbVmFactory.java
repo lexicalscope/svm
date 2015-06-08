@@ -1,12 +1,11 @@
 package com.lexicalscope.svm.vm.symb;
 
-import static com.lexicalscope.svm.j.instruction.TerminationMetaKey.*;
+import static com.lexicalscope.svm.j.instruction.TerminationMetaKey.TERMINATION;
 import static com.lexicalscope.svm.j.instruction.concrete.object.SymbolCounterMetaKey.SC;
 import static com.lexicalscope.svm.j.instruction.symbolic.PcMetaKey.PC;
 import static com.lexicalscope.svm.vm.conc.InitialStateBuilder.initialState;
 
 import com.lexicalscope.svm.heap.HeapFactory;
-import com.lexicalscope.svm.j.instruction.TerminationMetaKey;
 import com.lexicalscope.svm.j.instruction.symbolic.SymbInstructionFactory;
 import com.lexicalscope.svm.j.instruction.symbolic.ops.natives.SymbolicNativeMethods;
 import com.lexicalscope.svm.j.instruction.symbolic.symbols.TrueSymbol;
