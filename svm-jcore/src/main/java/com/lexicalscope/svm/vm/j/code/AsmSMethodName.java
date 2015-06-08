@@ -37,9 +37,17 @@ public final class AsmSMethodName implements Comparable<AsmSMethodName>, SMethod
          ) {
       this.klassName = klassName;
       this.virtualName = new AsmSVirtualMethodName(name, desc);
-      this.hashCode = klassName.hashCode() ^ virtualName.hashCode();
+      this.hashCode = calcHashCode();
       this.objectArgIndexes = indexesOfObjectArgs(desc);
       this.returnTypeIsObject = getReturnType(desc).getSort() == Type.OBJECT;
+   }
+
+   private int calcHashCode() {
+      final int prime = 31;
+      int result = 1;
+      result = prime * result + (klassName == null ? 0 : klassName.hashCode());
+      result = prime * result + (virtualName == null ? 0 : virtualName.hashCode());
+      return result;
    }
 
    private static int[] indexesOfObjectArgs(final String desc) {
