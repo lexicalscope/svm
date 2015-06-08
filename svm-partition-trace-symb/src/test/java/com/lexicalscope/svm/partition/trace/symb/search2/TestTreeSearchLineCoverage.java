@@ -49,7 +49,11 @@ public class TestTreeSearchLineCoverage {
    {
       instrumentPartition(outsidePartition(), insidePartition(), vm);
       vm.entryPoint(LoopOutsidePartition.class, "entryPoint", "(I)V");
-      vm.builder().searchWith(new TreeSearchFactory(searchObserver, vm.feasbilityChecker(), new TreeSearchStateSelectionRandom(new ConstantRandomiser(0), new LineCoverageStatesCollectionFactory())));
+      vm.builder().searchWith(new TreeSearchFactory(
+            searchObserver,
+            vm.feasbilityChecker(),
+            new ConstantRandomiser(0),
+            new TreeSearchStateSelectionRandom(new ConstantRandomiser(0), new LineCoverageStatesCollectionFactory())));
    }
 
    public ISymbol symbol = new ITerminalSymbol("s");
@@ -123,18 +127,18 @@ public class TestTreeSearchLineCoverage {
 
          oneOf(searchObserver).picked(with(
                both(loopExit()).
-               and(pcIs(vm.feasbilityChecker(), 
+               and(pcIs(vm.feasbilityChecker(),
                      and(invert(icmpgt(symbol, 1)),
                            invert(icmplt(0, symbol)))))), with(PSIDE)); inSequence(searchSequence);
                            oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-                           
+
          oneOf(searchObserver).picked(with(
                both(loopExit()).
-               and(pcIs(vm.feasbilityChecker(), 
+               and(pcIs(vm.feasbilityChecker(),
                      and(invert(icmpgt(symbol, 2)),
                            invert(icmplt(0, symbol)))))), with(QSIDE)); inSequence(searchSequence);
                            oneOf(searchObserver).leaf(with(terminate())); inSequence(searchSequence);
-                           
+
          oneOf(searchObserver).picked(with(
                both(loopBody()).
                and(pcIs(vm.feasbilityChecker(),
@@ -144,7 +148,7 @@ public class TestTreeSearchLineCoverage {
 
          oneOf(searchObserver).picked(with(
                both(loopBody()).
-               and(pcIs(vm.feasbilityChecker(), 
+               and(pcIs(vm.feasbilityChecker(),
                      and(invert(icmpgt(symbol, 2)),
                          icmplt(0, symbol))))), with(QSIDE)); inSequence(searchSequence);
          oneOf(searchObserver).goal(with(insideMethodEntry)); inSequence(searchSequence);

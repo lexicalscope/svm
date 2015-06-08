@@ -46,7 +46,11 @@ public class TestTreeSearchToMismatch {
    {
       instrumentPartition(changedRouter(), unchangedEntry(), vm);
       vm.entryPoint(ExampleServing.class, "main", "(I)V");
-      vm.builder().searchWith(new TreeSearchFactory(searchObserver, vm.feasbilityChecker(), new TreeSearchStateSelectionRandom(new ConstantRandomiser(0))));
+      vm.builder().searchWith(new TreeSearchFactory(
+            searchObserver,
+            vm.feasbilityChecker(),
+            new ConstantRandomiser(0),
+            new TreeSearchStateSelectionRandom(new ConstantRandomiser(0))));
    }
 
    public ISymbol symbol = new ITerminalSymbol("s");
