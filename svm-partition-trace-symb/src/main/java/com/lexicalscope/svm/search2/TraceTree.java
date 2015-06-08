@@ -16,7 +16,7 @@ import com.lexicalscope.svm.search.ConstantRandomiser;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class TraceTree {
-   private final TreeSearchStateSelection stateSelection;
+   private final StatesCollectionFactory stateSelection;
    private final Trace nodeTrace;
    private final StatesCollection pStates;
    private final StatesCollection qStates;
@@ -26,14 +26,14 @@ public class TraceTree {
    private BoolSymbol qPc = falsity();
 
    public TraceTree(
-         final TreeSearchStateSelection stateSelection,
+         final StatesCollectionFactory stateSelection,
          final TraceTreeObserver ttObserver) {
       this(trace().build(), stateSelection, ttObserver);
    }
 
    public TraceTree(
          final Trace nodeTrace,
-         final TreeSearchStateSelection stateSelection,
+         final StatesCollectionFactory stateSelection,
          final TraceTreeObserver ttObserver) {
       this.nodeTrace = nodeTrace;
       this.stateSelection = stateSelection;
@@ -52,7 +52,7 @@ public class TraceTree {
    }
 
    public TraceTree(final TraceTreeObserver ttObserver) {
-      this(new TreeSearchStateSelectionRandom(new ConstantRandomiser(0)), ttObserver);
+      this(new ListStatesCollectionFactory(new ConstantRandomiser(0)), ttObserver);
    }
 
    public Trace nodeTrace() {

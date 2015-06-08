@@ -14,9 +14,9 @@ import org.junit.Test;
 
 import com.lexicalscope.svm.partition.trace.Trace;
 import com.lexicalscope.svm.search.ConstantRandomiser;
+import com.lexicalscope.svm.search2.ListStatesCollectionFactory;
 import com.lexicalscope.svm.search2.TraceTree;
 import com.lexicalscope.svm.search2.TraceTreeObserver;
-import com.lexicalscope.svm.search2.TreeSearchStateSelectionRandom;
 import com.lexicalscope.svm.vm.j.JState;
 
 public class TestTraceTree {
@@ -28,7 +28,7 @@ public class TestTraceTree {
    private TraceTree tt;
 
    @Before public void createTraceTree() {
-      tt = new TraceTree(new TreeSearchStateSelectionRandom(new ConstantRandomiser(0)), ttObserver);
+      tt = new TraceTree(new ListStatesCollectionFactory(new ConstantRandomiser(0)), ttObserver);
    }
 
    @Test public void terminatingTraceIsDifferentThanNonTeminatingTrace() {

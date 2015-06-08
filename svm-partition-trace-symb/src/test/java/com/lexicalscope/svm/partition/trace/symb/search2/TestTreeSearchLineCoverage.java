@@ -35,7 +35,6 @@ import com.lexicalscope.svm.search.GuidedSearchObserver;
 import com.lexicalscope.svm.search2.LineCoverageStatesCollectionFactory;
 import com.lexicalscope.svm.search2.PartitionViolationException;
 import com.lexicalscope.svm.search2.TreeSearchFactory;
-import com.lexicalscope.svm.search2.TreeSearchStateSelectionRandom;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.vm.symb.junit.SymbVmRule;
 
@@ -53,7 +52,7 @@ public class TestTreeSearchLineCoverage {
             searchObserver,
             vm.feasbilityChecker(),
             new ConstantRandomiser(0),
-            new TreeSearchStateSelectionRandom(new ConstantRandomiser(0), new LineCoverageStatesCollectionFactory())));
+            new LineCoverageStatesCollectionFactory()));
    }
 
    public ISymbol symbol = new ITerminalSymbol("s");

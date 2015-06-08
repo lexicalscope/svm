@@ -11,14 +11,14 @@ import com.lexicalscope.svm.z3.FeasibilityChecker;
 public class TreeSearchFactory implements StateSearchFactory {
    private final FeasibilityChecker feasibilityChecker;
    private final GuidedSearchObserver observer;
-   private final TreeSearchStateSelection stateSelection;
+   private final StatesCollectionFactory stateSelection;
    private final Randomiser randomiser;
 
    public TreeSearchFactory(
          final GuidedSearchObserver observer,
          final FeasibilityChecker feasibilityChecker,
          final Randomiser randomiser,
-         final TreeSearchStateSelection stateSelection) {
+         final StatesCollectionFactory stateSelection) {
       this.feasibilityChecker = feasibilityChecker;
       this.observer = observer;
       this.randomiser = randomiser;
@@ -28,7 +28,11 @@ public class TreeSearchFactory implements StateSearchFactory {
    public TreeSearchFactory(
          final GuidedSearchObserver observer,
          final FeasibilityChecker feasibilityChecker) {
-      this(observer, feasibilityChecker, new RandomSeedPseudoRandomiser(), new TreeSearchStateSelectionRandom(new RandomSeedPseudoRandomiser()));
+      this(
+            observer,
+            feasibilityChecker,
+            new RandomSeedPseudoRandomiser(),
+            new ListStatesCollectionFactory(new RandomSeedPseudoRandomiser()));
    }
 
    @Override public StateSearch<JState> search() {

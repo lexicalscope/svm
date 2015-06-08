@@ -38,7 +38,7 @@ public class TreeSearch implements StateSearch<JState> {
          final GuidedSearchObserver observer,
          final FeasibilityChecker feasibilityChecker,
          final Randomiser randomiser,
-         final TreeSearchStateSelection stateSelection) {
+         final StatesCollectionFactory stateSelection) {
       this.observer = observer;
       this.feasibilityChecker = feasibilityChecker;
       this.randomiser = randomiser;
