@@ -14,6 +14,7 @@ public class TraceElement {
    private final SMethodDescriptor method;
    private final CallReturn callReturn;
    private final Object[] args;
+   private final int hashCode;
 
    TraceElement(
          final TraceElement previous,
@@ -25,6 +26,7 @@ public class TraceElement {
       this.method = method;
       this.callReturn = callReturn;
       this.args = args;
+      hashCode = calcHashCode();
    }
 
    public TraceElement previous() {
@@ -44,6 +46,10 @@ public class TraceElement {
    }
 
    @Override public int hashCode() {
+      return hashCode;
+   }
+
+   private int calcHashCode() {
       final int prime = 31;
       int result = 1;
       result = prime * result + Arrays.hashCode(args);
