@@ -1,6 +1,7 @@
 package com.lexicalscope.svm.search2;
 
 import static com.lexicalscope.svm.partition.trace.TraceBuilder.terminateTrace;
+import static com.lexicalscope.svm.search2.ListStatesCollection.removeWithSwap;
 import static com.lexicalscope.svm.search2.Side.*;
 
 import java.util.ArrayList;
@@ -16,7 +17,7 @@ import com.lexicalscope.svm.vm.StateSearch;
 import com.lexicalscope.svm.vm.j.JState;
 import com.lexicalscope.svm.z3.FeasibilityChecker;
 
-public class TreeSearch implements StateSearch<JState> {
+public class TreeSearch implements StateSearch<JState>, TraceTreeObserver {
    private final List<JState> results = new ArrayList<>();
 
    private final Randomiser randomiser;
@@ -25,13 +26,14 @@ public class TreeSearch implements StateSearch<JState> {
    private final TraceMetaExtractor metaExtractor;
 
    private final TraceTree tt;
-   private final TraceTreeTracker tracker;
    private final TraceTreeSearchState searchState;
 
    private JState pending;
 
    private boolean pstateGiven;
    private boolean qstateGiven;
+
+   private TraceTree selectedTree;
 
 
    public TreeSearch(
@@ -42,21 +44,20 @@ public class TreeSearch implements StateSearch<JState> {
       this.observer = observer;
       this.feasibilityChecker = feasibilityChecker;
       this.randomiser = randomiser;
-      this.tracker = new TraceTreeTracker();
-      this.tt = new TraceTree(stateSelection, tracker);
+      this.tt = new TraceTree(stateSelection, this);
       this.searchState = new TraceTreeSearchState(tt);
       metaExtractor = new TraceMetaExtractor();
    }
 
    @Override public JState pendingState() {
       if(pending == null) {
-         if(searchState.currentSide().equals(PSIDE) && tracker.anyQStatesAvailable()) {
+         if(searchState.currentSide().equals(PSIDE) && anyQStatesAvailable()) {
             pickAQstate();
-         } else if (searchState.currentSide().equals(QSIDE) && tracker.anyPStatesAvailable()) {
+         } else if (searchState.currentSide().equals(QSIDE) && anyPStatesAvailable()) {
             pickAPstate();
-         } else if (tracker.anyPStatesAvailable()) {
+         } else if (anyPStatesAvailable()) {
             pickAPstate();
-         } else if (tracker.anyQStatesAvailable()) {
+         } else if (anyQStatesAvailable()) {
             pickAQstate();
          }
 
@@ -68,14 +69,14 @@ public class TreeSearch implements StateSearch<JState> {
    }
 
    private void pickAQstate() {
-      final TraceTree selectedTree = node(tracker.qstatesAvailable());
+      selectedTree = node(qstatesAvailable());
       pending = selectedTree.qStates().pickState();
 
       searchState.search(QSIDE, selectedTree);
    }
 
    private void pickAPstate() {
-      final TraceTree selectedTree = node(tracker.pstatesAvailable());
+      selectedTree = node(pstatesAvailable());
       pending = selectedTree.pStates().pickState();
 
       searchState.search(PSIDE, selectedTree);
@@ -174,5 +175,42 @@ public class TreeSearch implements StateSearch<JState> {
       } else {
          throw new IllegalStateException("only one pstate and one qstate can be considered");
       }
+   }
+
+   private final List<TraceTree> pstatesAvailable = new ArrayList<TraceTree>();
+   private final List<TraceTree> qstatesAvailable = new ArrayList<TraceTree>();
+
+   @Override public void pstateAvailable(final TraceTree traceTree) {
+      pstatesAvailable.add(traceTree);
+   }
+
+   @Override public void pstateUnavailable(final TraceTree traceTree) {
+      assert selectedTree == traceTree;
+      removeWithSwap(pstatesAvailable.indexOf(traceTree), pstatesAvailable);
+   }
+
+   @Override public void qstateAvailable(final TraceTree traceTree) {
+      qstatesAvailable.add(traceTree);
+   }
+
+   @Override public void qstateUnavailable(final TraceTree traceTree) {
+      assert selectedTree == traceTree;
+      removeWithSwap(qstatesAvailable.indexOf(traceTree), qstatesAvailable);
+   }
+
+   public List<TraceTree> pstatesAvailable() {
+      return pstatesAvailable;
+   }
+
+   public List<TraceTree> qstatesAvailable() {
+      return qstatesAvailable;
+   }
+
+   public boolean anyPStatesAvailable() {
+      return !pstatesAvailable.isEmpty();
+   }
+
+   public boolean anyQStatesAvailable() {
+      return !qstatesAvailable.isEmpty();
    }
 }
